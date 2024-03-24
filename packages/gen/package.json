@@ -1,0 +1,44 @@
+{
+  "name": "@rocket-climb/bolt-gen",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "scripts": {
+    "clean": "bolt-sh rm -fR dist core .turbo *.tsbuildinfo",
+    "clean:o": "bolt-sh rm -fR .turbo node_modules",
+    "copy-files": "bolt-sh cp -fR ../core/dist/* ../icons/core/ && bolt-sh cp -fR ../tailwind/dist/* ../icons/tailwind/",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint .",
+    "rebuild": "npm run clean && npm run build",
+    "postbuild": "npm run copy-files",
+    "build": "npx ts-node ./src/build.ts",
+    "fetch": "npx ts-node ./src/fetcher.ts",
+    "test": "jest ./src",
+    "scripts-test": "jest ./src",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@esm2cjs/p-queue": "7.3.0",
+    "@primer/octicons": "^18.3.0",
+    "@rocket-climb/bolt-core": "*",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "cheerio": "^1.0.0-rc.12",
+    "feather-icons": "^4.7.3",
+    "find-package": "^1.0.0",
+    "glob-promise": "^5.0.0",
+    "ionicons": "^4.6.3",
+    "ionicons-5": "npm:ionicons@5",
+    "lucide-static": "^0.263.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-native-svg": "15.1.0",
+    "svgo": "^3.0.3"
+  },
+  "engines": {
+    "npm": ">=6.0.0"
+  },
+  "files": [
+    "dist/"
+  ]
+}
