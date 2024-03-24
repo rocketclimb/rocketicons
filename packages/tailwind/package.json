@@ -1,0 +1,19 @@
+{
+  "name": "@rocket-climb/bolt-tailwind",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc --build && tsconfig-replace-paths",
+    "clean": "rm -fR dist && rm -fR *.tsbuildinfo",
+    "clean:o": "rm -rf node_modules",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint .",
+    "rebuild": "npm run clean && npm run build",
+    "test": "jest ./src",
+    "typecheck": "tsc --noEmit"
+  },
+  "files": [
+    "dist/"
+  ]
+}
