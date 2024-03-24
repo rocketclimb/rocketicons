@@ -1,0 +1,6 @@
+dist
+dist-esm
+node_modules
+tsconfig*.tsbuildinfo
+packages/icons
+.DS_Store

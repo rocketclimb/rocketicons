@@ -1,0 +1,50 @@
+{
+  "name": "@rocket-climb/bolt",
+  "version": "0.1.0",
+  "description": "React / React Native powered by tailwind",
+  "keywords": [
+    "icons",
+    "react",
+    "react-native",
+    "tailwind"
+  ],
+  "homepage": "https://github.com/rocket-climb/bolt#readme",
+  "bugs": {
+    "url": "https://github.com/rocket-climb/bolt/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rocket-climb/bolt.git"
+  },
+  "license": "MIT",
+  "author": "amorimjj",
+  "main": "dist/index.js",
+  "workspaces": [
+    "packages/sh",
+    "packages/core",
+    "packages/tailwind",
+    "packages/gen",
+    "packages/icons",
+    "packages/ignition"
+  ],
+  "scripts": {
+    "build": "tsc --build && tsconfig-replace-paths && npm run build --workspaces --if-present",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "nativewind": ">=2.0.11",
+    "react": ">=18.2.0",
+    "react-dom": ">=18.2.0",
+    "react-native-svg": ">=15.1.0"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "jest": "^29.7.0",
+    "nativewind": "2.0.11",
+    "tailwindcss": "3.3.2",
+    "tsconfig-replace-paths": "^0.0.14",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.2.2"
+  }
+}
