@@ -1,0 +1,15 @@
+{
+  "name": "bolt-sh",
+  "version": "0.1.0",
+  "description": "Shared scripts",
+  "bin": {
+    "bolt-sh": "bin/cli.js"
+  },
+  "devDependencies": {
+    "minimist": "^1.2.6",
+    "shelljs": "^0.8.5"
+  },
+  "author": "Jeferson Amorim",
+  "license": "MIT",
+  "type": "module"
+}
