@@ -30,7 +30,7 @@
   "scripts": {
     "build-all": "npm run build --workspaces --if-present",
     "clean-all": "npm run clean --workspaces --if-present",
-    "prepare": "npm run clean-all && npm run build-all && npm run fech -w packages/gen",
+    "prepare": "npm run clean-all && npm run build-all",
     "test-all": "npm run test --workspaces --if-present"
   },
   "peerDependencies": {
