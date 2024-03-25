@@ -1,4 +1,4 @@
-import * as Icon from "@rocket-climb/bolt/fa";
+import * as Icon from "rocket-bolt/fa";
 import Image from "next/image";
 
 // const [A] = Object.values(Icon);
