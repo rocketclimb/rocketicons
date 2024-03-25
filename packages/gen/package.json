@@ -13,8 +13,7 @@
     "postbuild": "npm run copy-files",
     "build": "npx ts-node ./src/build.ts",
     "fetch": "npx ts-node ./src/fetcher.ts",
-    "test": "jest ./src",
-    "scripts-test": "jest ./src",
+    "test": "jest ./src --passWithNoTests",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

@@ -8,13 +8,13 @@
     "react-native",
     "tailwind"
   ],
-  "homepage": "https://github.com/rocket-climb/bolt#readme",
+  "homepage": "https://github.com/rocket-climb/rocket-bolt#readme",
   "bugs": {
-    "url": "https://github.com/rocket-climb/bolt/issues"
+    "url": "https://github.com/rocket-climb/rocket-bolt/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rocket-climb/bolt.git"
+    "url": "git+https://github.com/rocket-climb/rocket-bolt.git"
   },
   "license": "MIT",
   "author": "amorimjj",
@@ -28,8 +28,10 @@
     "packages/ignition"
   ],
   "scripts": {
-    "build": "tsc --build && tsconfig-replace-paths && npm run build --workspaces --if-present",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-all": "npm run build --workspaces --if-present",
+    "clean-all": "npm run clean --workspaces --if-present",
+    "prepare": "npm run clean-all && npm run build-all && npm run fech -w packages/gen",
+    "test-all": "npm run test --workspaces --if-present"
   },
   "peerDependencies": {
     "nativewind": ">=2.0.11",

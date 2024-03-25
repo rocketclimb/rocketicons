@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@rocket-climb/bolt": "*",
+    "rocket-bolt": "*",
     "react": "^18",
     "react-dom": "^18",
     "next": "14.1.4"
