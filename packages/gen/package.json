@@ -11,8 +11,10 @@
     "lint": "eslint .",
     "rebuild": "npm run clean && npm run build",
     "postbuild": "npm run copy-files",
+    "prebuild": "npm run fetch",
     "build": "npx ts-node ./src/build.ts",
     "fetch": "npx ts-node ./src/fetcher.ts",
+    "refetch": "npx ts-node ./src/fetcher.ts --force",
     "test": "jest ./src --passWithNoTests",
     "typecheck": "tsc --noEmit"
   },

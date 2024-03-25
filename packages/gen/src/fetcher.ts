@@ -1,3 +1,4 @@
+import process from "process";
 import util from "node:util";
 import { execFile as rawExecFile } from "node:child_process";
 import fs from "fs";
@@ -7,15 +8,27 @@ import PQueue from "@esm2cjs/p-queue";
 import { type IconSetGitSource } from "./types";
 import { icons } from "./definitions";
 
-const execFile = util.promisify(rawExecFile);
-
 interface Context {
   distBaseDir: string;
   iconDir(name: string): string;
 }
 
+const CTRL_FILE_NAME = ".fetched";
+
+const execFile = util.promisify(rawExecFile);
+const force = process.argv.pop() === "--force";
+
 const main = async () => {
   const distBaseDir = path.join(__dirname, "../icons");
+  const ctrlFile = path.join(distBaseDir, CTRL_FILE_NAME);
+  const fetched = fs.existsSync(ctrlFile);
+
+  if (fetched && !force) {
+    console.log("all fetched, skipping");
+    console.log("use `npm run refetch` to force it");
+    process.exit(0);
+  }
+
   const ctx: Context = {
     distBaseDir,
     iconDir(name: string) {
@@ -43,6 +56,7 @@ const main = async () => {
   }
 
   await queue.onIdle();
+  fs.writeFileSync(ctrlFile, "done");
 };
 
 const gitCloneIcon = async (source: IconSetGitSource, ctx: Context) => {
