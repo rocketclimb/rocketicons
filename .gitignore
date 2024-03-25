@@ -3,4 +3,5 @@ dist-esm
 node_modules
 tsconfig*.tsbuildinfo
 packages/icons
+packages/icons/package.json
 .DS_Store
