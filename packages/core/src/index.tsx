@@ -14,4 +14,4 @@ export const IconGenerator =
       </svg>
     );
 
-export { IconTree, Variants };
+export { IconTree, Variants, IconType };
