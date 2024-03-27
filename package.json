@@ -25,8 +25,7 @@
     "packages/tailwind",
     "packages/gen",
     "packages/icons",
-    "packages/ignition",
-    "packages/docs"
+    "packages/ignition"
   ],
   "scripts": {
     "build-all": "npm run build --workspaces --if-present",
