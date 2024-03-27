@@ -4,8 +4,8 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "scripts": {
-    "clean": "bolt-sh rm -fR dist core .turbo *.tsbuildinfo",
-    "clean:o": "bolt-sh rm -fR .turbo node_modules",
+    "clean": "bolt-sh rm -fR dist core *.tsbuildinfo",
+    "clean:o": "bolt-sh rm -fR node_modules",
     "copy-files": "bolt-sh cp -fR ../core/dist/* ../icons/core/ && bolt-sh cp -fR ../tailwind/dist/* ../icons/tailwind/",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint .",

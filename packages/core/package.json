@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json && tsconfig-replace-paths",
     "postbuild": "bolt-sh cp \"dist-esm/**/*.js\" \"dist/**/*.mjs\"",
-    "clean": "bolt-sh rm -fR dist && bolt-sh rm -fR *.tsbuildinfo",
+    "clean": "bolt-sh rm -fR dist dist-esm && bolt-sh rm -fR *.tsbuildinfo",
     "clean:o": "bolt-sh rm -fR node_modules",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint .",
