@@ -1,0 +1,20 @@
+{
+  "themes": {
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System",
+    "switchTheme": "Switch theme"
+  },
+  "nav": {
+    "docs": "Docs",
+    "getting-started": "Getting Started",
+    "icons": "Icons"
+  },
+  "search": "Quick seach",
+  "home": {
+    "title": "React and React Native icones powered by Tailwind",
+    "description": "The icon library for your React or React Native project, customized using the Tailwind classes you already know",
+    "hero": "# Icons your way and as you need them. On the Web or Mobile.",
+    "short": "A biblioteca de ícones que você estava procurando. Funciona em React e em React Native, sem mudanças. Apenas um código, que roda onde você precisa. E com todo o poder que você já conheçe do [Tailwind](https://tailwindcss.com)."
+  }
+}
