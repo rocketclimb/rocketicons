@@ -2,7 +2,7 @@ import { ThemeOptions } from "./utils/config-handler";
 
 const theme: ThemeOptions = {
   default: "sky-800-md",
-  baseStyle: "p-0",
+  baseStyle: "p-0 inline-block",
   variants: {
     filled: "",
     outlined: "",
