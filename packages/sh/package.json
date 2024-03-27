@@ -6,7 +6,7 @@
     "bolt-sh": "bin/cli.js"
   },
   "devDependencies": {
-    "minimist": "^1.2.6",
+    "minimist": "^1.2.8",
     "shelljs": "^0.8.5"
   },
   "author": "Jeferson Amorim",
