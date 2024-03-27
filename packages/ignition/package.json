@@ -9,18 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "rocket-bolt": "*",
+    "dom-parser": "^1.1.5",
+    "next": "14.1.4",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.1.4"
+    "react-markdown": "^9.0.1",
+    "rocket-bolt": "*"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
     "postcss": "^8",
-    "tailwindcss": "^3.3.0"
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
   }
 }
