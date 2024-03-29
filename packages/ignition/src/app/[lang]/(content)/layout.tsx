@@ -73,10 +73,9 @@ const Layout = ({
           </div>
         </div>
         <nav className="order-last hidden w-56 shrink-0 lg:block">
-          right panel
+          right panel (insert TOC here)
         </nav>
         <article className="mt-4 w-full min-w-0 max-w-6xl px-1 md:px-6">
-          center panel
           {children}
         </article>
       </div>
