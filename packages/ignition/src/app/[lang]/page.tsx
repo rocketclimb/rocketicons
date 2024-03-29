@@ -7,7 +7,7 @@ import { useLocale } from "@/locales";
 
 import { PropsWithLangParams } from "@/types";
 
-import { IoRocketOutline } from "rocket-bolt/io5";
+import { RcRocketIcon } from "rocket-bolt/rc";
 
 import Markdown from "@/components/markdown";
 import SearchButton from "@/components/search-button";
@@ -141,18 +141,18 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
           ]}
         >
           <div>
-            <IoRocketOutline className="w-32 h-32" />
+            <RcRocketIcon className="w-32 h-32" />
             <div>
               <div className="text-slate-900 text-2xl font-light dark:text-white mt-2">
                 rocket<span className="font-semibold">icons</span>
               </div>
               <div className="mr-2">
                 Styling in a way
-                <IoRocketOutline className="icon-slate-900-sm dark:icon-red-500-sm" />
+                <RcRocketIcon className="icon-slate-900-sm dark:icon-red-500-sm" />
                 you've never seen before.
               </div>
               <div className="mt-0.5 text-xs leading-6">
-                A funny way handling <span>icons</span>
+                A funny way handling icons
               </div>
             </div>
           </div>
