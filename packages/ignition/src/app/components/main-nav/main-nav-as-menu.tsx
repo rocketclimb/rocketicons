@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import { IoMdClose } from "rocket-bolt/io";
-import { LuSearch } from "rocket-bolt/lu";
-import { HiOutlineDotsVertical } from "rocket-bolt/hi";
+import { IoMdClose } from "rocketicons/io";
+import { LuSearch } from "rocketicons/lu";
+import { HiOutlineDotsVertical } from "rocketicons/hi";
 
 import ThemeSelector from "@/components/theme-selector";
 

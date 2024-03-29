@@ -1,12 +1,12 @@
 {
-  "name": "@rocket-climb/bolt-tailwind",
+  "name": "@rocketicons/tailwind",
   "version": "0.1.0",
   "license": "MIT",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc --build && tsconfig-replace-paths",
-    "clean": "bolt-sh rm -fR dist *.tsbuildinfo",
-    "clean:o": "bolt-sh rm -fR node_modules",
+    "clean": "rocketicons-sh rm -fR dist *.tsbuildinfo",
+    "clean:o": "rocketicons-sh rm -fR node_modules",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint .",
     "rebuild": "npm run clean && npm run build",

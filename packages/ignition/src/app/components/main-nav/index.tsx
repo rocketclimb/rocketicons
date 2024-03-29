@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { IoLogoGithub } from "rocket-bolt/io";
+import { IoLogoGithub } from "rocketicons/io";
 
 import ThemeSelector from "@/components/theme-selector";
 

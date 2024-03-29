@@ -7,7 +7,7 @@ import { useLocale } from "@/locales";
 
 import { PropsWithLangParams } from "@/types";
 
-import { RcRocketIcon } from "rocket-bolt/rc";
+import { RcRocketIcon } from "rocketicons/rc";
 
 import Markdown from "@/components/markdown";
 import SearchButton from "@/components/search-button";

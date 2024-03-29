@@ -6,7 +6,7 @@ import {
 } from "cheerio";
 import camelcase from "camelcase";
 
-import { IconTree, Variants } from "@rocket-climb/bolt-core";
+import { IconTree, Variants } from "@rocketicons/core";
 
 import { type IconDefinitionContent, IconManifestType } from "./types";
 

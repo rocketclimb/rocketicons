@@ -1,4 +1,4 @@
-import { IconsManifest } from "rocket-bolt/core/icons-manifest";
+import { IconsManifest } from "rocketicons/core/icons-manifest";
 import { PropsWithChildrenAndLangParams } from "@/types";
 import Link from "next/link";
 
