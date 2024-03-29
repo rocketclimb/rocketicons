@@ -133,7 +133,7 @@ const CodeEditor = ({
                   </div>
                 </div>
                 <div className="relative min-h-0 flex-auto flex flex-col">
-                  <div className="w-full flex-auto flex min-h-0 overflow-auto">
+                  <div className="w-full flex-auto flex min-h-0 overflow-auto scrollbar:!w-1.5 scrollbar:!h-1.5 scrollbar:bg-transparent scrollbar-track:!bg-slate-100 scrollbar-thumb:!rounded scrollbar-thumb:!bg-slate-300 scrollbar-track:!rounded dark:scrollbar-track:!bg-slate-500/[0.16] dark:scrollbar-thumb:!bg-slate-500/50 lg:supports-scrollbars:pr-2">
                     <div className="w-full relative flex-auto">
                       <pre className="flex min-h-full text-sm leading-6">
                         <div className="hidden text-wrap whitespace-normal md:block text-slate-600 py-4 pr-4 text-right select-none pl-2 w-12">
