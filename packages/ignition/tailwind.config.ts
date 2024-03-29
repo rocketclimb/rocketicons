@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import icons from "rocket-bolt/tailwind";
+import icons from "rocketicons/tailwind";
 
 const config: Config = {
   darkMode: "class",

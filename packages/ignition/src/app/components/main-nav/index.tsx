@@ -1,16 +1,16 @@
 import Link from "next/link";
-import { IoLogoGithub } from "rocket-bolt/io";
+import { IoLogoGithub } from "rocketicons/io";
 
 import ThemeSelector from "@/components/theme-selector";
 
 import { PropsWithLang } from "@/types";
 import { useLocale } from "@/locales";
 
-import NavAsMenu from "./nav-as-menu";
+import MainNavAsMenu from "./main-nav-as-menu";
 
 import { NavItem } from "./types";
 
-const Nav = ({ lang }: PropsWithLang) => {
+const MainNav = ({ lang }: PropsWithLang) => {
   const { nav } = useLocale(lang);
 
   const navItems: NavItem[] = [
@@ -25,7 +25,7 @@ const Nav = ({ lang }: PropsWithLang) => {
   return (
     <>
       <div className="flex w-full items-center justify-end">
-        <nav className="hidden md:block">
+        <div className="hidden md:block">
           <ul className="flex items-center gap-x-7">
             {navItems.map(({ label, link }, i) => (
               <li
@@ -38,7 +38,7 @@ const Nav = ({ lang }: PropsWithLang) => {
               </li>
             ))}
           </ul>
-        </nav>
+        </div>
         <div className="hidden md:flex items-center border-l border-slate-200 ml-6 pl-6 dark:border-slate-800">
           <ThemeSelector lang={lang} />
           <a
@@ -50,9 +50,9 @@ const Nav = ({ lang }: PropsWithLang) => {
           </a>
         </div>
       </div>
-      <NavAsMenu navItems={navItems} lang={lang} />
+      <MainNavAsMenu navItems={navItems} lang={lang} />
     </>
   );
 };
 
-export default Nav;
+export default MainNav;

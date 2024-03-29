@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import { IconType } from "rocket-bolt/core";
-import { BsMoonStars, BsSun } from "rocket-bolt/bs";
-import { MdOutlineMonitor, MdKeyboardArrowDown } from "rocket-bolt/md";
+import { IconType } from "rocketicons/core";
+import { BsMoonStars, BsSun } from "rocketicons/bs";
+import { MdOutlineMonitor, MdKeyboardArrowDown } from "rocketicons/md";
 
 import { ThemeOptions } from "@/hooks";
 import { useLocale } from "@/locales";

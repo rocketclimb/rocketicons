@@ -19,25 +19,25 @@ async function task(name: string, fn: () => Promise<void> | void) {
 
 async function main() {
   try {
-    // @rocket-climb/bolt/all
+    // rocketicons/all
     const allOpt: TaskContext = {
       rootDir: _rootDir,
       DIST: path.resolve(_rootDir, "../icons"),
       LIB: path.resolve(_rootDir, "../icons/core"),
       PLUGIN: path.resolve(_rootDir, "../icons/tailwind"),
     };
-    await task("@rocket-climb/bolt initialize", async () => {
+    await task("rocketicons initialize", async () => {
       await taskAll.dirInit(allOpt);
       await taskCommon.writeEntryPoints(allOpt);
       await taskCommon.writeIconsManifest(allOpt);
       await taskCommon.writeLicense(allOpt);
       await taskCommon.writePackageJson(
-        { name: "rocket-bolt", exports: buildPackageExports(icons) },
+        { name: "rocketicons", exports: buildPackageExports(icons) },
         allOpt
       );
       await taskCommon.copyReadme(allOpt);
     });
-    await task("@rocket-climb/bolt/all write icons", async () => {
+    await task("rocketicons/all write icons", async () => {
       await Promise.all(
         icons.map((icon) => taskAll.writeIconModule(icon, allOpt))
       );

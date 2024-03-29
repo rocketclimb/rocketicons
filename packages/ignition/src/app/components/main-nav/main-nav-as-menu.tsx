@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import { IoMdClose } from "rocket-bolt/io";
-import { LuSearch } from "rocket-bolt/lu";
-import { HiOutlineDotsVertical } from "rocket-bolt/hi";
+import { IoMdClose } from "rocketicons/io";
+import { LuSearch } from "rocketicons/lu";
+import { HiOutlineDotsVertical } from "rocketicons/hi";
 
 import ThemeSelector from "@/components/theme-selector";
 
@@ -17,7 +17,7 @@ type NavAsMenuProps = {
   navItems: NavItem[];
 } & PropsWithLang;
 
-const NavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
+const MainNavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
   const { onOpen, onClose } = useDisclosure();
 
   return (
@@ -54,4 +54,4 @@ const NavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
   );
 };
 
-export default NavAsMenu;
+export default MainNavAsMenu;

@@ -1,5 +1,16 @@
-import { IconTree } from "@rocket-climb/bolt-core";
+import { IconTree } from "@rocketicons/core";
 import type { IconDefinition } from "./types";
+
+export const ManifestTypeTemplate = `
+  type IconsManifestType = {
+    id: string;
+    name: string;
+    projectUrl: string;
+    license: string;
+    licenseUrl: string;
+  };
+  export declare const IconsManifest: IconsManifestType[];
+`;
 
 export function iconRowTemplate(
   _icon: IconDefinition,

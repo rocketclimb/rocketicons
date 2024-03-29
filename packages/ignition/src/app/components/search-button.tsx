@@ -1,4 +1,4 @@
-import { LuSearch } from "rocket-bolt/lu";
+import { LuSearch } from "rocketicons/lu";
 import Button from "./button";
 
 type SearchButtonProps = {

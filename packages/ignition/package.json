@@ -14,7 +14,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-markdown": "^9.0.1",
-    "rocket-bolt": "*"
+    "rocketicons": "*"
   },
   "devDependencies": {
     "@content-collections/core": "^0.3.1",

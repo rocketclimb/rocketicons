@@ -1,5 +1,5 @@
 {
-  "name": "@rocket-climb/bolt-gen",
+  "name": "@rocketicons/gen",
   "version": "0.1.0",
   "license": "MIT",
   "main": "./dist/index.js",
@@ -8,10 +8,10 @@
   ],
   "scripts": {
     "build": "npx ts-node ./src/build.ts",
-    "clean": "bolt-sh rm -fR dist core *.tsbuildinfo",
+    "clean": "rocketicons-sh rm -fR dist core *.tsbuildinfo",
     "prebuild": "npm run fetch",
     "postbuild": "npm run copy-files",
-    "copy-files": "bolt-sh cp -fR ../core/dist/* ../icons/core/ && bolt-sh cp -fR ../tailwind/dist/* ../icons/tailwind/",
+    "copy-files": "rocketicons-sh cp -fR ../core/dist/* ../icons/core/ && rocketicons-sh cp -fR ../tailwind/dist/* ../icons/tailwind/",
     "fetch": "npx ts-node ./src/fetcher.ts",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint .",
@@ -23,7 +23,8 @@
   "devDependencies": {
     "@esm2cjs/p-queue": "7.3.0",
     "@primer/octicons": "^19.9.0",
-    "@rocket-climb/bolt-core": "*",
+    "@rocketicons/core": "*",
+    "@rocketicons/tailwind": "*",
     "@types/react": "^18.2.72",
     "@types/react-dom": "^18.2.22",
     "cheerio": "^1.0.0-rc.12",
@@ -36,6 +37,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native-svg": "15.1.0",
+    "rocketicons-sh": "*",
     "svgo": "^3.2.0"
   },
   "engines": {
