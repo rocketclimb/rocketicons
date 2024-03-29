@@ -17,7 +17,7 @@ type NavAsMenuProps = {
   navItems: NavItem[];
 } & PropsWithLang;
 
-const NavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
+const MainNavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
   const { onOpen, onClose } = useDisclosure();
 
   return (
@@ -54,4 +54,4 @@ const NavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
   );
 };
 
-export default NavAsMenu;
+export default MainNavAsMenu;
