@@ -69,6 +69,9 @@ export const convertIconData = async (
             break;
           default:
             obj[newName] = attribs[name];
+            if (!colorProps["stroke"] && newName.match(/^stroke/)) {
+              colorProps["stroke"] = true;
+            }
             break;
         }
         return obj;
