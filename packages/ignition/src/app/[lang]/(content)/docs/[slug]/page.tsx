@@ -3,24 +3,15 @@ import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-slug-params
 import { allDocs } from "content-collections";
 
 const Page = ({ params: { lang, slug } }: PropsWithLangSlugParams) => {
-  // return (
-  //   <>
-  //     <p>{lang}</p>
-  //     <p>{slug}</p>
-  //   </>
-  // );
+  const selectedComponent = allDocs.find(
+    (model) => model._meta.directory === slug && model.locale === (lang || "en")
+  );
   return (
     <div>
-      <p>{lang}</p>
-      <p>{slug}</p>
-      <ul>
-        {allDocs.map((doc) => (
-          <li key={doc._meta.path}>
-            <h3>{doc.title}</h3>
-            <MDXContent code={doc.body} />
-          </li>
-        ))}
-      </ul>
+      {/* <p>{lang}</p>
+      <p>{slug}</p> */}
+
+      {selectedComponent && <MDXContent code={selectedComponent?.body} />}
     </div>
   );
 };
