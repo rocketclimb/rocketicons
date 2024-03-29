@@ -7,9 +7,11 @@ import { useLocale } from "@/locales";
 
 import { PropsWithLangParams } from "@/types";
 
+import { IoRocketOutline } from "rocket-bolt/io5";
+
 import Markdown from "@/components/markdown";
 import SearchButton from "@/components/search-button";
-//import CodeBlock from "@/components/code-block";
+import CodeBlock, { ScriptAction } from "@/app/components/code-block";
 
 export const generateMetadata = ({
   params: { lang },
@@ -49,7 +51,113 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
           <SearchButton label={search} />
         </div>
       </div>
-      {/* <CodeBlock /> */}
+      <div className="mb-6">
+        <CodeBlock
+          script={[
+            {
+              time: "1s",
+              action: ScriptAction.UPDATE,
+              elementId: "el_0.el_0",
+              text: "w-32 h-32",
+            },
+            {
+              time: "2s",
+              action: ScriptAction.UPDATE_TYPING,
+              elementId: "el_0.el_0",
+              text: " border border-slate-200 dark:border-white",
+              finalText: "w-32 h-32 border border-slate-200 dark:border-white",
+              delay: 50,
+            },
+            {
+              time: "2s",
+              action: ScriptAction.UPDATE_TYPING,
+              elementId: "el_0.el_0",
+              text: " bg-slate-200 dark:bg-white",
+              finalText: "w-32 h-32 border border-white bg-white",
+              delay: 50,
+            },
+            {
+              time: "2s",
+              action: ScriptAction.REPLACE_TYPING,
+              elementId: "el_0",
+              text: "flex gap-3",
+              delay: 60,
+            },
+            {
+              time: "5s",
+              action: ScriptAction.DELETE_TYPING,
+              elementId: "el_0.el_1.el_1.el_1",
+              from: "icon-red-900-md",
+              to: "icon-",
+              skipCommit: true,
+            },
+            {
+              action: ScriptAction.UPDATE_TYPING,
+              elementId: "el_0.el_1.el_1.el_1",
+              text: "sky-500",
+              finalText: "icon-sky-500",
+            },
+            {
+              time: "5s",
+              action: ScriptAction.UPDATE_TYPING,
+              elementId: "el_0.el_1.el_1.el_1",
+              text: "-lg",
+              finalText: "icon-sky-500-lg",
+            },
+            {
+              time: "2s",
+              action: ScriptAction.UPDATE_TYPING,
+              elementId: "el_0.el_1.el_1.el_1",
+              text: " dark:icon-white-lg",
+              finalText: "icon-sky-500-lg dark:icon-white-lg",
+              delay: 30,
+            },
+            {
+              time: "1s",
+              action: ScriptAction.UPDATE_TYPING,
+              elementId: "el_0.el_1.el_1.el_1",
+              text: " mx-1",
+              finalText: "icon-sky-500-lg mx-1",
+            },
+            {
+              time: "30s",
+              action: ScriptAction.REPLACE_TYPING,
+              elementId: "el_0.el_1.el_1.el_1",
+              text: "icon-slate-900-sm dark:icon-red-500-sm",
+            },
+            {
+              action: ScriptAction.UPDATE,
+              elementId: "el_0",
+              text: "",
+            },
+            {
+              action: ScriptAction.UPDATE,
+              elementId: "el_0.el_0",
+              text: "w-32 h-32",
+            },
+            {
+              action: ScriptAction.RESTART,
+            },
+          ]}
+        >
+          <div>
+            <IoRocketOutline className="w-32 h-32" />
+            <div>
+              <div className="text-slate-900 text-2xl font-light dark:text-white mt-2">
+                rocket<span className="font-semibold">icons</span>
+              </div>
+              <div className="mr-2">
+                Styling in a way
+                <IoRocketOutline className="icon-slate-900-sm dark:icon-red-500-sm" />
+                you've never seen before.
+              </div>
+              <div className="mt-0.5 text-xs leading-6">
+                A funny way handling <span>icons</span>
+              </div>
+            </div>
+          </div>
+        </CodeBlock>
+      </div>
 
       {/* <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex flex-wrap">
           <div className="hidden absolute inset-0 bottom-10 bg-bottom bg-no-repeat bg-slate-50 dark:bg-hero-dark">
