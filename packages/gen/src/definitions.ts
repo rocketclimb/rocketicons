@@ -5,6 +5,20 @@ import { glob } from "./glob";
 
 export const icons: IconDefinition[] = [
   {
+    id: "rc",
+    name: "rocketclimb",
+    contents: [
+      {
+        files: path.resolve(__dirname, "../../../svgs/*.svg"),
+        formatter: (name) => `Rc${name}`,
+      },
+    ],
+    projectUrl: "https://rocketicons.io/",
+    license: "MIT",
+    licenseUrl:
+      "https://github.com/rocketclimb/rocketicons/blob/master/LICENSE",
+  },
+  {
     id: "ci",
     name: "Circum Icons",
     contents: [
