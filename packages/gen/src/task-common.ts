@@ -9,6 +9,7 @@ const exec = promisify(require("child_process").exec);
 import { icons } from "./definitions";
 import { getIconFiles } from "./logics";
 import { IconDefinition, TaskContext, IconManifestType } from "./types";
+import { ManifestTypeTemplate } from "./templates";
 
 export const writeIconsManifest = async ({ LIB }: TaskContext) => {
   const writeObj: IconManifestType[] = icons.map((icon) => ({
@@ -19,14 +20,20 @@ export const writeIconsManifest = async ({ LIB }: TaskContext) => {
     licenseUrl: icon.licenseUrl,
   }));
   const manifest = JSON.stringify(writeObj, null, 2);
+
   await fs.writeFile(
-    path.resolve(LIB, "iconsManifest.mjs"),
+    path.resolve(LIB, "icons-manifest.mjs"),
     `export var IconsManifest = ${manifest}`,
     "utf8"
   );
   await fs.writeFile(
-    path.resolve(LIB, "iconsManifest.js"),
+    path.resolve(LIB, "icons-manifest.js"),
     `module.exports.IconsManifest = ${manifest}`,
+    "utf8"
+  );
+  await fs.writeFile(
+    path.resolve(LIB, "icons-manifest.d.ts"),
+    `${ManifestTypeTemplate}`,
     "utf8"
   );
 };

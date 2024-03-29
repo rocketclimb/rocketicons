@@ -47,8 +47,6 @@ export const convertIconData = async (
           ].includes(name)
       )
       .reduce((obj, name) => {
-        // (name === "stroke" || name === "fill") &&
-        //   console.log(name, attribs[name]);
         const newName = name.startsWith("aria-") ? name : camelcase(name);
         switch (newName) {
           case "fill":
@@ -98,7 +96,9 @@ export const convertIconData = async (
   const [iconData] = elementToTree($svg);
 
   const variant =
-    (colorProps.fill && colorProps.stroke && "full") || colorProps.stroke
+    colorProps.fill && colorProps.stroke
+      ? "full"
+      : colorProps.stroke
       ? "outlined"
       : "filled";
 
@@ -130,6 +130,12 @@ export const buildPackageExports = (icons: IconManifestType[]) => {
       require: "./core/index.js",
       import: "./core/index.mjs",
       default: "./core/index.mjs",
+    },
+    "./core/icons-manifest": {
+      types: "./core/icons-manifest.d.ts",
+      require: "./core/icons-manifest.js",
+      import: "./core/icons-manifest.mjs",
+      default: "./core/icons-manifest.mjs",
     },
     "./tailwind": {
       types: "./tailwind/index.d.ts",
