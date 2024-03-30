@@ -9,15 +9,33 @@ const mdxOptions: Options = {
   rehypePlugins: [[rehypeShiki, rehypeOptions]],
 };
 
-const docs = defineCollection({
-  name: "docs",
-  directory: "src/app/locales",
+const components = defineCollection({
+  name: "components",
+  directory: "src/app/locales/components",
   include: "**/*.mdx",
   schema: (z) => ({
     title: z.string(),
     summary: z.string(),
     description: z.string(),
-    type: z.enum(["doc", "component"]),
+    locale: z.enum(["en", "pt-br"]),
+  }),
+  transform: async (document, context) => {
+    const body = await compileMDX(context, document, mdxOptions);
+    return {
+      ...document,
+      body,
+    };
+  },
+});
+
+const docs = defineCollection({
+  name: "docs",
+  directory: "src/app/locales/docs",
+  include: "**/*.mdx",
+  schema: (z) => ({
+    title: z.string(),
+    summary: z.string(),
+    description: z.string(),
     locale: z.enum(["en", "pt-br"]),
   }),
   transform: async (document, context) => {
@@ -30,5 +48,5 @@ const docs = defineCollection({
 });
 
 export default defineConfig({
-  collections: [docs],
+  collections: [components, docs],
 });

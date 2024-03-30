@@ -1,0 +1,11 @@
+import { MDXContent } from "@content-collections/mdx/react";
+import { allDocs } from "content-collections";
+
+const MdxDoc = ({ lang, slug }: { lang: string; slug: string }) => {
+  const selectedDoc = allDocs.find(
+    (model) => model._meta.directory === slug && model.locale === (lang || "en")
+  );
+  return <div>{selectedDoc && <MDXContent code={selectedDoc?.body} />}</div>;
+};
+
+export default MdxDoc;

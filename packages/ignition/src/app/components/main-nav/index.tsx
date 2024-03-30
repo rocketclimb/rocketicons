@@ -14,9 +14,9 @@ const MainNav = ({ lang }: PropsWithLang) => {
     {
       name: "getting-started",
       label: nav["getting-started"],
-      link: "/docs/getting-started",
+      link: `${lang}/docs/getting-started`,
     },
-    { name: "icons", label: nav["icons"], link: "/icons" },
+    { name: "icons", label: nav["icons"], link: `${lang}/icons` },
   ];
   return (
     <>
