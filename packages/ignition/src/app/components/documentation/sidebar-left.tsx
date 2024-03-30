@@ -22,37 +22,40 @@ export const SidebarLeft = ({ params: { lang } }: PropsWithLangParams) => {
     const renderDocList = () => {
       return (
         <div>
-          {Array.from(grouped).map(([group, docs]) => (
-            <div key={group}>
-              <h5 className="mb-8 lg:mb-3 font-semibold text-slate-900 dark:text-slate-200">
-                {nav[group || ""]}
-              </h5>
-              <ul className="space-y-6 lg:space-y-2 border-l border-slate-100 dark:border-slate-800">
-                {docs
-                  .sort((a, b) => a.order - b.order)
-                  .map((model, i) => (
-                    <li key={i}>
-                      <a
-                        className={`block border-l pl-4 -ml-px border-transparent hover:border-slate-400 dark:hover:border-slate-500 text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 ${
-                          pathName.indexOf(model.slug) > -1 &&
-                          "border-sky-500 dark:border-sky-500"
-                        }`}
-                        href={`/${lang}/docs/${model.slug}`}
-                      >
-                        <span
-                          className={`${
-                            pathName.indexOf(model.slug) > -1 &&
-                            "text-sky-500 dark:text-sky-500"
-                          }`}
-                        >
-                          {model.title}
-                        </span>
-                      </a>
-                    </li>
-                  ))}
-              </ul>
-            </div>
-          ))}
+          {Array.from(grouped).map(
+            ([group, docs]) =>
+              group && (
+                <div key={group}>
+                  <h5 className="mb-8 lg:mb-3 font-semibold text-slate-900 dark:text-slate-200">
+                    {nav[group]}
+                  </h5>
+                  <ul className="space-y-6 lg:space-y-2 border-l border-slate-100 dark:border-slate-800">
+                    {docs
+                      .sort((a, b) => a.order - b.order)
+                      .map((model, i) => (
+                        <li key={i}>
+                          <Link
+                            className={`block border-l pl-4 -ml-px border-transparent hover:border-slate-400 dark:hover:border-slate-500 text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 ${
+                              pathName.indexOf(model.slug) > -1 &&
+                              "border-sky-500 dark:border-sky-500"
+                            }`}
+                            href={`/${lang}/docs/${model.slug}`}
+                          >
+                            <span
+                              className={`${
+                                pathName.indexOf(model.slug) > -1 &&
+                                "text-sky-500 dark:text-sky-500"
+                              }`}
+                            >
+                              {model.title}
+                            </span>
+                          </Link>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              )
+          )}
         </div>
       );
     };
