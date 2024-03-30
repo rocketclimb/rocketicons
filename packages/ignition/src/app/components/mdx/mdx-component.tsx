@@ -1,7 +1,13 @@
 import { MDXContent } from "@content-collections/mdx/react";
 import { allComponents } from "content-collections";
 
-const MdxComponent = ({ lang, slug }: { lang: string; slug: string }) => {
+export const MdxComponent = ({
+  lang,
+  slug,
+}: {
+  lang: string;
+  slug: string;
+}) => {
   const selectedComponent = allComponents.find(
     (model) => model._meta.directory === slug && model.locale === (lang || "en")
   );
@@ -11,5 +17,3 @@ const MdxComponent = ({ lang, slug }: { lang: string; slug: string }) => {
     </div>
   );
 };
-
-export default MdxComponent;

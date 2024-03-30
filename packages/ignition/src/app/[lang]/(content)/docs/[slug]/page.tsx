@@ -1,4 +1,4 @@
-import MdxDoc from "@/app/components/mdx/mdx-doc";
+import { MdxDoc } from "@/components/mdx";
 import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-slug-params";
 
 const Page = ({ params: { lang, slug } }: PropsWithLangSlugParams) => {

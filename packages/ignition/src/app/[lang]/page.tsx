@@ -3,21 +3,14 @@ import CodeBlock, { ScriptAction } from "@/app/components/code-block";
 // const [A] = Object.values(Icon);
 // console.log(A);
 import Link from "next/link";
-import { MDXContent } from "@content-collections/mdx/react";
+import { MdxComponent } from "@/components/mdx";
 import { PropsWithLangParams } from "@/types";
 import { RcRocketIcon } from "rocketicons/rc";
 import SearchButton from "@/components/search-button";
-import { allComponents } from "content-collections";
 import { useLocale } from "@/locales";
 
 const Home = ({ params: { lang } }: PropsWithLangParams) => {
   const { home, nav, search } = useLocale(lang);
-
-  const selectedComponent = allComponents.find(
-    (model) =>
-      model._meta.directory === "home" && model.locale === (lang || "en")
-  );
-
   return (
     <div className="flex flex-col grow items-center justify-between bg-cover bg-hero-light dark:bg-hero-dark">
       <div
@@ -25,7 +18,7 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
         style={{ maskImage: "linear-gradient(transparent, black)" }}
       ></div>
       <div className="relative max-w-5xl mx-auto pt-20 px-4 sm:px-6 md:px-8 sm:pt-24 lg:pt-32">
-        {selectedComponent && <MDXContent code={selectedComponent?.body} />}
+        <MdxComponent lang={lang} slug="home" />
         <div className="mt-6 sm:mt-10 flex justify-center space-x-6 text-sm">
           <Link
             className="bg-slate-900 max-w-lg hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold h-12 px-6 rounded-lg w-full flex items-center justify-center sm:w-auto dark:bg-sky-500 dark:highlight-white/20 dark:hover:bg-sky-400"
