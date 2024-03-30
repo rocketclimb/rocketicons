@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/app/components/button";
-import { PropsWithChildrenAndLangParams } from "@/types";
+import { PropsWithChildrenAndLangParams } from "@/app/types";
 import { SidebarLeft } from "@/app/components/documentation";
 import { useState } from "react";
 
@@ -43,13 +43,10 @@ const Layout = ({
         <div className="hidden h-[calc(100vh-121px)] w-[284px] md:flex md:shrink-0 md:flex-col md:justify-between">
           <div className="relative overflow-hidden">
             <nav>
-              <SidebarLeft lang={lang} />
+              <SidebarLeft params={{ lang }} />
             </nav>
           </div>
         </div>
-        <nav className="order-last hidden w-56 shrink-0 lg:block">
-          right panel (insert TOC here)
-        </nav>
         <article className="mt-4 w-full min-w-0 max-w-6xl px-1 md:px-6">
           {children}
         </article>

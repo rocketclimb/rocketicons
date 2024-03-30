@@ -37,6 +37,9 @@ const docs = defineCollection({
     description: z.string(),
     locale: z.enum(["en", "pt-br"]),
     slug: z.string(),
+    group: z.string().optional(),
+    order: z.number(),
+    hide: z.boolean().optional(),
   }),
   transform: async (document, context) => {
     const body = await compileMDX(context, document, mdxOptions);

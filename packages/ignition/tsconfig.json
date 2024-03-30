@@ -25,6 +25,7 @@
       "@/locales": ["./src/app/locales/"],
       "@/locales/*": ["./src/app/locales/*"],
       "@/types": ["./src/app/types/"],
+      "@/utils": ["./src/app/utils/"],
       "content-collections": ["./.content-collections/generated"]
     }
   },
