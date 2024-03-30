@@ -3,7 +3,7 @@ import { allDocs } from "content-collections";
 
 export const MdxDoc = ({ lang, slug }: { lang: string; slug: string }) => {
   const selectedDoc = allDocs.find(
-    (model) => model._meta.directory === slug && model.locale === (lang || "en")
+    (model) => model.slug === slug && model.locale === (lang || "en")
   );
   return <div>{selectedDoc && <MDXContent code={selectedDoc?.body} />}</div>;
 };

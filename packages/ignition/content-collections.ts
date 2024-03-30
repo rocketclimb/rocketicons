@@ -15,9 +15,9 @@ const components = defineCollection({
   include: "**/*.mdx",
   schema: (z) => ({
     title: z.string(),
-    summary: z.string(),
     description: z.string(),
     locale: z.enum(["en", "pt-br"]),
+    slug: z.string(),
   }),
   transform: async (document, context) => {
     const body = await compileMDX(context, document, mdxOptions);
@@ -34,9 +34,9 @@ const docs = defineCollection({
   include: "**/*.mdx",
   schema: (z) => ({
     title: z.string(),
-    summary: z.string(),
     description: z.string(),
     locale: z.enum(["en", "pt-br"]),
+    slug: z.string(),
   }),
   transform: async (document, context) => {
     const body = await compileMDX(context, document, mdxOptions);

@@ -10,13 +10,13 @@ const MainNav = ({ lang }: PropsWithLang) => {
   const { nav } = useLocale(lang);
 
   const navItems: NavItem[] = [
-    { name: "docs", label: nav["docs"], link: "/docs" },
+    { name: "docs", label: nav["docs"], link: `/${lang}/docs` },
     {
       name: "getting-started",
       label: nav["getting-started"],
-      link: `${lang}/docs/getting-started`,
+      link: `/${lang}/docs/${nav["getting-started-slug"]}`,
     },
-    { name: "icons", label: nav["icons"], link: `${lang}/icons` },
+    { name: "icons", label: nav["icons"], link: `/${lang}/icons` },
   ];
   return (
     <>

@@ -9,7 +9,7 @@ export const MdxComponent = ({
   slug: string;
 }) => {
   const selectedComponent = allComponents.find(
-    (model) => model._meta.directory === slug && model.locale === (lang || "en")
+    (model) => model.slug === slug && model.locale === (lang || "en")
   );
   return (
     <div>
