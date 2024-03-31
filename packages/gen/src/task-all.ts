@@ -2,13 +2,14 @@ import path from "path";
 import { promises as fs } from "fs";
 import camelcase from "camelcase";
 import { optimize as svgoOptimize } from "svgo";
+import { IconsInfoManifest } from "@rocketicons/core";
 import { icons } from "./definitions";
 import { iconRowTemplate } from "./templates";
 import { getIconFiles, convertIconData, rmDirRecursive } from "./logics";
 import { svgoConfig } from "./svgo-config";
 import { IconDefinition, TaskContext } from "./types";
 
-export const dirInit = async ({ DIST, LIB, PLUGIN }: TaskContext) => {
+export const dirInit = async ({ DIST, LIB, PLUGIN, DATA }: TaskContext) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ignore = (err: any) => {
     if (err?.code === "EEXIST") return;
@@ -19,6 +20,7 @@ export const dirInit = async ({ DIST, LIB, PLUGIN }: TaskContext) => {
   await fs.mkdir(DIST, { recursive: true }).catch(ignore);
   await fs.mkdir(LIB).catch(ignore);
   await fs.mkdir(PLUGIN).catch(ignore);
+  await fs.mkdir(DATA).catch(ignore);
 
   const write = (filePath: string[], str: string) =>
     fs.writeFile(path.resolve(DIST, ...filePath), str, "utf8").catch(ignore);
@@ -30,7 +32,7 @@ export const dirInit = async ({ DIST, LIB, PLUGIN }: TaskContext) => {
 
     await write(
       [icon.id, "index.js"],
-      '// THIS FILE IS AUTO GENERATED\n"use strict";\nObject.defineProperty(exports, "__esModule", { value: true });\nconst core_1 = require("../core");\n'
+      '// THIS FILE IS AUTO GENERATED\n"use strict";\nObject.defineProperty(exports, "__esModule", { value: true });\nconst core_1 = require("../core");\nconst manifest_1 = require("./manifest.js");\n'
     );
     await write(
       [icon.id, "index.mjs"],
@@ -38,7 +40,7 @@ export const dirInit = async ({ DIST, LIB, PLUGIN }: TaskContext) => {
     );
     await write(
       [icon.id, "index.d.ts"],
-      "// THIS FILE IS AUTO GENERATED\nimport type { IconType } from '../core/types'\n"
+      "// THIS FILE IS AUTO GENERATED\nimport type { IconType, CollectionInfo } from '../core/types'\nexport declare const manifest: CollectionInfo;\n"
     );
     await write(
       [icon.id, "package.json"],
@@ -60,11 +62,21 @@ export const dirInit = async ({ DIST, LIB, PLUGIN }: TaskContext) => {
 
 export const writeIconModule = async (
   icon: IconDefinition,
-  { DIST }: TaskContext
+  { DIST }: TaskContext,
+  iconInfoManifest: IconsInfoManifest<string>
 ) => {
   const exists = new Set(); // for remove duplicate
   for (const content of icon.contents) {
     const files = await getIconFiles(content);
+
+    iconInfoManifest[icon.id] = iconInfoManifest[icon.id] || {
+      id: icon.id,
+      name: icon.name,
+      license: icon.license,
+      projectUrl: icon.projectUrl,
+      licenseUrl: icon.licenseUrl,
+      icons: {},
+    };
 
     for (const file of files) {
       const svgStrRaw = await fs.readFile(file, "utf8");
@@ -104,6 +116,19 @@ export const writeIconModule = async (
         dtsRes,
         "utf8"
       );
+
+      const reg = new RegExp(`^${icon.id.toLowerCase()}(s|\s|-|_)*`);
+      const manifestName = rawName
+        .toLowerCase()
+        .replace(reg, "")
+        .replace(/_|\-/g, "-");
+
+      iconInfoManifest[icon.id].icons[name] = {
+        id: `${icon.id}-${manifestName}`,
+        name: manifestName.replace(/\-/g, " "),
+        compName: name,
+        variant,
+      };
 
       exists.add(file);
     }

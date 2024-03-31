@@ -6,34 +6,146 @@ import { promises as fs } from "fs";
 import findPackage from "find-package";
 import { promisify } from "util";
 const exec = promisify(require("child_process").exec);
+import { IconsManifestType, IconsInfoManifest } from "@rocketicons/core";
 import { icons } from "./definitions";
 import { getIconFiles } from "./logics";
-import { IconDefinition, TaskContext, IconManifestType } from "./types";
-import { ManifestTypeTemplate } from "./templates";
+import { IconDefinition, TaskContext } from "./types";
+import {
+  dynamicLoaderTemplate,
+  DataTypeHeaderTemplate,
+  DataTypeFooterTemplate,
+  DataIndexJsTemplate,
+} from "./templates";
 
-export const writeIconsManifest = async ({ LIB }: TaskContext) => {
-  const writeObj: IconManifestType[] = icons.map((icon) => ({
+export const writeIconsManifest = async (
+  { DATA, DIST }: TaskContext,
+  iconInfoManifest: IconsInfoManifest<string>
+) => {
+  const writeObj: IconsManifestType<string>[] = icons.map((icon) => ({
     id: icon.id,
     name: icon.name,
     projectUrl: icon.projectUrl,
     license: icon.license,
     licenseUrl: icon.licenseUrl,
   }));
+
   const manifest = JSON.stringify(writeObj, null, 2);
 
+  const mjsDataIcons: string[] = [];
+  const jsDataIcons: string[] = [];
+  const typeDataIcons: string[] = [];
+  const typeInfoIcons: string[] = [];
+  const mjsIconsInfo: string[] = [];
+  const jsIconsInfo: string[] = [];
+  const typeCollectionsIds: string[] = [];
+
+  icons.forEach(({ id }) => {
+    mjsDataIcons.push(`export * as ${id} from "../${id}";`);
+    jsDataIcons.push(
+      `const ${id} = require("../${id}");\nexports.${id} = void 0;\nexports.${id} = ${id};`
+    );
+    typeDataIcons.push(`export declare const ${id}: Record<string, IconType>;`);
+    typeInfoIcons.push(`export declare const ${id}: CollectionInfo;`);
+    mjsIconsInfo.push(`export * as ${id} from "../${id}/manifest.mjs";`);
+    jsIconsInfo.push(
+      `const ${id} = require("../${id}/manifest.js");\nexports.${id} = void 0;\nexports.${id} = ${id};`
+    );
+    typeCollectionsIds.push(`"${id}"`);
+  });
+
   await fs.writeFile(
-    path.resolve(LIB, "icons-manifest.mjs"),
+    path.resolve(DATA, "icons.mjs"),
+    mjsDataIcons.join("\n"),
+    "utf8"
+  );
+
+  await fs.writeFile(
+    path.resolve(DATA, "icons.js"),
+    `"use strict";\nObject.defineProperty(exports, "__esModule", { value: true });\n${jsDataIcons.join(
+      "\n"
+    )}`,
+    "utf8"
+  );
+
+  for (let [key, info] of Object.entries(iconInfoManifest)) {
+    const dataInfo = JSON.stringify(info, null, 2);
+    await fs.writeFile(
+      path.resolve(DIST, key, "manifest.js"),
+      `module.exports.manifest = ${dataInfo}`,
+      "utf8"
+    );
+    await fs.writeFile(
+      path.resolve(DIST, key, "manifest.mjs"),
+      `export var manifest = ${dataInfo}`,
+      "utf8"
+    );
+
+    await fs.appendFile(
+      path.resolve(DIST, key, "index.mjs"),
+      `export * from "./manifest.mjs"`,
+      "utf8"
+    );
+
+    await fs.appendFile(
+      path.resolve(DIST, key, "index.js"),
+      `const manifest_1 = require("./manifest.js");\nexports.manifest = void 0;\nconst manifest = (0, manifest_1.manifest);\nexports.manifest = manifest;`,
+      "utf8"
+    );
+  }
+
+  await fs.writeFile(
+    path.resolve(DATA, "icons-info.mjs"),
+    `${mjsIconsInfo.join(`\n`)}`,
+    "utf8"
+  );
+  await fs.writeFile(
+    path.resolve(DATA, "icons-info.js"),
+    `${jsIconsInfo.join(`\n`)}`,
+    "utf8"
+  );
+
+  await fs.writeFile(
+    path.resolve(DATA, "icons-manifest.mjs"),
     `export var IconsManifest = ${manifest}`,
     "utf8"
   );
   await fs.writeFile(
-    path.resolve(LIB, "icons-manifest.js"),
+    path.resolve(DATA, "icons-manifest.js"),
     `module.exports.IconsManifest = ${manifest}`,
     "utf8"
   );
+
+  const loaderTemplate = dynamicLoaderTemplate(icons);
+
   await fs.writeFile(
-    path.resolve(LIB, "icons-manifest.d.ts"),
-    `${ManifestTypeTemplate}`,
+    path.resolve(DATA, "loader.js"),
+    `module.exports.loader = ${loaderTemplate}`,
+    "utf8"
+  );
+
+  await fs.writeFile(
+    path.resolve(DATA, "loader.mjs"),
+    `export var loader = ${loaderTemplate}`,
+    "utf8"
+  );
+
+  await fs.writeFile(
+    path.resolve(DATA, "index.mjs"),
+    `export { IconsManifest } from "./icons-manifest.mjs";\nexport * from "./loader.mjs";\nexport * as IconsInfo from "./icons-info.mjs";`,
+    "utf8"
+  );
+
+  await fs.writeFile(
+    path.resolve(DATA, "index.js"),
+    DataIndexJsTemplate,
+    "utf8"
+  );
+
+  await fs.writeFile(
+    path.resolve(DATA, "index.d.ts"),
+    `${DataTypeHeaderTemplate}\nexport type CollectionID = ${typeCollectionsIds.join(
+      " | "
+    )};\n${DataTypeFooterTemplate}`,
     "utf8"
   );
 };

@@ -6,9 +6,9 @@ import {
 } from "cheerio";
 import camelcase from "camelcase";
 
-import { IconTree, Variants } from "@rocketicons/core";
+import { IconTree, Variants, IconsManifestType } from "@rocketicons/core";
 
-import { type IconDefinitionContent, IconManifestType } from "./types";
+import { type IconDefinitionContent } from "./types";
 
 import { glob } from "./glob";
 
@@ -65,6 +65,8 @@ export const convertIconData = async (
             break;
           case "dataName":
             break;
+          case "style":
+            break;
           default:
             obj[newName] = attribs[name];
             if (!colorProps["stroke"] && newName.match(/^stroke/)) {
@@ -109,7 +111,7 @@ export const rmDirRecursive = async (dest: string) => {
   await fs.rm(dest, { recursive: true, force: true });
 };
 
-export const buildPackageExports = (icons: IconManifestType[]) => {
+export const buildPackageExports = (icons: IconsManifestType<string>[]) => {
   const exports: Record<
     string,
     {
@@ -131,11 +133,11 @@ export const buildPackageExports = (icons: IconManifestType[]) => {
       import: "./core/index.mjs",
       default: "./core/index.mjs",
     },
-    "./core/icons-manifest": {
-      types: "./core/icons-manifest.d.ts",
-      require: "./core/icons-manifest.js",
-      import: "./core/icons-manifest.mjs",
-      default: "./core/icons-manifest.mjs",
+    "./data": {
+      types: "./data/index.d.ts",
+      require: "./data/index.js",
+      import: "./data/index.mjs",
+      default: "./data/index.mjs",
     },
     "./tailwind": {
       types: "./tailwind/index.d.ts",

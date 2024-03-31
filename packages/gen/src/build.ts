@@ -1,5 +1,6 @@
 import path from "path";
 import { performance } from "perf_hooks";
+import { IconsInfoManifest } from "@rocketicons/core";
 import { buildPackageExports } from "./logics";
 import { icons } from "./definitions";
 import * as taskCommon from "./task-common";
@@ -24,12 +25,12 @@ async function main() {
       rootDir: _rootDir,
       DIST: path.resolve(_rootDir, "../icons"),
       LIB: path.resolve(_rootDir, "../icons/core"),
+      DATA: path.resolve(_rootDir, "../icons/data"),
       PLUGIN: path.resolve(_rootDir, "../icons/tailwind"),
     };
     await task("rocketicons initialize", async () => {
       await taskAll.dirInit(allOpt);
       await taskCommon.writeEntryPoints(allOpt);
-      await taskCommon.writeIconsManifest(allOpt);
       await taskCommon.writeLicense(allOpt);
       await taskCommon.writePackageJson(
         { name: "rocketicons", exports: buildPackageExports(icons) },
@@ -37,10 +38,19 @@ async function main() {
       );
       await taskCommon.copyReadme(allOpt);
     });
-    await task("rocketicons/all write icons", async () => {
+
+    const iconInfoManifest: IconsInfoManifest<string> = {};
+
+    await task("rocketicons write icons", async () => {
       await Promise.all(
-        icons.map((icon) => taskAll.writeIconModule(icon, allOpt))
+        icons.map((icon) =>
+          taskAll.writeIconModule(icon, allOpt, iconInfoManifest)
+        )
       );
+    });
+
+    await task("rocketicons write manifest", async () => {
+      await taskCommon.writeIconsManifest(allOpt, iconInfoManifest);
     });
 
     console.log("done");
