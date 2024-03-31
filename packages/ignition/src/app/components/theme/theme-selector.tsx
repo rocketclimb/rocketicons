@@ -11,7 +11,7 @@ import { PropsWithLang } from "@/types";
 
 import { useThemeContext } from "./theme-context";
 
-import Button from "./button";
+import Button from "../button";
 
 type Selector = {
   theme: ThemeOptions;
