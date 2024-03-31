@@ -4,9 +4,9 @@ import { IoMdClose } from "rocketicons/io";
 import { LuSearch } from "rocketicons/lu";
 import { HiOutlineDotsVertical } from "rocketicons/hi";
 
-import ThemeSelector from "@/components/theme-selector";
+import ThemeSelector from "@/components/theme/theme-selector";
 
-import { Modal, useDisclosure } from "@/app/components/modal-context";
+import { Modal, useDisclosure } from "@/components/modal-context";
 import Button from "@/components/button";
 
 import { PropsWithLang } from "@/types";

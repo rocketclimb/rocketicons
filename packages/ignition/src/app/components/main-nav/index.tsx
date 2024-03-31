@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { IoLogoGithub } from "rocketicons/io";
 
-import ThemeSelector from "@/components/theme-selector";
+import ThemeSelector from "@/components/theme/theme-selector";
 
 import { PropsWithLang } from "@/types";
 import { useLocale } from "@/locales";
