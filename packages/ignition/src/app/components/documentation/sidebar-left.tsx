@@ -12,9 +12,6 @@ export const SidebarLeft = ({ params: { lang } }: PropsWithLangParams) => {
   const pathName = usePathname();
 
   const DocList = () => {
-    console.log("rendering the docs list");
-
-    // Grouping documents by their group property
     const grouped = allDocs
       .filter((model) => model.locale === lang && !model.hide && !!model.group)
       .groupBy((doc) => doc.group);

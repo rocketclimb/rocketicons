@@ -39,7 +39,7 @@ const Layout = ({
           <>{menuOpen && <div className="h-screen w-full">menu content</div>}</>
         </div>
       </div>
-      <div className="relative mx-auto max-w-screen-xl px-4 py-10 md:flex md:flex-row md:py-10">
+      <div className="relative mx-auto w-full max-w-screen-xl px-4 py-10 md:flex md:flex-row md:py-10">
         <div className="hidden h-[calc(100vh-121px)] w-[284px] md:flex md:shrink-0 md:flex-col md:justify-between">
           <div className="relative overflow-hidden">
             <nav>
@@ -51,7 +51,7 @@ const Layout = ({
           {children}
         </article>
       </div>
-      <div className="relative mx-auto max-w-screen-xl px-4 py-10 md:flex md:flex-row md:py-10">
+      <div className="relative mx-auto w-full max-w-screen-xl px-4 py-10 md:flex md:flex-row md:py-10">
         footer
       </div>
     </div>
