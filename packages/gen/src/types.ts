@@ -16,6 +16,7 @@ export interface IconDefinitionContent {
 }
 
 export type IconSetSource = IconSetGitSource;
+
 export interface IconSetGitSource {
   type: "git";
   localName: string;
@@ -30,12 +31,5 @@ export interface TaskContext {
   DIST: string;
   LIB: string;
   PLUGIN: string;
-}
-
-export interface IconManifestType {
-  id: string;
-  name: string;
-  projectUrl: string;
-  license: string;
-  licenseUrl: string;
+  DATA: string;
 }

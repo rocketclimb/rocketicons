@@ -1,5 +1,13 @@
 import { tree2Element, handleClassName } from "./utils";
-import { IconTree, Variants, IconType, IconBaseProps } from "@/types";
+import {
+  IconTree,
+  Variants,
+  IconType,
+  IconBaseProps,
+  IconsManifestType,
+  IconsInfoManifest,
+  CollectionDataInfo,
+} from "@/types";
 
 export const IconGenerator =
   (data: IconTree, variant: Variants, _name: string): IconType =>
@@ -14,4 +22,11 @@ export const IconGenerator =
       </svg>
     );
 
-export { IconTree, Variants, IconType };
+export {
+  IconTree,
+  Variants,
+  IconType,
+  CollectionDataInfo,
+  IconsInfoManifest,
+  IconsManifestType,
+};
