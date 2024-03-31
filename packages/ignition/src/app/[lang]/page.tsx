@@ -11,7 +11,8 @@ import { RcRocketIcon } from "rocketicons/rc";
 
 import Markdown from "@/components/markdown";
 import SearchButton from "@/components/search-button";
-import CodeBlock, { ScriptAction } from "@/app/components/code-block";
+import CodeBlock, { ScriptAction } from "@/components/code-block";
+import RocketIconsText from "@/components/rocketicons-text";
 
 export const generateMetadata = ({
   params: { lang },
@@ -144,7 +145,7 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
             <RcRocketIcon className="w-32 h-32" />
             <div>
               <div className="text-slate-900 text-2xl font-light dark:text-white mt-2">
-                rocket<span className="font-semibold">icons</span>
+                <RocketIconsText />
               </div>
               <div className="mr-2">
                 Styling in a way
