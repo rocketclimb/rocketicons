@@ -13,6 +13,10 @@ const MenuTitle = ({ children }: PropsWithChildren) => (
   </h5>
 );
 
+const MenuBlock = ({ children }: PropsWithChildren) => (
+  <li className="mt-12 lg:mt-8">{children}</li>
+);
+
 const SubMenu = ({ children }: PropsWithChildren) => (
   <ul className="space-y-6 lg:space-y-2 border-l border-slate-100 dark:border-slate-800">
     {children}
@@ -35,7 +39,7 @@ const MenuItem = ({
 );
 
 export const SidebarLeft = ({ lang }: PropsWithLang) => {
-  const { nav } = useLocale(lang);
+  const { nav } = useLocale(lang).config();
 
   const DocList = () => {
     const grouped = allDocs
@@ -48,7 +52,7 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
           {Array.from(grouped).map(
             ([group, docs]) =>
               group && (
-                <li key={group}>
+                <MenuBlock key={group}>
                   <MenuTitle>{nav[group]}</MenuTitle>
                   <SubMenu>
                     {docs
@@ -66,7 +70,7 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
                         </li>
                       ))}
                   </SubMenu>
-                </li>
+                </MenuBlock>
               )
           )}
         </>
@@ -92,17 +96,17 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
   );
 
   return (
-    <nav>
-      <ul className={`hidden w-48 lg:block group-data-[open=true]:block`}>
+    <nav className="text-sm">
+      <ul className={`hidden lg:block group-data-[open=true]:block`}>
         <DocList />
-        <li>
+        <MenuBlock>
           <MenuTitle>
             <Link href={`/${lang}/icons`}>Icons</Link>
           </MenuTitle>
           <SubMenu>
             <IconList />
           </SubMenu>
-        </li>
+        </MenuBlock>
       </ul>
     </nav>
   );

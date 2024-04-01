@@ -12,9 +12,7 @@ import { useLocale } from "@/locales";
 export const generateMetadata = ({
   params: { lang },
 }: PropsWithLangParams): Metadata => {
-  const {
-    home: { title, description },
-  } = useLocale(lang);
+  const { title, description } = useLocale(lang, "home").component();
   return {
     title: `${title} | rocketicons`,
     description,
@@ -22,7 +20,7 @@ export const generateMetadata = ({
 };
 
 const Home = ({ params: { lang } }: PropsWithLangParams) => {
-  const { home, nav, search } = useLocale(lang);
+  const { nav, search } = useLocale(lang).config();
   return (
     <div className="flex flex-col grow items-center justify-between bg-cover bg-hero-light dark:bg-hero-dark">
       <div
