@@ -37,6 +37,7 @@ const docs = defineCollection({
     description: z.string(),
     locale: z.enum(["en", "pt-br"]),
     slug: z.string(),
+    enslug: z.string(),
     group: z.string().optional(),
     order: z.number(),
     hide: z.boolean().optional(),
