@@ -1,5 +1,5 @@
 {
-  "name": "rocket-bolt",
+  "name": "rocketicons",
   "version": "0.1.0",
   "license": "MIT",
   "main": "./index.js",
@@ -19,11 +19,23 @@
       "import": "./core/index.mjs",
       "default": "./core/index.mjs"
     },
+    "./core/icons-manifest": {
+      "types": "./core/icons-manifest.d.ts",
+      "require": "./core/icons-manifest.js",
+      "import": "./core/icons-manifest.mjs",
+      "default": "./core/icons-manifest.mjs"
+    },
     "./tailwind": {
       "types": "./tailwind/index.d.ts",
       "require": "./tailwind/index.js",
       "import": "./tailwind/index.mjs",
       "default": "./tailwind/index.mjs"
+    },
+    "./rc": {
+      "types": "./rc/index.d.ts",
+      "require": "./rc/index.js",
+      "import": "./rc/index.mjs",
+      "default": "./rc/index.mjs"
     },
     "./ci": {
       "types": "./ci/index.d.ts",

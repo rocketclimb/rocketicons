@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "license": "MIT",
   "main": "./dist/index.js",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "build": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json && tsconfig-replace-paths",
     "postbuild": "rocketicons-sh cp \"dist-esm/**/*.js\" \"dist/**/*.mjs\"",
@@ -16,8 +19,5 @@
   },
   "devDependencies": {
     "rocketicons-sh": "*"
-  },
-  "files": [
-    "dist/"
-  ]
+  }
 }

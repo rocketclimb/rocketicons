@@ -24,7 +24,9 @@
       "@/hooks/*": ["./src/app/hooks/*"],
       "@/locales": ["./src/app/locales/"],
       "@/locales/*": ["./src/app/locales/*"],
-      "@/types": ["./src/app/types/"]
+      "@/types": ["./src/app/types/"],
+      "@/utils": ["./src/app/utils/"],
+      "content-collections": ["./.content-collections/generated"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

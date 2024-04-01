@@ -1,18 +1,13 @@
-// const [A] = Object.values(Icon);
-// console.log(A);
+import { Metadata } from "next";
 import Link from "next/link";
-import type { Metadata } from "next";
-
-import { useLocale } from "@/locales";
-
+import { MdxComponent } from "@/components/mdx";
 import { PropsWithLangParams } from "@/types";
-
 import { RcRocketIcon } from "rocketicons/rc";
-
-import Markdown from "@/components/markdown";
 import SearchButton from "@/components/search-button";
+
 import CodeBlock, { ScriptAction } from "@/components/code-block";
 import RocketIconsText from "@/components/rocketicons-text";
+import { useLocale } from "@/locales";
 
 export const generateMetadata = ({
   params: { lang },
@@ -35,17 +30,11 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
         style={{ maskImage: "linear-gradient(transparent, black)" }}
       ></div>
       <div className="relative max-w-5xl mx-auto pt-20 px-4 sm:px-6 md:px-8 sm:pt-24 lg:pt-32">
-        <Markdown className="text-slate-900 font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight text-center dark:text-white">
-          {home.hero}
-        </Markdown>
-        <Markdown className="mt-6 text-md px-3 md:text-lg text-slate-600 text-center max-w-3xl mx-auto dark:text-slate-400">
-          {home.short}
-        </Markdown>
-
+        <MdxComponent lang={lang} slug="home" />
         <div className="mt-6 sm:mt-10 flex justify-center space-x-6 text-sm">
           <Link
             className="bg-slate-900 max-w-lg hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold h-12 px-6 rounded-lg w-full flex items-center justify-center sm:w-auto dark:bg-sky-500 dark:highlight-white/20 dark:hover:bg-sky-400"
-            href="/docs/installation"
+            href={`${lang}/docs/${nav["getting-started-slug"]}`}
           >
             {nav["getting-started"]}
           </Link>

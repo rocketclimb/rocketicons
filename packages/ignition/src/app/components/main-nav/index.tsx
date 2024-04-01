@@ -3,24 +3,23 @@ import { IoLogoGithub } from "rocketicons/io";
 
 import ThemeSelector from "@/components/theme/theme-selector";
 
-import { PropsWithLang } from "@/types";
-import { useLocale } from "@/locales";
-
 import MainNavAsMenu from "./main-nav-as-menu";
-
 import { NavItem } from "./types";
+import { PropsWithLang } from "@/types";
+
+import { useLocale } from "@/locales";
 
 const MainNav = ({ lang }: PropsWithLang) => {
   const { nav } = useLocale(lang);
 
   const navItems: NavItem[] = [
-    { name: "docs", label: nav["docs"], link: "/docs" },
+    { name: "docs", label: nav["docs"], link: `/${lang}/docs` },
     {
       name: "getting-started",
       label: nav["getting-started"],
-      link: "/docs/installation",
+      link: `/${lang}/docs/${nav["getting-started-slug"]}`,
     },
-    { name: "icons", label: nav["icons"], link: "/icons" },
+    { name: "icons", label: nav["icons"], link: `/${lang}/icons` },
   ];
   return (
     <>
