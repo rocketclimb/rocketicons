@@ -8,13 +8,9 @@
   "nav": {
     "docs": "Docs",
     "getting-started": "Primeiros Passos",
+    "getting-started-slug": "instalacao",
+    "usage": "Usando",
     "icons": "Icones"
   },
-  "search": "Procurar",
-  "home": {
-    "title": "Ícones em React e React Native com o poder do Tailwind",
-    "description": "Uma biblioteca de ícones para seu projeto em React ou React Native, customizando com o Tailwind que você já conhece.",
-    "hero": "# Ícones do seu jeito e como você precisa. Na Web ou no Mobile.",
-    "short": "A biblioteca de ícones que você estava procurando. Funciona em React e em React Native, sem mudanças. Apenas um código, que roda onde você precisa. E com todo o poder que você já conheçe do [Tailwind](https://tailwindcss.com)."
-  }
+  "search": "Procurar"
 }

@@ -40,6 +40,7 @@ const docs = defineCollection({
     group: z.string().optional(),
     order: z.number(),
     hide: z.boolean().optional(),
+    activeSelector: z.string(),
   }),
   transform: async (document, context) => {
     const body = await compileMDX(context, document, mdxOptions);
