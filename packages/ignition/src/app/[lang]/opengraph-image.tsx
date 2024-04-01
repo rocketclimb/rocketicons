@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { ImageResponse } from "next/og";
-import { PropsWithLangParams } from "./types";
+import { PropsWithLangParams } from "@/types";
 import { serverEnv } from "@/env/server";
 import { useLocale } from "@/locales";
 

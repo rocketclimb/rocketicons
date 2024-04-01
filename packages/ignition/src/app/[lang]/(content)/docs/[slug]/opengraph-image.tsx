@@ -1,17 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { ImageResponse } from "next/og";
-import { PropsWithLangParams } from "./types";
+import { PropsWithLangParams } from "@/types";
 import { serverEnv } from "@/env/server";
-import { useLocale } from "@/locales";
 
 export const runtime = "edge";
 export const alt = "rocketicons - React Icons like you haver seen before!";
 export const contentType = "image/png";
 
 export default async function OG({ params: { lang } }: PropsWithLangParams) {
-  const { brand } = useLocale(lang || "en").config();
-
   return new ImageResponse(
     (
       <div
@@ -50,7 +47,7 @@ export default async function OG({ params: { lang } }: PropsWithLangParams) {
             letterSpacing: "-0.02em",
           }}
         >
-          {brand["motto"]}
+          docs
         </h2>
       </div>
     ),

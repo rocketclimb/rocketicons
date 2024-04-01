@@ -24,13 +24,13 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   keywords: [
-    "Next.js",
-    "shadcn/ui",
-    "NextAuth",
-    "Prisma",
+    "React",
+    "React Native",
     "Vercel",
     "Tailwind",
-    "Radix UI",
+    "rocketclimb",
+    "rocketicons",
+    "icons",
   ],
   authors: [
     {

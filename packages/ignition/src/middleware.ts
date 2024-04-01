@@ -22,12 +22,19 @@ export const middleware = (request: NextRequest) => {
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  const pathNameIsOpenGraphImage = pathname.includes("opengraph-image");
+  // const pathNameIsOpenGraphImage = pathname.startsWith("/opengraph-image");
 
-  const pathNameIsFavicon = pathname.startsWith("favicon");
+  // const pathNameIsFavicon = pathname.startsWith("/favicon");
 
-  if (pathnameHasLocale || pathNameIsOpenGraphImage || pathNameIsFavicon) {
-    return;
+  // console.log(
+  //   pathname,
+  //   pathNameIsOpenGraphImage,
+  //   pathNameIsFavicon,
+  //   pathnameHasLocale
+  // );
+
+  if (pathnameHasLocale) {
+    return NextResponse.next();
   }
 
   request.nextUrl.pathname = `/${locale}${pathname}`;
@@ -39,5 +46,7 @@ export const middleware = (request: NextRequest) => {
 };
 
 export const config = {
-  matcher: ["/((?!_next|img).*)"],
+  matcher: [
+    "/((?!_next|img|favicon|android|apple-touch|mstile|safari-pinned).*)",
+  ],
 };
