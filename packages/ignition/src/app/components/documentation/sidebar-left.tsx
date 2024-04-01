@@ -1,15 +1,41 @@
 import "@/utils";
-
-import { IconsManifest } from "rocketicons/core/icons-manifest";
+import { PropsWithChildren } from "react";
+import { IconsManifest } from "rocketicons/data";
 import Link from "next/link";
-import { PropsWithLangParams } from "@/app/types";
 import { allDocs } from "content-collections";
-import { useLocale } from "@/app/locales";
-import { usePathname } from "next/navigation";
+import { PropsWithLang } from "@/types";
+import { useLocale } from "@/locales";
+import RocketIconsText from "@/components/rocketicons-text";
 
-export const SidebarLeft = ({ params: { lang } }: PropsWithLangParams) => {
+const MenuTitle = ({ children }: PropsWithChildren) => (
+  <h5 className="mb-8 lg:mb-3 font-semibold text-slate-900 dark:text-slate-200">
+    {children}
+  </h5>
+);
+
+const SubMenu = ({ children }: PropsWithChildren) => (
+  <ul className="space-y-6 lg:space-y-2 border-l border-slate-100 dark:border-slate-800">
+    {children}
+  </ul>
+);
+
+const MenuItem = ({
+  href,
+  className,
+  children,
+}: PropsWithChildren & { href: string; className?: string }) => (
+  <Link
+    className={`block border-l pl-4 -ml-px border-transparent hover:border-slate-400 dark:hover:border-slate-500 text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 ${
+      className || ""
+    }`}
+    href={href}
+  >
+    {children}
+  </Link>
+);
+
+export const SidebarLeft = ({ lang }: PropsWithLang) => {
   const { nav } = useLocale(lang);
-  const pathName = usePathname();
 
   const DocList = () => {
     const grouped = allDocs
@@ -18,89 +44,66 @@ export const SidebarLeft = ({ params: { lang } }: PropsWithLangParams) => {
 
     const renderDocList = () => {
       return (
-        <div>
+        <>
           {Array.from(grouped).map(
             ([group, docs]) =>
               group && (
-                <div key={group}>
-                  <h5 className="mb-8 lg:mb-3 font-semibold text-slate-900 dark:text-slate-200">
-                    {nav[group]}
-                  </h5>
-                  <ul className="space-y-6 lg:space-y-2 border-l border-slate-100 dark:border-slate-800">
+                <li key={group}>
+                  <MenuTitle>{nav[group]}</MenuTitle>
+                  <SubMenu>
                     {docs
                       .sort((a, b) => a.order - b.order)
                       .map((model, i) => (
                         <li key={i}>
-                          <Link
-                            className={`block border-l pl-4 -ml-px border-transparent hover:border-slate-400 dark:hover:border-slate-500 text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 ${
-                              pathName.indexOf(model.slug) > -1 &&
-                              "border-sky-500 dark:border-sky-500"
-                            }`}
+                          <MenuItem
                             href={`/${lang}/docs/${model.slug}`}
+                            className={model.activeSelector}
                           >
-                            <span
-                              className={`${
-                                pathName.indexOf(model.slug) > -1 &&
-                                "text-sky-500 dark:text-sky-500"
-                              }`}
-                            >
+                            <span className={model.activeSelector}>
                               {model.title}
                             </span>
-                          </Link>
+                          </MenuItem>
                         </li>
                       ))}
-                  </ul>
-                </div>
+                  </SubMenu>
+                </li>
               )
           )}
-        </div>
+        </>
       );
     };
 
     return renderDocList();
   };
 
-  const IconList = () =>
-    IconsManifest.map(({ id, name }, i) => (
-      <li key={i}>
-        <Link
-          className="block border-l pl-4 -ml-px border-transparent hover:border-slate-400 dark:hover:border-slate-500 text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300"
-          href={`/${lang}/icons/${id}`}
-        >
-          {(name === "rocketclimb" && (
-            <>
-              <span className="font-light">rocket</span>
-              <span className="font-semibold">icons</span>
-            </>
-          )) ||
-            name}
-        </Link>
-      </li>
-    ));
+  const IconList = () => (
+    <>
+      {IconsManifest.map(({ id, name }, i) => (
+        <li key={i}>
+          <MenuItem href={`/${lang}/icons/${id}`}>
+            {(name === "rocketclimb" && (
+              <RocketIconsText className="text-gray-950 hover:text-sky-500 dark:text-neutral-100 dark:hover:text-sky-500" />
+            )) ||
+              name}
+          </MenuItem>
+        </li>
+      ))}
+    </>
+  );
 
   return (
-    <div>
-      <ul>
+    <nav>
+      <ul className={`hidden w-48 lg:block group-data-[open=true]:block`}>
+        <DocList />
         <li>
-          {/* <h5 className="mb-8 lg:mb-3 font-semibold text-slate-900 dark:text-slate-200">
-            {nav["getting-started"]}
-          </h5>
-          <ul className="space-y-6 lg:space-y-2 border-l border-slate-100 dark:border-slate-800">
-            <DocList />
-          </ul> */}
-          <DocList />
-        </li>
-      </ul>
-      <ul>
-        <li>
-          <h5 className="mb-8 lg:mb-3 font-semibold text-slate-900 dark:text-slate-200">
-            Icons
-          </h5>
-          <ul className="space-y-6 lg:space-y-2 border-l border-slate-100 dark:border-slate-800">
+          <MenuTitle>
+            <Link href={`/${lang}/icons`}>Icons</Link>
+          </MenuTitle>
+          <SubMenu>
             <IconList />
-          </ul>
+          </SubMenu>
         </li>
       </ul>
-    </div>
+    </nav>
   );
 };

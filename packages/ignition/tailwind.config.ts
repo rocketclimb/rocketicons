@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
 import icons from "rocketicons/tailwind";
 
 const config: Config = {
@@ -23,6 +24,18 @@ const config: Config = {
       },
     },
   },
-  plugins: [icons],
+  plugins: [
+    icons,
+    plugin(({ addComponents }) => {
+      addComponents({
+        ".active-content": {
+          "@apply border-sky-500 dark:border-sky-500": {},
+        },
+        ".active-content span": {
+          "@apply text-sky-500 dark:text-sky-500": {},
+        },
+      });
+    }),
+  ],
 };
 export default config;
