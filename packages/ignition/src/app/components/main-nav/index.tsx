@@ -10,7 +10,7 @@ import { PropsWithLang } from "@/types";
 import { useLocale } from "@/locales";
 
 const MainNav = ({ lang }: PropsWithLang) => {
-  const { nav } = useLocale(lang);
+  const { nav } = useLocale(lang).config();
 
   const navItems: NavItem[] = [
     { name: "docs", label: nav["docs"], link: `/${lang}/docs` },

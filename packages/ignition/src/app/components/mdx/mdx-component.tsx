@@ -1,16 +1,14 @@
 import { MDXContent } from "@content-collections/mdx/react";
-import { allComponents } from "content-collections";
+import { useLocale } from "@/app/locales";
+import { PropsWithLang } from "@/types";
 
 export const MdxComponent = ({
   lang,
   slug,
-}: {
-  lang: string;
+}: PropsWithLang & {
   slug: string;
 }) => {
-  const selectedComponent = allComponents.find(
-    (model) => model.slug === slug && model.locale === (lang || "en")
-  );
+  const selectedComponent = useLocale(lang, slug).component();
   return (
     <div>
       {selectedComponent && <MDXContent code={selectedComponent?.body} />}

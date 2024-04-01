@@ -1,10 +1,10 @@
 import { MDXContent } from "@content-collections/mdx/react";
-import { allDocs } from "content-collections";
+import { useLocale } from "@/app/locales";
+import { PropsWithLang } from "@/types";
 
-export const MdxDoc = ({ lang, slug }: { lang: string; slug: string }) => {
-  const selectedDoc = allDocs.find(
-    (model) => model.slug === slug && model.locale === (lang || "en")
-  );
+export const MdxDoc = ({ lang, slug }: PropsWithLang & { slug: string }) => {
+  const selectedDoc = useLocale(lang, slug).doc();
+
   return (
     <div className="flex flex-row">
       <div className="flex-grow">
