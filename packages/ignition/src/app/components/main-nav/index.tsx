@@ -20,7 +20,11 @@ const MainNav = ({ lang }: PropsWithLang) => {
       label: nav["getting-started"],
       link: `/${lang}/docs/${nav["getting-started-slug"]}`,
     },
-    { name: "icons", label: nav["icons"], link: `/${lang}/icons` },
+    {
+      name: "icons",
+      label: nav["icons"],
+      link: `/${lang}/icons`,
+    },
   ];
   return (
     <>

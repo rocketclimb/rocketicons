@@ -1,14 +1,14 @@
-import { Metadata } from "next";
-import { IconsManifest } from "rocketicons/data";
 import IconsCollections from "@/components/icons/icons-collections";
+import { IconsManifest } from "rocketicons/data";
 import { MdxComponent } from "@/components/mdx";
+import { Metadata } from "next";
 import { PropsWithLangParams } from "@/types";
 import { useLocale } from "@/locales";
 
 export const generateMetadata = ({
   params: { lang },
 }: PropsWithLangParams): Metadata => {
-  const { title, description } = useLocale(lang, "icons").component();
+  const { title, description } = useLocale(lang, "icons-hero").component();
 
   return {
     title: `${title} | rocketicons`,
@@ -18,7 +18,7 @@ export const generateMetadata = ({
 
 const Page = ({ params: { lang } }: PropsWithLangParams) => (
   <div>
-    <MdxComponent lang={lang} slug="icons" />
+    <MdxComponent lang={lang} slug="icons-hero" />
     <IconsCollections manifests={IconsManifest} lang={lang} />
   </div>
 );

@@ -45,6 +45,9 @@ export const useLocale = (lang: Languages, slug?: string) => {
   return {
     config: () => locales[lang],
     doc: () => findOnCollection(allDocs),
-    component: () => findOnCollection(allComponents),
+    component: () =>
+      findOnCollection(allComponents) ||
+      findOnCollection(allDocs) ||
+      ({} as any),
   };
 };

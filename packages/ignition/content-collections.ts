@@ -18,6 +18,7 @@ const components = defineCollection({
     description: z.string(),
     locale: z.enum(["en", "pt-br"]),
     slug: z.string(),
+    enslug: z.string(),
   }),
   transform: async (document, context) => {
     const body = await compileMDX(context, document, mdxOptions);
