@@ -10,8 +10,8 @@ const Layout = ({
       <CollapsedSidebar lang={lang} />
       <SidebarLeft lang={lang} />
     </div>
-    <div className="grow content-area pb-10 pr-7 hover:overflow-y-auto">
-      <article className="pt-5">{children}</article>
+    <div className="grow flex flex-col content-area pb-10 pr-7 hover:overflow-y-auto">
+      <article className="grow pt-5">{children}</article>
       <div className="relative mx-auto w-full max-w-screen-xl px-4 py-10 md:flex md:flex-row md:py-10">
         footer
       </div>
