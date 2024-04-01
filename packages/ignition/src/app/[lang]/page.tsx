@@ -22,7 +22,7 @@ export const generateMetadata = ({
 const Home = ({ params: { lang } }: PropsWithLangParams) => {
   const { nav, search } = useLocale(lang).config();
   return (
-    <div className="flex flex-col grow items-center justify-between bg-cover bg-hero-light dark:bg-hero-dark">
+    <div className="flex flex-col grow overflow-y-auto items-center justify-between bg-cover bg-hero-light dark:bg-hero-dark">
       <div
         className="absolute inset-0 bg-grid-slate-900/[0.04] bg-[bottom_1px_center] bg-grid dark:bg-grid-slate-400/[0.05] dark:bg-bottom dark:border-b dark:border-slate-100/5"
         style={{ maskImage: "linear-gradient(transparent, black)" }}
