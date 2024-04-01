@@ -10,8 +10,8 @@ const Layout = ({
 }: PropsWithChildrenAndLangParams) => (
   <ThemeContext>
     <ModalContext>
-      <div className="antialiased flex min-h-screen has-[.content-area]:max-h-screen flex-col has-[.content-area]:px-8 w-full text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900">
-        <Header lang={lang} />
+      <Header lang={lang} />
+      <div className="antialiased mx-auto flex min-h-screen has-[.content-area]:max-h-screen flex-col has-[.content-area]:px-8 has-[.content-area]:max-w-screen-2xl w-full text-slate-500 dark:text-slate-400">
         <main className="flex grow gap-3">{children}</main>
       </div>
     </ModalContext>

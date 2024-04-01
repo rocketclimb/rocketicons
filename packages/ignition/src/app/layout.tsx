@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${quicksand.variable} has-[.theme-selector.dark]:dark-scrollbar`}
+        className={`${inter.variable} ${quicksand.variable} bg-white has-[.theme-selector.dark]:bg-slate-900 has-[.theme-selector.dark]:dark-scrollbar`}
       >
         {children}
       </body>
