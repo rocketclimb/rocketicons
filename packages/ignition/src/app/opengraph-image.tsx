@@ -5,8 +5,7 @@ import Logo from "../../public/android-chrome-512x512.png";
 import { serverEnv } from "@/env/server";
 
 export const runtime = "edge";
-export const alt =
-  "rocketplate - Quick Starter Template for your Next.js project";
+export const alt = "rocketicons - React Icons like you haver seen before!";
 export const contentType = "image/png";
 
 export default async function OG() {
@@ -21,7 +20,7 @@ export default async function OG() {
       >
         <img
           src={serverEnv.NEXT_PUBLIC_APP_URL + Logo.src}
-          alt="rocketplate Logo"
+          alt="rocketicons Logo"
           tw="w-20 h-20 mb-4 opacity-95"
           width={80}
           height={80}
