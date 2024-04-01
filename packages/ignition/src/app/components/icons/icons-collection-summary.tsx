@@ -28,7 +28,7 @@ const IconsCollectionSummary = ({
     <li
       data-selected={isSelected ? "true" : "false"}
       onClick={() => !isSelected && setSelected(id)}
-      className="group relative transition-all px-2 py-1 rounded-xl border border-gray-200 dark:border-0 dark:ring-1 dark:ring-inset dark:ring-white/10 dark:bg-slate-800 data-[selected=true]:col-span-2 data-[selected=true]:lg:col-span-3 data-[selected=false]:cursor-pointer data-[selected=false]:overflow-auto"
+      className="group animate-pulse has-[li]:animate-none min-h-[90px] relative transition-all px-2 py-1 rounded-xl border border-gray-200 dark:border-0 dark:ring-1 dark:ring-inset dark:ring-white/10 dark:bg-slate-800 data-[selected=true]:col-span-2 data-[selected=true]:lg:col-span-3 data-[selected=false]:cursor-pointer data-[selected=false]:overflow-auto"
     >
       <div className="transition-all duration-200 transform-gpu group-data-[selected=false]:hover:scale-[1.01]">
         <h4 className="text-xl text-slate-700 dark:text-slate-400">
@@ -40,10 +40,15 @@ const IconsCollectionSummary = ({
         >
           <IoMdClose className="icon-slate-500 hover:icon-slate-600 dark:icon-slate-400 dark:hover:icon-slate-300" />
         </Button>
-        <p className="text-sm text-slate-500">
-          {icons.length} Icon{icons.length > 1 && "s"}
+        <p className="text-sm text-slate-500 rounded h-4 w-20 bg-gray-200 dark:bg-slate-700 has-[span]:h-auto has-[span]:w-auto has-[span]:bg-transparent has-[span]:dark:bg-transparent">
+          {icons.length !== 0 && (
+            <span>
+              {icons.length} Icon{icons.length > 1 && "s"}
+            </span>
+          )}
         </p>
-        <ul className="flex gap-1 group-data-[selected=true]:min-h-32 group-data-[selected=true]:justify-start group-data-[selected=true]:px-4 group-data-[selected=true]:gap-x-5 group-data-[selected=true]:gap-y-10 group-data-[selected=true]:flex-wrap group-data-[selected=true]:mt-4 group-data-[selected=false]:justify-between group-data-[selected=false]:[mask-image:--icons-fade] group-data-[selected=false]:overflow-hidden">
+
+        <ul className="flex gap-1 transition duration-1000 opacity-0 has-[li]:opacity-100 group-data-[selected=true]:min-h-32 group-data-[selected=true]:justify-start group-data-[selected=true]:px-4 group-data-[selected=true]:gap-x-5 group-data-[selected=true]:gap-y-10 group-data-[selected=true]:flex-wrap group-data-[selected=true]:mt-4 group-data-[selected=false]:justify-between group-data-[selected=false]:[mask-image:--icons-fade] group-data-[selected=false]:overflow-hidden">
           {(isSelected ? icons : icons.slice(0, 12)).map(([name, Icon], i) => (
             <li key={i}>
               {(!isSelected && (
