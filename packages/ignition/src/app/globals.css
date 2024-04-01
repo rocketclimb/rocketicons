@@ -7,6 +7,10 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
   --icons-fade: linear-gradient(90deg, #fff 65%, transparent);
+  --scrollbar-track-bg: theme("colors.slate.100");
+  --scrollbar-track-thumb: theme("colors.slate.300");
+  --dark-scrollbar-track-bg: theme("colors.slate.900");
+  --dark-scrollbar-track-thumb: theme("colors.slate.700");
 }
 
 * {
@@ -19,13 +23,13 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: theme("colors.slate.100");
+  background: var(--scrollbar-track-bg);
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
   opacity: 0.8;
-  background: theme("colors.slate.300");
+  background: var(--scrollbar-track-thumb);
   border-radius: 5px;
 }
 
@@ -52,17 +56,20 @@ body {
 }
 
 .dark ::-webkit-scrollbar-track {
-  background: theme("colors.slate.900");
+  background: var(--dark-scrollbar-track-bg);
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: theme("colors.slate.700");
+  background: var(--dark-scrollbar-track-thumb);
 }
 
 @layer componenets {
   .content-area {
     height: calc(100vh - theme(height.16));
     overflow: hidden;
+  }
+  .jj2 {
+    border: 1px solid red;
   }
 }
 

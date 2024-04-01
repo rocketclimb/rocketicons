@@ -34,6 +34,12 @@ const config: Config = {
         ".active-content span": {
           "@apply text-sky-500 dark:text-sky-500": {},
         },
+        ".dark-scrollbar::-webkit-scrollbar-thumb": {
+          background: "var(--dark-scrollbar-track-thumb)",
+        },
+        ".dark-scrollbar::-webkit-scrollbar-track": {
+          background: "var(--dark-scrollbar-track-bg)",
+        },
       });
     }),
   ],
