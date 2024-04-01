@@ -6,7 +6,7 @@ const Layout = ({
   params: { lang },
 }: PropsWithChildrenAndLangParams) => (
   <>
-    <div className="group content-area pb-10 lg:pr-7 lg:hover:overflow-y-auto">
+    <div className="group shrink-0 content-area pb-10 lg:pr-7 lg:hover:overflow-y-auto">
       <CollapsedSidebar lang={lang} />
       <SidebarLeft lang={lang} />
     </div>
