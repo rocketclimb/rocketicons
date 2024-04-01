@@ -8,8 +8,9 @@
   "nav": {
     "docs": "Docs",
     "getting-started": "Getting Started",
-    "getting-started-slug": "installation",
+    "getting-started-slug": "getting-started",
     "usage": "Usage",
+    "usage-slug": "usage",
     "icons": "Icons"
   },
   "search": "Quick seach"

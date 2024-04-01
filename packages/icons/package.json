@@ -19,11 +19,11 @@
       "import": "./core/index.mjs",
       "default": "./core/index.mjs"
     },
-    "./core/icons-manifest": {
-      "types": "./core/icons-manifest.d.ts",
-      "require": "./core/icons-manifest.js",
-      "import": "./core/icons-manifest.mjs",
-      "default": "./core/icons-manifest.mjs"
+    "./data": {
+      "types": "./data/index.d.ts",
+      "require": "./data/index.js",
+      "import": "./data/index.mjs",
+      "default": "./data/index.mjs"
     },
     "./tailwind": {
       "types": "./tailwind/index.d.ts",
