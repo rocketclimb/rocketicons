@@ -22,7 +22,11 @@ export const middleware = (request: NextRequest) => {
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  if (pathnameHasLocale) {
+  const pathNameIsOpenGraphImage = pathname.includes("opengraph-image");
+
+  const pathNameIsFavicon = pathname.startsWith("favicon");
+
+  if (pathnameHasLocale || pathNameIsOpenGraphImage || pathNameIsFavicon) {
     return;
   }
 
