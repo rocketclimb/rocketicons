@@ -146,15 +146,6 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
           </div>
         </CodeBlock>
       </div>
-
-      {/* <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex flex-wrap">
-          <div className="hidden absolute inset-0 bottom-10 bg-bottom bg-no-repeat bg-slate-50 dark:bg-hero-dark">
-            <div className="absolute inset-0 bg-grid-slate-900/[0.04] bg-[bottom_1px_center] bg-grid dark:bg-grid-slate-400/[0.05] dark:bg-bottom dark:border-b dark:border-slate-100/5"></div>
-          </div> */}
-      {/* {Object.values(Icon).map((Icon, i) => (
-          <Icon key={i} className="icon-red-lg" />
-        ))} */}
-      {/* </div> */}
     </div>
   );
 };
