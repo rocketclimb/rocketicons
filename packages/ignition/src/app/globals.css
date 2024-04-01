@@ -9,11 +9,39 @@
   --icons-fade: linear-gradient(90deg, #fff 65%, transparent);
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: theme("colors.slate.100");
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  opacity: 0.8;
+  background: theme("colors.slate.300");
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  opacity: 1;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: theme("colors.slate.900");
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: theme("colors.slate.700");
   }
 }
 
@@ -30,6 +58,7 @@ body {
 @layer componenets {
   .content-area {
     height: calc(100vh - theme(height.16));
+    overflow: hidden;
   }
 }
 
