@@ -9,6 +9,10 @@
   --icons-fade: linear-gradient(90deg, #fff 65%, transparent);
 }
 
+* {
+  scrollbar-gutter: stable;
+}
+
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -35,14 +39,6 @@
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-
-  ::-webkit-scrollbar-track {
-    background: theme("colors.slate.900");
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: theme("colors.slate.700");
-  }
 }
 
 body {
@@ -53,6 +49,14 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: theme("colors.slate.900");
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: theme("colors.slate.700");
 }
 
 @layer componenets {
