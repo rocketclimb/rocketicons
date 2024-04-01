@@ -2,13 +2,17 @@
 
 import { ImageResponse } from "next/og";
 import Logo from "../../public/android-chrome-512x512.png";
+import { PropsWithLangParams } from "./types";
 import { serverEnv } from "@/env/server";
+import { useLocale } from "./locales";
 
 export const runtime = "edge";
 export const alt = "rocketicons - React Icons like you haver seen before!";
 export const contentType = "image/png";
 
-export default async function OG() {
+export default async function OG({ params: { lang } }: PropsWithLangParams) {
+  const [nav] = useLocale(lang).component();
+
   return new ImageResponse(
     (
       <div
@@ -47,7 +51,7 @@ export default async function OG() {
             letterSpacing: "-0.02em",
           }}
         >
-          React Icons like you haver seen before!
+          {nav["motto"]}
         </h2>
       </div>
     ),
