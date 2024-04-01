@@ -6,7 +6,7 @@ import { PropsWithLangParams } from "./types";
 import { serverEnv } from "@/env/server";
 import { useLocale } from "./locales";
 
-export const runtime = "edge";
+export const runtime = "dynamic";
 export const alt = "rocketicons - React Icons like you haver seen before!";
 export const contentType = "image/png";
 
