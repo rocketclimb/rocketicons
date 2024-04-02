@@ -9,11 +9,18 @@ order: 1
 activeSelector: group-has-[.docs-adding-icons]:active-content
 ---
 
+import RocketIconsText from "@/components/rocketicons-text";
+
 # How to Add Icons
 
 To add an icon to your application, follow these steps:
 
-1. Import the RocketIcon component from the RocketIcons package.
-2. Use the RocketIcon component in your code, specifying the desired icon name as a prop.
+1. Import the <RocketIconsText className="text-slate-900 dark:text-white" /> component from the RocketIcons package.
+
+```typescript
+import { RcRocketIcons } from 'rocketicons';
+```
+
+2. Use the <RocketIconsText className="text-slate-900 dark:text-white" /> component in your code, specifying the desired icon name as a prop.
 
 Here's an example of how to add a rocket icon:

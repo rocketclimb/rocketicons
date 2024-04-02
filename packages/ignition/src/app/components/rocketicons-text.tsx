@@ -12,9 +12,9 @@ type RocketIconsTextProps = {
 const RocketIconsText = ({ className }: RocketIconsTextProps) => (
   <>
     {(className && (
-      <div className={className}>
+      <span className={className}>
         <Text />
-      </div>
+      </span>
     )) || <Text />}
   </>
 );

@@ -1,13 +1,4 @@
-import { Options, compileMDX } from "@content-collections/mdx";
 import { defineCollection, defineConfig } from "@content-collections/core";
-
-import rehypeShiki from "@shikijs/rehype";
-
-const rehypeOptions = { theme: "one-dark-pro" };
-
-const mdxOptions: Options = {
-  rehypePlugins: [[rehypeShiki, rehypeOptions]],
-};
 
 const components = defineCollection({
   name: "components",
@@ -20,13 +11,6 @@ const components = defineCollection({
     slug: z.string(),
     enslug: z.string(),
   }),
-  transform: async (document, context) => {
-    const body = await compileMDX(context, document, mdxOptions);
-    return {
-      ...document,
-      body,
-    };
-  },
 });
 
 const docs = defineCollection({
@@ -44,13 +28,6 @@ const docs = defineCollection({
     hide: z.boolean().optional(),
     activeSelector: z.string(),
   }),
-  transform: async (document, context) => {
-    const body = await compileMDX(context, document, mdxOptions);
-    return {
-      ...document,
-      body,
-    };
-  },
 });
 
 export default defineConfig({

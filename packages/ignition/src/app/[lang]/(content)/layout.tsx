@@ -1,5 +1,7 @@
-import { PropsWithChildrenAndLangParams } from "@/types";
 import { CollapsedSidebar, SidebarLeft } from "@/components/documentation";
+
+import Footer from "./footer";
+import { PropsWithChildrenAndLangParams } from "@/types";
 
 const Layout = ({
   children,
@@ -12,9 +14,7 @@ const Layout = ({
     </div>
     <div className="grow flex flex-col items-center mt-4 px-0.5 content-area pb-10 md:pr-7 mr-0 lg:mt-0  hover:overflow-y-auto">
       <article className="grow pt-5">{children}</article>
-      <div className="relative mx-auto w-full max-w-screen-xl px-4 py-10 md:flex md:flex-row md:py-10">
-        footer
-      </div>
+      <Footer />
     </div>
   </>
 );

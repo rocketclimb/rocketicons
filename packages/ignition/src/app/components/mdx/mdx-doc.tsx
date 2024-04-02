@@ -1,14 +1,18 @@
-import { MDXContent } from "@content-collections/mdx/react";
 import { PropsWithLang } from "@/types";
+import dynamic from 'next/dynamic'
 import { useLocale } from "@/app/locales";
 
 export const MdxDoc = ({ lang, slug }: PropsWithLang & { slug: string }) => {
   const selectedDoc = useLocale(lang, slug).doc();
 
+  const DynamicMarkDownComponent = dynamic(() => import(`../../locales/docs/${selectedDoc?._meta.filePath}`), {
+    loading: () => <p>Loading...</p>,
+  })
+
   return (
     <div className="flex flex-row">
       <div className="flex-grow">
-        {selectedDoc && <MDXContent code={selectedDoc?.body} />}
+        {selectedDoc && <DynamicMarkDownComponent />}
       </div>
       {/* <nav className="order-last hidden w-56 shrink-0 lg:block">
         right panel (insert TOC here)

@@ -1,12 +1,12 @@
-import { Metadata } from "next";
+import CodeBlock, { ScriptAction } from "@/components/code-block";
+
 import Link from "next/link";
 import { MdxComponent } from "@/components/mdx";
+import { Metadata } from "next";
 import { PropsWithLangParams } from "@/types";
 import { RcRocketIcon } from "rocketicons/rc";
-import SearchButton from "@/components/search-button";
-
-import CodeBlock, { ScriptAction } from "@/components/code-block";
 import RocketIconsText from "@/components/rocketicons-text";
+import SearchButton from "@/components/search-button";
 import { useLocale } from "@/locales";
 
 export const generateMetadata = ({
