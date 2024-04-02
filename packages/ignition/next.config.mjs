@@ -5,7 +5,12 @@ import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import { withContentCollections } from "@content-collections/next";
 
-const shikiOptions = { theme: "one-dark-pro" };
+const shikiOptions = {
+  themes: {
+    light: "vitesse-light",
+    dark: "vitesse-dark",
+  },
+};
 const withMDX = createMDX({
   options: {
     remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
