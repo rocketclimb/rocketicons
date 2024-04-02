@@ -104,7 +104,7 @@ const CodeEditor = ({
 
   return (
     <div>
-      <div className="max-w-lg mx-auto mt-20 px-4 md:max-w-screen-md lg:max-w-7xl sm:px-6 md:px-8 sm:mt-24 lg:mt-32 lg:grid lg:gap-8 lg:grid-cols-12 lg:items-center">
+      <div className="max-w-sm mx-auto mt-20 px-4 sm:max-w-lg md:max-w-screen-md lg:max-w-7xl sm:px-6 md:px-8 sm:mt-24 lg:mt-32 lg:grid lg:gap-8 lg:grid-cols-12 lg:items-center">
         <div className="relative row-start-1 col-start-1 col-span-5 xl:col-span-6 -mt-10">
           <div className="transition-all bg-white rounded-lg overflow-hidden ring-1 ring-slate-900/5 dark:bg-slate-800 dark:highlight-white/5 dark:ring-0 flex mb-4">
             {Children.map(children as ReactElement[], (child, i) => {

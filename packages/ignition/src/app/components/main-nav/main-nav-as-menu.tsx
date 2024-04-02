@@ -39,7 +39,11 @@ const MainNavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
               <ul>
                 {navItems.map(({ label, link }, i) => (
                   <li className="mb-6" key={i}>
-                    <Link className="hover:text-sky-500" href={link}>
+                    <Link
+                      className="hover:text-sky-500"
+                      href={link}
+                      onClick={() => onClose()}
+                    >
                       {label}
                     </Link>
                   </li>

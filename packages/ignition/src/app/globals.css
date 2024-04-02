@@ -55,8 +55,14 @@
 
 @layer componenets {
   .content-area {
-    height: calc(100vh - theme(height.16));
-    overflow: hidden;
+    height: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .content-area {
+      height: calc(100vh - theme(height.16));
+      overflow: hidden;
+    }
   }
 }
 
