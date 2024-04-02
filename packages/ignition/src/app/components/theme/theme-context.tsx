@@ -18,7 +18,7 @@ const ThemeContext = ({ children }: PropsWithChildren) => {
   return (
     <Context.Provider value={[userPref, setPref]}>
       <div
-        className={`theme-selector transition duration-1000 ${
+        className={`theme-selector group transition duration-1000 ${
           (isLoaded && "opacity-100") || "opacity-0"
         } ${(isDark && "dark") || ""}`}
       >

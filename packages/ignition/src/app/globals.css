@@ -58,9 +58,6 @@
     height: calc(100vh - theme(height.16));
     overflow: hidden;
   }
-  .jj2 {
-    border: 1px solid red;
-  }
 }
 
 @layer utilities {

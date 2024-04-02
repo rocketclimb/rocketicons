@@ -21,4 +21,3 @@ const Header = ({ lang }: PropsWithLang) => (
 );
 
 export default Header;
-// flex-none

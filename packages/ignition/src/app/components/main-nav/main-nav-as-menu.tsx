@@ -27,7 +27,7 @@ const MainNavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
         <HiOutlineDotsVertical className="icon-slate-500 ml-6 hover:icon-slate-700 dark:hover:icon-slate-400" />
       </Button>
       <Modal>
-        <div className="fixed top-4 right-4 w-full max-w-xs bg-white rounded-lg shadow-lg px-6 text-base font-semibold text-slate-900 dark:bg-slate-800 dark:text-slate-400 dark:highlight-white/5">
+        <div className="fixed top-4 right-4 w-72 max-w-xs bg-white rounded-lg shadow-lg px-6 text-base font-semibold text-slate-900 dark:bg-slate-800 dark:text-slate-400 dark:highlight-white/5">
           <nav>
             <Button
               onClick={() => onClose()}
