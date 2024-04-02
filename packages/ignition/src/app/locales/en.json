@@ -1,4 +1,7 @@
 {
+  "brand": {
+    "motto": "Icons your way and as you need them. On the Web or Mobile."
+  },
   "themes": {
     "dark": "Dark",
     "light": "Light",
