@@ -5,7 +5,7 @@ import { PropsWithLangParams } from "@/types";
 import { RcRocketIcon } from "rocketicons/rc";
 import SearchButton from "@/components/search-button";
 
-import CodeBlock, { ScriptAction } from "@/components/code-block";
+import { AnimatedCodeBlock, ScriptAction } from "@/components/code-block";
 import RocketIconsText from "@/components/rocketicons-text";
 import { useLocale } from "@/locales";
 
@@ -40,7 +40,7 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
         </div>
       </div>
       <div className="mb-6">
-        <CodeBlock
+        <AnimatedCodeBlock
           script={[
             {
               time: "1s",
@@ -144,7 +144,7 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
               </div>
             </div>
           </div>
-        </CodeBlock>
+        </AnimatedCodeBlock>
       </div>
     </div>
   );
