@@ -2,7 +2,9 @@ import "./globals.css";
 
 import { Inter, Quicksand, Fira_Code } from "next/font/google";
 
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { siteConfig } from "@/config/site";
 
 const monospace = Fira_Code({
@@ -112,6 +114,8 @@ export default function RootLayout({
         className={`${inter.variable} ${quicksand.variable} ${monospace.variable} bg-white has-[.theme-selector.dark]:bg-slate-900 has-[.theme-selector.dark]:dark-scrollbar`}
       >
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

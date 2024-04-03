@@ -9,12 +9,36 @@ order: 1
 activeSelector: group-has-[.docs-installation]:active-content
 ---
 
-# Starting to use the <span className="text-sky-500"><span className="font-light">rocket</span><span className="font-semibold">icons</span></span>
+import { RcRocketIcon } from "rocketicons/rc";
+import RocketIconsText from "@/components/rocketicons-text";
 
-## Install the package
+## Installation
 
-```javascript
-npm install @rocketclimb/icons
+To install <RocketIconsText className="text-slate-900 dark:text-white" />, simply run the following command in your terminal:
+
+```bash
+npm install rocketicons
+```
+
+or
+
+```bash
+pnpm install rocketicons
+```
+
+or
+
+```bash
+yarn install rocketicons
+```
+
+or even
+
+```bash
+bun install rocketicons
 ```
 
 That's it! You're ready to start using the icons in your project.
+
+<RcRocketIcon className="w-32 h-32" />
+<RocketIconsText className="text-slate-900 dark:text-white" />

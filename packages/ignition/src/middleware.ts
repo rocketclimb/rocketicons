@@ -47,6 +47,6 @@ export const middleware = (request: NextRequest) => {
 
 export const config = {
   matcher: [
-    "/((?!_next|img|favicon|android|apple-touch|mstile|safari-pinned).*)",
+    "/((?!_next|img|favicon|icon|logo|android|apple-touch|mstile|safari-pinned).*)",
   ],
 };

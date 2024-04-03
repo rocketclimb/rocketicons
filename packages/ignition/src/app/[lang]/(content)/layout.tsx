@@ -1,5 +1,7 @@
-import { PropsWithChildrenAndLangParams } from "@/types";
 import { CollapsedSidebar, SidebarLeft } from "@/components/documentation";
+
+import Footer from "./footer";
+import { PropsWithChildrenAndLangParams } from "@/types";
 
 const Layout = ({
   children,
@@ -14,9 +16,7 @@ const Layout = ({
       <article className="grow pt-5 has-[.collection-page]:pt-0">
         {children}
       </article>
-      <div className="relative mx-auto w-full max-w-screen-xl px-4 py-10 md:flex md:flex-row md:py-10">
-        footer
-      </div>
+      <Footer />
     </div>
   </>
 );
