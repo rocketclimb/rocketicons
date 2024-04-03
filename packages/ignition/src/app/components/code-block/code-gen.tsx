@@ -1,25 +1,18 @@
-import { PropsWithChildren } from "react";
-import { DataChildren, DataElement } from "./types";
+import { PropsWithChildren, useEffect, useState } from "react";
+import { DataElement, Attrs } from "./types";
 import { getElementId, CodeEditState } from "./code-block-reducer";
+import { CommonNotation, TagName, Attributes } from "./code-elements";
 
-type Attrs = Record<string, string>;
-
-type AttrsProps = {
-  attributes: Attrs;
-};
-
-const Attrs = ({ attributes }: AttrsProps) => (
-  <>
-    {Object.entries(attributes)
-      .filter(([, value]) => !!value)
-      .map(([name, value], i) => (
-        <div key={i} className="inline-block">
-          <span className="ml-1 text-slate-300">{name}=</span>
-          <span className="text-sky-300">{`"${value}"`}</span>
-        </div>
-      ))}
-  </>
-);
+const getLinesCount = (nodes: (string | DataElement)[]): number =>
+  nodes.reduce((reduced, node) => {
+    if (typeof node === "string" || !node.children) {
+      return reduced + 1;
+    }
+    const children: DataElement[] = (
+      Array.isArray(node.children) ? node.children : [node.children]
+    ) as DataElement[];
+    return reduced + 2 + getLinesCount(children);
+  }, 0);
 
 type TagProps = {
   tagName: string;
@@ -34,12 +27,12 @@ const Tag = ({ tagName, attributes, children }: TagProps) => {
 
   const ShowTag = ({ adding, attrs }: ShowTagProps) => (
     <div>
-      <span className="text-slate-100">{adding}</span>
-      <span className="text-pink-400">
+      <CommonNotation lang="html">{adding}</CommonNotation>
+      <TagName lang="html">
         {tagName === "ioLogoGithub" ? "IoLogoGithub" : tagName}
-      </span>
+      </TagName>
       {attrs}
-      <span className="text-slate-100">{(children && ">") || " />"}</span>
+      <CommonNotation lang="html">{(children && ">") || " />"}</CommonNotation>
     </div>
   );
 
@@ -47,7 +40,7 @@ const Tag = ({ tagName, attributes, children }: TagProps) => {
     <>
       <ShowTag
         adding="<"
-        attrs={<Attrs attributes={attributes || {}} />}
+        attrs={<Attributes lang="html" attributes={attributes || {}} />}
       ></ShowTag>
       {(children && (
         <>
@@ -59,11 +52,6 @@ const Tag = ({ tagName, attributes, children }: TagProps) => {
   );
 };
 
-type ChildrenWrapperProps = {
-  data: DataChildren[];
-  elementId: string;
-};
-
 type CodeGenProps = {
   nodes: (string | DataElement)[];
   parentId?: string;
@@ -72,51 +60,76 @@ type CodeGenProps = {
   showId?: boolean;
 };
 
-const CodeGen = ({ nodes, parentId, deep, state, showId }: CodeGenProps) => {
-  deep = deep || 0;
-  return (
-    <div>
-      {nodes.map((node, i) => {
-        if (typeof node === "string") {
-          return (
-            <span key={i} className="text-white ml-3">
-              {node}
-            </span>
-          );
-        }
+const CodeGen = (props: CodeGenProps) => {
+  const [lines, setLines] = useState<number>(0);
 
-        const { tag, props, children } = node;
-        return (
-          <div key={i} style={{ marginLeft: `${10 * deep!}px` }}>
-            <Tag
-              tagName={tag}
-              attributes={{
-                ...props,
-                ...((showId && { ["data-id"]: getElementId(i, parentId) }) ||
-                  {}),
-                className:
-                  state[getElementId(i, parentId)]?.codeState ||
-                  props.className,
-              }}
-            >
-              {children && (
-                <CodeGen
-                  nodes={
-                    (Array.isArray(children)
-                      ? children
-                      : [children]) as DataElement[]
-                  }
-                  deep={deep! + 1}
-                  state={state}
-                  parentId={getElementId(i, parentId)}
-                  showId={showId}
-                />
-              )}
-            </Tag>
-          </div>
-        );
-      })}
-    </div>
+  useEffect(() => {
+    setLines(getLinesCount(props.nodes));
+  }, []);
+
+  const Generator = ({
+    nodes,
+    parentId,
+    deep,
+    state,
+    showId,
+  }: CodeGenProps) => {
+    deep = deep || 0;
+
+    return (
+      <div className={`${(deep && "pl-5") || "p-0"}`}>
+        {nodes.map((node, i) => {
+          if (typeof node === "string") {
+            return (
+              <span key={i} className="text-white ml-3">
+                {node}
+              </span>
+            );
+          }
+
+          const { tag, props, children } = node;
+          return (
+            <div key={i}>
+              <Tag
+                tagName={tag}
+                attributes={{
+                  ...props,
+                  ...((showId && { ["data-id"]: getElementId(i, parentId) }) ||
+                    {}),
+                  className:
+                    state[getElementId(i, parentId)]?.codeState ||
+                    props.className,
+                }}
+              >
+                {children && (
+                  <Generator
+                    nodes={
+                      (Array.isArray(children)
+                        ? children
+                        : [children]) as DataElement[]
+                    }
+                    deep={deep! + 1}
+                    state={state}
+                    parentId={getElementId(i, parentId)}
+                    showId={showId}
+                  />
+                )}
+              </Tag>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+  return (
+    <pre className="flex min-h-full">
+      <div className="hidden text-wrap font-monospace text-sm leading-6 whitespace-normal md:block text-slate-600 py-4 pr-4 text-right select-none pl-2 w-12">
+        {Array.from({ length: lines + 2 }, (_, i) => i + 1).map((i) => `${i} `)}
+      </div>
+      <code className="flex-auto relative block font-monospace text-sm leading-6 text-slate-50 pt-4 pb-4 px-2 overflow-auto">
+        <Generator {...props} />
+      </code>
+    </pre>
   );
 };
 

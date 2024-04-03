@@ -8,22 +8,23 @@ import React, {
 } from "react";
 import { DataChildren, DataElement, Script, Action, ElementId } from "./types";
 import CodeGen from "./code-gen";
+import CodeStyler from "./code-styler";
 
 import { reducer, getElementId } from "./code-block-reducer";
 import useScriptRunner from "./use-script-runner";
 
-type CodeEditorProps = {
+type CodeAnimatorProps = {
   script: Script;
   data: DataElement[];
   showCodeElementdId?: boolean;
 } & PropsWithChildren;
 
-const CodeEditor = ({
+const CodeAnimator = ({
   script,
   children,
   data,
   showCodeElementdId,
-}: CodeEditorProps) => {
+}: CodeAnimatorProps) => {
   const [state, dispatch] = useReducer(reducer, {});
 
   type ElementPreviewData = DataElement | undefined;
@@ -121,43 +122,12 @@ const CodeEditor = ({
             })}
           </div>
         </div>
-        <div className="relative row-start-1 col-start-6 xl:col-start-7 col-span-7 xl:col-span-6">
-          <div className="-mx-4 sm:mx-0">
-            <div className="relative overflow-hidden shadow-xl flex bg-slate-800 h-[31.625rem] max-h-[60vh] sm:max-h-[none] sm:rounded-xl lg:h-[34.6875rem] xl:h-[31.625rem] dark:bg-slate-900/70 dark:backdrop-blur dark:ring-1 dark:ring-inset dark:ring-white/10">
-              <div className="relative w-full flex flex-col">
-                <div className="flex-none border-b border-slate-500/30">
-                  <div className="flex items-center h-8 space-x-1.5 px-3">
-                    <div className="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
-                    <div className="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
-                    <div className="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
-                  </div>
-                </div>
-                <div className="relative min-h-0 flex-auto flex flex-col dark">
-                  <div className="w-full flex-auto flex min-h-0 overflow-auto">
-                    <div className="w-full relative flex-auto">
-                      <pre className="flex min-h-full text-sm leading-6">
-                        <div className="hidden text-wrap whitespace-normal md:block text-slate-600 py-4 pr-4 text-right select-none pl-2 w-12">
-                          1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21
-                          22 23
-                        </div>
-                        <code className="flex-auto relative block text-slate-50 pt-4 pb-4 px-4 overflow-auto">
-                          <CodeGen
-                            nodes={data}
-                            state={state}
-                            showId={showCodeElementdId}
-                          />
-                        </code>
-                      </pre>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <CodeStyler>
+          <CodeGen nodes={data} state={state} showId={showCodeElementdId} />
+        </CodeStyler>
       </div>
     </div>
   );
 };
 
-export default CodeEditor;
+export default CodeAnimator;

@@ -106,3 +106,11 @@ export type ScriptAction =
   | ScriptDeleteAllTyping;
 
 export type Script = ScriptAction[];
+
+export type Tab = { id: string; name: string };
+
+export type TabsProps = (string | Tab)[];
+
+export type OnTabChange = (index: number, tab: string | Tab) => void;
+
+export type Attrs = Record<string, string>;
