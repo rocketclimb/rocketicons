@@ -133,7 +133,9 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
 
   return (
     <nav className="text-sm">
-      <ul className={`hidden lg:w-56 lg:block group-data-[open=true]:block`}>
+      <ul
+        className={`hidden relative lg:w-56 lg:block group-data-[open=true]:block`}
+      >
         <DocList />
         <MenuBlock>
           <TextMenuTitle
