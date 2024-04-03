@@ -37,6 +37,18 @@
   opacity: 1;
 }
 
+.thin-scroll::-webkit-scrollbar {
+  width: 1px;
+  height: 1px;
+}
+.thin-scroll::-webkit-scrollbar-track {
+  border-radius: 1px;
+}
+
+.thin-scroll::-webkit-scrollbar-thumb {
+  border-radius: 1px;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
@@ -56,6 +68,10 @@
 @layer componenets {
   .content-area {
     height: 100%;
+  }
+
+  .content-w-area {
+    width: calc(100vw - theme(width.80));
   }
 
   @media (min-width: 1024px) {
