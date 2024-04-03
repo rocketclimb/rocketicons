@@ -6,6 +6,7 @@ import {
   IconBaseProps,
   IconsManifestType,
   IconsInfoManifest,
+  IconInfo,
   CollectionDataInfo,
 } from "@/types";
 
@@ -26,6 +27,7 @@ export {
   IconTree,
   Variants,
   IconType,
+  IconInfo,
   CollectionDataInfo,
   IconsInfoManifest,
   IconsManifestType,
