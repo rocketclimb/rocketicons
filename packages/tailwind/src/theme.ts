@@ -18,7 +18,7 @@ const theme: ThemeOptions = {
     "4xl": "w-10 h-10",
     "5xl": "w-11 h-11",
     "6xl": "w-12 h-12",
-    "7xl": "w-13 h-13",
+    "7xl": "w-14 h-14",
   },
 };
 
