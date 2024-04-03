@@ -2,6 +2,7 @@ import "./globals.css";
 
 import { Inter, Quicksand } from "next/font/google";
 
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { siteConfig } from "@/config/site";
@@ -106,6 +107,7 @@ export default function RootLayout({
         className={`${inter.variable} ${quicksand.variable} bg-white has-[.theme-selector.dark]:bg-slate-900 has-[.theme-selector.dark]:dark-scrollbar`}
       >
         {children}
+        <Analytics />
         <SpeedInsights />
       </body>
     </html>
