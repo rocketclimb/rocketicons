@@ -1,9 +1,16 @@
 import "./globals.css";
 
-import { Inter, Quicksand } from "next/font/google";
+import { Inter, Quicksand, Fira_Code } from "next/font/google";
 
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
+
+const monospace = Fira_Code({
+  weight: ["400"],
+  style: ["normal"],
+  variable: "--font-monospace",
+  subsets: ["latin"],
+});
 
 const quicksand = Quicksand({
   weight: ["400", "600"],
@@ -102,7 +109,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body
-        className={`${inter.variable} ${quicksand.variable} bg-white has-[.theme-selector.dark]:bg-slate-900 has-[.theme-selector.dark]:dark-scrollbar`}
+        className={`${inter.variable} ${quicksand.variable} ${monospace.variable} bg-white has-[.theme-selector.dark]:bg-slate-900 has-[.theme-selector.dark]:dark-scrollbar`}
       >
         {children}
       </body>

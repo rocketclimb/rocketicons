@@ -21,6 +21,7 @@ const config: Config = {
       },
       fontFamily: {
         quicksand: ["var(--font-quicksand)"],
+        monospace: ["var(--font-monospace)"],
       },
     },
   },
