@@ -5,3 +5,4 @@ tsconfig*.tsbuildinfo
 packages/icons
 packages/icons/package.json
 .DS_Store
+.vercel
