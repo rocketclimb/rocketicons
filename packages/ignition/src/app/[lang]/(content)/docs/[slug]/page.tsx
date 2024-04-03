@@ -2,6 +2,7 @@ import { MdxDoc } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-and-slug-param";
 import { useLocale } from "@/app/locales";
+import { Colors } from "@/components/usage";
 
 export const generateMetadata = ({
   params: { lang, slug },
@@ -17,9 +18,20 @@ export const generateMetadata = ({
 };
 
 const Page = ({ params: { lang, slug } }: PropsWithLangSlugParams) => {
+  const DocFactory = () => {
+    switch (slug) {
+      case "colors":
+      case "cores": {
+        return <Colors />;
+      }
+      default:
+        return <MdxDoc lang={lang} slug={slug} />;
+    }
+  };
+
   return (
-    <div>
-      <MdxDoc lang={lang} slug={slug} />
+    <div className="w-full">
+      <DocFactory />
     </div>
   );
 };

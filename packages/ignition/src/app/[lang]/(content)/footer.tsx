@@ -3,8 +3,8 @@ import React from "react";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="relative mx-auto w-full max-w-screen-xl px-4 py-10 md:py-10 text-sm leading-6 mt-16">
-      <div className="pt-10 pb-28 border-t border-slate-200 sm:flex justify-between text-slate-500 dark:border-slate-200/5">
+    <footer className="w-full mt-8">
+      <div className="px-4 pt-4 pb-5 border-t border-slate-200 sm:flex justify-between text-slate-500 dark:border-slate-200/5">
         <div>
           <p>Copyright © 2024 RocketClimb.</p>
         </div>
