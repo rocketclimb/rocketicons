@@ -13,7 +13,7 @@ const Layout = ({
       <SidebarLeft lang={lang} />
     </div>
     <div className="grow flex flex-col items-center mt-4 px-0.5 content-area md:pr-7 mr-0 lg:mt-0 hover:overflow-y-auto">
-      <article className="grow shrink-0 w-full pt-5 has-[.collection-page]:pt-0">
+      <article className="grow w-full pt-5 has-[.collection-page]:pt-0">
         {children}
       </article>
       <Footer />

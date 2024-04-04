@@ -11,7 +11,7 @@ const Layout = ({
   <ThemeContext>
     <ModalContext>
       <Header lang={lang} />
-      <div className="antialiased mx-auto flex flex-col has-[.content-area]:px-0.5 has-[.content-area]:sm:px-8 has-[.content-area]:max-w-screen-2xl w-full text-slate-500 dark:text-slate-400">
+      <div className="antialiased mx-auto has-[.content-area]:px-0.5 has-[.content-area]:sm:px-8 has-[.content-area]:max-w-screen-2xl w-full text-slate-500 dark:text-slate-400">
         <main className="flex flex-col lg:flex-row grow gap-3">{children}</main>
       </div>
     </ModalContext>
