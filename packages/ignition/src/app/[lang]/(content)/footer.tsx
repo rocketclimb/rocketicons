@@ -1,7 +1,7 @@
 import { IoLogoGithub } from "rocketicons/io";
 import React from "react";
 
-const Footer: React.FC = () => {
+const Footer = () => {
   return (
     <footer className="w-full mt-8">
       <div className="px-4 pt-4 pb-5 border-t border-slate-200 sm:flex justify-between text-slate-500 dark:border-slate-200/5">
@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
             href="https://github.com/rocketclimb/rocketicons"
             className="hover:text-slate-500 dark:hover:text-slate-400"
           >
-            <span className="sr-only">GitHub</span>
+            <span className="text-white dark:text-slate-900">GitHub</span>
             <IoLogoGithub className="ml-6 icon-slate-500 hover:icon-slate-600 dark:hover:icon-slate-400" />
           </a>
         </div>
