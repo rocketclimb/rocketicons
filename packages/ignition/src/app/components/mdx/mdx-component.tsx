@@ -9,7 +9,7 @@ export const MdxComponent = ({
   const selectedDoc = useLocale(lang, slug).component();
 
   const DynamicMarkDownComponent = dynamic(
-    () => import(`@/locales/components/${selectedDoc?._meta.filePath}`),
+    () => import(`../../locales/components/${selectedDoc?._meta.filePath}`),
     {
       loading: () => <p>Loading...</p>,
     }
@@ -17,7 +17,9 @@ export const MdxComponent = ({
 
   return (
     <div className="flex flex-row">
-      <div className="flex-grow"></div>
+      <div className="flex-grow">
+        {selectedDoc && <DynamicMarkDownComponent />}
+      </div>
     </div>
   );
 };
