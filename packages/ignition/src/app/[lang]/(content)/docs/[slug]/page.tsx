@@ -22,7 +22,7 @@ const Page = ({ params: { lang, slug } }: PropsWithLangSlugParams) => {
     switch (slug) {
       case "colors":
       case "cores": {
-        return <Colors />;
+        return <Colors lang={lang} />;
       }
       default:
         return <MdxDoc lang={lang} slug={slug} />;

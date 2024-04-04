@@ -2,22 +2,20 @@ import { PropsWithLang } from "@/types";
 import dynamic from "next/dynamic";
 import { useLocale } from "@/app/locales";
 
-export const MdxComponent = ({
+export const MdxPartial = ({
   lang,
   slug,
-}: PropsWithLang & { slug: string }) => {
+  path,
+}: PropsWithLang & { slug: string; path: string }) => {
   const selectedDoc = useLocale(lang, slug).component();
+  path = path.endsWith("/") ? path : `${path}/`;
 
   const DynamicMarkDownComponent = dynamic(
-    () => import(`@/locales/components/${selectedDoc?._meta.filePath}`),
+    () => import(`@/locales/${path}${selectedDoc?._meta.filePath}`),
     {
       loading: () => <p>Loading...</p>,
     }
   );
 
-  return (
-    <div className="flex flex-row">
-      <div className="flex-grow"></div>
-    </div>
-  );
+  return <>{selectedDoc && <DynamicMarkDownComponent />}</>;
 };

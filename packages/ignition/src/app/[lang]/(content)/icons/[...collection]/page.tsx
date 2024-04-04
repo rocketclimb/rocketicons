@@ -4,6 +4,7 @@ import IconsCollection from "@/components/icons/icons-collection";
 
 import { PropsWithLangParams } from "@/types";
 
+import { Title } from "@/components/documentation";
 import { getIconsDataManifest } from "@/components/icons/get-icons-data";
 import { useLocale } from "@/locales";
 
@@ -36,9 +37,7 @@ const Page = async ({ params: { lang, collection } }: PageProps) => {
   return (
     <div className="collection-page">
       <div className="absolute w-8/12 backdrop-blur-xl z-10 pt-5 bg-white dark:bg-slate-900/90">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200">
-          {info.name}
-        </h1>
+        <Title>{info.name}</Title>
         <div className="my-3">
           <p>{info.license}</p>
           <p>{info.licenseUrl}</p>
