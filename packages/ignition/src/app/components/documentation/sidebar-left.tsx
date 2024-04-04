@@ -6,6 +6,7 @@ import { PropsWithChildren } from "react";
 import { PropsWithLang } from "@/types";
 import RocketIconsText from "@/components/rocketicons-text";
 import { allDocs } from "content-collections";
+import { siteConfig } from "@/config/site";
 import { useLocale } from "@/locales";
 
 const SelectedClassName = (slug: string) =>
@@ -68,13 +69,12 @@ const MenuItem = ({
 );
 
 export const SidebarLeft = ({ lang }: PropsWithLang) => {
+  const { nav: navEng } = useLocale("en").config();
   const { nav } = useLocale(lang).config();
 
   const DocList = () => {
     const grouped = allDocs
-      .filter(
-        (model) => model.locale === lang && !!model.group && !model.isComponent
-      )
+      .filter((model) => model.locale === lang && !!model.group)
       .groupBy((doc) => doc.group);
 
     const renderDocList = () => {
@@ -92,24 +92,30 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
                   <SubMenu>
                     {docs
                       .sort((a, b) => a.order - b.order)
-                      .map((model, i) => (
-                        <li key={i}>
-                          <MenuItem
-                            href={
-                              model.isComponent
-                                ? `/${lang}/docs/${nav[`${group}-slug`]}#${
-                                    model.slug
-                                  }`
-                                : `/${lang}/docs/${model.slug}`
-                            }
-                            className={model.activeSelector}
-                          >
-                            <span className={model.activeSelector}>
-                              {model.title}
-                            </span>
-                          </MenuItem>
-                        </li>
-                      ))}
+                      .map(
+                        (model, i) =>
+                          (siteConfig.menuConfig.componentGroups.indexOf(
+                            navEng[`${group}-slug`]
+                          ) > -1 ||
+                            !model.isComponent) && (
+                            <li key={i}>
+                              <MenuItem
+                                href={
+                                  model.isComponent
+                                    ? `/${lang}/docs/${nav[`${group}-slug`]}#${
+                                        model.slug
+                                      }`
+                                    : `/${lang}/docs/${model.slug}`
+                                }
+                                className={model.activeSelector}
+                              >
+                                <span className={model.activeSelector}>
+                                  {model.title}
+                                </span>
+                              </MenuItem>
+                            </li>
+                          )
+                      )}
                   </SubMenu>
                 </MenuBlock>
               )

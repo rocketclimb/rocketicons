@@ -7,7 +7,6 @@ const components = defineCollection({
   schema: (z) => ({
     title: z.string(),
     description: z.string(),
-    locale: z.enum(["en", "pt-br"]),
     slug: z.string(),
     enslug: z.string(),
   }),
@@ -27,12 +26,10 @@ const docs = defineCollection({
   transform: async (document, context) => {
     const dirElements = document._meta.directory.split("/");
     const pathElements = document._meta.path.split("/");
-    const fileNameElements = pathElements.pop()!.split(".");
+    const [enslug, locale] = pathElements.pop()!.split(".");
 
-    const enslug = fileNameElements[0];
-    const locale = fileNameElements[1];
-    const group = dirElements[0];
-    const isComponent = dirElements[dirElements.length - 1] === "components";
+    const [group] = dirElements;
+    const isComponent = dirElements.pop() === "components";
 
     return {
       ...document,
