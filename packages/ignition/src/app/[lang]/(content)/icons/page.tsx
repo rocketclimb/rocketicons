@@ -8,7 +8,11 @@ import { useLocale } from "@/locales";
 export const generateMetadata = ({
   params: { lang },
 }: PropsWithLangParams): Metadata => {
-  const { title, description } = useLocale(lang, "icons-hero").component();
+  const { title, description } = useLocale(
+    lang,
+    "icons-hero",
+    true
+  ).component();
 
   return {
     title: `${title} | rocketicons`,
