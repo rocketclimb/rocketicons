@@ -49,14 +49,6 @@
   border-radius: 1px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 .dark ::-webkit-scrollbar-track {
   background: var(--dark-scrollbar-track-bg);
 }
@@ -68,10 +60,6 @@
 @layer componenets {
   .content-area {
     height: 100%;
-  }
-
-  .content-w-area {
-    width: calc(100vw - theme(width.80));
   }
 
   @media (min-width: 1024px) {
