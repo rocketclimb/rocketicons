@@ -58,7 +58,7 @@ const IconsCollections = ({ lang, id, icon }: IconsCollectionsProps) => {
   };
 
   return (
-    <div className="pt-40 grid grid-cols-2  overflow-y-auto">
+    <div className="relative pt-40 grid grid-cols-2">
       {isLoaded && selected && (
         <IconInfo
           collectionId={id}

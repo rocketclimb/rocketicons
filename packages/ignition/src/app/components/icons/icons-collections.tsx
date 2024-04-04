@@ -14,7 +14,7 @@ const IconsCollections = ({ lang, manifests }: IconsCollectionsProps) => {
   const [selected, setSelected] = useState<string>("");
 
   return (
-    <ul className="transition-all duration-300 grid grid-cols-2 grid-flow-dense lg:grid-cols-3 gap-3 auto-cols-max min-[1218px]:pt-1">
+    <ul className="transition-all duration-300 grid grid-cols-2 grid-flow-dense lg:grid-cols-3 gap-3 min-[1218px]:pt-1">
       {manifests.map(({ id, name }, i) => (
         <IconsCollectionSummary
           key={i}

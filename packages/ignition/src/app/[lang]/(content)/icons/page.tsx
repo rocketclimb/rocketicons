@@ -17,7 +17,7 @@ export const generateMetadata = ({
 };
 
 const Page = ({ params: { lang } }: PropsWithLangParams) => (
-  <div>
+  <div className="flex flex-col">
     <MdxComponent lang={lang} slug="icons-hero" />
     <IconsCollections manifests={IconsManifest} lang={lang} />
   </div>

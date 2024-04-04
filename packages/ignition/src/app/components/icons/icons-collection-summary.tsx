@@ -28,7 +28,7 @@ const IconsCollectionSummary = ({
     <li
       data-selected={isSelected ? "true" : "false"}
       onClick={() => !isSelected && setSelected(id)}
-      className="group animate-pulse has-[li]:animate-none min-h-[90px] relative transition-all px-2 py-1 rounded-xl border border-gray-200 dark:border-0 dark:ring-1 dark:ring-inset dark:ring-white/10 dark:bg-slate-800 data-[selected=true]:col-span-2 data-[selected=true]:lg:col-span-3 data-[selected=false]:cursor-pointer data-[selected=false]:overflow-auto"
+      className="group animate-pulse has-[li]:animate-none min-h-[90px] relative transition-all px-2 py-1 rounded-xl border border-gray-200 dark:border-0 dark:ring-1 dark:ring-inset dark:ring-white/10 dark:bg-slate-800 data-[selected=true]:col-span-2 data-[selected=true]:lg:col-span-3 data-[selected=false]:cursor-pointer"
     >
       <div className="transition-all duration-200 transform-gpu group-data-[selected=false]:hover:scale-[1.01]">
         <h4 className="text-xl text-slate-700 dark:text-slate-400">
@@ -48,7 +48,7 @@ const IconsCollectionSummary = ({
           )}
         </p>
 
-        <ul className="flex gap-1 transition duration-1000 opacity-0 has-[li]:opacity-100 group-data-[selected=true]:min-h-32 group-data-[selected=true]:justify-start group-data-[selected=true]:px-4 group-data-[selected=true]:gap-x-5 group-data-[selected=true]:gap-y-10 group-data-[selected=true]:flex-wrap group-data-[selected=true]:mt-4 group-data-[selected=false]:justify-between group-data-[selected=false]:[mask-image:--icons-fade] group-data-[selected=false]:overflow-hidden">
+        <ul className="flex gap-1 overflow-hidden transition duration-1000 opacity-0 has-[li]:opacity-100 group-data-[selected=true]:min-h-32 group-data-[selected=true]:justify-start group-data-[selected=true]:px-4 group-data-[selected=true]:gap-x-5 group-data-[selected=true]:gap-y-10 group-data-[selected=true]:flex-wrap group-data-[selected=true]:mt-4 group-data-[selected=false]:justify-between group-data-[selected=false]:[mask-image:--icons-fade]">
           {(isSelected ? icons.toArray() : icons.toArray().slice(0, 12)).map(
             ([name, Icon], i) => {
               const current = info.icons.getByName(name);

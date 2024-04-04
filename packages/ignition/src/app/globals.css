@@ -17,6 +17,10 @@
   scrollbar-gutter: stable;
 }
 
+html {
+  height: -webkit-fill-available;
+}
+
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -58,6 +62,13 @@
 }
 
 @layer componenets {
+  .theme-selector,
+  .modal-context {
+    min-height: 100vh;
+    /* mobile viewport bug fix */
+    min-height: -webkit-fill-available;
+  }
+
   .content-area {
     height: 100%;
   }
