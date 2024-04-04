@@ -111,7 +111,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body
-        className={`${inter.variable} ${quicksand.variable} ${monospace.variable} lg:overflow-hidden bg-white has-[.theme-selector.dark]:bg-slate-900 has-[.theme-selector.dark]:dark-scrollbar`}
+        className={`${inter.variable} ${quicksand.variable} ${monospace.variable} bg-white has-[.theme-selector.dark]:bg-slate-900 has-[.theme-selector.dark]:dark-scrollbar`}
       >
         {children}
         <Analytics />
