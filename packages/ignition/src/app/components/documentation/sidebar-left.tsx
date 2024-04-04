@@ -72,7 +72,9 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
 
   const DocList = () => {
     const grouped = allDocs
-      .filter((model) => model.locale === lang && !model.hide && !!model.group)
+      .filter(
+        (model) => model.locale === lang && !!model.group && !model.isComponent
+      )
       .groupBy((doc) => doc.group);
 
     const renderDocList = () => {
@@ -84,7 +86,7 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
                 <MenuBlock key={group}>
                   <TextMenuTitle
                     text={nav[group]}
-                    href={`/${lang}/docs/${group}`}
+                    href={`/${lang}/docs/${nav[`${group}-slug`]}`}
                     className={SelectedClassName(nav[`${group}-slug`])}
                   />
                   <SubMenu>
@@ -93,7 +95,13 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
                       .map((model, i) => (
                         <li key={i}>
                           <MenuItem
-                            href={`/${lang}/docs/${model.slug}`}
+                            href={
+                              model.isComponent
+                                ? `/${lang}/docs/${nav[`${group}-slug`]}#${
+                                    model.slug
+                                  }`
+                                : `/${lang}/docs/${model.slug}`
+                            }
                             className={model.activeSelector}
                           >
                             <span className={model.activeSelector}>
@@ -115,19 +123,21 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
 
   const IconList = () => (
     <>
-      {IconsManifest.map(({ id, name }, i) => (
-        <li key={i}>
-          <MenuItem
-            href={`/${lang}/icons/${id}`}
-            className={SelectedClassName(id)}
-          >
-            {(name === "rocketclimb" && (
-              <RocketIconsText className="text-gray-950 hover:text-sky-500 dark:text-neutral-100 dark:hover:text-sky-500" />
-            )) ||
-              name}
-          </MenuItem>
-        </li>
-      ))}
+      {IconsManifest.map(
+        ({ id, name }: { id: string; name: string }, i: number) => (
+          <li key={i}>
+            <MenuItem
+              href={`/${lang}/icons/${id}`}
+              className={SelectedClassName(id)}
+            >
+              {(name === "rocketclimb" && (
+                <RocketIconsText className="text-gray-950 hover:text-sky-500 dark:text-neutral-100 dark:hover:text-sky-500" />
+              )) ||
+                name}
+            </MenuItem>
+          </li>
+        )
+      )}
     </>
   );
 
