@@ -1,0 +1,85 @@
+{
+  "config": {},
+  "en": ["getting-started"],
+  "enslug": {
+    "primeiros-passos": "getting-started",
+    "xpto": "getting-started"
+  },
+  "docs": {
+    "getting-started": {
+      "en": {
+        "title": "RocketIcons Documentation",
+        "description": "Documentation for RocketIcons",
+        "slug": "getting-started",
+        "order": 0,
+        "activeSelector": "group-has-[.docs-getting-started]:active-content",
+        "_meta": {
+          "filePath": "getting-started/getting-started.en.mdx",
+          "fileName": "getting-started.en.mdx",
+          "directory": "getting-started",
+          "extension": "mdx",
+          "path": "getting-started/getting-started.en"
+        },
+        "enslug": "getting-started",
+        "locale": "en",
+        "isComponent": false,
+        "components": {
+          "installation": {
+            "title": "Installation",
+            "description": "installation",
+            "slug": "installation",
+            "order": 1,
+            "activeSelector": "group-has-[.docs-installation]:active-content",
+            "_meta": {
+              "filePath": "getting-started/components/installation.en.mdx",
+              "fileName": "installation.en.mdx",
+              "directory": "getting-started/components",
+              "extension": "mdx",
+              "path": "getting-started/components/installation.en"
+            },
+            "enslug": "installation",
+            "locale": "en",
+            "group": "getting-started",
+            "isComponent": true
+          },
+          "customization": {
+            "title": "Customization",
+            "description": "customização",
+            "slug": "customizacao",
+            "order": 3,
+            "activeSelector": "group-has-[.docs-customizacao]:active-content",
+            "_meta": {
+              "filePath": "getting-started/components/customization.en.mdx",
+              "fileName": "customization.en.mdx",
+              "directory": "getting-started/components",
+              "extension": "mdx",
+              "path": "getting-started/components/customization.en"
+            },
+            "enslug": "customization",
+            "locale": "en",
+            "group": "getting-started",
+            "isComponent": true
+          }
+        }
+      },
+      "pt-br": {
+        "title": "RocketIcons Documentation",
+        "description": "Documentation for RocketIcons",
+        "slug": "primeiros-passos",
+        "order": 0,
+        "activeSelector": "group-has-[.docs-getting-started]:active-content",
+        "_meta": {
+          "filePath": "getting-started/getting-started.en.mdx",
+          "fileName": "getting-started.en.mdx",
+          "directory": "getting-started",
+          "extension": "mdx",
+          "path": "getting-started/getting-started.en"
+        },
+        "enslug": "getting-started",
+        "locale": "en",
+        "isComponent": false
+      }
+    }
+  },
+  "components": {}
+}

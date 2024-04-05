@@ -7,7 +7,11 @@ import { redirect } from "next/navigation";
 
 type Collection = typeof allDocs | typeof allComponents;
 
-export const useLocale = (lang: Languages, slug?: string) => {
+export const useLocale = (
+  lang: Languages,
+  slug?: string,
+  noRedirect?: boolean
+) => {
   const locales: Record<Languages, any> = {
     en: en,
     "pt-br": ptBr,
@@ -17,7 +21,7 @@ export const useLocale = (lang: Languages, slug?: string) => {
     let selectedDoc =
       slug &&
       collection.find(
-        (model) => model.slug === slug && model.locale === (lang || "en")
+        (model: any) => model.slug === slug && model.locale === (lang || "en")
       );
 
     if (!!selectedDoc) {
@@ -30,12 +34,14 @@ export const useLocale = (lang: Languages, slug?: string) => {
       if (docsBySlug && docsBySlug.length) {
         const docsByEnslug =
           collection.find(
-            (model) =>
+            (model: any) =>
               model.enslug === docsBySlug[0].enslug &&
               model.locale === (lang || "en")
           ) || ({} as any);
 
-        if (docsByEnslug) {
+        if (noRedirect) {
+          return docsByEnslug;
+        } else {
           redirect(docsByEnslug.slug);
         }
       }

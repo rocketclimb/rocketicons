@@ -7,7 +7,7 @@ export const MdxPartial = ({
   slug,
   path,
 }: PropsWithLang & { slug: string; path: string }) => {
-  const selectedDoc = useLocale(lang, slug).component();
+  const selectedDoc = useLocale(lang, slug, true).component();
   path = path.endsWith("/") ? path : `${path}/`;
 
   const DynamicMarkDownComponent = dynamic(

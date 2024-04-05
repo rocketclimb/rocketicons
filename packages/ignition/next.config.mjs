@@ -1,6 +1,6 @@
 import createMDX from "@next/mdx";
 import rehypeShiki from "@shikijs/rehype";
-import rehypeSlug from "rehype-slug";
+import rehypeSlug from "rehype-slug-custom-id";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import { withContentCollections } from "@content-collections/next";
@@ -16,7 +16,7 @@ const withMDX = createMDX({
     remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
     rehypePlugins: [
       [rehypeShiki, shikiOptions],
-      [rehypeSlug, { fragment: true }],
+      [rehypeSlug, { fragment: true, removeAccents: true }],
     ],
   },
 });

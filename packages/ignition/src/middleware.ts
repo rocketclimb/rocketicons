@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const locales = ["en", "pt-br"];
+import { siteConfig } from "./config/site";
+
 const defaultLocale = "en";
 
 const getLocale = (request: NextRequest): string =>
@@ -10,7 +11,8 @@ const getLocale = (request: NextRequest): string =>
       ?.split(",")
       .map((language) => language.split(";").shift())
       .find(
-        (language) => language && locales.includes(language.toLocaleLowerCase())
+        (language) =>
+          language && siteConfig.locales.includes(language.toLocaleLowerCase())
       ) || defaultLocale
   ).toLowerCase();
 
@@ -18,7 +20,7 @@ export const middleware = (request: NextRequest) => {
   const locale = getLocale(request);
   const { pathname } = request.nextUrl;
 
-  const pathnameHasLocale = locales.some(
+  const pathnameHasLocale = siteConfig.locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
