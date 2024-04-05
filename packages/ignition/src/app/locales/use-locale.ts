@@ -32,7 +32,7 @@ export const useLocale = (
       );
 
       if (docsBySlug && docsBySlug.length) {
-        const docsByEnslug =
+        const docByEnslug =
           collection.find(
             (model: any) =>
               model.enslug === docsBySlug[0].enslug &&
@@ -40,9 +40,9 @@ export const useLocale = (
           ) || ({} as any);
 
         if (noRedirect) {
-          return docsByEnslug;
+          return docByEnslug;
         } else {
-          redirect(docsByEnslug.slug);
+          redirect(docByEnslug.slug);
         }
       }
     }

@@ -8,7 +8,6 @@ const components = defineCollection({
     title: z.string(),
     description: z.string(),
     slug: z.string(),
-    enslug: z.string(),
   }),
   transform: async (document) => {
     return transformer(document);
