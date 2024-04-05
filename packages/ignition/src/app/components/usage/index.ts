@@ -1,2 +1,3 @@
 import Colors from "./colors";
-export { Colors };
+import Sizing from "./sizing";
+export { Colors, Sizing };
