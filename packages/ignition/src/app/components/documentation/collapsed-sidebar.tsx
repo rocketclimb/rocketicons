@@ -13,7 +13,7 @@ export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
   const [hash, setHash] = useState<string>("" as string);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const pathName = usePathname();
-  const searchParams = useSearchParams();
+  //const searchParams = useSearchParams();
 
   useEffect(() => {
     isOpen && onClose();
@@ -26,7 +26,7 @@ export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
     } else {
       setHash(pathName.split("/").pop() as string);
     }
-  }, [pathName, searchParams]);
+  }, [pathName]);
 
   return (
     <>
