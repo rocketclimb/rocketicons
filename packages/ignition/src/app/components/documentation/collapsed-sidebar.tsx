@@ -1,7 +1,7 @@
 "use client";
 
 import { Modal, useDisclosure } from "@/components/modal-context";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 import Button from "@/components/button";
@@ -13,23 +13,22 @@ export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
   const [hash, setHash] = useState<string>("" as string);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const pathName = usePathname();
-  //const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     isOpen && onClose();
 
     const targetId = window.location.hash.substring(1);
     const target = document.getElementById(targetId);
-
     if (window.location.hash && target) {
       setHash(targetId);
     } else {
       setHash(pathName.split("/").pop() as string);
     }
-  }, [pathName]);
+  }, [pathName, searchParams]);
 
   return (
-    <>
+    <Suspense>
       <div className={`docs-${hash}`}>
         <div
           data-open={true}
@@ -56,6 +55,6 @@ export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
         </div>
       </div>
       <div className="collapsed-menu lg:hidden"></div>
-    </>
+    </Suspense>
   );
 };
