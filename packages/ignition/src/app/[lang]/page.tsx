@@ -52,7 +52,6 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_0",
               text: " border border-slate-200 dark:border-white",
-              finalText: "w-32 h-32 border border-slate-200 dark:border-white",
               delay: 50,
             },
             {
@@ -60,7 +59,6 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_0",
               text: " bg-slate-200 dark:bg-white",
-              finalText: "w-32 h-32 border border-white bg-white",
               delay: 50,
             },
             {
@@ -82,21 +80,18 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_1.el_1.el_1",
               text: "sky-500",
-              finalText: "icon-sky-500",
             },
             {
               time: "5s",
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_1.el_1.el_1",
               text: "-lg",
-              finalText: "icon-sky-500-lg",
             },
             {
               time: "2s",
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_1.el_1.el_1",
               text: " dark:icon-white-lg",
-              finalText: "icon-sky-500-lg dark:icon-white-lg",
               delay: 30,
             },
             {
@@ -104,7 +99,6 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_1.el_1.el_1",
               text: " mx-1",
-              finalText: "icon-sky-500-lg mx-1",
             },
             {
               time: "30s",

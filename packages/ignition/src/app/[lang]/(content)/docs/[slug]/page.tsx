@@ -2,7 +2,7 @@ import { MdxDoc } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-and-slug-param";
 import { useLocale } from "@/app/locales";
-import { Colors } from "@/components/usage";
+import { Colors, Sizing } from "@/components/usage";
 
 export const generateMetadata = ({
   params: { lang, slug },
@@ -23,6 +23,10 @@ const Page = ({ params: { lang, slug } }: PropsWithLangSlugParams) => {
       case "colors":
       case "cores": {
         return <Colors lang={lang} />;
+      }
+      case "sizing":
+      case "dimensionando-elementos": {
+        return <Sizing lang={lang} />;
       }
       default:
         return <MdxDoc lang={lang} slug={slug} />;
