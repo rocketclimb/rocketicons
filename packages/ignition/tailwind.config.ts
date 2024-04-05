@@ -44,5 +44,10 @@ const config: Config = {
       });
     }),
   ],
+  safelist: [
+    {
+      pattern: /icon-*/,
+    },
+  ],
 };
 export default config;
