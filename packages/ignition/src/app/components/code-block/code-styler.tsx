@@ -1,12 +1,13 @@
 "use client";
 import React, { PropsWithChildren, useState } from "react";
-import { Tab, TabsProps, OnTabChange } from "./types";
+import { Tab, TabsProps, OnTabChange, CodeStylerVariations } from "./types";
 
 type CodeStylerProps = {
-  variant?: "full" | "minimalist" | "compact";
+  variant?: CodeStylerVariations;
   className?: string;
   tabs?: TabsProps;
   onTabChange?: OnTabChange;
+  animatedPreviewer?: boolean;
 } & PropsWithChildren;
 
 const wrapperFullClassName =
@@ -50,10 +51,12 @@ const CodeStyler = ({
   tabs,
   onTabChange,
   children,
+  animatedPreviewer,
 }: CodeStylerProps) => (
   <div
     data-variant={variant || "full"}
-    className={`group/styler relative row-start-1 col-start-6 xl:col-start-7 col-span-7 xl:col-span-6 ${className}`}
+    data-animated={animatedPreviewer}
+    className={`group/styler relative grow data-[animated=true]:row-start-1 data-[animated=true]:col-start-6 data-[animated=true]:xl:col-start-7 data-[animated=true]:col-span-7 data-[animated=true]:xl:col-span-6 ${className}`}
   >
     <div className="-mx-4 sm:mx-0">
       <div

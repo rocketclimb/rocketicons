@@ -11,7 +11,7 @@ import useTypeWritter from "./use-type-writter";
 type StateHandler = {
   current: (elementid: ElementId) => string;
   update: (elementId: ElementId, updating: string) => void;
-  commit: (ElementId: ElementId) => void;
+  commit: (ElementId: ElementId, current: string | undefined) => void;
 };
 
 type Done = (action?: number) => void;
@@ -34,8 +34,8 @@ const useActionBuilder =
         from,
         to,
         (updating: string) => update(elementId, updating),
-        () => {
-          !skipCommit && commit(elementId);
+        (current: string | undefined) => {
+          !skipCommit && commit(elementId, current);
           done();
         },
         delay
@@ -46,7 +46,7 @@ const useActionBuilder =
         const { elementId, text, skipCommit } = script;
         return (done: Done) => {
           update(elementId, text);
-          !skipCommit && commit(elementId);
+          !skipCommit && commit(elementId, text);
           done();
         };
       }
@@ -56,8 +56,8 @@ const useActionBuilder =
           typeFoward(
             text,
             (updating: string) => update(elementId, updating),
-            () => {
-              !skipCommit && commit(elementId);
+            (current: string | undefined) => {
+              !skipCommit && commit(elementId, current);
               done();
             },
             current(elementId),
@@ -71,8 +71,8 @@ const useActionBuilder =
           typeFoward(
             text,
             (updating: string) => update(elementId, updating),
-            () => {
-              !skipCommit && commit(elementId);
+            (current: string | undefined) => {
+              !skipCommit && commit(elementId, current);
               done();
             },
             undefined,

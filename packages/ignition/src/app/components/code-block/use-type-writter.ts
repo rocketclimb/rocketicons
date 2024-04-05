@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { TypeWritter } from "./types";
+import { TypeWritter, TWOnComplete, TWOnUpdate } from "./types";
 
 const useTypeWritter = (): TypeWritter => {
   const [delay, setDelay] = useState<number>(0);
@@ -12,8 +12,8 @@ const useTypeWritter = (): TypeWritter => {
   const [isDone, setIsDone] = useState<boolean>(false);
   const [isBackspacing, setIsBackspacing] = useState<boolean>(false);
 
-  const [onUpdate, setOnUpdate] = useState<(text: string) => void>(() => {});
-  const [onComplete, setOnComplete] = useState<() => void>(() => {});
+  const [onUpdate, setOnUpdate] = useState<TWOnUpdate>(() => {});
+  const [onComplete, setOnComplete] = useState<TWOnComplete>(() => {});
 
   const typingForward = () => {
     if (currentIndex < text.length) {
@@ -55,13 +55,13 @@ const useTypeWritter = (): TypeWritter => {
   }, [currentText]);
 
   useEffect(() => {
-    isDone && onComplete();
+    isDone && onComplete(currentText);
   }, [isDone]);
 
   const typeFoward = (
     text: string,
-    onUpdate: (text: string) => void,
-    onComplete: () => void = () => {},
+    onUpdate: TWOnUpdate,
+    onComplete: TWOnComplete,
     current: string | undefined,
     delay: number = 100
   ) => {
@@ -78,8 +78,8 @@ const useTypeWritter = (): TypeWritter => {
   const backspacing = (
     from: string,
     to: string,
-    onUpdate: (text: string) => void,
-    onComplete: () => void = () => {},
+    onUpdate: TWOnUpdate,
+    onComplete: TWOnComplete,
     delay: number = 100
   ) => {
     setIsBackspacing(true);

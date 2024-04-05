@@ -5,8 +5,17 @@ import React, {
   ReactElement,
   cloneElement,
   useReducer,
+  useEffect,
 } from "react";
-import { DataChildren, DataElement, Script, Action, ElementId } from "./types";
+import {
+  DataChildren,
+  DataElement,
+  Script,
+  Action,
+  ElementId,
+  CodeStylerVariations,
+  OnScriptCommit,
+} from "./types";
 import CodeGen from "./code-gen";
 import CodeStyler from "./code-styler";
 
@@ -17,6 +26,10 @@ type CodeAnimatorProps = {
   script: Script;
   data: DataElement[];
   showCodeElementdId?: boolean;
+  skipRender?: boolean;
+  variants?: CodeStylerVariations;
+  className?: string;
+  onCommit?: OnScriptCommit;
 } & PropsWithChildren;
 
 const CodeAnimator = ({
@@ -24,6 +37,10 @@ const CodeAnimator = ({
   children,
   data,
   showCodeElementdId,
+  skipRender,
+  variants,
+  className,
+  onCommit,
 }: CodeAnimatorProps) => {
   const [state, dispatch] = useReducer(reducer, {});
 
@@ -94,8 +111,10 @@ const CodeAnimator = ({
   const stateUpdate = (elementId: ElementId, updating: string) =>
     dispatch({ type: Action.UPDATE, id: elementId, updating });
 
-  const stateCommit = (elementId: ElementId) =>
+  const stateCommit = (elementId: ElementId, current: string | undefined) => {
+    onCommit && onCommit(elementId, current);
     dispatch({ type: Action.COMMIT, id: elementId });
+  };
 
   useScriptRunner(script, {
     update: stateUpdate,
@@ -105,24 +124,37 @@ const CodeAnimator = ({
 
   return (
     <div>
-      <div className="max-w-sm mx-auto mt-20 px-4 sm:max-w-lg md:max-w-screen-md lg:max-w-7xl sm:px-6 md:px-8 sm:mt-24 lg:mt-32 lg:grid lg:gap-8 lg:grid-cols-12 lg:items-center">
-        <div className="relative row-start-1 col-start-1 col-span-5 xl:col-span-6 -mt-10">
-          <div className="transition-all bg-white rounded-lg overflow-hidden ring-1 ring-slate-900/5 dark:bg-slate-800 dark:highlight-white/5 dark:ring-0 flex mb-4">
-            {Children.map(children as ReactElement[], (child, i) => {
-              const { props } = child;
-              return (
-                <ElementPreviewer
-                  key={i}
-                  child={child}
-                  props={props}
-                  id={getElementId(i)}
-                  data={data[i]}
-                />
-              );
-            })}
+      <div
+        data-previewer={!skipRender}
+        className={
+          !skipRender
+            ? `max-w-sm mx-auto mt-20 px-4 sm:max-w-lg md:max-w-screen-md lg:max-w-7xl sm:px-6 md:px-8 sm:mt-24 lg:mt-32 lg:grid lg:gap-8 lg:grid-cols-12 lg:items-center ${className}`
+            : ""
+        }
+      >
+        {!skipRender && (
+          <div className="relative row-start-1 col-start-1 col-span-5 xl:col-span-6 -mt-10">
+            <div className="transition-all bg-white rounded-lg overflow-hidden ring-1 ring-slate-900/5 dark:bg-slate-800 dark:highlight-white/5 dark:ring-0 flex mb-4">
+              {Children.map(children as ReactElement[], (child, i) => {
+                const { props } = child;
+                return (
+                  <ElementPreviewer
+                    key={i}
+                    child={child}
+                    props={props}
+                    id={getElementId(i)}
+                    data={data[i]}
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
-        <CodeStyler>
+        )}
+        <CodeStyler
+          className={(skipRender && className) || ""}
+          animatedPreviewer={!skipRender}
+          variant={variants}
+        >
           <CodeGen nodes={data} state={state} showId={showCodeElementdId} />
         </CodeStyler>
       </div>

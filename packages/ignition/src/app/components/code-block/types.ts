@@ -24,22 +24,22 @@ export type DataElement = {
   children: DataChildren | DataChildren[];
 };
 
-type OnUpdate = (text: string) => void;
-type OnComplete = () => void;
+export type TWOnUpdate = (text: string) => void;
+export type TWOnComplete = (text: string | undefined) => void;
 
 export type TypeWritter = {
   typeFoward: (
     text: string,
-    onUpdate: OnUpdate,
-    onComplete: OnComplete,
+    onUpdate: TWOnUpdate,
+    onComplete: TWOnComplete,
     current?: string | undefined,
     delay?: number
   ) => void;
   backspacing: (
     from: string,
     to: string,
-    onUpdate: OnUpdate,
-    onComplete: OnComplete,
+    onUpdate: TWOnUpdate,
+    onComplete: TWOnComplete,
     delay?: number
   ) => void;
 };
@@ -79,7 +79,6 @@ type ScriptTyping = {
 
 type ScriptUpdateTyping = Omit<ScriptUpdate, "action"> & {
   action: ScriptActionType.UPDATE_TYPING;
-  finalText: string;
 } & ScriptTyping;
 
 type ScriptReplaceTyping = Omit<ScriptUpdate, "action"> & {
@@ -107,6 +106,8 @@ export type ScriptAction =
 
 export type Script = ScriptAction[];
 
+export type OnScriptCommit = (el: ElementId, state: string | undefined) => void;
+
 export type Tab = { id: string; name: string };
 
 export type TabsProps = (string | Tab)[];
@@ -114,3 +115,5 @@ export type TabsProps = (string | Tab)[];
 export type OnTabChange = (index: number, tab: string | Tab) => void;
 
 export type Attrs = Record<string, string>;
+
+export type CodeStylerVariations = "full" | "minimalist" | "compact";

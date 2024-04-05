@@ -1,7 +1,13 @@
 import { PropsWithChildren, ReactElement, Children } from "react";
 import CodeAnimator from "./code-animator";
 
-import { DataElement, DataChildren, Script } from "./types";
+import {
+  DataElement,
+  DataChildren,
+  Script,
+  CodeStylerVariations,
+  OnScriptCommit,
+} from "./types";
 
 export { ScriptActionType as ScriptAction } from "./types";
 
@@ -31,20 +37,32 @@ const element2Array = (nodes: any): DataElement[] =>
 
 type AnimatedCodeBlockProps = {
   script: Script;
+  variants?: CodeStylerVariations;
   showCodeElementdId?: boolean;
+  skipRender?: boolean;
+  className?: string;
+  onCommit?: OnScriptCommit;
 } & PropsWithChildren;
 
 const AnimatedCodeBlock = ({
   script,
   children,
+  skipRender,
   showCodeElementdId,
+  variants,
+  className,
+  onCommit,
 }: AnimatedCodeBlockProps) => {
   const elements = element2Array(children);
   return (
     <CodeAnimator
+      className={className}
+      variants={variants}
+      skipRender={skipRender}
       script={script}
       showCodeElementdId={showCodeElementdId}
       data={elements}
+      onCommit={onCommit}
     >
       {children}
     </CodeAnimator>
