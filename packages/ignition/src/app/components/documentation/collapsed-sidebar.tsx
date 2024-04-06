@@ -1,5 +1,4 @@
 "use client";
-
 import { Modal, useDisclosure } from "@/components/modal-context";
 import { Suspense, useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -9,26 +8,40 @@ import { IoChevronForwardSharp } from "rocketicons/io5";
 import { PropsWithLang } from "@/app/types";
 import { SidebarLeft } from "./sidebar-left";
 
+type UrlObserverProps = {
+  onChanges: (hash: string) => void;
+};
+
+const UrlObserver = ({ onChanges }: UrlObserverProps) => {
+  const searchParams = useSearchParams();
+  const pathName = usePathname();
+
+  useEffect(() => {
+    const targetId = window.location.hash.substring(1);
+    const target = document.getElementById(targetId); // I've never saw that on a react code...
+    onChanges(
+      window.location.hash && target
+        ? targetId
+        : (pathName.split("/").pop() as string)
+    );
+  }, [pathName, searchParams]);
+  return <></>;
+};
+
 export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
   const [hash, setHash] = useState<string>("" as string);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const pathName = usePathname();
-  // const searchParams = useSearchParams();
-
-  useEffect(() => {
-    isOpen && onClose();
-
-    const targetId = window.location.hash.substring(1);
-    const target = document.getElementById(targetId);
-    if (window.location.hash && target) {
-      setHash(targetId);
-    } else {
-      setHash(pathName.split("/").pop() as string);
-    }
-  }, [pathName]);
 
   return (
     <>
+      <Suspense>
+        <UrlObserver
+          onChanges={(hash) => {
+            isOpen && onClose();
+            setHash(hash);
+          }}
+        />
+      </Suspense>
       <div className={`docs-${hash}`}>
         <div
           data-open={true}
