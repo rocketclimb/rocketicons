@@ -1,13 +1,60 @@
 import {
-  AnyCollection,
-  Collection,
   Schema,
   defineCollection,
   defineConfig,
 } from "@rocketclimb/content-collections";
-import envPath from "path";
+import fs from "fs";
 
 import { z } from "zod";
+
+const localesFolder = "src/app/locales";
+
+type Configuration = Record<string, string | Record<string, string>>;
+
+const jsonConfigMapper = (
+  filename: string,
+  config: Record<string, Configuration>
+) =>
+  new Promise<void>((resolve, reject) => {
+    fs.readFile(`${localesFolder}/${filename}`, (err, contents) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      const lang = filename.replace(/.json$/i, "");
+      const json = Object.entries(JSON.parse(contents.toString())) as [
+        string,
+        string
+      ][];
+
+      json.forEach(([key, data]) => {
+        const value =
+          typeof data === "string"
+            ? data
+            : Object.entries(data).reduce(
+                (reduced, [key, value]) => ({ ...reduced, [key]: value }),
+                {}
+              );
+
+        config[key] = config[key] || {};
+        config[key][lang] = config[key][lang] || {};
+        config[key][lang] = value;
+      });
+
+      resolve();
+    });
+  });
+
+const loadConfig = async (): Promise<Record<string, Configuration>> => {
+  const configFiles = fs
+    .readdirSync(localesFolder)
+    .filter((file) => /\.json$/i.test(file));
+
+  const config = {};
+  await Promise.all(configFiles.map((file) => jsonConfigMapper(file, config)));
+  return config;
+};
 
 const components = defineCollection({
   name: "components",
@@ -34,14 +81,13 @@ const docs = defineCollection({
     activeSelector: z.string(),
   }),
   transform: transformer,
-  onBeforeSave: (collection, collections, configuration) => {
-    // console.log("onBeforeSave", collection);
-
+  onBeforeSave: async (collection, collections, configuration) => {
     let schema = {};
 
+    const config = await loadConfig();
     const docs = {} as any;
     const slugMap = {} as any;
-    const docStructure = { docs, slugMap } as any;
+    const docStructure = { config, docs, slugMap } as any;
 
     (collection as any).documents.forEach(
       ({
@@ -93,7 +139,7 @@ const docs = defineCollection({
     );
 
     collections.push({
-      name: "mdxindex",
+      name: "mdxIndex",
       notArray: true,
       documents: [
         {
@@ -103,7 +149,7 @@ const docs = defineCollection({
     } as any);
 
     configuration?.collections?.push({
-      name: "mdxindex",
+      name: "mdxIndex",
       directory: "",
       include: "",
       schema,
@@ -126,10 +172,6 @@ function transformer(document: any): Schema<"frontmatter", any> {
 
   const [group] = dirElements;
   const isComponent = dirElements.pop() === "components";
-
-  if (enslug === "colors-selector") {
-    console.log(document);
-  }
 
   return {
     ...document,
