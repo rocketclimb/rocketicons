@@ -5,7 +5,6 @@ import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { PropsWithLang } from "@/types";
 import RocketIconsText from "@/components/rocketicons-text";
-import { allDocs } from "content-collections";
 import { siteConfig } from "@/config/site";
 import { useLocale } from "@/locales";
 
@@ -69,63 +68,131 @@ const MenuItem = ({
 );
 
 export const SidebarLeft = ({ lang }: PropsWithLang) => {
-  const { nav: navEng } = useLocale("en").config();
-  const { nav } = useLocale(lang).config();
-
   const DocList = () => {
-    const grouped = allDocs
-      .filter((model) => model.locale === lang && !!model.group)
-      .groupBy((doc) => doc.group);
+    const docs = Object.entries(useLocale(lang).docFromIndex() || {});
+    const mainMenus = docs.filter((doc: any) => doc[1][lang].group === doc[0]);
 
     const renderDocList = () => {
       return (
         <>
-          {Array.from(grouped).map(
-            ([group, docs]) =>
-              group && (
-                <MenuBlock key={group}>
+          {mainMenus.map((doc: any, i: number) => {
+            const mainDocEnSlug = doc[0];
+            const mainDoc = doc[1][lang];
+            const components =
+              Object.keys(mainDoc.components).length > 0
+                ? Object.values(mainDoc.components).sort(
+                    (a: any, b: any) => a.order - b.order
+                  )
+                : docs.filter(
+                    (doc: any) =>
+                      doc[1][lang].group === mainDocEnSlug &&
+                      doc[1][lang].group != doc[1][lang].slug
+                  );
+            return (
+              mainDoc && (
+                <MenuBlock key={i}>
                   <TextMenuTitle
-                    text={nav[group]}
-                    href={`/${lang}/docs/${nav[`${group}-slug`]}`}
-                    className={SelectedClassName(nav[`${group}-slug`])}
+                    key={i}
+                    text={mainDoc.title}
+                    href={`/${lang}/docs/${mainDoc.slug}`}
+                    className={SelectedClassName(mainDoc.slug)}
                   />
+
                   <SubMenu>
-                    {docs
-                      .sort((a, b) => a.order - b.order)
-                      .map(
-                        (model, i) =>
+                    {components &&
+                      components.map((model: any, i: number) => {
+                        const isComponent = mainDoc.components.hasOwnProperty(
+                          model.slug
+                        );
+
+                        const subMenu = isComponent ? model : model[1][lang];
+
+                        return (
                           (siteConfig.menuConfig.componentGroups.indexOf(
-                            navEng[`${group}-slug`]
+                            mainDocEnSlug
                           ) > -1 ||
-                            !model.isComponent) && (
+                            !isComponent) && (
                             <li key={i}>
                               <MenuItem
                                 href={
-                                  model.isComponent
-                                    ? `/${lang}/docs/${nav[`${group}-slug`]}#${
-                                        model.slug
-                                      }`
-                                    : `/${lang}/docs/${model.slug}`
+                                  subMenu.isComponent
+                                    ? `/${lang}/docs/${mainDoc.slug}#${subMenu.slug}`
+                                    : `/${lang}/docs/${subMenu.slug}`
                                 }
-                                className={model.activeSelector}
+                                className={subMenu.activeSelector}
                               >
-                                <span className={model.activeSelector}>
-                                  {model.title}
+                                <span className={subMenu.activeSelector}>
+                                  {subMenu.title}
                                 </span>
                               </MenuItem>
                             </li>
                           )
-                      )}
+                        );
+                      })}
                   </SubMenu>
                 </MenuBlock>
               )
-          )}
+            );
+          })}
         </>
       );
     };
 
     return renderDocList();
   };
+  //     const grouped = allDocs
+  //       .filter((model) => model.locale === lang && !!model.group)
+  //       .groupBy((doc) => doc.group);
+
+  //   const renderDocList = () => {
+  //     return (
+  //       <>
+  //         {Array.from(grouped).map(
+  //           ([group, docs]) =>
+  //             group && (
+  //               <MenuBlock key={group}>
+  //                 <TextMenuTitle
+  //                   text={nav[group]}
+  //                   href={`/${lang}/docs/${nav[`${group}-slug`]}`}
+  //                   className={SelectedClassName(nav[`${group}-slug`])}
+  //                 />
+  //                 <SubMenu>
+  //                   {docs
+  //                     .sort((a, b) => a.order - b.order)
+  //                     .map(
+  //                       (model, i) =>
+  //                         (siteConfig.menuConfig.componentGroups.indexOf(
+  //                           navEng[`${group}-slug`]
+  //                         ) > -1 ||
+  //                           !model.isComponent) && (
+  //                           <li key={i}>
+  //                             <MenuItem
+  //                               href={
+  //                                 model.isComponent
+  //                                   ? `/${lang}/docs/${nav[`${group}-slug`]}#${
+  //                                       model.slug
+  //                                     }`
+  //                                   : `/${lang}/docs/${model.slug}`
+  //                               }
+  //                               className={model.activeSelector}
+  //                             >
+  //                               <span className={model.activeSelector}>
+  //                                 {model.title}
+  //                               </span>
+  //                             </MenuItem>
+  //                           </li>
+  //                         )
+  //                     )}
+  //                 </SubMenu>
+  //               </MenuBlock>
+  //             )
+  //         )}
+  //       </>
+  //     );
+  //   };
+
+  //   return renderDocList();
+  // };
 
   const IconList = () => (
     <>

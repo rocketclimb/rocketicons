@@ -34,7 +34,7 @@ type GetDocument<TCollection extends AnyCollection> =
     infer TDocument
   >
     ? TDocument
-    : never;
+    : any;
 
 export type GetTypeByName<
   TConfiguration extends AnyConfiguration,

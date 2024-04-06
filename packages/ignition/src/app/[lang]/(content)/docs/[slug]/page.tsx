@@ -7,7 +7,12 @@ import { useLocale } from "@/app/locales";
 export const generateMetadata = ({
   params: { lang, slug },
 }: PropsWithLangSlugParams): Metadata => {
-  const { title, description } = useLocale(lang, slug).component() as {
+  // const { title, description } = useLocale(lang, slug).component() as {
+  //   title: string;
+  //   description: string;
+  // };
+
+  const { title, description } = useLocale(lang, slug).docFromIndex() as {
     title: string;
     description: string;
   };
@@ -18,14 +23,13 @@ export const generateMetadata = ({
 };
 
 const Page = ({ params: { lang, slug } }: PropsWithLangSlugParams) => {
+  const enSlugFromIndex = useLocale(lang, slug).enSlugFromIndex();
   const DocFactory = () => {
-    switch (slug) {
-      case "colors":
-      case "cores": {
+    switch (enSlugFromIndex) {
+      case "colors": {
         return <Colors lang={lang} />;
       }
-      case "sizing":
-      case "dimensionando-elementos": {
+      case "sizing": {
         return <Sizing lang={lang} />;
       }
       default:

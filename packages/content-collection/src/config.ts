@@ -4,6 +4,7 @@ import { Parser, Parsers } from "./parser";
 import { CacheFn } from "./cache";
 import { JSONObject } from "./json";
 import { InternalConfiguration } from "./configurationReader";
+import { not } from "micromatch";
 
 export type Meta = {
   filePath: string;
@@ -62,6 +63,7 @@ export type CollectionRequest<
   name: TName;
   parser?: TParser;
   typeName?: string;
+  notArray?: boolean;
   schema: (z: Z) => TShape;
   transform?: (data: TSchema, context: Context) => TTransformResult;
   directory: string;
@@ -140,10 +142,12 @@ export function defineCollection<
   if (!parser) {
     parser = "frontmatter" as TParser;
   }
+
   return {
     ...collection,
     typeName,
     parser,
+    notArray: collection.notArray || false,
     schema: collection.schema(z),
   } as TResult;
 }

@@ -5,6 +5,7 @@ import en from "./en.json";
 import ptBr from "./pt-br.json";
 import { redirect } from "next/navigation";
 import { allComponents, allDocs } from "content-collections";
+import { allMdxIndices } from "content-collections";
 
 // const allDocs = {} as any,
 //   allComponents = {} as any;
@@ -52,6 +53,20 @@ export const useLocale = (
     }
   };
 
+  const navigationFromIndex = (index: Record<string, any>) => {
+    return lang ? index["config"]["nav"][lang || "en"] : index["config"]["nav"];
+  };
+
+  const docFromIndex = (index: Record<string, any>) => {
+    let enSlug = index["slugMap"][slug || ""];
+
+    return slug ? index["docs"][enSlug || slug][lang || "en"] : index["docs"];
+  };
+
+  const enSlugFromIndex = (index: Record<string, any>) => {
+    return index["slugMap"][slug || ""];
+  };
+
   return {
     config: () => locales[lang],
     doc: () => findOnCollection(allDocs),
@@ -59,5 +74,8 @@ export const useLocale = (
       findOnCollection(allComponents) ||
       findOnCollection(allDocs) ||
       ({} as any),
+    navigationFromIndex: () => navigationFromIndex(allMdxIndices),
+    docFromIndex: () => docFromIndex(allMdxIndices),
+    enSlugFromIndex: () => enSlugFromIndex(allMdxIndices),
   };
 };

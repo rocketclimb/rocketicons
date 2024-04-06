@@ -5,7 +5,9 @@ import {
 } from "@rocketclimb/content-collections";
 import fs from "fs";
 
-import { z } from "zod";
+import envPath from "path";
+
+import z from "zod";
 
 const localesFolder = "src/app/locales";
 
@@ -60,7 +62,7 @@ const components = defineCollection({
   name: "components",
   directory: "src/app/locales/components",
   include: "**/*.mdx",
-  schema: (z) => ({
+  schema: (z: any) => ({
     title: z.string(),
     description: z.string(),
     slug: z.string(),
@@ -68,57 +70,49 @@ const components = defineCollection({
   transform: transformer,
 });
 
+const docSchema = {
+  title: z.string(),
+  description: z.string(),
+  slug: z.string(),
+  order: z.number(),
+  group: z.string().optional(),
+  activeSelector: z.string(),
+};
+
 const docs = defineCollection({
   name: "docs",
   directory: "src/app/locales/docs",
   include: "**/*.mdx",
-  schema: (z) => ({
-    title: z.string(),
-    description: z.string(),
-    slug: z.string(),
-    order: z.number(),
-    group: z.string().optional(),
-    activeSelector: z.string(),
-  }),
+  schema: (z: any) => docSchema,
   transform: transformer,
-  onBeforeSave: async (collection, collections, configuration) => {
-    let schema = {};
-
+  onBeforeSave: async (
+    collection: any,
+    collections: any,
+    configuration: any
+  ) => {
     const config = await loadConfig();
     const docs = {} as any;
     const slugMap = {} as any;
     const docStructure = { config, docs, slugMap } as any;
 
+    const dynamicStructure = {} as any;
+
+    const configSchema = z.record(z.string(), z.record(z.string(), z.string()));
+    const docSchema = z.record(
+      z.string(),
+      z.record(z.string(), z.record(z.string(), z.string()))
+    );
+    const slugMapSchema = z.record(z.string(), z.string());
+    let indexSchema = {
+      config: configSchema,
+      docs: docSchema,
+      slugMap: slugMapSchema,
+    };
+
     (collection as any).documents.forEach(
       ({
         document: { enslug, locale, group, isComponent, _meta, ...data },
       }: any) => {
-        // const path = _meta.path.split(envPath.sep);
-        // const fileLocale = path[path.length - 1]!.split(".")[1];
-
-        // console.log("path", _meta.path);
-
-        // const recursiveFunction = (obj: any, path: string[]): any => {
-        //   console.log("recursiveFunction", obj, path);
-
-        //   if (path.length === 0) {
-        //     return obj || {};
-        //   }
-
-        //   const [newKey, ...rest] = path;
-
-        //   console.log("newKey", newKey);
-        //   console.log("rest", rest);
-
-        //   if (!obj[newKey]) {
-        //     obj[newKey] = {};
-        //   }
-
-        //   return recursiveFunction(obj[newKey], rest);
-        // };
-
-        // recursiveFunction(doc, path);
-
         if (data.slug != enslug) slugMap[data.slug] = enslug;
 
         const getObject = () => {
@@ -129,32 +123,53 @@ const docs = defineCollection({
           return docs[key][locale];
         };
 
+        const newDoc = { ...data, group };
+
         let doc = getObject();
         if (isComponent) {
-          Object.assign(doc["components"], { [data.slug]: data });
+          Object.assign(doc["components"], { [data.slug]: newDoc });
         } else {
-          Object.assign(doc, data);
+          Object.assign(doc, newDoc);
         }
+
+        // Generating dynamic json structure with N levels
+        const path = _meta.directory.split(envPath.sep);
+        const [fileName, fileLocale] = _meta.fileName.split(".");
+
+        const pathArray = [fileLocale, ...path, fileName];
+
+        recursiveFunction(
+          enslug,
+          fileLocale,
+          pathArray,
+          data,
+          dynamicStructure
+        );
       }
     );
 
-    collections.push({
+    const newCollection = {
       name: "mdxIndex",
+      schema: indexSchema,
       notArray: true,
+      typeName: "MdxIndex",
+      parser: "frontmatter",
       documents: [
         {
           document: docStructure,
         },
       ],
-    } as any);
+    };
 
-    configuration?.collections?.push({
-      name: "mdxIndex",
-      directory: "",
-      include: "",
-      schema,
-      typeName: "MdxIndex",
-      parser: "frontmatter",
+    collections.push(newCollection);
+    configuration?.collections?.push(newCollection);
+
+    console.log("dynamicStructure", dynamicStructure);
+
+    collections.push({
+      name: "dynamicStructure",
+      notArray: true,
+      documents: [{ document: dynamicStructure }],
     });
 
     return collection;
@@ -182,3 +197,26 @@ function transformer(document: any): Schema<"frontmatter", any> {
     isComponent,
   };
 }
+
+const recursiveFunction = (
+  slug: string,
+  locale: string,
+  path: string[],
+  data: any,
+  obj: any,
+  parentObj?: any
+) => {
+  parentObj = parentObj || {};
+  const [newKey, ...rest] = path;
+  if (newKey) {
+    if (!obj[newKey]) {
+      if (parentObj[newKey]) {
+        parentObj[newKey] = { ...data, ...parentObj[newKey] } || {};
+      } else {
+        obj[newKey] = newKey === slug ? { ...data } : {};
+      }
+    }
+
+    recursiveFunction(slug, locale, rest, data, obj[newKey], obj);
+  }
+};

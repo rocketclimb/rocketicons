@@ -31,7 +31,7 @@ class ContentCollectionWebpackPlugin {
 
         // const { createBuilder } = await coreImport;
 
-        console.log("Starting content-collections", this.options.configPath);
+        console.log("Starting content-collections");
         const builder = await createBuilder(this.options.configPath);
         // configureLogging(builder);
         await builder.build();

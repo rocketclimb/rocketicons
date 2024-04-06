@@ -70,7 +70,9 @@ type TypeDefinitionFileConfiguration = Pick<
   InternalConfiguration,
   "path" | "generateTypes"
 > & {
-  collections: Array<Pick<TransformedCollection, "name" | "typeName">>;
+  collections: Array<
+    Pick<TransformedCollection, "name" | "typeName" | "notArray">
+  >;
 };
 
 function createImportPath(directory: string, target: string) {
@@ -87,6 +89,8 @@ async function createTypeDefinitionFile(
   directory: string,
   configuration: TypeDefinitionFileConfiguration
 ) {
+  console.log("createTypeDefinitionFile 1", configuration);
+
   if (!configuration.generateTypes) {
     return;
   }
@@ -98,11 +102,25 @@ import { GetTypeByName } from "@rocketclimb/content-collections";
 
   const collections = configuration.collections;
   for (const collection of collections) {
+    console.log(
+      "------- collection",
+      collection.name,
+      collection.typeName,
+      collection.notArray
+    );
+
     content += `\n`;
     content += `export type ${collection.typeName} = GetTypeByName<typeof configuration, "${collection.name}">;\n`;
-    content += `export declare const ${createArrayConstName(
-      collection.name
-    )}: Array<${collection.typeName}>;\n`;
+
+    if (collection.notArray) {
+      content += `export declare const ${createArrayConstName(
+        collection.name
+      )}: ${collection.typeName};\n`;
+    } else {
+      content += `export declare const ${createArrayConstName(
+        collection.name
+      )}: Array<${collection.typeName}>;\n`;
+    }
   }
 
   content += "\n";
