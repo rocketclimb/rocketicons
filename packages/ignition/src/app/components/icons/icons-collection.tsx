@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { IconType } from "rocketicons";
 import { IconInfo as IconInfoType } from "@rocketicons/core";
 import { CollectionID } from "rocketicons/data";
@@ -40,6 +41,8 @@ type CurrentIcon = {
 };
 
 const IconsCollections = ({ lang, id, icon }: IconsCollectionsProps) => {
+  const router = useRouter();
+  const [, , slug] = usePathname().split("/");
   const [icons, info, isLoaded] = useIconsData(id);
   const [selected, setSelected] = useState<string>(icon || "");
 
@@ -58,17 +61,19 @@ const IconsCollections = ({ lang, id, icon }: IconsCollectionsProps) => {
   };
 
   return (
-    <div className="relative pt-40 grid grid-cols-2">
-      {isLoaded && selected && (
-        <IconInfo
-          collectionId={id}
-          onClose={() => setSelected("")}
-          {...getCurrentIcon()}
-        />
-      )}
+    <>
+      <IconInfo
+        show={isLoaded && !!selected}
+        collectionId={id}
+        onClose={() => {
+          router.push(`/${lang}/${slug}/${id}`);
+          setSelected("");
+        }}
+        {...getCurrentIcon()}
+      />
       <ul
-        className={`flex gap-1 justify-start px-4 gap-x-5 gap-y-10 flex-wrap mt-4 ${
-          !selected && "col-span-2"
+        className={`transition-all duration-200 ml-0 flex gap-1 justify-start px-4 gap-x-5 gap-y-10 flex-wrap overflow-y-auto pt-44 ${
+          selected && "ml-[560px]"
         }`}
       >
         {icons
@@ -88,7 +93,7 @@ const IconsCollections = ({ lang, id, icon }: IconsCollectionsProps) => {
             );
           })}
       </ul>
-    </div>
+    </>
   );
 };
 

@@ -4,7 +4,7 @@ import RocketClimbText from "@/app/components/rocketclimb-text";
 
 const Footer = () => {
   return (
-    <footer className="w-full mt-8">
+    <footer className="w-full mt-8 h-16">
       <div className="px-4 pt-4 pb-5 border-t border-slate-200 flex justify-between text-slate-500 dark:border-slate-200/5">
         <div>
           <p>

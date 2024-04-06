@@ -23,6 +23,20 @@ const config: Config = {
         quicksand: ["var(--font-quicksand)"],
         monospace: ["var(--font-monospace)"],
       },
+      keyframes: {
+        "delayed-appearing": {
+          "0%, 60%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "delayed-hidden": {
+          "0%, 40%": { visibility: "visible" },
+          "100%": { visibility: "hidden" },
+        },
+      },
+      animation: {
+        "delayed-appearing": "delayed-appearing 300ms ease-in-out forwards",
+        "delayed-hidden": "delayed-hidden 300ms ease-in-out forwards",
+      },
     },
   },
   plugins: [

@@ -35,8 +35,8 @@ const Page = async ({ params: { lang, collection } }: PageProps) => {
   const info = await getIconsDataManifest(id);
 
   return (
-    <div className="collection-page flex flex-col">
-      <div className="backdrop-blur-xl z-10 pt-5 bg-white dark:bg-slate-900/90">
+    <div className="collection-page">
+      <div className="absolute px-3 pt-2 h-40 mt-2 w-[550px] backdrop-blur z-10 border border-slate-200 dark:border-slate-700 rounded-xl bg-white/85 dark:bg-transparent">
         <Title>{info.name}</Title>
         <div className="my-3">
           <p>{info.license}</p>
