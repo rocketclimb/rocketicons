@@ -52,12 +52,8 @@ export async function createBuilder(
   const collector = createCollector(emitter, baseDirectory);
   const writer = await createWriter(directory);
 
-  // console.log("configuration", configuration);
-
   const [resolved] = await Promise.all([
     collector.collect(configuration.collections),
-    // writer.createJavaScriptFile(configuration),
-    // writer.createTypeDefinitionFile(configuration),
   ]);
 
   const synchronizer = createSynchronizer(
@@ -87,40 +83,13 @@ export async function createBuilder(
 
     const collections = await transform(resolved);
 
-    // console.log("collections", collections[1]);
-
-    const newCollection = {
-      name: "test",
-      documents: [
-        {
-          document: {
-            content: undefined,
-            title: "xpto",
-            description: "xpto",
-            slug: "estilizando",
-            order: 2,
-            activeSelector: "group-has-[.docs-estilizando]:active-content",
-            _meta: [Object],
-            enslug: "styling",
-            locale: "pt-br",
-            group: "usage",
-            isComponent: false,
-          },
-        },
-      ],
-    };
-
-    // if (collections.beforeSave) {
-    //   const consumerData = await collections.beforeSave(
-    //     newCollection.documents.map((doc) => doc.document)
-    //   );
-    // }
-
-    collections
+    const pendingOnBeforeSave = collections
       .filter((collection) => Boolean(collection.onBeforeSave))
-      .forEach((collection) => {
-        collection.onBeforeSave?.(collection, collections, configuration);
-      });
+      .map((collection) =>
+        collection.onBeforeSave?.(collection, collections, configuration)
+      );
+
+    await Promise.all(pendingOnBeforeSave.filter(isDefined));
 
     await writer.createDataFiles(collections);
 
