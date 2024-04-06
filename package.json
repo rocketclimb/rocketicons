@@ -25,6 +25,7 @@
     "packages/tailwind",
     "packages/gen",
     "packages/icons",
+    "packages/content-collection",
     "packages/ignition"
   ],
   "scripts": {

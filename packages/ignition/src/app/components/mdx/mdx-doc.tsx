@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import { useLocale } from "@/app/locales";
 
 export const MdxDoc = ({ lang, slug }: PropsWithLang & { slug: string }) => {
-  const selectedDoc = useLocale(lang, slug).doc() as any;  
+  const selectedDoc = useLocale(lang, slug).doc();  
 
   // Redirect to the component section if the doc is a component
   if (selectedDoc && selectedDoc.isComponent) {

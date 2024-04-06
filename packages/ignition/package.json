@@ -6,6 +6,7 @@
     "build": "next build",
     "dev": "rm -fR .conent-collections && next dev",
     "lint": "next lint",
+    "rebuild": "rm -fR .conent-collections && next build",
     "start": "next start"
   },
   "dependencies": {

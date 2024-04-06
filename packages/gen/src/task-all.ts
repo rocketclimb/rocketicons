@@ -1,6 +1,7 @@
 import path from "path";
 import { promises as fs } from "fs";
 import camelcase from "camelcase";
+// const camelcase = (text: string, options: any) => text;
 import { optimize as svgoOptimize } from "svgo";
 import { IconsInfoManifest } from "@rocketicons/core";
 import { icons } from "./definitions";

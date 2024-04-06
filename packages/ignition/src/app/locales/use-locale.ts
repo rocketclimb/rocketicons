@@ -1,9 +1,13 @@
-import { allComponents, allDocs } from "content-collections";
+//import { allComponents, allDocs } from "content-collections";
 
 import { Languages } from "@/types";
 import en from "./en.json";
 import ptBr from "./pt-br.json";
 import { redirect } from "next/navigation";
+import { allComponents, allDocs } from "content-collections";
+
+// const allDocs = {} as any,
+//   allComponents = {} as any;
 
 type Collection = typeof allDocs | typeof allComponents;
 
@@ -21,7 +25,7 @@ export const useLocale = (
     let selectedDoc =
       slug &&
       collection.find(
-        (model: any) => model.slug === slug && model.locale === (lang || "en")
+        (model) => model.slug === slug && model.locale === (lang || "en")
       );
 
     if (!!selectedDoc) {
@@ -34,7 +38,7 @@ export const useLocale = (
       if (docsBySlug && docsBySlug.length) {
         const docByEnslug =
           collection.find(
-            (model: any) =>
+            (model) =>
               model.enslug === docsBySlug[0].enslug &&
               model.locale === (lang || "en")
           ) || ({} as any);

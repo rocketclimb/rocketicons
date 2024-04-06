@@ -5,6 +5,7 @@ import {
   Element as CheerioElement,
 } from "cheerio";
 import camelcase from "camelcase";
+// const camelcase = (text: string, options: any) => text;
 
 import { IconTree, Variants, IconsManifestType } from "@rocketicons/core";
 
