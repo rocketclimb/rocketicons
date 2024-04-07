@@ -4,7 +4,7 @@ import IconsCollection from "@/components/icons/icons-collection";
 
 import { PropsWithLangParams } from "@/types";
 
-import { Title } from "@/components/documentation";
+import { Title, ExternalLink, License } from "@/components/documentation";
 import { getIconsDataManifest } from "@/components/icons/get-icons-data";
 import { useLocale } from "@/locales";
 
@@ -36,12 +36,20 @@ const Page = async ({ params: { lang, collection } }: PageProps) => {
 
   return (
     <div className="collection-page">
-      <div className="absolute px-3 pt-2 h-40 mt-2 w-[550px] backdrop-blur z-10 border border-slate-200 dark:border-slate-700 rounded-xl bg-white/85 dark:bg-transparent">
-        <Title>{info.name}</Title>
-        <div className="my-3">
-          <p>{info.license}</p>
-          <p>{info.licenseUrl}</p>
-          <p>{info.projectUrl}</p>
+      <div className="px-3 pt-2 mt-2 flex lg:block lg:absolute lg:h-32 lg:w-[550px] backdrop-blur lg:z-10 lg:border border-slate-200 dark:border-slate-700 rounded-xl bg-white/85 dark:bg-transparent">
+        <ExternalLink
+          href={info.projectUrl}
+          className="border-b border-sky-500 pb-0.5 hover:border-b-2 lg:pb-0 lg:border-none lg:cursor-default"
+        >
+          <Title>{info.name}</Title>
+        </ExternalLink>
+        <div className="lg:my-3">
+          <p className="hidden lg:block">
+            <ExternalLink href={info.projectUrl} />
+          </p>
+          <p>
+            <License url={info.licenseUrl} license={info.license} />
+          </p>
         </div>
       </div>
       <IconsCollection lang={lang} id={id} icon={icon} />

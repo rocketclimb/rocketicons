@@ -54,9 +54,9 @@ const IconInfo = ({
   return (
     <div
       data-open={show}
-      className="group/info transition-all duration-200 absolute top-60 w-0 data-[open=true]:w-[550px] data-[open=false]:-z-20"
+      className="group/info transition-all duration-200 absolute -z-20 top-60 w-0 data-[open=true]:w-[550px] data-[open=true]:z-auto"
     >
-      <div className="group-data-[open=false]/info:animate-delayed-hidden flex flex-col border border-slate-200 dark:border-2 dark:border-slate-700 rounded-xl px-3 py-2 h-[655px]">
+      <div className="group-data-[open=false]/info:animate-delayed-hidden flex flex-col group-data-[open=true]/info:border border-slate-200 group-data-[open=true]/info:dark:border-2 dark:border-slate-700 rounded-xl px-3 py-2 h-[655px]">
         <div className="opacity-0 group-data-[open=true]/info:opacity-100 group-data-[open=true]/info:animate-delayed-appearing">
           <Button
             onClick={() => onClose()}
@@ -67,11 +67,11 @@ const IconInfo = ({
           <h2 className="capitalize font-bold text-2xl text-center text-slate-900 tracking-tight dark:text-slate-200">
             {info?.name}
           </h2>
-          <div className="grid grid-cols-6">
+          <div className="grid grid-cols-8">
             <div className="row-span-2 col-span-2 flex items-center justify-center">
               {Icon && <Icon className={selected} />}
             </div>
-            <div className="col-span-4">
+            <div className="col-span-6">
               <Paragraph>
                 Import the icon component from <RocketIconsText />
               </Paragraph>
@@ -85,7 +85,7 @@ const IconInfo = ({
                 </CodeStyler>
               )}
             </div>
-            <div className="col-span-4">
+            <div className="col-span-6">
               <Paragraph>Place the element wherever you need</Paragraph>
               <CodeStyler variant="compact">
                 {info && (
@@ -98,7 +98,7 @@ const IconInfo = ({
             </div>
             <div
               data-section={section}
-              className="group/sections col-span-6 my-3 mx-1 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/35"
+              className="group/sections col-span-8 my-3 mx-1 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/35"
             >
               <div>
                 <h4 className="text-xl font-bold mr-4 mb-3 text-slate-900 tracking-tight dark:text-slate-200">

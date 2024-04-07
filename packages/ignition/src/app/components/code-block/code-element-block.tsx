@@ -1,4 +1,13 @@
 import { TagName, CommonNotation, Attributes } from "./code-elements";
+import WithCopy from "./with-copy";
+
+const attributesAsText = (attrs?: Record<string, string>) =>
+  attrs
+    ? Object.entries(attrs)
+        .filter(([, value]) => !!value)
+        .map(([key, value]) => `${key}="${value}"`)
+        .join(" ")
+    : "";
 
 type CodeElementBlockProps = {
   component: string;
@@ -10,16 +19,16 @@ const CodeElementBlock = ({
   attrs,
   component,
   className,
-}: CodeElementBlockProps) => (
-  <CommonNotation
-    lang="html"
-    className={className || "text-sm"}
-    onClick={() => navigator.clipboard.writeText(`<${component} />`)}
-  >
-    {"<"}
-    <TagName lang="html">{component}</TagName>{" "}
-    {attrs && <Attributes lang="html" attributes={attrs} />} {"/>"}
-  </CommonNotation>
-);
+}: CodeElementBlockProps) => {
+  return (
+    <WithCopy clipboardText={`<${component}  ${attributesAsText(attrs)} />`}>
+      <CommonNotation lang="html" className={className || "text-sm"}>
+        {"<"}
+        <TagName lang="html">{component}</TagName>{" "}
+        {attrs && <Attributes lang="html" attributes={attrs} />} {"/>"}
+      </CommonNotation>
+    </WithCopy>
+  );
+};
 
 export default CodeElementBlock;
