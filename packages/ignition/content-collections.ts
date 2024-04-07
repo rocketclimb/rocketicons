@@ -225,7 +225,7 @@ function insertNewCollection(
   configuration: any,
   schema?: any
 ) {
-  const dynamicCollection = {
+  const newCollection = {
     name: camelcase(typeName),
     notArray: true,
     typeName: typeName,
@@ -237,8 +237,17 @@ function insertNewCollection(
       },
     ],
   };
-  collections.push(dynamicCollection);
-  configuration?.collections?.push(dynamicCollection);
+
+  if (collections.map((x: any) => x.name).indexOf(newCollection.name) === -1) {
+    collections.push(newCollection);
+  }
+  if (
+    configuration?.collections
+      ?.map((x: any) => x.name)
+      .indexOf(newCollection.name) === -1
+  ) {
+    configuration?.collections?.push(newCollection);
+  }
 }
 
 function mdxTransformer(document: any): Schema<"frontmatter", any> {

@@ -6,8 +6,14 @@ order: 3
 activeSelector: group-has-[.docs-customization]:active-content
 ---
 
-import RocketIconsText from "@/components/rocketicons-text";
+import RocketIconsText, { RocketIconsTextDefault } from "@/components/rocketicons-text";
+
+import { SiReact, SiTailwindcss } from 'rocketicons/si';
 
 ## Customization
 
-<RocketIconsText className="text-slate-900 dark:text-white" /> can be easily customized using Tailwind CSS classes to match your application's design.
+<RocketIconsTextDefault /> can be easily customized on every use using <SiTailwindcss className="-mt-1" />  **Tailwind** classes to match your application's design.
+
+You can also create <SiReact className="-mt-1 icon-sky-800" /> **React** components on your project which extends the default component and add your custom styles.
+
+Again, always using the <SiTailwindcss className="-mt-1" /> **Tailwind** classes.

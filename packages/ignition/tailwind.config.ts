@@ -62,6 +62,10 @@ const config: Config = {
     {
       pattern: /icon-*/,
     },
+    "bg-black",
+    "list-disc",
+    "list-decimal",
+    "list-inside",
   ],
 };
 export default config;
