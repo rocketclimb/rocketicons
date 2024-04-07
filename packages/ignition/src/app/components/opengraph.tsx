@@ -10,7 +10,7 @@ export default async function OpenGraph({
   lang: Languages;
   text?: string;
 }) {
-  const { brand } = useLocale(lang || "en").config();
+  const { brand } = useLocale(lang || "en").configFromIndex();
 
   return new ImageResponse(
     (

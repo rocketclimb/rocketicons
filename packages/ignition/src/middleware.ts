@@ -24,17 +24,6 @@ export const middleware = (request: NextRequest) => {
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  // const pathNameIsOpenGraphImage = pathname.startsWith("/opengraph-image");
-
-  // const pathNameIsFavicon = pathname.startsWith("/favicon");
-
-  // console.log(
-  //   pathname,
-  //   pathNameIsOpenGraphImage,
-  //   pathNameIsFavicon,
-  //   pathnameHasLocale
-  // );
-
   if (pathnameHasLocale) {
     return NextResponse.next();
   }

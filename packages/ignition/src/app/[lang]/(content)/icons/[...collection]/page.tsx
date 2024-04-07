@@ -22,7 +22,7 @@ export const generateMetadata = async ({
   const { title, description } = useLocale(
     lang,
     "icons-collection"
-  ).component();
+  ).pageComponentFromIndex();
   return {
     title: `${title} | ${info.name} | rocketicons`,
     description,

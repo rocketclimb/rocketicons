@@ -7,11 +7,6 @@ import { useLocale } from "@/app/locales";
 export const generateMetadata = ({
   params: { lang, slug },
 }: PropsWithLangSlugParams): Metadata => {
-  // const { title, description } = useLocale(lang, slug).component() as {
-  //   title: string;
-  //   description: string;
-  // };
-
   const { title, description } = useLocale(lang, slug).docFromIndex() as {
     title: string;
     description: string;

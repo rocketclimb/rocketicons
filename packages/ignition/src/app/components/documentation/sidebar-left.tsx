@@ -115,7 +115,7 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
                             <li key={i}>
                               <MenuItem
                                 href={
-                                  subMenu.isComponent
+                                  isComponent
                                     ? `/${lang}/docs/${mainDoc.slug}#${subMenu.slug}`
                                     : `/${lang}/docs/${subMenu.slug}`
                                 }

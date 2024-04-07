@@ -12,7 +12,7 @@ export const generateMetadata = ({
     lang,
     "icons-hero",
     true
-  ).component();
+  ).pageComponentFromIndex();
 
   return {
     title: `${title} | rocketicons`,

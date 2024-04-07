@@ -1,7 +1,8 @@
 import { serverEnv } from "@/env/server";
 import { useLocale } from "@/app/locales";
 
-const { nav } = useLocale("en").config();
+const { nav: navWithLocales } = useLocale("en").configFromIndex();
+const nav = navWithLocales["en"];
 
 const baseUrl = serverEnv.NEXT_PUBLIC_APP_URL || "https://rocketicons.io";
 
@@ -19,7 +20,5 @@ export const siteConfig = {
     componentGroups: ["getting-started"],
   },
 };
-
-// console.log(siteConfig);
 
 export type SiteConfig = typeof siteConfig;
