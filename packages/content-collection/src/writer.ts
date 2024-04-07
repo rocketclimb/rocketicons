@@ -21,7 +21,9 @@ async function createDataFile(
 ) {
   const dataPath = path.join(
     directory,
-    `${createArrayConstName(collection.name, collection.notArray)}.json`
+    `${camelcase(
+      createArrayConstName(collection.name, collection.notArray)
+    )}.json`
   );
 
   await fs.writeFile(
