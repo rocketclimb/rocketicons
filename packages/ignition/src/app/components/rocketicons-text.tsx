@@ -14,16 +14,14 @@ type RocketIconsTextProps = {
 
 const RocketIconsText = ({ showIcon, className }: RocketIconsTextProps) => (
   <>
-    <span className="whitespace-nowrap">
-      {showIcon && (
-        <RcRocketIcon className={`-mt-1 ${selectIconClasses(className)}`} />
-      )}
-      {(className && (
+    {(className && (
+      <span className="whitespace-nowrap">
+        {!!showIcon && <RcRocketIcon className={`-mt-1 `} />}
         <span className={className}>
           <Text />
         </span>
-      )) || <Text />}
-    </span>
+      </span>
+    )) || <Text />}
   </>
 );
 
