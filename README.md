@@ -2,7 +2,7 @@
 
 | Name|Quality Gate|
 |:-|:-:|
-|development|[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=development&project=anteatergames_ludustack&metric=alert_status)](https://sonarcloud.io/dashboard?id=anteatergames_ludustack&branch=development)|
+|development|[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rocketclimb_rocketicons&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=rocketclimb_rocketicons)|
 
 
 ## Introduction
