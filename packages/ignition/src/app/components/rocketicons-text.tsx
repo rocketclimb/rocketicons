@@ -16,7 +16,9 @@ const RocketIconsText = ({ showIcon, className }: RocketIconsTextProps) => (
   <>
     {(className && (
       <span className="whitespace-nowrap">
-        {!!showIcon && <RcRocketIcon className={`-mt-1 `} />}
+        {!!showIcon && (
+          <RcRocketIcon className={`-mt-1 icon-slate-900 dark:icon-white`} />
+        )}
         <span className={className}>
           <Text />
         </span>
@@ -25,13 +27,10 @@ const RocketIconsText = ({ showIcon, className }: RocketIconsTextProps) => (
   </>
 );
 
-export const RocketIconsTextDefault = ({
-  showIcon,
-  className,
-}: RocketIconsTextProps) => (
+export const RocketIconsTextDefault = ({ showIcon }: RocketIconsTextProps) => (
   <RocketIconsText
     showIcon={showIcon || true}
-    className={`text-slate-900 dark:text-white ${className}`}
+    className={`text-slate-900 dark:text-white`}
   />
 );
 
