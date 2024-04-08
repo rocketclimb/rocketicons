@@ -1,8 +1,5 @@
 ![rocketicons](https://github.com/rocketclimb/rocketicons/blob/develop/svgs/rocketicons-logo.svg)
 
-# rocketicons
-
-
 | Name|Quality Gate|
 |:-|:-:|
 |development|[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=development&project=anteatergames_ludustack&metric=alert_status)](https://sonarcloud.io/dashboard?id=anteatergames_ludustack&branch=development)|
