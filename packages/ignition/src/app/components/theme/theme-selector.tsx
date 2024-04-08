@@ -20,8 +20,7 @@ type Selector = {
 };
 
 const ThemeSelector = ({ lang }: PropsWithLang) => {
-  const { themes: themesWithLocales } = useLocale(lang).configFromIndex();
-  const themes = themesWithLocales[lang];
+  const themes = useLocale(lang).config("themes");
   const [current, setTheme] = useThemeContext();
   const [showing, setShowing] = useState<boolean>(false);
 

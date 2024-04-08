@@ -12,15 +12,11 @@ import {
   CodeElementOptionsStyler,
 } from "@/components/code-block";
 import { CollectionID } from "rocketicons/data";
-import RocketIconsText from "@/components/rocketicons-text";
 import FloatBlock from "@/components/icons/float-block";
-import {
-  Title3,
-  Title4,
-  SectionTitle,
-  Paragraph,
-  Prose,
-} from "@/components/documentation";
+import { Title3, SectionTitle, Prose } from "@/components/documentation";
+import { MdxClientPartial } from "@/components/mdx";
+import { PropsWithLang } from "@/types";
+import { useLocale } from "@/locales";
 
 type IconInfoProps = {
   show: boolean;
@@ -28,15 +24,18 @@ type IconInfoProps = {
   Icon: IconType;
   info?: IconInfoType;
   onClose: () => void;
-};
+} & PropsWithLang;
 
 const IconInfo = ({
+  lang,
   show,
   collectionId,
   info,
   Icon,
   onClose,
 }: IconInfoProps) => {
+  const { colors, sizes } = useLocale(lang).config("colors", "sizes");
+
   const defaultStyle = "icon-7xl";
   const [section, setSection] = useState<string>("sizes");
   const [selected, setSelected] = useState<string>(defaultStyle);
@@ -64,9 +63,11 @@ const IconInfo = ({
                 {Icon && <Icon className={selected} />}
               </div>
               <div className="col-span-6">
-                <Paragraph className="mb-1.5">
-                  Import the icon component from <RocketIconsText />
-                </Paragraph>
+                <MdxClientPartial
+                  path="components"
+                  lang={lang}
+                  slug="icon-info-import"
+                />
                 {info && (
                   <CodeStyler variant="compact">
                     <CodeImportBlock
@@ -78,9 +79,11 @@ const IconInfo = ({
                 )}
               </div>
               <div className="col-span-6">
-                <Paragraph className="mt-3 mb-1.5">
-                  Place the element wherever you need
-                </Paragraph>
+                <MdxClientPartial
+                  path="components"
+                  lang={lang}
+                  slug="icon-info-usage"
+                />
                 <CodeStyler variant="compact">
                   {info && (
                     <CodeElementBlock
@@ -95,16 +98,11 @@ const IconInfo = ({
                 className="group/sections col-span-8 my-3 mx-1 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/35"
               >
                 <div>
-                  <Title4>Styling</Title4>
-                  <Paragraph>
-                    You can use Tailwind{" "}
-                    <a href="https://tailwindcss.com/docs/size">sizes</a> or
-                    even define it using{" "}
-                    <a href="https://tailwindcss.com/docs/height">height</a> and{" "}
-                    <a href="https://tailwindcss.com/docs/width">width</a>{" "}
-                    classes, however few helpers sizes classes are defined to
-                    make your work even easier. and few more words
-                  </Paragraph>
+                  <MdxClientPartial
+                    path="components"
+                    lang={lang}
+                    slug="icon-info-styling"
+                  />
                 </div>
                 <div className="mt-6 p-2">
                   <div className="flex mb-2 border-b dark:border-gray-200/5">
@@ -112,13 +110,13 @@ const IconInfo = ({
                       onClick={() => setSection("sizes")}
                       selected={section === "sizes"}
                     >
-                      Sizes
+                      {sizes}
                     </SectionTitle>
                     <SectionTitle
                       onClick={() => setSection("colors")}
                       selected={section === "colors"}
                     >
-                      Colors
+                      {colors}
                     </SectionTitle>
                   </div>
                   <div className="hidden group-data-[section=sizes]/sections:block">

@@ -8,6 +8,7 @@ import Highlight from "./highlight";
 import ExternalLink from "./external-link";
 import License from "./license";
 import SectionTitle from "./section-title";
+import Code from "./code";
 export * from "./sidebar-left";
 export * from "./collapsed-sidebar";
 export {
@@ -21,4 +22,5 @@ export {
   ExternalLink,
   License,
   SectionTitle,
+  Code,
 };

@@ -7,8 +7,7 @@ import ThemeSelector from "@/components/theme/theme-selector";
 import { useLocale } from "@/locales";
 
 const MainNav = ({ lang }: PropsWithLang) => {
-  const { nav: navWithLocales } = useLocale(lang).configFromIndex();
-  const nav = navWithLocales[lang];
+  const nav = useLocale(lang).config("nav");
 
   const navItems: NavItem[] = [
     {

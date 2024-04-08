@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { IconType } from "rocketicons";
 import { IconInfo } from "@rocketicons/core";
-import { CollectionID, CollectionInfo } from "rocketicons/data";
+import { CollectionID, CollectionInfo, License } from "rocketicons/data";
 import { getIconsData } from "./get-icons-data";
 
 type ManifestHandler = Omit<CollectionInfo, "icons"> & {
@@ -55,7 +55,7 @@ export const useIconsData = (
     id: "" as CollectionID,
     name: "",
     projectUrl: "",
-    license: "",
+    license: "" as License,
     licenseUrl: "",
     icons: new CollectionHandler({}, {}),
   });

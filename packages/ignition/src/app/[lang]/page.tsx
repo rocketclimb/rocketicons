@@ -22,10 +22,8 @@ export const generateMetadata = ({
 };
 
 const Home = ({ params: { lang } }: PropsWithLangParams) => {
-  const { nav: navWithLocales, search: searchWithLocales } =
-    useLocale(lang).configFromIndex();
-  const nav = navWithLocales[lang];
-  const search = searchWithLocales[lang];
+  const { nav, search } = useLocale(lang).config("nav", "search");
+
   return (
     <div className="flex flex-col grow overflow-y-auto items-center justify-between bg-cover bg-hero-light dark:bg-hero-dark">
       <div

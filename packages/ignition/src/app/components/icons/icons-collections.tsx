@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
 import { IconsManifestType } from "rocketicons/core";
-import { CollectionID } from "rocketicons/data";
+import { CollectionID, License } from "rocketicons/data";
 
 import IconsCollectionSummary from "./icons-collection-summary";
 import { PropsWithLang } from "@/app/types";
 
 type IconsCollectionsProps = PropsWithLang & {
-  manifests: IconsManifestType<CollectionID>[];
+  manifests: IconsManifestType<CollectionID, License>[];
 };
 
 const IconsCollections = ({ lang, manifests }: IconsCollectionsProps) => {

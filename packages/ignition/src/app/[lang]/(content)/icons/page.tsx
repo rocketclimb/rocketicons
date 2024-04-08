@@ -10,8 +10,7 @@ export const generateMetadata = ({
 }: PropsWithLangParams): Metadata => {
   const { title, description } = useLocale(
     lang,
-    "icons-hero",
-    true
+    "icons-hero"
   ).pageComponentFromIndex();
 
   return {

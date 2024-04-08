@@ -62,6 +62,7 @@ const IconsCollections = ({ lang, id, icon }: IconsCollectionsProps) => {
   return (
     <>
       <IconInfo
+        lang={lang}
         show={isLoaded && !!selected}
         collectionId={id}
         onClose={() => {

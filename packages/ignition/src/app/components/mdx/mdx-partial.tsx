@@ -1,21 +1,39 @@
-import { PropsWithLang } from "@/types";
+import { PropsWithClassName, PropsWithLang } from "@/types";
 import dynamic from "next/dynamic";
 import { useLocale } from "@/app/locales";
+import { DependencyList } from "react";
+
+type Callback = <T extends Function>(callback: T, deps: DependencyList) => T;
+
+export type MdxPartialProps = {
+  slug: string;
+  path: "docs" | "components";
+} & PropsWithLang &
+  PropsWithClassName;
+
+type CacheFunctionProps = {
+  callback?: Callback;
+  deps?: DependencyList;
+};
 
 export const MdxPartial = ({
   lang,
   slug,
   path,
-}: PropsWithLang & { slug: string; path: string }) => {
-  const selectedDoc = useLocale(lang, slug, true).docFromIndex();
+  className,
+  callback,
+  deps,
+}: MdxPartialProps & CacheFunctionProps) => {
+  const selectedDoc = useLocale(lang, slug).pageComponentFromIndex();
 
-  path = path.endsWith("/") ? path : `${path}/`;
+  callback =
+    callback || (((cb: any, _deps: DependencyList) => cb()) as Callback);
 
-  const DynamicMarkDownComponent = dynamic(
-    () => import(`@/locales/${path}${selectedDoc?.filePath}`),
-    {
-      loading: () => <p>Loading...</p>,
-    }
+  const DynamicMarkDownComponent = callback(
+    dynamic(() => import(`@/locales/${path}/${selectedDoc?.filePath}`), {
+      loading: () => <p className={className || ""}>Loading...</p>,
+    }),
+    deps || []
   );
 
   return <>{selectedDoc && <DynamicMarkDownComponent />}</>;
