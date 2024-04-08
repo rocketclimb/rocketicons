@@ -6,6 +6,7 @@ import { PropsWithLangParams } from "@/types";
 
 import { Title, ExternalLink, License } from "@/components/documentation";
 import { getIconsDataManifest } from "@/components/icons/get-icons-data";
+import FloatBlock from "@/components/icons/float-block";
 import { useLocale } from "@/locales";
 
 type PageProps = PropsWithLangParams & {
@@ -36,7 +37,7 @@ const Page = async ({ params: { lang, collection } }: PageProps) => {
 
   return (
     <div className="collection-page">
-      <div className="px-3 pt-2 mt-2 flex lg:block lg:absolute lg:h-32 lg:w-[550px] backdrop-blur lg:z-10 lg:border border-slate-200 dark:border-slate-700 rounded-xl bg-white/85 dark:bg-transparent">
+      <FloatBlock className="transition-all duration-200 px-3 pt-2 mt-2 h-12 flex lg:block lg:sticky lg:top-2 lg:h-32 lg:w-[550px] lg:z-10 lg:border">
         <ExternalLink
           href={info.projectUrl}
           className="border-b border-sky-500 pb-0.5 hover:border-b-2 lg:pb-0 lg:border-none lg:cursor-default"
@@ -51,7 +52,7 @@ const Page = async ({ params: { lang, collection } }: PageProps) => {
             <License url={info.licenseUrl} license={info.license} />
           </p>
         </div>
-      </div>
+      </FloatBlock>
       <IconsCollection lang={lang} id={id} icon={icon} />
     </div>
   );
