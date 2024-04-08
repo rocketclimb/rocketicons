@@ -1,8 +1,6 @@
-type LogoProps = {
-  className?: string;
-};
+import { PropsWithClassName } from "@/types";
 
-const Logo = ({ className }: LogoProps) => (
+const Logo = ({ className }: PropsWithClassName) => (
   <svg className={className} version="1.1" viewBox="0 0 169.24 30.737">
     <g transform="translate(-.063647 -42.681)" display="none">
       <rect

@@ -3,7 +3,7 @@ import "@/utils";
 import { IconsManifest } from "rocketicons/data";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
-import { PropsWithLang } from "@/types";
+import { PropsWithClassName, PropsWithLang } from "@/types";
 import RocketIconsText from "@/components/rocketicons-text";
 import { siteConfig } from "@/config/site";
 import { useLocale } from "@/locales";
@@ -18,8 +18,7 @@ const TextMenuTitle = ({
 }: {
   text: string;
   href: string;
-  className?: string;
-}) => (
+} & PropsWithClassName) => (
   <MenuTitle href={href} className={className}>
     <span className={className}>{text}</span>
   </MenuTitle>
@@ -29,7 +28,9 @@ const MenuTitle = ({
   href,
   className,
   children,
-}: PropsWithChildren & { href: string; className?: string }) => (
+}: PropsWithChildren & {
+  href: string;
+} & PropsWithClassName) => (
   <h5
     className={`mb-8 pl-1 lg:mb-3 block border-l border-transparent hover:border-slate-400 font-semibold text-slate-900 dark:text-slate-200 hover:text-slate-900 dark:hover:text-slate-300 dark:hover:border-slate-500 ${
       className || ""

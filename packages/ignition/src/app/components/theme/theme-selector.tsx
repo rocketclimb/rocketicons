@@ -7,7 +7,7 @@ import { MdOutlineMonitor, MdKeyboardArrowDown } from "rocketicons/md";
 import { ThemeOptions } from "@/hooks";
 import { useLocale } from "@/locales";
 
-import { PropsWithLang } from "@/types";
+import { PropsWithClassName, PropsWithLang } from "@/types";
 
 import { useThemeContext } from "./theme-context";
 
@@ -51,10 +51,7 @@ const ThemeSelector = ({ lang }: PropsWithLang) => {
     );
   };
 
-  type SelectorMenuProps = {
-    className?: string;
-  };
-  const SelectorMenu = ({ className }: SelectorMenuProps) => (
+  const SelectorMenu = ({ className }: PropsWithClassName) => (
     <ul
       className={`${className} absolute w-36 pb-2 bg-white rounded-lg mt-8 shadow-lg text-sm text-slate-700 font-semibold dark:bg-slate-800 dark:highlight-white/5 dark:text-slate-300 ${
         (showing && "opacity-100 z-50") || "opacity-0 -z-50"

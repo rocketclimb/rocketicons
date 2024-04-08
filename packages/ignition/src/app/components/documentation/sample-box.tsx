@@ -1,13 +1,13 @@
 import { IconType } from "@rocketicons/core";
 import SamplePreviewer from "./sample-previewer";
 import SampleCode from "./sample-code";
+import { PropsWithClassName } from "@/app/types";
 
 type SampleBoxProps = {
   Icon: IconType;
   icon: string;
   options: string[];
-  className?: string;
-};
+} & PropsWithClassName;
 
 const SampleBox = ({ Icon, icon, options, className }: SampleBoxProps) => (
   <>

@@ -1,11 +1,11 @@
 "use client";
+import { PropsWithClassName } from "@/types";
 import { CodeElementBlock, CodeStyler } from "@/components/code-block";
 
 type SampleCodeProps = {
   icon: string;
   options: string[];
-  className?: string;
-};
+} & PropsWithClassName;
 
 const SampleCode = ({ icon, options, ...props }: SampleCodeProps) => (
   <CodeStyler className="text-sm" variant="minimalist">

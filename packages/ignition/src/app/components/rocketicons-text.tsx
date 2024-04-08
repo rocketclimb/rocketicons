@@ -1,3 +1,5 @@
+import { PropsWithClassName } from "@/types";
+
 const Text = () => (
   <>
     <span className="font-quicksand">rocket</span>
@@ -5,11 +7,7 @@ const Text = () => (
   </>
 );
 
-type RocketIconsTextProps = {
-  className?: string;
-};
-
-const RocketIconsText = ({ className }: RocketIconsTextProps) => (
+const RocketIconsText = ({ className }: PropsWithClassName) => (
   <>
     {(className && (
       <span className={className}>
