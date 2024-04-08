@@ -1,12 +1,5 @@
 "use client";
-import React, {
-  PropsWithChildren,
-  Children,
-  ReactElement,
-  cloneElement,
-  useReducer,
-  useEffect,
-} from "react";
+import React, { Children, ReactElement, cloneElement, useReducer } from "react";
 import {
   DataChildren,
   DataElement,
@@ -21,6 +14,7 @@ import CodeStyler from "./code-styler";
 
 import { reducer, getElementId } from "./code-block-reducer";
 import useScriptRunner from "./use-script-runner";
+import { PropsWithChildrenAndlassName } from "@/types";
 
 type CodeAnimatorProps = {
   script: Script;
@@ -28,9 +22,8 @@ type CodeAnimatorProps = {
   showCodeElementdId?: boolean;
   skipRender?: boolean;
   variants?: CodeStylerVariations;
-  className?: string;
   onCommit?: OnScriptCommit;
-} & PropsWithChildren;
+} & PropsWithChildrenAndlassName;
 
 const CodeAnimator = ({
   script,

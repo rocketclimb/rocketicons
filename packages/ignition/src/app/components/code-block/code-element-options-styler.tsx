@@ -3,13 +3,13 @@ import { TabsProps, Tab, OnTabChange } from "./types";
 import CodeStyler from "./code-styler";
 import CodeElementBlock from "./code-element-block";
 import { useState } from "react";
+import { PropsWithClassName } from "@/types";
 
 type CodeElementOptionsProps = {
   onTabChange?: OnTabChange;
   options: TabsProps;
   component: string;
-  className?: string;
-};
+} & PropsWithClassName;
 
 const CodeElementOptionsStyler = ({
   onTabChange,

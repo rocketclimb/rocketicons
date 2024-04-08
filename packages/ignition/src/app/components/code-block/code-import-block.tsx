@@ -1,3 +1,4 @@
+import { PropsWithClassName } from "@/types";
 import {
   CommonText,
   TagName,
@@ -9,8 +10,7 @@ import WithCopy from "./with-copy";
 type CodeImportBlockProps = {
   component: string;
   module: string;
-  className?: string;
-};
+} & PropsWithClassName;
 
 const CodeImportBlock = ({
   component,

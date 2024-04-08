@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactElement, Children } from "react";
+import { ReactElement, Children } from "react";
 import CodeAnimator from "./code-animator";
 
 import {
@@ -8,6 +8,7 @@ import {
   CodeStylerVariations,
   OnScriptCommit,
 } from "./types";
+import { PropsWithChildrenAndlassName } from "@/types";
 
 export { ScriptActionType as ScriptAction } from "./types";
 
@@ -40,9 +41,8 @@ type AnimatedCodeBlockProps = {
   variants?: CodeStylerVariations;
   showCodeElementdId?: boolean;
   skipRender?: boolean;
-  className?: string;
   onCommit?: OnScriptCommit;
-} & PropsWithChildren;
+} & PropsWithChildrenAndlassName;
 
 const AnimatedCodeBlock = ({
   script,

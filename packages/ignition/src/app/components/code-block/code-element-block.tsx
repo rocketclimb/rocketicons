@@ -1,3 +1,4 @@
+import { PropsWithClassName } from "@/types";
 import { TagName, CommonNotation, Attributes } from "./code-elements";
 import WithCopy from "./with-copy";
 
@@ -11,9 +12,8 @@ const attributesAsText = (attrs?: Record<string, string>) =>
 
 type CodeElementBlockProps = {
   component: string;
-  className?: string;
   attrs?: Record<string, string>;
-};
+} & PropsWithClassName;
 
 const CodeElementBlock = ({
   attrs,

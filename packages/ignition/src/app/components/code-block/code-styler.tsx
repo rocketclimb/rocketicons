@@ -1,14 +1,14 @@
 "use client";
-import React, { PropsWithChildren, useState } from "react";
+import React, { useState } from "react";
 import { Tab, TabsProps, OnTabChange, CodeStylerVariations } from "./types";
+import { PropsWithChildrenAndlassName } from "@/types";
 
 type CodeStylerProps = {
   variant?: CodeStylerVariations;
-  className?: string;
   tabs?: TabsProps;
   onTabChange?: OnTabChange;
   animatedPreviewer?: boolean;
-} & PropsWithChildren;
+} & PropsWithChildrenAndlassName;
 
 const wrapperFullClassName =
   "group-data-[variant=full]/styler:h-[31.625rem] group-data-[variant=full]/styler:lg:h-[34.6875rem] group-data-[variant=full]/styler:xl:h-[31.625rem]";
@@ -58,28 +58,26 @@ const CodeStyler = ({
     data-animated={animatedPreviewer}
     className={`group/styler relative grow data-[animated=true]:row-start-1 data-[animated=true]:col-start-6 data-[animated=true]:xl:col-start-7 data-[animated=true]:col-span-7 data-[animated=true]:xl:col-span-6 ${className}`}
   >
-    <div className="-mx-4 sm:mx-0">
-      <div
-        className={`relative overflow-hidden shadow-xl flex bg-slate-800  max-h-[60vh] sm:max-h-[none] sm:rounded-xl dark:bg-slate-900/70 dark:backdrop-blur dark:ring-1 dark:ring-inset dark:ring-white/10 ${wrapperFullClassName}`}
-      >
-        <div className="relative w-full flex flex-col">
-          <div
-            className={`flex-none border-b border-slate-500/30 ${barMinimalistClassName} ${barCompactClassName}`}
-          >
-            <div className="flex items-center h-8 space-x-1.5 px-3">
-              <div className="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
-              <div className="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
-              <div className="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
-            </div>
+    <div
+      className={`relative overflow-hidden shadow-xl flex bg-slate-800 rounded max-h-[60vh] sm:max-h-[none] sm:rounded-xl dark:bg-slate-900/70 dark:backdrop-blur dark:ring-1 dark:ring-inset dark:ring-white/10 ${wrapperFullClassName}`}
+    >
+      <div className="relative w-full flex flex-col">
+        <div
+          className={`flex-none border-b border-slate-500/30 ${barMinimalistClassName} ${barCompactClassName}`}
+        >
+          <div className="flex items-center h-8 space-x-1.5 px-3">
+            <div className="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
+            <div className="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
+            <div className="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
           </div>
-          {tabs && <TabSelector tabs={tabs} onTabChange={onTabChange} />}
-          <div
-            className={`relative min-h-0 flex-auto flex flex-col dark ${codeMinimalistClassName} ${codeCompactClassName}`}
-          >
-            <div className="w-full flex-auto flex min-h-0 overflow-auto">
-              <div className="w-full relative flex-auto cursor-default">
-                {children}
-              </div>
+        </div>
+        {tabs && <TabSelector tabs={tabs} onTabChange={onTabChange} />}
+        <div
+          className={`relative min-h-0 flex-auto flex flex-col dark ${codeMinimalistClassName} ${codeCompactClassName}`}
+        >
+          <div className="w-full flex-auto flex min-h-0 overflow-auto">
+            <div className="w-full relative flex-auto cursor-default">
+              {children}
             </div>
           </div>
         </div>
