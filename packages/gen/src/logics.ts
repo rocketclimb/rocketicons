@@ -112,7 +112,9 @@ export const rmDirRecursive = async (dest: string) => {
   await fs.rm(dest, { recursive: true, force: true });
 };
 
-export const buildPackageExports = (icons: IconsManifestType<string>[]) => {
+export const buildPackageExports = (
+  icons: IconsManifestType<string, string>[]
+) => {
   const exports: Record<
     string,
     {

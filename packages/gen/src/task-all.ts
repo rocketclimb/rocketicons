@@ -64,7 +64,7 @@ export const dirInit = async ({ DIST, LIB, PLUGIN, DATA }: TaskContext) => {
 export const writeIconModule = async (
   icon: IconDefinition,
   { DIST }: TaskContext,
-  iconInfoManifest: IconsInfoManifest<string>
+  iconInfoManifest: IconsInfoManifest<string, string>
 ) => {
   const exists = new Set(); // for remove duplicate
   for (const content of icon.contents) {

@@ -19,9 +19,9 @@ import {
 
 export const writeIconsManifest = async (
   { DATA, DIST }: TaskContext,
-  iconInfoManifest: IconsInfoManifest<string>
+  iconInfoManifest: IconsInfoManifest<string, string>
 ) => {
-  const writeObj: IconsManifestType<string>[] = icons.map((icon) => ({
+  const writeObj: IconsManifestType<string, string>[] = icons.map((icon) => ({
     id: icon.id,
     name: icon.name,
     projectUrl: icon.projectUrl,
@@ -38,8 +38,9 @@ export const writeIconsManifest = async (
   const mjsIconsInfo: string[] = [];
   const jsIconsInfo: string[] = [];
   const typeCollectionsIds: string[] = [];
+  const typeLicenses: string[] = [];
 
-  icons.forEach(({ id }) => {
+  icons.forEach(({ id, license }) => {
     mjsDataIcons.push(`export * as ${id} from "../${id}";`);
     jsDataIcons.push(
       `const ${id} = require("../${id}");\nexports.${id} = void 0;\nexports.${id} = ${id};`
@@ -51,6 +52,7 @@ export const writeIconsManifest = async (
       `const ${id} = require("../${id}/manifest.js");\nexports.${id} = void 0;\nexports.${id} = ${id};`
     );
     typeCollectionsIds.push(`"${id}"`);
+    typeLicenses.push(`"${license}"`);
   });
 
   await fs.writeFile(
@@ -144,6 +146,8 @@ export const writeIconsManifest = async (
   await fs.writeFile(
     path.resolve(DATA, "index.d.ts"),
     `${DataTypeHeaderTemplate}\nexport type CollectionID = ${typeCollectionsIds.join(
+      " | "
+    )};\nexport type License = ${[...new Set(typeLicenses)].join(
       " | "
     )};\n${DataTypeFooterTemplate}`,
     "utf8"

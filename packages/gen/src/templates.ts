@@ -12,17 +12,17 @@ import type {
 `;
 
 export const DataTypeFooterTemplate = `
-export type CollectionInfo = CollectionDataInfo<CollectionID>;
+export type CollectionInfo = CollectionDataInfo<CollectionID, License>;
 
 export declare const loader: (
   id: CollectionID
 ) => Promise<
-  Record<string, IconType> & { manifest: CollectionDataInfo<CollectionID> }
+  Record<string, IconType> & { manifest: CollectionDataInfo<CollectionID, License> }
 >;
 
-export declare const IconsManifest: IconsManifestType<CollectionID>[];
+export declare const IconsManifest: IconsManifestType<CollectionID, License>[];
 
-export declare const IconsInfo: IconsInfoManifest<CollectionID>;
+export declare const IconsInfo: IconsInfoManifest<CollectionID, License>;
 `;
 
 export const DataIndexJsTemplate = `

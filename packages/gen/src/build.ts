@@ -39,7 +39,7 @@ async function main() {
       await taskCommon.copyReadme(allOpt);
     });
 
-    const iconInfoManifest: IconsInfoManifest<string> = {};
+    const iconInfoManifest: IconsInfoManifest<string, string> = {};
 
     await task("rocketicons write icons", async () => {
       await Promise.all(
