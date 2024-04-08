@@ -1,9 +1,8 @@
-![rocketicons](https://github.com/rocketclimb/rocketicons/blob/develop/svgs/rocketicons-logo.svg)
+![rocketicons](https://github.com/rocketclimb/rocketicons/blob/develop/packages/ignition/public/svgs/rocketicons-logo.svg)
 
-| Name|Quality Gate|
-|:-|:-:|
-|development|[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rocketclimb_rocketicons&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=rocketclimb_rocketicons)|
-
+| Name        |                                                                                           Quality Gate                                                                                            |
+| :---------- | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| development | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rocketclimb_rocketicons&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=rocketclimb_rocketicons) |
 
 ## Introduction
 
@@ -17,8 +16,8 @@ This component provides a collection of icons for use in your **React** web and 
 easy-to-use icon library for developers who wish to write a single code that can
 work both in **React** web and **React Native**.
 
-
 ## Technical specifications
+
 - Next.js 14
 
 ## Preparing the environment
@@ -30,4 +29,5 @@ work both in **React** web and **React Native**.
 ...
 
 ## License
+
 This project is licensed under the [MIT License](https://github.com/rocketclimb/rocketicons/blob/develop/LICENSE)
