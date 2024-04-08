@@ -1,8 +1,8 @@
-import { PropsWithChildrenAndlassName } from "@/app/types";
+import { PropsWithChildrenAndClassName } from "@/app/types";
 
 type ExternalLinkProps = {
   href: string;
-} & PropsWithChildrenAndlassName;
+} & PropsWithChildrenAndClassName;
 
 const ExternalLink = ({ href, className, children }: ExternalLinkProps) => (
   <a

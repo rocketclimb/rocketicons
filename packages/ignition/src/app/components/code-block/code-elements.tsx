@@ -1,6 +1,6 @@
 import React from "react";
 import { Attrs } from "./types";
-import { PropsWithChildrenAndlassName } from "@/types";
+import { PropsWithChildrenAndClassName } from "@/types";
 
 const colors = {
   html: {
@@ -25,13 +25,13 @@ type ColorType = keyof Colors;
 
 type CodeElementProps = {
   lang: Lang;
-} & PropsWithChildrenAndlassName &
+} & PropsWithChildrenAndClassName &
   React.SVGAttributes<HTMLElement>;
 
 type RawSpanProps = React.SVGAttributes<HTMLElement> & {
   colors: Colors;
   codeType: ColorType;
-} & PropsWithChildrenAndlassName;
+} & PropsWithChildrenAndClassName;
 
 const RawSpan = ({
   colors,

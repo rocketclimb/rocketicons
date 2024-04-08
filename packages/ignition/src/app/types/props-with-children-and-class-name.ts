@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
 import { PropsWithClassName } from "./props-with-class-name";
 
-export type PropsWithChildrenAndlassName = PropsWithChildren &
+export type PropsWithChildrenAndClassName = PropsWithChildren &
   PropsWithClassName;

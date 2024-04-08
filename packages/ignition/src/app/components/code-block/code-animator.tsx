@@ -14,7 +14,7 @@ import CodeStyler from "./code-styler";
 
 import { reducer, getElementId } from "./code-block-reducer";
 import useScriptRunner from "./use-script-runner";
-import { PropsWithChildrenAndlassName } from "@/types";
+import { PropsWithChildrenAndClassName } from "@/types";
 
 type CodeAnimatorProps = {
   script: Script;
@@ -23,7 +23,7 @@ type CodeAnimatorProps = {
   skipRender?: boolean;
   variants?: CodeStylerVariations;
   onCommit?: OnScriptCommit;
-} & PropsWithChildrenAndlassName;
+} & PropsWithChildrenAndClassName;
 
 const CodeAnimator = ({
   script,

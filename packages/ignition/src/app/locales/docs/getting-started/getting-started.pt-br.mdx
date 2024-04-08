@@ -6,33 +6,44 @@ order: 0
 activeSelector: group-has-[.docs-primeiros-passos]:active-content
 ---
 
-import RocketIconsText from "@/components/rocketicons-text";
-import Installation from "./components/installation.pt-br.mdx";
-import Configuration from "./components/configuration.pt-br.mdx";
-import Customization from "./components/customization.pt-br.mdx";
-import Contributing from "./components/contributing.pt-br.mdx";
+import RocketIconsText, { RocketIconsTextDefault } from "@/components/rocketicons-text";
+import Instalacao from "./components/installation.pt-br.mdx";
+import Configuracao from "./components/configuration.pt-br.mdx";
+import Personalizacao from "./components/customization.pt-br.mdx";
+import Contribuicao from "./components/contributing.pt-br.mdx";
+import { SiReact, SiTailwindcss, SiExpo } from 'rocketicons/si';
 
-# Introdução
+# Primeiros Passos
 
-Bem-vindo à documentação do <RocketIconsText className="text-sky-500" />!
-Este componente fornece uma coleção de ícones para uso em seus projetos React web e React Native. O RocketIcons utiliza classes do Tailwind CSS para estilização, tornando fácil personalizar e integrar em suas aplicações.
+## Introdução
+
+Bem-vindo à documentação para <RocketIconsTextDefault />!
+Este componente fornece uma coleção de ícones para uso em seus projetos <SiReact className="-mt-1 icon-sky-800" /> **React** web e **React Native**.
+<RocketIconsTextDefault /> utiliza classes do **Tailwind CSS** para estilização, tornando fácil a personalização e integração em suas aplicações.
+
+## Por que foi criado?
+
+<RocketIconsTextDefault /> foi criado para fornecer uma biblioteca de ícones simples e fácil de usar para desenvolvedores que desejam escrever um único código que possa funcionar tanto em **React** web quanto em **React Native**.
 
 
-## Por quê foi criado?
+Fomos motivados pela existência de ótimas
+ferramentas como
+[<SiTailwindcss className="-mt-1" /> Tailwind CSS](https://tailwindcss.com/),
+[<SiExpo className="-mt-1" /> Expo](https://expo.dev/),
+[<SiReact className="-mt-1 icon-sky-500" /> NativeWind](https://nativewind.dev) e
+[<SiReact className="-mt-1 icon-red-800" /> React Icons](https://react-icons.github.io/react-icons/).
+Essas ferramentas são ótimas e nós as amamos, mas queríamos criar uma experiência ainda mais fácil
+para os desenvolvedores que trabalham com múltiplas plataformas com o mesmo código base.
 
-<RocketIconsText className="text-slate-900 dark:text-white" /> foi criado para fornecer uma biblioteca de ícones simples e fácil de usar para desenvolvedores que desejam escrever um único código que possa funcionar tanto no **React** web quanto no **React Native**. Fomos motivados pela existência de ótimas ferramentas como [Tailwind CSS](https://tailwindcss.com/), [Expo](https://expo.dev/) e [React Icons](https://react-icons.github.io/react-icons/).
-These tools are great and we love them but we wanted to create an even easier experience
- for developers working with multiple platforms with the same codebase.
+Os ícones são projetados para serem facilmente personalizáveis e podem ser usados tanto em aplicações web
+quanto móveis.
 
-The icons are designed to be easily customizable and can be used in both web
-and mobile applications.
+**Escreva uma vez, use em todos os lugares!**
 
-**Write once, use everywhere!**
-<Installation />
+<Instalacao />
 
-<Configuration />
+<Configuracao />
 
-<Customization />
+<Personalizacao />
 
-<Contributing />
-
+<Contribuicao />

@@ -1,6 +1,6 @@
-import { PropsWithChildrenAndlassName } from "@/types";
+import { PropsWithChildrenAndClassName } from "@/types";
 
-const FloatBlock = ({ className, children }: PropsWithChildrenAndlassName) => (
+const FloatBlock = ({ className, children }: PropsWithChildrenAndClassName) => (
   <div
     className={`${className} backdrop-blur border-slate-200 dark:border-slate-700 rounded-xl bg-white/85 dark:bg-transparent has-[.panel]:dark:dark:bg-slate-900/85`}
   >

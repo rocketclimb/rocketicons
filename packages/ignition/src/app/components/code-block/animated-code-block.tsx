@@ -8,7 +8,7 @@ import {
   CodeStylerVariations,
   OnScriptCommit,
 } from "./types";
-import { PropsWithChildrenAndlassName } from "@/types";
+import { PropsWithChildrenAndClassName } from "@/types";
 
 export { ScriptActionType as ScriptAction } from "./types";
 
@@ -42,7 +42,7 @@ type AnimatedCodeBlockProps = {
   showCodeElementdId?: boolean;
   skipRender?: boolean;
   onCommit?: OnScriptCommit;
-} & PropsWithChildrenAndlassName;
+} & PropsWithChildrenAndClassName;
 
 const AnimatedCodeBlock = ({
   script,

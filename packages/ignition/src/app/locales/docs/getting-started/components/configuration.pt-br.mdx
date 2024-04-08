@@ -6,8 +6,24 @@ order: 2
 activeSelector: group-has-[.docs-configuracao]:active-content
 ---
 
-# Configuração
+import RocketIconsText, { RocketIconsTextDefault } from "@/components/rocketicons-text";
 
-```javascript
-// aqui vai o código para configurar o pacote
-```
+## Configuração
+
+Para usar <RocketIconsTextDefault /> em seus projetos, você precisa ter uma configuração mínima.
+
+Você precisa ter o tailwind em seu projeto e, é claro, o arquivo `tailwind.config.js`.
+
+Nesse arquivo, importe o plugin e adicione-o ao array `plugins` assim:
+
+```js
+// tailwind.config.js
+import icons from "rocketicons/tailwind";
+
+...
+plugins: [
+  icons
+],
+...
+
+Depois disso, você pode usar <RocketIconsTextDefault /> em seu projeto.

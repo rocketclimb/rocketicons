@@ -1,14 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { Tab, TabsProps, OnTabChange, CodeStylerVariations } from "./types";
-import { PropsWithChildrenAndlassName } from "@/types";
+import { PropsWithChildrenAndClassName } from "@/types";
 
 type CodeStylerProps = {
   variant?: CodeStylerVariations;
   tabs?: TabsProps;
   onTabChange?: OnTabChange;
   animatedPreviewer?: boolean;
-} & PropsWithChildrenAndlassName;
+} & PropsWithChildrenAndClassName;
 
 const wrapperFullClassName =
   "group-data-[variant=full]/styler:h-[31.625rem] group-data-[variant=full]/styler:lg:h-[34.6875rem] group-data-[variant=full]/styler:xl:h-[31.625rem]";

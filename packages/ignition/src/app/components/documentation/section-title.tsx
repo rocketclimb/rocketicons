@@ -1,9 +1,9 @@
-import { PropsWithChildrenAndlassName } from "@/app/types";
+import { PropsWithChildrenAndClassName } from "@/app/types";
 
 type SectionTitleProps = {
   onClick: () => void;
   selected: boolean;
-} & PropsWithChildrenAndlassName;
+} & PropsWithChildrenAndClassName;
 
 const SectionTitle = ({
   className,

@@ -39,9 +39,31 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <p className={`${className || ""} ${allComponentClasses}`}>{children}</p>
     ),
     pre: ({ className, children }) => (
-      <pre className={`${className || ""} ${allComponentClasses}`}>
+      <pre
+        className={`rounded-lg p-3 bg-black ${
+          className || ""
+        } ${allComponentClasses}`}
+      >
         {children}
       </pre>
+    ),
+    ul: ({ className, children }) => (
+      <ul
+        className={`list-disc list-inside ${
+          className || ""
+        } ${allComponentClasses}`}
+      >
+        {children}
+      </ul>
+    ),
+    ol: ({ className, children }) => (
+      <ol
+        className={`list-decimal list-inside ${
+          className || ""
+        } ${allComponentClasses}`}
+      >
+        {children}
+      </ol>
     ),
     a: ({ className, children, href }) => (
       <a
