@@ -16,3 +16,18 @@ This component provides a collection of icons for use in your **React** web and 
 **rocketicons** was created to provide a simple and
 easy-to-use icon library for developers who wish to write a single code that can
 work both in **React** web and **React Native**.
+
+
+## Technical specifications
+- Next.js 14
+
+## Preparing the environment
+
+...
+
+## How to run
+
+...
+
+## License
+This project is licensed under the [MIT License](https://github.com/rocketclimb/rocketicons/blob/develop/LICENSE)
