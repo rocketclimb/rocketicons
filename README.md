@@ -1,4 +1,4 @@
-![rocketicons](https://github.com/rocketclimb/rocketicons/blob/develop/packages/ignition/public/svgs/rocketicons-logo.svg)
+![rocketicons](https://github.com/rocketclimb/rocketicons/blob/develop/packages/ignition/public/rocketicons-logo.svg)
 
 | Name        |                                                                                           Quality Gate                                                                                            |
 | :---------- | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
