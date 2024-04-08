@@ -16,5 +16,11 @@
     "usage-slug": "usando",
     "icons": "Icones"
   },
-  "search": "Procurar"
+  "search": "Procurar",
+  "colors": "Cores",
+  "sizes": "Tamanhos",
+  "clipboard": {
+    "click-to-copy": "click e copie",
+    "copied": "copiado"
+  }
 }

@@ -16,5 +16,11 @@
     "usage-slug": "usage",
     "icons": "Icons"
   },
-  "search": "Quick seach"
+  "search": "Quick seach",
+  "colors": "Colors",
+  "sizes": "Sizes",
+  "clipboard": {
+    "click-to-copy": "click to copy",
+    "copied": "copied"
+  }
 }
