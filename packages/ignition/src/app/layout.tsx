@@ -1,11 +1,13 @@
 import "./globals.css";
 
 import { Inter, Quicksand, Fira_Code } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { siteConfig } from "@/config/site";
+import { serverEnv } from "@/env/server";
 
 const monospace = Fira_Code({
   weight: ["400"],
@@ -116,6 +118,7 @@ export default function RootLayout({
         {children}
         <Analytics />
         <SpeedInsights />
+        <GoogleAnalytics gaId={serverEnv.GOOGLE_ANALYTICS_ID} />
       </body>
     </html>
   );
