@@ -4,16 +4,36 @@ import { MdxPartial } from "@/components/mdx";
 import ColorsAnimation from "./colors-animation";
 
 import { shuffle, colors, variations } from "./utils";
-import { getIconsData } from "../../icons/get-icons-data";
+import { getIconsData } from "@/components/icons/get-icons-data";
 import { CollectionID } from "rocketicons/data";
 
-const Colors = async ({ lang }: PropsWithLang) => {
-  const icon = "RcRocketIcon";
-  const collection: CollectionID = "rc";
+const getCurrentIconData = async (query?: string) => {
+  const defaultCollection: CollectionID = "rc";
+  const defaultIcon = "RcRocketIcon";
 
-  const icons = await getIconsData(collection);
+  const [collection, icon] = (
+    query || `${defaultCollection}.${defaultIcon}`
+  ).split(".") as [CollectionID, string];
 
-  const Icon = icons[icon];
+  const icons =
+    (await getIconsData(collection)) || (await getIconsData(defaultCollection));
+
+  const Icon = icons[icon] || icons[defaultIcon];
+
+  return {
+    Icon,
+    ...((icons[icon] && { icon, collection }) || {
+      icon: defaultIcon,
+      collection: defaultCollection,
+    }),
+  };
+};
+
+const Colors = async ({
+  lang,
+  queryIcon,
+}: PropsWithLang & { queryIcon?: string }) => {
+  const { icon, collection, Icon } = await getCurrentIconData(queryIcon);
 
   type ColorViewerProps = {
     color: string;
@@ -56,7 +76,7 @@ const Colors = async ({ lang }: PropsWithLang) => {
 
   return (
     <>
-      <MdxPartial lang={lang} slug={"cores"} path="docs" />
+      <MdxPartial lang={lang} slug={"colors"} path="docs" />
       <ColorsAnimation
         icon={icon}
         collection={collection}
