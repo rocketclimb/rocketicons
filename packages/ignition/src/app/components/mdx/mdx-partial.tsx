@@ -24,10 +24,11 @@ export const MdxPartial = ({
   callback,
   deps,
 }: MdxPartialProps & CacheFunctionProps) => {
-  const selectedDoc = useLocale(lang, slug).pageComponentFromIndex();
+  const locale = useLocale(lang, slug);
+  const selectedDoc =
+    path === "docs" ? locale.docFromIndex() : locale.pageComponentFromIndex();
 
-  callback =
-    callback || (((cb: any, _deps: DependencyList) => cb()) as Callback);
+  callback = callback || (((cb: any, _deps: DependencyList) => cb) as Callback);
 
   const DynamicMarkDownComponent = callback(
     dynamic(() => import(`@/locales/${path}/${selectedDoc?.filePath}`), {

@@ -18,14 +18,14 @@ type PageProps = PropsWithLangParams & {
 export const generateMetadata = async ({
   params: { lang, collection },
 }: PageProps): Promise<Metadata> => {
-  const [id] = collection;
+  const [id, icon] = collection;
   const info = await getIconsDataManifest(id);
   const { title, description } = useLocale(
     lang,
     "icons-collection"
   ).pageComponentFromIndex();
   return {
-    title: `${title} | ${info.name} | rocketicons`,
+    title: `${title} | ${info.name} ${icon || ""} | rocketicons`,
     description,
   };
 };

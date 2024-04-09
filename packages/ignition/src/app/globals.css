@@ -73,6 +73,12 @@ html {
     height: 100%;
   }
 
+  @media (max-width: 1024px) {
+    .icon-info-area {
+      height: calc(100vh - theme(height.20));
+    }
+  }
+
   @media (min-width: 1024px) {
     .content-area {
       height: calc(100vh - theme(height.16));

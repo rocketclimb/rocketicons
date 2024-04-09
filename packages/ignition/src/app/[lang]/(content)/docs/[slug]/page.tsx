@@ -17,18 +17,22 @@ export const generateMetadata = ({
   };
 };
 
-const Page = ({ params: { lang, slug } }: PropsWithLangSlugParams) => {
+const Page = ({
+  params: { lang, slug },
+  searchParams: { i },
+}: PropsWithLangSlugParams & { searchParams: Record<string, string> }) => {
   const enSlugFromIndex = useLocale(lang, slug).enSlugFromIndex();
+
   const DocFactory = () => {
     switch (enSlugFromIndex) {
       case "colors": {
-        return <Colors lang={lang} />;
+        return <Colors lang={lang} queryIcon={i} />;
       }
       case "sizing": {
         return <Sizing lang={lang} />;
       }
       default:
-        return <MdxDoc lang={lang} slug={slug} />;
+        return <MdxDoc lang={lang} slug={slug} icon={i} />;
     }
   };
 

@@ -3,10 +3,16 @@ import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 import { useLocale } from "@/app/locales";
 
-export const MdxDoc = ({ lang, slug }: PropsWithLang & { slug: string }) => {
+export const MdxDoc = ({
+  lang,
+  slug,
+  icon,
+}: PropsWithLang & { slug: string; icon?: string }) => {
   const selectedDoc = useLocale(lang, slug).docFromIndex();
   if (slug != selectedDoc.slug) {
-    redirect(`/${lang}/docs/${selectedDoc.slug}`);
+    redirect(
+      `/${lang}/docs/${selectedDoc.slug}${(icon && "?i=" + icon) || ""}`
+    );
   }
 
   // Redirect to the component section if the doc is a component

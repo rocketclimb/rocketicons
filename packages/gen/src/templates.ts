@@ -81,4 +81,4 @@ export const dynamicLoaderTemplate = (icons: IconDefinition[]): string =>
     (reduced, { id }) =>
       `${reduced}    case "${id}": {return await import("../${id}")}\n`,
     ""
-  )}  }\n};\n`;
+  )} default: {return {}}  }\n};\n`;

@@ -46,6 +46,7 @@ const Sizing = async ({ lang }: PropsWithLang) => {
         </Paragraph>
 
         <SampleBox
+          locale={lang}
           icon={icon}
           Icon={Icon}
           options={[
