@@ -19,8 +19,12 @@
   "search": "Procurar",
   "colors": "Cores",
   "sizes": "Tamanhos",
-  "clipboard": {
-    "click-to-copy": "click e copie",
-    "copied": "copiado"
+  "combining": "Combinando",
+  "dark-mode": "Modo escuro",
+  "states": "Estados",
+  "code-block": {
+    "copy": "click e copie",
+    "copied": "copiado",
+    "more": "ver mais"
   }
 }

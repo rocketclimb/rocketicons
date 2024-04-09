@@ -71,7 +71,7 @@ const IconsCollections = ({ lang, id, icon }: IconsCollectionsProps) => {
         }}
         {...getCurrentIcon()}
       />
-      <ul className="transition-all duration-200 ml-0 mt-[-630px] min-h-[655px] flex gap-1 justify-start px-4 gap-x-5 gap-y-10 flex-wrap overflow-y-auto">
+      <ul className="transition-all duration-200 ml-0 mt-[-630px] min-h-[655px] flex gap-1 justify-between px-4 gap-x-5 gap-y-10 flex-wrap">
         {icons
           .toArray()
           .slice(0, 200)

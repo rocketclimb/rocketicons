@@ -5,7 +5,6 @@ import { Config, Configs, SelectedConfig } from "./types";
 export const useLocale = (lang: Languages, slug?: string) => {
   const docFromIndex = (index: Record<string, any>) => {
     let enSlug = index["slugMap"][slug || ""];
-
     return slug ? index["docs"][enSlug || slug][lang || "en"] : index["docs"];
   };
 

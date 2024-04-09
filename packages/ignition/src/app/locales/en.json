@@ -19,8 +19,12 @@
   "search": "Quick seach",
   "colors": "Colors",
   "sizes": "Sizes",
-  "clipboard": {
-    "click-to-copy": "click to copy",
-    "copied": "copied"
+  "combining": "Combining",
+  "dark-mode": "Dark mode",
+  "states": "States",
+  "code-block": {
+    "copy": "click to copy",
+    "copied": "copied",
+    "more": "show more"
   }
 }
