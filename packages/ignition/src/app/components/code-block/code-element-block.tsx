@@ -1,4 +1,4 @@
-import { PropsWithClassName } from "@/types";
+import { Languages, PropsWithClassName } from "@/types";
 import { TagName, CommonNotation, Attributes } from "./code-elements";
 import WithCopy from "./with-copy";
 
@@ -11,17 +11,22 @@ const attributesAsText = (attrs?: Record<string, string>) =>
     : "";
 
 type CodeElementBlockProps = {
+  locale: Languages;
   component: string;
   attrs?: Record<string, string>;
 } & PropsWithClassName;
 
 const CodeElementBlock = ({
+  locale,
   attrs,
   component,
   className,
 }: CodeElementBlockProps) => {
   return (
-    <WithCopy clipboardText={`<${component}  ${attributesAsText(attrs)} />`}>
+    <WithCopy
+      lang={locale}
+      clipboardText={`<${component}  ${attributesAsText(attrs)} />`}
+    >
       <CommonNotation lang="html" className={className || "text-sm"}>
         {"<"}
         <TagName lang="html">{component}</TagName>{" "}

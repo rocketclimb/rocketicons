@@ -3,7 +3,7 @@ import CodeStyler from "./code-styler";
 import CodeImportBlock from "./code-import-block";
 import CodeElementBlock from "./code-element-block";
 import CodeElementOptionsStyler from "./code-element-options-styler";
-import { Tab } from "./types";
+import { Tab, CodeElementTabs } from "./types";
 export {
   type Tab,
   AnimatedCodeBlock,
@@ -12,4 +12,5 @@ export {
   CodeImportBlock,
   CodeElementBlock,
   CodeElementOptionsStyler,
+  CodeElementTabs,
 };

@@ -6,6 +6,7 @@ import { PropsWithChildrenAndClassName } from "@/types";
 type CodeStylerProps = {
   variant?: CodeStylerVariations;
   tabs?: TabsProps;
+  allowSelectionUntil?: number;
   onTabChange?: OnTabChange;
   animatedPreviewer?: boolean;
 } & PropsWithChildrenAndClassName;
@@ -21,9 +22,14 @@ const barCompactClassName = "group-data-[variant=compact]/styler:hidden";
 type TabSelectorProps = {
   onTabChange?: OnTabChange;
   tabs: TabsProps;
+  allowSelectionUntil: number;
 };
 
-const TabSelector = ({ tabs, onTabChange }: TabSelectorProps) => {
+const TabSelector = ({
+  tabs,
+  allowSelectionUntil,
+  onTabChange,
+}: TabSelectorProps) => {
   const [selected, setSelected] = useState<number>(0);
   return (
     <div className="flex text-slate-400 text-xs leading-6 mt-2 overflow-y-auto thin-scroll">
@@ -32,10 +38,10 @@ const TabSelector = ({ tabs, onTabChange }: TabSelectorProps) => {
           key={i}
           data-selected={i === selected}
           onClick={() => {
-            setSelected(i);
+            i < allowSelectionUntil && setSelected(i);
             onTabChange && onTabChange(i, tab);
           }}
-          className="flex-none cursor-pointer data-[selected=true]:cursor-default text-slate-500 data-[selected=true]:text-sky-300 border-t border-b border-t-transparent border-b-slate-800 data-[selected=true]:border-b-sky-300 px-4 py-1 flex items-center"
+          className="flex-none cursor-pointer data-[selected=true]:cursor-default text-slate-500 data-[selected=true]:text-sky-300 border-t border-b border-t-transparent border-b-slate-800 data-[selected=true]:border-b-sky-300 px-3 py-1 flex items-center"
         >
           {(typeof tab === "string" && tab) || (tab as Tab).name}
         </div>
@@ -49,6 +55,7 @@ const CodeStyler = ({
   variant,
   className,
   tabs,
+  allowSelectionUntil,
   onTabChange,
   children,
   animatedPreviewer,
@@ -71,11 +78,17 @@ const CodeStyler = ({
             <div className="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
           </div>
         </div>
-        {tabs && <TabSelector tabs={tabs} onTabChange={onTabChange} />}
+        {tabs && allowSelectionUntil && (
+          <TabSelector
+            tabs={tabs}
+            allowSelectionUntil={allowSelectionUntil}
+            onTabChange={onTabChange}
+          />
+        )}
         <div
           className={`relative min-h-0 flex-auto flex flex-col dark ${codeMinimalistClassName} ${codeCompactClassName}`}
         >
-          <div className="w-full flex-auto flex min-h-0 overflow-auto">
+          <div className="w-80 lg:w-full flex-auto flex min-h-0 overflow-auto thin-scroll">
             <div className="w-full relative flex-auto cursor-default">
               {children}
             </div>

@@ -1,4 +1,4 @@
-import { PropsWithClassName } from "@/types";
+import { Languages, PropsWithClassName } from "@/types";
 import {
   CommonText,
   TagName,
@@ -8,16 +8,21 @@ import {
 import WithCopy from "./with-copy";
 
 type CodeImportBlockProps = {
+  locale: Languages;
   component: string;
   module: string;
 } & PropsWithClassName;
 
 const CodeImportBlock = ({
+  locale,
   component,
   module,
   className,
 }: CodeImportBlockProps) => (
-  <WithCopy clipboardText={`import { ${component} } from "${module}";`}>
+  <WithCopy
+    lang={locale}
+    clipboardText={`import { ${component} } from "${module}";`}
+  >
     <CommonText
       lang="js"
       className={className || "text-sm"}

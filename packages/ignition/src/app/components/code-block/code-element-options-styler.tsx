@@ -1,23 +1,34 @@
 "use client";
-import { TabsProps, Tab, OnTabChange } from "./types";
+import { TabsProps, Tab, OnTabChange, CodeElementTabs } from "./types";
 import CodeStyler from "./code-styler";
 import CodeElementBlock from "./code-element-block";
 import { useState } from "react";
-import { PropsWithClassName } from "@/types";
+import { Languages, PropsWithClassName } from "@/types";
+import { useLocale } from "@/app/locales";
 
 type CodeElementOptionsProps = {
+  locale: Languages;
   onTabChange?: OnTabChange;
   options: TabsProps;
   component: string;
+  showMore?: boolean;
 } & PropsWithClassName;
 
 const CodeElementOptionsStyler = ({
+  locale,
   onTabChange,
   options,
   component,
   className,
+  showMore,
 }: CodeElementOptionsProps) => {
-  const tabs = ["default", ...options];
+  const tabs = [CodeElementTabs.DEFAULT, ...options];
+  const allowSelectionUntil = tabs.length;
+  showMore &&
+    tabs.push({
+      id: CodeElementTabs.MORE,
+      name: `... ${useLocale(locale).config("code-block").more}`,
+    });
   const [selected, setSelected] = useState<number>(0);
 
   const getSelectedTabName = (): string => {
@@ -29,12 +40,14 @@ const CodeElementOptionsStyler = ({
     <CodeStyler
       variant="compact"
       tabs={tabs}
+      allowSelectionUntil={allowSelectionUntil}
       onTabChange={(i, tab) => {
-        setSelected(i);
+        i < allowSelectionUntil && setSelected(i);
         onTabChange && onTabChange(i, tab);
       }}
     >
       <CodeElementBlock
+        locale={locale}
         className={className}
         component={component}
         attrs={{

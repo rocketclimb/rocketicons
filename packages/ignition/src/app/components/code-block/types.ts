@@ -117,3 +117,8 @@ export type OnTabChange = (index: number, tab: string | Tab) => void;
 export type Attrs = Record<string, string>;
 
 export type CodeStylerVariations = "full" | "minimalist" | "compact";
+
+export enum CodeElementTabs {
+  DEFAULT = "default",
+  MORE = "more",
+}
