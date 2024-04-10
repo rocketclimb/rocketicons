@@ -22,7 +22,7 @@ const Page = ({
   searchParams: { i },
 }: PropsWithLangSlugParams & { searchParams: Record<string, string> }) => {
   const enSlugFromIndex = useLocale(lang, slug).enSlugFromIndex();
-
+  console.log(lang, slug, enSlugFromIndex);
   const DocFactory = () => {
     switch (enSlugFromIndex) {
       case "colors": {
