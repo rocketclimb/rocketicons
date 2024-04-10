@@ -126,7 +126,7 @@ const CodeGen = (props: CodeGenProps) => {
       <div className="hidden text-wrap font-monospace text-sm leading-6 whitespace-normal md:block text-slate-600 py-4 pr-4 text-right select-none pl-2 w-12">
         {Array.from({ length: lines + 2 }, (_, i) => i + 1).map((i) => `${i} `)}
       </div>
-      <code className="flex-auto relative block font-monospace text-sm leading-6 text-slate-50 pt-4 pb-4 px-2 overflow-auto">
+      <code className="flex-auto relative block font-monospace group-data-[variant=minimalist]/styler:text-xs group-data-[variant=minimalist]/styler:md:text-sm text-sm leading-6 text-slate-50 pt-4 pb-4 px-2 overflow-auto">
         <Generator {...props} />
       </code>
     </pre>

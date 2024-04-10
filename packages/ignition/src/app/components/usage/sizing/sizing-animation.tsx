@@ -54,12 +54,12 @@ const SizingAnimation = ({ collection, icon }: SizingAnimationProsp) => {
   return (
     <>
       {Icon && (
-        <div className="flex my-12 items-center justify-center gap-12">
-          <div className="size-48 flex items-center justify-center border border-slate-200 rounded-lg dark:border-slate-800">
+        <div className="flex flex-col sm:flex-row my-12 items-center justify-center gap-4">
+          <div className="size-48 order-last sm:order-none flex items-center justify-center border rounded-lg border-slate-200 dark:border-slate-800">
             <Icon className={`transition duration-500 ${state}`} />
           </div>
           <AnimatedCodeBlock
-            className="w-[500px]"
+            className="w-96 md:w-[500px]"
             variants="minimalist"
             skipRender={true}
             onCommit={(_, state) => state && setState(state)}

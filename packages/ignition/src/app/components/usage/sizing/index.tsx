@@ -17,7 +17,7 @@ const Sizing = async ({
     <>
       <MdxPartial lang={lang} slug={"sizing-elements"} path="docs" />
       <SizingAnimation collection={collection} icon={icon} />
-      <div className="px-5">
+      <div className="md:px-5">
         <Table>
           {Object.entries(sizes).map(([attr, value], i) => (
             <TableLine
