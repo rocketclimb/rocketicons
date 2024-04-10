@@ -10,7 +10,7 @@ export const useLocale = (lang: Languages, slug?: string) => {
 
   const enSlugFromIndex = (index: Record<string, any>) => {
     return (
-      (slug && index["docs"][slug]["en"] && slug) ||
+      (slug && index["docs"][slug] && index["docs"][slug]["en"]) ||
       index["slugMap"][slug || ""]
     );
   };
