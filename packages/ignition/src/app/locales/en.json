@@ -26,5 +26,10 @@
     "copy": "click to copy",
     "copied": "copied",
     "more": "show more"
+  },
+  "update-alert": {
+    "hover-alert": "Hover over the icon and see changes",
+    "dark-mode-alert": "Change the theme mode and see the changes",
+    "changes-alert": "Watch icon updates as options change."
   }
 }
