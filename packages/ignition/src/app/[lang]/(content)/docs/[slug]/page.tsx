@@ -22,14 +22,13 @@ const Page = ({
   searchParams: { i },
 }: PropsWithLangSlugParams & { searchParams: Record<string, string> }) => {
   const enSlugFromIndex = useLocale(lang, slug).enSlugFromIndex();
-  console.log(lang, slug, enSlugFromIndex);
   const DocFactory = () => {
     switch (enSlugFromIndex) {
       case "colors": {
         return <Colors lang={lang} queryIcon={i} />;
       }
       case "sizing": {
-        return <Sizing lang={lang} />;
+        return <Sizing lang={lang} queryIcon={i} />;
       }
       default:
         return <MdxDoc lang={lang} slug={slug} icon={i} />;
