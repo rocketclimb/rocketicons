@@ -14,7 +14,13 @@
     "getting-started-slug": "getting-started",
     "usage": "Usage",
     "usage-slug": "usage",
-    "icons": "Icons"
+    "icons": "Icons",
+    "roadmap": "Roadmap"
+  },
+  "roadmap": {
+    "released": "Released",
+    "in-progress": "In Progress",
+    "planned": "Planned"
   },
   "search": "Quick seach",
   "colors": "Colors",
