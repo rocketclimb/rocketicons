@@ -18,15 +18,22 @@ type CacheFunctionProps = {
 
 export const MdxPartial = ({
   lang,
-  slug,
+  slug: unparsedSlug,
   path,
   className,
   callback,
   deps,
 }: MdxPartialProps & CacheFunctionProps) => {
+  const [slug, componentSlug] = unparsedSlug.split("/");
   const locale = useLocale(lang, slug);
+
+  const loadDoc = () => {
+    const doc = locale.docFromIndex();
+    return (componentSlug && doc["components"][componentSlug]) || doc;
+  };
+
   const selectedDoc =
-    path === "docs" ? locale.docFromIndex() : locale.pageComponentFromIndex();
+    path === "docs" ? loadDoc() : locale.pageComponentFromIndex();
 
   callback = callback || (((cb: any, _deps: DependencyList) => cb) as Callback);
 

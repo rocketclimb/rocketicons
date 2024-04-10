@@ -4,7 +4,7 @@ import IconsCollection from "@/components/icons/icons-collection";
 
 import { PropsWithLangParams } from "@/types";
 
-import { Title, ExternalLink, License } from "@/components/documentation";
+import { Title, DocLink, License } from "@/components/documentation";
 import { getIconsDataManifest } from "@/components/icons/get-icons-data";
 import FloatBlock from "@/components/icons/float-block";
 import { useLocale } from "@/locales";
@@ -38,15 +38,15 @@ const Page = async ({ params: { lang, collection } }: PageProps) => {
   return (
     <div className="collection-page">
       <FloatBlock className="transition-all duration-200 px-3 pt-2 mt-2 h-12 flex lg:block lg:sticky lg:top-2 lg:h-32 lg:w-[550px] lg:z-10 lg:border">
-        <ExternalLink
+        <DocLink
           href={info.projectUrl}
           className="border-b border-sky-500 pb-0.5 hover:border-b-2 lg:pb-0 lg:border-none lg:cursor-default"
         >
           <Title>{info.name}</Title>
-        </ExternalLink>
+        </DocLink>
         <div className="lg:my-3">
           <p className="hidden lg:block">
-            <ExternalLink href={info.projectUrl} />
+            <DocLink href={info.projectUrl} />
           </p>
           <p>
             <License url={info.licenseUrl} license={info.license} />

@@ -1,33 +1,11 @@
 import { PropsWithLang } from "@/types";
 import { MdxPartial } from "@/components/mdx";
 
+import { getCurrentIconData } from "@/components/usage/utils";
+
 import ColorsAnimation from "./colors-animation";
 
 import { shuffle, colors, variations } from "./utils";
-import { getIconsData } from "@/components/icons/get-icons-data";
-import { CollectionID } from "rocketicons/data";
-
-const getCurrentIconData = async (query?: string) => {
-  const defaultCollection: CollectionID = "rc";
-  const defaultIcon = "RcRocketIcon";
-
-  const [collection, icon] = (
-    query || `${defaultCollection}.${defaultIcon}`
-  ).split(".") as [CollectionID, string];
-
-  const icons =
-    (await getIconsData(collection)) || (await getIconsData(defaultCollection));
-
-  const Icon = icons[icon] || icons[defaultIcon];
-
-  return {
-    Icon,
-    ...((icons[icon] && { icon, collection }) || {
-      icon: defaultIcon,
-      collection: defaultCollection,
-    }),
-  };
-};
 
 const Colors = async ({
   lang,

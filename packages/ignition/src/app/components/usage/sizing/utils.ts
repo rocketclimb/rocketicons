@@ -1,29 +1,8 @@
-export const shuffle = (array: string[]) =>
-  [...array].sort(() => Math.random() - 0.5);
+export const sizesUtilities = ["size-5", "size-10", "size-14", "size-16"];
 
-// export const sizes = [
-//   "xs",
-//   "sm",
-//   "base",
-//   "lg",
-//   "xl",
-//   "2xl",
-//   "3xl",
-//   "4xl",
-//   "5xl",
-//   "6xl",
-//   "7xl",
-// ];
+export const hwUtilities = ["h-2 w-2", "h-4 w-4", "h-7 w-7", "h-9 w-9"];
 
-export const otherSizes = [
-  "size-5",
-  "size-10",
-  "size-14",
-  "h-2 w-2",
-  "h-4 w-4",
-  "h-7 w-7",
-  "h-9 w-9",
-];
+export const otherSizes = [...sizesUtilities, ...hwUtilities];
 
 export const sizes = {
   xs: {

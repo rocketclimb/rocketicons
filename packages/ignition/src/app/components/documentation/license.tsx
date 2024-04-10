@@ -1,5 +1,5 @@
 import { License as LicenseType } from "rocketicons/data";
-import ExternalLink from "./external-link";
+import DocLink from "./doc-link";
 
 const shortForm: Record<LicenseType, string> = {
   MIT: "MIT",
@@ -28,12 +28,12 @@ type LicenseProps = {
   url: string;
 };
 const License = ({ url, license }: LicenseProps) => (
-  <ExternalLink href={url}>
+  <DocLink href={url}>
     <span className="hidden md:ml-3 md:mt-2 md:inline-block lg:m-0">
       {license}
     </span>
     <LicenseTag license={license} />
-  </ExternalLink>
+  </DocLink>
 );
 
 export default License;

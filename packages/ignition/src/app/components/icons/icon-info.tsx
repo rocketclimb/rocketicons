@@ -191,7 +191,7 @@ const IconInfo = ({
                           onTabChange={(_i, tab) => {
                             if ((tab as Tab)?.id === CodeElementTabs.MORE) {
                               router.push(
-                                `/docs/sizing?i=${collectionId}.${info?.name}`
+                                `/docs/sizing?i=${collectionId}.${info?.compName}`
                               );
                               return;
                             }

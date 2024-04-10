@@ -27,7 +27,7 @@ const Page = ({
       case "colors": {
         return <Colors lang={lang} queryIcon={i} />;
       }
-      case "sizing": {
+      case "sizing-elements": {
         return <Sizing lang={lang} queryIcon={i} />;
       }
       default:
