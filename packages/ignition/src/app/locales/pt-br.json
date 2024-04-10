@@ -14,7 +14,13 @@
     "getting-started-slug": "primeiros-passos",
     "usage": "Usando",
     "usage-slug": "usando",
-    "icons": "Icones"
+    "icons": "Icones",
+    "roadmap": "Roadmap"
+  },
+  "roadmap": {
+    "released": "Lançado",
+    "in-progress": "Em progresso",
+    "planned": "Planejado"
   },
   "search": "Procurar",
   "colors": "Cores",
