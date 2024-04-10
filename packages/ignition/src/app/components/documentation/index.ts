@@ -4,7 +4,6 @@ import Title3 from "./title3";
 import Title4 from "./title4";
 import Paragraph from "./paragraph";
 import Prose from "./prose";
-import Highlight from "./highlight";
 import DocLink from "./doc-link";
 import License from "./license";
 import SectionTitle from "./section-title";
@@ -22,7 +21,6 @@ export {
   Title4,
   Paragraph,
   Prose,
-  Highlight,
   DocLink,
   License,
   SectionTitle,

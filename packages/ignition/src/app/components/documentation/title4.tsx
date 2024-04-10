@@ -1,11 +1,13 @@
-import { PropsWithChildrenAndClassName } from "@/app/types";
+import BaseDocElement, { DocElementProps } from "./base-doc-element";
 
-const Title4 = ({ className, children }: PropsWithChildrenAndClassName) => (
-  <h3
-    className={`text-base mb-4 whitespace-pre-wrap font-semibold text-slate-900 dark:text-slate-200 lg:-ml-2 lg:pl-2 ${className}`}
+const Title4 = ({ children, ...props }: DocElementProps) => (
+  <BaseDocElement
+    Tag="h4"
+    defaultClassName="sub-title sub-section text-base mt-2"
+    {...props}
   >
     {children}
-  </h3>
+  </BaseDocElement>
 );
 
 export default Title4;

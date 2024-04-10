@@ -1,9 +1,13 @@
-import { PropsWithChildren } from "react";
+import BaseDocElement, { DocElementProps } from "./base-doc-element";
 
-const Title2 = ({ children }: PropsWithChildren) => (
-  <h2 className="flex whitespace-pre-wrap mb-2 text-sm leading-6 text-sky-500 font-semibold tracking-normal dark:text-sky-400">
+const Title2 = ({ children, ...props }: DocElementProps) => (
+  <BaseDocElement
+    Tag="h2"
+    defaultClassName="flex sub-title mb-2 text-sm leading-6 text-sky-500 tracking-normal dark:text-sky-400"
+    {...props}
+  >
     {children}
-  </h2>
+  </BaseDocElement>
 );
 
 export default Title2;

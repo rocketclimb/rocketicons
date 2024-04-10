@@ -41,7 +41,7 @@ const config: Config = {
   },
   plugins: [
     icons,
-    plugin(({ addComponents }) => {
+    plugin(({ addComponents, addVariant }) => {
       addComponents({
         ".active-content": {
           "@apply border-sky-500 dark:border-sky-500": {},
@@ -55,7 +55,17 @@ const config: Config = {
         ".dark-scrollbar::-webkit-scrollbar-track": {
           background: "var(--dark-scrollbar-track-bg)",
         },
-      });
+        ".default-text-color": {
+          "@apply text-slate-900 dark:text-slate-200": {},
+        },
+        ".sub-title": {
+          "@apply whitespace-pre-wrap font-semibold": {},
+        },
+        ".sub-section": {
+          "@apply mb-4 lg:-ml-2 lg:pl-2 default-text-color": {},
+        },
+      }),
+        addVariant("highlight", "h1 + &");
     }),
   ],
   safelist: [
