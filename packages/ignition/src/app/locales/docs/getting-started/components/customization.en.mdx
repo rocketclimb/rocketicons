@@ -17,3 +17,122 @@ import { SiReact, SiTailwindcss } from 'rocketicons/si';
 You can also create <SiReact className="-mt-1 icon-sky-800" /> **React** components on your project which extends the default component and add your custom styles.
 
 Again, always using the <SiTailwindcss className="-mt-1" /> **Tailwind** classes.
+
+## Global customization
+
+You can define a global customization for all icons in two ways:
+
+### 1. By redefining the default theme
+
+- Add a components element under the theme section of your ***tailwind.config.js*** and a icon element 
+under the components element.
+
+Like this:
+
+```js
+{
+    components: {
+        icon: {
+            ... contents
+        },
+    },
+},
+```
+
+- Inside the icon property, you must set all of the properties of our default theme as you want.
+
+```js
+{
+    ... existing tailwind configs
+    components: {
+        icon: {
+            default: "sky-500-base",
+            baseStyle: "p-0 inline-block",
+            variants: {
+                filled: "",
+                outlined: "",
+            },
+            sizes: {
+                base: "size-5",
+            },
+        },
+    },
+},
+```
+
+> Remember, when using this method, you must define all properties and make sure the default size matches 
+an available one, like shown above.
+
+This is what our default theme looks like:
+```js
+{
+  default: "sky-500-base",
+  baseStyle: "p-0 inline-block",
+  variants: {
+    filled: "",
+    outlined: "",
+  },
+  sizes: {
+    xs: "size-2",
+    sm: "size-4",
+    base: "size-5",
+    lg: "size-6",
+    xl: "size-7",
+    "2xl": "size-8",
+    "3xl": "size-9",
+    "4xl": "size-10",
+    "5xl": "size-11",
+    "6xl": "size-12",
+    "7xl": "size-14",
+  },
+},
+```
+
+### 2. By extending the default theme
+
+If the default theme is fine and you just want to tweak some properties or add new variants or sizes, 
+you can just extend the default theme.
+
+Here is how you change the base size, for example:
+
+```js
+{
+    ... existing tailwind configs
+    components: {
+        icon: {
+            extend: {
+                sizes: {
+                    base: "size-6",
+                },
+            },
+        },
+    },
+},
+```
+
+And here is how you create a brand new size:
+
+```js
+{
+    ... existing tailwind configs
+    components: {
+        icon: {
+            extend: {
+                sizes: {
+                    myNewCoolGiantSize: "size-56",
+                },
+            },
+        },
+    },
+},
+```
+
+Cool, huh?
+
+And you can do that to:
+- default
+- baseStyle
+- variants
+- sizes
+
+You can't extend colors since they are not defined in the default theme and we just use the ones proved by ***Tailwind***, which are [A LOT](https://tailwindcss.com/docs/customizing-colors).

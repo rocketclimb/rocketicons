@@ -12,8 +12,130 @@ import { SiReact, SiTailwindcss } from 'rocketicons/si';
 
 ## Customização
 
-<RocketIconsTextDefault /> pode ser facilmente personalizado em cada uso usando classes do **Tailwind** <SiTailwindcss className="-mt-1" /> para combinar com o design de sua aplicação.
+<RocketIconsTextDefault /> pode ser facilmente personalizado em cada uso usando classes do 
+<SiTailwindcss className="-mt-1" /> **Tailwind** para combinar com o design de sua aplicação.
 
-Você também pode criar componentes **React** <SiReact className="-mt-1 icon-sky-800" /> em seu projeto que estendem o componente padrão e adicionam seus estilos personalizados.
+Você também pode criar componentes **React** <SiReact className="-mt-1 icon-sky-800" /> em seu projeto 
+que estendem o componente padrão e adicionam seus estilos personalizados.
 
 Novamente, sempre usando as classes do **Tailwind** <SiTailwindcss className="-mt-1" />.
+
+## Customização Global
+
+Você pode definir uma personalização global para todos os ícones de duas maneiras:
+
+### 1. Redefinindo o tema padrão
+
+- Adicione um elemento components sob a seção theme do seu ***tailwind.config.js*** e um elemento ***icon*** 
+ob o elemento components.
+
+Assim:
+
+```js
+{
+    components: {
+        icon: {
+            ... contents
+        },
+    },
+},
+```
+
+- Dentro da propriedade icon, você deve definir todas as propriedades do nosso tema padrão como desejar.
+
+```js
+{
+    ... existing tailwind configs
+    components: {
+        icon: {
+            default: "sky-500-base",
+            baseStyle: "p-0 inline-block",
+            variants: {
+                filled: "",
+                outlined: "",
+            },
+            sizes: {
+                base: "size-5",
+            },
+        },
+    },
+},
+```
+
+> Lembre-se, ao usar este método, você deve definir todas as propriedades e garantir que o tamanho padrão 
+corresponda a um disponível, como mostrado acima.
+
+O nosso tema padrão é assim:
+```js
+{
+  default: "sky-500-base",
+  baseStyle: "p-0 inline-block",
+  variants: {
+    filled: "",
+    outlined: "",
+  },
+  sizes: {
+    xs: "size-2",
+    sm: "size-4",
+    base: "size-5",
+    lg: "size-6",
+    xl: "size-7",
+    "2xl": "size-8",
+    "3xl": "size-9",
+    "4xl": "size-10",
+    "5xl": "size-11",
+    "6xl": "size-12",
+    "7xl": "size-14",
+  },
+},
+```
+
+### 2. Estendendo o tema padrão
+
+Se o tema padrão estiver bom e você só quiser ajustar algumas propriedades ou adicionar novas variantes 
+ou tamanhos, você pode simplesmente estender o tema padrão.
+
+Você pode alterar o tamanho ***base***, por exemplo:
+
+```js
+{
+    ... existing tailwind configs
+    components: {
+        icon: {
+            extend: {
+                sizes: {
+                    base: "size-6",
+                },
+            },
+        },
+    },
+},
+```
+
+E você pode até criar um novo tamanho assim:
+
+```js
+{
+    ... existing tailwind configs
+    components: {
+        icon: {
+            extend: {
+                sizes: {
+                    myNewCoolGiantSize: "size-56",
+                },
+            },
+        },
+    },
+},
+```
+
+Legal, né?
+
+E você pode fazer isso para:
+- efault
+- baseStyle
+- variants
+- sizes
+
+Você não pode estender cores, já que elas não são definidas no tema padrão e nós apenas usamos aquelas 
+fornecidas pelo ***Tailwind***, que são [MUITAS](https://tailwindcss.com/docs/customizing-colors).
