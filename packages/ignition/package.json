@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "rm -fR .conent-collections && next dev",
+    "dev": "next dev",
     "lint": "next lint",
-    "rebuild": "rm -fR .conent-collections && next build",
+    "rebuild": "rm -fR .content-collections && next build",
     "start": "next start"
   },
   "dependencies": {
