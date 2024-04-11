@@ -1,0 +1,5 @@
+- name: Multi Semantic Release
+  uses: darksworm/multi-semantic-release@v1
+    with:
+        # when true, no releases will be made, but outputs will be set. defaults to false
+        dry-run: true
