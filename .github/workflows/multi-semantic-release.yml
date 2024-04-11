@@ -4,8 +4,9 @@
 name: Multi-Semantic Release
 
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+    - feat/multi-semantic-release
 
 jobs:
   build:
