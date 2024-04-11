@@ -6,11 +6,15 @@ name: Multi-Semantic Release
 on:
   push:
     branches:
-    - feat/multi-semantic-release
+      - feat/multi-semantic-release
+
+permissions: write-all
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -27,10 +31,10 @@ jobs:
       - uses: darksworm/multi-semantic-release@v1
         with:
           # when true, no releases will be made, but outputs will be set. defaults to false
-          dry-run: true
-          
+          dry-run: false
+
           # github PAT (personal access token) used to create tags and releases in the repository
-          github-token: '${{secrets.GITHUB_TOKEN}}'
-      - run: npm publish
+          github-token: "${{secrets.GITHUB_TOKEN}}"
+        # - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
