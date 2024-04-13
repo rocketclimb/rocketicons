@@ -7,9 +7,9 @@
     "prebuild": "npm run generate-statics",
     "build": "next build",
     "predev": "npm run generate-statics",
-    "dev": "rm -fR .conent-collections && next dev",
+    "dev": "next dev",
     "lint": "next lint",
-    "rebuild": "rm -fR .conent-collections && next build",
+    "rebuild": "rm -fR .content-collections && next build",
     "start": "next start"
   },
   "dependencies": {

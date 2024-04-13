@@ -73,7 +73,7 @@ const config: Config = {
   safelist: [
     {
       pattern: /icon-*/,
-    }
+    },
   ],
 };
 
