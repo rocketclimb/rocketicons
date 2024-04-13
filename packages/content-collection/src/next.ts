@@ -3,15 +3,18 @@
 import type { NextConfig } from "next";
 import type webpack from "webpack";
 import { createBuilder } from "./builder";
+import { boolean } from "zod";
 
 let initialized = false;
 
 type Options = {
   configPath: string;
+  skipWatcher?: boolean;
 };
 
 const defaultOptions: Options = {
   configPath: "content-collections.ts",
+  skipWatcher: false,
 };
 
 // use dynamic import if the next package is used in a commonjs environment
@@ -36,7 +39,7 @@ class ContentCollectionWebpackPlugin {
         // configureLogging(builder);
         await builder.build();
 
-        if (compiler.watchMode) {
+        if (compiler.watchMode && !this.options.skipWatcher) {
           console.log("start watching ...");
           await builder.watch();
         }
@@ -46,7 +49,7 @@ class ContentCollectionWebpackPlugin {
 }
 
 export function createContentCollectionPlugin(pluginOptions: Options) {
-  const plugin = new ContentCollectionWebpackPlugin(pluginOptions);
+  const plugin = new ContentCollectionWebpackPlugin({ ...defaultOptions, ...pluginOptions });
   return (nextConfig: Partial<NextConfig> = {}): Partial<NextConfig> => {
     return {
       ...nextConfig,

@@ -1,4 +1,4 @@
-export { withContentCollections } from "./next";
+export { withContentCollections, createContentCollectionPlugin } from "./next";
 
 export * from "./config";
 export * from "./builder";
