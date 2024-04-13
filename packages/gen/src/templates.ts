@@ -5,6 +5,7 @@ export const DataTypeHeaderTemplate = `
 /// <reference types="react" />
 import type {
   IconType,
+  IconBaseProps,
   CollectionDataInfo,
   IconsInfoManifest,
   IconsManifestType,
@@ -30,14 +31,10 @@ export const DataIndexJsTemplate = `
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const manifest_1 = require("./icons-manifest.js");
-const loader_1 = require("./loader.js");
 const info_1 = require("./icons-info.js");
 exports.IconsManifest = void 0;
 const IconsManifest = (0, manifest_1.IconsManifest);
 exports.IconsManifest = IconsManifest;
-exports.loader = void 0;
-const loader = (0, loader_1.loader);
-exports.loader = loader;
 exports.IconsInfo = void 0;
 const IconsInfo = (0, info_1);
 exports.IconsInfo = IconsInfo;
@@ -75,10 +72,3 @@ export const iconRowTemplate = (
       throw new Error(`Unknown type: ${type}`);
   }
 };
-
-export const dynamicLoaderTemplate = (icons: IconDefinition[]): string =>
-  `async (id) => {\n  switch (id) {\n${icons.reduce(
-    (reduced, { id }) =>
-      `${reduced}    case "${id}": {return await import("../${id}")}\n`,
-    ""
-  )} default: {return {}}  }\n};\n`;

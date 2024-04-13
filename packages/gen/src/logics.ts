@@ -113,7 +113,7 @@ export const rmDirRecursive = async (dest: string) => {
 };
 
 export const buildPackageExports = (
-  icons: IconsManifestType<string, string>[]
+  icons: Omit<IconsManifestType<string, string>, "icons" | "totalIcons">[]
 ) => {
   const exports: Record<
     string,

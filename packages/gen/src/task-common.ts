@@ -11,7 +11,6 @@ import { icons } from "./definitions";
 import { getIconFiles } from "./logics";
 import { IconDefinition, TaskContext } from "./types";
 import {
-  dynamicLoaderTemplate,
   DataTypeHeaderTemplate,
   DataTypeFooterTemplate,
   DataIndexJsTemplate,
@@ -27,9 +26,9 @@ export const writeIconsManifest = async (
     projectUrl: icon.projectUrl,
     license: icon.license,
     licenseUrl: icon.licenseUrl,
+    icons: [],
+    totalIcons: 0,
   }));
-
-  const manifest = JSON.stringify(writeObj, null, 2);
 
   const mjsDataIcons: string[] = [];
   const jsDataIcons: string[] = [];
@@ -90,10 +89,17 @@ export const writeIconsManifest = async (
 
     await fs.appendFile(
       path.resolve(DIST, key, "index.js"),
-      `const manifest_1 = require("./manifest.js");\nexports.manifest = void 0;\nconst manifest = (0, manifest_1.manifest);\nexports.manifest = manifest;`,
+      `exports.manifest = void 0;\nconst manifest = (0, manifest_1.manifest);\nexports.manifest = manifest;`,
       "utf8"
     );
+
+    const current = writeObj.find(({ id }) => key === id)!;
+
+    current.icons = Object.keys(info.icons);
+    current.totalIcons = current.icons.length;
   }
+
+  const manifest = JSON.stringify(writeObj, null, 2);
 
   await fs.writeFile(
     path.resolve(DATA, "icons-info.mjs"),
@@ -117,23 +123,9 @@ export const writeIconsManifest = async (
     "utf8"
   );
 
-  const loaderTemplate = dynamicLoaderTemplate(icons);
-
-  await fs.writeFile(
-    path.resolve(DATA, "loader.js"),
-    `module.exports.loader = ${loaderTemplate}`,
-    "utf8"
-  );
-
-  await fs.writeFile(
-    path.resolve(DATA, "loader.mjs"),
-    `export var loader = ${loaderTemplate}`,
-    "utf8"
-  );
-
   await fs.writeFile(
     path.resolve(DATA, "index.mjs"),
-    `export { IconsManifest } from "./icons-manifest.mjs";\nexport * from "./loader.mjs";\nexport * as IconsInfo from "./icons-info.mjs";`,
+    `export { IconsManifest } from "./icons-manifest.mjs";\nexport * as IconsInfo from "./icons-info.mjs";`,
     "utf8"
   );
 

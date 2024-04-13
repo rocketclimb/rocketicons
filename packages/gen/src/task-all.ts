@@ -41,7 +41,7 @@ export const dirInit = async ({ DIST, LIB, PLUGIN, DATA }: TaskContext) => {
     );
     await write(
       [icon.id, "index.d.ts"],
-      `// THIS FILE IS AUTO GENERATED\nimport type { IconType, CollectionDataInfo } from '../core/types'\nexport declare const manifest: CollectionDataInfo<"${icon.id}">;\n`
+      `// THIS FILE IS AUTO GENERATED\nimport type { IconType, CollectionDataInfo } from '../core/types'\nexport declare const manifest: CollectionDataInfo<"${icon.id}", "${icon.license}">;\n`
     );
     await write(
       [icon.id, "package.json"],

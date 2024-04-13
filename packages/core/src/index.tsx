@@ -26,6 +26,7 @@ export const IconGenerator =
 export {
   IconTree,
   Variants,
+  IconBaseProps as IconProps,
   IconType,
   IconInfo,
   CollectionDataInfo,

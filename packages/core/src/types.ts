@@ -20,7 +20,7 @@ export interface IconInfo {
   variant: string;
 }
 
-export interface IconsManifestType<ID extends string, Licence extends string> {
+interface BaseIconsManifestType<ID extends string, Licence extends string> {
   id: ID;
   name: string;
   projectUrl: string;
@@ -28,8 +28,14 @@ export interface IconsManifestType<ID extends string, Licence extends string> {
   licenseUrl: string;
 }
 
+export interface IconsManifestType<ID extends string, Licence extends string>
+  extends BaseIconsManifestType<ID, Licence> {
+  icons: string[];
+  totalIcons: number;
+}
+
 export interface CollectionDataInfo<ID extends string, Licence extends string>
-  extends IconsManifestType<ID, Licence> {
+  extends BaseIconsManifestType<ID, Licence> {
   icons: Record<string, IconInfo>;
 }
 
