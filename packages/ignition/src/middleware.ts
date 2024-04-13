@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { siteConfig } from "./config/site";
-
-const defaultLocale = "en";
+const { defaultLocale } = siteConfig;
 
 const getLocale = (request: NextRequest): string =>
   (
@@ -29,11 +28,7 @@ export const middleware = (request: NextRequest) => {
   }
 
   request.nextUrl.pathname = `/${locale}${pathname}`;
-  const isDefaultLocale = locale === defaultLocale;
-
-  return isDefaultLocale
-    ? NextResponse.rewrite(request.nextUrl)
-    : NextResponse.redirect(request.nextUrl);
+  return NextResponse.redirect(request.nextUrl)
 };
 
 export const config = {

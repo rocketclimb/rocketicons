@@ -16,6 +16,7 @@ export const siteConfig = {
     github: "https://github.com/rocketclimb/",
   },
   locales: ["en", "pt-br"],
+  defaultLocale: "en",
   menuConfig: {
     componentGroups: ["getting-started"],
   },
