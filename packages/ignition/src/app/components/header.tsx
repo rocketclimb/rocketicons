@@ -1,9 +1,7 @@
 import Link from "next/link";
 import Logo from "./logo";
 import MainNav from "./main-nav";
-import { PropsWithLang } from "@/types";
-import { RcRocketIcon } from "rocketicons/rc";
-import RocketIconsText from "./rocketicons-text";
+import { PropsWithLang } from "@/app/types/props-with-lang";
 
 const LogoLink = ({ lang }: PropsWithLang) => {
   return (

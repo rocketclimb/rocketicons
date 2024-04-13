@@ -6,7 +6,7 @@ import { PropsWithLangParams } from "@/types";
 import { RcRocketIcon } from "rocketicons/rc";
 import RocketIconsText from "@/components/rocketicons-text";
 import SearchButton from "@/components/search-button";
-import { useLocale } from "@/locales";
+import { useLocale } from "@/locales/use-locale";
 
 export const generateMetadata = ({
   params: { lang },

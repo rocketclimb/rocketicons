@@ -1,6 +1,7 @@
 "use client";
 import { Languages, PropsWithClassName } from "@/types";
-import { CodeElementBlock, CodeStyler } from "@/components/code-block";
+import CodeElementBlock from "@/components/code-block/code-element-block";
+import CodeStyler from "@/components/code-block/code-styler";
 
 type SampleCodeProps = {
   locale: Languages;

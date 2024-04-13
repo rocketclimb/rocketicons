@@ -6,9 +6,9 @@ import { PropsWithChildren } from "react";
 import { PropsWithClassName, PropsWithLang } from "@/types";
 import RocketIconsText from "@/components/rocketicons-text";
 import { siteConfig } from "@/config/site";
-import { useLocale } from "@/locales";
+import { useLocale } from "@/locales/use-locale";
 
-const SelectedClassName = (slug: string) =>
+const selectedClassName = (slug: string) =>
   `group-has-[.docs-${slug}]:active-content`;
 
 const TextMenuTitle = ({
@@ -96,7 +96,7 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
                     key={i}
                     text={mainDoc.title}
                     href={`/${lang}/docs/${mainDoc.slug}`}
-                    className={SelectedClassName(mainDoc.slug)}
+                    className={selectedClassName(mainDoc.slug)}
                   />
 
                   <SubMenu>
@@ -141,59 +141,6 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
 
     return renderDocList();
   };
-  //     const grouped = allDocs
-  //       .filter((model) => model.locale === lang && !!model.group)
-  //       .groupBy((doc) => doc.group);
-
-  //   const renderDocList = () => {
-  //     return (
-  //       <>
-  //         {Array.from(grouped).map(
-  //           ([group, docs]) =>
-  //             group && (
-  //               <MenuBlock key={group}>
-  //                 <TextMenuTitle
-  //                   text={nav[group]}
-  //                   href={`/${lang}/docs/${nav[`${group}-slug`]}`}
-  //                   className={SelectedClassName(nav[`${group}-slug`])}
-  //                 />
-  //                 <SubMenu>
-  //                   {docs
-  //                     .sort((a, b) => a.order - b.order)
-  //                     .map(
-  //                       (model, i) =>
-  //                         (siteConfig.menuConfig.componentGroups.indexOf(
-  //                           navEng[`${group}-slug`]
-  //                         ) > -1 ||
-  //                           !model.isComponent) && (
-  //                           <li key={i}>
-  //                             <MenuItem
-  //                               href={
-  //                                 model.isComponent
-  //                                   ? `/${lang}/docs/${nav[`${group}-slug`]}#${
-  //                                       model.slug
-  //                                     }`
-  //                                   : `/${lang}/docs/${model.slug}`
-  //                               }
-  //                               className={model.activeSelector}
-  //                             >
-  //                               <span className={model.activeSelector}>
-  //                                 {model.title}
-  //                               </span>
-  //                             </MenuItem>
-  //                           </li>
-  //                         )
-  //                     )}
-  //                 </SubMenu>
-  //               </MenuBlock>
-  //             )
-  //         )}
-  //       </>
-  //     );
-  //   };
-
-  //   return renderDocList();
-  // };
 
   const IconList = () => (
     <>
@@ -202,7 +149,7 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
           <li key={i}>
             <MenuItem
               href={`/${lang}/icons/${id}`}
-              className={SelectedClassName(id)}
+              className={selectedClassName(id)}
             >
               {(name === "rocketclimb" && (
                 <RocketIconsText className="text-gray-950 hover:text-sky-500 dark:text-neutral-100 dark:hover:text-sky-500" />
@@ -225,7 +172,7 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
           <TextMenuTitle
             text="Icons"
             href={`/${lang}/icons`}
-            className={SelectedClassName("icons")}
+            className={selectedClassName("icons")}
           />
           <SubMenu>
             <IconList />

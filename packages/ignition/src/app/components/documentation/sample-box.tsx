@@ -1,4 +1,4 @@
-import { IconType } from "@rocketicons/core";
+import { IconType } from "rocketicons";
 import SamplePreviewer from "./sample-previewer";
 import SampleCode from "./sample-code";
 import { Languages, PropsWithClassName } from "@/types";

@@ -1,4 +1,4 @@
-import { IconType } from "@rocketicons/core";
+import { IconType } from "rocketicons";
 
 type SamplePreviewerProps = {
   Icon: IconType;

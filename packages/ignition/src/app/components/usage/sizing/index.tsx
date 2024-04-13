@@ -2,7 +2,8 @@ import { PropsWithLang } from "@/app/types";
 import { MdxPartial } from "@/components/mdx";
 import { Table, TableLine } from "@/components/table";
 
-import { Wrapper, SampleBox } from "@/components/documentation";
+import Wrapper from "@/components/documentation/wrapper";
+import SampleBox from "@/components/documentation/sample-box";
 import { getCurrentIconData } from "@/components/usage/utils";
 
 import { sizes, sizesUtilities, hwUtilities } from "./utils";

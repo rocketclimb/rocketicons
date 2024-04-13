@@ -4,14 +4,14 @@ import { IconType } from "rocketicons/core";
 import { BsMoonStars, BsSun } from "rocketicons/bs";
 import { MdOutlineMonitor, MdKeyboardArrowDown } from "rocketicons/md";
 
-import { ThemeOptions } from "@/hooks";
-import { useLocale } from "@/locales";
+import { ThemeOptions } from "@/hooks/use-theme-handler";
+import { useLocale } from "@/locales/use-locale";
 
 import { PropsWithClassName, PropsWithLang } from "@/types";
 
 import { useThemeContext } from "./theme-context";
 
-import Button from "../button";
+import Button from "@/components/button";
 
 type Selector = {
   theme: ThemeOptions;

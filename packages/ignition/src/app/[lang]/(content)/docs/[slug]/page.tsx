@@ -2,7 +2,7 @@ import { Colors, Sizing } from "@/components/usage";
 import { MdxDoc } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-and-slug-param";
-import { useLocale } from "@/app/locales";
+import { useLocale } from "@/locales/use-locale";
 
 export const generateMetadata = ({
   params: { lang, slug },

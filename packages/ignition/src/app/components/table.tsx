@@ -48,7 +48,7 @@ export const TableLine = ({ attr, value, comment, props }: TableLineProps) => (
 );
 
 export const Table = ({ children }: PropsWithChildren) => (
-  <div className="overflow-x-auto flex md:mx-0">
+  <div className="md:overflow-hidden md:hover:overflow-auto flex md:mx-0">
     <div className="flex-none min-w-full sm:px-6 md:px-0 max-h-96 lg:max-h-96">
       <table className="w-full text-left border-collapse">
         <thead>

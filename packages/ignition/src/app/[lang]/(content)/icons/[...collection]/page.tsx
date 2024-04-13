@@ -1,13 +1,15 @@
 import { Metadata } from "next";
-import { CollectionID } from "rocketicons/data";
-import IconsCollection from "@/components/icons/icons-collection";
+import { CollectionID, IconsManifest } from "rocketicons/data";
+import IconsCollection from "@/app/components/icons/icons-collection";
 
 import { PropsWithLangParams } from "@/types";
-
-import { Title, DocLink, License } from "@/components/documentation";
-import { getIconsDataManifest } from "@/components/icons/get-icons-data";
-import FloatBlock from "@/components/icons/float-block";
 import { useLocale } from "@/locales";
+
+import Title from "@/components/documentation/title";
+import DocLink from "@/components/documentation/doc-link";
+import License from "@/components/documentation/license";
+
+import FloatBlock from "@/components/icons/float-block";
 
 type PageProps = PropsWithLangParams & {
   params: {
@@ -19,7 +21,7 @@ export const generateMetadata = async ({
   params: { lang, collection },
 }: PageProps): Promise<Metadata> => {
   const [id, icon] = collection;
-  const info = await getIconsDataManifest(id);
+  const info = IconsManifest.find(({ id: search }) => search === id)!;
   const { title, description } = useLocale(
     lang,
     "icons-collection"
@@ -33,7 +35,7 @@ export const generateMetadata = async ({
 const Page = async ({ params: { lang, collection } }: PageProps) => {
   const [id, icon] = collection;
 
-  const info = await getIconsDataManifest(id);
+  const info = IconsManifest.find(({ id: search }) => search === id)!; //await getIconsDataManifest(id);
 
   return (
     <div className="collection-page">

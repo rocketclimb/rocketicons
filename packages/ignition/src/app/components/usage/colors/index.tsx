@@ -11,7 +11,7 @@ const Colors = async ({
   lang,
   queryIcon,
 }: PropsWithLang & { queryIcon?: string }) => {
-  const { icon, collection, Icon } = await getCurrentIconData(queryIcon);
+  const { icon, collection, Icon } = getCurrentIconData(queryIcon);
 
   type ColorViewerProps = {
     color: string;

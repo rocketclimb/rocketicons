@@ -1,7 +1,7 @@
 import { PropsWithLang } from "@/types";
 import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
-import { useLocale } from "@/app/locales";
+import { useLocale } from "@/locales/use-locale";
 
 export const MdxDoc = ({
   lang,

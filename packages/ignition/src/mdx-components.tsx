@@ -1,13 +1,11 @@
 import type { MDXComponents } from "mdx/types";
-import {
-  Title,
-  Title2,
-  Title3,
-  Title4,
-  Paragraph,
-  Code,
-  DocLink
-} from "@/components/documentation";
+import Title from "@/components/documentation/title";
+import Title2 from "@/components/documentation/title2";
+import Title3 from "@/components/documentation/title3";
+import Title4 from "@/components/documentation/title4";
+import Paragraph from "@/components/documentation/paragraph";
+import Code from "@/components/documentation/code";
+import DocLink from "@/components/documentation/doc-link";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   const allComponentClasses = "mb-4";

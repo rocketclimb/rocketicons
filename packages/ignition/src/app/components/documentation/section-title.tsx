@@ -1,4 +1,4 @@
-import { PropsWithChildrenAndClassName } from "@/app/types";
+import { PropsWithChildrenAndClassName } from "@/types";
 
 type SectionTitleProps = {
   onClick: () => void;
