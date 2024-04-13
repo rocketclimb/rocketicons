@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { IconType } from "rocketicons";
-import { IconInfo as IconInfoType } from "@rocketicons/core";
+import { IconInfo as IconInfoType } from "rocketicons";
 import { IoMdClose } from "rocketicons/io";
 import Button from "@/components/button";
 import {
@@ -15,12 +15,10 @@ import {
 } from "@/components/code-block";
 import { CollectionID } from "rocketicons/data";
 import FloatBlock from "@/components/icons/float-block";
-import {
-  Title3,
-  SectionTitle,
-  SectionContent,
-  UpdateAlert,
-} from "@/components/documentation";
+import Title3 from "@/components/documentation/title3";
+import SectionTitle from "@/components/documentation/section-title";
+import SectionContent from "@/components/documentation/section-content";
+import UpdateAlert from "@/components/documentation/update-alert";
 import { MdxClientPartial } from "@/components/mdx";
 import { PropsWithLang } from "@/types";
 import { useLocale } from "@/locales";
@@ -89,7 +87,7 @@ const IconInfo = ({
                     />
                   )}
                 </div>
-                <div className="col-span-8 lg:col-span-6">
+                <div className="col-span-8 lg:col-span-6 thin">
                   <MdxClientPartial
                     path="components"
                     lang={lang}
@@ -106,7 +104,7 @@ const IconInfo = ({
                     </CodeStyler>
                   )}
                 </div>
-                <div className="col-span-8 lg:col-span-6">
+                <div className="col-span-8 lg:col-span-6 thin">
                   <MdxClientPartial
                     path="components"
                     lang={lang}
@@ -179,7 +177,7 @@ const IconInfo = ({
                   </div>
                   <div className="relative w-full overflow-hidden flex">
                     <SectionContent className="transition-all duration-300 group-data-[section=sizes]/sections:-ml-[0%] group-data-[section=colors]/sections:-ml-[100%] group-data-[section=combining]/sections:-ml-[200%] group-data-[section=dark-mode]/sections:-ml-[300%] group-data-[section=states]/sections:-ml-[400%]">
-                      <div className="mb-4">
+                      <div className="mb-4 prose">
                         <MdxClientPartial
                           path="components"
                           lang={lang}
@@ -220,7 +218,7 @@ const IconInfo = ({
                       />
                     </SectionContent>
                     <SectionContent>
-                      <div className="mb-4">
+                      <div className="mb-4 prose">
                         <MdxClientPartial
                           path="components"
                           lang={lang}
@@ -269,7 +267,7 @@ const IconInfo = ({
                       />
                     </SectionContent>
                     <SectionContent>
-                      <div className="mb-4">
+                      <div className="mb-4 prose">
                         <MdxClientPartial
                           path="components"
                           lang={lang}
@@ -305,7 +303,7 @@ const IconInfo = ({
                       />
                     </SectionContent>
                     <SectionContent>
-                      <div className="mb-4">
+                      <div className="mb-4 prose">
                         <MdxClientPartial
                           path="components"
                           lang={lang}
@@ -335,7 +333,7 @@ const IconInfo = ({
                       />
                     </SectionContent>
                     <SectionContent>
-                      <div className="mb-4">
+                      <div className="mb-4 prose">
                         <MdxClientPartial
                           path="components"
                           lang={lang}

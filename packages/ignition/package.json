@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "generate-statics": "npx ts-node ./src/statics-generator",
+    "prebuild": "npm run generate-statics",
     "build": "next build",
+    "predev": "npm run generate-statics",
     "dev": "rm -fR .conent-collections && next dev",
     "lint": "next lint",
     "rebuild": "rm -fR .conent-collections && next build",

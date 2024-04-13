@@ -5,12 +5,16 @@ import { IoMdClose } from "rocketicons/io";
 import RocketiconsText from "@/components/rocketicons-text";
 import Button from "@/components/button";
 
-import { useIconsData } from "@/components/icons/use-icons-data";
+import IconsLoader, { HandlerPros } from "./icons-loader";
+import tastesLoader from "./tastes-loader";
+
 import { PropsWithLang } from "@/types";
+import { IconType } from "rocketicons";
 
 type IconsBlockProps = {
   id: CollectionID;
   name: string;
+  total: number;
   isSelected: boolean;
   setSelected: (id: string | undefined) => void;
 };
@@ -19,11 +23,41 @@ const IconsCollectionSummary = ({
   lang,
   id,
   name,
+  total,
   isSelected,
   setSelected,
 }: IconsBlockProps & PropsWithLang) => {
-  const [icons, info] = useIconsData(id);
+  const tastes = tastesLoader(id);
 
+  const Items = ({ manifest, collection }: HandlerPros) => {
+    return (
+      <>
+        {Object.values(manifest.icons)
+          .slice(0, 200)
+          .map(({ id: iconId, compName }, i) => {
+            const Icon = collection[compName];
+            return (
+              <li key={i}>
+                <Link
+                  href={`/${lang}/icons/${id}/${iconId}`}
+                  className="group/button transition-all duration-200 flex flex-col items-center overflow-auto w-24 sm:w-28 py-6 mb-2 hover:mb-0 rounded border border-transparent hover:border-sky-900 dark:hover:bg-slate-700"
+                >
+                  <Icon className="transition-all duration-200 transform-gpu icon-sky-900-4xl group-hover/button:icon-sky-900-5xl dark:icon-sky-500-4xl group-hover/button:dark:icon-sky-500-5xl" />
+                  <span className="transition-all duration-200 capitalize text-xs mt-2 group-hover/button:mt-1 group-hover/button:underline">
+                    {name}
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
+      </>
+    );
+  };
+
+  // const X = useCallback(
+  //   () => <IconsLoader collectionId={id} Handler={Items} />,
+  //   [id]
+  // );
   return (
     <li
       data-selected={isSelected ? "true" : "false"}
@@ -41,36 +75,18 @@ const IconsCollectionSummary = ({
           <IoMdClose className="icon-slate-500 hover:icon-slate-600 dark:icon-slate-400 dark:hover:icon-slate-300" />
         </Button>
         <p className="text-sm text-slate-500 rounded h-4 w-20 bg-gray-200 dark:bg-slate-700 has-[span]:h-auto has-[span]:w-auto has-[span]:bg-transparent has-[span]:dark:bg-transparent">
-          {icons.length !== 0 && (
-            <span>
-              {icons.length} Icon{icons.length > 1 && "s"}
-            </span>
-          )}
+          <span>
+            {total} Icon{total > 1 && "s"}
+          </span>
         </p>
 
         <ul className="flex gap-1 overflow-hidden transition duration-1000 opacity-0 has-[li]:opacity-100 group-data-[selected=true]:min-h-32 group-data-[selected=true]:justify-start group-data-[selected=true]:px-4 group-data-[selected=true]:gap-x-5 group-data-[selected=true]:gap-y-10 group-data-[selected=true]:flex-wrap group-data-[selected=true]:mt-4 group-data-[selected=false]:justify-between group-data-[selected=false]:[mask-image:--icons-fade]">
-          {(isSelected ? icons.toArray() : icons.toArray().slice(0, 12)).map(
-            ([name, Icon], i) => {
-              const current = info.icons.getByName(name);
-              return (
-                <li key={i}>
-                  {(!isSelected && (
-                    <Icon className="icon-sky-900-lg dark:icon-sky-500-lg min-[800px]:icon-sky-900-2xl dark:min-[800px]:icon-sky-500-2xl lg:icon-sky-900-lg dark:lg:icon-sky-500-lg min-[1340px]:icon-sky-900-2xl dark:min-[1340px]:icon-sky-500-2xl" />
-                  )) || (
-                    <Link
-                      href={`/${lang}/icons/${id}/${current.id}`}
-                      className="group/button transition-all duration-200 flex flex-col items-center overflow-auto w-24 sm:w-28 py-6 mb-2 hover:mb-0 rounded border border-transparent hover:border-sky-900 dark:hover:bg-slate-700"
-                    >
-                      <Icon className="transition-all duration-200 transform-gpu icon-sky-900-4xl group-hover/button:icon-sky-900-5xl dark:icon-sky-500-4xl group-hover/button:dark:icon-sky-500-5xl" />
-                      <span className="transition-all duration-200 capitalize text-xs mt-2 group-hover/button:mt-1 group-hover/button:underline">
-                        {current.name}
-                      </span>
-                    </Link>
-                  )}
-                </li>
-              );
-            }
-          )}
+          {(isSelected && <IconsLoader collectionId={id} Handler={Items} />) ||
+            tastes.slice(0, 10).map((Icon, i) => (
+              <li key={i}>
+                <Icon className="icon-sky-900-lg dark:icon-sky-500-lg min-[800px]:icon-sky-900-2xl dark:min-[800px]:icon-sky-500-2xl lg:icon-sky-900-lg dark:lg:icon-sky-500-lg min-[1340px]:icon-sky-900-2xl dark:min-[1340px]:icon-sky-500-2xl" />
+              </li>
+            ))}
         </ul>
       </div>
     </li>
@@ -78,3 +94,4 @@ const IconsCollectionSummary = ({
 };
 
 export default IconsCollectionSummary;
+//
