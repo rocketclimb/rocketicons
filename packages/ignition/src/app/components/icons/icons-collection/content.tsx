@@ -87,7 +87,7 @@ const Content = ({
         }}
         {...getCurrentIcon()}
       />
-      <ul className="transition-all duration-200 ml-0 mt-[-630px] min-h-[655px] flex gap-1 justify-between px-4 gap-x-5 gap-y-10 flex-wrap">
+      <ul className="transition-all duration-200 ml-0 mt-0 lg:mt-[-630px] min-h-[655px] flex gap-1 justify-between px-4 gap-x-5 gap-y-10 flex-wrap">
         {Object.values(manifest.icons).map((iconInfo, i) => {
           const { id, name, compName } = iconInfo;
           const Icon = collection[compName];

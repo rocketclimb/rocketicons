@@ -123,7 +123,7 @@ const IconInfo = ({
               </div>
               <div
                 data-section={section}
-                className="group/sections grow max-lg:overflow-y-auto my-3 mx-1 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/35"
+                className="group/sections grow max-lg:overflow-y-auto my-3 mx-1 px-3 pb-3 rounded-xl bg-slate-50 dark:bg-slate-800/35"
               >
                 <div>
                   <MdxClientPartial

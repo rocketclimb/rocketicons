@@ -63,7 +63,7 @@ const CodeStyler = ({
   <div
     data-variant={variant || "full"}
     data-animated={animatedPreviewer}
-    className={`group/styler w-96 mx-auto sm:w-auto sm:mx-0 relative grow data-[animated=true]:row-start-1 data-[animated=true]:col-start-6 data-[animated=true]:xl:col-start-7 data-[animated=true]:col-span-7 data-[animated=true]:xl:col-span-6 ${className}`}
+    className={`group/styler w-full mx-auto sm:w-auto sm:mx-0 relative grow data-[animated=true]:row-start-1 data-[animated=true]:col-start-6 data-[animated=true]:xl:col-start-7 data-[animated=true]:col-span-7 data-[animated=true]:xl:col-span-6 ${className}`}
   >
     <div
       className={`relative overflow-hidden shadow-xl flex bg-slate-800 rounded max-h-[60vh] sm:max-h-[none] sm:rounded-xl dark:bg-slate-900/70 dark:backdrop-blur dark:ring-1 dark:ring-inset dark:ring-white/10 ${wrapperFullClassName}`}
