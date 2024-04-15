@@ -1,3 +1,5 @@
+[![All Contributors](https://img.shields.io/github/all-contributors/rocketclimb/rocketicons?color=ee8449&style=flat-square)](#contributors)
+
 ![rocketicons](https://github.com/rocketclimb/rocketicons/blob/develop/packages/ignition/public/rocketicons-logo.svg)
 
 | Name        |                                                                                           Quality Gate                                                                                            |
