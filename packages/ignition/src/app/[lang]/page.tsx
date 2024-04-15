@@ -42,14 +42,21 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
           <SearchButton label={search} />
         </div>
       </div>
-      <div className="mb-6">
+      <div className="mb-6 px-4 w-full">
         <AnimatedCodeBlock
+          className="deep-[4]"
           script={[
             {
-              time: "1s",
+              time: "8s",
+              action: ScriptAction.UPDATE,
+              elementId: "el_0",
+              text: "h-32",
+            },
+            {
+              time: "12s",
               action: ScriptAction.UPDATE,
               elementId: "el_0.el_0",
-              text: "w-32 h-32",
+              text: "size-10",
             },
             {
               time: "2s",
@@ -61,16 +68,16 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
             {
               time: "2s",
               action: ScriptAction.UPDATE_TYPING,
-              elementId: "el_0.el_0",
-              text: " bg-slate-200 dark:bg-white",
-              delay: 50,
+              elementId: "el_0",
+              text: " flex gap-3",
+              delay: 60,
             },
             {
               time: "2s",
-              action: ScriptAction.REPLACE_TYPING,
-              elementId: "el_0",
-              text: "flex gap-3",
-              delay: 60,
+              action: ScriptAction.UPDATE_TYPING,
+              elementId: "el_0.el_0",
+              text: " size-32 bg-slate-200 dark:bg-white",
+              delay: 50,
             },
             {
               time: "5s",
@@ -113,20 +120,20 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
             {
               action: ScriptAction.UPDATE,
               elementId: "el_0",
-              text: "",
+              text: "h-32",
             },
             {
               action: ScriptAction.UPDATE,
               elementId: "el_0.el_0",
-              text: "w-32 h-32",
+              text: "size-10",
             },
             {
               action: ScriptAction.RESTART,
             },
           ]}
         >
-          <div>
-            <RcRocketIcon className="w-32 h-32" />
+          <div className="h-32">
+            <RcRocketIcon className="size-10" />
             <div>
               <div className="text-slate-900 text-2xl font-light dark:text-white mt-2">
                 <RocketIconsText />

@@ -28,6 +28,11 @@
   "combining": "Combinando",
   "dark-mode": "Modo escuro",
   "states": "Estados",
+  "show-all": "Todos os ícones",
+  "icon": "ícone",
+  "table": {
+    "headers": ["Classes", "Propriedades"]
+  },
   "code-block": {
     "copy": "click e copie",
     "copied": "copiado",

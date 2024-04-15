@@ -11,9 +11,8 @@ type CodeStylerProps = {
   animatedPreviewer?: boolean;
 } & PropsWithChildrenAndClassName;
 
-const wrapperFullClassName =
-  "group-data-[variant=full]/styler:h-[31.625rem] group-data-[variant=full]/styler:lg:h-[34.6875rem] group-data-[variant=full]/styler:xl:h-[31.625rem]";
-const codeMinimalistClassName = "group-data-[variant=minimalist]/styler:p-5";
+const codeMinimalistClassName =
+  "group-data-[variant=minimalist]/styler:px-2 group-data-[variant=minimalist]/styler:py-3";
 const codeCompactClassName = "group-data-[variant=compact]/styler:p-2.5";
 
 const barMinimalistClassName = "group-data-[variant=minimalist]/styler:hidden";
@@ -63,14 +62,14 @@ const CodeStyler = ({
   <div
     data-variant={variant || "full"}
     data-animated={animatedPreviewer}
-    className={`group/styler w-full mx-auto sm:w-auto sm:mx-0 relative grow data-[animated=true]:row-start-1 data-[animated=true]:col-start-6 data-[animated=true]:xl:col-start-7 data-[animated=true]:col-span-7 data-[animated=true]:xl:col-span-6 ${className}`}
+    className={`group/styler ${className}`}
   >
     <div
-      className={`relative overflow-hidden shadow-xl flex bg-slate-800 rounded max-h-[60vh] sm:max-h-[none] sm:rounded-xl dark:bg-slate-900/70 dark:backdrop-blur dark:ring-1 dark:ring-inset dark:ring-white/10 ${wrapperFullClassName}`}
+      className={`pl-2 pr-1 pb-1 mx-auto shadow-xl bg-slate-800 rounded sm:max-h-[none] sm:rounded-xl dark:bg-slate-900/70 dark:backdrop-blur dark:ring-1 dark:ring-inset dark:ring-white/10`}
     >
-      <div className="relative w-full flex flex-col">
+      <div>
         <div
-          className={`flex-none border-b border-slate-500/30 ${barMinimalistClassName} ${barCompactClassName}`}
+          className={`flex-none -ml-2 -mr-1 border-b border-slate-500/30 ${barMinimalistClassName} ${barCompactClassName}`}
         >
           <div className="flex items-center h-8 space-x-1.5 px-3">
             <div className="w-2.5 h-2.5 bg-slate-600 rounded-full"></div>
@@ -86,12 +85,10 @@ const CodeStyler = ({
           />
         )}
         <div
-          className={`relative min-h-0 flex-auto flex flex-col dark ${codeMinimalistClassName} ${codeCompactClassName}`}
+          className={`min-h-0 max-h-[60vh] dark overflow-auto thin-scroll pr-1 ${codeMinimalistClassName} ${codeCompactClassName}`}
         >
-          <div className="w-80 lg:w-full flex-auto flex min-h-0 overflow-auto thin-scroll">
-            <div className="w-full relative flex-auto cursor-default">
-              {children}
-            </div>
+          <div className="min-h-0">
+            <div className="cursor-default">{children}</div>
           </div>
         </div>
       </div>

@@ -53,11 +53,11 @@ const ColorsAnimation = ({
 
     return (
       <>
-        <div className="border border-slate-200 rounded-lg dark:border-slate-800">
+        <div className="size-48 order-last sm:order-none flex items-center justify-center border rounded-lg border-slate-200 dark:border-slate-800">
           <Icon className={`transition duration-500 ${state} size-48`} />
         </div>
         <AnimatedCodeBlock
-          className="w-[500px]"
+          className="w-96 md:w-[480px]"
           variants="minimalist"
           skipRender={true}
           onCommit={(_, state) => state && setState(state)}
@@ -77,7 +77,7 @@ const ColorsAnimation = ({
   };
 
   return (
-    <div className="flex h-48 my-12 items-center justify-center gap-12">
+    <div className="flex h-72 sm:h-48 flex-col sm:flex-row my-12 items-center justify-center gap-4">
       <IconLoader collectionId={collection} icon={icon} Handler={Animation} />
     </div>
   );

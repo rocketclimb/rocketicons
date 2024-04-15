@@ -5,6 +5,7 @@ import Title3 from "@/components/documentation/title3";
 import Title4 from "@/components/documentation/title4";
 import Paragraph from "@/components/documentation/paragraph";
 import Code from "@/components/documentation/code";
+import CodeStyler from "@/components/code-block/code-styler";
 import DocLink from "@/components/documentation/doc-link";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
@@ -29,16 +30,14 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     p: ({ children, ...props }) => <Paragraph {...props}>{children}</Paragraph>,
     pre: ({ className, children }) => (
       <pre
-        className={`rounded-lg p-3 bg-slate-900 ${
+        className={`group pre rounded-lg p-3 bg-slate-900 ${
           className || ""
         } ${allComponentClasses}`}
       >
         {children}
       </pre>
     ),
-    code: ({ children }) => (
-      <Code>{children}</Code>
-    ),
+    code: ({ children }) => <Code>{children}</Code>,
     ul: ({ className, children }) => (
       <ul
         className={`list-disc list-inside default-text-color ${
@@ -59,8 +58,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     a: ({ href, children, ...props }) => (
       <DocLink
-        external={href?.startsWith('http')}
-        href={href||'#'}
+        external={href?.startsWith("http")}
+        href={href || "#"}
         {...props}
       >
         {children}
