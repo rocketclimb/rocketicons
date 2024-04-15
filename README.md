@@ -37,6 +37,13 @@ This project is licensed under the [MIT License](https://github.com/rocketclimb/
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/anteatergames/ludustack"><img src="https://avatars.githubusercontent.com/u/1039567?v=4?s=100" width="100px;" alt="Daniel Gomes"/><br /><sub><b>Daniel Gomes</b></sub></a><br /><a href="#code-programad" title="Code">💻</a></td>
+    </tr>
+  </tbody>
+</table>
 
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
