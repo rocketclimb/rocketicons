@@ -37,6 +37,13 @@ This project is licensed under the [MIT License](https://github.com/rocketclimb/
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/amorimjj"><img src="https://avatars.githubusercontent.com/u/3980851?v=4?s=100" width="100px;" alt="Jeferson J Amorim"/><br /><sub><b>Jeferson J Amorim</b></sub></a><br /><a href="#code-amorimjj" title="Code">💻</a></td>
+    </tr>
+  </tbody>
+</table>
 
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
