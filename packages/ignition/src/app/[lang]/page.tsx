@@ -22,7 +22,7 @@ export const generateMetadata = ({
 };
 
 const Home = ({ params: { lang } }: PropsWithLangParams) => {
-  const { nav, search } = useLocale(lang).config("nav", "search");
+  const nav = useLocale(lang).config("nav");
 
   return (
     <div className="flex flex-col grow overflow-y-auto items-center justify-between bg-cover bg-hero-light dark:bg-hero-dark">
@@ -39,7 +39,7 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
           >
             {nav["getting-started"]}
           </Link>
-          <SearchButton label={search} />
+          <SearchButton lang={lang} />
         </div>
       </div>
       <div className="mb-6">

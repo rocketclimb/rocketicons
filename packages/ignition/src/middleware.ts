@@ -23,12 +23,14 @@ export const middleware = (request: NextRequest) => {
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  if (pathnameHasLocale) {
+  const pathNameHasApi = pathname.startsWith("/api/");
+
+  if (pathnameHasLocale || pathNameHasApi) {
     return NextResponse.next();
   }
 
   request.nextUrl.pathname = `/${locale}${pathname}`;
-  return NextResponse.redirect(request.nextUrl)
+  return NextResponse.redirect(request.nextUrl);
 };
 
 export const config = {

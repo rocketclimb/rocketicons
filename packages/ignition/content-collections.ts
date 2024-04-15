@@ -260,7 +260,7 @@ function mdxTransformer(document: any): Schema<"frontmatter", any> {
 
   return {
     ...document,
-    content: undefined,
+    // content: undefined,
     enslug,
     locale,
     group: document.group || group,

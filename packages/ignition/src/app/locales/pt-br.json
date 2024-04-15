@@ -22,7 +22,10 @@
     "in-progress": "Em progresso",
     "planned": "Planejado"
   },
-  "search": "Procurar",
+  "search": {
+    "placeholder": "Procurar",
+    "no-results": "Nada foi encontrado"
+  },
   "colors": "Cores",
   "sizes": "Tamanhos",
   "combining": "Combinando",

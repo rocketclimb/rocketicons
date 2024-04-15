@@ -22,7 +22,10 @@
     "in-progress": "In Progress",
     "planned": "Planned"
   },
-  "search": "Quick seach",
+  "search": {
+    "placeholder": "Quick seach",
+    "no-results": "No results found"
+  },
   "colors": "Colors",
   "sizes": "Sizes",
   "combining": "Combining",

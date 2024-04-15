@@ -1,24 +1,37 @@
-import { LuSearch } from "rocketicons/lu";
-import Button from "./button";
+"use client";
+
+import { InstantSearch } from "react-instantsearch-dom";
+import algoliasearch from "algoliasearch/lite";
+import SearchBox from "./search-box";
+import SearchHits from "./search-hits";
+import { siteConfig } from "@/config/site";
+import { serverEnv } from "@/env/server";
+import { useLocale } from "@/locales";
+import { Languages } from "@/types";
 
 type SearchButtonProps = {
-  label: string;
+  lang: Languages;
 };
 
-const SearchButton = ({ label }: SearchButtonProps) => (
-  <Button className="hidden sm:flex items-center w-72 text-left space-x-3 px-4 h-12 bg-white ring-1 ring-slate-900/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-lg text-slate-400 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700">
-    <LuSearch />
-    <span className="flex-auto">{label}...</span>
-    <kbd className="font-sans font-semibold dark:text-slate-500">
-      <abbr
-        title="Command"
-        className="no-underline text-slate-300 dark:text-slate-500"
-      >
-        ⌘
-      </abbr>{" "}
-      K
-    </kbd>
-  </Button>
-);
+const SearchButton = ({ lang }: SearchButtonProps) => {
+  const search = useLocale(lang).config("search");
+
+  const searchClient = algoliasearch(
+    serverEnv.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
+    serverEnv.NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY
+  );
+
+  return (
+    <InstantSearch
+      searchClient={searchClient}
+      indexName={`${siteConfig.name}-${lang}`}
+    >
+      <div className="mx-1 flex flex-col relative z-50">
+        <SearchBox label={search["placeholder"]} />
+        <SearchHits lang={lang} />
+      </div>
+    </InstantSearch>
+  );
+};
 
 export default SearchButton;
