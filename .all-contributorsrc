@@ -9,6 +9,15 @@
   "contributorsPerLine": 7,
   "contributors": [
     {
+      "login": "programad",
+      "name": "Daniel Gomes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1039567?v=4",
+      "profile": "https://github.com/anteatergames/ludustack",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
       "login": "amorimjj",
       "name": "Jeferson J Amorim",
       "avatar_url": "https://avatars.githubusercontent.com/u/3980851?v=4",
