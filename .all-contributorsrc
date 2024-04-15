@@ -1,4 +1,21 @@
 {
   "projectName": "rocketicons",
-  "projectOwner": "rocketclimb"
+  "projectOwner": "rocketclimb",
+  "files": [
+    "README.md"
+  ],
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributorsPerLine": 7,
+  "contributors": [
+    {
+      "login": "programad",
+      "name": "Daniel Gomes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1039567?v=4",
+      "profile": "https://github.com/anteatergames/ludustack",
+      "contributions": [
+        "code"
+      ]
+    }
+  ]
 }
