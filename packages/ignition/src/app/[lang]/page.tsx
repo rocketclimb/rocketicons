@@ -53,13 +53,11 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
               text: "h-32",
             },
             {
-              time: "12s",
               action: ScriptAction.UPDATE,
               elementId: "el_0.el_0",
               text: "size-10",
             },
             {
-              time: "2s",
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_0",
               text: " border border-slate-200 dark:border-white",
