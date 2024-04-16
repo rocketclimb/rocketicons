@@ -28,14 +28,16 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </h6>
     ),
     p: ({ children, ...props }) => <Paragraph {...props}>{children}</Paragraph>,
-    pre: ({ className, children }) => (
-      <pre
-        className={`group pre rounded-lg p-3 bg-slate-900 ${
-          className || ""
-        } ${allComponentClasses}`}
-      >
-        {children}
-      </pre>
+    pre: ({ className, children, ...props }) => (
+      <div className="my-3">
+        <CodeStyler
+          {...props}
+          className={`pre ${className}`}
+          variant="minimalist"
+        >
+          {children}
+        </CodeStyler>
+      </div>
     ),
     code: ({ children }) => <Code>{children}</Code>,
     ul: ({ className, children }) => (
@@ -55,6 +57,11 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       >
         {children}
       </ol>
+    ),
+    li: ({ children, ...props }) => (
+      <li {...props} className="text-sm lg:text-base">
+        {children}
+      </li>
     ),
     a: ({ href, children, ...props }) => (
       <DocLink

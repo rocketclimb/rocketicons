@@ -47,7 +47,7 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
           className="deep-[4]"
           script={[
             {
-              time: "8s",
+              time: "4s",
               action: ScriptAction.UPDATE,
               elementId: "el_0",
               text: "h-32",

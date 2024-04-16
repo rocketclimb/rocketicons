@@ -60,6 +60,9 @@ const config: Config = {
         },
         ".sub-title": {
           "@apply whitespace-pre-wrap font-semibold": {},
+          "p + &": {
+            "@apply mt-2": {},
+          },
         },
         ".sub-section": {
           "@apply mb-4 lg:-ml-2 lg:pl-2 default-text-color": {},
