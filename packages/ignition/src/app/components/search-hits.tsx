@@ -2,21 +2,28 @@
 
 import { connectStateResults, Highlight } from "react-instantsearch-dom";
 import Link from "next/link";
-import { Key } from "react";
 import { useLocale } from "@/locales";
 import { Languages } from "@/types";
-import { BiLogoAlgolia } from "rocketicons/bi";
 import { SiAlgolia } from "rocketicons/si";
 
 const borderClass = "border-slate-100 dark:border-slate-700";
+const linkClass = `flex items-center gap-4 border-t ${borderClass} first:rounded-t-xl last:rounded-b-xl first:border-0 py-3 px-3 focus:outline-none focus:ring-4 ring-inset ring-slate-200 dark:ring-slate-600 transition-colors hover:bg-slate-200 dark:hover:bg-slate-600`;
 
-function Hit(hit: any) {
-  const groupSlug = useLocale(hit.locale, hit.group).docFromIndex().slug;
+function IconHit(hit: any, lang: Languages) {
+  return (
+    <Link className={linkClass} href={`/en/icons/${hit.group}/${hit.objectID}`}>
+      <span>{hit.title}</span>
+    </Link>
+  );
+}
+
+function Hit(hit: any, lang: Languages) {
+  const groupSlug = useLocale(hit.locale || lang, hit.group).docFromIndex()
+    ?.slug;
 
   return (
     <Link
-      key={hit.objectID}
-      className={`flex items-center gap-4 border-t ${borderClass} first:rounded-t-xl last:rounded-b-xl first:border-0 py-3 px-3 focus:outline-none focus:ring-4 ring-inset ring-slate-200 dark:ring-slate-600 transition-colors hover:bg-slate-200 dark:hover:bg-slate-600`}
+      className={linkClass}
       href={
         hit.isFragment
           ? `/${hit.locale}/docs/${groupSlug}#${hit.objectID}`
@@ -50,7 +57,11 @@ function SearchHits({
           )}
           {searchResults?.hits.length > 0 &&
             searchResults.hits.map((hit: any) => {
-              return <Hit {...hit} />;
+              return hit.isIcon ? (
+                <IconHit key={hit.objectID} lang={lang} {...hit} />
+              ) : (
+                <Hit key={hit.objectID} lang={lang} {...hit} />
+              );
             })}{" "}
           <div className={`p-2 text-right border-t ${borderClass}`}>
             <Link href={"https://www.algolia.com"} target="_blank">

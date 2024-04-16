@@ -5,8 +5,10 @@ import { allDocs } from "content-collections";
 import { siteConfig } from "@/config/site";
 import { serverEnv } from "@/env/server";
 import { useLocale } from "@/locales/use-locale";
+import { IconsManifest } from "rocketicons/data";
+import * as changeCase from "change-case";
 
-export async function POST(request) {
+export async function POST(request: Request) {
   // Check if Algolia credentials exist, return error if not
   if (
     !serverEnv.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID ||
@@ -26,6 +28,31 @@ export async function POST(request) {
 
     const availableLocales = siteConfig.locales;
 
+    // console.log("first icon", IconsManifest[1]);
+
+    // flatten the iconmanifest.icons into a single array where the group is collection.id
+    const transformedIcons: {
+      objectID: string;
+      name: string;
+      title: string;
+      text: string;
+      group: string;
+      isIcon: boolean;
+    }[] = IconsManifest.flatMap((collection) =>
+      collection.icons.map((icon) => ({
+        objectID: `${collection.id}-${changeCase.kebabCase(icon.substring(2))}`,
+        name: icon.substring(2),
+        title: `${collection.name} - ${icon.substring(2)}`,
+        text: icon,
+        group: collection.id,
+        isIcon: true,
+      }))
+    );
+
+    console.log("first icon mapped", transformedIcons[0]);
+    console.log("first icon mapped", transformedIcons[1]);
+    console.log("first icon mapped", transformedIcons[2]);
+
     let totalCount = 0;
 
     await availableLocales.forEach(async (locale) => {
@@ -41,6 +68,7 @@ export async function POST(request) {
         group: doc.group,
         locale: doc.locale,
         text: doc.content,
+        isIcon: false,
         isFragment:
           doc.isComponent &&
           siteConfig.menuConfig.componentGroups.includes(doc.group),
@@ -49,10 +77,13 @@ export async function POST(request) {
       // Index records to Algolia
       await index.saveObjects(articleRecords);
 
-      totalCount += articleRecords.length;
+      // Index icons to Algolia
+      await index.saveObjects(transformedIcons);
+
+      totalCount += articleRecords.length + transformedIcons.length;
     });
 
-    console.log(`Succesfully indexed ${totalCount.length} records`);
+    console.log(`Succesfully indexed ${totalCount} records`);
 
     // Return success response if the process completes without any issue
     return new Response(
