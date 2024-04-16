@@ -85,8 +85,8 @@ html {
     white-space: pre;
   }
 
-  .pre code::before,
-  .pre code::after {
+  .no-backtick code::before,
+  .no-backtick code::after {
     content: "";
   }
 

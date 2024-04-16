@@ -62,7 +62,7 @@ const CodeStyler = ({
   <div
     data-variant={variant || "full"}
     data-animated={animatedPreviewer}
-    className={`group/styler ${className}`}
+    className={`group/styler no-backtick ${className}`}
   >
     <div
       className={`pl-2 pr-1 pb-1 mx-auto shadow-xl bg-slate-800 rounded sm:max-h-[none] sm:rounded-xl dark:bg-slate-900/70 dark:backdrop-blur dark:ring-1 dark:ring-inset dark:ring-white/10`}
