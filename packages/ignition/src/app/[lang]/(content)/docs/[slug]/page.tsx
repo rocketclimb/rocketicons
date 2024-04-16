@@ -1,4 +1,4 @@
-import { Colors, Sizing } from "@/components/usage";
+import { Colors, Sizing, DarkMode } from "@/components/usage";
 import { MdxDoc } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-and-slug-param";
@@ -29,6 +29,9 @@ const Page = ({
       }
       case "sizing-elements": {
         return <Sizing lang={lang} queryIcon={i} />;
+      }
+      case "dark-mode": {
+        return <DarkMode lang={lang} queryIcon={i} />;
       }
       default:
         return <MdxDoc lang={lang} slug={slug} icon={i} />;
