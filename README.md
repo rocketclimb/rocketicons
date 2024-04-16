@@ -41,8 +41,6 @@ This project is licensed under the [MIT License](https://github.com/rocketclimb/
   <tbody>
     <tr>      
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/anteatergames/ludustack"><img src="https://avatars.githubusercontent.com/u/1039567?v=4?s=100" width="100px;" alt="Daniel Gomes"/><br /><sub><b>Daniel Gomes</b></sub></a><br /><a href="#code-programad" title="Code">💻</a></td>
-    </tr>
-    <tr>      
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/amorimjj"><img src="https://avatars.githubusercontent.com/u/3980851?v=4?s=100" width="100px;" alt="Jeferson J Amorim"/><br /><sub><b>Jeferson J Amorim</b></sub></a><br /><a href="#code-amorimjj" title="Code">💻</a></td>
     </tr>
   </tbody>
