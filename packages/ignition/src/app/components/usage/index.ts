@@ -1,3 +1,4 @@
 import Colors from "./colors";
 import Sizing from "./sizing";
-export { Colors, Sizing };
+import DarkMode from "./dark-mode";
+export { Colors, Sizing, DarkMode };

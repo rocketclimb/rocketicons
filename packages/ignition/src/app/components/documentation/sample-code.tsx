@@ -10,7 +10,7 @@ type SampleCodeProps = {
 } & PropsWithClassName;
 
 const SampleCode = ({ icon, options, ...props }: SampleCodeProps) => (
-  <CodeStyler className="text-sm" variant="minimalist">
+  <CodeStyler className="text-xs md:text-sm" variant="minimalist">
     {options.map((className, i) => (
       <CodeElementBlock
         key={i}

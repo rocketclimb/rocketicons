@@ -27,7 +27,7 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
   return (
     <div className="flex flex-col grow overflow-y-auto items-center justify-between bg-cover bg-hero-light dark:bg-hero-dark">
       <div
-        className="absolute inset-0 bg-grid-slate-900/[0.04] bg-[bottom_1px_center] bg-grid dark:bg-grid-slate-400/[0.05] dark:bg-bottom dark:border-b dark:border-slate-100/5"
+        className="absolute inset-0 bg-grid-slate-900/[0.04] bg-[bottom_1px_center] bg-grid dark:bg-grid-slate-400/[0.05] dark:bg-bottom dark:border-0 dark:border-slate-100/5"
         style={{ maskImage: "linear-gradient(transparent, black)" }}
       ></div>
       <div className="relative max-w-5xl mx-auto pt-20 px-4 sm:px-6 md:px-8 sm:pt-24 lg:pt-32">
@@ -42,17 +42,22 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
           <SearchButton lang={lang} />
         </div>
       </div>
-      <div className="mb-6">
+      <div className="mb-6 px-4 w-full">
         <AnimatedCodeBlock
+          className="deep-[4]"
           script={[
             {
-              time: "1s",
+              time: "4s",
               action: ScriptAction.UPDATE,
-              elementId: "el_0.el_0",
-              text: "w-32 h-32",
+              elementId: "el_0",
+              text: "h-32",
             },
             {
-              time: "2s",
+              action: ScriptAction.UPDATE,
+              elementId: "el_0.el_0",
+              text: "size-10",
+            },
+            {
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_0",
               text: " border border-slate-200 dark:border-white",
@@ -61,16 +66,16 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
             {
               time: "2s",
               action: ScriptAction.UPDATE_TYPING,
-              elementId: "el_0.el_0",
-              text: " bg-slate-200 dark:bg-white",
-              delay: 50,
+              elementId: "el_0",
+              text: " flex gap-3",
+              delay: 60,
             },
             {
               time: "2s",
-              action: ScriptAction.REPLACE_TYPING,
-              elementId: "el_0",
-              text: "flex gap-3",
-              delay: 60,
+              action: ScriptAction.UPDATE_TYPING,
+              elementId: "el_0.el_0",
+              text: " size-32 bg-slate-200 dark:bg-white",
+              delay: 50,
             },
             {
               time: "5s",
@@ -113,20 +118,20 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
             {
               action: ScriptAction.UPDATE,
               elementId: "el_0",
-              text: "",
+              text: "h-32",
             },
             {
               action: ScriptAction.UPDATE,
               elementId: "el_0.el_0",
-              text: "w-32 h-32",
+              text: "size-10",
             },
             {
               action: ScriptAction.RESTART,
             },
           ]}
         >
-          <div>
-            <RcRocketIcon className="w-32 h-32" />
+          <div className="h-32">
+            <RcRocketIcon className="size-10" />
             <div>
               <div className="text-slate-900 text-2xl font-light dark:text-white mt-2">
                 <RocketIconsText />

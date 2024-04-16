@@ -7,6 +7,7 @@ import Link from "next/link";
 
 import { IoMdClose } from "rocketicons/io";
 
+import { useLocale } from "@/locales";
 import { PropsWithChildrenAndClassName, PropsWithLang } from "@/types";
 import RocketiconsText from "@/components/rocketicons-text";
 import Button from "@/components/button";
@@ -21,6 +22,10 @@ type IconsCollectionsProps = PropsWithLang & {
 };
 
 const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
+  const locales = useLocale(lang);
+
+  const { "show-all": showAllLabel, icon } = locales.config("show-all", "icon");
+
   const [selected, setSelected] = useState<string>("");
 
   type ItemProps = {
@@ -138,8 +143,9 @@ const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
               >
                 <Title name={name} />
                 <p className="text-sm text-slate-500 rounded h-4 w-20 bg-gray-200 dark:bg-slate-700 has-[span]:h-auto has-[span]:w-auto has-[span]:bg-transparent has-[span]:dark:bg-transparent">
-                  <span>
-                    {totalIcons} Icon{totalIcons > 1 && "s"}
+                  <span className="capitalize">
+                    {totalIcons} {icon}
+                    {totalIcons > 1 && "s"}
                   </span>
                 </p>
 
@@ -187,7 +193,7 @@ const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
                         href={`/${lang}/icons/${id}`}
                         className="transition duration-300 rounded-lg px-3 py-1 text-base text-slate-700 dark:text-slate-400 border border-slate-200 ring-1 ring-inset ring-white/10 hover:ring-sky-900 hover:scale-105  dark:border-sky-950 bg-white dark:bg-slate-800"
                       >
-                        Show all icons
+                        {showAllLabel}
                       </Link>
                     </div>
                   </div>

@@ -41,7 +41,7 @@ const config: Config = {
   },
   plugins: [
     icons,
-    plugin(({ addComponents, addVariant }) => {
+    plugin(({ addComponents, addVariant, matchUtilities }) => {
       addComponents({
         ".active-content": {
           "@apply border-sky-500 dark:border-sky-500": {},
@@ -60,6 +60,9 @@ const config: Config = {
         },
         ".sub-title": {
           "@apply whitespace-pre-wrap font-semibold": {},
+          "p + &": {
+            "@apply mt-2": {},
+          },
         },
         ".sub-section": {
           "@apply mb-4 lg:-ml-2 lg:pl-2 default-text-color": {},
@@ -68,6 +71,35 @@ const config: Config = {
       addVariant("highlight", "h1 + &");
       addVariant("prose", ".prose &");
       addVariant("thin", ".thin &");
+      matchUtilities({
+        deep: (value) => {
+          type Style = string | Record<string, string>;
+          const styles: Record<
+            string,
+            Style | Record<string, Style | Record<string, Style>>
+          > = {
+            counterReset: "list-number",
+            "& .count": {
+              display: "flex",
+              "&::before": {
+                "@apply w-0 overflow-hidden -ml-5 md:ml-0 md:w-7 md:pl-2 md:mr-2 grow-0 shrink-0 font-monospace text-sm leading-6 whitespace-normal text-slate-600 text-right select-none h-full":
+                  {},
+                counterIncrement: "list-number",
+                content: "counter(list-number)",
+              },
+            },
+          };
+          const deep = parseInt(value);
+          for (let i = 1; i <= deep; i++) {
+            styles[`${".deep ".repeat(i)} .count::before`] = {
+              marginRight: `${i * 20}px !important`,
+            };
+          }
+          return {
+            "& .with-lines": styles,
+          };
+        },
+      });
     }),
   ],
   safelist: [

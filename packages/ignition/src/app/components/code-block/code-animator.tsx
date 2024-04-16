@@ -121,12 +121,14 @@ const CodeAnimator = ({
         data-previewer={!skipRender}
         className={
           !skipRender
-            ? `max-w-sm mx-auto mt-20 px-4 sm:max-w-lg md:max-w-screen-md lg:max-w-7xl sm:px-6 md:px-8 sm:mt-24 lg:mt-32 lg:grid lg:gap-8 lg:grid-cols-12 lg:items-center ${className}`
+            ? `w-full mx-auto max-w-3xl mt-20 lg:max-w-7xl lg:grid lg:gap-6 lg:items-center lg:grid-cols-12 ${
+                className ?? ""
+              }`
             : ""
         }
       >
         {!skipRender && (
-          <div className="relative row-start-1 col-start-1 col-span-5 xl:col-span-6 -mt-10">
+          <div className="row-start-1 col-start-1 lg:col-span-5">
             <div className="transition-all bg-white rounded-lg overflow-hidden ring-1 ring-slate-900/5 dark:bg-slate-800 dark:highlight-white/5 dark:ring-0 flex mb-4">
               {Children.map(children as ReactElement[], (child, i) => {
                 const { props } = child;
@@ -144,7 +146,7 @@ const CodeAnimator = ({
           </div>
         )}
         <CodeStyler
-          className={(skipRender && className) || ""}
+          className={(skipRender && className) || "lg:col-span-7"}
           animatedPreviewer={!skipRender}
           variant={variants}
         >
