@@ -25,7 +25,9 @@ export const middleware = (request: NextRequest) => {
 
   const pathNameHasApi = pathname.startsWith("/api/");
 
-  if (pathnameHasLocale || pathNameHasApi) {
+  const pathIsWebManifest = pathname.endsWith("webmanifest");
+
+  if (pathnameHasLocale || pathNameHasApi || pathIsWebManifest) {
     return NextResponse.next();
   }
 
