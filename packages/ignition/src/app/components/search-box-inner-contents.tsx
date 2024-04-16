@@ -8,9 +8,11 @@ import { useRef, useEffect } from "react";
 function SearchBoxInnerContents({
   label,
   refine,
+  className,
 }: {
   label: string;
   refine: (value: string) => void;
+  className?: string;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -19,7 +21,9 @@ function SearchBoxInnerContents({
   }, []);
 
   return (
-    <div className="flex flex-row items-center text-left sm:space-x-3 lg:space-x-0 px-3 h-12 bg-white ring-1 ring-slate-900/10 hover:ring-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-lg text-slate-300 dark:bg-slate-800 dark:ring-0 dark:text-slate-500 dark:highlight-white/5 dark:hover:bg-slate-700">
+    <div
+      className={`flex flex-row items-center text-left sm:space-x-3 lg:space-x-0 px-3 h-12 bg-white ring-1 ring-slate-900/10 hover:ring-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-lg text-slate-300 dark:bg-slate-800 dark:ring-0 dark:text-slate-500 dark:highlight-white/5 dark:hover:bg-slate-700 ${className}`}
+    >
       <LuSearch className="" />
       <input
         ref={inputRef}

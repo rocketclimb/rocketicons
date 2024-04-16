@@ -10,15 +10,13 @@ import SearchBoxInnerContents from "./search-box-inner-contents";
 import { RcRocketIcon } from "rocketicons/rc";
 
 const borderClass = "border-slate-100 dark:border-slate-700";
-const linkClass = `flex items-center gap-4 border-t ${borderClass} first:rounded-t-xl last:rounded-b-xl first:border-0 py-3 px-3 focus:outline-none focus:ring-4 ring-inset ring-slate-200 dark:ring-slate-600 transition-colors hover:bg-slate-200 dark:hover:bg-slate-600`;
+const linkClass = `flex items-center gap-4 border-t ${borderClass} first:border-0 py-3 px-3 focus:outline-none focus:ring-4 ring-inset ring-slate-200 dark:ring-slate-600 transition-colors hover:bg-slate-200 dark:hover:bg-slate-600`;
 
 const Loader = () => <RcRocketIcon className="animate-spin" />;
 
 function IconHit(hit: any, lang: Languages) {
   return (
     <Link className={linkClass} href={`/en/icons/${hit.group}/${hit.objectID}`}>
-      {/* <span>{hit.title}</span> */}
-
       <IconLoader collectionId={hit.group} icon={hit.text} Loading={Loader} />
       <span className="grow">{hit.name}</span>
       <span>{`<${hit.text} />`}</span>
@@ -83,9 +81,9 @@ function SearchHits({
 
   return (
     searchState.query && (
-      <div className="relative float w-full h-1/2">
+      <div className="relative float w-full">
         <div
-          className={`w-full bg-white dark:bg-slate-800 border ${borderClass} rounded-xl absolute top-1 right-0 left-0 shadow-2xl`}
+          className={`w-full h-96 overflow-auto bg-white dark:bg-slate-800 border ${borderClass} rounded-xl absolute top-1 right-0 left-0 shadow-2xl`}
         >
           {searchResults?.hits.length === 0 && (
             <div className="py-3 px-6">{search["no-results"]}</div>

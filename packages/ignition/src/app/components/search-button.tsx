@@ -31,8 +31,11 @@ const SearchButton = ({ lang }: SearchButtonProps) => {
     }
   };
 
-  const SearchBoxInnerComponent = () => (
-    <SearchBoxInnerContents label={search["placeholder"]} />
+  const SearchBoxInnerComponent = ({ className }: { className?: string }) => (
+    <SearchBoxInnerContents
+      label={search["placeholder"]}
+      className={className}
+    />
   );
 
   return (
@@ -51,12 +54,15 @@ const SearchButton = ({ lang }: SearchButtonProps) => {
           <div className="mx-1 flex flex-col relative z-50">
             <div
               id="backdrop"
-              className="fixed inset-0 flex items-center justify-center bg-slate-900 bg-opacity-75"
+              className="fixed inset-0 flex flex-col items-center justify-center w-full -translate-y-32 bg-slate-900 bg-opacity-75"
               onClick={ToggleModal}
             >
-              <div className="max-w-md w-full -translate-y-32">
+              <div className="w-1/3">
                 <SearchBoxInnerComponent />
-                <SearchHits lang={lang}></SearchHits>
+              </div>
+
+              <div className="w-1/2">
+                <SearchHits lang={lang} />
               </div>
             </div>
           </div>
