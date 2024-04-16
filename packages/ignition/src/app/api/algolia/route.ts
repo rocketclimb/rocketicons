@@ -45,13 +45,10 @@ export async function POST(request: Request) {
         title: `${collection.name} - ${icon.substring(2)}`,
         text: icon,
         group: collection.id,
+        groupName: collection.name,
         isIcon: true,
       }))
     );
-
-    console.log("first icon mapped", transformedIcons[0]);
-    console.log("first icon mapped", transformedIcons[1]);
-    console.log("first icon mapped", transformedIcons[2]);
 
     let totalCount = 0;
 

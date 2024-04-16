@@ -5,14 +5,23 @@ import Link from "next/link";
 import { useLocale } from "@/locales";
 import { Languages } from "@/types";
 import { SiAlgolia } from "rocketicons/si";
+import IconLoader from "./icons/icon-loader";
+import SearchBoxInnerContents from "./search-box-inner-contents";
+import { RcRocketIcon } from "rocketicons/rc";
 
 const borderClass = "border-slate-100 dark:border-slate-700";
 const linkClass = `flex items-center gap-4 border-t ${borderClass} first:rounded-t-xl last:rounded-b-xl first:border-0 py-3 px-3 focus:outline-none focus:ring-4 ring-inset ring-slate-200 dark:ring-slate-600 transition-colors hover:bg-slate-200 dark:hover:bg-slate-600`;
 
+const Loader = () => <RcRocketIcon className="animate-spin" />;
+
 function IconHit(hit: any, lang: Languages) {
   return (
     <Link className={linkClass} href={`/en/icons/${hit.group}/${hit.objectID}`}>
-      <span>{hit.title}</span>
+      {/* <span>{hit.title}</span> */}
+
+      <IconLoader collectionId={hit.group} icon={hit.text} Loading={Loader} />
+      <span className="grow">{hit.name}</span>
+      <span>{`<${hit.text} />`}</span>
     </Link>
   );
 }
@@ -46,23 +55,42 @@ function SearchHits({
 }) {
   const search = useLocale(lang).config("search");
 
+  const groupedHits = searchResults?.hits.reduce((groups: any, hit: any) => {
+    if (hit.group) {
+      const key = hit.groupName || hit.group;
+      if (!groups[key]) {
+        groups[key] = [];
+      }
+      groups[key].push(hit);
+    }
+    return groups;
+  }, {});
+
+  const renderGroupedHits = Object.entries(groupedHits)
+    .sort(([groupA], [groupB]) => groupA.localeCompare(groupB))
+    .map(([group, hits]) => (
+      <div key={group} className="m-2">
+        <h2>{group}</h2>
+        {(hits as any).map((hit: any) => {
+          return hit.isIcon ? (
+            <IconHit key={hit.objectID} lang={lang} {...hit} />
+          ) : (
+            <Hit key={hit.objectID} lang={lang} {...hit} />
+          );
+        })}
+      </div>
+    ));
+
   return (
     searchState.query && (
-      <div className="relative">
+      <div className="relative float w-full h-1/2">
         <div
-          className={`bg-white dark:bg-slate-800 border ${borderClass}  rounded-xl absolute top-1 right-0 left-0 shadow-2xl`}
+          className={`w-full bg-white dark:bg-slate-800 border ${borderClass} rounded-xl absolute top-1 right-0 left-0 shadow-2xl`}
         >
           {searchResults?.hits.length === 0 && (
             <div className="py-3 px-6">{search["no-results"]}</div>
           )}
-          {searchResults?.hits.length > 0 &&
-            searchResults.hits.map((hit: any) => {
-              return hit.isIcon ? (
-                <IconHit key={hit.objectID} lang={lang} {...hit} />
-              ) : (
-                <Hit key={hit.objectID} lang={lang} {...hit} />
-              );
-            })}{" "}
+          {searchResults?.hits.length > 0 && groupedHits && renderGroupedHits}
           <div className={`p-2 text-right border-t ${borderClass}`}>
             <Link href={"https://www.algolia.com"} target="_blank">
               <SiAlgolia />
