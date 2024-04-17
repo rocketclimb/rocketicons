@@ -5,14 +5,14 @@ import Link from "next/link";
 import { useLocale } from "@/locales";
 import { Languages } from "@/types";
 import { SiAlgolia } from "rocketicons/si";
-import IconLoader from "./icons/icon-loader";
-import SearchBoxInnerContents from "./search-box-inner-contents";
+import IconLoader from "@/components/icons/icon-loader";
 import { RcRocketIcon } from "rocketicons/rc";
+import { BiLoader, BiLoaderAlt } from "rocketicons/bi";
 
 const borderClass = "border-slate-100 dark:border-slate-700";
 const linkClass = `flex items-center gap-4 border-t ${borderClass} first:border-0 py-3 px-3 focus:outline-none focus:ring-4 ring-inset ring-slate-200 dark:ring-slate-600 transition-colors hover:bg-slate-200 dark:hover:bg-slate-600`;
 
-const Loader = () => <RcRocketIcon className="animate-spin" />;
+const Loader = () => <BiLoaderAlt className="animate-spin duration-1000" />;
 
 function IconHit(hit: any, lang: Languages) {
   return (
@@ -51,6 +51,10 @@ function SearchHits({
   searchState: any;
   searchResults: any;
 }) {
+  if (!searchResults) {
+    return <></>;
+  }
+
   const search = useLocale(lang).config("search");
 
   const groupedHits = searchResults?.hits.reduce((groups: any, hit: any) => {
@@ -81,9 +85,9 @@ function SearchHits({
 
   return (
     searchState.query && (
-      <div className="relative float w-full">
+      <div className="relative float">
         <div
-          className={`w-full h-96 overflow-auto bg-white dark:bg-slate-800 border ${borderClass} rounded-xl absolute top-1 right-0 left-0 shadow-2xl`}
+          className={`h-96 overflow-auto bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-200 ${borderClass} rounded-xl absolute top-1 right-0 left-0 shadow-2xl`}
         >
           {searchResults?.hits.length === 0 && (
             <div className="py-3 px-6">{search["no-results"]}</div>
