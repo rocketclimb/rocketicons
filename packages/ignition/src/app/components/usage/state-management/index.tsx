@@ -16,7 +16,7 @@ const StateManagement = async ({
   const { icon, Icon } = await getCurrentIconData(queryIcon);
   return (
     <>
-      <MdxPartial lang={lang} slug={"styling"} path="docs" />
+      <MdxPartial lang={lang} slug={"state-management"} path="docs" />
       <GridContainer>
         <div className="mx-auto w-32 my-8">
           <Icon className="size-32 border border-transparent rounded-xl hover:border-slate-600" />
