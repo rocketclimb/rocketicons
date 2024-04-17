@@ -2,6 +2,7 @@ import Colors from "@/components/usage/colors";
 import Sizing from "@/components/usage/sizing";
 import DarkMode from "@/components/usage/dark-mode";
 import ResponsiveDesign from "@/components/usage/responsive-design";
+import StateManagement from "@/components/usage/state-management";
 import { MdxDoc } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-and-slug-param";
@@ -37,7 +38,10 @@ const Page = ({
         return <DarkMode lang={lang} queryIcon={i} />;
       }
       case "responsive-design": {
-        return <ResponsiveDesign lang={lang} queryIcon={i} />;
+        return <ResponsiveDesign lang={lang} />;
+      }
+      case "state-management": {
+        return <StateManagement lang={lang} queryIcon={i} />;
       }
       default:
         return <MdxDoc lang={lang} slug={slug} icon={i} />;

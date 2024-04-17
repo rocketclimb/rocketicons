@@ -33,7 +33,7 @@ export const RocketIconsTextDefault = ({
 }: RocketIconsTextProps) => (
   <RocketIconsText
     showIcon={showIcon ?? true}
-    className={`text-slate-900 dark:text-white ${className}`}
+    className={`${className || "text-slate-900 dark:text-white"}`}
   />
 );
 
