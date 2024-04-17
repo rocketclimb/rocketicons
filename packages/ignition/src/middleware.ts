@@ -28,11 +28,11 @@ export const middleware = (request: NextRequest) => {
   }
 
   request.nextUrl.pathname = `/${locale}${pathname}`;
-  return NextResponse.redirect(request.nextUrl)
+  return NextResponse.redirect(request.nextUrl);
 };
 
 export const config = {
   matcher: [
-    "/((?!_next|img|favicon|icon|logo|android|apple-touch|mstile|safari-pinned).*)",
+    "/((?!_next|examples|img|favicon|icon|logo|android|apple-touch|mstile|safari-pinned).*)",
   ],
 };

@@ -42,6 +42,7 @@
   "update-alert": {
     "hover-alert": "Passe o mouse sobre o ícone e veja o que acontence",
     "dark-mode-alert": "Selecione outro tema e veja as mudanças no ícone",
-    "changes-alert": "Observe o ícone mudando conforme outra opções são escolhidas"
+    "changes-alert": "Observe o ícone mudando conforme outra opções são escolhidas",
+    "drag-alert": "Arraste o handle do demo para ver o funcionamento"
   }
 }

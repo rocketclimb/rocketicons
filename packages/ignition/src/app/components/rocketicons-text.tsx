@@ -27,10 +27,13 @@ const RocketIconsText = ({ showIcon, className }: RocketIconsTextProps) => (
   </>
 );
 
-export const RocketIconsTextDefault = ({ showIcon }: RocketIconsTextProps) => (
+export const RocketIconsTextDefault = ({
+  className,
+  showIcon,
+}: RocketIconsTextProps) => (
   <RocketIconsText
-    showIcon={showIcon || true}
-    className={`text-slate-900 dark:text-white`}
+    showIcon={showIcon ?? true}
+    className={`text-slate-900 dark:text-white ${className}`}
   />
 );
 

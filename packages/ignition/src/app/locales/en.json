@@ -42,6 +42,7 @@
   "update-alert": {
     "hover-alert": "Hover over the icon and see changes",
     "dark-mode-alert": "Change the theme mode and see the changes",
-    "changes-alert": "Watch icon updates as options change."
+    "changes-alert": "Watch icon updates as options change.",
+    "drag-alert": "Drag handle in the demo to see the expected behaviour"
   }
 }
