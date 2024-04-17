@@ -2,16 +2,11 @@ import { PropsWithLang } from "@/app/types";
 import { MdxPartial } from "@/components/mdx";
 
 import Wrapper from "@/components/documentation/wrapper";
-import { getCurrentIconData } from "@/components/usage/utils";
 import CodeSample from "@/components/code-block/code-sample";
 
 import Demo from "./demo";
 
-const ResponsiveDesign = async ({
-  lang,
-  queryIcon,
-}: PropsWithLang & { queryIcon?: string }) => {
-  const { icon, collection, Icon } = await getCurrentIconData(queryIcon);
+const ResponsiveDesign = ({ lang }: PropsWithLang) => {
   return (
     <>
       <MdxPartial lang={lang} slug={"responsive-design"} path="docs" />

@@ -37,9 +37,9 @@ const GridContainer = ({
       {resizable && (
         <div
           data-show={showResizableTip}
-          className="transition duration-200 absolute opacity-0 right-0 bottom-0 data-[show=true]:opacity-100"
+          className="transition duration-200 absolute opacity-0 right-1 bottom-1 data-[show=true]:opacity-100"
         >
-          <LuArrowDownRight className="icon-sky-base ml-3 mb-2 mr-1 animate-bounce" />
+          <LuArrowDownRight className="icon-sky-base ml-3 mb-1 animate-bounce" />
         </div>
       )}
     </div>
