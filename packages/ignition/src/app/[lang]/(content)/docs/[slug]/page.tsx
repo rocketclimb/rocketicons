@@ -3,6 +3,7 @@ import Sizing from "@/components/usage/sizing";
 import DarkMode from "@/components/usage/dark-mode";
 import ResponsiveDesign from "@/components/usage/responsive-design";
 import StateManagement from "@/components/usage/state-management";
+import Styling from "@/components/usage/styling";
 import { MdxDoc } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-and-slug-param";
@@ -42,6 +43,9 @@ const Page = ({
       }
       case "state-management": {
         return <StateManagement lang={lang} queryIcon={i} />;
+      }
+      case "styling": {
+        return <Styling lang={lang} queryIcon={i} />;
       }
       default:
         return <MdxDoc lang={lang} slug={slug} icon={i} />;
