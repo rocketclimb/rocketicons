@@ -46,6 +46,22 @@ const StateManagement = async ({
       </CodeSample>
       <GridContainer>
         <div className="mx-auto flex justify-center gap-6 my-8">
+          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl bg-white" />
+          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl bg-red-200" />
+          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl bg-orange-200" />
+          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl bg-lime-200" />
+        </div>
+      </GridContainer>
+      <CodeSample>
+        <div>
+          <div data-tag={icon} className="bg-white ..." />
+          <div data-tag={icon} className="bg-red-200 ..." />
+          <div data-tag={icon} className="bg-orange-200 ..." />
+          <div data-tag={icon} className="bg-lime-200 ..." />
+        </div>
+      </CodeSample>
+      <GridContainer>
+        <div className="mx-auto flex justify-center gap-6 my-8">
           <Icon className="size-16 md:size-20 lg:size-32 border-2 border-slate-600" />
           <Icon className="size-16 md:size-20 lg:size-32 border-4 border-slate-600" />
           <Icon className="size-16 md:size-20 lg:size-32 border-8 border-slate-600" />
