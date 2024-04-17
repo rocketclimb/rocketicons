@@ -28,7 +28,7 @@ const GridContainer = ({
   showResizableTip,
 }: GridContainerProps) => (
   <div
-    className={`mt-4 mb-8 bg-slate-50 rounded-xl overflow-hidden dark:bg-slate-800/25 resize-x ${getResizableUtility(
+    className={`mt-4 mb-8 bg-slate-50 rounded-xl overflow-hidden dark:bg-slate-800/25 ${getResizableUtility(
       resizable
     )}`}
   >

@@ -8,7 +8,7 @@ const Demo = ({ lang }: PropsWithLang) => {
   const [showTip, setShowTip] = useState<boolean>(false);
   return (
     <>
-      <GridContainer showResizableTip={showTip} resizable="y">
+      <GridContainer showResizableTip={showTip} resizable="x">
         <div className="px-8 py-10">
           <iframe
             className="w-full h-96 pointer-events-none"
