@@ -33,10 +33,10 @@ const StateManagement = async ({
       </CodeSample>
       <GridContainer>
         <div className="mx-auto flex justify-center gap-6 my-8">
-          <Icon className="size-32 rounded-xl border border-transparent first:bg-white last:border-slate-600" />
-          <Icon className="size-32 rounded-xl border border-transparent first:bg-white last:border-slate-600" />
-          <Icon className="size-32 rounded-xl border border-transparent first:bg-white last:border-slate-600" />
-          <Icon className="size-32 rounded-xl border border-transparent first:bg-white last:border-slate-600" />
+          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-white last:border-slate-600" />
+          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-white last:border-slate-600" />
+          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-white last:border-slate-600" />
+          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-white last:border-slate-600" />
         </div>
       </GridContainer>
       <CodeSample>
@@ -62,10 +62,10 @@ const StateManagement = async ({
 
       <GridContainer>
         <div className="mx-auto flex justify-center gap-6 my-8">
-          <Icon className="size-32 rounded-xl border border-transparent even:bg-white odd:border-slate-600" />
-          <Icon className="size-32 rounded-xl border border-transparent even:bg-white odd:border-slate-600" />
-          <Icon className="size-32 rounded-xl border border-transparent even:bg-white odd:border-slate-600" />
-          <Icon className="size-32 rounded-xl border border-transparent even:bg-white odd:border-slate-600" />
+          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent even:bg-white odd:border-slate-600" />
+          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent even:bg-white odd:border-slate-600" />
+          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent even:bg-white odd:border-slate-600" />
+          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent even:bg-white odd:border-slate-600" />
         </div>
       </GridContainer>
       <CodeSample>
