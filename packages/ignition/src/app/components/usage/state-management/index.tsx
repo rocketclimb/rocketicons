@@ -107,6 +107,7 @@ const StateManagement = async ({
           </a>
         </div>
       </GridContainer>
+      <UpdateAlert alert="hover" lang={lang} />
       <CodeSample>
         <div>
           <a href="#" className="group/sample ...">
