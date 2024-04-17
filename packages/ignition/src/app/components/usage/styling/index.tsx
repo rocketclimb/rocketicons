@@ -21,6 +21,22 @@ const StateManagement = async ({
       <StylingAnimation icon={icon} collection={collection} />
       <GridContainer>
         <div className="mx-auto flex justify-center gap-6 my-8">
+          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl bg-white" />
+          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl bg-red-200" />
+          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl bg-orange-200" />
+          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl bg-lime-200" />
+        </div>
+      </GridContainer>
+      <CodeSample>
+        <div>
+          <div data-tag={icon} className="bg-white ..." />
+          <div data-tag={icon} className="bg-red-200 ..." />
+          <div data-tag={icon} className="bg-orange-200 ..." />
+          <div data-tag={icon} className="bg-lime-200 ..." />
+        </div>
+      </CodeSample>
+      <GridContainer>
+        <div className="mx-auto flex justify-center gap-6 my-8">
           <Icon className="size-16 md:size-20 lg:size-32 border border-slate-600" />
           <Icon className="size-16 md:size-20 lg:size-32 rounded border border-slate-600" />
           <Icon className="size-16 md:size-20 lg:size-32 rounded-md border border-slate-600" />
@@ -42,22 +58,6 @@ const StateManagement = async ({
             data-tag={icon}
             className="rounded-lg border border-slate-600 ..."
           />
-        </div>
-      </CodeSample>
-      <GridContainer>
-        <div className="mx-auto flex justify-center gap-6 my-8">
-          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl bg-white" />
-          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl bg-red-200" />
-          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl bg-orange-200" />
-          <Icon className="size-16 md:size-20 lg:size-32 rounded-xl bg-lime-200" />
-        </div>
-      </GridContainer>
-      <CodeSample>
-        <div>
-          <div data-tag={icon} className="bg-white ..." />
-          <div data-tag={icon} className="bg-red-200 ..." />
-          <div data-tag={icon} className="bg-orange-200 ..." />
-          <div data-tag={icon} className="bg-lime-200 ..." />
         </div>
       </CodeSample>
       <GridContainer>
@@ -130,10 +130,10 @@ const StateManagement = async ({
       Shadow
       <GridContainer>
         <div className="mx-auto flex justify-center gap-6 my-8">
-          <Icon className="size-16 md:size-20 lg:size-32 shadow-md" />
-          <Icon className="size-16 md:size-20 lg:size-32 shadow-lg" />
-          <Icon className="size-16 md:size-20 lg:size-32 shadow-xl" />
-          <Icon className="size-16 md:size-20 lg:size-32 shadow-2xl" />
+          <Icon className="size-16 md:size-20 lg:size-32 shadow-md dark:shadow-slate-700" />
+          <Icon className="size-16 md:size-20 lg:size-32 shadow-lg dark:shadow-slate-700" />
+          <Icon className="size-16 md:size-20 lg:size-32 shadow-xl dark:shadow-slate-700" />
+          <Icon className="size-16 md:size-20 lg:size-32 shadow-2xl dark:shadow-slate-700" />
         </div>
       </GridContainer>
       <CodeSample>
@@ -162,14 +162,14 @@ const StateManagement = async ({
       </CodeSample>
       <GridContainer>
         <div className="mx-auto flex justify-center gap-6 my-8">
-          <Icon className="size-16 md:size-20 lg:size-32 scale-75" />
+          <Icon className="size-16 md:size-20 lg:size-32 scale-50" />
           <Icon className="size-16 md:size-20 lg:size-32 rotate-45" />
           <Icon className="size-16 md:size-20 lg:size-32 skew-y-12" />
         </div>
       </GridContainer>
       <CodeSample>
         <div>
-          <div data-tag={icon} className="scale-75 ..." />
+          <div data-tag={icon} className="scale-50 ..." />
           <div data-tag={icon} className="rotate-45 ..." />
           <div data-tag={icon} className="skew-y-12 ..." />
         </div>
@@ -182,6 +182,7 @@ const StateManagement = async ({
           <Icon className="size-16 md:size-20 lg:size-32 cursor-grab" />
         </div>
       </GridContainer>
+      <UpdateAlert alert="hover" lang={lang} />
       <CodeSample>
         <div>
           <div data-tag={icon} className="cursor-pointer ..." />

@@ -14,7 +14,9 @@ const UpdateAlert = ({ lang, alert, ...props }: UpdateAlertProps) => {
 
   return (
     <div
-      className="group/alert space-x-2 my-3 cursor-pointer w-full"
+      className={`group/alert space-x-2 my-3 w-full ${
+        (props.onMouseEnter && "cursor-pointer") || "cursor-default"
+      }`}
       {...props}
     >
       <p className="text-slate-700 w-full text-center text-sm italic font-medium dark:text-slate-200">
