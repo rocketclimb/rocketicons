@@ -11,6 +11,7 @@ const Demo = ({ lang }: PropsWithLang) => {
       <GridContainer showResizableTip={showTip} resizable="x">
         <div className="px-8 py-10">
           <iframe
+            title="responsive demo"
             className="w-full h-96 pointer-events-none"
             src="/examples/responsive"
           ></iframe>

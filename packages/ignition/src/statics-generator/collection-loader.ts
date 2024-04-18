@@ -7,20 +7,28 @@ const OUTPUT_FILE = "./src/app/components/icons/icons-loader.tsx";
 const CollectionLoaderTemplate = `
 // THIS FILE IS AUTO GENERATED
 import dynamic from 'next/dynamic'
-import { IconType } from "rocketicons";
-import { CollectionDataInfo } from "rocketicons";
+import { IconType, CollectionDataInfo } from "rocketicons";
 import { CollectionID, License } from "rocketicons/data";
 
 export type HandlerPros = {
-  manifest: CollectionDataInfo<CollectionID, License>
+  manifest: CollectionDataInfo<CollectionID, License>;
   collection: Record<string, IconType>;
-}
+};
+
+type AdditionalProps<T extends HandlerPros> = Omit<T, keyof HandlerPros>;
+
+type DynamicLoaderProps<T extends HandlerPros> = {
+  Handler: (props: T) => JSX.Element;
+  Loading: () => JSX.Element;
+} & AdditionalProps<T>;
 
 type IconsLoaderProps<T extends HandlerPros> = {
   collectionId: CollectionID;
   Handler: (props: T) => JSX.Element;
   Loading?: () => JSX.Element;
-} & Omit<T, keyof HandlerPros>;
+} & AdditionalProps<T>;
+
+const loadersMap = new Map([{0}]);
 
 const IconsLoader = <T extends HandlerPros>({
   collectionId,
@@ -29,20 +37,23 @@ const IconsLoader = <T extends HandlerPros>({
   ...props
 }: IconsLoaderProps<T>) => {
   Loading = Loading || (() => <p>Loading...</p>);
-{0}
+
+  // @ts-ignore
+  const Collection = loadersMap.get(collectionId)!(Handler, Loading, props);
+  return <Collection />
 }
 
 export default IconsLoader;
 `;
 
 const ItemTemplate = `
-  const Icons{0} = dynamic(
+  ["{0}", <T extends HandlerPros>(Handler: (props: T) => JSX.Element, Loading: () => JSX.Element, props: DynamicLoaderProps<T>) => dynamic(
     async () => {
       const {
         manifest,
         default: _d,
         ...Icons
-      } = await import("rocketicons/{1}");
+      } = await import("rocketicons/{0}");
       return () => (
         // @ts-ignore
         <Handler manifest={manifest} collection={Icons} {...props} />
@@ -51,32 +62,19 @@ const ItemTemplate = `
     {
       loading: () => <Loading />,
     }
-  );
-`;
-
-const ConditionalTemplate = `
-  if ( collectionId === "{1}" ) {
-    return <Icons{0} />;
-  }
+  )],
 `;
 
 const generator = async () => {
   const items: string[] = [];
-  const conditionals: string[] = [];
 
   IconsManifest.forEach(({ id }) => {
-    items.push(templateBuilder(ItemTemplate, id.toUpperCase(), id));
-    conditionals.push(
-      templateBuilder(ConditionalTemplate, id.toUpperCase(), id)
-    );
+    items.push(templateBuilder(ItemTemplate, id));
   });
 
   await fs.writeFileSync(
     OUTPUT_FILE,
-    templateBuilder(
-      CollectionLoaderTemplate,
-      items.join("") + conditionals.join("")
-    )
+    templateBuilder(CollectionLoaderTemplate, items.join(""))
   );
 };
 

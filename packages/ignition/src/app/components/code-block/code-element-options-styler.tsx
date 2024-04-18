@@ -22,12 +22,13 @@ const CodeElementOptionsStyler = ({
   className,
   showMore,
 }: CodeElementOptionsProps) => {
+  const { config } = useLocale(locale);
   const tabs = [CodeElementTabs.DEFAULT, ...options];
   const allowSelectionUntil = tabs.length;
   showMore &&
     tabs.push({
       id: CodeElementTabs.MORE,
-      name: `... ${useLocale(locale).config("code-block").more}`,
+      name: `... ${config("code-block").more}`,
     });
   const [selected, setSelected] = useState<number>(0);
 

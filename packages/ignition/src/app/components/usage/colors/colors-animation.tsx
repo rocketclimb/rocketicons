@@ -7,18 +7,9 @@ import { useEffect, useState } from "react";
 import { CollectionID } from "rocketicons/data";
 import IconLoader, { IconHandlerProps } from "@/components/icons/icon-loader";
 
-type ColorsAnimationProsp = {
-  icon: string;
-  collection: CollectionID;
-  colors: string[];
-};
-
-const ColorsAnimation = ({
-  collection,
-  icon,
-  colors,
-}: ColorsAnimationProsp) => {
-  const Animation = ({ Icon }: IconHandlerProps) => {
+const Animation =
+  (colors: string[]) =>
+  ({ Icon }: IconHandlerProps) => {
     const [state, setState] = useState<string>("icon-slate-200");
     const [script, setScript] = useState<Script>([]);
 
@@ -76,11 +67,24 @@ const ColorsAnimation = ({
     );
   };
 
-  return (
-    <div className="flex h-72 sm:h-48 flex-col sm:flex-row my-12 items-center justify-center gap-4">
-      <IconLoader collectionId={collection} icon={icon} Handler={Animation} />
-    </div>
-  );
+type ColorsAnimationProsp = {
+  icon: string;
+  collection: CollectionID;
+  colors: string[];
 };
+
+const ColorsAnimation = ({
+  collection,
+  icon,
+  colors,
+}: ColorsAnimationProsp) => (
+  <div className="flex h-72 sm:h-48 flex-col sm:flex-row my-12 items-center justify-center gap-4">
+    <IconLoader
+      collectionId={collection}
+      icon={icon}
+      Handler={Animation(colors)}
+    />
+  </div>
+);
 
 export default ColorsAnimation;

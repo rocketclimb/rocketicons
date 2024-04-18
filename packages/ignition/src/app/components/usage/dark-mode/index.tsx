@@ -8,12 +8,12 @@ import CodeSample from "@/components/code-block/code-sample";
 import Wrapper from "@/components/documentation/wrapper";
 import SampleBox from "@/components/documentation/sample-box";
 
-const DarkMode = async ({
+const DarkMode = ({
   lang,
   queryIcon,
 }: PropsWithLang & { queryIcon?: string }) => {
   const locale = useLocale(lang);
-  const { icon, Icon } = await getCurrentIconData(queryIcon);
+  const { icon, Icon } = getCurrentIconData(queryIcon);
 
   const { "dark-mode": darModeLabel, "light-mode": ligthModeLabel } =
     locale.config("dark-mode", "light-mode");

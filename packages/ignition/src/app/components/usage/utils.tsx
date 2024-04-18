@@ -8,7 +8,7 @@ export const getCurrentIconData = (query?: string) => {
   const defaultCollection: CollectionID = "rc";
   const defaultIcon = "RcRocketIcon";
 
-  const [collection, icon] = (query || "").split(".") as [CollectionID, string];
+  const [collection, icon] = (query ?? "").split(".") as [CollectionID, string];
 
   if (!collection || !icon || !getCollectionsInfo(collection).exists(icon)) {
     return {

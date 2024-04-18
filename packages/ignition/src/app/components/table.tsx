@@ -61,7 +61,7 @@ export const TableLine = ({
   </tr>
 );
 
-const TH = ({ children }: PropsWithChildren) => (
+const Th = ({ children }: PropsWithChildren) => (
   <th className="sticky z-10 top-0 text-sm leading-6 font-semibold text-slate-700 bg-white p-0 dark:bg-slate-900 dark:text-slate-300">
     <div className="py-2 pr-2 border-b border-slate-200 dark:border-slate-400/20">
       {children || <>&nbsp;</>}
@@ -93,9 +93,9 @@ export const Table = ({
         <table className="w-full text-left border-collapse">
           <thead>
             <tr>
-              <TH>{header1}</TH>
-              <TH>{header2}</TH>
-              {hasAdditional && <TH />}
+              <Th>{header1}</Th>
+              <Th>{header2}</Th>
+              {hasAdditional && <Th />}
             </tr>
           </thead>
           <tbody className="align-baseline">{children}</tbody>

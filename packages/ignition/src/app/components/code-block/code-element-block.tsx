@@ -27,7 +27,7 @@ const CodeElementBlock = ({
       lang={locale}
       clipboardText={`<${component}  ${attributesAsText(attrs)} />`}
     >
-      <CommonNotation lang="html" className={className || "text-sm"}>
+      <CommonNotation lang="html" className={className ?? "text-sm"}>
         {"<"}
         <TagName lang="html">{component}</TagName>{" "}
         {attrs && <Attributes lang="html" attributes={attrs} />} {"/>"}

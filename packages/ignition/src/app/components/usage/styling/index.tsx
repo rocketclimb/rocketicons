@@ -9,11 +9,11 @@ import CodeSample from "@/components/code-block/code-sample";
 import StylingAnimation from "./styling-animation";
 import Wrapper from "@/components/documentation/wrapper";
 
-const StateManagement = async ({
+const StateManagement = ({
   lang,
   queryIcon,
 }: PropsWithLang & { queryIcon?: string }) => {
-  const { icon, collection, Icon } = await getCurrentIconData(queryIcon);
+  const { icon, collection, Icon } = getCurrentIconData(queryIcon);
   return (
     <>
       <MdxPartial lang={lang} slug={"styling"} path="docs" />

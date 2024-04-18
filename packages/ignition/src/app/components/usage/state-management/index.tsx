@@ -10,11 +10,11 @@ import { TbCheckbox, TbUserQuestion, TbUserStar, TbUser } from "rocketicons/tb";
 import CodeSample from "@/components/code-block/code-sample";
 import Wrapper from "@/components/documentation/wrapper";
 
-const StateManagement = async ({
+const StateManagement = ({
   lang,
   queryIcon,
 }: PropsWithLang & { queryIcon?: string }) => {
-  const { icon, Icon } = await getCurrentIconData(queryIcon);
+  const { icon, Icon } = getCurrentIconData(queryIcon);
   return (
     <>
       <MdxPartial lang={lang} slug={"state-management"} path="docs" />
