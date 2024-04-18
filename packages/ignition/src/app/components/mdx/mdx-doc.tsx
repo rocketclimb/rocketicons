@@ -1,26 +1,13 @@
 import { PropsWithLang } from "@/types";
 import dynamic from "next/dynamic";
-import { redirect } from "next/navigation";
 import { useLocale } from "@/locales/use-locale";
 
 export const MdxDoc = ({
   lang,
   slug,
-  icon,
-}: PropsWithLang & { slug: string; icon?: string }) => {
+}: PropsWithLang & { slug: string }) => {
   const { doc } = useLocale(lang);
   const selectedDoc = doc(slug);
-  if (slug != selectedDoc.slug) {
-    redirect(
-      `/${lang}/docs/${selectedDoc.slug}${(icon && "?i=" + icon) || ""}`
-    );
-  }
-
-  // Redirect to the component section if the doc is a component
-  if (selectedDoc && selectedDoc.isComponent) {
-    redirect(`/${lang}/docs/${selectedDoc.group}#${slug}`);
-  }
-
   const DynamicMarkDownComponent = dynamic(
     () => import(`@/locales/docs/${selectedDoc?.filePath}`),
     {
