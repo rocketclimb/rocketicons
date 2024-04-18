@@ -139,7 +139,7 @@ const ThemeSelector = ({ lang }: PropsWithLang) => {
   const { config } = useLocale(lang);
   const themes = config("themes");
 
-  const [current, setTheme] = useThemeContext();
+  const [, setTheme] = useThemeContext();
   const [showing, setShowing] = useState<boolean>(false);
 
   const selectors: Selector[] = [
