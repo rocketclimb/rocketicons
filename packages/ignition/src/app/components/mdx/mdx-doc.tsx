@@ -8,7 +8,8 @@ export const MdxDoc = ({
   slug,
   icon,
 }: PropsWithLang & { slug: string; icon?: string }) => {
-  const selectedDoc = useLocale(lang, slug).docFromIndex();
+  const { doc } = useLocale(lang);
+  const selectedDoc = doc(slug);
   if (slug != selectedDoc.slug) {
     redirect(
       `/${lang}/docs/${selectedDoc.slug}${(icon && "?i=" + icon) || ""}`

@@ -70,7 +70,8 @@ const MenuItem = ({
 
 export const SidebarLeft = ({ lang }: PropsWithLang) => {
   const DocList = () => {
-    const docs = Object.entries(useLocale(lang).docFromIndex() || {});
+    const { docs: getDocs } = useLocale(lang);
+    const docs = Object.entries(getDocs() || {});
     const mainMenus = docs.filter((doc: any) => doc[1][lang].group === doc[0]);
 
     const renderDocList = () => {

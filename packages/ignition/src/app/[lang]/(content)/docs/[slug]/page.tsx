@@ -13,7 +13,8 @@ import { useLocale } from "@/locales/use-locale";
 export const generateMetadata = ({
   params: { lang, slug },
 }: PropsWithLangSlugParams): Metadata => {
-  const { title, description } = useLocale(lang, slug).docFromIndex() as {
+  const { doc } = useLocale(lang);
+  const { title, description } = doc(slug) as {
     title: string;
     description: string;
   };
@@ -27,7 +28,8 @@ const Page = ({
   params: { lang, slug },
   searchParams: { i },
 }: PropsWithLangSlugParams & { searchParams: Record<string, string> }) => {
-  const enSlugFromIndex = useLocale(lang, slug).enSlugFromIndex();
+  const { enSlug } = useLocale(lang);
+  const enSlugFromIndex = enSlug(slug);
   const DocFactory = () => {
     switch (enSlugFromIndex) {
       case "adding": {
