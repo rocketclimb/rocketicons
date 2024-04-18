@@ -95,10 +95,6 @@ html {
     content: "`";
   }
 
-  /* p + .sub-section {
-    margin-top: 20px;
-  } */
-
   @media (max-width: 1024px) {
     .icon-info-area {
       height: calc(100vh - theme(height.20));
