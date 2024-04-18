@@ -25,8 +25,7 @@ function IconHit(hit: any, lang: Languages) {
 }
 
 function Hit(hit: any, lang: Languages) {
-  const groupSlug = useLocale(hit.locale || lang, hit.group).docFromIndex()
-    ?.slug;
+  const groupSlug = useLocale(hit.locale || lang).doc(hit.group)?.slug;
 
   return (
     <Link
