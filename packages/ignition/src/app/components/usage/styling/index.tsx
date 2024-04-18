@@ -30,10 +30,10 @@ const StateManagement = async ({
         </GridContainer>
         <CodeSample>
           <div>
-            <div data-tag={icon} className="bg-white ..." />
-            <div data-tag={icon} className="bg-red-200 ..." />
-            <div data-tag={icon} className="bg-orange-200 ..." />
-            <div data-tag={icon} className="bg-lime-200 ..." />
+            <div data-cb-tag={icon} className="bg-white ..." />
+            <div data-cb-tag={icon} className="bg-red-200 ..." />
+            <div data-cb-tag={icon} className="bg-orange-200 ..." />
+            <div data-cb-tag={icon} className="bg-lime-200 ..." />
           </div>
         </CodeSample>
       </Wrapper>
@@ -49,17 +49,17 @@ const StateManagement = async ({
         </GridContainer>
         <CodeSample>
           <div>
-            <div data-tag={icon} className="border border-slate-600 ..." />
+            <div data-cb-tag={icon} className="border border-slate-600 ..." />
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="rounded border border-slate-600 ..."
             />
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="rounded-md border border-slate-600 ..."
             />
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="rounded-lg border border-slate-600 ..."
             />
           </div>
@@ -76,9 +76,9 @@ const StateManagement = async ({
         </GridContainer>
         <CodeSample>
           <div>
-            <div data-tag={icon} className="border-2 border-slate-600 ..." />
-            <div data-tag={icon} className="border-4 border-slate-600 ..." />
-            <div data-tag={icon} className="border-8 border-slate-600 ..." />
+            <div data-cb-tag={icon} className="border-2 border-slate-600 ..." />
+            <div data-cb-tag={icon} className="border-4 border-slate-600 ..." />
+            <div data-cb-tag={icon} className="border-8 border-slate-600 ..." />
           </div>
         </CodeSample>
       </Wrapper>
@@ -95,19 +95,19 @@ const StateManagement = async ({
         <CodeSample>
           <div>
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="border-solid border-slate-600 ..."
             />
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="border-dashed border-slate-600 ..."
             />
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="border-dotted border-slate-600 ..."
             />
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="border-double border-slate-600 ..."
             />
           </div>
@@ -125,15 +125,15 @@ const StateManagement = async ({
         <CodeSample>
           <div>
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="outline outline-offset-2 outline-1 ..."
             />
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="outline outline-offset-2 outline-2 ..."
             />
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="outline outline-offset-2 outline-4 ..."
             />
           </div>
@@ -150,9 +150,9 @@ const StateManagement = async ({
         </GridContainer>
         <CodeSample>
           <div>
-            <div data-tag={icon} className="ring-offset-2 ring ..." />
-            <div data-tag={icon} className="ring-offset-2 ring-2 ..." />
-            <div data-tag={icon} className="ring-offset-2 ring-4 ..." />
+            <div data-cb-tag={icon} className="ring-offset-2 ring ..." />
+            <div data-cb-tag={icon} className="ring-offset-2 ring-2 ..." />
+            <div data-cb-tag={icon} className="ring-offset-2 ring-4 ..." />
           </div>
         </CodeSample>
       </Wrapper>
@@ -168,10 +168,10 @@ const StateManagement = async ({
         </GridContainer>
         <CodeSample>
           <div>
-            <div data-tag={icon} className="shadow-md ..." />
-            <div data-tag={icon} className="shadow-lg ..." />
-            <div data-tag={icon} className="shadow-xl ..." />
-            <div data-tag={icon} className="shadow-2xl ..." />
+            <div data-cb-tag={icon} className="shadow-md ..." />
+            <div data-cb-tag={icon} className="shadow-lg ..." />
+            <div data-cb-tag={icon} className="shadow-xl ..." />
+            <div data-cb-tag={icon} className="shadow-2xl ..." />
           </div>
         </CodeSample>
       </Wrapper>
@@ -187,10 +187,10 @@ const StateManagement = async ({
         </GridContainer>
         <CodeSample>
           <div>
-            <div data-tag={icon} className="animate-bounce ..." />
-            <div data-tag={icon} className="animate-ping ..." />
-            <div data-tag={icon} className="animate-pulse ..." />
-            <div data-tag={icon} className="animate-spin ..." />
+            <div data-cb-tag={icon} className="animate-bounce ..." />
+            <div data-cb-tag={icon} className="animate-ping ..." />
+            <div data-cb-tag={icon} className="animate-pulse ..." />
+            <div data-cb-tag={icon} className="animate-spin ..." />
           </div>
         </CodeSample>
       </Wrapper>
@@ -209,9 +209,9 @@ const StateManagement = async ({
         </GridContainer>
         <CodeSample>
           <div>
-            <div data-tag={icon} className="scale-50 ..." />
-            <div data-tag={icon} className="rotate-45 ..." />
-            <div data-tag={icon} className="skew-y-12 ..." />
+            <div data-cb-tag={icon} className="scale-50 ..." />
+            <div data-cb-tag={icon} className="rotate-45 ..." />
+            <div data-cb-tag={icon} className="skew-y-12 ..." />
           </div>
         </CodeSample>
       </Wrapper>
@@ -228,10 +228,10 @@ const StateManagement = async ({
         <UpdateAlert alert="hover" lang={lang} />
         <CodeSample>
           <div>
-            <div data-tag={icon} className="cursor-pointer ..." />
-            <div data-tag={icon} className="cursor-move ..." />
-            <div data-tag={icon} className="cursor-wait ..." />
-            <div data-tag={icon} className="cursor-grab ..." />
+            <div data-cb-tag={icon} className="cursor-pointer ..." />
+            <div data-cb-tag={icon} className="cursor-move ..." />
+            <div data-cb-tag={icon} className="cursor-wait ..." />
+            <div data-cb-tag={icon} className="cursor-grab ..." />
           </div>
         </CodeSample>
       </Wrapper>
@@ -247,10 +247,10 @@ const StateManagement = async ({
         </GridContainer>
         <CodeSample>
           <div>
-            <div data-tag={icon} className="blur ..." />
-            <div data-tag={icon} className="brightness-50 ..." />
-            <div data-tag={icon} className="drop-shadow-lg ..." />
-            <div data-tag={icon} className="saturate-200 ..." />
+            <div data-cb-tag={icon} className="blur ..." />
+            <div data-cb-tag={icon} className="brightness-50 ..." />
+            <div data-cb-tag={icon} className="drop-shadow-lg ..." />
+            <div data-cb-tag={icon} className="saturate-200 ..." />
           </div>
         </CodeSample>
       </Wrapper>

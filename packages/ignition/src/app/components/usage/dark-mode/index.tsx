@@ -38,7 +38,7 @@ const DarkMode = async ({
           <div className="text-slate-400 bg-slate-800 ... shadow-xl">
             <p>{`{modeLabel}`}</p>
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="icon-sky-900-6xl dark:icon-sky-500-6xl"
             />
           </div>
