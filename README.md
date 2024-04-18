@@ -34,6 +34,8 @@ work both in **React** web and **React Native**.
 
 This project is licensed under the [MIT License](https://github.com/rocketclimb/rocketicons/blob/develop/LICENSE)
 
+
+## Contributors
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
