@@ -22,10 +22,10 @@ export const generateMetadata = async ({
 }: PageProps): Promise<Metadata> => {
   const [id, icon] = collection;
   const info = IconsManifest.find(({ id: search }) => search === id)!;
-  const { title, description } = useLocale(
-    lang,
-    "icons-collection"
-  ).pageComponentFromIndex();
+
+  const { component } = useLocale(lang);
+  const { title, description } = component("icons-collection");
+
   return {
     title: `${title} | ${info.name} ${icon || ""} | rocketicons`,
     description,

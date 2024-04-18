@@ -1,13 +1,37 @@
-import { Colors, Sizing, DarkMode } from "@/components/usage";
+import { redirect } from "next/navigation";
+import Adding from "@/components/usage/adding";
+import Colors from "@/components/usage/colors";
+import Sizing from "@/components/usage/sizing";
+import DarkMode from "@/components/usage/dark-mode";
+import ResponsiveDesign from "@/components/usage/responsive-design";
+import StateManagement from "@/components/usage/state-management";
+import Styling from "@/components/usage/styling";
 import { MdxDoc } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-and-slug-param";
 import { useLocale } from "@/locales/use-locale";
 
+type PageProps = {
+  searchParams: Record<string, string>;
+} & PropsWithLangSlugParams;
+
 export const generateMetadata = ({
   params: { lang, slug },
-}: PropsWithLangSlugParams): Metadata => {
-  const { title, description } = useLocale(lang, slug).docFromIndex() as {
+  searchParams: { i },
+}: PageProps): Metadata => {
+  const { doc } = useLocale(lang);
+
+  const selectedDoc = doc(slug);
+  if (slug != selectedDoc.slug) {
+    redirect(`/${lang}/docs/${selectedDoc.slug}${(i && "?i=" + i) || ""}`);
+  }
+
+  // Redirect to the component section if the doc is a component
+  if (selectedDoc && selectedDoc.isComponent) {
+    redirect(`/${lang}/docs/${selectedDoc.group}#${slug}`);
+  }
+
+  const { title, description } = doc(slug) as {
     title: string;
     description: string;
   };
@@ -17,13 +41,14 @@ export const generateMetadata = ({
   };
 };
 
-const Page = ({
-  params: { lang, slug },
-  searchParams: { i },
-}: PropsWithLangSlugParams & { searchParams: Record<string, string> }) => {
-  const enSlugFromIndex = useLocale(lang, slug).enSlugFromIndex();
+const Page = ({ params: { lang, slug }, searchParams: { i } }: PageProps) => {
+  const { enSlug } = useLocale(lang);
+  const enSlugFromIndex = enSlug(slug);
   const DocFactory = () => {
     switch (enSlugFromIndex) {
+      case "adding": {
+        return <Adding lang={lang} />;
+      }
       case "colors": {
         return <Colors lang={lang} queryIcon={i} />;
       }
@@ -33,8 +58,17 @@ const Page = ({
       case "dark-mode": {
         return <DarkMode lang={lang} queryIcon={i} />;
       }
+      case "responsive-design": {
+        return <ResponsiveDesign lang={lang} />;
+      }
+      case "state-management": {
+        return <StateManagement lang={lang} queryIcon={i} />;
+      }
+      case "styling": {
+        return <Styling lang={lang} queryIcon={i} />;
+      }
       default:
-        return <MdxDoc lang={lang} slug={slug} icon={i} />;
+        return <MdxDoc lang={lang} slug={slug} />;
     }
   };
 

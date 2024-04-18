@@ -17,7 +17,7 @@ const thinStyle = `
 const Paragraph = ({ children, ...props }: DocElementProps) => (
   <BaseDocElement
     Tag="p"
-    defaultClassName={`group/p paragraph text-slate-700 dark:text-slate-400 font-normal text-sm lg:text-base ${highlightStyle} ${proseStyle} ${thinStyle}`}
+    defaultClassName={`group/p paragraph text-slate-700 dark:text-slate-400 font-normal quote:text-slate-900 quote:dark:text-slate-200 quote:text-sm quote:lg:text-base/6 blockquote:mr-8 blockquote:my-4 blockquote:ml-6 blockquote:before:-ml-4 blockquote:before:mr-2 blockquote:before:font-normal blockquote:before:content-['>'] blockquote:font-medium blockquote:text-sm text-sm lg:text-base ${highlightStyle} ${proseStyle} ${thinStyle}`}
     {...props}
   >
     {children}

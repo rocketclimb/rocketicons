@@ -72,14 +72,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </DocLink>
     ),
-    blockquote: ({ className, children }) => (
-      <blockquote
-        className={`rounded-lg p-3 text-2xl italic font-semibold border-s-4 border-gray-300 bg-slate-50 dark:bg-slate-800 default-text-color ${
-          className || ""
-        } ${allComponentClasses}`}
-      >
-        {children}
-      </blockquote>
+    blockquote: ({ children, ...props }) => (
+      <blockquote {...props}>{children}</blockquote>
     ),
     ...components,
   };
