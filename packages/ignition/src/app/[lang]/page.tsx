@@ -11,10 +11,8 @@ import { useLocale } from "@/locales/use-locale";
 export const generateMetadata = ({
   params: { lang },
 }: PropsWithLangParams): Metadata => {
-  const { title, description } = useLocale(
-    lang,
-    "home"
-  ).pageComponentFromIndex();
+  const { component } = useLocale(lang);
+  const { title, description } = component("home");
   return {
     title: `${title} | rocketicons`,
     description,

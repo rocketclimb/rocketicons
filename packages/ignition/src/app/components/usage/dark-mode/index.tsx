@@ -50,7 +50,7 @@ const DarkMode = async ({
           slug={"dark-mode/dark-mode-action"}
           path="docs"
         />
-        <div className="mt-12">
+        <div className="mt-6">
           <SampleBox
             locale={lang}
             icon={icon}
