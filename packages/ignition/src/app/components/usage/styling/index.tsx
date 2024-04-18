@@ -236,7 +236,7 @@ const StateManagement = async ({
         </CodeSample>
       </Wrapper>
       <Wrapper>
-        <MdxPartial lang={lang} slug={"styling/styling-cursor"} path="docs" />
+        <MdxPartial lang={lang} slug={"styling/styling-filters"} path="docs" />
         <GridContainer>
           <div className="mx-auto flex justify-center gap-6 my-8">
             <Icon className="size-16 md:size-20 lg:size-32 blur" />
