@@ -29,5 +29,5 @@ const nextConfig = {
   },
 };
 
-// export default withContentCollections(withMDX(nextConfig));
-export default withMDX(nextConfig);
+export default withContentCollections(withMDX(nextConfig));
+// export default withMDX(nextConfig);
