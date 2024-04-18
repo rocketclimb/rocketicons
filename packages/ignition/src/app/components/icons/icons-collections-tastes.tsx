@@ -154,6 +154,8 @@ const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
             >
               <div
                 onClick={() => !isSelected && setSelected(id)}
+                role="button"
+                tabIndex={0}
                 className="transition-all duration-200 group-data-[selected=false]/collapsed:hover:scale-[1.01] group-data-[selected=true]/collapsed:opacity-60"
               >
                 <Title name={name} />
