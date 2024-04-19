@@ -106,7 +106,7 @@ export const convertIconData = async (
 
   const [iconData] = elementToTree($svg);
 
-  const getVariant = () => {
+  const getVariant = (): "full" | "outlined" | "filled" => {
     if (colorProps.fill && colorProps.stroke) {
       return "full";
     }
@@ -115,6 +115,14 @@ export const convertIconData = async (
   };
 
   const variant = getVariant();
+
+  if (["filled", "full"].includes(variant) && !iconData.attr?.fill) {
+    iconData.attr.fill = "currentColor";
+  }
+
+  if (["outlined", "full"].includes(variant) && !iconData.attr?.stroke) {
+    iconData.attr.stroke = "currentColor";
+  }
 
   return { iconData, variant }; // like: [ { tag: 'path', attr: { d: 'M436 160c6.6 ...', ... }, child: { ... } } ]
 };
