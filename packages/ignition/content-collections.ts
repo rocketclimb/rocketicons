@@ -12,15 +12,32 @@ import camelcase from "camelcase";
 const localesFolder = "src/app/locales";
 
 type Configuration = Record<string, string | Record<string, string>>;
+type Config = Record<string, Configuration>;
 
-const jsonConfigMapper = (
-  filename: string,
-  config: Record<string, Configuration>
-) =>
+const configMapper = (
+  lang: string,
+  key: string,
+  data: string,
+  config: Config
+) => {
+  const value =
+    typeof data === "string"
+      ? data
+      : Object.entries(data).reduce(
+          (reduced, [key, value]) => ({ ...reduced, [key]: value }),
+          {}
+        );
+
+  config[key] = config[key] || {};
+  config[key][lang] = config[key][lang] || {};
+  config[key][lang] = value;
+};
+
+const jsonConfigMapper = (filename: string, config: Config) =>
   new Promise<void>((resolve, reject) => {
     fs.readFile(`${localesFolder}/${filename}`, (err, contents) => {
       if (err) {
-        reject(err);
+        reject(new Error(`Error reading ${localesFolder}/${filename}`, err));
         return;
       }
 
@@ -30,19 +47,7 @@ const jsonConfigMapper = (
         string
       ][];
 
-      json.forEach(([key, data]) => {
-        const value =
-          typeof data === "string"
-            ? data
-            : Object.entries(data).reduce(
-                (reduced, [key, value]) => ({ ...reduced, [key]: value }),
-                {}
-              );
-
-        config[key] = config[key] || {};
-        config[key][lang] = config[key][lang] || {};
-        config[key][lang] = value;
-      });
+      json.forEach(([key, data]) => configMapper(lang, key, data, config));
 
       resolve();
     });
