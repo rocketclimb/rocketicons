@@ -1,8 +1,11 @@
 "use client";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { CollectionDataInfo, IconType } from "rocketicons";
-import { IconInfo as IconInfoType } from "rocketicons";
+import {
+  CollectionDataInfo,
+  IconType,
+  IconInfo as IconInfoType,
+} from "rocketicons";
 
 import Button from "@/components/button";
 
@@ -38,7 +41,7 @@ type CurrentIcon = {
   Icon: IconType;
 };
 
-type SelectedId = { id: string | "" };
+type SelectedId = { id: string };
 
 type SelectedIcon = SelectedId | CurrentIcon;
 
@@ -88,11 +91,11 @@ const Content = ({
         {...getCurrentIcon()}
       />
       <ul className="transition-all duration-200 ml-0 mt-0 lg:mt-[-630px] min-h-[655px] flex gap-1 justify-between px-4 gap-x-5 gap-y-10 flex-wrap">
-        {Object.values(manifest.icons).map((iconInfo, i) => {
+        {Object.values(manifest.icons).map((iconInfo) => {
           const { id, name, compName } = iconInfo;
           const Icon = collection[compName];
           return (
-            <li key={i}>
+            <li key={id}>
               <IconSelector
                 Icon={Icon}
                 name={name}

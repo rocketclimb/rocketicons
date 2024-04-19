@@ -7,37 +7,51 @@ import IconsLoader, { HandlerPros } from "./icons-loader";
 export type IconHandlerProps = { Icon: IconType };
 type IconHandler = (props: IconHandlerProps) => JSX.Element;
 
-type IconLoaderProps = {
-  collectionId: CollectionID;
+type IconProxyHandlerProps<T extends IconHandlerProps> = {
   icon: string;
-  Handler?: IconHandler;
-  Loading?: () => JSX.Element;
+  Handler?: (props: T) => JSX.Element;
 } & IconProps;
 
-const IconLoader = ({
+const IconProxyHandler =
+  <T extends IconHandlerProps>({
+    Handler,
+    icon,
+    ...props
+  }: IconProxyHandlerProps<T>) =>
+  ({ collection }: HandlerPros) => {
+    const Icon = collection[icon];
+    return (
+      // @ts-ignore TS2322
+      (Handler && <Handler Icon={Icon} {...props} />) || <Icon {...props} />
+    );
+  };
+
+type IconLoaderProps<T extends IconHandlerProps> = {
+  collectionId: CollectionID;
+  Loading?: () => JSX.Element;
+} & Omit<T, "Icon"> &
+  IconProxyHandlerProps<T>;
+
+const IconLoader = <T extends IconHandlerProps>({
   collectionId,
   icon,
   Handler,
   Loading,
   ...props
-}: IconLoaderProps) => {
+}: IconLoaderProps<T>) => {
   if (!getCollectionsInfo(collectionId).exists(icon)) {
     return (
+      // @ts-ignore TS2322
       (Handler && <Handler Icon={RcRocketIcon} />) || (
         <RcRocketIcon {...props} />
       )
     );
   }
 
-  const IconHandler = ({ collection }: HandlerPros) => {
-    const Icon = collection[icon];
-    return (Handler && <Handler Icon={Icon} />) || <Icon {...props} />;
-  };
-
   return (
     <IconsLoader
       collectionId={collectionId}
-      Handler={IconHandler}
+      Handler={IconProxyHandler({ Handler, icon, ...props })}
       Loading={Loading}
     />
   );

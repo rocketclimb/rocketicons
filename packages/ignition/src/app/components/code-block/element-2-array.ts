@@ -2,10 +2,10 @@ import { ReactElement, Children } from "react";
 import { DataElement, DataChildren } from "./types";
 
 const typeToTagName = (type: string | Function): string =>
-  typeof type === "function" ? (type as Function).name : type;
+  typeof type === "function" ? type.name : type;
 
 const nodeMap = ({ type, props }: ReactElement): DataElement => {
-  const { children, "data-tag": dataTag, ...rest } = props || {};
+  const { children, "data-cb-tag": dataTag, ...rest } = props || {};
 
   const mapChildren = (
     child: string | undefined | ReactElement

@@ -39,7 +39,7 @@ export const MdxPartial = ({
 
   const DynamicMarkDownComponent = callback(
     dynamic(() => import(`@/locales/${path}/${selectedDoc?.filePath}`), {
-      loading: () => <p className={className || ""}>Loading...</p>,
+      loading: () => <p className={className ?? ""}>Loading...</p>,
     }),
     deps || []
   );

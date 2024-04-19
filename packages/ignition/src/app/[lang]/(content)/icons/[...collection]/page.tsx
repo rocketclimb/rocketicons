@@ -35,7 +35,7 @@ export const generateMetadata = async ({
 const Page = async ({ params: { lang, collection } }: PageProps) => {
   const [id, icon] = collection;
 
-  const info = IconsManifest.find(({ id: search }) => search === id)!; //await getIconsDataManifest(id);
+  const info = IconsManifest.find(({ id: search }) => search === id)!;
 
   return (
     <div className="collection-page">

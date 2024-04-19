@@ -18,7 +18,7 @@ const ResponsiveDesign = ({ lang }: PropsWithLang) => {
           <div className="bg-white border grid grid-cols-6 grid-rows-4 sm:pt-6 h-96">
             <div className="col-span-2 self-center md:row-span-4 sm:border-r border-gray-200">
               <div
-                data-tag="RcRocketIcon"
+                data-cb-tag="RcRocketIcon"
                 className="icon-sky-900 mx-auto block size-16 max-[300px]:size-12 sm:size-20 md:size-56"
               />
             </div>
@@ -35,7 +35,7 @@ const ResponsiveDesign = ({ lang }: PropsWithLang) => {
               <p className="mx-4 mt-2 sm:text-lg md:text-sm text-slate-700 dark:text-slate-400 font-normal">
                 Styling in a way
                 <div
-                  data-tag="RcRocketIcon"
+                  data-cb-tag="RcRocketIcon"
                   className="icon-slate-900-base sm:icon-slate-900-lg md:icon-slate-900-sm"
                 />
                 you've never seen before.

@@ -27,7 +27,7 @@ export const generateMetadata = ({
   }
 
   // Redirect to the component section if the doc is a component
-  if (selectedDoc && selectedDoc.isComponent) {
+  if (selectedDoc?.isComponent) {
     redirect(`/${lang}/docs/${selectedDoc.group}#${slug}`);
   }
 

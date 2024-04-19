@@ -9,10 +9,11 @@ const TastesLoaderTemplate = `
 import { IconType } from "rocketicons";
 import { CollectionID } from "rocketicons/data";
 {0}
-const TasteLoader = (id: CollectionID): IconType[] => {
-  {1}
-  return [];
-}
+
+const tastes: Record<CollectionID, IconType[]> = {{1}
+};
+
+const TasteLoader = (id: CollectionID): IconType[] => tastes[id];
 
 export default TasteLoader;
 `;
@@ -22,10 +23,7 @@ import { {0} } from "rocketicons/{1}";
 `;
 
 const ConditionalTemplate = `
-  if ( id === "{1}" ) {
-    return [ {0} ];
-  }
-`;
+  "{1}": [{0}],`;
 
 const generator = async () => {
   const imports: string[] = [];

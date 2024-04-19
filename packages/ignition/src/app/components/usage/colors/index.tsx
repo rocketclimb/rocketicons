@@ -51,7 +51,7 @@ const Colors = async ({
         <ColorBox name={color} tone="neutral" />
         {variations.map((variation, i) => (
           <ColorBox
-            key={i}
+            key={`${color}-${variation}`}
             tone={(i > 6 && "dark") || (i < 5 && "light") || "neutral"}
             name={`${color}-${variation}`}
           />
@@ -72,7 +72,7 @@ const Colors = async ({
         <Table lang={lang} hasAdditional collapse>
           {colorsTable.map(([utility, color], i) => (
             <TableLine
-              key={i}
+              key={utility}
               attr={utility}
               value={`color: ${color}`}
               aditional={<Icon className={utility} />}
@@ -94,8 +94,8 @@ const Colors = async ({
       <Wrapper>
         <MdxPartial lang={lang} slug={"colors/colors-defaults"} path="docs" />
         <ul className="mt-8">
-          {colors.map((color, i) => (
-            <li key={i}>
+          {colors.map((color) => (
+            <li key={color}>
               <ColorViewer color={color} />
             </li>
           ))}

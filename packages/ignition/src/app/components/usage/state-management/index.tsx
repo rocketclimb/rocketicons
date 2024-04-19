@@ -10,11 +10,11 @@ import { TbCheckbox, TbUserQuestion, TbUserStar, TbUser } from "rocketicons/tb";
 import CodeSample from "@/components/code-block/code-sample";
 import Wrapper from "@/components/documentation/wrapper";
 
-const StateManagement = async ({
+const StateManagement = ({
   lang,
   queryIcon,
 }: PropsWithLang & { queryIcon?: string }) => {
-  const { icon, Icon } = await getCurrentIconData(queryIcon);
+  const { icon, Icon } = getCurrentIconData(queryIcon);
   return (
     <>
       <MdxPartial lang={lang} slug={"state-management"} path="docs" />
@@ -27,7 +27,7 @@ const StateManagement = async ({
       <CodeSample>
         <div>
           <div
-            data-tag={icon}
+            data-cb-tag={icon}
             className="size-32 border border-transparent rounded-xl hover:border-slate-600"
           />
         </div>
@@ -49,19 +49,19 @@ const StateManagement = async ({
         <CodeSample>
           <div>
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="first:bg-white last:border-slate-600 ..."
             />
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="first:bg-white last:border-slate-600 ..."
             />
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="first:bg-white last:border-slate-600 ..."
             />
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="first:bg-white last:border-slate-600 ..."
             />
           </div>
@@ -84,19 +84,19 @@ const StateManagement = async ({
         <CodeSample>
           <div>
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="even:bg-white odd:border-slate-600 ..."
             />
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="even:bg-white odd:border-slate-600 ..."
             />
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="even:bg-white odd:border-slate-600 ..."
             />
             <div
-              data-tag={icon}
+              data-cb-tag={icon}
               className="even:bg-white odd:border-slate-600 ..."
             />
           </div>
@@ -133,7 +133,7 @@ const StateManagement = async ({
             <a href="#" className="group/sample ...">
               <div className="flex">
                 <div
-                  data-tag={icon}
+                  data-cb-tag={icon}
                   className="icon-sky-500 group-hover/sample:icon-white"
                 />
                 <span className="dark:text-slate-900 font-quicksand group-hover/sample:text-white">
@@ -204,7 +204,7 @@ const StateManagement = async ({
                 name="permission"
               />
               <div
-                data-tag="TbCheckbox"
+                data-cb-tag="TbCheckbox"
                 className="transition ... peer-hover/admin:opacity-100 peer-checked/admin:opacity-90 peer-checked/admin:icon-sky-500"
               />
               <label
@@ -221,7 +221,7 @@ const StateManagement = async ({
                 name="permission"
               />
               <div
-                data-tag="TbCheckbox"
+                data-cb-tag="TbCheckbox"
                 className="transition ... peer-hover/user:opacity-100 peer-checked/user:opacity-90 peer-checked/user:icon-sky-500"
               />
               <label
@@ -231,15 +231,15 @@ const StateManagement = async ({
                 User
               </label>
               <div
-                data-tag="TbUserQuestion"
+                data-cb-tag="TbUserQuestion"
                 className="transition opacity-100 ... peer-checked/admin:opacity-0 peer-checked/user:opacity-0"
               />
               <div
-                data-tag="TbUserStar"
+                data-cb-tag="TbUserStar"
                 className="transition opacity-0 ... peer-checked/admin:opacity-100"
               />
               <div
-                data-tag="TbUser"
+                data-cb-tag="TbUser"
                 className="transition opacity-0 ... peer-checked/user:opacity-100"
               />
             </fieldset>
