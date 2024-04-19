@@ -20,20 +20,25 @@ export const writeIconsManifest = async (
   { DATA, DIST }: TaskContext,
   iconInfoManifest: IconsInfoManifest<string, string>
 ) => {
-  const writeObj: IconsManifestType<string, string>[] = icons.map((icon) => ({
-    id: icon.id,
-    name: icon.name,
-    projectUrl: icon.projectUrl,
-    license: icon.license,
-    licenseUrl: icon.licenseUrl,
-    icons: [],
-    totalIcons: 0,
-  }));
+  const rc = icons.find(({ id }) => id === "rc")!;
+  const others = icons
+    .filter(({ id }) => id !== "rc")
+    .sort(({ id: a }, { id: b }) => a.localeCompare(b));
+
+  const writeObj: IconsManifestType<string, string>[] = [rc, ...others].map(
+    (icon) => ({
+      id: icon.id,
+      name: icon.name,
+      projectUrl: icon.projectUrl,
+      license: icon.license,
+      licenseUrl: icon.licenseUrl,
+      icons: [],
+      totalIcons: 0,
+    })
+  );
 
   const mjsDataIcons: string[] = [];
   const jsDataIcons: string[] = [];
-  const typeDataIcons: string[] = [];
-  const typeInfoIcons: string[] = [];
   const mjsIconsInfo: string[] = [];
   const jsIconsInfo: string[] = [];
   const typeCollectionsIds: string[] = [];
@@ -44,8 +49,6 @@ export const writeIconsManifest = async (
     jsDataIcons.push(
       `const ${id} = require("../${id}");\nexports.${id} = void 0;\nexports.${id} = ${id};`
     );
-    typeDataIcons.push(`export declare const ${id}: Record<string, IconType>;`);
-    typeInfoIcons.push(`export declare const ${id}: CollectionInfo;`);
     mjsIconsInfo.push(`export * as ${id} from "../${id}/manifest.mjs";`);
     jsIconsInfo.push(
       `const ${id} = require("../${id}/manifest.js");\nexports.${id} = void 0;\nexports.${id} = ${id};`
@@ -70,6 +73,7 @@ export const writeIconsManifest = async (
 
   for (let [key, info] of Object.entries(iconInfoManifest)) {
     const dataInfo = JSON.stringify(info, null, 2);
+
     await fs.writeFile(
       path.resolve(DIST, key, "manifest.js"),
       `module.exports.manifest = ${dataInfo}`,
@@ -103,12 +107,12 @@ export const writeIconsManifest = async (
 
   await fs.writeFile(
     path.resolve(DATA, "icons-info.mjs"),
-    `${mjsIconsInfo.join(`\n`)}`,
+    `${mjsIconsInfo.join("\n")}`,
     "utf8"
   );
   await fs.writeFile(
     path.resolve(DATA, "icons-info.js"),
-    `${jsIconsInfo.join(`\n`)}`,
+    `${jsIconsInfo.join("\n")}`,
     "utf8"
   );
 

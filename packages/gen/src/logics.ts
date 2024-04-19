@@ -5,7 +5,6 @@ import {
   Element as CheerioElement,
 } from "cheerio";
 import camelcase from "camelcase";
-// const camelcase = (text: string, options: any) => text;
 
 import { IconTree, Variants, IconsManifestType } from "@rocketicons/core";
 
@@ -35,7 +34,11 @@ export const convertIconData = async (
   // filter/convert attributes
   // 1. remove class attr
   // 2. convert to camelcase ex: fill-opacity => fillOpacity
-  const attrConverter = (attribs: Record<string, string>, tagName: string) =>
+  const attrConverter = (
+    attribs: Record<string, string>,
+    tagName: string,
+    isChild: boolean = false
+  ) =>
     attribs &&
     Object.keys(attribs)
       .filter(
@@ -57,7 +60,9 @@ export const convertIconData = async (
               attribs[name] === "currentColor" ||
               multiColor
             ) {
-              obj[newName] = attribs[name];
+              if (!isChild || attribs[name] !== "currentColor")
+                obj[newName] = attribs[name];
+              //console.log(obj);
             }
             colorProps[name] =
               attribs[name] !== "none" ? true : colorProps[name];
@@ -79,7 +84,10 @@ export const convertIconData = async (
       }, {} as Record<string, string>);
 
   // convert to [ { tag: 'path', attr: { d: 'M436 160c6.6 ...', ... }, child: { ... } } ]
-  const elementToTree = (element: Cheerio<CheerioElement>): IconTree[] =>
+  const elementToTree = (
+    element: Cheerio<CheerioElement>,
+    isChild: boolean = false
+  ): IconTree[] =>
     element
       // ignore style, title tag
       .filter(
@@ -88,22 +96,25 @@ export const convertIconData = async (
       // convert to AST recursively
       .map((_, e) => ({
         tag: e.tagName,
-        attr: attrConverter(e.attribs, e.tagName),
+        attr: attrConverter(e.attribs, e.tagName, isChild),
         child:
           e.children && e.children.length
-            ? elementToTree($doc(e.children) as Cheerio<CheerioElement>)
+            ? elementToTree($doc(e.children) as Cheerio<CheerioElement>, true)
             : [],
       }))
       .get();
 
   const [iconData] = elementToTree($svg);
 
-  const variant =
-    colorProps.fill && colorProps.stroke
-      ? "full"
-      : colorProps.stroke
-      ? "outlined"
-      : "filled";
+  const getVariant = () => {
+    if (colorProps.fill && colorProps.stroke) {
+      return "full";
+    }
+
+    return colorProps.stroke ? "outlined" : "filled";
+  };
+
+  const variant = getVariant();
 
   return { iconData, variant }; // like: [ { tag: 'path', attr: { d: 'M436 160c6.6 ...', ... }, child: { ... } } ]
 };
