@@ -105,16 +105,15 @@ const ItemsLoader = ({ size }: ItemsLoaderProps) =>
 
 type ItemsProps = {
   id: CollectionID;
-  name: string;
 } & HandlerPros &
   PropsWithLang;
 
-const Items = ({ id, name, lang, manifest, collection }: ItemsProps) => {
+const Items = ({ id, lang, manifest, collection }: ItemsProps) => {
   return (
     <>
       {Object.values(manifest.icons)
         .slice(0, MAX_ITEMS)
-        .map(({ id: iconId, compName }) => {
+        .map(({ id: iconId, name, compName }) => {
           const Icon = collection[compName];
           return (
             <li key={iconId}>
@@ -197,7 +196,6 @@ const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
                     Handler={Items}
                     Loading={() => <ItemsLoader size={totalIcons} />}
                     id={id}
-                    name={name}
                     lang={lang}
                   />
                 </UlContainer>
