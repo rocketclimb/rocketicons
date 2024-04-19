@@ -282,7 +282,7 @@ function generateRecursiveStructure() {
     if (newKey) {
       if (!obj[newKey]) {
         if (parentObj[newKey]) {
-          parentObj[newKey] = { ...data, ...parentObj[newKey] } || {};
+          parentObj[newKey] = { ...data, ...parentObj[newKey] };
         } else {
           obj[newKey] = newKey === slug ? { ...data } : {};
         }
