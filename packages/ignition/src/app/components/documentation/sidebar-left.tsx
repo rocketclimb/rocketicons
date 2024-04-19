@@ -7,6 +7,7 @@ import { PropsWithClassName, PropsWithLang } from "@/types";
 import RocketIconsText from "@/components/rocketicons-text";
 import { siteConfig } from "@/config/site";
 import { useLocale } from "@/locales/use-locale";
+import SearchButton from "@/app/components/search/search";
 
 const selectedClassName = (slug: string) =>
   `group-has-[.docs-${slug}]:active-content`;
@@ -77,6 +78,9 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
     const renderDocList = () => {
       return (
         <>
+          <div className="mt-3">
+            <SearchButton lang={lang} />
+          </div>
           {mainMenus.map((doc: any, i: number) => {
             const mainDocEnSlug = doc[0];
             const mainDoc = doc[1][lang];
