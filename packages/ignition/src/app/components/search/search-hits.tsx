@@ -14,7 +14,7 @@ const linkClass = `flex items-center gap-4 border-t ${borderClass} first:border-
 
 const Loader = () => <BiLoaderAlt className="animate-spin duration-1000" />;
 
-function IconHit(hit: any, lang: Languages) {
+const IconHit = (hit: any, lang: Languages) => {
   return (
     <Link className={linkClass} href={`/en/icons/${hit.group}/${hit.objectID}`}>
       <IconLoader collectionId={hit.group} icon={hit.text} Loading={Loader} />
@@ -22,9 +22,9 @@ function IconHit(hit: any, lang: Languages) {
       <span>{`<${hit.text} />`}</span>
     </Link>
   );
-}
+};
 
-function Hit(hit: any, lang: Languages) {
+const Hit = (hit: any, lang: Languages) => {
   const groupSlug = useLocale(hit.locale || lang).doc(hit.group)?.slug;
 
   return (
@@ -39,9 +39,9 @@ function Hit(hit: any, lang: Languages) {
       <Highlight attribute="title" hit={hit} tagName="mark" />
     </Link>
   );
-}
+};
 
-function SearchHits({
+const SearchHits = ({
   lang,
   searchState,
   searchResults,
@@ -49,7 +49,7 @@ function SearchHits({
   lang: Languages;
   searchState: any;
   searchResults: any;
-}) {
+}) => {
   if (!searchResults) {
     return <></>;
   }
@@ -101,6 +101,6 @@ function SearchHits({
       </div>
     )
   );
-}
+};
 
 export default connectStateResults(SearchHits);

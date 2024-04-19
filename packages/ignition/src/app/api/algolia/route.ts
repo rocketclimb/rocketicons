@@ -4,11 +4,10 @@ import algoliasearch from "algoliasearch";
 import { allDocs } from "content-collections";
 import { siteConfig } from "@/config/site";
 import { serverEnv } from "@/env/server";
-import { useLocale } from "@/locales/use-locale";
 import { IconsManifest } from "rocketicons/data";
 import * as changeCase from "change-case";
 
-export async function POST(request: Request) {
+export const POST = async (request: Request) => {
   // Check if Algolia credentials exist, return error if not
   if (
     !serverEnv.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID ||
@@ -96,4 +95,4 @@ export async function POST(request: Request) {
       status: 500,
     });
   }
-}
+};
