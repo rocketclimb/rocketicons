@@ -7,7 +7,7 @@ import {
 import fs from "fs";
 import envPath from "path";
 import z from "zod";
-import camelcase from "camelcase";
+import * as changeCase from "change-case";
 
 const localesFolder = "src/app/locales";
 
@@ -231,7 +231,7 @@ function insertNewCollection(
   schema?: any
 ) {
   const newCollection = {
-    name: camelcase(typeName),
+    name: changeCase.camelCase(typeName),
     notArray: true,
     typeName: typeName,
     schema: schema,
@@ -265,7 +265,7 @@ function mdxTransformer(document: any): Schema<"frontmatter", any> {
 
   return {
     ...document,
-    content: undefined,
+    // content: undefined,
     enslug,
     locale,
     group: document.group || group,
@@ -287,7 +287,7 @@ function generateRecursiveStructure() {
     if (newKey) {
       if (!obj[newKey]) {
         if (parentObj[newKey]) {
-          parentObj[newKey] = { ...data, ...parentObj[newKey] } || {};
+          parentObj[newKey] = { ...data, ...parentObj[newKey] };
         } else {
           obj[newKey] = newKey === slug ? { ...data } : {};
         }

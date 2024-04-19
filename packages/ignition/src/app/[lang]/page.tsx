@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import { PropsWithLangParams } from "@/types";
 import { RcRocketIcon } from "rocketicons/rc";
 import RocketIconsText from "@/components/rocketicons-text";
-import SearchButton from "@/components/search-button";
+import SearchButton from "@/app/components/search/search";
 import { useLocale } from "@/locales/use-locale";
 
 export const generateMetadata = ({
@@ -20,7 +20,7 @@ export const generateMetadata = ({
 };
 
 const Home = ({ params: { lang } }: PropsWithLangParams) => {
-  const { nav, search } = useLocale(lang).config("nav", "search");
+  const nav = useLocale(lang).config("nav");
 
   return (
     <div className="flex flex-col grow overflow-y-auto items-center justify-between bg-cover bg-hero-light dark:bg-hero-dark">
@@ -37,7 +37,7 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
           >
             {nav["getting-started"]}
           </Link>
-          <SearchButton label={search} />
+          <SearchButton lang={lang} />
         </div>
       </div>
       <div className="mb-6 px-4 w-full">
