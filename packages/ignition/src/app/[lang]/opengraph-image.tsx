@@ -1,5 +1,6 @@
 import OpenGraph from "@/components/opengraph";
 import { PropsWithLangParams } from "@/types";
+import { OGProps } from "../types/props-og";
 
 export const runtime = "edge";
 export const alt = "rocketicons - React Icons like you haver seen before!";
@@ -40,14 +41,15 @@ const loader = new Map([
   ["wi", () => import("rocketicons/wi") as any],
 ]);
 
-export default async function OG({ params: { lang } }: PropsWithLangParams) {
-  const Icon = (await loader.get("fa")!())["FaTruck"];
+const OG = async ({ params: { lang, slug }, collection }: OGProps) => {
+  const Icon = (await loader.get("lu")!())["LuCarrot"];
   return await OpenGraph({
     lang,
-    text: `Root ${lang}`,
+    path: "/icons",
     Icon,
+    iconCollectionId: collection as any,
   });
-}
+};
 
 // const OG = async ({ params: { lang, slug }, collection }: OGProps) => {
 //   console.log("og:collection", collection);
@@ -60,4 +62,4 @@ export default async function OG({ params: { lang } }: PropsWithLangParams) {
 //   });
 // };
 
-// export default OG;
+export default OG;

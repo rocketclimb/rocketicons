@@ -47,7 +47,7 @@ const OpenGraph = async ({
 }: {
   lang: Languages;
   path?: string;
-  Icon?: JSX.Element;
+  Icon?: JSX.Element | any;
   iconCollectionId?: CollectionID;
   iconName?: string;
   text?: string;
@@ -159,7 +159,8 @@ const OpenGraph = async ({
                 path={path}
                 style={bigIconsStyle}
               /> */}
-              <Icon style={bigIconsStyle} />
+
+              {Icon && <Icon style={bigIconsStyle} />}
               {/* <FaAngry style={bigIconsStyle} /> */}
             </div>
           </div>
