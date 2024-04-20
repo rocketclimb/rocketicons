@@ -8,7 +8,7 @@ import { IconsManifest } from "rocketicons/data";
 
 export const GET = async (request: NextRequest) => {
   const [, lang, , collectionId, iconId] = request.nextUrl.pathname.split("/");
-  const iconName = !!iconId ? changeCase.pascalCase(iconId) : undefined;
+  const iconName = iconId ? changeCase.pascalCase(iconId) : undefined;
 
   const collection = IconsManifest.find(({ id }) => id === collectionId);
 
@@ -16,8 +16,8 @@ export const GET = async (request: NextRequest) => {
     lang: lang as Languages,
     iconCollectionId: collectionId as any,
     iconCollectionCount: collection?.icons.length,
+    iconCollectionName: collection && collection?.name,
     iconName: iconName,
-    text: !!collection && !iconName ? collection.name : undefined,
   });
 };
 

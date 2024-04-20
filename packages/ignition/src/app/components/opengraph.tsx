@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { Languages } from "@/types";
 import { serverEnv } from "@/env/server";
 import { useLocale } from "@/locales";
-import { FaBook, FaFly, FaIcons } from "rocketicons/fa";
+import { FaFly, FaIcons } from "rocketicons/fa";
 import { CollectionID, IconsManifest } from "rocketicons/data";
 import { IconType } from "rocketicons";
 import { BiCollection } from "rocketicons/bi";
@@ -43,7 +43,7 @@ export const RocketIconChooser = ({
   style?: React.CSSProperties;
   iconKey?: string;
 }): any => {
-  if (!!subheading) {
+  if (subheading) {
     if (subheading.startsWith("/docs")) {
       return <SlDocs style={style} />;
     } else if (subheading.startsWith("/icons")) {
@@ -61,6 +61,7 @@ const OpenGraph = async ({
   subheading,
   iconCollectionId,
   iconCollectionCount,
+  iconCollectionName,
   iconName,
   text,
   darkMode = true,
@@ -69,6 +70,7 @@ const OpenGraph = async ({
   subheading?: string;
   iconCollectionId?: CollectionID;
   iconCollectionCount?: number;
+  iconCollectionName?: string;
   iconName?: string;
   text?: string;
   darkMode?: boolean;
@@ -197,9 +199,13 @@ const OpenGraph = async ({
         <div tw="flex grow mt-10">
           <span
             tw="mb-7 text-4xl"
-            style={iconName ? mainTextBasicStyle : mainTextStyle}
+            style={
+              iconName || iconCollectionName
+                ? mainTextBasicStyle
+                : mainTextStyle
+            }
           >
-            {iconName || text || brand["motto"]}
+            {iconName ?? iconCollectionName ?? text ?? brand["motto"]}
           </span>
         </div>
         <div tw="w-full flex flex-row text-2xl">

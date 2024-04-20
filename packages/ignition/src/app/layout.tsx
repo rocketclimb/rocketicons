@@ -6,7 +6,6 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { siteConfig } from "@/config/site";
 import { serverEnv } from "@/env/server";
 import { PropsWithLangParams } from "./types";
 import CustomMetadata from "@/components/metadata-custom";

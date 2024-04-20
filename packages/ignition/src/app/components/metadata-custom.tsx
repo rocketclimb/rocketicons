@@ -12,8 +12,8 @@ const CustomMetadata = (
   const brand = useLocale(lang).config("brand");
 
   const pageTitle =
-    `${title || name}` + (title?.endsWith(siteConfig.name) ? "" : ` | ${name}`);
-  const pageDescription = description || brand.description;
+    `${title ?? name}` + (title?.endsWith(siteConfig.name) ? "" : ` | ${name}`);
+  const pageDescription = description ?? brand.description;
   return {
     title: {
       default: pageTitle,
