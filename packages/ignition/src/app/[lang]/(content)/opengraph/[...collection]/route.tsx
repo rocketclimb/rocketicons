@@ -49,8 +49,6 @@ export const GET = async (request: NextRequest) => {
 
   const collectionLoader = await loader.get(collectionId)!();
 
-  console.log(collection?.icons[0]);
-
   return await OpenGraph({
     lang: lang as Languages,
     iconCollectionId: collectionId as any,
@@ -60,7 +58,7 @@ export const GET = async (request: NextRequest) => {
     Icon:
       collection &&
       collectionId &&
-      collectionLoader[iconName ? iconName : collection.icons[0]],
+      (await collectionLoader[iconName ? iconName : collection.icons[0]]),
   });
 };
 
