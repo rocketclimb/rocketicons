@@ -6,14 +6,6 @@ import { NextRequest } from "next/server";
 import * as changeCase from "change-case";
 import { IconsManifest } from "rocketicons/data";
 
-export const runtime = "edge";
-export const alt = "rocketicons - React Icons like you haver seen before!";
-export const size = {
-  width: 1200,
-  height: 630,
-};
-export const contentType = "image/png";
-
 export const GET = async (request: NextRequest) => {
   const [, lang, , collectionId, iconId] = request.nextUrl.pathname.split("/");
   const iconName = !!iconId ? changeCase.pascalCase(iconId) : undefined;
