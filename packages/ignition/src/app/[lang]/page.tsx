@@ -40,7 +40,7 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
           <SearchButton lang={lang} />
         </div>
       </div>
-      <div className="mb-6 px-4 w-full">
+      <div className="mb-6 px-4 w-full z-10">
         <AnimatedCodeBlock
           className="deep-[4]"
           script={[
