@@ -2,72 +2,209 @@ import { ImageResponse } from "next/og";
 import { Languages } from "@/types";
 import { serverEnv } from "@/env/server";
 import { useLocale } from "@/locales";
+import { FaAngry, FaBook, FaIcons } from "rocketicons/fa";
+import { CollectionID, IconsManifest } from "rocketicons/data";
+import { IconType } from "rocketicons";
+import { BiCollection } from "rocketicons/bi";
+import { TbIcons } from "rocketicons/tb";
+import dynamic from "next/dynamic";
 
-export default async function OpenGraph({
+export const RocketIconChooser = async ({
+  collectionId,
+  iconName,
+  path,
+  style,
+}: {
+  collectionId?: CollectionID;
+  iconName?: string;
+  path?: string;
+  style?: React.CSSProperties;
+}) => {
+  console.log("path", path);
+  console.log("collectionId", collectionId);
+  console.log("iconName", iconName);
+
+  if (!!collectionId && !!iconName) {
+    const DynamicComponent = dynamic<IconType>(
+      () => import(`rocketicons/fa`).then((module) => module[iconName] as any),
+      {}
+    );
+    return DynamicComponent;
+  } else {
+    switch (path) {
+      case "/docs":
+        return <FaBook style={style} />;
+      case "/icons":
+        return <FaIcons style={style} />;
+    }
+  }
+};
+
+const OpenGraph = async ({
   lang,
+  path,
+  iconCollectionId,
+  iconName,
   text,
+  darkMode = false,
 }: {
   lang: Languages;
+  path?: string;
+  iconCollectionId?: CollectionID;
+  iconName?: string;
   text?: string;
-}) {
+  darkMode?: boolean;
+}) => {
+  console.log("path", path);
+
+  const logoImg = darkMode
+    ? "logo-rocketicons-white-nobg-512.png"
+    : "logo-rocketicons-black-nobg-512.png";
+  const bigIconSize = 200;
+  const smallIconSize = 28;
+  const color = darkMode ? "#ddd" : "#444";
+  const textColor = color,
+    iconColor = color;
+  const textGradient = `linear-gradient(to bottom right, ${
+    darkMode ? "#fff 20%, #0ea5e9 70%" : "#000000 20%, #0ea5e9 70%"
+  })`;
+
+  const bgImage = darkMode ? "og-hero-dark.jpg" : "og-hero-light.jpg";
+
+  const quicksandRegular = fetch(
+    new URL(
+      `${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/Quicksand-Regular.ttf`,
+      import.meta.url
+    )
+  ).then((res) => res.arrayBuffer());
+
+  const interMedium = fetch(
+    new URL(
+      `${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/Inter-Medium.ttf`,
+      import.meta.url
+    )
+  ).then((res) => res.arrayBuffer());
+
+  const firaCodeRegular = fetch(
+    new URL(
+      `${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/FiraCode-Regular.ttf`,
+      import.meta.url
+    )
+  ).then((res) => res.arrayBuffer());
+
+  const groupedCollections: Map<string, number> = new Map();
+  IconsManifest.forEach(({ id, icons }: { id: string; icons: any[] }) => {
+    if (!groupedCollections.get(id)) {
+      groupedCollections.set(id, 0);
+    }
+    groupedCollections.set(id, icons.length);
+  });
+
+  const totalIconsCount = Array.from(groupedCollections.values()).reduce(
+    (acc, count) => acc + count,
+    0
+  );
+
   const brand = useLocale(lang || "en").config("brand");
+
+  const bigIconsStyle = {
+    width: `${bigIconSize}px`,
+    height: `${bigIconSize}px`,
+    display: "block",
+    fill: iconColor,
+    stroke: iconColor,
+    color: iconColor,
+    padding: "0px",
+  };
+
+  const smallIconStyle = {
+    ...bigIconsStyle,
+    width: `${smallIconSize}px`,
+    height: `${smallIconSize}px`,
+  };
+
+  const mainTextStyle: React.CSSProperties = {
+    background: textGradient,
+    backgroundClip: "text",
+    color: "transparent",
+    fontFamily: "Quicksand, sans-serif",
+    textWrap: "balance",
+  };
 
   return new ImageResponse(
     (
       <div
         style={{
-          backgroundImage:
-            "linear-gradient(to bottom right, #E0E7FF 25%, #ffffff 50%, #CFFAFE 75%)",
+          display: "flex",
+          color: textColor,
+          backgroundImage: `url("${serverEnv.NEXT_PUBLIC_APP_URL}/img/${bgImage}")`,
+          backgroundSize: "1200px 630px",
         }}
-        tw="h-full w-full flex flex-col items-center justify-center bg-white"
+        tw={`h-full w-full p-80px flex flex-col`}
       >
-        <img
-          src={
-            serverEnv.NEXT_PUBLIC_APP_URL +
-            "/logo-rocketicons-black-nobg-512.png"
-          }
-          alt="rocketicons Logo"
-          tw="w-128 h-23 mb-4 opacity-95"
-          width={256}
-          height={47}
-        />
-        <span
-          style={{
-            fontSize: "40px",
-            fontWeight: 900,
-            background:
-              "linear-gradient(to bottom right, #000000 21.66%, #78716c 86.47%)",
-            backgroundClip: "text",
-            color: "transparent",
-            lineHeight: "5rem",
-            letterSpacing: "-0.02em",
-          }}
-        >
-          {brand["motto"]}
-        </span>
-        <>
-          {text && (
-            <span
-              style={{
-                fontSize: "40px",
-                fontWeight: 900,
-                background:
-                  "linear-gradient(to bottom right, #000000 21.66%, #78716c 86.47%)",
-                backgroundClip: "text",
-                color: "transparent",
-                lineHeight: "5rem",
-                letterSpacing: "-0.02em",
-              }}
-            >
-              {text}
-            </span>
-          )}
-        </>
+        <div tw="flex flex-col">
+          <div tw="flex flex-row">
+            <div tw="text-left flex flex-col grow">
+              <img
+                src={`${serverEnv.NEXT_PUBLIC_APP_URL}/${logoImg}`}
+                alt="rocketicons Logo"
+                tw="w-128 h-23"
+                width={128}
+                height={23}
+              />
+              {path && <p tw="ml-30px text-7xl">{path}</p>}
+            </div>
+            <div tw="flex">
+              {/* <RocketIconChooser collectionId={iconCollectionId} iconName={iconName} path={path} style={iconsStyle} /> */}
+              <FaAngry style={bigIconsStyle} />
+            </div>
+          </div>
+        </div>
+        <div tw="flex grow mt-10">
+          <span tw="mb-7 text-4xl" style={mainTextStyle}>
+            {text || brand["motto"]}
+          </span>
+        </div>
+        <div tw="w-full flex flex-row text-2xl">
+          <div tw="flex flex-row grow">
+            <BiCollection style={smallIconStyle} />
+            <div tw="flex flex-col ml-3">
+              <span>{groupedCollections.size}</span>
+              <span>Collections</span>
+            </div>
+          </div>
+          <div tw="flex flex-row grow">
+            <TbIcons style={smallIconStyle} />
+            <div tw="flex flex-col ml-3">
+              <span>{totalIconsCount}</span>
+              <span>Icons</span>
+            </div>
+          </div>
+        </div>
       </div>
     ),
     {
       width: 1200,
       height: 630,
+      fonts: [
+        {
+          name: "Inter",
+          data: await interMedium,
+          style: "normal",
+        },
+        {
+          name: "Quicksand",
+          data: await quicksandRegular,
+          style: "normal",
+        },
+        {
+          name: "FiraCode",
+          data: await firaCodeRegular,
+          style: "normal",
+        },
+      ],
     }
   );
-}
+};
+
+export default OpenGraph;

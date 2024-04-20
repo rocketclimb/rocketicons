@@ -27,7 +27,14 @@ export const middleware = (request: NextRequest) => {
 
   const pathIsWebManifest = pathname.endsWith("webmanifest");
 
-  if (pathnameHasLocale || pathNameHasApi || pathIsWebManifest) {
+  const pathNameIsFont = pathname.startsWith("/fonts/");
+
+  if (
+    pathnameHasLocale ||
+    pathNameHasApi ||
+    pathIsWebManifest ||
+    pathNameIsFont
+  ) {
     return NextResponse.next();
   }
 

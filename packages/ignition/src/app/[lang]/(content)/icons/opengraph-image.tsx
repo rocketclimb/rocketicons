@@ -8,5 +8,5 @@ export const alt = "rocketicons - React Icons like you haver seen before!";
 export const contentType = "image/png";
 
 export default async function OG({ params: { lang } }: PropsWithLangParams) {
-  return await OpenGraph({ lang, text: "Icons" });
+  return await OpenGraph({ lang, path: "/icons", text: "Icons" });
 }
