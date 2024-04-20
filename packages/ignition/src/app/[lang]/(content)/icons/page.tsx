@@ -4,6 +4,7 @@ import { MdxComponent } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangParams } from "@/types";
 import { useLocale } from "@/locales";
+import CustomMetadata from "@/app/components/metadata-custom";
 
 export const generateMetadata = ({
   params: { lang },
@@ -11,10 +12,7 @@ export const generateMetadata = ({
   const { component } = useLocale(lang);
   const { title, description } = component("icons-hero");
 
-  return {
-    title: `${title} | rocketicons`,
-    description,
-  };
+  return CustomMetadata(lang, title, description);
 };
 
 const Page = ({ params: { lang } }: PropsWithLangParams) => (

@@ -10,6 +10,8 @@ import DocLink from "@/components/documentation/doc-link";
 import License from "@/components/documentation/license";
 
 import FloatBlock from "@/components/icons/float-block";
+import { serverEnv } from "@/env/server";
+import { siteConfig } from "@/config/site";
 
 type PageProps = PropsWithLangParams & {
   params: {
@@ -22,13 +24,45 @@ export const generateMetadata = async ({
 }: PageProps): Promise<Metadata> => {
   const [id, icon] = collection;
   const info = IconsManifest.find(({ id: search }) => search === id)!;
+  const { name } = siteConfig;
 
   const { component } = useLocale(lang);
   const { title, description } = component("icons-collection");
 
+  const pageTitle = `${title} | ${info?.name} ${icon || ""} | rocketicons`;
+
+  const openGraphImageUrl =
+    `${serverEnv.NEXT_PUBLIC_APP_URL}/${lang}/opengraph/${id}` +
+    (icon ? `/${icon}` : "");
+
+  const ogImagesArray = [
+    {
+      url: openGraphImageUrl,
+      type: "image/png",
+      width: 1200,
+      height: 630,
+      alt: pageTitle,
+    },
+  ];
+
   return {
-    title: `${title} | ${info.name} ${icon || ""} | rocketicons`,
+    title: pageTitle,
     description,
+    openGraph: {
+      title: pageTitle,
+      description,
+      url: `${serverEnv.NEXT_PUBLIC_APP_URL}`,
+      siteName: name,
+      images: ogImagesArray,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: pageTitle,
+      site: name,
+      description,
+      creator: "@rocketclimb",
+      images: ogImagesArray,
+    },
   };
 };
 

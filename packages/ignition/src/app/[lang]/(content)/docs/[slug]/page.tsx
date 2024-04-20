@@ -10,6 +10,7 @@ import { MdxDoc } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-and-slug-param";
 import { useLocale } from "@/locales/use-locale";
+import CustomMetadata from "@/components/metadata-custom";
 
 type PageProps = {
   searchParams: Record<string, string>;
@@ -35,10 +36,8 @@ export const generateMetadata = ({
     title: string;
     description: string;
   };
-  return {
-    title: `${title} | rocketicons`,
-    description,
-  };
+
+  return CustomMetadata(lang, title, description);
 };
 
 const Page = ({ params: { lang, slug }, searchParams: { i } }: PageProps) => {

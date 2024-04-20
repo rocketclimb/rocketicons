@@ -2,31 +2,54 @@ import { ImageResponse } from "next/og";
 import { Languages } from "@/types";
 import { serverEnv } from "@/env/server";
 import { useLocale } from "@/locales";
-import { FaBook, FaIcons } from "rocketicons/fa";
+import { FaBook, FaFly, FaIcons } from "rocketicons/fa";
 import { CollectionID, IconsManifest } from "rocketicons/data";
 import { IconType } from "rocketicons";
 import { BiCollection } from "rocketicons/bi";
 import { TbIcons } from "rocketicons/tb";
 import { RcRocketIcon } from "rocketicons/rc";
+import { SlDocs } from "rocketicons/sl";
+import { LuBird, LuSmile } from "rocketicons/lu";
+import { PiAlien, PiFlyingSaucer } from "rocketicons/pi";
+import { BsCollection } from "rocketicons/bs";
+
+const selectRandomIcon = (
+  style: React.CSSProperties | undefined,
+  iconKey?: string
+): IconType | undefined => {
+  const iconsMap = new Map<string, any>([
+    ["LuSmile", <LuSmile style={style} />],
+    ["LuBird", <LuBird style={style} />],
+    ["FaFly", <FaFly style={style} />],
+    ["PiFlyingSaucer", <PiFlyingSaucer style={style} />],
+    ["PiAlien", <PiAlien style={style} />],
+  ]);
+
+  if (iconKey && iconsMap.has(iconKey)) {
+    return iconsMap.get(iconKey);
+  }
+  const iconsArray = Array.from(iconsMap.values());
+  const randomIndex = Math.floor(Math.random() * iconsArray.length);
+
+  return iconsArray[randomIndex];
+};
 
 export const RocketIconChooser = ({
-  Icon,
-  path,
+  subheading,
   style,
+  iconKey,
 }: {
-  Icon?: IconType;
-  path?: string;
+  subheading?: string;
   style?: React.CSSProperties;
-}) => {
-  if (Icon) {
-    /* return <FaAngry style={bigIconsStyle} /> */
-    return <Icon style={style} />;
-  } else if (!Icon && !!path) {
-    switch (path) {
-      case "/docs":
-        return <FaBook style={style} />;
-      case "/icons":
-        return <FaIcons style={style} />;
+  iconKey?: string;
+}): any => {
+  if (!!subheading) {
+    if (subheading.startsWith("/docs")) {
+      return <SlDocs style={style} />;
+    } else if (subheading.startsWith("/icons")) {
+      return <FaIcons style={style} />;
+    } else {
+      return selectRandomIcon(style, iconKey);
     }
   } else {
     return <RcRocketIcon style={style} />;
@@ -35,22 +58,22 @@ export const RocketIconChooser = ({
 
 const OpenGraph = async ({
   lang,
-  path,
-  Icon,
+  subheading,
   iconCollectionId,
+  iconCollectionCount,
   iconName,
   text,
-  darkMode = false,
+  darkMode = true,
 }: {
   lang: Languages;
-  path?: string;
-  Icon?: JSX.Element | any;
+  subheading?: string;
   iconCollectionId?: CollectionID;
+  iconCollectionCount?: number;
   iconName?: string;
   text?: string;
   darkMode?: boolean;
 }) => {
-  console.log("path", path);
+  const opengraph = useLocale(lang).config("opengraph");
 
   const logoImg = darkMode
     ? "logo-rocketicons-white-nobg-512.png"
@@ -100,7 +123,14 @@ const OpenGraph = async ({
     0
   );
 
-  const brand = useLocale(lang || "en").config("brand");
+  const brand = useLocale(lang).config("brand");
+
+  const mainDivStyle = {
+    display: "flex",
+    color: textColor,
+    backgroundImage: `url("${serverEnv.NEXT_PUBLIC_APP_URL}/img/${bgImage}")`,
+    backgroundSize: "1200px 630px",
+  };
 
   const bigIconsStyle = {
     width: `${bigIconSize}px`,
@@ -118,64 +148,82 @@ const OpenGraph = async ({
     height: `${smallIconSize}px`,
   };
 
-  const mainTextStyle: React.CSSProperties = {
+  const mainTextBasicStyle: React.CSSProperties = {
     background: textGradient,
     backgroundClip: "text",
     color: "transparent",
     fontFamily: "Quicksand, sans-serif",
+  };
+
+  const mainTextStyle: React.CSSProperties = {
+    ...mainTextBasicStyle,
     textWrap: "balance",
+  };
+
+  const afterLogoTextStyle: React.CSSProperties = {
+    ...mainTextBasicStyle,
   };
 
   return new ImageResponse(
     (
-      <div
-        style={{
-          display: "flex",
-          color: textColor,
-          backgroundImage: `url("${serverEnv.NEXT_PUBLIC_APP_URL}/img/${bgImage}")`,
-          backgroundSize: "1200px 630px",
-        }}
-        tw={`h-full w-full p-80px flex flex-col`}
-      >
+      <div tw={`h-full w-full p-80px flex flex-col`} style={mainDivStyle}>
         <div tw="flex flex-col">
           <div tw="flex flex-row">
             <div tw="text-left flex flex-col grow">
-              <img
-                src={`${serverEnv.NEXT_PUBLIC_APP_URL}/${logoImg}`}
-                alt="rocketicons Logo"
-                tw="w-128 h-23"
-                width={128}
-                height={23}
-              />
-              {path && <p tw="ml-30px text-7xl">{path}</p>}
+              <div tw="flex flex-row">
+                <img
+                  src={`${serverEnv.NEXT_PUBLIC_APP_URL}/${logoImg}`}
+                  alt="rocketicons Logo"
+                  tw="w-128 h-23"
+                  width={128}
+                  height={23}
+                />
+                {iconCollectionId && (
+                  <span tw="mt-1.3 text-7xl" style={afterLogoTextStyle}>
+                    /{iconCollectionId}
+                  </span>
+                )}
+              </div>
+              {subheading && <p tw="ml-20px text-7xl">{subheading}</p>}
             </div>
             <div tw="flex">
               <RocketIconChooser
-                Icon={Icon}
-                path={path}
+                subheading={subheading}
                 style={bigIconsStyle}
               />
             </div>
           </div>
         </div>
         <div tw="flex grow mt-10">
-          <span tw="mb-7 text-4xl" style={mainTextStyle}>
-            {text || brand["motto"]}
+          <span
+            tw="mb-7 text-4xl"
+            style={iconName ? mainTextBasicStyle : mainTextStyle}
+          >
+            {iconName || text || brand["motto"]}
           </span>
         </div>
         <div tw="w-full flex flex-row text-2xl">
+          {iconCollectionCount && (
+            <div tw="flex flex-row grow">
+              <BsCollection style={smallIconStyle} />
+              <div tw="flex flex-col ml-3">
+                <span>{iconCollectionCount}</span>
+                <span>{opengraph["int-this-collection"]}</span>
+              </div>
+            </div>
+          )}
           <div tw="flex flex-row grow">
             <BiCollection style={smallIconStyle} />
             <div tw="flex flex-col ml-3">
               <span>{groupedCollections.size}</span>
-              <span>Collections</span>
+              <span>{opengraph["collections"]}</span>
             </div>
           </div>
           <div tw="flex flex-row grow">
             <TbIcons style={smallIconStyle} />
             <div tw="flex flex-col ml-3">
               <span>{totalIconsCount}</span>
-              <span>Icons</span>
+              <span>{opengraph["icons"]}</span>
             </div>
           </div>
         </div>

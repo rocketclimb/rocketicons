@@ -1,6 +1,12 @@
 {
   "brand": {
-    "motto": "Icons your way and as you need them. On the Web or Mobile."
+    "motto": "Icons your way and as you need them. On the Web or Mobile.",
+    "description": "The icon library you've been looking for. Works in React and React Native without any changes. Just one code that runs wherever you need it. And with all the power you already know from Tailwind"
+  },
+  "opengraph": {
+    "collections": "Collections",
+    "icons": "Icons",
+    "int-this-collection": "In This Collection"
   },
   "themes": {
     "dark": "Dark",

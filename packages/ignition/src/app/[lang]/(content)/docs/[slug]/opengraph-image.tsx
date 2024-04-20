@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 
+import { useLocale } from "@/locales";
 import OpenGraph from "@/components/opengraph";
-import { PropsWithLangParams } from "@/types";
+import { PropsWithLangSlugParams } from "@/types";
 
 export const runtime = "edge";
 export const alt = "rocketicons - React Icons like you haver seen before!";
@@ -11,6 +12,15 @@ export const size = {
 };
 export const contentType = "image/png";
 
-export default async function OG({ params: { lang } }: PropsWithLangParams) {
-  return await OpenGraph({ lang, path: "/docs", text: "Docs" });
+export default async function OG({
+  params: { lang, slug },
+}: PropsWithLangSlugParams) {
+  const { doc } = useLocale(lang);
+
+  const { title, description } = doc(slug) as {
+    title: string;
+    description: string;
+  };
+
+  return await OpenGraph({ lang, subheading: title, text: description });
 }

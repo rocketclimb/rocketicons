@@ -17,7 +17,7 @@ export const useLocale = (lang: Languages) => {
   ) => (slug && docs[slug] && docs[slug]["en"] && slug) || slugMap[slug || ""];
 
   const getConfigFromIndex = <T extends Configs>(slug: T): Config[T] =>
-    docIndex["config"][slug][lang];
+    docIndex["config"][slug][lang || "en"];
 
   const getConfigsFromIndex = <T extends Configs>(
     slugs: T[]
