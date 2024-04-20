@@ -7,6 +7,7 @@ import { RcRocketIcon } from "rocketicons/rc";
 import RocketIconsText from "@/components/rocketicons-text";
 import SearchButton from "@/app/components/search/search";
 import { useLocale } from "@/locales/use-locale";
+import Footer from "@/components/footer";
 import { FaAngry } from "rocketicons/fa";
 
 export const generateMetadata = ({
@@ -147,8 +148,9 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
           </div>
         </AnimatedCodeBlock>
       </div>
-      <div>
-        <RcRocketIcon className="size-16 icon-red-500" />
+
+      <div className="mt-5 md:mt-0 w-full max-w-7xl">
+        <Footer />
       </div>
     </div>
   );
