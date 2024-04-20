@@ -9,7 +9,7 @@ import { BiCollection } from "rocketicons/bi";
 import { TbIcons } from "rocketicons/tb";
 import dynamic from "next/dynamic";
 
-export const RocketIconChooser = async ({
+export const RocketIconChooser = ({
   collectionId,
   iconName,
   path,
@@ -25,11 +25,7 @@ export const RocketIconChooser = async ({
   console.log("iconName", iconName);
 
   if (!!collectionId && !!iconName) {
-    const DynamicComponent = dynamic<IconType>(
-      () => import(`rocketicons/fa`).then((module) => module[iconName] as any),
-      {}
-    );
-    return DynamicComponent;
+    return <FaAngry style={style} />;
   } else {
     switch (path) {
       case "/docs":
@@ -43,6 +39,7 @@ export const RocketIconChooser = async ({
 const OpenGraph = async ({
   lang,
   path,
+  Icon,
   iconCollectionId,
   iconName,
   text,
@@ -50,6 +47,7 @@ const OpenGraph = async ({
 }: {
   lang: Languages;
   path?: string;
+  Icon?: JSX.Element;
   iconCollectionId?: CollectionID;
   iconName?: string;
   text?: string;
@@ -155,8 +153,14 @@ const OpenGraph = async ({
               {path && <p tw="ml-30px text-7xl">{path}</p>}
             </div>
             <div tw="flex">
-              {/* <RocketIconChooser collectionId={iconCollectionId} iconName={iconName} path={path} style={iconsStyle} /> */}
-              <FaAngry style={bigIconsStyle} />
+              {/* <RocketIconChooser
+                collectionId={iconCollectionId}
+                iconName={iconName}
+                path={path}
+                style={bigIconsStyle}
+              /> */}
+              <Icon style={bigIconsStyle} />
+              {/* <FaAngry style={bigIconsStyle} /> */}
             </div>
           </div>
         </div>
