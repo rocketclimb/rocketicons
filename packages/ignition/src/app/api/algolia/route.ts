@@ -27,8 +27,6 @@ export const POST = async (request: Request) => {
 
     const availableLocales = siteConfig.locales;
 
-    // console.log("first icon", IconsManifest[1]);
-
     // flatten the iconmanifest.icons into a single array where the group is collection.id
     const transformedIcons: {
       objectID: string;
