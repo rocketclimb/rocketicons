@@ -4,62 +4,61 @@ import {
   createContext,
   useContext,
   useEffect,
-  useRef,
   useState,
   useCallback,
   useId,
 } from "react";
 
+import useKeyboardShortcut from "@/hooks/use-keyboard-shortcut";
+
 type ModalContentType = JSX.Element;
 
-type StateGenerator = (id: string) => (state: boolean) => void;
 type AddModal = (Add: ModalContentType) => void;
+type StateGenerator = (
+  id: string
+) => [state: boolean, (state: boolean) => void, AddModal];
 
-const Context = createContext<[StateGenerator, AddModal]>([
-  () => () => {},
+const Context = createContext<StateGenerator>(() => [
+  false,
   () => {},
+  () => false,
 ]);
 
 const useModalContext = () => useContext(Context);
 
 const ModalContext = ({ children }: PropsWithChildren) => {
-  const indexRef = useRef<Record<string, number>>({});
+  const [opened, setOpened] = useState<string[]>([]);
+  const [modals, setModals] = useState<Map<string, ModalContentType>>(
+    new Map()
+  );
 
-  const [opened, setOpened] = useState<number[]>([]);
-  const [modals, setModals] = useState<ModalContentType[]>([]);
-
-  const setIndexState = (index: number, state: boolean) =>
-    setOpened((indexes) => {
+  const setIndexState = (id: string, state: boolean) =>
+    setOpened((ids) => {
       if (state) {
-        !indexes.includes(index) && indexes.push(index);
+        !ids.includes(id) && ids.push(id);
       } else {
-        const pos = indexes.indexOf(index);
-        pos > -1 && indexes.splice(pos, 1);
+        const pos = ids.indexOf(id);
+        pos > -1 && ids.splice(pos, 1);
       }
-      return [...indexes];
+      return [...ids];
     });
 
-  const addModal = (add: ModalContentType) =>
-    setModals((modals) => [...modals, add]);
-
-  const generateState = (id: string): ((state: boolean) => void) => {
-    if (indexRef.current[id] === undefined) {
-      indexRef.current[id] = Object.keys(indexRef.current).length;
-    }
-    return (state: boolean) => setIndexState(indexRef.current[id], state);
-  };
+  const generateState: StateGenerator = (id: string) => [
+    opened.includes(id),
+    (state: boolean) => setIndexState(id, state),
+    (add: ModalContentType) => setModals((modals) => modals.set(id, add)),
+  ];
 
   return (
-    <Context.Provider value={[(id: string) => generateState(id), addModal]}>
-      {opened.length > 0 &&
-        modals
-          .filter((_, index) => opened.includes(index))
-          .map((modal, i) => (
-            <ModalContent key={i} closeModal={() => setOpened([])}>
-              {modal}
-            </ModalContent>
-          ))}
-      <div className="modal-context flex flex-col peer-[.modal-open]:blur-sm peer-[.modal-open]:backdrop-brightness-90 dark:peer-[.modal-open]:backdrop-brightness-50 peer-[.modal-open]:opacity-50 w-full">
+    <Context.Provider value={generateState}>
+      <ModalContent isOpen={!!opened.length} closeModal={() => setOpened([])}>
+        {opened.map((id) => (
+          <div className="fixed z-50" key={id}>
+            {modals.get(id)!}
+          </div>
+        ))}
+      </ModalContent>
+      <div className="modal-context flex flex-col peer-data-[open=true]:blur-sm peer-data-[open=true]:backdrop-brightness-90 dark:peer-data-[open=true]:backdrop-brightness-50 peer-data-[open=true]:opacity-50 w-full">
         {children}
       </div>
     </Context.Provider>
@@ -68,9 +67,10 @@ const ModalContext = ({ children }: PropsWithChildren) => {
 
 type ModalContentProps = PropsWithChildren & {
   closeModal: () => void;
+  isOpen: boolean;
 };
 
-const ModalContent = ({ children, closeModal }: ModalContentProps) => {
+const ModalContent = ({ children, isOpen, closeModal }: ModalContentProps) => {
   useEffect(() => {
     const handleResize = () => closeModal();
     window.addEventListener("resize", handleResize);
@@ -79,8 +79,15 @@ const ModalContent = ({ children, closeModal }: ModalContentProps) => {
     };
   }, []);
 
+  useKeyboardShortcut(() => closeModal(), {
+    code: "Escape",
+  });
+
   return (
-    <div className="fixed z-50 inset-0 peer modal-open">
+    <div
+      data-open={isOpen}
+      className="fixed z-50 inset-0 peer hidden modal-open data-[open=true]:block"
+    >
       <div
         onClick={() => closeModal()}
         className="fixed z-40 w-full h-full"
@@ -90,32 +97,38 @@ const ModalContent = ({ children, closeModal }: ModalContentProps) => {
   );
 };
 
+type ModalProps = {
+  add: AddModal;
+} & PropsWithChildren;
+
+const Modal = ({ add, children }: ModalProps) => {
+  useEffect(() => {
+    add(<>{children}</>);
+  }, []);
+  return <></>;
+};
+
 export const useDisclosure = () => {
   const id = `disclousure-${useId()}`;
-  const [generator] = useModalContext();
-  const setState = generator(id);
-
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const generator = useModalContext();
+  const [isOpen, setState, addModal] = generator(id);
 
   const onOpen = useCallback(() => {
-    setIsOpen(true);
     setState(true);
   }, []);
 
   const onClose = useCallback(() => {
-    setIsOpen(false);
     setState(false);
   }, []);
 
-  return { isOpen, onOpen, onClose };
-};
-
-export const Modal = ({ children }: PropsWithChildren) => {
-  const [, addModal] = useModalContext();
-  useEffect(() => {
-    addModal(<div className="fixed z-50">{children}</div>);
-  }, []);
-  return <></>;
+  return {
+    isOpen,
+    onOpen,
+    onClose,
+    Modal: ({ children }: PropsWithChildren) => (
+      <Modal add={addModal}>{children}</Modal>
+    ),
+  };
 };
 
 export default ModalContext;

@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
-import { IconType } from "rocketicons/core";
+import { IconType } from "rocketicons";
 import { BsMoonStars, BsSun } from "rocketicons/bs";
 import { MdOutlineMonitor, MdKeyboardArrowDown } from "rocketicons/md";
 
 import { ThemeOptions } from "@/hooks/use-theme-handler";
+import useKeyboardShortcut from "@/hooks/use-keyboard-shortcut";
 import { useLocale } from "@/locales/use-locale";
 
 import { PropsWithClassName, PropsWithLang } from "@/types";
@@ -102,32 +103,37 @@ const ThemeSelectorAsIcon = ({
 
 type ThemeSelectorAsMenuProps = {
   switchTheme: string;
+  close: () => void;
 } & ThemeSelectorProps;
 
 const ThemeSelectorAsMenu = ({
   toggle,
+  close,
   switchTheme,
   selectors,
   showing,
   updateTheme,
-}: ThemeSelectorAsMenuProps) => (
-  <div className="flex md:hidden items-center mt-6 w-full h-20 font-normal border-t border-slate-900/10 dark:border-slate-50/[0.06]">
-    <div className="grow text-[15px]">{switchTheme} </div>
-    <Button
-      className="flex items-center py-2 px-3 border border-slate-200 rounded-lg dark:highlight-white/5 dark:bg-slate-600 dark:border-slate-600 dark:text-slate-200"
-      onClick={() => toggle()}
-    >
-      <SelectedTheme selectors={selectors} />
-      <MdKeyboardArrowDown className="ml-2 icon-slate-400" />
-    </Button>
-    <SelectorMenu
-      className="right-5"
-      selectors={selectors}
-      showing={showing}
-      updateTheme={updateTheme}
-    />
-  </div>
-);
+}: ThemeSelectorAsMenuProps) => {
+  useKeyboardShortcut(() => close(), { code: "Escape" });
+  return (
+    <div className="flex md:hidden items-center mt-6 w-full h-20 font-normal border-t border-slate-900/10 dark:border-slate-50/[0.06]">
+      <div className="grow text-[15px]">{switchTheme} </div>
+      <Button
+        className="flex items-center py-2 px-3 border border-slate-200 rounded-lg dark:highlight-white/5 dark:bg-slate-600 dark:border-slate-600 dark:text-slate-200"
+        onClick={() => toggle()}
+      >
+        <SelectedTheme selectors={selectors} />
+        <MdKeyboardArrowDown className="ml-2 icon-slate-400" />
+      </Button>
+      <SelectorMenu
+        className="right-5"
+        selectors={selectors}
+        showing={showing}
+        updateTheme={updateTheme}
+      />
+    </div>
+  );
+};
 
 type Selector = {
   theme: ThemeOptions;
@@ -165,6 +171,7 @@ const ThemeSelector = ({ lang }: PropsWithLang) => {
       />
       <ThemeSelectorAsMenu
         showing={showing}
+        close={() => setShowing(false)}
         updateTheme={updateTheme}
         switchTheme={themes.switchTheme}
         toggle={toggle}

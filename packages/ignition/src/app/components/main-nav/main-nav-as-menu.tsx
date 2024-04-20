@@ -6,7 +6,7 @@ import { HiOutlineDotsVertical } from "rocketicons/hi";
 
 import ThemeSelector from "@/components/theme/theme-selector";
 
-import { Modal, useDisclosure } from "@/components/modal-context";
+import { useDisclosure } from "@/components/modal-context";
 import Button from "@/components/button";
 
 import { PropsWithLang } from "@/types";
@@ -18,7 +18,7 @@ type NavAsMenuProps = {
 } & PropsWithLang;
 
 const MainNavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
-  const { onOpen, onClose } = useDisclosure();
+  const { onOpen, onClose, Modal } = useDisclosure();
 
   return (
     <div className="flex md:hidden">

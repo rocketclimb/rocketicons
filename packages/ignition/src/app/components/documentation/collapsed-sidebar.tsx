@@ -1,5 +1,5 @@
 "use client";
-import { Modal, useDisclosure } from "@/components/modal-context";
+import { useDisclosure } from "@/components/modal-context";
 import { Suspense, useEffect, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
@@ -30,7 +30,7 @@ const UrlObserver = ({ onChanges }: UrlObserverProps) => {
 
 export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
   const [hash, setHash] = useState<string>("" as string);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose, Modal } = useDisclosure();
 
   return (
     <>
