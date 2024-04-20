@@ -11,10 +11,12 @@ export const size = {
 };
 export const contentType = "image/png";
 
-export default async function OG({
+const OG = async ({
   params: { lang, collection },
-}: PropsWithLangParams & { params: { collection: any } }) {
+}: PropsWithLangParams & { params: { collection: any } }) => {
   return await OpenGraph({ lang, subheading: "/icons" });
-}
+};
 
 // it won't work for catch-all params. See https://github.com/vercel/next.js/issues/49630
+
+export default OG;
