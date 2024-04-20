@@ -2,37 +2,34 @@ import { ImageResponse } from "next/og";
 import { Languages } from "@/types";
 import { serverEnv } from "@/env/server";
 import { useLocale } from "@/locales";
-import { FaAngry, FaBook, FaIcons } from "rocketicons/fa";
+import { FaBook, FaIcons } from "rocketicons/fa";
 import { CollectionID, IconsManifest } from "rocketicons/data";
 import { IconType } from "rocketicons";
 import { BiCollection } from "rocketicons/bi";
 import { TbIcons } from "rocketicons/tb";
-import dynamic from "next/dynamic";
+import { RcRocketIcon } from "rocketicons/rc";
 
 export const RocketIconChooser = ({
-  collectionId,
-  iconName,
+  Icon,
   path,
   style,
 }: {
-  collectionId?: CollectionID;
-  iconName?: string;
+  Icon?: IconType;
   path?: string;
   style?: React.CSSProperties;
 }) => {
-  console.log("path", path);
-  console.log("collectionId", collectionId);
-  console.log("iconName", iconName);
-
-  if (!!collectionId && !!iconName) {
-    return <FaAngry style={style} />;
-  } else {
+  if (Icon) {
+    /* return <FaAngry style={bigIconsStyle} /> */
+    return <Icon style={style} />;
+  } else if (!Icon && !!path) {
     switch (path) {
       case "/docs":
         return <FaBook style={style} />;
       case "/icons":
         return <FaIcons style={style} />;
     }
+  } else {
+    return <RcRocketIcon style={style} />;
   }
 };
 
@@ -153,15 +150,11 @@ const OpenGraph = async ({
               {path && <p tw="ml-30px text-7xl">{path}</p>}
             </div>
             <div tw="flex">
-              {/* <RocketIconChooser
-                collectionId={iconCollectionId}
-                iconName={iconName}
+              <RocketIconChooser
+                Icon={Icon}
                 path={path}
                 style={bigIconsStyle}
-              /> */}
-
-              {Icon && <Icon style={bigIconsStyle} />}
-              {/* <FaAngry style={bigIconsStyle} /> */}
+              />
             </div>
           </div>
         </div>
