@@ -1,8 +1,4 @@
 import { serverEnv } from "@/env/server";
-import { useLocale } from "@/app/locales";
-
-const { nav: navWithLocales } = useLocale("en").configFromIndex();
-const nav = navWithLocales["en"];
 
 const baseUrl = serverEnv.NEXT_PUBLIC_APP_URL || "https://rocketicons.io";
 
@@ -16,6 +12,7 @@ export const siteConfig = {
     github: "https://github.com/rocketclimb/",
   },
   locales: ["en", "pt-br"],
+  defaultLocale: "en",
   menuConfig: {
     componentGroups: ["getting-started"],
   },

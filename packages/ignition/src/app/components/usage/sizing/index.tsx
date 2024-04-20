@@ -2,23 +2,24 @@ import { PropsWithLang } from "@/app/types";
 import { MdxPartial } from "@/components/mdx";
 import { Table, TableLine } from "@/components/table";
 
-import { Wrapper, SampleBox } from "@/components/documentation";
+import Wrapper from "@/components/documentation/wrapper";
+import SampleBox from "@/components/documentation/sample-box";
 import { getCurrentIconData } from "@/components/usage/utils";
 
 import { sizes, sizesUtilities, hwUtilities } from "./utils";
 import SizingAnimation from "./sizing-animation";
 
-const Sizing = async ({
+const Sizing = ({
   lang,
   queryIcon,
 }: PropsWithLang & { queryIcon?: string }) => {
-  const { icon, collection, Icon } = await getCurrentIconData(queryIcon);
+  const { icon, collection, Icon } = getCurrentIconData(queryIcon);
   return (
     <>
       <MdxPartial lang={lang} slug={"sizing-elements"} path="docs" />
       <SizingAnimation collection={collection} icon={icon} />
       <div className="md:px-5">
-        <Table>
+        <Table lang={lang}>
           {Object.entries(sizes).map(([attr, value], i) => (
             <TableLine
               key={i}

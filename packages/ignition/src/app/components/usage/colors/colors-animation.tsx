@@ -1,26 +1,16 @@
 "use client";
-import { IconType } from "rocketicons";
 import { AnimatedCodeBlock, ScriptAction } from "@/components/code-block";
 import { Script } from "@/components/code-block/types";
 
 import { shuffle, putVariantsOnIt } from "./utils";
-import { useIconsData } from "@/components/icons/use-icons-data";
 import { useEffect, useState } from "react";
 import { CollectionID } from "rocketicons/data";
+import IconLoader, { IconHandlerProps } from "@/components/icons/icon-loader";
 
-type ColorsAnimationProsp = {
-  icon: string;
-  collection: CollectionID;
-  colors: string[];
-};
-
-const ColorsAnimation = ({
-  collection,
-  icon,
+const Animation = ({
+  Icon,
   colors,
-}: ColorsAnimationProsp) => {
-  const [icons, , isLoaded] = useIconsData(collection);
-  const [Icon, setIcon] = useState<IconType>();
+}: IconHandlerProps & { colors: string[] }) => {
   const [state, setState] = useState<string>("icon-slate-200");
   const [script, setScript] = useState<Script>([]);
 
@@ -53,37 +43,50 @@ const ColorsAnimation = ({
     setScript(script);
   }, []);
 
-  useEffect(() => {
-    isLoaded && setIcon(() => icons.getByName(icon));
-  }, [isLoaded]);
-
   return (
     <>
-      {Icon && (
-        <div className="flex my-12 items-center justify-center gap-12">
-          <div className="border border-slate-200 rounded-lg dark:border-slate-800">
-            <Icon className={`transition duration-500 ${state} size-48`} />
-          </div>
-          <AnimatedCodeBlock
-            className="w-[500px]"
-            variants="minimalist"
-            skipRender={true}
-            onCommit={(_, state) => state && setState(state)}
-            script={[
-              ...script,
-              {
-                action: ScriptAction.RESTART,
-              },
-            ]}
-          >
-            <div>
-              <Icon className="icon-slate-200" />
-            </div>
-          </AnimatedCodeBlock>
+      <div className="size-48 order-last sm:order-none flex items-center justify-center border rounded-lg border-slate-200 dark:border-slate-800">
+        <Icon className={`transition duration-500 ${state} size-48`} />
+      </div>
+      <AnimatedCodeBlock
+        className="w-96 md:w-[480px]"
+        variants="minimalist"
+        skipRender={true}
+        onCommit={(_, state) => state && setState(state)}
+        script={[
+          ...script,
+          {
+            action: ScriptAction.RESTART,
+          },
+        ]}
+      >
+        <div>
+          <Icon className="icon-slate-200" />
         </div>
-      )}
+      </AnimatedCodeBlock>
     </>
   );
 };
+
+type ColorsAnimationProsp = {
+  icon: string;
+  collection: CollectionID;
+  colors: string[];
+};
+
+const ColorsAnimation = ({
+  collection,
+  icon,
+  colors,
+}: ColorsAnimationProsp) => (
+  <div className="flex h-72 sm:h-48 flex-col sm:flex-row my-12 items-center justify-center gap-4">
+    <IconLoader
+      collectionId={collection}
+      icon={icon}
+      Handler={Animation}
+      colors={colors}
+    />
+  </div>
+);
 
 export default ColorsAnimation;

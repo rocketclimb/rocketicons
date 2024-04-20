@@ -1,6 +1,7 @@
-import { CollapsedSidebar, SidebarLeft } from "@/components/documentation";
+import { CollapsedSidebar } from "@/components/documentation/collapsed-sidebar";
+import { SidebarLeft } from "@/components/documentation/sidebar-left";
 
-import Footer from "./footer";
+import Footer from "@/components/footer";
 import { PropsWithChildrenAndLangParams } from "@/types";
 
 const Layout = ({

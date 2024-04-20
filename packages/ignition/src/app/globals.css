@@ -77,6 +77,24 @@ html {
     text-wrap: nowrap;
   }
 
+  .pre code span.line {
+    display: block;
+  }
+
+  .pre code span {
+    white-space: pre;
+  }
+
+  .no-backtick code::before,
+  .no-backtick code::after {
+    content: "";
+  }
+
+  code::before,
+  code::after {
+    content: "`";
+  }
+
   @media (max-width: 1024px) {
     .icon-info-area {
       height: calc(100vh - theme(height.20));

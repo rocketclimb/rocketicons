@@ -1,13 +1,12 @@
 import type { MDXComponents } from "mdx/types";
-import {
-  Title,
-  Title2,
-  Title3,
-  Title4,
-  Paragraph,
-  Code,
-  DocLink
-} from "@/components/documentation";
+import Title from "@/components/documentation/title";
+import Title2 from "@/components/documentation/title2";
+import Title3 from "@/components/documentation/title3";
+import Title4 from "@/components/documentation/title4";
+import Paragraph from "@/components/documentation/paragraph";
+import Code from "@/components/documentation/code";
+import CodeStyler from "@/components/code-block/code-styler";
+import DocLink from "@/components/documentation/doc-link";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   const allComponentClasses = "mb-4";
@@ -29,18 +28,18 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </h6>
     ),
     p: ({ children, ...props }) => <Paragraph {...props}>{children}</Paragraph>,
-    pre: ({ className, children }) => (
-      <pre
-        className={`rounded-lg p-3 bg-slate-900 ${
-          className || ""
-        } ${allComponentClasses}`}
-      >
-        {children}
-      </pre>
+    pre: ({ className, children, ...props }) => (
+      <div className="my-3">
+        <CodeStyler
+          {...props}
+          className={`pre ${className}`}
+          variant="minimalist"
+        >
+          {children}
+        </CodeStyler>
+      </div>
     ),
-    code: ({ children }) => (
-      <Code>{children}</Code>
-    ),
+    code: ({ children }) => <Code>{children}</Code>,
     ul: ({ className, children }) => (
       <ul
         className={`list-disc list-inside default-text-color ${
@@ -59,23 +58,22 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </ol>
     ),
+    li: ({ children, ...props }) => (
+      <li {...props} className="text-sm lg:text-base">
+        {children}
+      </li>
+    ),
     a: ({ href, children, ...props }) => (
       <DocLink
-        external={href?.startsWith('http')}
-        href={href||'#'}
+        external={href?.startsWith("http")}
+        href={href || "#"}
         {...props}
       >
         {children}
       </DocLink>
     ),
-    blockquote: ({ className, children }) => (
-      <blockquote
-        className={`rounded-lg p-3 text-2xl italic font-semibold border-s-4 border-gray-300 bg-slate-50 dark:bg-slate-800 default-text-color ${
-          className || ""
-        } ${allComponentClasses}`}
-      >
-        {children}
-      </blockquote>
+    blockquote: ({ children, ...props }) => (
+      <blockquote {...props}>{children}</blockquote>
     ),
     ...components,
   };

@@ -7,8 +7,8 @@ import { withContentCollections } from "@rocketclimb/content-collections";
 
 const shikiOptions = {
   themes: {
-    light: "vitesse-light",
-    dark: "vitesse-dark",
+    light: "dracula",
+    dark: "dracula",
   },
 };
 const withMDX = createMDX({
@@ -29,5 +29,5 @@ const nextConfig = {
   },
 };
 
-// export default withContentCollections(withMDX(nextConfig));
-export default withMDX(nextConfig);
+export default withContentCollections(withMDX(nextConfig));
+// export default withMDX(nextConfig);

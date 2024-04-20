@@ -1,6 +1,5 @@
 import path from "path";
 import camelcase from "camelcase";
-// const camelcase = (text: string, options: any) => text;
 import { type IconDefinition } from "./types";
 import { glob } from "./glob";
 

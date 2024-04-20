@@ -1,7 +1,6 @@
 import path from "path";
 import { promises as fs } from "fs";
 import camelcase from "camelcase";
-// const camelcase = (text: string, options: any) => text;
 import { optimize as svgoOptimize } from "svgo";
 import { IconsInfoManifest } from "@rocketicons/core";
 import { icons } from "./definitions";
@@ -9,6 +8,8 @@ import { iconRowTemplate } from "./templates";
 import { getIconFiles, convertIconData, rmDirRecursive } from "./logics";
 import { svgoConfig } from "./svgo-config";
 import { IconDefinition, TaskContext } from "./types";
+
+import kebabCase from "./kebab-case";
 
 export const dirInit = async ({ DIST, LIB, PLUGIN, DATA }: TaskContext) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -41,7 +42,7 @@ export const dirInit = async ({ DIST, LIB, PLUGIN, DATA }: TaskContext) => {
     );
     await write(
       [icon.id, "index.d.ts"],
-      `// THIS FILE IS AUTO GENERATED\nimport type { IconType, CollectionDataInfo } from '../core/types'\nexport declare const manifest: CollectionDataInfo<"${icon.id}">;\n`
+      `// THIS FILE IS AUTO GENERATED\nimport type { IconType, CollectionDataInfo } from '../core/types'\nexport declare const manifest: CollectionDataInfo<"${icon.id}", "${icon.license}">;\n`
     );
     await write(
       [icon.id, "package.json"],
@@ -91,9 +92,7 @@ export const writeIconModule = async (
 
       const rawName = path.basename(file, path.extname(file));
       const pascalName = camelcase(rawName, { pascalCase: true });
-      const name =
-        (content.formatter && content.formatter(pascalName, file)) ||
-        pascalName;
+      const name = content?.formatter(pascalName, file) || pascalName;
       if (exists.has(name)) continue;
       exists.add(name);
 
@@ -118,11 +117,12 @@ export const writeIconModule = async (
         "utf8"
       );
 
-      const reg = new RegExp(`^${icon.id.toLowerCase()}(s|\s|-|_)*`);
-      const manifestName = rawName
-        .toLowerCase()
-        .replace(reg, "")
-        .replace(/_|\-/g, "-");
+      const nameToManifest = (): string => {
+        const manifest = kebabCase(name).split("-").slice(1).join("-");
+        return manifest ? manifest : name.toLowerCase().replace(icon.id, "");
+      };
+
+      const manifestName = nameToManifest();
 
       iconInfoManifest[icon.id].icons[name] = {
         id: `${icon.id}-${manifestName}`,

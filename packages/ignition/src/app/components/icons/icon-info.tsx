@@ -1,8 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { IconType } from "rocketicons";
-import { IconInfo as IconInfoType } from "@rocketicons/core";
+import { IconType, IconInfo as IconInfoType } from "rocketicons";
 import { IoMdClose } from "rocketicons/io";
 import Button from "@/components/button";
 import {
@@ -15,12 +14,10 @@ import {
 } from "@/components/code-block";
 import { CollectionID } from "rocketicons/data";
 import FloatBlock from "@/components/icons/float-block";
-import {
-  Title3,
-  SectionTitle,
-  SectionContent,
-  UpdateAlert,
-} from "@/components/documentation";
+import Title3 from "@/components/documentation/title3";
+import SectionTitle from "@/components/documentation/section-title";
+import SectionContent from "@/components/documentation/section-content";
+import UpdateAlert from "@/components/documentation/update-alert";
 import { MdxClientPartial } from "@/components/mdx";
 import { PropsWithLang } from "@/types";
 import { useLocale } from "@/locales";
@@ -63,315 +60,308 @@ const IconInfo = ({
   const [selected, setSelected] = useState<string>(defaultStyle);
 
   return (
-    <>
-      <div
-        data-open={show}
-        className="group/info icon-info-area transition-all duration-200 fixed top-20 pr-2 sm:pr-16 lg:pr-0 lg:sticky -z-20 lg:top-40 w-0 pb-3 lg:pb-0 data-[open=true]:w-full data-[open=true]:md:w-[550px] data-[open=true]:z-40"
-      >
-        <FloatBlock className="group-data-[open=false]/info:animate-delayed-hidden relative flex flex-col group-data-[open=true]/info:border group-data-[open=true]/info:dark:border-2 px-3 py-2 h-full lg:h-[655px]">
-          <div className="panel opacity-0 group-data-[open=true]/info:opacity-100 group-data-[open=true]/info:animate-delayed-appearing h-full">
-            <Button
-              onClick={() => onClose()}
-              className="absolute top-1 right-1 w-8 h-8 flex items-center justify-center"
-            >
-              <IoMdClose className="icon-slate-500 hover:icon-slate-600 dark:icon-slate-400 dark:hover:icon-slate-300" />
-            </Button>
-            <div className="flex flex-col h-full">
-              <div className="grid grid-cols-8">
-                <Title3 className="icon-info-title capitalize col-span-8 justify-center">
-                  {info?.name}
-                </Title3>
-                <div className="order-first lg:order-none lg:row-span-2 size-10 rounded-md lg:size-auto lg:col-span-2 absolute lg:static flex items-center justify-center">
-                  {Icon && (
-                    <Icon
-                      data-bounce={bounce}
-                      className={`data-[bounce=true]:animate-bounce ${selected}`}
+    <div
+      data-open={show}
+      className="group/info icon-info-area transition-all duration-200 fixed top-20 pr-2 sm:pr-16 lg:pr-0 lg:sticky -z-20 lg:top-40 w-0 pb-3 lg:pb-0 data-[open=true]:w-full data-[open=true]:md:w-[550px] data-[open=true]:z-40"
+    >
+      <FloatBlock className="group-data-[open=false]/info:animate-delayed-hidden relative flex flex-col group-data-[open=true]/info:border group-data-[open=true]/info:dark:border-2 px-3 py-2 h-full lg:h-[655px]">
+        <div className="panel opacity-0 group-data-[open=true]/info:opacity-100 group-data-[open=true]/info:animate-delayed-appearing h-full">
+          <Button
+            onClick={() => onClose()}
+            className="absolute top-1 right-1 w-8 h-8 flex items-center justify-center"
+          >
+            <IoMdClose className="icon-slate-500 hover:icon-slate-600 dark:icon-slate-400 dark:hover:icon-slate-300" />
+          </Button>
+          <div className="flex flex-col h-full">
+            <div className="grid grid-cols-8">
+              <Title3 className="icon-info-title capitalize col-span-8 justify-center">
+                {info?.name}
+              </Title3>
+              <div className="order-first lg:order-none lg:row-span-2 size-10 rounded-md lg:size-auto lg:col-span-2 absolute lg:static flex items-center justify-center">
+                {Icon && (
+                  <Icon
+                    data-bounce={bounce}
+                    className={`data-[bounce=true]:animate-bounce ${selected}`}
+                  />
+                )}
+              </div>
+              <div className="col-span-8 lg:col-span-6 thin">
+                <MdxClientPartial
+                  path="components"
+                  lang={lang}
+                  slug="icon-info-import"
+                />
+                {info && (
+                  <CodeStyler variant="compact">
+                    <CodeImportBlock
+                      locale={lang}
+                      className="text-xs flex"
+                      component={info.compName}
+                      module={`rocketicons/${collectionId}`}
+                    />
+                  </CodeStyler>
+                )}
+              </div>
+              <div className="col-span-8 lg:col-span-6 thin">
+                <MdxClientPartial
+                  path="components"
+                  lang={lang}
+                  slug="icon-info-usage"
+                />
+                <CodeStyler variant="compact">
+                  {info && (
+                    <CodeElementBlock
+                      locale={lang}
+                      className="text-xs"
+                      component={info.compName}
                     />
                   )}
+                </CodeStyler>
+              </div>
+            </div>
+            <div
+              data-section={section}
+              className="group/sections grow max-lg:overflow-y-auto my-3 mx-1 px-3 pb-3 rounded-xl bg-slate-50 dark:bg-slate-800/35"
+            >
+              <div>
+                <MdxClientPartial
+                  path="components"
+                  lang={lang}
+                  slug="icon-info-styling"
+                />
+              </div>
+              <div className="mt-2 p-2 pb-0">
+                <div className="flex overflow-y-auto thin-scroll mb-2 border-b dark:border-gray-200/5">
+                  <SectionTitle
+                    onClick={() => setSection("sizes")}
+                    selected={section === "sizes"}
+                  >
+                    {sizes}
+                  </SectionTitle>
+                  <SectionTitle
+                    onClick={() => setSection("colors")}
+                    selected={section === "colors"}
+                  >
+                    {colors}
+                  </SectionTitle>
+                  <SectionTitle
+                    onClick={() => setSection("combining")}
+                    selected={section === "combining"}
+                  >
+                    {combining}
+                  </SectionTitle>
+                  <SectionTitle
+                    onClick={() => {
+                      setSection("dark-mode");
+                      setSelected(
+                        "icon-indigo-800-5xl p-1 rounded-sm border border-slate-900 dark:icon-purple-900-7xl dark:border-none"
+                      );
+                    }}
+                    selected={section === "dark-mode"}
+                  >
+                    {darkMode}
+                  </SectionTitle>
+                  <SectionTitle
+                    onClick={() => {
+                      setSection("states");
+                      setSelected(
+                        "transition-all duration-200 icon-indigo-800-5xl hover:icon-purple-900-7xl"
+                      );
+                    }}
+                    selected={section === "states"}
+                  >
+                    {states}
+                  </SectionTitle>
                 </div>
-                <div className="col-span-8 lg:col-span-6">
-                  <MdxClientPartial
-                    path="components"
-                    lang={lang}
-                    slug="icon-info-import"
-                  />
-                  {info && (
-                    <CodeStyler variant="compact">
-                      <CodeImportBlock
-                        locale={lang}
-                        className="text-xs flex"
-                        component={info.compName}
-                        module={`rocketicons/${collectionId}`}
+                <div className="relative w-full overflow-hidden flex">
+                  <SectionContent className="transition-all duration-300 group-data-[section=sizes]/sections:-ml-[0%] group-data-[section=colors]/sections:-ml-[100%] group-data-[section=combining]/sections:-ml-[200%] group-data-[section=dark-mode]/sections:-ml-[300%] group-data-[section=states]/sections:-ml-[400%]">
+                    <div className="mb-4 prose">
+                      <MdxClientPartial
+                        path="components"
+                        lang={lang}
+                        slug="icon-info-sizing"
                       />
-                    </CodeStyler>
-                  )}
-                </div>
-                <div className="col-span-8 lg:col-span-6">
-                  <MdxClientPartial
-                    path="components"
-                    lang={lang}
-                    slug="icon-info-usage"
-                  />
-                  <CodeStyler variant="compact">
+                    </div>
                     {info && (
-                      <CodeElementBlock
+                      <CodeElementOptionsStyler
+                        onTabChange={(_i, tab) => {
+                          if ((tab as Tab)?.id === CodeElementTabs.MORE) {
+                            router.push(
+                              `/docs/sizing-elements?i=${collectionId}.${info?.compName}`
+                            );
+                            return;
+                          }
+                          setSelected(
+                            tab === CodeElementTabs.DEFAULT
+                              ? defaultStyle
+                              : (tab as string)
+                          );
+                        }}
+                        showMore
                         locale={lang}
-                        className="text-xs"
+                        options={["icon-xl", "icon-lg", "icon-base", "icon-sm"]}
                         component={info.compName}
                       />
                     )}
-                  </CodeStyler>
-                </div>
-              </div>
-              <div
-                data-section={section}
-                className="group/sections grow max-lg:overflow-y-auto my-3 mx-1 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/35"
-              >
-                <div>
-                  <MdxClientPartial
-                    path="components"
-                    lang={lang}
-                    slug="icon-info-styling"
-                  />
-                </div>
-                <div className="mt-2 p-2 pb-0">
-                  <div className="flex overflow-y-auto thin-scroll mb-2 border-b dark:border-gray-200/5">
-                    <SectionTitle
-                      onClick={() => setSection("sizes")}
-                      selected={section === "sizes"}
-                    >
-                      {sizes}
-                    </SectionTitle>
-                    <SectionTitle
-                      onClick={() => setSection("colors")}
-                      selected={section === "colors"}
-                    >
-                      {colors}
-                    </SectionTitle>
-                    <SectionTitle
-                      onClick={() => setSection("combining")}
-                      selected={section === "combining"}
-                    >
-                      {combining}
-                    </SectionTitle>
-                    <SectionTitle
-                      onClick={() => {
-                        setSection("dark-mode");
-                        setSelected(
-                          "icon-indigo-800-5xl p-1 rounded-sm border border-slate-900 dark:icon-purple-900-7xl dark:border-none"
-                        );
-                      }}
-                      selected={section === "dark-mode"}
-                    >
-                      {darkMode}
-                    </SectionTitle>
-                    <SectionTitle
-                      onClick={() => {
-                        setSection("states");
-                        setSelected(
-                          "transition-all duration-200 icon-indigo-800-5xl hover:icon-purple-900-7xl"
-                        );
-                      }}
-                      selected={section === "states"}
-                    >
-                      {states}
-                    </SectionTitle>
-                  </div>
-                  <div className="relative w-full overflow-hidden flex">
-                    <SectionContent className="transition-all duration-300 group-data-[section=sizes]/sections:-ml-[0%] group-data-[section=colors]/sections:-ml-[100%] group-data-[section=combining]/sections:-ml-[200%] group-data-[section=dark-mode]/sections:-ml-[300%] group-data-[section=states]/sections:-ml-[400%]">
-                      <div className="mb-4">
-                        <MdxClientPartial
-                          path="components"
-                          lang={lang}
-                          slug="icon-info-sizing"
-                        />
-                      </div>
-                      {info && (
-                        <CodeElementOptionsStyler
-                          onTabChange={(_i, tab) => {
-                            if ((tab as Tab)?.id === CodeElementTabs.MORE) {
-                              router.push(
-                                `/docs/sizing-elements?i=${collectionId}.${info?.compName}`
-                              );
-                              return;
-                            }
-                            setSelected(
-                              tab === CodeElementTabs.DEFAULT
-                                ? defaultStyle
-                                : (tab as string)
+                    <UpdateAlert
+                      lang={lang}
+                      onMouseEnter={() => setBounce(true)}
+                      onMouseLeave={() => setBounce(false)}
+                      alert="changes"
+                    />
+                  </SectionContent>
+                  <SectionContent>
+                    <div className="mb-4 prose">
+                      <MdxClientPartial
+                        path="components"
+                        lang={lang}
+                        slug="icon-info-colors"
+                      />
+                    </div>
+                    {info && (
+                      <CodeElementOptionsStyler
+                        onTabChange={(_i, tab) => {
+                          if ((tab as Tab)?.id === CodeElementTabs.MORE) {
+                            router.push(
+                              `/docs/colors?i=${collectionId}.${info?.compName}`
                             );
-                          }}
-                          showMore
-                          locale={lang}
-                          options={[
-                            "icon-xl",
-                            "icon-lg",
-                            "icon-base",
-                            "icon-sm",
-                          ]}
-                          component={info.compName}
-                        />
-                      )}
-                      <UpdateAlert
-                        lang={lang}
-                        onMouseEnter={() => setBounce(true)}
-                        onMouseLeave={() => setBounce(false)}
-                        alert="changes"
+                            return;
+                          }
+                          setSelected(
+                            tab === CodeElementTabs.DEFAULT
+                              ? defaultStyle
+                              : (tab as Tab).id
+                          );
+                        }}
+                        showMore
+                        locale={lang}
+                        options={[
+                          {
+                            id: "icon-violet-xl lg:icon-violet-7xl",
+                            name: "icon-violet",
+                          },
+                          {
+                            id: "icon-red-600-xl lg:icon-red-600-7xl",
+                            name: "icon-red-600",
+                          },
+                          {
+                            id: "icon-sky-300-xl lg:icon-sky-300-7xl",
+                            name: "icon-sky-300",
+                          },
+                        ]}
+                        component={info.compName}
                       />
-                    </SectionContent>
-                    <SectionContent>
-                      <div className="mb-4">
-                        <MdxClientPartial
-                          path="components"
-                          lang={lang}
-                          slug="icon-info-colors"
-                        />
-                      </div>
-                      {info && (
-                        <CodeElementOptionsStyler
-                          onTabChange={(_i, tab) => {
-                            if ((tab as Tab)?.id === CodeElementTabs.MORE) {
-                              router.push(
-                                `/docs/colors?i=${collectionId}.${info?.compName}`
-                              );
-                              return;
-                            }
-                            setSelected(
-                              tab === CodeElementTabs.DEFAULT
-                                ? defaultStyle
-                                : (tab as Tab).id
+                    )}
+                    <UpdateAlert
+                      lang={lang}
+                      onMouseEnter={() => setBounce(true)}
+                      onMouseLeave={() => setBounce(false)}
+                      alert="changes"
+                    />
+                  </SectionContent>
+                  <SectionContent>
+                    <div className="mb-4 prose">
+                      <MdxClientPartial
+                        path="components"
+                        lang={lang}
+                        slug="icon-info-combining"
+                      />
+                    </div>
+                    {info && (
+                      <CodeElementOptionsStyler
+                        onTabChange={(_i, tab) => {
+                          if ((tab as Tab)?.id === CodeElementTabs.MORE) {
+                            router.push(
+                              `/docs/styling?i=${collectionId}.${info?.compName}`
                             );
-                          }}
-                          showMore
-                          locale={lang}
-                          options={[
-                            {
-                              id: "icon-violet-xl lg:icon-violet-7xl",
-                              name: "icon-violet",
-                            },
-                            {
-                              id: "icon-red-600-xl lg:icon-red-600-7xl",
-                              name: "icon-red-600",
-                            },
-                            {
-                              id: "icon-sky-300-xl lg:icon-sky-300-7xl",
-                              name: "icon-sky-300",
-                            },
-                          ]}
-                          component={info.compName}
-                        />
-                      )}
-                      <UpdateAlert
-                        lang={lang}
-                        onMouseEnter={() => setBounce(true)}
-                        onMouseLeave={() => setBounce(false)}
-                        alert="changes"
+                            return;
+                          }
+                          setSelected(
+                            tab === CodeElementTabs.DEFAULT
+                              ? defaultStyle
+                              : (tab as string)
+                          );
+                        }}
+                        showMore
+                        locale={lang}
+                        options={["icon-blue-2xl", "icon-purple-600-sm"]}
+                        component={info.compName}
                       />
-                    </SectionContent>
-                    <SectionContent>
-                      <div className="mb-4">
-                        <MdxClientPartial
-                          path="components"
-                          lang={lang}
-                          slug="icon-info-combining"
-                        />
-                      </div>
-                      {info && (
-                        <CodeElementOptionsStyler
-                          onTabChange={(_i, tab) => {
-                            if ((tab as Tab)?.id === CodeElementTabs.MORE) {
-                              router.push(
-                                `/docs/styling?i=${collectionId}.${info?.compName}`
-                              );
-                              return;
-                            }
-                            setSelected(
-                              tab === CodeElementTabs.DEFAULT
-                                ? defaultStyle
-                                : (tab as string)
-                            );
-                          }}
-                          showMore
-                          locale={lang}
-                          options={["icon-blue-2xl", "icon-purple-600-sm"]}
-                          component={info.compName}
-                        />
-                      )}
-                      <UpdateAlert
+                    )}
+                    <UpdateAlert
+                      lang={lang}
+                      onMouseEnter={() => setBounce(true)}
+                      onMouseLeave={() => setBounce(false)}
+                      alert="changes"
+                    />
+                  </SectionContent>
+                  <SectionContent>
+                    <div className="mb-4 prose">
+                      <MdxClientPartial
+                        path="components"
                         lang={lang}
-                        onMouseEnter={() => setBounce(true)}
-                        onMouseLeave={() => setBounce(false)}
-                        alert="changes"
+                        slug="icon-info-dark"
                       />
-                    </SectionContent>
-                    <SectionContent>
-                      <div className="mb-4">
-                        <MdxClientPartial
-                          path="components"
-                          lang={lang}
-                          slug="icon-info-dark"
-                        />
-                      </div>
-                      {info && (
-                        <CodeStyler variant="compact">
-                          {info && (
-                            <CodeElementBlock
-                              locale={lang}
-                              className="text-xs"
-                              attrs={{
-                                className:
-                                  "icon-indigo-800-lg border border-slate-900 dark:icon-purple-900-7xl dark:border-none",
-                              }}
-                              component={info.compName}
-                            />
-                          )}
-                        </CodeStyler>
-                      )}
-                      <UpdateAlert
+                    </div>
+                    {info && (
+                      <CodeStyler variant="compact">
+                        {info && (
+                          <CodeElementBlock
+                            locale={lang}
+                            className="text-xs"
+                            attrs={{
+                              className:
+                                "icon-indigo-800-lg border border-slate-900 dark:icon-purple-900-7xl dark:border-none",
+                            }}
+                            component={info.compName}
+                          />
+                        )}
+                      </CodeStyler>
+                    )}
+                    <UpdateAlert
+                      lang={lang}
+                      onMouseEnter={() => setBounce(true)}
+                      onMouseLeave={() => setBounce(false)}
+                      alert="dark-mode"
+                    />
+                  </SectionContent>
+                  <SectionContent>
+                    <div className="mb-4 prose">
+                      <MdxClientPartial
+                        path="components"
                         lang={lang}
-                        onMouseEnter={() => setBounce(true)}
-                        onMouseLeave={() => setBounce(false)}
-                        alert="dark-mode"
+                        slug="icon-info-states"
                       />
-                    </SectionContent>
-                    <SectionContent>
-                      <div className="mb-4">
-                        <MdxClientPartial
-                          path="components"
-                          lang={lang}
-                          slug="icon-info-states"
-                        />
-                      </div>
-                      {info && (
-                        <CodeStyler variant="compact">
-                          {info && (
-                            <CodeElementBlock
-                              locale={lang}
-                              className="text-xs flex no-wrap"
-                              attrs={{
-                                className:
-                                  "transition-all duration-200 icon-indigo-800-5xl hover:icon-purple-900-7xl",
-                              }}
-                              component={info.compName}
-                            />
-                          )}
-                        </CodeStyler>
-                      )}
-                      <UpdateAlert
-                        lang={lang}
-                        onMouseEnter={() => setBounce(true)}
-                        onMouseLeave={() => setBounce(false)}
-                        alert="hover"
-                      />
-                    </SectionContent>
-                  </div>
+                    </div>
+                    {info && (
+                      <CodeStyler variant="compact">
+                        {info && (
+                          <CodeElementBlock
+                            locale={lang}
+                            className="text-xs flex no-wrap"
+                            attrs={{
+                              className:
+                                "transition-all duration-200 icon-indigo-800-5xl hover:icon-purple-900-7xl",
+                            }}
+                            component={info.compName}
+                          />
+                        )}
+                      </CodeStyler>
+                    )}
+                    <UpdateAlert
+                      lang={lang}
+                      onMouseEnter={() => setBounce(true)}
+                      onMouseLeave={() => setBounce(false)}
+                      alert="hover"
+                    />
+                  </SectionContent>
                 </div>
               </div>
             </div>
           </div>
-        </FloatBlock>
-      </div>
-    </>
+        </div>
+      </FloatBlock>
+    </div>
   );
 };
 

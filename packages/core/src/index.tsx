@@ -17,7 +17,7 @@ export const IconGenerator =
       <svg
         {...data.attr}
         {...props}
-        className={handleClassName(variant, className || "")}
+        className={handleClassName(variant, className ?? "")}
       >
         {tree2Element(data.child)}
       </svg>
@@ -26,6 +26,7 @@ export const IconGenerator =
 export {
   IconTree,
   Variants,
+  IconBaseProps as IconProps,
   IconType,
   IconInfo,
   CollectionDataInfo,

@@ -1,3 +1,5 @@
+[![All Contributors](https://img.shields.io/github/all-contributors/rocketclimb/rocketicons?color=ee8449&style=flat-square)](#contributors)
+
 ![rocketicons](https://github.com/rocketclimb/rocketicons/blob/develop/packages/ignition/public/rocketicons-logo.svg)
 
 | Name        |                                                                                           Quality Gate                                                                                            |
@@ -31,3 +33,22 @@ work both in **React** web and **React Native**.
 ## License
 
 This project is licensed under the [MIT License](https://github.com/rocketclimb/rocketicons/blob/develop/LICENSE)
+
+
+## Contributors
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>      
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/anteatergames/ludustack"><img src="https://avatars.githubusercontent.com/u/1039567?v=4?s=100" width="100px;" alt="Daniel Gomes"/><br /><sub><b>Daniel Gomes</b></sub></a><br /><a href="#code-programad" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/amorimjj"><img src="https://avatars.githubusercontent.com/u/3980851?v=4?s=100" width="100px;" alt="Jeferson J Amorim"/><br /><sub><b>Jeferson J Amorim</b></sub></a><br /><a href="#code-amorimjj" title="Code">💻</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->

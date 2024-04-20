@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { siteConfig } from "./config/site";
-
-const defaultLocale = "en";
+const { defaultLocale } = siteConfig;
 
 const getLocale = (request: NextRequest): string =>
   (
@@ -24,20 +23,20 @@ export const middleware = (request: NextRequest) => {
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  if (pathnameHasLocale) {
+  const pathNameHasApi = pathname.startsWith("/api/");
+
+  const pathIsWebManifest = pathname.endsWith("webmanifest");
+
+  if (pathnameHasLocale || pathNameHasApi || pathIsWebManifest) {
     return NextResponse.next();
   }
 
   request.nextUrl.pathname = `/${locale}${pathname}`;
-  const isDefaultLocale = locale === defaultLocale;
-
-  return isDefaultLocale
-    ? NextResponse.rewrite(request.nextUrl)
-    : NextResponse.redirect(request.nextUrl);
+  return NextResponse.redirect(request.nextUrl);
 };
 
 export const config = {
   matcher: [
-    "/((?!_next|img|favicon|icon|logo|android|apple-touch|mstile|safari-pinned).*)",
+    "/((?!_next|examples|img|favicon|icon|logo|android|apple-touch|mstile|safari-pinned).*)",
   ],
 };

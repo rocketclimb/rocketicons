@@ -2,21 +2,19 @@ import { Languages } from "@/types";
 import { docIndex, pageComponentIndex } from "content-collections";
 import { Config, Configs, SelectedConfig } from "./types";
 
-export const useLocale = (lang: Languages, slug?: string) => {
-  const docFromIndex = (index: Record<string, any>) => {
-    let enSlug = index["slugMap"][slug || ""];
-    return slug ? index["docs"][enSlug || slug][lang || "en"] : index["docs"];
+export const useLocale = (lang: Languages) => {
+  const getContentFromIndex = (
+    slug: string,
+    { docs, slugMap }: Record<string, any>
+  ) => {
+    const enSlug = enSlugFromIndex(slug, { docs, slugMap });
+    return docs[enSlug] && docs[enSlug][lang];
   };
 
-  const enSlugFromIndex = (index: Record<string, any>) => {
-    return (
-      (slug && index["docs"][slug] && index["docs"][slug]["en"]) ||
-      index["slugMap"][slug || ""]
-    );
-  };
-  const configFromIndex = (index: Record<string, any>) => {
-    return slug ? index["config"][slug][lang] : index["config"];
-  };
+  const enSlugFromIndex = (
+    slug: string,
+    { docs, slugMap }: Record<string, any>
+  ) => (slug && docs[slug] && docs[slug]["en"] && slug) || slugMap[slug || ""];
 
   const getConfigFromIndex = <T extends Configs>(slug: T): Config[T] =>
     docIndex["config"][slug][lang];
@@ -43,10 +41,10 @@ export const useLocale = (lang: Languages, slug?: string) => {
   }
 
   return {
-    docFromIndex: () => docFromIndex(docIndex),
-    enSlugFromIndex: () => enSlugFromIndex(docIndex),
-    configFromIndex: () => configFromIndex(docIndex),
-    pageComponentFromIndex: () => docFromIndex(pageComponentIndex),
+    enSlug: (slug: string) => enSlugFromIndex(slug, docIndex),
+    docs: () => docIndex["docs"],
+    doc: (slug: string) => getContentFromIndex(slug, docIndex),
+    component: (slug: string) => getContentFromIndex(slug, pageComponentIndex),
     config,
   };
 };

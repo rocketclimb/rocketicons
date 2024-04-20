@@ -6,7 +6,8 @@ export const MdxComponent = ({
   lang,
   slug,
 }: PropsWithLang & { slug: string }) => {
-  const selectedDoc = useLocale(lang, slug).pageComponentFromIndex();
+  const { component } = useLocale(lang);
+  const selectedDoc = component(slug);
 
   const DynamicMarkDownComponent = dynamic(
     () => import(`@/locales/components/${selectedDoc?.filePath}`),

@@ -7,20 +7,37 @@ import {
 import fs from "fs";
 import envPath from "path";
 import z from "zod";
-import camelcase from "camelcase";
+import * as changeCase from "change-case";
 
 const localesFolder = "src/app/locales";
 
 type Configuration = Record<string, string | Record<string, string>>;
+type Config = Record<string, Configuration>;
 
-const jsonConfigMapper = (
-  filename: string,
-  config: Record<string, Configuration>
-) =>
+const configMapper = (
+  lang: string,
+  key: string,
+  data: string,
+  config: Config
+) => {
+  const value =
+    typeof data === "string"
+      ? data
+      : Object.entries(data).reduce(
+          (reduced, [key, value]) => ({ ...reduced, [key]: value }),
+          {}
+        );
+
+  config[key] = config[key] || {};
+  config[key][lang] = config[key][lang] || {};
+  config[key][lang] = value;
+};
+
+const jsonConfigMapper = (filename: string, config: Config) =>
   new Promise<void>((resolve, reject) => {
     fs.readFile(`${localesFolder}/${filename}`, (err, contents) => {
       if (err) {
-        reject(err);
+        reject(new Error(`Error reading ${localesFolder}/${filename}`, err));
         return;
       }
 
@@ -30,19 +47,7 @@ const jsonConfigMapper = (
         string
       ][];
 
-      json.forEach(([key, data]) => {
-        const value =
-          typeof data === "string"
-            ? data
-            : Object.entries(data).reduce(
-                (reduced, [key, value]) => ({ ...reduced, [key]: value }),
-                {}
-              );
-
-        config[key] = config[key] || {};
-        config[key][lang] = config[key][lang] || {};
-        config[key][lang] = value;
-      });
+      json.forEach(([key, data]) => configMapper(lang, key, data, config));
 
       resolve();
     });
@@ -167,7 +172,7 @@ function onBeforeSaveCollectionCommon(
         return docs[key][locale];
       };
 
-      const newDoc = { ...data, group, filePath: _meta.filePath };
+      const newDoc = { ...data, group, enslug, filePath: _meta.filePath };
 
       let doc = getObject();
       if (isComponent) {
@@ -226,7 +231,7 @@ function insertNewCollection(
   schema?: any
 ) {
   const newCollection = {
-    name: camelcase(typeName),
+    name: changeCase.camelCase(typeName),
     notArray: true,
     typeName: typeName,
     schema: schema,
@@ -260,7 +265,7 @@ function mdxTransformer(document: any): Schema<"frontmatter", any> {
 
   return {
     ...document,
-    content: undefined,
+    // content: undefined,
     enslug,
     locale,
     group: document.group || group,
@@ -282,7 +287,7 @@ function generateRecursiveStructure() {
     if (newKey) {
       if (!obj[newKey]) {
         if (parentObj[newKey]) {
-          parentObj[newKey] = { ...data, ...parentObj[newKey] } || {};
+          parentObj[newKey] = { ...data, ...parentObj[newKey] };
         } else {
           obj[newKey] = newKey === slug ? { ...data } : {};
         }

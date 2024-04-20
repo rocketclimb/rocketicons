@@ -40,7 +40,7 @@ const NativeGenIcon =
         data={data}
         name={name}
         variant={variant}
-        className={handleClassName(variant, className || "")}
+        className={handleClassName(variant, className ?? "")}
       />
     );
 
