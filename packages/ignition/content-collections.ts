@@ -172,7 +172,7 @@ function onBeforeSaveCollectionCommon(
         return docs[key][locale];
       };
 
-      const newDoc = { ...data, group, filePath: _meta.filePath };
+      const newDoc = { ...data, group, enslug, filePath: _meta.filePath };
 
       let doc = getObject();
       if (isComponent) {
