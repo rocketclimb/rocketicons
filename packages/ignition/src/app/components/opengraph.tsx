@@ -43,22 +43,20 @@ export const RocketIconChooser = ({
   subheading?: string;
   style?: React.CSSProperties;
   iconKey?: string;
-  Icon?: JSX.Element | any;
+  Icon?: IconType;
 }): any => {
   if (Icon) {
     return <Icon style={style} />;
-  } else {
-    if (subheading) {
-      if (subheading.startsWith("/docs")) {
-        return <SlDocs style={style} />;
-      } else if (subheading.startsWith("/icons")) {
-        return <FaIcons style={style} />;
-      } else {
-        return selectRandomIcon(style, iconKey);
-      }
+  } else if (subheading) {
+    if (subheading.startsWith("/docs")) {
+      return <SlDocs style={style} />;
+    } else if (subheading.startsWith("/icons")) {
+      return <FaIcons style={style} />;
     } else {
-      return <RcRocketIcon style={style} />;
+      return selectRandomIcon(style, iconKey);
     }
+  } else {
+    return <RcRocketIcon style={style} />;
   }
 };
 
@@ -81,7 +79,7 @@ const OpenGraph = async ({
   iconName?: string;
   text?: string;
   darkMode?: boolean;
-  Icon?: JSX.Element | any;
+  Icon?: IconType;
 }) => {
   const opengraph = useLocale(lang).config("opengraph");
 

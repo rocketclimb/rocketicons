@@ -32,7 +32,7 @@ const CustomMetadata = (
     authors: [
       {
         name: "RocketClimb",
-        url: "https://rocketclimb.com",
+        url: "https://rocketclimb.io",
       },
     ],
     creator: "RocketClimb",

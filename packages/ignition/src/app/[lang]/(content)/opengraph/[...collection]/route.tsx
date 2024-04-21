@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import OpenGraph from "@/components/opengraph";
-import { Languages, PropsWithLangParams } from "@/types";
+import { Languages } from "@/types";
 import { NextRequest } from "next/server";
 import * as changeCase from "change-case";
 import { IconsManifest } from "rocketicons/data";
@@ -54,18 +54,18 @@ export const GET = async (request: NextRequest) => {
   const iconName = iconId && changeCase.pascalCase(iconId);
 
   let Icon = (await loader.get(collectionId)!())[
-    iconName ? iconName : collection!.icons[0]
+    iconName ?? collection.icons[0]
   ];
 
   if (!Icon) {
-    Icon = (await loader.get(collectionId)!())[collection!.icons[0]];
+    Icon = (await loader.get(collectionId)!())[collection.icons[0]];
   }
 
   return await OpenGraph({
     lang: lang as Languages,
     iconCollectionId: collectionId as any,
-    iconCollectionCount: collection?.icons.length,
-    iconCollectionName: collection && collection?.name,
+    iconCollectionCount: collection.icons.length,
+    iconCollectionName: collection.name,
     iconName: iconName,
     Icon: collection && collectionId && Icon,
   });
