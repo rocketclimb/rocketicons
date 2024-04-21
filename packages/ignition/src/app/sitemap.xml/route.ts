@@ -1,7 +1,6 @@
 import { siteConfig } from "@/config/site";
 import { serverEnv } from "@/env/server";
 import { IconsManifest } from "rocketicons/data";
-import * as changeCase from "change-case";
 
 type SitemapRow = {
   url: string;
@@ -63,8 +62,6 @@ function generateSitemapEntry(path?: string, lastModified?: Date): SitemapRow {
 }
 
 function pagesForSitemap(): Sitemap {
-  const { locales } = siteConfig;
-
   const urls = [];
 
   urls.push(generateSitemapEntry());
@@ -85,12 +82,6 @@ function pagesForSitemap(): Sitemap {
     const url = generateSitemapEntry(`/icons/${collection.id}`);
 
     urls.push(url);
-
-    // collection.icons.forEach((icon) => {
-    //   const iconSlug = changeCase.kebabCase(icon);
-    //   const url = generateSitemapEntry(`/icons/${collection.id}/${iconSlug}`);
-    //   urls.push(url);
-    // });
   });
 
   return urls;
