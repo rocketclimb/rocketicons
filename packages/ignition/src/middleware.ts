@@ -22,21 +22,7 @@ export const middleware = (request: NextRequest) => {
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  const pathNameHasApi = pathname.startsWith("/api/");
-
-  const pathIsWebManifest = pathname.endsWith("webmanifest");
-
-  const pathNameIsFont = pathname.startsWith("/fonts/");
-
-  const pathNameIsWellKnown = pathname.startsWith("/.well-known");
-
-  if (
-    pathnameHasLocale ||
-    pathNameHasApi ||
-    pathIsWebManifest ||
-    pathNameIsFont ||
-    pathNameIsWellKnown
-  ) {
+  if (pathnameHasLocale) {
     return NextResponse.next();
   }
 
@@ -46,6 +32,6 @@ export const middleware = (request: NextRequest) => {
 
 export const config = {
   matcher: [
-    "/((?!_next|examples|img|favicon|icon|logo|android|apple-touch|mstile|safari-pinned).*)",
+    "/((?!_next|examples|img|favicon|logo|android|apple-touch|mstile|safari-pinned|sitemap|fonts|api|.well-known|site.webmanifest).*)",
   ],
 };
