@@ -2,9 +2,8 @@ import { siteConfig } from "@/config/site";
 import { serverEnv } from "@/env/server";
 import { IconsManifest } from "rocketicons/data";
 import * as changeCase from "change-case";
-import { Metadata, MetadataRoute } from "next";
 
-export type SitemapRow = {
+type SitemapRow = {
   url: string;
   lastModified?: string | Date;
   changeFrequency?:
@@ -32,7 +31,7 @@ const mapRowToUrl = (row: SitemapRow) =>
         <priority>${row.priority?.toFixed(1)}</priority>
     </url>`;
 
-export const sitemapToXml = (
+const sitemapToXml = (
   sitemap: SitemapRow[]
 ) => `<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>
