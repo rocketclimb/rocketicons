@@ -43,11 +43,23 @@ const loader = new Map([
 
 export const GET = async (request: NextRequest) => {
   const [, lang, , collectionId, iconId] = request.nextUrl.pathname.split("/");
-  const iconName = iconId ? changeCase.pascalCase(iconId) : undefined;
-
   const collection = IconsManifest.find(({ id }) => id === collectionId);
 
-  const collectionLoader = await loader.get(collectionId)!();
+  if (!collectionId ?? !collection) {
+    return await OpenGraph({
+      lang: lang as Languages,
+    });
+  }
+
+  const iconName = iconId && changeCase.pascalCase(iconId);
+
+  let Icon = (await loader.get(collectionId)!())[
+    iconName ? iconName : collection!.icons[0]
+  ];
+
+  if (!Icon) {
+    Icon = (await loader.get(collectionId)!())[collection!.icons[0]];
+  }
 
   return await OpenGraph({
     lang: lang as Languages,
@@ -55,10 +67,7 @@ export const GET = async (request: NextRequest) => {
     iconCollectionCount: collection?.icons.length,
     iconCollectionName: collection && collection?.name,
     iconName: iconName,
-    Icon:
-      collection &&
-      collectionId &&
-      (await collectionLoader[iconName ? iconName : collection.icons[0]]),
+    Icon: collection && collectionId && Icon,
   });
 };
 
