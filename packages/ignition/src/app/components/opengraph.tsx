@@ -99,26 +99,26 @@ const OpenGraph = async ({
 
   const bgImage = darkMode ? "og-hero-dark.jpg" : "og-hero-light.jpg";
 
-  const quicksandRegular = fetch(
-    new URL(
-      `${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/Quicksand-Regular.ttf`,
-      import.meta.url
-    )
-  ).then((res) => res.arrayBuffer());
+  // const quicksandRegular = fetch(
+  //   new URL(
+  //     `${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/Quicksand-Regular.ttf`,
+  //     import.meta.url
+  //   )
+  // ).then((res) => res.arrayBuffer());
 
-  const interMedium = fetch(
-    new URL(
-      `${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/Inter-Medium.ttf`,
-      import.meta.url
-    )
-  ).then((res) => res.arrayBuffer());
+  // const interMedium = fetch(
+  //   new URL(
+  //     `${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/Inter-Medium.ttf`,
+  //     import.meta.url
+  //   )
+  // ).then((res) => res.arrayBuffer());
 
-  const firaCodeRegular = fetch(
-    new URL(
-      `${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/FiraCode-Regular.ttf`,
-      import.meta.url
-    )
-  ).then((res) => res.arrayBuffer());
+  // const firaCodeRegular = fetch(
+  //   new URL(
+  //     `${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/FiraCode-Regular.ttf`,
+  //     import.meta.url
+  //   )
+  // ).then((res) => res.arrayBuffer());
 
   const groupedCollections: Map<string, number> = new Map();
   IconsManifest.forEach(({ id, icons }: { id: string; icons: any[] }) => {
@@ -247,23 +247,23 @@ const OpenGraph = async ({
     {
       width: 1200,
       height: 630,
-      fonts: [
-        {
-          name: "Inter",
-          data: await interMedium,
-          style: "normal",
-        },
-        {
-          name: "Quicksand",
-          data: await quicksandRegular,
-          style: "normal",
-        },
-        {
-          name: "FiraCode",
-          data: await firaCodeRegular,
-          style: "normal",
-        },
-      ],
+      // fonts: [
+      //   {
+      //     name: "Inter",
+      //     data: await interMedium,
+      //     style: "normal",
+      //   },
+      //   {
+      //     name: "Quicksand",
+      //     data: await quicksandRegular,
+      //     style: "normal",
+      //   },
+      //   {
+      //     name: "FiraCode",
+      //     data: await firaCodeRegular,
+      //     style: "normal",
+      //   },
+      // ],
     }
   );
 };
