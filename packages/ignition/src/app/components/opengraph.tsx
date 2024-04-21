@@ -43,7 +43,7 @@ export const RocketIconChooser = ({
   subheading?: string;
   style?: React.CSSProperties;
   iconKey?: string;
-  Icon?: IconType;
+  Icon?: JSX.Element | any;
 }): any => {
   if (Icon) {
     return <Icon style={style} />;
@@ -81,7 +81,7 @@ const OpenGraph = async ({
   iconName?: string;
   text?: string;
   darkMode?: boolean;
-  Icon?: IconType;
+  Icon?: JSX.Element | any;
 }) => {
   const opengraph = useLocale(lang).config("opengraph");
 
