@@ -28,11 +28,14 @@ export const middleware = (request: NextRequest) => {
 
   const pathNameIsFont = pathname.startsWith("/fonts/");
 
+  const pathNameIsWellKnown = pathname.startsWith(".well-known");
+
   if (
     pathnameHasLocale ||
     pathNameHasApi ||
     pathIsWebManifest ||
-    pathNameIsFont
+    pathNameIsFont ||
+    pathNameIsWellKnown
   ) {
     return NextResponse.next();
   }
