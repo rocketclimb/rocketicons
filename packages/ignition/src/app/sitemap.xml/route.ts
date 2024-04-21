@@ -86,11 +86,11 @@ function pagesForSitemap(): Sitemap {
 
     urls.push(url);
 
-    collection.icons.forEach((icon) => {
-      const iconSlug = changeCase.kebabCase(icon);
-      const url = generateSitemapEntry(`/icons/${collection.id}/${iconSlug}`);
-      urls.push(url);
-    });
+    // collection.icons.forEach((icon) => {
+    //   const iconSlug = changeCase.kebabCase(icon);
+    //   const url = generateSitemapEntry(`/icons/${collection.id}/${iconSlug}`);
+    //   urls.push(url);
+    // });
   });
 
   return urls;
