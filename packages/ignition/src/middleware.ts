@@ -28,7 +28,7 @@ export const middleware = (request: NextRequest) => {
 
   const pathNameIsFont = pathname.startsWith("/fonts/");
 
-  const pathNameIsWellKnown = pathname.startsWith(".well-known");
+  const pathNameIsWellKnown = pathname.startsWith("/.well-known");
 
   if (
     pathnameHasLocale ||
