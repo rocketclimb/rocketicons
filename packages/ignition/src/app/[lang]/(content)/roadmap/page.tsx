@@ -87,7 +87,7 @@ const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
   ));
 
   return (
-    <div className="max-w-xl mx-auto">
+    <div className="max-w-xl">
       <h1 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 mb-5">
         {nav.roadmap}
       </h1>
