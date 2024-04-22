@@ -46,7 +46,7 @@ const MainNav = ({ lang }: PropsWithLang) => {
         </div>
         <div className="hidden lg:flex items-center border-l border-slate-200 ml-6 pl-6 dark:border-slate-800">
           <ThemeSelector lang={lang} />
-          <GitHubIcon />
+          <GitHubIcon className="ml-6" />
         </div>
       </div>
       <MainNavAsMenu navItems={navItems} lang={lang} />
