@@ -20,7 +20,7 @@
             <body class="ph3 pb3 mid-gray">
                 <header class="mw8 pv4 center">
                     <div class="flex items-center">
-                        <img src="/logo-rocketicons-black-nobg-256.png" alt="rocketicons" />
+                        <a href="/"><img src="/logo-rocketicons-black-nobg-256.png" alt="rocketicons" /></a>
                         <h1 class="ma0 mr2 f2 blue">Sitemap</h1>
                         <xsl:if test="sitemap:sitemapindex">
                             <span class="dib mr2 ph3 pv1 f6 normal mid-gray bg-light-blue br-pill">Index</span>
