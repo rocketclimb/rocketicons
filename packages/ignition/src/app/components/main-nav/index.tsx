@@ -5,7 +5,7 @@ import { NavItem } from "./types";
 import { PropsWithLang } from "@/types";
 import ThemeSelector from "@/components/theme/theme-selector";
 import { useLocale } from "@/locales/use-locale";
-import GitHubIcon from "../github-icon";
+import GitHubIcon from "@/components/github-icon";
 
 const MainNav = ({ lang }: PropsWithLang) => {
   const nav = useLocale(lang).config("nav");
