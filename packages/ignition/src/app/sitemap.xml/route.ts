@@ -42,7 +42,10 @@ const sitemapToXml = (
 </urlset>
 `;
 
-function generateSitemapEntry(path?: string, lastModified?: Date): SitemapRow {
+const generateSitemapEntry = (
+  path?: string,
+  lastModified?: Date
+): SitemapRow => {
   const { locales } = siteConfig;
   const urlWithPath = `${serverEnv.NEXT_PUBLIC_APP_URL}${path ?? ""}`;
 
@@ -59,9 +62,9 @@ function generateSitemapEntry(path?: string, lastModified?: Date): SitemapRow {
       href,
     })),
   };
-}
+};
 
-function pagesForSitemap(): Sitemap {
+const pagesForSitemap = (): Sitemap => {
   const urls = [];
 
   urls.push(generateSitemapEntry());
@@ -85,9 +88,9 @@ function pagesForSitemap(): Sitemap {
   });
 
   return urls;
-}
+};
 
-export async function GET() {
+export const GET = async () => {
   const sitemap = await pagesForSitemap();
 
   const sitemapXml = sitemapToXml(sitemap);
@@ -96,7 +99,7 @@ export async function GET() {
     status: 200,
     headers: { "Content-Type": "application/xml; charset=utf-8" },
   });
-}
+};
 
 // This is a temporary solution as proposed here: https://www.reddit.com/r/nextjs/comments/161cbms/creating_a_sitemap_with_translated_alternate/
 // Official documentation for this: https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap
