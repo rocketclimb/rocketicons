@@ -29,7 +29,7 @@ const MainNav = ({ lang }: PropsWithLang) => {
   return (
     <>
       <div className="flex w-full items-center justify-end">
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <ul className="flex items-center gap-x-7">
             {navItems.map(({ label, link }, i) => (
               <li
@@ -43,7 +43,7 @@ const MainNav = ({ lang }: PropsWithLang) => {
             ))}
           </ul>
         </div>
-        <div className="hidden md:flex items-center border-l border-slate-200 ml-6 pl-6 dark:border-slate-800">
+        <div className="hidden lg:flex items-center border-l border-slate-200 ml-6 pl-6 dark:border-slate-800">
           <ThemeSelector lang={lang} />
           <a
             className="flex"

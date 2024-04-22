@@ -108,23 +108,23 @@ const Modal = ({ add, children }: ModalProps) => {
   return <></>;
 };
 
-export const useDisclosure = () => {
-  const id = `disclousure-${useId()}`;
+export const useDisclosure = (id?: string) => {
+  id = id ?? `disclousure-${useId()}`;
   const generator = useModalContext();
   const [isOpen, setState, addModal] = generator(id);
 
-  const onOpen = useCallback(() => {
+  const open = useCallback(() => {
     setState(true);
   }, []);
 
-  const onClose = useCallback(() => {
+  const close = useCallback(() => {
     setState(false);
   }, []);
 
   return {
     isOpen,
-    onOpen,
-    onClose,
+    open,
+    close,
     Modal: ({ children }: PropsWithChildren) => (
       <Modal add={addModal}>{children}</Modal>
     ),
