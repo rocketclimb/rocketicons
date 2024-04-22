@@ -7,7 +7,10 @@
     "build": "next build",
     "predev": "npm run generate-statics",
     "dev": "next dev",
+    "predev:all-icons": "npm run generate-statics:all-icons",
+    "dev:all-icons": "next dev",
     "generate-statics": "npx ts-node -r tsconfig-paths/register ./src/statics-generator",
+    "generate-statics:all-icons": "NEXT_PUBLIC_VERCEL_ENV=develop npx ts-node -r tsconfig-paths/register ./src/statics-generator",
     "lint": "next lint",
     "rebuild": "rm -fR .content-collections && next build",
     "start": "next start"
