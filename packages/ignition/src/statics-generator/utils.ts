@@ -18,7 +18,6 @@ export const write = async (
   filename: string,
   content: string
 ): Promise<void> => {
-  console.log(`Writing to ${filename}`);
   filename = `${DATA_DIR}${filename}`;
 
   await fs.mkdirSync(path.dirname(filename), { recursive: true });
