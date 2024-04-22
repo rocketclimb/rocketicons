@@ -7,7 +7,7 @@
     "build": "next build",
     "predev": "npm run generate-statics",
     "dev": "next dev",
-    "generate-statics": "npx ts-node ./src/statics-generator",
+    "generate-statics": "npx ts-node -r tsconfig-paths/register ./src/statics-generator",
     "lint": "next lint",
     "rebuild": "rm -fR .content-collections && next build",
     "start": "next start"
