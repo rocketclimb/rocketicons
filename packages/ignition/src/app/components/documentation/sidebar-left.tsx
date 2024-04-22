@@ -1,9 +1,9 @@
 import "@/utils";
 
-import { IconsManifest } from "rocketicons/data";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { PropsWithClassName, PropsWithLang } from "@/types";
+import { IconsManifest } from "@/data-helpers/icons/manifest";
 import RocketIconsText from "@/components/rocketicons-text";
 import { siteConfig } from "@/config/site";
 import { useLocale } from "@/locales/use-locale";

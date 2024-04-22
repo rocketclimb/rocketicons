@@ -10,10 +10,15 @@ import { MdxDoc } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-and-slug-param";
 import { useLocale } from "@/locales/use-locale";
+import docs from "@/data-helpers/params/docs.json";
 
 type PageProps = {
   searchParams: Record<string, string>;
 } & PropsWithLangSlugParams;
+
+export function generateStaticParams() {
+  return docs;
+}
 
 export const generateMetadata = ({
   params: { lang, slug },

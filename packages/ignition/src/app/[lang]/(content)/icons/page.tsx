@@ -1,5 +1,5 @@
 import IconsCollectionsTastes from "@/app/components/icons/icons-collections-tastes";
-import { IconsManifest } from "rocketicons/data";
+import { IconsManifest } from "@/data-helpers/icons/manifest";
 import { MdxComponent } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangParams } from "@/types";
