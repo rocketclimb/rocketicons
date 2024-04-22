@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import Adding from "@/components/usage/adding";
+import AddingIcons from "@/components/usage/adding-icons";
 import Colors from "@/components/usage/colors";
 import Sizing from "@/components/usage/sizing";
 import DarkMode from "@/components/usage/dark-mode";
@@ -51,8 +51,8 @@ const Page = ({ params: { lang, slug }, searchParams: { i } }: PageProps) => {
   const enSlugFromIndex = enSlug(slug);
   const DocFactory = () => {
     switch (enSlugFromIndex) {
-      case "adding": {
-        return <Adding lang={lang} />;
+      case "adding-icons": {
+        return <AddingIcons lang={lang} />;
       }
       case "colors": {
         return <Colors lang={lang} queryIcon={i} />;
