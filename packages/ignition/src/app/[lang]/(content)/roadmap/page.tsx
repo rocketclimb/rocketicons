@@ -74,7 +74,7 @@ const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
               </h2>
               <div className="mt-2">
                 <ul className="list-disc list-inside">
-                  {item.features[lang].map((feature, i) => (
+                  {item.features[lang].map((feature: string, i: number) => (
                     <li key={`listitem-${i}`}>
                       {feature}
                       <br />
