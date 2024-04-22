@@ -1,4 +1,5 @@
 import { serverEnv } from "@/env/server";
+import { AvailableLanguages } from "@/app/types";
 
 const baseUrl = serverEnv.NEXT_PUBLIC_APP_URL || "https://rocketicons.io";
 const env =
@@ -17,7 +18,7 @@ export const siteConfig = {
     twitter: "https://twitter.com/rocketclimb",
     github: "https://github.com/rocketclimb/",
   },
-  locales: ["en", "pt-br"],
+  locales: AvailableLanguages,
   defaultLocale: "en",
   menuConfig: {
     componentGroups: ["getting-started"],

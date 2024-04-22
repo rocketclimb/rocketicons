@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { siteConfig } from "./config/site";
+import { Languages } from "./app/types";
 const { defaultLocale } = siteConfig;
 
 const getLocale = (request: NextRequest): string =>
@@ -11,7 +12,8 @@ const getLocale = (request: NextRequest): string =>
       .map((language) => language.split(";").shift())
       .find(
         (language) =>
-          language && siteConfig.locales.includes(language.toLocaleLowerCase())
+          language &&
+          siteConfig.locales.includes(language.toLocaleLowerCase() as Languages)
       ) || defaultLocale
   ).toLowerCase();
 
