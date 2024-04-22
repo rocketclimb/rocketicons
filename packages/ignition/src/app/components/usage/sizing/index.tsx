@@ -16,7 +16,7 @@ const Sizing = ({
   const { icon, collection, Icon } = getCurrentIconData(queryIcon);
   return (
     <>
-      <MdxPartial lang={lang} slug={"sizing-elements"} path="docs" />
+      <MdxPartial lang={lang} slug={"sizing-icons"} path="docs" />
       <SizingAnimation collection={collection} icon={icon} />
       <div className="md:px-5">
         <Table lang={lang}>
@@ -33,7 +33,7 @@ const Sizing = ({
       <Wrapper>
         <MdxPartial
           lang={lang}
-          slug={"sizing-elements/sizing-utilities"}
+          slug={"sizing-icons/sizing-utilities"}
           path="docs"
         />
         <div className="mt-12 mb-8">
@@ -46,14 +46,14 @@ const Sizing = ({
         </div>
         <MdxPartial
           lang={lang}
-          slug={"sizing-elements/sizing-customizing"}
+          slug={"sizing-icons/sizing-customizing"}
           path="docs"
         />
       </Wrapper>
       <Wrapper>
         <MdxPartial
           lang={lang}
-          slug={"sizing-elements/sizing-tw-sizes"}
+          slug={"sizing-icons/sizing-tw-sizes"}
           path="docs"
         />
         <div className="mt-12">
@@ -68,7 +68,7 @@ const Sizing = ({
       <Wrapper>
         <MdxPartial
           lang={lang}
-          slug={"sizing-elements/sizing-tw-hw"}
+          slug={"sizing-icons/sizing-tw-hw"}
           path="docs"
         />
         <div className="mt-12">

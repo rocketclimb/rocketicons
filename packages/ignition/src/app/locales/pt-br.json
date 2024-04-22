@@ -1,6 +1,12 @@
 {
   "brand": {
-    "motto": "Ícones do seu jeito e como você precisa. Na Web ou no Mobile."
+    "motto": "Ícones do seu jeito e como você precisa. Na Web ou no Mobile.",
+    "description": "A biblioteca de ícones que você estava procurando. Funciona em React e em React Native, sem mudanças. Apenas um código, que roda onde você precisa. E com todo o poder que você já conheçe do Tailwind."
+  },
+  "opengraph": {
+    "collections": "Coleções",
+    "icons": "Ícones",
+    "int-this-collection": "Nesta coleção"
   },
   "themes": {
     "dark": "Escuro",
