@@ -16,8 +16,8 @@ import {
 import RocketiconsText from "@/components/rocketicons-text";
 import Button from "@/components/button";
 
-import IconsLoader, { HandlerPros } from "./icons-loader";
-import tastesLoader from "./tastes-loader";
+import IconsLoader, { HandlerPros } from "@/data-helpers/icons/icons-loader";
+import tastesLoader from "@/data-helpers/icons/tastes-loader";
 
 const MAX_ITEMS = 200;
 

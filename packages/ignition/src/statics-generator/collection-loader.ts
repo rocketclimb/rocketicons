@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import { IconsManifest } from "rocketicons/data";
-import { templateBuilder } from "./utils";
+import { templateBuilder, write } from "./utils";
 
-const OUTPUT_FILE = "./src/app/components/icons/icons-loader.tsx";
+const OUTPUT_FILE = "icons/icons-loader.tsx";
 
 const CollectionLoaderTemplate = `
 // THIS FILE IS AUTO GENERATED
@@ -72,7 +72,7 @@ const generator = async () => {
     items.push(templateBuilder(ItemTemplate, id));
   });
 
-  await fs.writeFileSync(
+  await write(
     OUTPUT_FILE,
     templateBuilder(CollectionLoaderTemplate, items.join(""))
   );

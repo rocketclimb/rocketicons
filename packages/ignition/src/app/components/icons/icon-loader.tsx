@@ -1,8 +1,8 @@
 import { IconProps, IconType } from "rocketicons";
 import { RcRocketIcon } from "rocketicons/rc";
-import { getCollectionsInfo } from "./get-icons-data";
 import { CollectionID } from "rocketicons/data";
-import IconsLoader, { HandlerPros } from "./icons-loader";
+import IconsLoader, { HandlerPros } from "@/data-helpers/icons/icons-loader";
+import { getCollectionsInfo } from "./get-icons-data";
 
 export type IconHandlerProps = { Icon: IconType };
 type IconHandler = (props: IconHandlerProps) => JSX.Element;
