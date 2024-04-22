@@ -70,6 +70,7 @@ const config: Config = {
         },
       });
       addVariant("highlight", "h1 + &");
+      addVariant("section", "[data-section] &");
       addVariant("prose", ".prose &");
       addVariant("blockquote", "blockquote &");
       addVariant("quote", ".quote &");
