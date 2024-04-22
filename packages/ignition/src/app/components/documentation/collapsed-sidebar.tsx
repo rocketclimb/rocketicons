@@ -45,7 +45,7 @@ export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
       <div className={`docs-${hash}`}>
         <div
           data-open={true}
-          className="group fixed w-full top-[64px] -ml-8 z-10 border-y border-slate-900/10 dark:border-slate-800 px-8 py-3 backdrop-blur transition-colors duration-500 bg-white/95 dark:bg-slate-900/70 lg:hidden"
+          className="group fixed w-full top-[64px] sm:-ml-8 z-10 border-y border-slate-900/10 dark:border-slate-800 px-2 sm:px-8 py-3 backdrop-blur transition-colors duration-500 bg-white/95 dark:bg-slate-900/70 lg:hidden"
         >
           <div className="flex flex-col justify-between">
             <Button
