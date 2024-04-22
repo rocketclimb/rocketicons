@@ -10,7 +10,8 @@ import IconLoader, { IconHandlerProps } from "@/components/icons/icon-loader";
 const Animation = ({
   Icon,
   colors,
-}: IconHandlerProps & { colors: string[] }) => {
+  iconName,
+}: IconHandlerProps & { colors: string[]; iconName: string }) => {
   const [state, setState] = useState<string>("icon-slate-200");
   const [script, setScript] = useState<Script>([]);
 
@@ -61,7 +62,7 @@ const Animation = ({
         ]}
       >
         <div>
-          <Icon className="icon-slate-200" />
+          <Icon data-cb-tag={iconName} className="icon-slate-200" />
         </div>
       </AnimatedCodeBlock>
     </>
@@ -74,6 +75,7 @@ type ColorsAnimationProsp = {
   colors: string[];
 };
 
+// TODO: Allow the IconLoader to pass along the iconName to the handler being called.
 const ColorsAnimation = ({
   collection,
   icon,
@@ -83,6 +85,7 @@ const ColorsAnimation = ({
     <IconLoader
       collectionId={collection}
       icon={icon}
+      iconName={icon}
       Handler={Animation}
       colors={colors}
     />

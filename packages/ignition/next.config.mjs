@@ -24,10 +24,6 @@ const withMDX = createMDX({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
-  experimental: {
-    serverMinification: false,
-  },
 };
 
 export default withContentCollections(withMDX(nextConfig));
-// export default withMDX(nextConfig);

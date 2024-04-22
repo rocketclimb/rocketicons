@@ -7,7 +7,10 @@ import { sizes } from "./utils";
 import { useEffect, useState } from "react";
 import { CollectionID } from "rocketicons/data";
 
-const Animation = ({ Icon }: IconHandlerProps) => {
+const Animation = ({
+  Icon,
+  iconName,
+}: IconHandlerProps & { iconName: string }) => {
   const [state, setState] = useState<string>("icon-base");
   const [script, setScript] = useState<Script>([]);
 
@@ -72,7 +75,7 @@ const Animation = ({ Icon }: IconHandlerProps) => {
         ]}
       >
         <div>
-          <Icon className="icon-base" />
+          <Icon data-cb-tag={iconName} className="icon-base" />
         </div>
       </AnimatedCodeBlock>
     </>
@@ -86,7 +89,12 @@ type SizingAnimationProsp = {
 
 const SizingAnimation = ({ collection, icon }: SizingAnimationProsp) => (
   <div className="flex h-48 flex-col sm:flex-row my-12 items-center justify-center gap-4">
-    <IconLoader collectionId={collection} icon={icon} Handler={Animation} />
+    <IconLoader
+      collectionId={collection}
+      icon={icon}
+      iconName={icon}
+      Handler={Animation}
+    />
   </div>
 );
 
