@@ -1,7 +1,7 @@
 import { serverEnv } from "@/env/server";
 import { MetadataRoute } from "next";
 
-export default function robots(): MetadataRoute.Robots {
+const robots = (): MetadataRoute.Robots => {
   return {
     rules: {
       userAgent: "*",
@@ -10,4 +10,6 @@ export default function robots(): MetadataRoute.Robots {
     },
     sitemap: `${serverEnv.NEXT_PUBLIC_APP_URL}/sitemap.xml`,
   };
-}
+};
+
+export default robots;
