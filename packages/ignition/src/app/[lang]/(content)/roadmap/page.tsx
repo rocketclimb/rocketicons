@@ -1,50 +1,24 @@
+import { promises as fs } from "fs";
 import { PropsWithLangParams } from "@/types";
-import { RcRocketIcon } from "rocketicons/rc";
-import RocketIconsText, {
-  RocketIconsTextDefault,
-} from "@/components/rocketicons-text";
 import { useLocale } from "@/locales";
 import { LuPlus } from "rocketicons/lu";
+import { IoCaretDown } from "rocketicons/io5";
+import { RoadmapFile } from "../../../types/roadmap";
 
-const Roadmap = ({ params: { lang } }: PropsWithLangParams) => {
+const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
   const { nav, roadmap } = useLocale(lang).config("nav", "roadmap");
 
   const circleClassName =
-    "h-8 w-8 bg-blue-500 rounded-full ring-8 ring-white dark:ring-slate-900 flex items-center justify-center";
+    "h-8 w-8 bg-sky-600 rounded-full ring-8 ring-white dark:ring-slate-900 flex items-center justify-center";
 
-  const items = [
-    {
-      version: "v0.1.0",
-      date: "2024-04-10 00:00:00-03:00",
-      features: {
-        en: [
-          <>
-            Initial release of <RocketIconsTextDefault />
-          </>,
-        ],
-        "pt-br": [
-          <>
-            Lançamento inicial do <RocketIconsTextDefault />
-          </>,
-        ],
-      },
-      type: "released",
-    },
-    {
-      version: "v1.0.0",
-      date: "2024-04-10 00:00:00-03:00",
-      features: {
-        en: ["Icon Search"],
-        "pt-br": ["Busca de Ícones"],
-      },
-      type: "planned",
-    },
-  ];
+  const roadmapFile = JSON.parse(
+    await fs.readFile(process.cwd() + `/src/app/locales/roadmap.json`, "utf-8")
+  ) as RoadmapFile;
 
   const itemList =
-    items &&
-    items.map((item) => (
-      <li>
+    roadmapFile.items &&
+    roadmapFile.items.map((item: any, i: number) => (
+      <li key={`roadmap-item-${i}`}>
         <div className="relative pb-8">
           <span
             className="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200"
@@ -92,10 +66,16 @@ const Roadmap = ({ params: { lang } }: PropsWithLangParams) => {
                   )) || <></>}
                 </>
               </div>
+              <h2
+                id={`h2-${i}`}
+                className="text-lg font-semibold text-gray-900 dark:text-gray-100"
+              >
+                {item.heading[lang]}
+              </h2>
               <div className="mt-2">
                 <ul className="list-disc list-inside">
-                  {item.features[lang].map((feature) => (
-                    <li>
+                  {item.features[lang].map((feature: string, i: number) => (
+                    <li key={`listitem-${i}`}>
                       {feature}
                       <br />
                     </li>
@@ -111,11 +91,12 @@ const Roadmap = ({ params: { lang } }: PropsWithLangParams) => {
   return (
     <div className="max-w-xl mx-auto">
       <h1 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 mb-5">
-        <RocketIconsText showIcon={true} /> <span>{nav.roadmap}</span>
+        {nav.roadmap}
       </h1>
       <div className="flow-root">
         <ul className="-mb-8">{itemList}</ul>
       </div>
+      <IoCaretDown className="icon-gray-300-xl mt-11 ml-1.5" />
     </div>
   );
 };

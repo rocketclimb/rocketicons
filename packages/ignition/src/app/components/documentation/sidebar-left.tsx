@@ -92,7 +92,7 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
                 : docs.filter(
                     (doc: any) =>
                       doc[1][lang].group === mainDocEnSlug &&
-                      doc[1][lang].group != doc[1][lang].slug
+                      doc[1][lang].group != doc[1][lang].enslug
                   );
             return (
               mainDoc && (
@@ -182,6 +182,13 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
           <SubMenu>
             <IconList />
           </SubMenu>
+        </MenuBlock>
+        <MenuBlock>
+          <TextMenuTitle
+            text="Roadmap"
+            href={`/${lang}/roadmap`}
+            className={selectedClassName("roadmap")}
+          />
         </MenuBlock>
       </ul>
     </nav>
