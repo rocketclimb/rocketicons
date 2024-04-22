@@ -26,7 +26,7 @@
     "@rocketicons/core": "*",
     "@rocketicons/tailwind": "*",
     "@types/react": "^18.2.72",
-    "@types/react-dom": "^18.2.22",
+    "@types/react-dom": "^18.2.25",
     "cheerio": "^1.0.0-rc.12",
     "feather-icons": "^4.29.1",
     "find-package": "^1.0.0",
