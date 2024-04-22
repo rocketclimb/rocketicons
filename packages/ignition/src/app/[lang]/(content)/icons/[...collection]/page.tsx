@@ -1,6 +1,7 @@
 import { Metadata } from "next";
-import { CollectionID, IconsManifest } from "rocketicons/data";
+import { CollectionID } from "rocketicons/data";
 import IconsCollection from "@/app/components/icons/icons-collection";
+import { IconsManifest } from "@/data-helpers/icons/manifest";
 
 import { PropsWithLangParams } from "@/types";
 import { useLocale } from "@/locales";

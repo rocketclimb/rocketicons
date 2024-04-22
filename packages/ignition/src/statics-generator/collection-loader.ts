@@ -1,6 +1,5 @@
-import fs from "node:fs";
 import { IconsManifest } from "rocketicons/data";
-import { templateBuilder, write } from "./utils";
+import { getManifest, templateBuilder, write } from "./utils";
 
 const OUTPUT_FILE = "icons/icons-loader.tsx";
 
@@ -68,7 +67,7 @@ const ItemTemplate = `
 const generator = async () => {
   const items: string[] = [];
 
-  IconsManifest.forEach(({ id }) => {
+  getManifest().forEach(({ id }) => {
     items.push(templateBuilder(ItemTemplate, id));
   });
 

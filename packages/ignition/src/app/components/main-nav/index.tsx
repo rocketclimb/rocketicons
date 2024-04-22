@@ -5,6 +5,7 @@ import { NavItem } from "./types";
 import { PropsWithLang } from "@/types";
 import ThemeSelector from "@/components/theme/theme-selector";
 import { useLocale } from "@/locales/use-locale";
+import GitHubIcon from "@/components/github-icon";
 
 const MainNav = ({ lang }: PropsWithLang) => {
   const nav = useLocale(lang).config("nav");
@@ -45,13 +46,7 @@ const MainNav = ({ lang }: PropsWithLang) => {
         </div>
         <div className="hidden lg:flex items-center border-l border-slate-200 ml-6 pl-6 dark:border-slate-800">
           <ThemeSelector lang={lang} />
-          <a
-            className="flex"
-            href="https://github.com/rocketclimb/rocketicons"
-            title="rockeicons @github.com/rocketclimb"
-          >
-            <IoLogoGithub className="ml-6 icon-slate-500 hover:icon-slate-600 dark:hover:icon-slate-400" />
-          </a>
+          <GitHubIcon />
         </div>
       </div>
       <MainNavAsMenu navItems={navItems} lang={lang} />

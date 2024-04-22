@@ -1,1 +1,2 @@
-export type Languages = "en" | "pt-br";
+export const AvailableLanguages = ["en", "pt-br"] as const;
+export type Languages = (typeof AvailableLanguages)[number];

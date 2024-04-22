@@ -4,7 +4,7 @@ import Header from "@/app/components/header";
 
 import { PropsWithChildrenAndLangParams } from "@/types";
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   return [{ lang: "en" }, { lang: "pt-br" }];
 }
 
