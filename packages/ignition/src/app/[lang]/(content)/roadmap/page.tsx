@@ -1,74 +1,23 @@
+import { promises as fs } from "fs";
 import { PropsWithLangParams } from "@/types";
 import { useLocale } from "@/locales";
 import { LuPlus } from "rocketicons/lu";
 import { IoCaretDown } from "rocketicons/io5";
+import { RoadmapFile } from "../../../types/roadmap";
 
-const Roadmap = ({ params: { lang } }: PropsWithLangParams) => {
+const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
   const { nav, roadmap } = useLocale(lang).config("nav", "roadmap");
 
   const circleClassName =
     "h-8 w-8 bg-sky-600 rounded-full ring-8 ring-white dark:ring-slate-900 flex items-center justify-center";
 
-  const items = [
-    {
-      version: "v0.1.0",
-      date: "2024-04-10 00:00:00-03:00",
-      heading: {
-        en: ["Initial release"],
-        "pt-br": ["Lançamento inicial"],
-      },
-      features: {
-        en: [
-          "Fully functional website to explain and showcase the thing.",
-          "Icon search with copy features.",
-          "Rich documentation with examples.",
-          "Icons collections and icons catalog.",
-          "Rich Opengraph and Twitter meta tags and images",
-        ],
-        "pt-br": [
-          "Site totalmente funcional para explicar e mostrar o projeto.",
-          "Busca de ícones com funcionalidade de copiar.",
-          "Documentação completa com exemplos.",
-          "Coleções de ícones e catálogo de ícones.",
-          "Meta tags e imagens ricas para Opengraph e Twitter.",
-        ],
-      },
-      type: "released",
-    },
-    {
-      version: "???",
-      date: "2024-04-10 00:00:00-03:00",
-      heading: {
-        en: ["What we have for the future"],
-        "pt-br": ["O que temos pela frente"],
-      },
-      features: {
-        en: [
-          "Custom Bundles",
-          "Custom package publishing",
-          "Community Collections",
-          "Private Collections",
-          "Icon Stacking",
-          "Licensing clarification",
-          "Tags",
-        ],
-        "pt-br": [
-          "Bundles personalizados",
-          "Publicação de pacotes personalizados",
-          "Coleções da comunidade",
-          "Coleções privadas",
-          "Empilhamento de ícones",
-          "Esclarecimento de licenciamento",
-          "Tags",
-        ],
-      },
-      type: "planned",
-    },
-  ];
+  const roadmapFile = JSON.parse(
+    await fs.readFile(process.cwd() + `/src/app/locales/roadmap.json`, "utf-8")
+  ) as RoadmapFile;
 
   const itemList =
-    items &&
-    items.map((item, i) => (
+    roadmapFile.items &&
+    roadmapFile.items.map((item: any, i: number) => (
       <li key={`roadmap-item-${i}`}>
         <div className="relative pb-8">
           <span
