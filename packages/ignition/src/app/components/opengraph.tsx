@@ -95,6 +95,9 @@ const OpenGraph = async ({
     darkMode ? "#fff 20%, #0ea5e9 70%" : "#000000 20%, #0ea5e9 70%"
   })`;
 
+  const outerPaddingClass = "p-80px";
+  const internalLeftMarginClass = "ml-20px";
+
   const bgImage = darkMode ? "og-hero-dark.jpg" : "og-hero-light.jpg";
 
   const quicksandRegular = fetch(
@@ -168,13 +171,20 @@ const OpenGraph = async ({
     textWrap: "balance",
   };
 
+  const subHeadingStyle: React.CSSProperties = {
+    textWrap: "balance",
+  };
+
   const afterLogoTextStyle: React.CSSProperties = {
     ...mainTextBasicStyle,
   };
 
   return new ImageResponse(
     (
-      <div tw={`h-full w-full p-80px flex flex-col`} style={mainDivStyle}>
+      <div
+        tw={`h-full w-full flex flex-col ${outerPaddingClass}`}
+        style={mainDivStyle}
+      >
         <div tw="flex flex-col">
           <div tw="flex flex-row">
             <div tw="text-left flex flex-col grow">
@@ -192,7 +202,14 @@ const OpenGraph = async ({
                   </span>
                 )}
               </div>
-              {subheading && <p tw="ml-20px text-7xl">{subheading}</p>}
+              {(iconCollectionName || subheading) && (
+                <p
+                  tw={`text-7xl ${internalLeftMarginClass}`}
+                  style={subHeadingStyle}
+                >
+                  {iconCollectionName ?? subheading}
+                </p>
+              )}
             </div>
             <div tw="flex">
               <RocketIconChooser
@@ -203,7 +220,7 @@ const OpenGraph = async ({
             </div>
           </div>
         </div>
-        <div tw="flex grow mt-10">
+        <div tw={`flex grow mt-10 ${internalLeftMarginClass}`}>
           <span
             tw="mb-7 text-4xl"
             style={

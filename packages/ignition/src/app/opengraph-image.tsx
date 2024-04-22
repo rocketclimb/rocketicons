@@ -9,10 +9,10 @@ export const size = {
 };
 export const contentType = "image/png";
 
-const OG = async ({ params: { lang } }: PropsWithLangParams) => {
+const OpengraphImage = async ({ params: { lang } }: PropsWithLangParams) => {
   return await OpenGraph({
     lang,
   });
 };
 
-export default OG;
+export default OpengraphImage;

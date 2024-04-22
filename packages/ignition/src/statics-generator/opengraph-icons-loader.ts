@@ -1,41 +1,7 @@
+import { IconsManifest } from "rocketicons/data";
 import { templateBuilder, write } from "./utils";
 
 const OUTPUT_FILE = "icons/opengraph-icons-loader.ts";
-
-const collectionArray = [
-  "rc",
-  "ai",
-  "bi",
-  "bs",
-  "cg",
-  "ci",
-  "di",
-  "fa",
-  "fa6",
-  "fc",
-  "fi",
-  "gi",
-  "go",
-  "gr",
-  "hi",
-  "hi2",
-  "im",
-  "io",
-  "io5",
-  "lia",
-  "lu",
-  "md",
-  "pi",
-  "ri",
-  "rx",
-  "si",
-  "sl",
-  "tb",
-  "tfi",
-  "ti",
-  "vsc",
-  "wi",
-];
 
 const fileTemplate = `
 // THIS FILE IS AUTO GENERATED
@@ -58,8 +24,8 @@ const mapItemTemplate = `  ["{0}", () => import("rocketicons/{0}")],
 const generator = async () => {
   const imports: string[] = [];
 
-  collectionArray.forEach((collection) => {
-    imports.push(templateBuilder(mapItemTemplate, collection));
+  IconsManifest.forEach(({ id }) => {
+    imports.push(templateBuilder(mapItemTemplate, id));
   });
 
   await write(

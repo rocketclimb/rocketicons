@@ -12,7 +12,9 @@ export const size = {
 };
 export const contentType = "image/png";
 
-const OG = async ({ params: { lang, slug } }: PropsWithLangSlugParams) => {
+const OpengraphImage = async ({
+  params: { lang, slug },
+}: PropsWithLangSlugParams) => {
   const { doc } = useLocale(lang);
 
   const { title, description } = doc(slug) as {
@@ -23,4 +25,4 @@ const OG = async ({ params: { lang, slug } }: PropsWithLangSlugParams) => {
   return await OpenGraph({ lang, subheading: title, text: description });
 };
 
-export default OG;
+export default OpengraphImage;
