@@ -68,6 +68,8 @@ const pagesForSitemap = (): Sitemap => {
   const urls = [];
 
   urls.push(generateSitemapEntry());
+  urls.push(generateSitemapEntry("/roadmap"));
+
   urls.push(generateSitemapEntry("/docs"));
   urls.push(generateSitemapEntry("/docs/getting-started"));
   urls.push(generateSitemapEntry("/docs/usage"));
