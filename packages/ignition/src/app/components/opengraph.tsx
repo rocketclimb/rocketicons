@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { Languages } from "@/types";
 import { serverEnv } from "@/env/server";
 import { useLocale } from "@/locales";
-import { FaFly, FaIcons } from "rocketicons/fa";
+import { FaFly, FaIcons, FaRoad } from "rocketicons/fa";
 import { CollectionID, IconsManifest } from "rocketicons/data";
 import { IconType } from "rocketicons";
 import { BiCollection } from "rocketicons/bi";
@@ -52,6 +52,8 @@ export const RocketIconChooser = ({
       return <SlDocs style={style} />;
     } else if (subheading.startsWith("/icons")) {
       return <FaIcons style={style} />;
+    } else if (subheading.startsWith("roadmap")) {
+      return <FaRoad style={style} />;
     } else {
       return selectRandomIcon(style, iconKey);
     }

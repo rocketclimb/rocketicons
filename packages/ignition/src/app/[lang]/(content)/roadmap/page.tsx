@@ -1,15 +1,13 @@
 import { promises as fs } from "fs";
 import { PropsWithLangParams } from "@/types";
 import { useLocale } from "@/locales";
-import { LuPlus } from "rocketicons/lu";
-import { IoCaretDown } from "rocketicons/io5";
+import { LuCheck, LuPlus } from "rocketicons/lu";
+import { IoCaretUp } from "rocketicons/io5";
 import { RoadmapFile } from "../../../types/roadmap";
+import { BiQuestionMark } from "rocketicons/bi";
 
 const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
   const { nav, roadmap } = useLocale(lang).config("nav", "roadmap");
-
-  const circleClassName =
-    "h-8 w-8 bg-sky-600 rounded-full ring-8 ring-white dark:ring-slate-900 flex items-center justify-center";
 
   const roadmapFile = JSON.parse(
     await fs.readFile(process.cwd() + `/src/app/locales/roadmap.json`, "utf-8")
@@ -17,7 +15,9 @@ const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
 
   const itemList = roadmapFile?.items.map((item: any, i: number) => (
     <li key={`roadmap-item-${i}`}>
-      <div className="relative pb-8">
+      <div
+        className={`relative ${item.type !== "released" ? "pt-16" : "pt-8"}`}
+      >
         <span
           className="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200"
           aria-hidden="true"
@@ -25,17 +25,25 @@ const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
         <div className="relative flex items-start space-x-3">
           <div>
             <div className="relative px-1">
-              <div className={circleClassName}>
-                <LuPlus className="icon-white" />
+              <div
+                className={`h-8 w-8  rounded-full ring-8 ring-white dark:ring-slate-900 flex items-center justify-center ${
+                  item.type === "released" ? "bg-green-500" : "bg-sky-600"
+                }`}
+              >
+                {(item.type === "released" && (
+                  <LuCheck className="icon-white" />
+                )) || <BiQuestionMark className="icon-white" />}
               </div>
             </div>
           </div>
           <div className="min-w-0 flex-1 py-0">
             <div className="text-md text-gray-500">
               <div>
-                <a href="#" className="font-medium mr-2">
-                  {item.version}
-                </a>
+                {item.version && (
+                  <a href="#" className="font-medium mr-2">
+                    {item.version}
+                  </a>
+                )}
 
                 <a
                   href="#"
@@ -88,13 +96,13 @@ const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
 
   return (
     <div className="max-w-xl">
-      <h1 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 mb-5">
+      <h1 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100">
         {nav.roadmap}
       </h1>
+      <IoCaretUp className="icon-gray-300-xl -mb-12 ml-1.5" />
       <div className="flow-root">
-        <ul className="-mb-8">{itemList}</ul>
+        <ul className="">{itemList}</ul>
       </div>
-      <IoCaretDown className="icon-gray-300-xl mt-11 ml-1.5" />
     </div>
   );
 };
