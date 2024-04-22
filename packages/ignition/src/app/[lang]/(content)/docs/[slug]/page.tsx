@@ -51,7 +51,7 @@ const Page = ({ params: { lang, slug }, searchParams: { i } }: PageProps) => {
       case "colors": {
         return <Colors lang={lang} queryIcon={i} />;
       }
-      case "sizing-elements": {
+      case "sizing-icons": {
         return <Sizing lang={lang} queryIcon={i} />;
       }
       case "dark-mode": {

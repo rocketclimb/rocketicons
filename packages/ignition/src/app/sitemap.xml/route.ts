@@ -72,7 +72,7 @@ function pagesForSitemap(): Sitemap {
   urls.push(generateSitemapEntry("/docs/colors"));
   urls.push(generateSitemapEntry("/docs/dark-mode"));
   urls.push(generateSitemapEntry("/docs/responsive-design"));
-  urls.push(generateSitemapEntry("/docs/sizing-elements"));
+  urls.push(generateSitemapEntry("/docs/sizing-icons"));
   urls.push(generateSitemapEntry("/docs/state-management"));
   urls.push(generateSitemapEntry("/docs/styling"));
 
