@@ -10,6 +10,7 @@ import { MdxDoc } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-and-slug-param";
 import { useLocale } from "@/locales/use-locale";
+import CustomMetadata from "@/components/metadata-custom";
 import docs from "@/data-helpers/params/docs.json";
 
 type PageProps = {
@@ -40,10 +41,8 @@ export const generateMetadata = ({
     title: string;
     description: string;
   };
-  return {
-    title: `${title} | rocketicons`,
-    description,
-  };
+
+  return CustomMetadata(lang, title, description);
 };
 
 const Page = ({ params: { lang, slug }, searchParams: { i } }: PageProps) => {
@@ -57,7 +56,7 @@ const Page = ({ params: { lang, slug }, searchParams: { i } }: PageProps) => {
       case "colors": {
         return <Colors lang={lang} queryIcon={i} />;
       }
-      case "sizing-elements": {
+      case "sizing-icons": {
         return <Sizing lang={lang} queryIcon={i} />;
       }
       case "dark-mode": {
