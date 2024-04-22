@@ -85,7 +85,7 @@ const CodeStyler = ({
           />
         )}
         <div
-          className={`min-h-0 max-h-[60vh] dark overflow-auto thin-scroll pr-1 ${codeMinimalistClassName} ${codeCompactClassName}`}
+          className={`min-h-0 max-h-[60vh] group-data-[variant=full]/styler:lg:min-h-[510px] dark overflow-auto thin-scroll pr-1 ${codeMinimalistClassName} ${codeCompactClassName}`}
         >
           <div className="min-h-0">
             <div className="cursor-default">{children}</div>

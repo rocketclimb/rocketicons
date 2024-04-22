@@ -183,6 +183,13 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
             <IconList />
           </SubMenu>
         </MenuBlock>
+        <MenuBlock>
+          <TextMenuTitle
+            text="Roadmap"
+            href={`/${lang}/roadmap`}
+            className={selectedClassName("roadmap")}
+          />
+        </MenuBlock>
       </ul>
     </nav>
   );

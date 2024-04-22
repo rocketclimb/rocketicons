@@ -74,6 +74,7 @@ const config: Config = {
       addVariant("blockquote", "blockquote &");
       addVariant("quote", ".quote &");
       addVariant("thin", ".thin &");
+      addVariant("docked", "nav &");
       matchUtilities({
         deep: (value) => {
           type Style = string | Record<string, string>;

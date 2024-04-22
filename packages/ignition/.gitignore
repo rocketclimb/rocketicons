@@ -39,4 +39,6 @@ next-env.d.ts
 
 .content-collections
 
+src/app/data-helpers
+
 .env

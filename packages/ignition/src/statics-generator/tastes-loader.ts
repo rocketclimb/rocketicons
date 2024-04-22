@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import { IconsManifest } from "rocketicons/data";
-import { templateBuilder } from "./utils";
+import { templateBuilder, write } from "./utils";
 
-const OUTPUT_FILE = "./src/app/components/icons/tastes-loader.ts";
+const OUTPUT_FILE = "icons/tastes-loader.ts";
 
 const TastesLoaderTemplate = `
 // THIS FILE IS AUTO GENERATED
@@ -47,7 +47,7 @@ const generator = async () => {
     );
   });
 
-  await fs.writeFileSync(
+  await write(
     OUTPUT_FILE,
     templateBuilder(
       TastesLoaderTemplate,

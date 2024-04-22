@@ -16,8 +16,8 @@ import {
 import RocketiconsText from "@/components/rocketicons-text";
 import Button from "@/components/button";
 
-import IconsLoader, { HandlerPros } from "./icons-loader";
-import tastesLoader from "./tastes-loader";
+import IconsLoader, { HandlerPros } from "@/data-helpers/icons/icons-loader";
+import tastesLoader from "@/data-helpers/icons/tastes-loader";
 
 const MAX_ITEMS = 200;
 
@@ -82,10 +82,10 @@ type ItemProps = {
 const Item = ({ id, iconId, name, lang, children }: ItemProps) => (
   <Link
     href={`/${lang}/icons/${id}/${iconId}`}
-    className="group/button transition-all duration-200 flex flex-col flex-shrink-0 items-center overflow-auto size-24 sm:size-28 py-6 mb-2 hover:mb-0 rounded border border-transparent hover:border-sky-900 dark:hover:bg-slate-700"
+    className="group/button transition-all duration-200 flex flex-col flex-shrink-0 items-center justify-center overflow-auto size-24 sm:size-28 mb-2 hover:mb-0 rounded border border-transparent hover:border-sky-900 dark:hover:bg-slate-700"
   >
     {children}
-    <span className="transition-all duration-200 capitalize text-xs mt-2 group-hover/button:mt-1 group-hover/button:underline">
+    <span className="transition-all duration-200 capitalize text-xs mt-2 max-w-16 sm:max-w-24 truncate group-hover/button:mt-1 group-hover/button:underline">
       {name}
     </span>
   </Link>

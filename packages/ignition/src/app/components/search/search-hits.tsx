@@ -1,35 +1,53 @@
-// ./src/components/SearchHits.js
-
 import { connectStateResults, Highlight } from "react-instantsearch-dom";
 import Link from "next/link";
 import { useLocale } from "@/locales";
-import { Languages } from "@/types";
+import { Languages, PropsWithLang } from "@/types";
 import { SiAlgolia } from "rocketicons/si";
 import IconLoader from "@/components/icons/icon-loader";
-import { RcRocketIcon } from "rocketicons/rc";
-import { BiLoader, BiLoaderAlt } from "rocketicons/bi";
+import { BiLoaderAlt } from "rocketicons/bi";
+import WithCopy from "@/components/documentation/with-copy";
+import { PropsWithChildren } from "react";
 
 const borderClass = "border-slate-100 dark:border-slate-700";
-const linkClass = `flex items-center gap-4 border-t ${borderClass} first:border-0 py-3 px-3 focus:outline-none focus:ring-4 ring-inset ring-slate-200 dark:ring-slate-600 transition-colors hover:bg-slate-200 dark:hover:bg-slate-600`;
 
-const Loader = () => <BiLoaderAlt className="animate-spin duration-1000" />;
+const Loader = () => (
+  <BiLoaderAlt className="animate-spin duration-1000 icon-sky-500-xl mr-3" />
+);
 
-const IconHit = (hit: any, lang: Languages) => {
-  return (
-    <Link className={linkClass} href={`/en/icons/${hit.group}/${hit.objectID}`}>
-      <IconLoader collectionId={hit.group} icon={hit.text} Loading={Loader} />
-      <span className="grow">{hit.name}</span>
-      <span>{`<${hit.text} />`}</span>
+type IconHitProps = {
+  hit: any;
+} & PropsWithLang;
+
+const IconHit = ({ hit, lang }: IconHitProps) => (
+  <>
+    <Link
+      className="grow py-3 pl-4"
+      href={`/${lang}/icons/${hit.group}/${hit.objectID}`}
+    >
+      <IconLoader
+        collectionId={hit.group}
+        icon={hit.text}
+        className="icon-sky-500-xl group-hover/result:icon-white-xl mr-3"
+        Loading={Loader}
+      />
+      {hit.name}
     </Link>
-  );
-};
+    <WithCopy
+      lang={lang}
+      clipboardText={`<${hit.text} />`}
+      className="text-left pr-4 relative after:hidden after:text-xs after:font-light after:-right-3 after:-top-3"
+    >
+      <span className="font-monospace font-light">{`<${hit.text} />`}</span>
+    </WithCopy>
+  </>
+);
 
 const Hit = (hit: any, lang: Languages) => {
   const groupSlug = useLocale(hit.locale || lang).doc(hit.group)?.slug;
 
   return (
     <Link
-      className={linkClass}
+      className="grow py-3 pl-4"
       href={
         hit.isFragment
           ? `/${hit.locale}/docs/${groupSlug}#${hit.objectID}`
@@ -41,65 +59,103 @@ const Hit = (hit: any, lang: Languages) => {
   );
 };
 
+const ImporterInfo = ({ children }: PropsWithChildren) => (
+  <span className="transition-opacity duration-300 opacity-5 group-hover/copy:opacity-100">
+    {children}
+  </span>
+);
+
+type ImporterProps = {
+  component: string;
+} & PropsWithLang;
+
+const Importer = ({ component, lang }: ImporterProps) => (
+  <WithCopy
+    lang={lang}
+    clipboardText={`import * as Icons from "${component}";`}
+    className="group/copy font-monospace text-xs font-light italic pt-2 after:text-slate-200 after:not-italic after:font-inter after:-right-3 after:-top-5"
+  >
+    <ImporterInfo>import * as Icons from "</ImporterInfo>
+    <span>{component}</span>
+    <ImporterInfo>";</ImporterInfo>
+  </WithCopy>
+);
+
+type GroupedHitsProps = {
+  groupedHits: any;
+} & PropsWithLang;
+
+const GroupedHits = ({ lang, groupedHits }: GroupedHitsProps) =>
+  Object.values(groupedHits || {})
+    .sort(({ group: groupA }: any, { group: groupB }: any) =>
+      groupA.localeCompare(groupB)
+    )
+    .map(({ id, group, isIcon, hits }: any) => (
+      <div key={group} className="m-2">
+        <div className="text-slate-900 dark:text-slate-200 flex cursor-default pt-6 mb-4 leading-6">
+          <h2 className="grow font-semibold">{group}</h2>
+          {isIcon && <Importer lang={lang} component={`rocketicons/${id}`} />}
+        </div>
+        <ul>
+          {(hits as any).map((hit: any) => (
+            <li
+              key={hit.objectID}
+              className="group/result w-full flex rounded-lg mb-2 text-sm font-normal text-slate-500 dark:text-slate-200 hover:text-white bg-slate-50 dark:bg-slate-700/30 hover:bg-sky-500 hover:dark:bg-sky-500"
+            >
+              {hit.isIcon ? (
+                <IconHit lang={lang} hit={hit} />
+              ) : (
+                <Hit lang={lang} {...hit} />
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ));
+
 const SearchHits = ({
   lang,
-  searchState,
   searchResults,
 }: {
-  lang: Languages;
   searchState: any;
   searchResults: any;
-}) => {
-  if (!searchResults) {
-    return <></>;
-  }
-
-  const search = useLocale(lang).config("search");
+} & PropsWithLang) => {
+  const { "no-results": noResults } = useLocale(lang).config("search");
 
   const groupedHits = searchResults?.hits.reduce((groups: any, hit: any) => {
     if (hit.group) {
       const key = hit.groupName || hit.group;
-      if (!groups[key]) {
-        groups[key] = [];
-      }
-      groups[key].push(hit);
+      groups[key] = groups[key] || {
+        id: hit.group,
+        group: key,
+        isIcon: hit.isIcon,
+        hits: [],
+      };
+      groups[key].hits.push(hit);
     }
     return groups;
   }, {});
 
-  const renderGroupedHits = Object.entries(groupedHits)
-    .sort(([groupA], [groupB]) => groupA.localeCompare(groupB))
-    .map(([group, hits]) => (
-      <div key={group} className="m-2">
-        <h2>{group}</h2>
-        {(hits as any).map((hit: any) => {
-          return hit.isIcon ? (
-            <IconHit key={hit.objectID} lang={lang} {...hit} />
-          ) : (
-            <Hit key={hit.objectID} lang={lang} {...hit} />
-          );
-        })}
-      </div>
-    ));
-
   return (
-    searchState.query && (
-      <div className="relative float">
+    <>
+      <div className="px-1">
+        {searchResults?.hits.length === 0 && (
+          <div className="py-3 px-6">{noResults}</div>
+        )}
         <div
-          className={`h-96 overflow-auto bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-200 ${borderClass} rounded-xl absolute top-1 right-0 left-0 shadow-2xl`}
+          className={`px-2 h-full min-h-40 max-h-[600px] lg:max-h-[65vh] overflow-auto thin-scroll ${borderClass}`}
         >
-          {searchResults?.hits.length === 0 && (
-            <div className="py-3 px-6">{search["no-results"]}</div>
+          {searchResults?.hits.length > 0 && groupedHits && (
+            <GroupedHits groupedHits={groupedHits} lang={lang} />
           )}
-          {searchResults?.hits.length > 0 && groupedHits && renderGroupedHits}
-          <div className={`p-2 text-right border-t ${borderClass}`}>
-            <Link href={"https://www.algolia.com"} target="_blank">
-              <SiAlgolia />
-            </Link>
-          </div>
         </div>
       </div>
-    )
+      <div className={`p-4 text-right h-14 border-t ${borderClass}`}>
+        <Link href={"https://www.algolia.com"} target="_blank">
+          <SiAlgolia />
+        </Link>
+      </div>
+    </>
   );
 };
 

@@ -9,7 +9,7 @@ import {
 
 import Button from "@/components/button";
 
-import { HandlerPros } from "@/components/icons/icons-loader";
+import { HandlerPros } from "@/data-helpers/icons/icons-loader";
 import IconInfo from "@/components/icons/icon-info";
 
 import { IconsCollectionsProps } from "./types";
