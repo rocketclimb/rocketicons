@@ -43,7 +43,7 @@ const indexer = async () => {
 
     let totalCount = 0;
 
-    await availableLocales.forEach(async (locale) => {
+    availableLocales.forEach(async (locale) => {
       try {
         // Initialize an Algolia index
         const index = algoliaClient.initIndex(`${siteConfig.name}-${locale}`);
