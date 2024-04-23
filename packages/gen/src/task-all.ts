@@ -118,8 +118,9 @@ export const writeIconModule = async (
       );
 
       const nameToManifest = (): string => {
-        const manifest = kebabCase(name).split("-").slice(1).join("-");
-        return manifest ? manifest : name.toLowerCase().replace(icon.id, "");
+        const compPrefix = icon?.compPrefix ?? icon.id;
+        const manifest = kebabCase(name.substring(compPrefix.length));
+        return manifest || name.toLowerCase().replace(icon.id, "");
       };
 
       const manifestName = nameToManifest();
@@ -129,8 +130,8 @@ export const writeIconModule = async (
         name: manifestName.replace(/\-/g, " "),
         compName: name,
         variant,
+        ...(icon?.compPrefix && { comPrefix: icon?.compPrefix }),
       };
-
       exists.add(file);
     }
   }

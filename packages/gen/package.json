@@ -20,6 +20,11 @@
     "test": "jest ./src --passWithNoTests",
     "typecheck": "tsc --noEmit"
   },
+  "peerDependencies": {
+    "nativewind": ">=2",
+    "react": "*",
+    "react-native-svg": ">=15"
+  },
   "devDependencies": {
     "@esm2cjs/p-queue": "7.3.0",
     "@primer/octicons": "^19.9.0",

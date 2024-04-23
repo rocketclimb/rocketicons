@@ -73,6 +73,7 @@ export const icons: IconDefinition[] = [
   },
   {
     id: "fa6",
+    compPrefix: "fa",
     name: "Font Awesome 6",
     contents: [
       {
@@ -120,6 +121,7 @@ export const icons: IconDefinition[] = [
   },
   {
     id: "io5",
+    compPrefix: "io",
     name: "Ionicons 5",
     contents: [
       {

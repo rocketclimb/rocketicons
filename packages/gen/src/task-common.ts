@@ -28,6 +28,7 @@ export const writeIconsManifest = async (
   const writeObj: IconsManifestType<string, string>[] = [rc, ...others].map(
     (icon) => ({
       id: icon.id,
+      ...(icon?.compPrefix && { compPrefix: icon.compPrefix }),
       name: icon.name,
       projectUrl: icon.projectUrl,
       license: icon.license,

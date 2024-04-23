@@ -62,7 +62,6 @@ export const convertIconData = async (
             ) {
               if (!isChild || attribs[name] !== "currentColor")
                 obj[newName] = attribs[name];
-              //console.log(obj);
             }
             colorProps[name] =
               attribs[name] !== "none" ? true : colorProps[name];
@@ -97,10 +96,9 @@ export const convertIconData = async (
       .map((_, e) => ({
         tag: e.tagName,
         attr: attrConverter(e.attribs, e.tagName, isChild),
-        child:
-          e.children && e.children.length
-            ? elementToTree($doc(e.children) as Cheerio<CheerioElement>, true)
-            : [],
+        child: e?.children.length
+          ? elementToTree($doc(e.children) as Cheerio<CheerioElement>, true)
+          : [],
       }))
       .get();
 

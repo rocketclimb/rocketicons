@@ -1,5 +1,6 @@
 export interface IconDefinition {
   id: string;
+  compPrefix?: string;
   name: string;
   contents: IconDefinitionContent[];
   projectUrl: string;
