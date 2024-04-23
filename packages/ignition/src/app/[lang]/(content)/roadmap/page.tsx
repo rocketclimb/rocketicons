@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import { PropsWithLangParams } from "@/types";
 import { useLocale } from "@/locales";
-import { LuCheck, LuPlus } from "rocketicons/lu";
+import { LuCheck } from "rocketicons/lu";
 import { IoCaretUp } from "rocketicons/io5";
 import { RoadmapFile } from "../../../types/roadmap";
 import { BiQuestionMark } from "rocketicons/bi";

@@ -26,7 +26,7 @@ const mapRowToUrl = (row: SitemapRow) =>
         <loc>${row.url}</loc>
         <lastmod>${row.lastModified || ""}</lastmod>
         ${row.alternateRefs.map(mapAlternate).join("\n        ")}
-        <changefreq>${row.changeFrequency || ""}</changefreq>
+        <changefreq>${row.changeFrequency ?? ""}</changefreq>
         <priority>${row.priority?.toFixed(1)}</priority>
     </url>`;
 
