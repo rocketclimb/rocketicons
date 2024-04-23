@@ -3,7 +3,7 @@ import rehypeShiki from "@shikijs/rehype";
 import rehypeSlug from "rehype-slug-custom-id";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
-import { withContentCollections } from "@rocketclimb/content-collections";
+import { createContentCollectionPlugin } from "@rocketclimb/content-collections";
 
 const shikiOptions = {
   themes: {
@@ -29,5 +29,8 @@ const nextConfig = {
   },
 };
 
+const withContentCollections = createContentCollectionPlugin({
+  skipWatcher: true,
+});
+
 export default withContentCollections(withMDX(nextConfig));
-// export default withMDX(nextConfig);
