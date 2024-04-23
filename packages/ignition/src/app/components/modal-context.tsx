@@ -8,8 +8,11 @@ import {
   useCallback,
   useId,
 } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 import useKeyboardShortcut from "@/hooks/use-keyboard-shortcut";
+
+import UrlObserver from "./url-observer";
 
 type ModalContentType = JSX.Element;
 
@@ -87,16 +90,19 @@ const ModalContent = ({ children, isOpen, closeModal }: ModalContentProps) => {
   });
 
   return (
-    <div
-      data-open={isOpen}
-      className="fixed z-50 inset-0 peer hidden modal-open data-[open=true]:block"
-    >
+    <>
+      <UrlObserver onChanges={() => closeModal()} />
       <div
-        onClick={() => closeModal()}
-        className="fixed z-40 w-full h-full"
-      ></div>
-      {children}
-    </div>
+        data-open={isOpen}
+        className="fixed z-50 inset-0 peer hidden modal-open data-[open=true]:block"
+      >
+        <div
+          onClick={() => closeModal()}
+          className="fixed z-40 w-full h-full"
+        ></div>
+        {children}
+      </div>
+    </>
   );
 };
 
@@ -112,7 +118,8 @@ const Modal = ({ add, children }: ModalProps) => {
 };
 
 export const useDisclosure = (id?: string) => {
-  id = id ?? `disclousure-${useId()}`;
+  const generatedId = useId();
+  id = id ?? `disclousure-${generatedId}`;
   const generator = useModalContext();
   const [isOpen, setState, addModal] = generator(id);
 

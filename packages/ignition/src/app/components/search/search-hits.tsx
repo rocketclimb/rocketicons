@@ -8,7 +8,6 @@ import IconLoader from "@/components/icons/icon-loader";
 import { BiLoaderAlt } from "rocketicons/bi";
 import WithCopy from "@/components/documentation/with-copy";
 import { PropsWithChildren } from "react";
-import { useDisclosure } from "@/components/modal-context";
 
 const borderClass = "border-slate-100 dark:border-slate-700";
 
@@ -24,39 +23,32 @@ type LinkWithCloseProps = {
   href: string;
 } & PropsWithChildrenAndClassName;
 
-const LinkWithClose = ({ children, ...props }: LinkWithCloseProps) => {
-  const { close } = useDisclosure("search-disclosure");
-
+const IconHit = ({ hit, lang }: IconHitProps) => {
+  console.log(hit);
   return (
-    <Link {...props} onClick={close}>
-      {children}
-    </Link>
+    <>
+      <Link
+        className="grow py-3 pl-4"
+        href={`/${lang}/icons/${hit.group}/${hit.objectID}`}
+      >
+        <IconLoader
+          collectionId={hit.group}
+          icon={hit.text}
+          className="icon-sky-500-xl group-hover/result:icon-white-xl mr-3"
+          Loading={Loader}
+        />
+        {hit.name}
+      </Link>
+      <WithCopy
+        lang={lang}
+        clipboardText={`<${hit.text} />`}
+        className="text-left pr-4 relative after:hidden after:text-xs after:font-light after:-right-3 after:-top-3"
+      >
+        <span className="font-monospace font-light">{`<${hit.text} />`}</span>
+      </WithCopy>
+    </>
   );
 };
-
-const IconHit = ({ hit, lang }: IconHitProps) => (
-  <>
-    <LinkWithClose
-      className="grow py-3 pl-4"
-      href={`/${lang}/icons/${hit.group}/${hit.objectID}`}
-    >
-      <IconLoader
-        collectionId={hit.group}
-        icon={hit.text}
-        className="icon-sky-500-xl group-hover/result:icon-white-xl mr-3"
-        Loading={Loader}
-      />
-      {hit.name}
-    </LinkWithClose>
-    <WithCopy
-      lang={lang}
-      clipboardText={`<${hit.text} />`}
-      className="text-left pr-4 relative after:hidden after:text-xs after:font-light after:-right-3 after:-top-3"
-    >
-      <span className="font-monospace font-light">{`<${hit.text} />`}</span>
-    </WithCopy>
-  </>
-);
 
 type PropsHit = {
   hit: any;
@@ -66,7 +58,7 @@ const Hit = ({ hit, lang }: PropsHit) => {
   const groupSlug = useLocale(hit.locale || lang).doc(hit.group)?.slug;
 
   return (
-    <LinkWithClose
+    <Link
       className="grow py-3 pl-4"
       href={
         hit.isFragment
@@ -74,8 +66,8 @@ const Hit = ({ hit, lang }: PropsHit) => {
           : `/${hit.locale}/docs/${hit.objectID}`
       }
     >
-      <Highlight attribute="title" hit={hit} />
-    </LinkWithClose>
+      <Highlight attribute="title" hit={hit} highlightedTagName="span" />
+    </Link>
   );
 };
 

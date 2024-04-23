@@ -12,6 +12,7 @@ import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-and-slug-pa
 import { useLocale } from "@/locales/use-locale";
 import CustomMetadata from "@/components/metadata-custom";
 import docs from "@/data-helpers/params/docs.json";
+import { PropsWithLang } from "@/app/types";
 
 type PageProps = {
   searchParams: Record<string, string>;
@@ -45,40 +46,52 @@ export const generateMetadata = ({
   return CustomMetadata(lang, title, description);
 };
 
+type DocFactoryProps = {
+  slug: string;
+  index: string;
+  requestedIcon?: string;
+} & PropsWithLang;
+
+const DocFactory = ({ lang, slug, index, requestedIcon }: DocFactoryProps) => {
+  switch (index) {
+    case "adding-icons": {
+      return <AddingIcons lang={lang} />;
+    }
+    case "colors": {
+      return <Colors lang={lang} queryIcon={requestedIcon} />;
+    }
+    case "sizing-icons": {
+      return <Sizing lang={lang} queryIcon={requestedIcon} />;
+    }
+    case "dark-mode": {
+      return <DarkMode lang={lang} queryIcon={requestedIcon} />;
+    }
+    case "responsive-design": {
+      return <ResponsiveDesign lang={lang} />;
+    }
+    case "state-management": {
+      return <StateManagement lang={lang} queryIcon={requestedIcon} />;
+    }
+    case "styling": {
+      return <Styling lang={lang} queryIcon={requestedIcon} />;
+    }
+    default:
+      return <MdxDoc lang={lang} slug={slug} />;
+  }
+};
+
 const Page = ({ params: { lang, slug }, searchParams: { i } }: PageProps) => {
   const { enSlug } = useLocale(lang);
   const enSlugFromIndex = enSlug(slug);
-  const DocFactory = () => {
-    switch (enSlugFromIndex) {
-      case "adding-icons": {
-        return <AddingIcons lang={lang} />;
-      }
-      case "colors": {
-        return <Colors lang={lang} queryIcon={i} />;
-      }
-      case "sizing-icons": {
-        return <Sizing lang={lang} queryIcon={i} />;
-      }
-      case "dark-mode": {
-        return <DarkMode lang={lang} queryIcon={i} />;
-      }
-      case "responsive-design": {
-        return <ResponsiveDesign lang={lang} />;
-      }
-      case "state-management": {
-        return <StateManagement lang={lang} queryIcon={i} />;
-      }
-      case "styling": {
-        return <Styling lang={lang} queryIcon={i} />;
-      }
-      default:
-        return <MdxDoc lang={lang} slug={slug} />;
-    }
-  };
 
   return (
     <div className="w-full">
-      <DocFactory />
+      <DocFactory
+        slug={slug}
+        index={enSlugFromIndex}
+        lang={lang}
+        requestedIcon={i}
+      />
     </div>
   );
 };

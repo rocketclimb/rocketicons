@@ -1,32 +1,12 @@
 "use client";
 import { useDisclosure } from "@/components/modal-context";
-import { Suspense, useEffect, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import UrlObserver from "@/components/url-observer";
 
 import Button from "@/components/button";
 import { IoMenuOutline } from "rocketicons/io5";
 import { PropsWithLang } from "@/app/types";
 import { SidebarLeft } from "./sidebar-left";
-
-type UrlObserverProps = {
-  onChanges: (hash: string) => void;
-};
-
-const UrlObserver = ({ onChanges }: UrlObserverProps) => {
-  const searchParams = useSearchParams();
-  const pathName = usePathname();
-
-  useEffect(() => {
-    const targetId = window.location.hash.substring(1);
-    const target = document.getElementById(targetId); // I've never saw that on a react code...
-    onChanges(
-      window.location.hash && target
-        ? targetId
-        : (pathName.split("/").pop() as string)
-    );
-  }, [pathName, searchParams]);
-  return <></>;
-};
 
 export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
   const [hash, setHash] = useState<string>("" as string);
@@ -34,14 +14,12 @@ export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
 
   return (
     <>
-      <Suspense>
-        <UrlObserver
-          onChanges={(hash) => {
-            isOpen && close();
-            setHash(hash);
-          }}
-        />
-      </Suspense>
+      <UrlObserver
+        onChanges={(hash) => {
+          isOpen && close();
+          setHash(hash);
+        }}
+      />
       <div className={`docs-${hash}`}>
         <div
           data-open={true}
