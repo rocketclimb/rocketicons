@@ -8,8 +8,6 @@ import {
   useCallback,
   useId,
 } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
-
 import useKeyboardShortcut from "@/hooks/use-keyboard-shortcut";
 
 import UrlObserver from "./url-observer";
