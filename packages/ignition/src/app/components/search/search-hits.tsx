@@ -5,9 +5,10 @@ import { useLocale } from "@/locales";
 import { PropsWithChildrenAndClassName, PropsWithLang } from "@/types";
 import { SiAlgolia } from "rocketicons/si";
 import IconLoader from "@/components/icons/icon-loader";
-import { BiLoaderAlt } from "rocketicons/bi";
+import { BiHash, BiLoaderAlt } from "rocketicons/bi";
 import WithCopy from "@/components/documentation/with-copy";
 import { PropsWithChildren } from "react";
+import { GoBook } from "rocketicons/go";
 
 const borderClass = "border-slate-100 dark:border-slate-700";
 
@@ -19,12 +20,7 @@ type IconHitProps = {
   hit: any;
 } & PropsWithLang;
 
-type LinkWithCloseProps = {
-  href: string;
-} & PropsWithChildrenAndClassName;
-
 const IconHit = ({ hit, lang }: IconHitProps) => {
-  console.log(hit);
   return (
     <>
       <Link
@@ -58,16 +54,25 @@ const Hit = ({ hit, lang }: PropsHit) => {
   const groupSlug = useLocale(hit.locale || lang).doc(hit.group)?.slug;
 
   return (
-    <Link
-      className="grow py-3 pl-4"
-      href={
-        hit.isFragment
-          ? `/${hit.locale}/docs/${groupSlug}#${hit.objectID}`
-          : `/${hit.locale}/docs/${hit.objectID}`
-      }
-    >
-      <Highlight attribute="title" hit={hit} highlightedTagName="span" />
-    </Link>
+    <>
+      <Link
+        className="flex grow py-3 pl-4"
+        href={
+          hit.isFragment
+            ? `/${hit.locale}/docs/${groupSlug}#${hit.objectID}`
+            : `/${hit.locale}/docs/${hit.objectID}`
+        }
+      >
+        <span className="grow">
+          <Highlight attribute="title" hit={hit} highlightedTagName="span" />
+        </span>
+        {hit.isFragment ? (
+          <BiHash className="icon-slate-300 dark:icon-slate-400 align-center mr-3" />
+        ) : (
+          <GoBook className="icon-slate-300 dark:icon-slate-400 align-center mr-3" />
+        )}
+      </Link>
+    </>
   );
 };
 
@@ -119,33 +124,45 @@ type IconResultProps = {
   id: string;
 } & HitResultProps;
 
-const IconResult = ({ id, group, hits, lang }: IconResultProps) => (
-  <div className="m-2">
-    <ResultTitle label={group}>
-      <Importer lang={lang} component={`rocketicons/${id}`} />
-    </ResultTitle>
-    <ul>
-      {(hits as any).map((hit: any) => (
-        <ResultItem key={hit.objectID}>
-          <IconHit lang={lang} hit={hit} />
-        </ResultItem>
-      ))}
-    </ul>
-  </div>
-);
+const IconResult = ({ id, group, hits, lang }: IconResultProps) => {
+  const groupTitle = hits[0]?.groupName ?? group;
 
-const HitResult = ({ group, hits, lang }: HitResultProps) => (
-  <div className="m-2">
-    <ResultTitle label={group} />
-    <ul>
-      {(hits as any).map((hit: any) => (
-        <ResultItem key={hit.objectID}>
-          <Hit lang={lang} hit={hit} />
-        </ResultItem>
-      ))}
-    </ul>
-  </div>
-);
+  return (
+    <div className="m-2">
+      <ResultTitle label={groupTitle}>
+        <Importer lang={lang} component={`rocketicons/${id}`} />
+      </ResultTitle>
+      <ul>
+        {(hits as any).map((hit: any) => (
+          <ResultItem key={hit.objectID}>
+            <IconHit lang={lang} hit={hit} />
+          </ResultItem>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const HitResult = ({ group, hits, lang }: HitResultProps) => {
+  const groupTitle = hits[0]?.groupName ?? group;
+
+  const hitsWithNoParent = hits.filter(
+    (hit: any) => hit.group !== hit.objectID
+  );
+
+  return (
+    <div className="m-2">
+      <ResultTitle label={groupTitle} />
+      <ul>
+        {(hitsWithNoParent as any).map((hit: any) => (
+          <ResultItem key={hit.objectID}>
+            <Hit lang={lang} hit={hit} />
+          </ResultItem>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 type GroupedHitsProps = {
   groupedHits: any;
@@ -165,9 +182,9 @@ const GroupedHits = ({ lang, groupedHits }: GroupedHitsProps) =>
     .sort(({ group: groupA }: any, { group: groupB }: any) =>
       groupA.localeCompare(groupB)
     )
-    .map(({ group, hits }: any) => (
-      <HitResult key={group} group={group} lang={lang} hits={hits} />
-    ));
+    .map(({ group, hits }: any) => {
+      return <HitResult key={group} group={group} lang={lang} hits={hits} />;
+    });
 
 const SearchHits = ({ lang }: PropsWithLang) => {
   const { "no-results": noResults } = useLocale(lang).config("search");
