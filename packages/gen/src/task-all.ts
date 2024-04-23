@@ -127,7 +127,7 @@ export const writeIconModule = async (
 
       iconInfoManifest[icon.id].icons[name] = {
         id: `${icon.id}-${manifestName}`,
-        name: manifestName.replace(/\-/g, " "),
+        name: manifestName.replace(/-/g, " "),
         compName: name,
         variant,
         ...(icon?.compPrefix && { comPrefix: icon?.compPrefix }),

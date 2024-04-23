@@ -43,11 +43,14 @@ const ModalContext = ({ children }: PropsWithChildren) => {
       return [...ids];
     });
 
-  const generateState: StateGenerator = (id: string) => [
-    opened.includes(id),
-    (state: boolean) => setIndexState(id, state),
-    (add: ModalContentType) => setModals((modals) => modals.set(id, add)),
-  ];
+  const generateState: StateGenerator = useCallback(
+    (id: string) => [
+      opened.includes(id),
+      (state: boolean) => setIndexState(id, state),
+      (add: ModalContentType) => setModals((modals) => modals.set(id, add)),
+    ],
+    []
+  );
 
   return (
     <Context.Provider value={generateState}>
