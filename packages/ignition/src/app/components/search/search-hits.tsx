@@ -1,12 +1,13 @@
 import { connectStateResults, Highlight } from "react-instantsearch-dom";
 import Link from "next/link";
 import { useLocale } from "@/locales";
-import { PropsWithLang } from "@/types";
+import { PropsWithChildrenAndClassName, PropsWithLang } from "@/types";
 import { SiAlgolia } from "rocketicons/si";
 import IconLoader from "@/components/icons/icon-loader";
 import { BiLoaderAlt } from "rocketicons/bi";
 import WithCopy from "@/components/documentation/with-copy";
 import { PropsWithChildren } from "react";
+import { useDisclosure } from "@/components/modal-context";
 
 const borderClass = "border-slate-100 dark:border-slate-700";
 
@@ -18,9 +19,23 @@ type IconHitProps = {
   hit: any;
 } & PropsWithLang;
 
+type LinkWithCloseProps = {
+  href: string;
+} & PropsWithChildrenAndClassName;
+
+const LinkWithClose = ({ children, ...props }: LinkWithCloseProps) => {
+  const { close } = useDisclosure("search-disclosure");
+
+  return (
+    <Link {...props} onClick={close}>
+      {children}
+    </Link>
+  );
+};
+
 const IconHit = ({ hit, lang }: IconHitProps) => (
   <>
-    <Link
+    <LinkWithClose
       className="grow py-3 pl-4"
       href={`/${lang}/icons/${hit.group}/${hit.objectID}`}
     >
@@ -31,7 +46,7 @@ const IconHit = ({ hit, lang }: IconHitProps) => (
         Loading={Loader}
       />
       {hit.name}
-    </Link>
+    </LinkWithClose>
     <WithCopy
       lang={lang}
       clipboardText={`<${hit.text} />`}
@@ -50,7 +65,7 @@ const Hit = ({ hit: { __highlightResult, ...hit }, lang }: PropsHit) => {
   const groupSlug = useLocale(hit.locale || lang).doc(hit.group)?.slug;
 
   return (
-    <Link
+    <LinkWithClose
       className="grow py-3 pl-4"
       href={
         hit.isFragment
@@ -64,7 +79,7 @@ const Hit = ({ hit: { __highlightResult, ...hit }, lang }: PropsHit) => {
         hit={hit}
         tagName="mark"
       />
-    </Link>
+    </LinkWithClose>
   );
 };
 
