@@ -1,4 +1,3 @@
-import { IoLogoGithub } from "rocketicons/io";
 import Link from "next/link";
 import MainNavAsMenu from "./main-nav-as-menu";
 import { NavItem } from "./types";

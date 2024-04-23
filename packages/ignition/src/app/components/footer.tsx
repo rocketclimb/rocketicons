@@ -1,4 +1,3 @@
-import { IoLogoGithub } from "rocketicons/io";
 import React from "react";
 import RocketClimbText from "@/app/components/rocketclimb-text";
 import { FaDiscord } from "rocketicons/fa";
