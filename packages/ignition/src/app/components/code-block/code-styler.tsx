@@ -31,7 +31,7 @@ const TabSelector = ({
 }: TabSelectorProps) => {
   const [selected, setSelected] = useState<number>(0);
   return (
-    <div className="flex text-slate-400 text-xs leading-6 mt-2 overflow-y-auto thin-scroll">
+    <div className="flex text-slate-400 text-xs leading-6 mt-2 -mr-1 overflow-y-auto thin-scroll">
       {tabs.map((tab, i) => (
         <div
           key={i}
@@ -45,7 +45,7 @@ const TabSelector = ({
           {(typeof tab === "string" && tab) || (tab as Tab).name}
         </div>
       ))}
-      <div className="flex-auto flex items-center bg-slate-700/50 border border-slate-500/30 rounded-tl"></div>
+      <div className="flex-auto flex items-center bg-slate-700/50 border border-t-0 border-r-0 border-slate-500/30 rounded-tr sm:rounded-tr-xl"></div>
     </div>
   );
 };
