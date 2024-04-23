@@ -5,7 +5,10 @@ import { useState } from "react";
 import { CollectionID } from "rocketicons/data";
 import IconLoader, { IconHandlerProps } from "@/components/icons/icon-loader";
 
-const Animation = ({ Icon }: IconHandlerProps) => {
+const Animation = ({
+  Icon,
+  iconName,
+}: IconHandlerProps & { iconName: string }) => {
   const initialIconColor = "icon-rose-500";
   const [state, setState] = useState<string>(initialIconColor);
 
@@ -83,7 +86,7 @@ const Animation = ({ Icon }: IconHandlerProps) => {
         ]}
       >
         <div>
-          <Icon className={initialIconColor} />
+          <Icon data-cb-tag={iconName} className={initialIconColor} />
         </div>
       </AnimatedCodeBlock>
     </>
@@ -97,7 +100,12 @@ type StylingAnimationProsp = {
 
 const StylingAnimation = ({ collection, icon }: StylingAnimationProsp) => (
   <div className="flex h-72 sm:h-48 flex-col sm:flex-row my-12 items-center justify-center gap-4">
-    <IconLoader collectionId={collection} icon={icon} Handler={Animation} />
+    <IconLoader
+      collectionId={collection}
+      icon={icon}
+      iconName={icon}
+      Handler={Animation}
+    />
   </div>
 );
 

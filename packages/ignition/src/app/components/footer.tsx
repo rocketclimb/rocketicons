@@ -1,4 +1,3 @@
-import { IoLogoGithub } from "rocketicons/io";
 import React from "react";
 import RocketClimbText from "@/app/components/rocketclimb-text";
 import { FaDiscord } from "rocketicons/fa";
@@ -14,7 +13,6 @@ const Footer = () => {
             Copyright © 2024 <RocketClimbText />
           </p>
         </div>
-        <GitHubIcon />
         <Link
           href="https://discord.gg/58NguZ5ZEX"
           target="_blank"
@@ -26,6 +24,7 @@ const Footer = () => {
           </span>
           <FaDiscord className="icon-slate-500 hover:icon-slate-600 dark:hover:icon-slate-400" />
         </Link>
+        <GitHubIcon className="ml-6" />
       </div>
     </footer>
   );

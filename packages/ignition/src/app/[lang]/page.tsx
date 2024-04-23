@@ -129,14 +129,17 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
           ]}
         >
           <div className="h-32">
-            <RcRocketIcon className="size-10" />
+            <RcRocketIcon data-cb-tag="RcRocketIcon" className="size-10" />
             <div>
               <div className="text-slate-900 text-2xl font-light dark:text-white mt-2">
-                <RocketIconsText />
+                <RocketIconsText data-cb-tag="RocketIconsText" />
               </div>
               <div className="mr-2">
                 Styling in a way
-                <RcRocketIcon className="icon-slate-900-sm dark:icon-red-500-sm" />
+                <RcRocketIcon
+                  data-cb-tag="RcRocketIcon"
+                  className="icon-slate-900-sm dark:icon-red-500-sm"
+                />
                 you've never seen before.
               </div>
               <div className="mt-0.5 text-xs leading-6">
