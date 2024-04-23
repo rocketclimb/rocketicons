@@ -1,19 +1,16 @@
-import { connectSearchBox } from "react-instantsearch-dom";
+import { useSearchBox } from "react-instantsearch";
 import { LuSearch } from "rocketicons/lu";
 import useWaitToExecute from "@/hooks/use-wait-to-execute";
 import { useEffect, useState } from "react";
 
 const MIN_SEARCH_LENGH = 3;
 
-const SearchBox = ({
-  label,
-  refine,
-  className,
-}: {
+type SearchBoxProps = {
   label: string;
-  refine: (value: string) => void;
-  className?: string;
-}) => {
+};
+
+const SearchBox = ({ label }: SearchBoxProps) => {
+  const { refine } = useSearchBox();
   const [searching, setSearching] = useState<string>("");
   const [execute, cancel] = useWaitToExecute(500);
 
@@ -51,4 +48,4 @@ const SearchBox = ({
   );
 };
 
-export default connectSearchBox(SearchBox);
+export default SearchBox;

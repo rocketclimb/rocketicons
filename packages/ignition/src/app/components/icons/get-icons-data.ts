@@ -1,5 +1,6 @@
 import { IconsManifestType } from "rocketicons";
-import { CollectionID, License, IconsManifest } from "rocketicons/data";
+import { CollectionID, License } from "rocketicons/data";
+import { IconsManifest } from "@/app/data-helpers/icons/manifest";
 
 type IconsManifest = Map<
   CollectionID,

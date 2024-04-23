@@ -1,4 +1,5 @@
-import { connectStateResults, Highlight } from "react-instantsearch-dom";
+"use client";
+import { useInstantSearch, Highlight } from "react-instantsearch";
 import Link from "next/link";
 import { useLocale } from "@/locales";
 import { PropsWithChildrenAndClassName, PropsWithLang } from "@/types";
@@ -61,7 +62,7 @@ type PropsHit = {
   hit: any;
 } & PropsWithLang;
 
-const Hit = ({ hit: { __highlightResult, ...hit }, lang }: PropsHit) => {
+const Hit = ({ hit, lang }: PropsHit) => {
   const groupSlug = useLocale(hit.locale || lang).doc(hit.group)?.slug;
 
   return (
@@ -73,12 +74,7 @@ const Hit = ({ hit: { __highlightResult, ...hit }, lang }: PropsHit) => {
           : `/${hit.locale}/docs/${hit.objectID}`
       }
     >
-      <Highlight
-        attribute="title"
-        highlightPropert={__highlightResult}
-        hit={hit}
-        tagName="mark"
-      />
+      <Highlight attribute="title" hit={hit} />
     </LinkWithClose>
   );
 };
@@ -181,16 +177,11 @@ const GroupedHits = ({ lang, groupedHits }: GroupedHitsProps) =>
       <HitResult key={group} group={group} lang={lang} hits={hits} />
     ));
 
-const SearchHits = ({
-  lang,
-  searchResults,
-}: {
-  searchState: any;
-  searchResults: any;
-} & PropsWithLang) => {
+const SearchHits = ({ lang }: PropsWithLang) => {
   const { "no-results": noResults } = useLocale(lang).config("search");
+  const { results } = useInstantSearch();
 
-  const groupedHits = searchResults?.hits.reduce(
+  const groupedHits = results.hits.reduce(
     (groups: any, hit: any) => {
       if (hit.group) {
         const key = hit.groupName || hit.group;
@@ -211,17 +202,14 @@ const SearchHits = ({
   return (
     <>
       <div className="px-1">
-        {searchResults?.hits.length === 0 && (
-          <div className="py-3 px-6">{noResults}</div>
-        )}
+        {results.nbHits === 0 && <div className="py-3 px-6">{noResults}</div>}
         <div
           className={`px-2 h-full min-h-40 max-h-[600px] lg:max-h-[65vh] overflow-auto thin-scroll ${borderClass}`}
         >
-          {searchResults?.hits.length > 0 &&
-            Object.keys(groupedHits.icons).length > 0 && (
-              <IconsGroupedHits groupedHits={groupedHits.icons} lang={lang} />
-            )}
-          {searchResults?.hits.length > 0 &&
+          {results.nbHits > 0 && Object.keys(groupedHits.icons).length > 0 && (
+            <IconsGroupedHits groupedHits={groupedHits.icons} lang={lang} />
+          )}
+          {results.nbHits > 0 &&
             Object.keys(groupedHits.documents).length > 0 && (
               <GroupedHits groupedHits={groupedHits.documents} lang={lang} />
             )}
@@ -236,4 +224,4 @@ const SearchHits = ({
   );
 };
 
-export default connectStateResults(SearchHits);
+export default SearchHits;

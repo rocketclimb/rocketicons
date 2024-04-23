@@ -1,5 +1,5 @@
 "use client";
-import { InstantSearch } from "react-instantsearch-dom";
+import { InstantSearch } from "react-instantsearch";
 import algoliasearch from "algoliasearch/lite";
 import SearchHits from "@/components/search/search-hits";
 import { siteConfig } from "@/config/site";

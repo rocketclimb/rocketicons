@@ -38,7 +38,7 @@ const IconsLoader = <T extends HandlerPros>({
   Loading = Loading || (() => <p>Loading...</p>);
 
   // @ts-ignore
-  const Collection = loadersMap.get(collectionId)!(Handler, Loading, props);
+  const Collection = (loadersMap.get(collectionId) ?? loadersMap.get("rc"))(Handler, Loading, props);
   return <Collection />
 }
 

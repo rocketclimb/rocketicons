@@ -5,7 +5,6 @@ import IconsLoader, { HandlerPros } from "@/data-helpers/icons/icons-loader";
 import { getCollectionsInfo } from "./get-icons-data";
 
 export type IconHandlerProps = { Icon: IconType };
-type IconHandler = (props: IconHandlerProps) => JSX.Element;
 
 type IconProxyHandlerProps<T extends IconHandlerProps> = {
   icon: string;
