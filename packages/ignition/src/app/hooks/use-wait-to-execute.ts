@@ -1,9 +1,11 @@
 "use client";
 import { useState } from "react";
 
+type Callback = () => Promise<void> | void;
+
 const useWaitToExecute = (
   delay: number
-): [(callback: () => Promise<void> | void) => void, () => void, boolean] => {
+): [(callback: Callback) => void, () => void, boolean] => {
   let timeOutId: NodeJS.Timeout;
   let pendingCount = 0;
 
@@ -17,7 +19,7 @@ const useWaitToExecute = (
     setHasPending(false);
   };
 
-  const execute = (callback: () => void) => {
+  const execute = (callback: Callback) => {
     pendingCount++;
 
     softCancel();

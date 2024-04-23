@@ -93,7 +93,7 @@ const pagesForSitemap = (): Sitemap => {
 };
 
 export const GET = async () => {
-  const sitemap = await pagesForSitemap();
+  const sitemap = pagesForSitemap();
 
   const sitemapXml = sitemapToXml(sitemap);
 

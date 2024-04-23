@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "license": "MIT",
   "main": "./index.js",
+  "peerDependencies": {
+    "nativewind": ">=2",
+    "react": "*",
+    "react-native-svg": ">=15"
+  },
   "engines": {
     "npm": ">=6.0.0"
   },

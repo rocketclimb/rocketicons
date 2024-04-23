@@ -8,10 +8,10 @@
     "predev": "npm run generate-statics",
     "dev": "next dev",
     "predev:all-icons": "npm run generate-statics:all-icons",
-    "dev:all-icons": "next dev",
+    "dev:all-icons": "NEXT_PUBLIC_VERCEL_ENV=develop next dev",
     "generate-statics": "npx ts-node -r tsconfig-paths/register ./src/statics-generator",
-    "indexer": "npx ts-node -r tsconfig-paths/register ./src/algolia-indexer",
     "generate-statics:all-icons": "NEXT_PUBLIC_VERCEL_ENV=develop npx ts-node -r tsconfig-paths/register ./src/statics-generator",
+    "indexer": "npx ts-node -r tsconfig-paths/register ./src/algolia-indexer",
     "lint": "next lint",
     "rebuild": "rm -fR .content-collections && next build",
     "start": "next start"
