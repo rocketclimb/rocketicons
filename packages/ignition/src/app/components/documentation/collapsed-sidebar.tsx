@@ -1,6 +1,6 @@
 "use client";
 import { useDisclosure } from "@/components/modal-context";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import UrlObserver from "@/components/url-observer";
 
 import Button from "@/components/button";
@@ -8,14 +8,14 @@ import { IoMenuOutline } from "rocketicons/io5";
 import { PropsWithLang } from "@/app/types";
 import { SidebarLeft } from "./sidebar-left";
 import { siteConfig } from "@/config/site";
-import { useLocale } from "@/app/locales";
+import { withLocale } from "@/app/locales";
 
 export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
   const [lastPath, setLastPath] = useState<string>("" as string);
   const [hash, setHash] = useState<string>("" as string);
   const { isOpen, open, close, Modal } = useDisclosure();
   const { menuConfig } = siteConfig;
-  const { enSlug } = useLocale(lang);
+  const { enSlug } = withLocale(lang);
   const notComponentMenu =
     menuConfig.componentGroups.indexOf(enSlug(lastPath)) === -1;
 

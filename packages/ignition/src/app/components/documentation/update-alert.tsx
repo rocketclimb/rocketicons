@@ -1,6 +1,6 @@
 import React from "react";
 import { TbHandMove } from "rocketicons/tb";
-import { useLocale } from "@/locales/use-locale";
+import { withLocale } from "@/app/locales/with-locale";
 import { PropsWithLang } from "@/types";
 
 type UpdateAlertProps = {
@@ -9,7 +9,7 @@ type UpdateAlertProps = {
   React.HTMLAttributes<HTMLElement>;
 
 const UpdateAlert = ({ lang, alert, ...props }: UpdateAlertProps) => {
-  const locale = useLocale(lang);
+  const locale = withLocale(lang);
   const message = locale.config("update-alert");
 
   return (

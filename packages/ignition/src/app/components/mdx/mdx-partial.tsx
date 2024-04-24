@@ -1,6 +1,6 @@
 import { PropsWithClassName, PropsWithLang } from "@/types";
 import dynamic from "next/dynamic";
-import { useLocale } from "@/app/locales";
+import { withLocale } from "@/app/locales";
 import { DependencyList } from "react";
 
 type Callback = <T extends Function>(callback: T, deps: DependencyList) => T;
@@ -25,7 +25,7 @@ export const MdxPartial = ({
   deps,
 }: MdxPartialProps & CacheFunctionProps) => {
   const [slug, componentSlug] = unparsedSlug.split("/");
-  const { component, doc } = useLocale(lang);
+  const { component, doc } = withLocale(lang);
 
   const loadDoc = () => {
     const loaded = doc(slug);

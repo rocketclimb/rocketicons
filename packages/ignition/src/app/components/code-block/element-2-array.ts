@@ -20,7 +20,9 @@ const nodeMap = ({ type, props }: ReactElement): DataElement => {
   };
 };
 
-export default (nodes: any): DataElement[] =>
+const elements2Array = (nodes: any): DataElement[] =>
   (Children.toArray(nodes) as ReactElement[])
     .filter(({ type }) => !!type)
     .map(nodeMap);
+
+export default elements2Array;

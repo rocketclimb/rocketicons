@@ -7,7 +7,7 @@ import Link from "next/link";
 
 import { IoMdClose } from "rocketicons/io";
 
-import { useLocale } from "@/locales";
+import { withLocale } from "@/locales";
 import {
   PropsWithChildrenAndClassName,
   PropsWithChildrenAndLang,
@@ -134,7 +134,7 @@ type IconsCollectionsProps = PropsWithLang & {
 };
 
 const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
-  const locales = useLocale(lang);
+  const locales = withLocale(lang);
 
   const { "show-all": showAllLabel, icon } = locales.config("show-all", "icon");
 

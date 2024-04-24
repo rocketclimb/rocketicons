@@ -42,7 +42,7 @@ const Animation = ({
       { prev: "icon-slate-200", script: [] as any[] }
     );
     setScript(script);
-  }, []);
+  }, [colors]);
 
   return (
     <>

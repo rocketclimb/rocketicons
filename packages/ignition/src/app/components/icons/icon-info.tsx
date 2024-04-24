@@ -20,7 +20,7 @@ import SectionContent from "@/components/documentation/section-content";
 import UpdateAlert from "@/components/documentation/update-alert";
 import { MdxClientPartial } from "@/components/mdx";
 import { PropsWithLang } from "@/types";
-import { useLocale } from "@/locales";
+import { withLocale } from "@/locales";
 
 type IconInfoProps = {
   show: boolean;
@@ -46,7 +46,7 @@ const IconInfo = ({
     combining,
     "dark-mode": darkMode,
     states,
-  } = useLocale(lang).config(
+  } = withLocale(lang).config(
     "colors",
     "sizes",
     "combining",

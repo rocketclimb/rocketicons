@@ -2,7 +2,7 @@ import { Languages } from "@/types";
 import { docIndex, pageComponentIndex } from "content-collections";
 import { Config, Configs, SelectedConfig } from "./types";
 
-export const useLocale = (lang: Languages) => {
+export const withLocale = (lang: Languages) => {
   const getContentFromIndex = (
     slug: string,
     { docs, slugMap }: Record<string, any>

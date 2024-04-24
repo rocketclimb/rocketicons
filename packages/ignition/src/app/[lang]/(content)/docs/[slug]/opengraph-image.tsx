@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { useLocale } from "@/locales";
+import { withLocale } from "@/locales";
 import OpenGraph from "@/components/opengraph";
 import { PropsWithLangSlugParams } from "@/types";
 
@@ -15,7 +15,7 @@ export const contentType = "image/png";
 const OpengraphImage = async ({
   params: { lang, slug },
 }: PropsWithLangSlugParams) => {
-  const { doc } = useLocale(lang);
+  const { doc } = withLocale(lang);
 
   const { title, description } = doc(slug) as {
     title: string;

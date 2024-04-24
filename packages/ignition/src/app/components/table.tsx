@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import { Languages } from "@/types";
-import { useLocale } from "../locales";
+import { withLocale } from "../locales";
 
 type LineProp = Record<string, string | undefined> & { comment?: string };
 
@@ -19,7 +19,7 @@ type TableValueProps = {
 const TableValue = ({ value, comment }: TableValueProps) => (
   <div>
     <span>{value}</span>
-    {comment && <span className="text-indigo-400"> /* {comment} */</span>}{" "}
+    {comment && <span className="text-indigo-400"> {`/* ${comment} */`}</span>}
   </div>
 );
 
@@ -81,7 +81,7 @@ export const Table = ({
   collapse,
   children,
 }: TableProps) => {
-  const locale = useLocale(lang);
+  const locale = withLocale(lang);
 
   const [header1, header2] = locale.config("table").headers;
   return (

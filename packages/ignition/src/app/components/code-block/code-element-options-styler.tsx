@@ -4,7 +4,7 @@ import CodeStyler from "./code-styler";
 import CodeElementBlock from "./code-element-block";
 import { useState } from "react";
 import { Languages, PropsWithClassName } from "@/types";
-import { useLocale } from "@/app/locales";
+import { withLocale } from "@/app/locales";
 
 type CodeElementOptionsProps = {
   locale: Languages;
@@ -22,7 +22,7 @@ const CodeElementOptionsStyler = ({
   className,
   showMore,
 }: CodeElementOptionsProps) => {
-  const { config } = useLocale(locale);
+  const { config } = withLocale(locale);
   const tabs = [CodeElementTabs.DEFAULT, ...options];
   const allowSelectionUntil = tabs.length;
   showMore &&

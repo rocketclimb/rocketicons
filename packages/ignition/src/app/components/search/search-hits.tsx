@@ -1,7 +1,7 @@
 "use client";
 import { useInstantSearch, Highlight } from "react-instantsearch";
 import Link from "next/link";
-import { useLocale } from "@/locales";
+import { withLocale } from "@/locales";
 import { PropsWithLang } from "@/types";
 import { SiAlgolia } from "rocketicons/si";
 import IconLoader from "@/components/icons/icon-loader";
@@ -51,7 +51,7 @@ type PropsHit = {
 } & PropsWithLang;
 
 const Hit = ({ hit, lang }: PropsHit) => {
-  const groupSlug = useLocale(hit.locale || lang).doc(hit.group)?.slug;
+  const groupSlug = withLocale(hit.locale || lang).doc(hit.group)?.slug;
 
   return (
     <Link
@@ -88,9 +88,9 @@ const Importer = ({ component, lang }: ImporterProps) => (
     clipboardText={`import * as Icons from "${component}";`}
     className="group/copy font-monospace text-xs font-light italic pt-2 after:text-slate-200 after:not-italic after:font-inter after:-right-3 after:-top-5"
   >
-    <ImporterInfo>import * as Icons from "</ImporterInfo>
+    <ImporterInfo>import * as Icons from &quot;</ImporterInfo>
     <span>{component}</span>
-    <ImporterInfo>";</ImporterInfo>
+    <ImporterInfo>&quot;;</ImporterInfo>
   </WithCopy>
 );
 
@@ -183,7 +183,7 @@ const GroupedHits = ({ lang, groupedHits }: GroupedHitsProps) =>
     });
 
 const SearchHits = ({ lang }: PropsWithLang) => {
-  const { "no-results": noResults } = useLocale(lang).config("search");
+  const { "no-results": noResults } = withLocale(lang).config("search");
   const { results } = useInstantSearch();
 
   const groupedHits = results.hits.reduce(

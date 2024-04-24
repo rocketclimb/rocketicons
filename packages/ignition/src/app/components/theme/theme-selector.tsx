@@ -6,7 +6,7 @@ import { MdOutlineMonitor, MdKeyboardArrowDown } from "rocketicons/md";
 
 import { ThemeOptions } from "@/hooks/use-theme-handler";
 import useKeyboardShortcut from "@/hooks/use-keyboard-shortcut";
-import { useLocale } from "@/locales/use-locale";
+import { withLocale } from "@/app/locales/with-locale";
 
 import { PropsWithClassName, PropsWithLang } from "@/types";
 
@@ -142,7 +142,7 @@ type Selector = {
 };
 
 const ThemeSelector = ({ lang }: PropsWithLang) => {
-  const { config } = useLocale(lang);
+  const { config } = withLocale(lang);
   const themes = config("themes");
 
   const [, setTheme] = useThemeContext();

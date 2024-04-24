@@ -38,7 +38,7 @@ const ResponsiveDesign = ({ lang }: PropsWithLang) => {
                   data-cb-tag="RcRocketIcon"
                   className="icon-slate-900-base sm:icon-slate-900-lg md:icon-slate-900-sm"
                 />
-                you've never seen before.
+                you&apos;ve never seen before.
               </p>
               <p className="mx-4 mt-2 sm:text-lg md:text-sm text-slate-700 dark:text-slate-400 font-normal">
                 Looking for a way to share code between web and native

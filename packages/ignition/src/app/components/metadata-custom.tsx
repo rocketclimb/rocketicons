@@ -1,5 +1,5 @@
 import { siteConfig } from "@/config/site";
-import { useLocale } from "@/locales";
+import { withLocale } from "@/locales";
 import { Languages } from "@/types";
 import type { Metadata } from "next";
 
@@ -9,7 +9,7 @@ const CustomMetadata = (
   description?: string
 ): Metadata => {
   const { name, url, defaultLocale } = siteConfig;
-  const brand = useLocale(lang).config("brand");
+  const brand = withLocale(lang).config("brand");
 
   const pageTitle =
     `${title ?? name}` + (title?.endsWith(siteConfig.name) ? "" : ` | ${name}`);

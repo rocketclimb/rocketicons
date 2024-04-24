@@ -1,7 +1,8 @@
+import Image from "next/image";
 import { ImageResponse } from "next/og";
 import { Languages } from "@/types";
 import { serverEnv } from "@/env/server";
-import { useLocale } from "@/locales";
+import { withLocale } from "@/locales";
 import { FaFly, FaIcons, FaRoad } from "rocketicons/fa";
 import { CollectionID, IconsManifest } from "rocketicons/data";
 import { IconType } from "rocketicons";
@@ -18,11 +19,11 @@ const selectRandomIcon = (
   iconKey?: string
 ): IconType | undefined => {
   const iconsMap = new Map<string, any>([
-    ["LuSmile", <LuSmile style={style} />],
-    ["LuBird", <LuBird style={style} />],
-    ["FaFly", <FaFly style={style} />],
-    ["PiFlyingSaucer", <PiFlyingSaucer style={style} />],
-    ["PiAlien", <PiAlien style={style} />],
+    ["LuSmile", <LuSmile key={'lusmile'} style={style} />],
+    ["LuBird", <LuBird key={'lubird'} style={style} />],
+    ["FaFly", <FaFly key={'fafly'} style={style} />],
+    ["PiFlyingSaucer", <PiFlyingSaucer key={'piflyingsaucer'} style={style} />],
+    ["PiAlien", <PiAlien key={'pialien'} style={style} />],
   ]);
 
   if (iconKey && iconsMap.has(iconKey)) {
@@ -83,7 +84,7 @@ const OpenGraph = async ({
   darkMode?: boolean;
   Icon?: IconType;
 }) => {
-  const opengraph = useLocale(lang).config("opengraph");
+  const opengraph = withLocale(lang).config("opengraph");
 
   const logoImg = darkMode
     ? "logo-rocketicons-white-nobg-512.png"
@@ -136,7 +137,7 @@ const OpenGraph = async ({
     0
   );
 
-  const brand = useLocale(lang).config("brand");
+  const brand = withLocale(lang).config("brand");
 
   const mainDivStyle = {
     display: "flex",
@@ -191,7 +192,7 @@ const OpenGraph = async ({
           <div tw="flex flex-row">
             <div tw="text-left flex flex-col grow">
               <div tw="flex flex-row">
-                <img
+                <Image
                   src={`${serverEnv.NEXT_PUBLIC_APP_URL}/${logoImg}`}
                   alt="rocketicons Logo"
                   tw="w-128 h-23"

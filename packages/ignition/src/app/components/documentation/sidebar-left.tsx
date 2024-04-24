@@ -6,7 +6,7 @@ import { PropsWithClassName, PropsWithLang } from "@/types";
 import { IconsManifest } from "@/data-helpers/icons/manifest";
 import RocketIconsText from "@/components/rocketicons-text";
 import { siteConfig } from "@/config/site";
-import { useLocale } from "@/locales/use-locale";
+import { withLocale } from "@/app/locales/with-locale";
 import SearchButton from "@/app/components/search/search";
 
 const selectedClassName = (slug: string) =>
@@ -71,7 +71,7 @@ const MenuItem = ({
 
 export const SidebarLeft = ({ lang }: PropsWithLang) => {
   const DocList = () => {
-    const { docs: getDocs } = useLocale(lang);
+    const { docs: getDocs } = withLocale(lang);
     const docs = Object.entries(getDocs() || {});
     const mainMenus = docs.filter((doc: any) => doc[1][lang].group === doc[0]);
 

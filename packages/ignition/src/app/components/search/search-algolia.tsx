@@ -4,7 +4,7 @@ import algoliasearch from "algoliasearch/lite";
 import SearchHits from "@/components/search/search-hits";
 import { siteConfig } from "@/config/site";
 import { serverEnv } from "@/env/server";
-import { useLocale } from "@/locales";
+import { withLocale } from "@/locales";
 import { Languages } from "@/types";
 import SearchBox from "./search-box";
 
@@ -14,7 +14,7 @@ type SearchButtonProps = {
 };
 
 const SearchAlgolia = ({ lang, close }: SearchButtonProps) => {
-  const { placeholder } = useLocale(lang).config("search");
+  const { placeholder } = withLocale(lang).config("search");
 
   const searchClient = algoliasearch(
     serverEnv.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,

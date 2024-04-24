@@ -17,7 +17,7 @@ const IconProxyHandler =
     icon,
     ...props
   }: IconProxyHandlerProps<T>) =>
-  ({ collection }: HandlerPros) => {
+  function IconProxyLoader ({ collection }: HandlerPros) {
     const Icon = collection[icon];
     return (
       // @ts-ignore TS2322

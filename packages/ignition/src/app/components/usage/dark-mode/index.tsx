@@ -2,7 +2,7 @@ import { PropsWithLang } from "@/types";
 import { MdxPartial } from "@/components/mdx";
 import { getCurrentIconData } from "@/components/usage/utils";
 import GridContainer from "@/components/documentation/grid-container";
-import { useLocale } from "@/locales";
+import { withLocale } from "@/locales";
 
 import CodeSample from "@/components/code-block/code-sample";
 import Wrapper from "@/components/documentation/wrapper";
@@ -12,7 +12,7 @@ const DarkMode = ({
   lang,
   queryIcon,
 }: PropsWithLang & { queryIcon?: string }) => {
-  const locale = useLocale(lang);
+  const locale = withLocale(lang);
   const { icon, Icon } = getCurrentIconData(queryIcon);
 
   const { "dark-mode": darModeLabel, "light-mode": ligthModeLabel } =

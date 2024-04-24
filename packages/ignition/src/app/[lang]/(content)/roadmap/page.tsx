@@ -1,13 +1,13 @@
 import { promises as fs } from "fs";
 import { PropsWithLangParams } from "@/types";
-import { useLocale } from "@/locales";
+import { withLocale } from "@/locales";
 import { LuCheck } from "rocketicons/lu";
 import { IoCaretUp } from "rocketicons/io5";
 import { RoadmapFile } from "../../../types/roadmap";
 import { BiQuestionMark } from "rocketicons/bi";
 
 const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
-  const { nav, roadmap } = useLocale(lang).config("nav", "roadmap");
+  const { nav, roadmap } = withLocale(lang).config("nav", "roadmap");
 
   const roadmapFile = JSON.parse(
     await fs.readFile(process.cwd() + `/src/app/locales/roadmap.json`, "utf-8")

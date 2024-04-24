@@ -9,7 +9,7 @@ import Styling from "@/components/usage/styling";
 import { MdxDoc } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-and-slug-param";
-import { useLocale } from "@/locales/use-locale";
+import { withLocale } from "@/app/locales/with-locale";
 import CustomMetadata from "@/components/metadata-custom";
 import docs from "@/data-helpers/params/docs.json";
 import { PropsWithLang } from "@/app/types";
@@ -26,7 +26,7 @@ export const generateMetadata = ({
   params: { lang, slug },
   searchParams: { i },
 }: PageProps): Metadata => {
-  const { doc } = useLocale(lang);
+  const { doc } = withLocale(lang);
 
   const selectedDoc = doc(slug);
   if (slug != selectedDoc.slug) {
@@ -81,7 +81,7 @@ const DocFactory = ({ lang, slug, index, requestedIcon }: DocFactoryProps) => {
 };
 
 const Page = ({ params: { lang, slug }, searchParams: { i } }: PageProps) => {
-  const { enSlug } = useLocale(lang);
+  const { enSlug } = withLocale(lang);
   const enSlugFromIndex = enSlug(slug);
 
   return (

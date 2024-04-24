@@ -6,21 +6,21 @@ import { PropsWithLangParams } from "@/types";
 import { RcRocketIcon } from "rocketicons/rc";
 import RocketIconsText from "@/components/rocketicons-text";
 import SearchButton from "@/app/components/search/search";
-import { useLocale } from "@/locales/use-locale";
+import { withLocale } from "@/app/locales/with-locale";
 import Footer from "@/components/footer";
 import CustomMetadata from "@/components/metadata-custom";
 
 export const generateMetadata = ({
   params: { lang },
 }: PropsWithLangParams): Metadata => {
-  const { component } = useLocale(lang);
+  const { component } = withLocale(lang);
   const { title, description } = component("home");
 
   return CustomMetadata(lang, title, description);
 };
 
 const Home = ({ params: { lang } }: PropsWithLangParams) => {
-  const nav = useLocale(lang).config("nav");
+  const nav = withLocale(lang).config("nav");
 
   return (
     <div className="flex flex-col grow overflow-y-auto items-center justify-between bg-cover bg-hero-light dark:bg-hero-dark">
@@ -140,7 +140,7 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
                   data-cb-tag="RcRocketIcon"
                   className="icon-slate-900-sm dark:icon-red-500-sm"
                 />
-                you've never seen before.
+                you&apos;ve never seen before.
               </div>
               <div className="mt-0.5 text-xs leading-6">
                 A funny way handling icons

@@ -4,7 +4,7 @@ import IconsCollection from "@/app/components/icons/icons-collection";
 import { IconsManifest } from "@/data-helpers/icons/manifest";
 
 import { PropsWithLangParams } from "@/types";
-import { useLocale } from "@/locales";
+import { withLocale } from "@/locales";
 
 import Title from "@/components/documentation/title";
 import DocLink from "@/components/documentation/doc-link";
@@ -27,7 +27,7 @@ export const generateMetadata = async ({
   const info = IconsManifest.find(({ id: search }) => search === id)!;
   const { name } = siteConfig;
 
-  const { component } = useLocale(lang);
+  const { component } = withLocale(lang);
   const { title, description } = component("icons-collection");
 
   const pageTitle = `${title} | ${info?.name} ${icon || ""} | rocketicons`;

@@ -1,12 +1,12 @@
 import { PropsWithLang } from "@/types";
 import dynamic from "next/dynamic";
-import { useLocale } from "@/locales/use-locale";
+import { withLocale } from "@/app/locales/with-locale";
 
 export const MdxDoc = ({
   lang,
   slug,
 }: PropsWithLang & { slug: string }) => {
-  const { doc } = useLocale(lang);
+  const { doc } = withLocale(lang);
   const selectedDoc = doc(slug);
   const DynamicMarkDownComponent = dynamic(
     () => import(`@/locales/docs/${selectedDoc?.filePath}`),
