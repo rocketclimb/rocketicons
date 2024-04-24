@@ -6,15 +6,16 @@
     "icons",
     "react",
     "react-native",
-    "tailwind"
+    "tailwind",
+    "nativewind"
   ],
-  "homepage": "https://github.com/rocket-climb/rocket-bolt#readme",
+  "homepage": "https://github.com/rocketclimb/rocketicons#readme",
   "bugs": {
-    "url": "https://github.com/rocket-climb/rocket-bolt/issues"
+    "url": "https://github.com/rocketclimb/rocketicons/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rocket-climb/rocket-bolt.git"
+    "url": "git+https://github.com/rocketclimb/rocketicons.git"
   },
   "license": "MIT",
   "author": "amorimjj",
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
+    "husky": "^9.0.11",
     "jest": "^29.7.0",
     "nativewind": "2.0.11",
     "tailwindcss": "3.4.1",
@@ -50,5 +52,10 @@
     "react": ">=18.2.0",
     "react-dom": ">=18.2.0",
     "react-native-svg": ">=15.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "git diff HEAD --quiet && npm run test-all"
+    }
   }
 }
