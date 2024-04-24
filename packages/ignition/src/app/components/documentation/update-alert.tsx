@@ -15,7 +15,7 @@ const UpdateAlert = ({ lang, alert, ...props }: UpdateAlertProps) => {
   return (
     <div
       className={`group/alert space-x-2 my-3 w-full ${
-        (props.onMouseEnter && "cursor-pointer") || "cursor-default"
+        (props.onMouseEnter && "cursor-alias") || "cursor-default"
       }`}
       {...props}
     >
