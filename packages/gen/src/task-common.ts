@@ -1,15 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import path from "path";
-import { promises as fs } from "fs";
-//@ts-ignore
+import { promises as fs } from "fs"
+// @ts-expect-error TS7016: types not found for find-package
 import findPackage from "find-package";
-import { promisify } from "util";
-const exec = promisify(require("child_process").exec);
 import { IconsManifestType, IconsInfoManifest } from "@rocketicons/core";
 import { icons } from "./definitions";
 import { getIconFiles } from "./logics";
-import { IconDefinition, TaskContext } from "./types";
+import { IconDefinition, Overrrides, TaskContext } from "./types";
 import {
   DataTypeHeaderTemplate,
   DataTypeFooterTemplate,
@@ -72,7 +70,7 @@ export const writeIconsManifest = async (
     "utf8"
   );
 
-  for (let [key, info] of Object.entries(iconInfoManifest)) {
+  for (const [key, info] of Object.entries(iconInfoManifest)) {
     const dataInfo = JSON.stringify(info, null, 2);
 
     await fs.writeFile(
@@ -249,7 +247,7 @@ export const writeIconVersions = async ({ rootDir }: TaskContext) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const writePackageJson = async (
-  override: any,
+  override: Overrrides,
   { DIST, rootDir }: TaskContext
 ) => {
   const packageJsonStr = await fs.readFile(

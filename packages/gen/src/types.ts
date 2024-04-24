@@ -18,6 +18,21 @@ export interface IconDefinitionContent {
 
 export type IconSetSource = IconSetGitSource;
 
+export type PackageExports = Record<
+    string,
+    {
+      types: string;
+      require: string;
+      import: string;
+      default: string;
+    }
+  >
+
+export type Overrrides = {
+  name: string;
+  exports: PackageExports;
+}
+
 export interface IconSetGitSource {
   type: "git";
   localName: string;
@@ -33,4 +48,9 @@ export interface TaskContext {
   LIB: string;
   PLUGIN: string;
   DATA: string;
+}
+
+export interface Context {
+  distBaseDir: string;
+  iconDir(name: string): string;
 }

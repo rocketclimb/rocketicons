@@ -5,13 +5,8 @@ import fs from "fs";
 import path from "path";
 import PQueue from "@esm2cjs/p-queue";
 
-import { type IconSetGitSource } from "./types";
+import { type IconSetGitSource, Context } from "./types";
 import { icons } from "./definitions";
-
-interface Context {
-  distBaseDir: string;
-  iconDir(name: string): string;
-}
 
 const CTRL_FILE_NAME = ".fetched";
 

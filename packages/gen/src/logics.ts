@@ -8,7 +8,7 @@ import camelcase from "camelcase";
 
 import { IconTree, Variants, IconsManifestType } from "@rocketicons/core";
 
-import { type IconDefinitionContent } from "./types";
+import { type IconDefinitionContent, PackageExports } from "./types";
 
 import { glob } from "./glob";
 
@@ -132,15 +132,7 @@ export const rmDirRecursive = async (dest: string) => {
 export const buildPackageExports = (
   icons: Omit<IconsManifestType<string, string>, "icons" | "totalIcons">[]
 ) => {
-  const exports: Record<
-    string,
-    {
-      types: string;
-      require: string;
-      import: string;
-      default: string;
-    }
-  > = {
+  const exports: PackageExports = {
     ".": {
       types: "./index.d.ts",
       require: "./index.js",
