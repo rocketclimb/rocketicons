@@ -5,7 +5,6 @@ import {
 } from "@rocketclimb/content-collections";
 
 import fs from "fs";
-import envPath from "path";
 import z from "zod";
 import * as changeCase from "change-case";
 
@@ -142,8 +141,6 @@ function onBeforeSaveCollectionCommon(
   configuration: any,
   docStructure: any
 ) {
-  const dynamicStructure = {} as any;
-
   const configSchema = z.record(z.string(), z.record(z.string(), z.string()));
   const docSchema = z.record(
     z.string(),
@@ -176,24 +173,10 @@ function onBeforeSaveCollectionCommon(
 
       let doc = getObject();
       if (isComponent) {
-        Object.assign(doc["components"], { [data.slug]: newDoc });
+        Object.assign(doc["components"], { [enslug]: newDoc });
       } else {
         Object.assign(doc, newDoc);
       }
-
-      // Generating dynamic json structure with N levels
-      const path = _meta.directory.split(envPath.sep);
-      const [fileName, fileLocale] = _meta.fileName.split(".");
-
-      const pathArray = [fileLocale, ...path, fileName];
-
-      generateRecursiveStructure()(
-        enslug,
-        fileLocale,
-        pathArray,
-        data,
-        dynamicStructure
-      );
     }
   );
 
@@ -204,19 +187,6 @@ function onBeforeSaveCollectionCommon(
     collections,
     configuration,
     indexSchema
-  );
-
-  // Dynamically generated json with N levels
-  insertNewCollection(
-    `Dynamic${typeName}`,
-    collection,
-    {
-      docs: dynamicStructure,
-      slugMap: docStructure.slugMap,
-      config: docStructure.config,
-    },
-    collections,
-    configuration
   );
 
   return collection;
