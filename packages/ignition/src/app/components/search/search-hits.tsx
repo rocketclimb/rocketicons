@@ -24,7 +24,7 @@ const IconHit = ({ hit, lang }: IconHitProps) => {
   return (
     <>
       <Link
-        className="grow py-3 pl-4"
+        className="grow py-3 pl-4 capitalize"
         href={`/${lang}/icons/${hit.group}/${hit.objectID}`}
       >
         <IconLoader
@@ -33,7 +33,7 @@ const IconHit = ({ hit, lang }: IconHitProps) => {
           className="icon-sky-500-xl group-hover/result:icon-white-xl mr-3"
           Loading={Loader}
         />
-        {hit.name}
+        {hit.title}
       </Link>
       <WithCopy
         lang={lang}
@@ -62,9 +62,7 @@ const Hit = ({ hit, lang }: PropsHit) => {
           : `/${hit.locale}/docs/${hit.objectID}`
       }
     >
-      <span className="grow">
-        <Highlight attribute="title" hit={hit} highlightedTagName="span" />
-      </span>
+      <span className="grow">{hit.title}</span>
       {hit.isFragment ? (
         <BiHash className="icon-slate-300 dark:icon-slate-400 align-center mr-3" />
       ) : (
