@@ -5,7 +5,6 @@ import { siteConfig } from "@/config/site";
 import { serverEnv } from "@/env/server";
 import { IconsManifest } from "rocketicons/data";
 import consoleColors from "./console-colors";
-import { group } from "console";
 
 type AlgoliaIndexRecord = {
   objectID: string;

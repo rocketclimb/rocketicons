@@ -177,7 +177,7 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
           <TextMenuTitle
             text="Icons"
             href={`/${lang}/icons`}
-            className={selectedClassName("icons")}
+            className={`group-has-[.docs-icons]:active-content`}
           />
           <SubMenu>
             <IconList />
@@ -187,7 +187,7 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
           <TextMenuTitle
             text="Roadmap"
             href={`/${lang}/roadmap`}
-            className={selectedClassName("roadmap")}
+            className={`group-has-[.docs-roadmap]:active-content`}
           />
         </MenuBlock>
       </ul>

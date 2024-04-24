@@ -1,4 +1,3 @@
-import { IconsManifest } from "rocketicons/data";
 import { getManifest, templateBuilder, write } from "./utils";
 
 const OUTPUT_FILE = "icons/icons-loader.tsx";

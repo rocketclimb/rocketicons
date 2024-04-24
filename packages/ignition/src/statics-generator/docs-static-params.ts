@@ -15,7 +15,7 @@ const generator = async () => {
     .map((file) => {
       const slug = (
         /\nslug:(?<slug>.*)\n/g.exec(getContents(`${LOCALES_FOLDER}${file}`))
-          ?.groups?.slug || ""
+          ?.groups?.slug ?? ""
       ).trim();
       const lang = file.toString().replace(LOCALES_EXT, "").split(".").pop();
       return { lang, slug };

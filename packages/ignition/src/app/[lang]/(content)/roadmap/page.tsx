@@ -40,15 +40,10 @@ const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
             <div className="text-md text-gray-500">
               <div>
                 {item.version && (
-                  <a href="#" className="font-medium mr-2">
-                    {item.version}
-                  </a>
+                  <button className="font-medium mr-2">{item.version}</button>
                 )}
 
-                <a
-                  href="#"
-                  className="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm"
-                >
+                <button className="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
                   <div className="absolute flex-shrink-0 flex items-center justify-center">
                     <span
                       className={`h-1.5 w-1.5 rounded-full ${
@@ -62,7 +57,7 @@ const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
                   <div className="ml-3.5 font-medium text-gray-900">
                     <span>{roadmap[item.type as keyof typeof roadmap]}</span>
                   </div>
-                </a>
+                </button>
               </div>
               <>
                 {(item.type === "Released" && (
