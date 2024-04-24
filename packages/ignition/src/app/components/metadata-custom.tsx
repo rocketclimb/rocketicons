@@ -15,10 +15,7 @@ const CustomMetadata = (
     `${title ?? name}` + (title?.endsWith(siteConfig.name) ? "" : ` | ${name}`);
   const pageDescription = description ?? brand.description;
   return {
-    title: {
-      default: pageTitle,
-      template: `%s - ${pageTitle}`,
-    },
+    title: pageTitle,
     description: pageDescription,
     keywords: [
       "React",

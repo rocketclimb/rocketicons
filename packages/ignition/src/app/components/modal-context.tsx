@@ -75,14 +75,6 @@ type ModalContentProps = PropsWithChildren & {
 };
 
 const ModalContent = ({ children, isOpen, closeModal }: ModalContentProps) => {
-  useEffect(() => {
-    const handleResize = () => closeModal();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   useKeyboardShortcut(() => closeModal(), {
     code: "Escape",
   });

@@ -8,8 +8,6 @@
       },
       "features": {
         "en": [
-          "Custom Bundles",
-          "Custom package publishing",
           "Community Collections",
           "Private Collections",
           "Icon Stacking",
@@ -17,8 +15,6 @@
           "Tags"
         ],
         "pt-br": [
-          "Bundles personalizados",
-          "Publicação de pacotes personalizados",
           "Coleções da comunidade",
           "Coleções privadas",
           "Empilhamento de ícones",
