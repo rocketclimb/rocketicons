@@ -22,14 +22,6 @@ const UrlChangesObserver = ({ onChanges }: UrlObserverProps) => {
       lastPath,
       hash,
     });
-    console.log(
-      "window.location",
-      window.location.pathname.split("/").pop() ?? ""
-    );
-
-    console.log("targetId", targetId);
-    console.log("target", target);
-    console.log("has target", !!window.location.hash && !!target);
   }, [pathName, searchParams]);
   return <></>;
 };
