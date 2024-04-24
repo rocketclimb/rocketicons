@@ -72,12 +72,14 @@ const indexer = async () => {
         );
         // Map articles to Algolia records
         const articleRecords: AlgoliaIndexRecord[] = articles.map((doc) => {
-          const group = articles.find((a) => a.slug === doc.group);
+          const groupEn = articles.find((a) => a.enslug === doc.group);
+          const groupLocale = articles.find((a) => a.enslug === doc.group);
+
           return {
             objectID: doc.slug,
             title: doc.title,
             group: doc.group,
-            groupName: group?.title ?? doc.group,
+            groupName: groupEn?.title ?? groupLocale?.title ?? doc.group,
             locale: doc.locale,
             text: doc.content,
             isIcon: false,

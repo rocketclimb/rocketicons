@@ -108,7 +108,7 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
                     {components &&
                       components.map((model: any, i: number) => {
                         const isComponent = mainDoc.components.hasOwnProperty(
-                          model.slug
+                          model.enslug
                         );
 
                         const subMenu = isComponent ? model : model[1][lang];

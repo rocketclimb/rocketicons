@@ -142,7 +142,7 @@ function onBeforeSaveCollectionCommon(
   configuration: any,
   docStructure: any
 ) {
-  const dynamicStructure = {} as any;
+  // const dynamicStructure = {} as any;
 
   const configSchema = z.record(z.string(), z.record(z.string(), z.string()));
   const docSchema = z.record(
@@ -176,7 +176,7 @@ function onBeforeSaveCollectionCommon(
 
       let doc = getObject();
       if (isComponent) {
-        Object.assign(doc["components"], { [data.slug]: newDoc });
+        Object.assign(doc["components"], { [enslug]: newDoc });
       } else {
         Object.assign(doc, newDoc);
       }
@@ -187,13 +187,13 @@ function onBeforeSaveCollectionCommon(
 
       const pathArray = [fileLocale, ...path, fileName];
 
-      generateRecursiveStructure()(
-        enslug,
-        fileLocale,
-        pathArray,
-        data,
-        dynamicStructure
-      );
+      // generateRecursiveStructure()(
+      //   enslug,
+      //   fileLocale,
+      //   pathArray,
+      //   data,
+      //   dynamicStructure
+      // );
     }
   );
 
@@ -206,18 +206,18 @@ function onBeforeSaveCollectionCommon(
     indexSchema
   );
 
-  // Dynamically generated json with N levels
-  insertNewCollection(
-    `Dynamic${typeName}`,
-    collection,
-    {
-      docs: dynamicStructure,
-      slugMap: docStructure.slugMap,
-      config: docStructure.config,
-    },
-    collections,
-    configuration
-  );
+  // // Dynamically generated json with N levels
+  // insertNewCollection(
+  //   `Dynamic${typeName}`,
+  //   collection,
+  //   {
+  //     docs: dynamicStructure,
+  //     slugMap: docStructure.slugMap,
+  //     config: docStructure.config,
+  //   },
+  //   collections,
+  //   configuration
+  // );
 
   return collection;
 }
