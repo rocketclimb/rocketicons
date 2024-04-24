@@ -2,7 +2,7 @@
 import { useInstantSearch, Highlight } from "react-instantsearch";
 import Link from "next/link";
 import { useLocale } from "@/locales";
-import { PropsWithChildrenAndClassName, PropsWithLang } from "@/types";
+import { PropsWithLang } from "@/types";
 import { SiAlgolia } from "rocketicons/si";
 import IconLoader from "@/components/icons/icon-loader";
 import { BiHash, BiLoaderAlt } from "rocketicons/bi";
@@ -54,25 +54,23 @@ const Hit = ({ hit, lang }: PropsHit) => {
   const groupSlug = useLocale(hit.locale || lang).doc(hit.group)?.slug;
 
   return (
-    <>
-      <Link
-        className="flex grow py-3 pl-4"
-        href={
-          hit.isFragment
-            ? `/${hit.locale}/docs/${groupSlug}#${hit.objectID}`
-            : `/${hit.locale}/docs/${hit.objectID}`
-        }
-      >
-        <span className="grow">
-          <Highlight attribute="title" hit={hit} highlightedTagName="span" />
-        </span>
-        {hit.isFragment ? (
-          <BiHash className="icon-slate-300 dark:icon-slate-400 align-center mr-3" />
-        ) : (
-          <GoBook className="icon-slate-300 dark:icon-slate-400 align-center mr-3" />
-        )}
-      </Link>
-    </>
+    <Link
+      className="flex grow py-3 pl-4"
+      href={
+        hit.isFragment
+          ? `/${hit.locale}/docs/${groupSlug}#${hit.objectID}`
+          : `/${hit.locale}/docs/${hit.objectID}`
+      }
+    >
+      <span className="grow">
+        <Highlight attribute="title" hit={hit} highlightedTagName="span" />
+      </span>
+      {hit.isFragment ? (
+        <BiHash className="icon-slate-300 dark:icon-slate-400 align-center mr-3" />
+      ) : (
+        <GoBook className="icon-slate-300 dark:icon-slate-400 align-center mr-3" />
+      )}
+    </Link>
   );
 };
 
@@ -133,7 +131,7 @@ const IconResult = ({ id, group, hits, lang }: IconResultProps) => {
         <Importer lang={lang} component={`rocketicons/${id}`} />
       </ResultTitle>
       <ul>
-        {(hits as any).map((hit: any) => (
+        {hits.map((hit: any) => (
           <ResultItem key={hit.objectID}>
             <IconHit lang={lang} hit={hit} />
           </ResultItem>
@@ -154,7 +152,7 @@ const HitResult = ({ group, hits, lang }: HitResultProps) => {
     <div className="m-2">
       <ResultTitle label={groupTitle} />
       <ul>
-        {(hitsWithNoParent as any).map((hit: any) => (
+        {hitsWithNoParent.map((hit: any) => (
           <ResultItem key={hit.objectID}>
             <Hit lang={lang} hit={hit} />
           </ResultItem>

@@ -110,10 +110,7 @@ const StateManagement = ({
         />
         <GridContainer>
           <div className="mx-auto flex justify-center gap-6 my-8">
-            <a
-              href="#"
-              className="group/sample block max-w-xs mx-auto rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-500 hover:ring-sky-500"
-            >
+            <button className="group/sample block max-w-xs mx-auto rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-500 hover:ring-sky-500">
               <div className="flex items-center space-x-2">
                 <Icon className="icon-sky-500 group-hover/sample:icon-white" />
                 <RocketIconsTextDefault
@@ -124,13 +121,13 @@ const StateManagement = ({
               <p className="text-slate-500 group-hover/sample:text-white text-sm">
                 Group state can be used to change style of the icon.
               </p>
-            </a>
+            </button>
           </div>
         </GridContainer>
         <UpdateAlert alert="hover" lang={lang} />
         <CodeSample>
           <div>
-            <a href="#" className="group/sample ...">
+            <button className="group/sample ...">
               <div className="flex">
                 <div
                   data-cb-tag={icon}
@@ -144,7 +141,7 @@ const StateManagement = ({
               <p className="text-slate-500 group-hover/sample:text-white text-sm">
                 Group state can be used to change style of the icon.
               </p>
-            </a>
+            </button>
           </div>
         </CodeSample>
       </Wrapper>
