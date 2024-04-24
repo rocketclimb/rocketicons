@@ -38,7 +38,7 @@ const indexer = async () => {
       (collection) =>
         collection.icons.map((icon) => ({
           objectID: `${collection.id}-${toKebabCase(icon.substring(2))}`,
-          title: `${icon.substring(2)}`,
+          title: `${toKebabCase(icon.substring(2)).replaceAll("-", " ")}`,
           group: collection.id,
           groupName: collection.name,
           locale: "", // Add the appropriate locale value here
