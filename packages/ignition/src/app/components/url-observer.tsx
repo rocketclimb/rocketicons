@@ -2,7 +2,7 @@ import { Suspense, useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 type UrlObserverProps = {
-  onChanges: (hash: string) => void;
+  onChanges: ({ lastPath, hash }: { lastPath: string; hash: string }) => void;
 };
 
 const UrlChangesObserver = ({ onChanges }: UrlObserverProps) => {
@@ -12,11 +12,16 @@ const UrlChangesObserver = ({ onChanges }: UrlObserverProps) => {
   useEffect(() => {
     const targetId = window.location.hash.substring(1);
     const target = document.getElementById(targetId); // I've never saw that on a react code...
-    onChanges(
+
+    const lastPath = pathName.split("/").pop() ?? "";
+    const hash =
       window.location.hash && target
         ? targetId
-        : (pathName.split("/").pop() as string)
-    );
+        : (pathName.split("/").pop() as string);
+    onChanges({
+      lastPath,
+      hash,
+    });
   }, [pathName, searchParams]);
   return <></>;
 };
