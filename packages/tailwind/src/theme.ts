@@ -1,4 +1,4 @@
-import { ThemeOptions } from "./utils/config-handler";
+import { ThemeOptions } from "@/types";
 
 const theme: ThemeOptions = {
   default: "sky-500-base",

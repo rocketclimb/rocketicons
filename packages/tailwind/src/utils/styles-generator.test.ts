@@ -1,6 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
 import { stylesGenerator } from "./styles-generator";
-import { StyleHandler } from "./config-handler";
+import { StyleHandler } from "@/types";
 
 const asStyle = (
   variant: string,

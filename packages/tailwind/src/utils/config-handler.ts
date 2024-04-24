@@ -1,58 +1,16 @@
-import { PluginAPI } from "tailwindcss/types/config";
-
-export interface ThemeOptions {
-  default?: string;
-  baseStyle?: string;
-  variants?: Record<string, string>;
-  sizes: Record<string, string>;
-}
-
-type ThemeConfig<T extends ThemeOptions> = Record<string, T>;
-type ThemeProperties<T extends ThemeOptions> = keyof ThemeConfig<T>;
-
-type StyleOptions = { variant: string; color?: string; size?: string };
-
-type Defaults = {
-  defaultColor: string;
-  defaultSize: string;
-};
+import { Config, ThemeOptions, ThemeHandler, ThemeProperties, Defaults, StyleHandler, StyleOptions, ConfigProp, ThemeConfig, ThemeOption, ThemeProp } from '@/types';
 
 const AVAILABLE_VARIANTS = ["outlined", "filled"];
 
 export const DEFAULT_CLASS_NAME = "default";
 
-export type Config = PluginAPI["config"];
-
-export type StyleHandler = {
-  variant: () => string;
-  name: () => string;
-  styles: () => string;
-  options: () => StyleHandler[];
-};
-
-export type DefaultStyleHandler = {
-  variants: () => StyleHandler[];
-  colors: () => StyleHandler[];
-  sizes: () => StyleHandler[];
-};
-
-export type Theme = {
-  variants: () => StyleHandler[];
-  sizes: () => StyleHandler[];
-};
-
-export type ThemeHandler<T extends ThemeOptions> = (
-  property: ThemeProperties<T>,
-  defaultTheme: ThemeOptions
-) => Theme;
-
 export const configHandler = <T extends ThemeOptions>(
   config: Config
 ): ThemeHandler<T> => {
   const customConfig = config("components");
-  const themeColors = config("theme").colors;
+  const themeColors: ConfigProp = config("theme").colors;
 
-  const getColorDefaults = (color: string, variants: string | any) => {
+  const getColorDefaults = (color: string, variants: ConfigProp) => {
     if (typeof variants === "string" || variants.DEFAULT) {
       return color;
     }
@@ -63,7 +21,7 @@ export const configHandler = <T extends ThemeOptions>(
     );
   };
 
-  const colorVariantsReducer = (color: string, variants: string | object) =>
+  const colorVariantsReducer = (color: string, variants: ConfigProp) =>
     typeof variants === "object"
       ? Object.keys(variants)
           .filter((key) => key !== "DEFAULT")
@@ -81,35 +39,37 @@ export const configHandler = <T extends ThemeOptions>(
   ).reduce(
     (reduced, [key, value]) => ({
       ...reduced,
-      [key]: getColorDefaults(key, value as string | object),
-      ...colorVariantsReducer(key, value as string | object),
+      [key]: getColorDefaults(key, value as ConfigProp),
+      ...colorVariantsReducer(key, value as ConfigProp),
     }),
     {}
   );
 
   const isExtending = customConfig && !!customConfig["extends"];
-  const themeConfig = (isExtending && customConfig["extends"]) || customConfig;
+  const themeConfig: ThemeConfig<T> = (isExtending && customConfig["extends"]) || customConfig;
 
   const themeHandler = (defaultTheme: ThemeOptions, custom?: T): T => {
-    const hasCustomConfig = custom && Object.keys(custom).length;
+    const hasCustomConfig = !!(custom && Object.keys(custom).length);
 
-    const getNewProperties = (baseConfig: any, customConfig: any): T =>
-      Object.entries(customConfig)
+    const getNewProperties = (baseConfig: ThemeOptions | ThemeProp, customConfig: T): T =>
+      (Object.entries(customConfig) as [ThemeOption, ThemeOptions][] )
         .filter(([key]) => !baseConfig[key])
         .reduce(
           (reduced, [key, entry]) => ({ ...reduced, [key]: entry }),
           {}
         ) as T;
 
-    const parseProperty = (value: any, defaults: any) =>
-      value === undefined
-        ? defaults
-        : typeof value === "object"
-        ? deepMerge(defaults, value)
-        : value;
+    const parseProperty = (value: ConfigProp | undefined | T, defaults?: string | ThemeProp) => {
+      if ( value === undefined ) {
+        return defaults;
+      }
 
-    const deepMerge = (baseConfig: any, customConfig: any): T =>
-      Object.keys(baseConfig).reduce(
+      return typeof value === "object" ? deepMerge(defaults as ThemeProp, value as T) : value;
+    }
+      
+
+    const deepMerge = (baseConfig: ThemeOptions | ThemeProp, customConfig: T): T =>
+      (Object.keys(baseConfig) as ThemeOption[]).reduce(
         (reduced, key) => ({
           ...reduced,
           [key]: parseProperty(
@@ -121,7 +81,7 @@ export const configHandler = <T extends ThemeOptions>(
       );
 
     const handleCustomConfig = (): T =>
-      isExtending ? deepMerge(defaultTheme!, custom) : (custom as T);
+      isExtending ? deepMerge(defaultTheme!, custom!) : (custom as T);
 
     return (!hasCustomConfig ? defaultTheme : handleCustomConfig()) as T;
   };

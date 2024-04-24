@@ -1,10 +1,6 @@
-import { StyleHandler, DEFAULT_CLASS_NAME } from "./config-handler";
+import { DEFAULT_CLASS_NAME } from "./config-handler";
 
-export type Style = Record<string, Record<string, {}>>;
-
-type Extensor = (classPrefix: string) => Generator;
-
-type Generator = (className: string, styles: string) => Style;
+import {Extensor, Style, StyleHandler } from '@/types';
 
 const builder: Extensor =
   (classPrefix: string) =>

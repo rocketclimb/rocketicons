@@ -1,10 +1,13 @@
 import { describe, jest, expect, test, beforeAll } from "@jest/globals";
 import {
   configHandler,
+} from "./config-handler";
+
+import { 
   Config,
   StyleHandler,
   ThemeOptions,
-} from "./config-handler";
+} from '@/types';
 
 describe("configHandler", () => {
   describe("Styles", () => {
@@ -1138,8 +1141,8 @@ describe("configHandler", () => {
 
           beforeAll(() => {
             const spyConfig = jest.fn<Config>(((request: string) =>
-              request === "components" ? customConfig : { colors }) as any);
-            //@ts-ignore Config type enforcement
+              request === "components" ? customConfig : { colors }) as Config);
+            //@ts-expect-error Config type enforcement
             const config = configHandler(spyConfig);
             const theme = config("icon", baseConfig);
             variants = theme.variants();
