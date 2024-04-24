@@ -16,6 +16,8 @@ import {
 import RocketiconsText from "@/components/rocketicons-text";
 import Button from "@/components/button";
 
+import NumberFormatter from "@/components/number-formatter";
+
 import IconsLoader, { HandlerPros } from "@/data-helpers/icons/icons-loader";
 import tastesLoader from "@/data-helpers/icons/tastes-loader";
 
@@ -163,7 +165,7 @@ const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
                 <Title name={name} />
                 <p className="text-sm text-slate-500 rounded h-4 w-20 bg-gray-200 dark:bg-slate-700 has-[span]:h-auto has-[span]:w-auto has-[span]:bg-transparent has-[span]:dark:bg-transparent">
                   <span className="capitalize">
-                    {totalIcons} {icon}
+                    <NumberFormatter lang={lang} number={totalIcons} /> {icon}
                     {totalIcons > 1 && "s"}
                   </span>
                 </p>
