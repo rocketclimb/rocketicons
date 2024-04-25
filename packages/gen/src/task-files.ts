@@ -35,10 +35,7 @@ export const dirInit = async ({ DIST, LIB }: TaskContext) => {
     await write([file], "// THIS FILE IS AUTO GENERATED\n");
   }
 };
-export const writeIconModuleFiles = async (
-  icon: IconDefinition,
-  { DIST }: TaskContext
-) => {
+export const writeIconModuleFiles = async (icon: IconDefinition, { DIST }: TaskContext) => {
   const exists = new Set(); // for remove duplicate
 
   for (const content of icon.contents) {
@@ -63,27 +60,15 @@ export const writeIconModuleFiles = async (
       const modRes = iconRowTemplate(icon, name, iconData, "module");
       const modHeader =
         "// THIS FILE IS AUTO GENERATED\nimport { GenIcon } from '../core/index.mjs';\n";
-      await fs.writeFile(
-        path.resolve(DIST, icon.id, `${name}.mjs`),
-        modHeader + modRes,
-        "utf8"
-      );
+      await fs.writeFile(path.resolve(DIST, icon.id, `${name}.mjs`), modHeader + modRes, "utf8");
       const comRes = iconRowTemplate(icon, name, iconData, "common");
       const comHeader =
         '// THIS FILE IS AUTO GENERATED\n"use strict";Object.defineProperty(exports, "__esModule", { value: true });\nconst core_1 = require("../core");\n';
-      await fs.writeFile(
-        path.resolve(DIST, icon.id, `${name}.js`),
-        comHeader + comRes,
-        "utf8"
-      );
+      await fs.writeFile(path.resolve(DIST, icon.id, `${name}.js`), comHeader + comRes, "utf8");
       const dtsRes = iconRowTemplate(icon, name, iconData, "dts");
       const dtsHeader =
         "// THIS FILE IS AUTO GENERATED\nimport { IconTree, IconType } from '../core/index.mjs'\n";
-      await fs.writeFile(
-        path.resolve(DIST, icon.id, `${name}.d.ts`),
-        dtsHeader + dtsRes,
-        "utf8"
-      );
+      await fs.writeFile(path.resolve(DIST, icon.id, `${name}.d.ts`), dtsHeader + dtsRes, "utf8");
 
       exists.add(file);
     }

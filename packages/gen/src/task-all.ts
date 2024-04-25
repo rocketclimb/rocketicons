@@ -49,7 +49,7 @@ export const dirInit = async ({ DIST, LIB, PLUGIN, DATA }: TaskContext) => {
       JSON.stringify(
         {
           sideEffects: false,
-          module: "./index.mjs",
+          module: "./index.mjs"
         },
         null,
         2
@@ -77,7 +77,7 @@ export const writeIconModule = async (
       license: icon.license,
       projectUrl: icon.projectUrl,
       licenseUrl: icon.licenseUrl,
-      icons: {},
+      icons: {}
     };
 
     for (const file of files) {
@@ -85,10 +85,7 @@ export const writeIconModule = async (
       const svgStr = content.processWithSVGO
         ? svgoOptimize(svgStrRaw, svgoConfig).data
         : svgStrRaw;
-      const { iconData, variant } = await convertIconData(
-        svgStr,
-        content.multiColor
-      );
+      const { iconData, variant } = await convertIconData(svgStr, content.multiColor);
 
       const rawName = path.basename(file, path.extname(file));
       const pascalName = camelcase(rawName, { pascalCase: true });
@@ -98,24 +95,12 @@ export const writeIconModule = async (
 
       // write like: module/fa/index.mjs
       const modRes = iconRowTemplate(icon, name, iconData, variant, "module");
-      await fs.appendFile(
-        path.resolve(DIST, icon.id, "index.mjs"),
-        modRes,
-        "utf8"
-      );
+      await fs.appendFile(path.resolve(DIST, icon.id, "index.mjs"), modRes, "utf8");
       const comRes = iconRowTemplate(icon, name, iconData, variant, "common");
 
-      await fs.appendFile(
-        path.resolve(DIST, icon.id, "index.js"),
-        comRes,
-        "utf8"
-      );
+      await fs.appendFile(path.resolve(DIST, icon.id, "index.js"), comRes, "utf8");
       const dtsRes = iconRowTemplate(icon, name, iconData, variant, "dts");
-      await fs.appendFile(
-        path.resolve(DIST, icon.id, "index.d.ts"),
-        dtsRes,
-        "utf8"
-      );
+      await fs.appendFile(path.resolve(DIST, icon.id, "index.d.ts"), dtsRes, "utf8");
 
       const nameToManifest = (): string => {
         const compPrefix = icon?.compPrefix ?? icon.id;
@@ -130,7 +115,7 @@ export const writeIconModule = async (
         name: manifestName.replace(/-/g, " "),
         compName: name,
         variant,
-        ...(icon?.compPrefix && { comPrefix: icon?.compPrefix }),
+        ...(icon?.compPrefix && { comPrefix: icon?.compPrefix })
       };
       exists.add(file);
     }

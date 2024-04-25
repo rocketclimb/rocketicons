@@ -28,17 +28,17 @@ const main = async () => {
     distBaseDir,
     iconDir(name: string) {
       return path.join(distBaseDir, name);
-    },
+    }
   };
 
   // rm all icons and mkdir dist
   await fs.promises.rm(distBaseDir, {
     recursive: true,
-    force: true,
+    force: true
   });
 
   await fs.promises.mkdir(distBaseDir, {
-    recursive: true,
+    recursive: true
   });
 
   const queue = new PQueue({ concurrency: 10 });
@@ -55,27 +55,21 @@ const main = async () => {
 };
 
 const gitCloneIcon = async (source: IconSetGitSource, ctx: Context) => {
-  console.log(
-    `start clone icon: ${source.url}/${source.remoteDir}@${source.branch}`
-  );
+  console.log(`start clone icon: ${source.url}/${source.remoteDir}@${source.branch}`);
   await execFile(
     "git",
     ["clone", "--filter=tree:0", "--no-checkout", source.url, source.localName],
     {
-      cwd: ctx.distBaseDir,
+      cwd: ctx.distBaseDir
     }
   );
 
-  await execFile(
-    "git",
-    ["sparse-checkout", "set", "--cone", "--skip-checks", source.remoteDir],
-    {
-      cwd: ctx.iconDir(source.localName),
-    }
-  );
+  await execFile("git", ["sparse-checkout", "set", "--cone", "--skip-checks", source.remoteDir], {
+    cwd: ctx.iconDir(source.localName)
+  });
 
   await execFile("git", ["checkout", source.hash], {
-    cwd: ctx.iconDir(source.localName),
+    cwd: ctx.iconDir(source.localName)
   });
 };
 
