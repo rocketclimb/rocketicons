@@ -7,12 +7,8 @@ import Link from "next/link";
 
 import { IoMdClose } from "rocketicons/io";
 
-import { useLocale } from "@/locales";
-import {
-  PropsWithChildrenAndClassName,
-  PropsWithChildrenAndLang,
-  PropsWithLang,
-} from "@/types";
+import { withLocale } from "@/locales";
+import { PropsWithChildrenAndClassName, PropsWithChildrenAndLang, PropsWithLang } from "@/types";
 import RocketiconsText from "@/components/rocketicons-text";
 import Button from "@/components/button";
 
@@ -33,15 +29,8 @@ const Title = ({ name }: TitleProps) => (
   </h4>
 );
 
-const UlContainer = ({
-  className,
-  children,
-}: PropsWithChildrenAndClassName) => (
-  <ul
-    className={`flex gap-1 overflow-hidden transition duration-700 ${
-      className ?? ""
-    }`}
-  >
+const UlContainer = ({ className, children }: PropsWithChildrenAndClassName) => (
+  <ul className={`flex gap-1 overflow-hidden transition duration-700 ${className ?? ""}`}>
     {children}
   </ul>
 );
@@ -51,12 +40,7 @@ type LiContainerProps = {
   selected: string;
 } & PropsWithChildrenAndClassName;
 
-const LiContainer = ({
-  id,
-  className,
-  selected,
-  children,
-}: LiContainerProps) => {
+const LiContainer = ({ id, className, selected, children }: LiContainerProps) => {
   const [isSelected, setIsSelected] = useState<boolean>(false);
 
   useEffect(() => {
@@ -134,7 +118,7 @@ type IconsCollectionsProps = PropsWithLang & {
 };
 
 const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
-  const locales = useLocale(lang);
+  const locales = withLocale(lang);
 
   const { "show-all": showAllLabel, icon } = locales.config("show-all", "icon");
 
@@ -148,16 +132,10 @@ const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
 
         return (
           <Fragment key={i}>
-            <LiContainer
-              id={id}
-              selected={selected}
-              className="group/collapsed"
-            >
+            <LiContainer id={id} selected={selected} className="group/collapsed">
               <div
                 onClick={() => !isSelected && setSelected(id)}
-                onKeyDown={({ key }) =>
-                  key === "Enter" && !isSelected && setSelected(id)
-                }
+                onKeyDown={({ key }) => key === "Enter" && !isSelected && setSelected(id)}
                 role="button"
                 tabIndex={0}
                 className="transition-all duration-200 group-data-[selected=false]/collapsed:hover:scale-[1.01] group-data-[selected=true]/collapsed:opacity-60"

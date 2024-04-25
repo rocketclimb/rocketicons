@@ -3,20 +3,8 @@ import { PropsWithClassName } from "@/types";
 const Logo = ({ className }: PropsWithClassName) => (
   <svg className={className} version="1.1" viewBox="0 0 169.24 30.737">
     <g transform="translate(-.063647 -42.681)" display="none">
-      <rect
-        x="168.25"
-        y=".30089"
-        width="173.09"
-        height="341.48"
-        display="inline"
-      />
-      <rect
-        x="-.39886"
-        y=".085236"
-        width="171.53"
-        height="340.96"
-        display="inline"
-      />
+      <rect x="168.25" y=".30089" width="173.09" height="341.48" display="inline" />
+      <rect x="-.39886" y=".085236" width="171.53" height="340.96" display="inline" />
     </g>
     <g transform="translate(-.063647 -42.681)">
       <rect x=".063647" y="42.681" width="169.24" height="30.737" fill="none" />

@@ -18,13 +18,9 @@ const Tag = ({ tagName, attributes, children }: TagProps) => {
     <div className="count">
       <div>
         <CommonNotation lang="html">{adding}</CommonNotation>
-        <TagName lang="html">
-          {tagName === "ioLogoGithub" ? "IoLogoGithub" : tagName}
-        </TagName>
+        <TagName lang="html">{tagName === "ioLogoGithub" ? "IoLogoGithub" : tagName}</TagName>
         {attrs}
-        <CommonNotation lang="html">
-          {(children && ">") || " />"}
-        </CommonNotation>
+        <CommonNotation lang="html">{(children && ">") || " />"}</CommonNotation>
       </div>
     </div>
   );
@@ -54,13 +50,7 @@ type CodeGenProps = {
 };
 
 const CodeGen = (props: CodeGenProps) => {
-  const Generator = ({
-    nodes,
-    parentId,
-    deep,
-    state,
-    showId,
-  }: CodeGenProps) => {
+  const Generator = ({ nodes, parentId, deep, state, showId }: CodeGenProps) => {
     deep = deep || 0;
 
     return (
@@ -81,20 +71,13 @@ const CodeGen = (props: CodeGenProps) => {
                 tagName={tag}
                 attributes={{
                   ...props,
-                  ...((showId && { ["data-id"]: getElementId(i, parentId) }) ||
-                    {}),
-                  className:
-                    state[getElementId(i, parentId)]?.codeState ||
-                    props.className,
+                  ...((showId && { ["data-id"]: getElementId(i, parentId) }) || {}),
+                  className: state[getElementId(i, parentId)]?.codeState || props.className
                 }}
               >
                 {children && (
                   <Generator
-                    nodes={
-                      (Array.isArray(children)
-                        ? children
-                        : [children]) as DataElement[]
-                    }
+                    nodes={(Array.isArray(children) ? children : [children]) as DataElement[]}
                     deep={deep! + 1}
                     state={state}
                     parentId={getElementId(i, parentId)}

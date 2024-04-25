@@ -30,11 +30,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     p: ({ children, ...props }) => <Paragraph {...props}>{children}</Paragraph>,
     pre: ({ className, children, ...props }) => (
       <div className="my-3">
-        <CodeStyler
-          {...props}
-          className={`pre ${className}`}
-          variant="minimalist"
-        >
+        <CodeStyler {...props} className={`pre ${className}`} variant="minimalist">
           {children}
         </CodeStyler>
       </div>
@@ -64,17 +60,11 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </li>
     ),
     a: ({ href, children, ...props }) => (
-      <DocLink
-        external={href?.startsWith("http")}
-        href={href || "#"}
-        {...props}
-      >
+      <DocLink external={href?.startsWith("http")} href={href || "#"} {...props}>
         {children}
       </DocLink>
     ),
-    blockquote: ({ children, ...props }) => (
-      <blockquote {...props}>{children}</blockquote>
-    ),
-    ...components,
+    blockquote: ({ children, ...props }) => <blockquote {...props}>{children}</blockquote>,
+    ...components
   };
 }

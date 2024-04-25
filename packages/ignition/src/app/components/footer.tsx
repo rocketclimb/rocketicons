@@ -19,9 +19,7 @@ const Footer = () => {
           className="hover:text-slate-500 dark:hover:text-slate-400"
           title="Join our Discord server!"
         >
-          <span className="text-white text-[1px] dark:text-slate-900">
-            Discord
-          </span>
+          <span className="text-white text-[1px] dark:text-slate-900">Discord</span>
           <FaDiscord className="icon-slate-500 hover:icon-slate-600 dark:hover:icon-slate-400" />
         </Link>
         <GitHubIcon className="ml-6" />

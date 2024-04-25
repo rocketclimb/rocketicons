@@ -1,6 +1,6 @@
 "use client";
 import useClipboard from "@/hooks/use-clipboard";
-import { useLocale } from "@/locales";
+import { withLocale } from "@/locales";
 import { PropsWithChildrenAndLang } from "@/types";
 
 type WithCopyProps = {
@@ -8,13 +8,8 @@ type WithCopyProps = {
   clipboardText: string;
 } & PropsWithChildrenAndLang;
 
-const WithCopy = ({
-  lang,
-  clipboardText,
-  className,
-  children,
-}: WithCopyProps) => {
-  const { copy, copied } = useLocale(lang).config("code-block");
+const WithCopy = ({ lang, clipboardText, className, children }: WithCopyProps) => {
+  const { copy, copied } = withLocale(lang).config("code-block");
   const { write, isCurrent } = useClipboard(clipboardText);
 
   return (

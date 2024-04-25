@@ -1,6 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
 import { stylesGenerator } from "./styles-generator";
-import { StyleHandler } from "./config-handler";
+import { StyleHandler } from "@/types";
 
 const asStyle = (
   variant: string,
@@ -11,7 +11,7 @@ const asStyle = (
   variant: () => variant,
   name: () => name,
   styles: () => styles,
-  options: () => options,
+  options: () => options
 });
 
 describe("stylesGenerator", () => {
@@ -22,16 +22,14 @@ describe("stylesGenerator", () => {
         generator
           .add([
             asStyle("filled", "default", "border", [
-              asStyle("filled", "primary", "text-blue", [
-                asStyle("filled", "sm", "text-sm", []),
-              ]),
-            ]),
+              asStyle("filled", "primary", "text-blue", [asStyle("filled", "sm", "text-sm", [])])
+            ])
           ])
           .styles()
       ).toStrictEqual({
         ".icon-default": { "@apply border": {} },
         ".icon-primary": { "@apply text-blue": {} },
-        ".icon-primary-sm": { "@apply text-sm": {} },
+        ".icon-primary-sm": { "@apply text-sm": {} }
       });
     });
   });

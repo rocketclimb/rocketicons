@@ -2,21 +2,20 @@ import { PropsWithLang } from "@/types";
 import { MdxPartial } from "@/components/mdx";
 import { getCurrentIconData } from "@/components/usage/utils";
 import GridContainer from "@/components/documentation/grid-container";
-import { useLocale } from "@/locales";
+import { withLocale } from "@/locales";
 
 import CodeSample from "@/components/code-block/code-sample";
 import Wrapper from "@/components/documentation/wrapper";
 import SampleBox from "@/components/documentation/sample-box";
 
-const DarkMode = ({
-  lang,
-  queryIcon,
-}: PropsWithLang & { queryIcon?: string }) => {
-  const locale = useLocale(lang);
+const DarkMode = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
+  const locale = withLocale(lang);
   const { icon, Icon } = getCurrentIconData(queryIcon);
 
-  const { "dark-mode": darModeLabel, "light-mode": ligthModeLabel } =
-    locale.config("dark-mode", "light-mode");
+  const { "dark-mode": darModeLabel, "light-mode": ligthModeLabel } = locale.config(
+    "dark-mode",
+    "light-mode"
+  );
   return (
     <>
       <MdxPartial lang={lang} slug={"dark-mode"} path="docs" />
@@ -37,19 +36,12 @@ const DarkMode = ({
         <CodeSample>
           <div className="text-slate-400 bg-slate-800 ... shadow-xl">
             <p>{`{modeLabel}`}</p>
-            <div
-              data-cb-tag={icon}
-              className="icon-sky-900-6xl dark:icon-sky-500-6xl"
-            />
+            <div data-cb-tag={icon} className="icon-sky-900-6xl dark:icon-sky-500-6xl" />
           </div>
         </CodeSample>
       </div>
       <Wrapper>
-        <MdxPartial
-          lang={lang}
-          slug={"dark-mode/dark-mode-action"}
-          path="docs"
-        />
+        <MdxPartial lang={lang} slug={"dark-mode/dark-mode-action"} path="docs" />
         <div className="mt-6">
           <SampleBox
             locale={lang}
@@ -58,17 +50,13 @@ const DarkMode = ({
             options={[
               "icon-4xl dark:icon-7xl",
               "icon-yellow size-12 dark:icon-red-600 dark:size-14",
-              "icon-7xl dark:rounded-xl dark:border dark:border-slate-900 dark:bg-white",
+              "icon-7xl dark:rounded-xl dark:border dark:border-slate-900 dark:bg-white"
             ]}
           />
         </div>
       </Wrapper>
       <Wrapper>
-        <MdxPartial
-          lang={lang}
-          slug={"dark-mode/dark-mode-refer"}
-          path="docs"
-        />
+        <MdxPartial lang={lang} slug={"dark-mode/dark-mode-refer"} path="docs" />
       </Wrapper>
     </>
   );

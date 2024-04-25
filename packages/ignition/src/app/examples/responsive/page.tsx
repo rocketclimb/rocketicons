@@ -27,11 +27,9 @@ const Page = () => (
       <Paragraph>
         Styling in a way
         <RcRocketIcon className="icon-slate-900-base sm:icon-slate-900-lg md:icon-slate-900-sm" />
-        you've never seen before.
+        you&apos;ve never seen before.
       </Paragraph>
-      <Paragraph>
-        Looking for a way to share code between web and native applications?
-      </Paragraph>
+      <Paragraph>Looking for a way to share code between web and native applications?</Paragraph>
       <Paragraph>This tool can help you achieve that goal.</Paragraph>
     </div>
   </div>

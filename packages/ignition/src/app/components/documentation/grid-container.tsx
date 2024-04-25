@@ -11,9 +11,7 @@ type GridContainerProps = {
 type Resize = "resize" | "resize-x" | "resize-y";
 type Resizing = `${Resize} relative min-w-80 mx-auto max-w-4xl`;
 
-const getResizableUtility = (
-  resizable?: Resizable
-): Resizing | "resize-none" => {
+const getResizableUtility = (resizable?: Resizable): Resizing | "resize-none" => {
   if (!resizable) {
     return "resize-none";
   }
@@ -22,11 +20,7 @@ const getResizableUtility = (
   return `${resize} relative min-w-80 mx-auto max-w-4xl`;
 };
 
-const GridContainer = ({
-  children,
-  resizable,
-  showResizableTip,
-}: GridContainerProps) => (
+const GridContainer = ({ children, resizable, showResizableTip }: GridContainerProps) => (
   <div
     className={`mt-4 mb-8 bg-slate-50 rounded-xl overflow-hidden dark:bg-slate-800/25 ${getResizableUtility(
       resizable

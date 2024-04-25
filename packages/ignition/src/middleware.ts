@@ -12,9 +12,7 @@ const getLocale = (request: NextRequest): string =>
       ?.split(",")
       .map((language) => language.split(";").shift())
       .find(
-        (language) =>
-          language &&
-          locales.includes(language.toLocaleLowerCase() as Languages)
+        (language) => language && locales.includes(language.toLocaleLowerCase() as Languages)
       ) || defaultLocale
   ).toLowerCase();
 
@@ -36,6 +34,6 @@ export const middleware = (request: NextRequest) => {
 
 export const config = {
   matcher: [
-    "/((?!_next|_vercel|examples|img|favicon|icon-rocketicons|logo|android|apple-touch|mstile|safari-pinned|sitemap|fonts|api|.well-known|site.webmanifest|robots).*)",
-  ],
+    "/((?!_next|_vercel|examples|img|favicon|icon-rocketicons|logo|android|apple-touch|mstile|safari-pinned|sitemap|fonts|api|.well-known|site.webmanifest|robots).*)"
+  ]
 };

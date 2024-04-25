@@ -5,14 +5,7 @@ import { IconsManifest } from "rocketicons/data";
 type SitemapRow = {
   url: string;
   lastModified?: string | Date;
-  changeFrequency?:
-    | "always"
-    | "hourly"
-    | "daily"
-    | "weekly"
-    | "monthly"
-    | "yearly"
-    | "never";
+  changeFrequency?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
   priority?: number;
   alternateRefs: Array<{ href: string; hreflang: string }>;
 };
@@ -30,9 +23,7 @@ const mapRowToUrl = (row: SitemapRow) =>
         <priority>${row.priority?.toFixed(1)}</priority>
     </url>`;
 
-const sitemapToXml = (
-  sitemap: SitemapRow[]
-) => `<?xml version="1.0" encoding="UTF-8"?>
+const sitemapToXml = (sitemap: SitemapRow[]) => `<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>
 <urlset 
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
@@ -42,25 +33,25 @@ const sitemapToXml = (
 </urlset>
 `;
 
-const generateSitemapEntry = (
-  path?: string,
-  lastModified?: Date
-): SitemapRow => {
+const generateSitemapEntry = (path?: string, lastModified?: Date): SitemapRow => {
   const { locales } = siteConfig;
   const urlWithPath = `${serverEnv.NEXT_PUBLIC_APP_URL}${path ?? ""}`;
 
-  const alternates = locales.reduce((acc, locale) => {
-    acc[locale] = `${serverEnv.NEXT_PUBLIC_APP_URL}/${locale}${path ?? ""}`;
-    return acc;
-  }, {} as { [key: string]: string });
+  const alternates = locales.reduce(
+    (acc, locale) => {
+      acc[locale] = `${serverEnv.NEXT_PUBLIC_APP_URL}/${locale}${path ?? ""}`;
+      return acc;
+    },
+    {} as { [key: string]: string }
+  );
 
   return {
     url: urlWithPath,
     lastModified: lastModified ?? new Date(),
     alternateRefs: Object.entries(alternates).map(([hreflang, href]) => ({
       hreflang,
-      href,
-    })),
+      href
+    }))
   };
 };
 
@@ -99,7 +90,7 @@ export const GET = async () => {
 
   return new Response(sitemapXml, {
     status: 200,
-    headers: { "Content-Type": "application/xml; charset=utf-8" },
+    headers: { "Content-Type": "application/xml; charset=utf-8" }
   });
 };
 

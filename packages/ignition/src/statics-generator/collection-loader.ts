@@ -52,10 +52,10 @@ const ItemTemplate = `
         default: _d,
         ...Icons
       } = await import("rocketicons/{0}");
-      return () => (
+      return function {1}Loader () {
         // @ts-ignore
-        <Handler manifest={manifest} collection={Icons} {...props} />
-      );
+        return <Handler manifest={manifest} collection={Icons} {...props} />
+      };
     },
     {
       loading: () => <Loading />,
@@ -67,13 +67,10 @@ const generator = async () => {
   const items: string[] = [];
 
   getManifest().forEach(({ id }) => {
-    items.push(templateBuilder(ItemTemplate, id));
+    items.push(templateBuilder(ItemTemplate, id, id.toUpperCase()));
   });
 
-  await write(
-    OUTPUT_FILE,
-    templateBuilder(CollectionLoaderTemplate, items.join(""))
-  );
+  await write(OUTPUT_FILE, templateBuilder(CollectionLoaderTemplate, items.join("")));
 };
 
 generator();

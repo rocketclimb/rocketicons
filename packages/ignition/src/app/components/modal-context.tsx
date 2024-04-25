@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
   useCallback,
-  useId,
+  useId
 } from "react";
 import useKeyboardShortcut from "@/hooks/use-keyboard-shortcut";
 
@@ -15,24 +15,16 @@ import UrlObserver from "./url-observer";
 type ModalContentType = JSX.Element;
 
 type AddModal = (Add: ModalContentType, ignoringResize?: boolean) => void;
-type StateGenerator = (
-  id: string
-) => [state: boolean, (state: boolean) => void, AddModal];
+type StateGenerator = (id: string) => [state: boolean, (state: boolean) => void, AddModal];
 
-const Context = createContext<StateGenerator>(() => [
-  false,
-  () => {},
-  () => false,
-]);
+const Context = createContext<StateGenerator>(() => [false, () => {}, () => false]);
 
 const useModalContext = () => useContext(Context);
 
 const ModalContext = ({ children }: PropsWithChildren) => {
   const [opened, setOpened] = useState<string[]>([]);
   const [ignoringResize, setIgnoringResize] = useState<Set<string>>(new Set());
-  const [modals, setModals] = useState<Map<string, ModalContentType>>(
-    new Map()
-  );
+  const [modals, setModals] = useState<Map<string, ModalContentType>>(new Map());
 
   const setModalState = (id: string, state: boolean) =>
     setOpened((ids) => {
@@ -52,7 +44,7 @@ const ModalContext = ({ children }: PropsWithChildren) => {
       (add, ignoreResize) => {
         setModals((modals) => modals.set(id, add));
         ignoreResize && setIgnoringResize((ignoring) => ignoring.add(id));
-      },
+      }
     ],
     []
   );
@@ -63,9 +55,7 @@ const ModalContext = ({ children }: PropsWithChildren) => {
         isOpen={!!opened.length}
         closeModal={(isResizing) =>
           setOpened((opened) =>
-            !isResizing
-              ? []
-              : [...opened.filter((id) => ignoringResize.has(id))]
+            !isResizing ? [] : [...opened.filter((id) => ignoringResize.has(id))]
           )
         }
       >
@@ -97,7 +87,7 @@ const ModalContent = ({ children, isOpen, closeModal }: ModalContentProps) => {
   }, []);
 
   useKeyboardShortcut(() => closeModal(), {
-    code: "Escape",
+    code: "Escape"
   });
 
   return (
@@ -108,6 +98,8 @@ const ModalContent = ({ children, isOpen, closeModal }: ModalContentProps) => {
         className="fixed z-50 inset-0 peer hidden modal-open data-[open=true]:block"
       >
         <div
+          role="button"
+          tabIndex={0}
           onClick={() => closeModal()}
           className="fixed z-40 w-full h-full"
         ></div>
@@ -154,7 +146,7 @@ export const useDisclosure = (id?: string) => {
       <Modal keepOnResize={keepOnResize} add={addModal}>
         {children}
       </Modal>
-    ),
+    )
   };
 };
 

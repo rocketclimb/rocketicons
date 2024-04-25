@@ -12,12 +12,7 @@ type SampleCodeProps = {
 const SampleCode = ({ icon, options, ...props }: SampleCodeProps) => (
   <CodeStyler className="text-xs md:text-sm" variant="minimalist">
     {options.map((className, i) => (
-      <CodeElementBlock
-        key={i}
-        {...props}
-        attrs={{ className }}
-        component={icon}
-      />
+      <CodeElementBlock key={i} {...props} attrs={{ className }} component={icon} />
     ))}
   </CodeStyler>
 );

@@ -15,11 +15,11 @@ export const iconPlugin = plugin(
     addComponents({
       [".icon-outlined"]: { ["@apply fill-none !important"]: {} },
       [".icon-filled"]: { ["@apply stroke-none !important"]: {} },
-      ...styles,
+      ...styles
     });
   },
   {
-    safelist: ["icon-default", "icon-filled", "icon-outlined"],
+    safelist: ["icon-default", "icon-filled", "icon-outlined"]
   }
 );
 

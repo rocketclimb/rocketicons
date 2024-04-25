@@ -14,15 +14,13 @@ export const getCurrentIconData = (query?: string) => {
     return {
       Icon: (props: IconProps) => <RcRocketIcon {...props} />,
       icon: defaultIcon,
-      collection: defaultCollection,
+      collection: defaultCollection
     };
   }
 
   return {
-    Icon: (props: IconProps) => (
-      <IconLoader collectionId={collection} icon={icon} {...props} />
-    ),
+    Icon: (props: IconProps) => <IconLoader collectionId={collection} icon={icon} {...props} />,
     icon,
-    collection,
+    collection
   };
 };

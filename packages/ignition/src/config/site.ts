@@ -3,26 +3,23 @@ import { AvailableLanguages } from "@/app/types";
 
 const baseUrl = serverEnv.NEXT_PUBLIC_APP_URL || "https://rocketicons.io";
 const env =
-  (process.env.NEXT_PUBLIC_VERCEL_ENV as
-    | "production"
-    | "preview"
-    | "development"
-    | "local") || "local";
+  (process.env.NEXT_PUBLIC_VERCEL_ENV as "production" | "preview" | "development" | "local") ||
+  "local";
 
 export const siteConfig = {
   name: "rocketicons",
   url: baseUrl,
   links: {
     twitter: "https://twitter.com/therocketclimb",
-    github: "https://github.com/rocketclimb",
+    github: "https://github.com/rocketclimb"
   },
   locales: AvailableLanguages,
   defaultLocale: "en",
   menuConfig: {
-    componentGroups: ["getting-started"],
+    componentGroups: ["getting-started"]
   },
   isLocal: env === "local",
-  env,
+  env
 };
 
 export type SiteConfig = typeof siteConfig;

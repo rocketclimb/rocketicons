@@ -11,13 +11,12 @@ type IconProxyHandlerProps<T extends IconHandlerProps> = {
   Handler?: (props: T) => JSX.Element;
 } & IconProps;
 
-const IconProxyHandler =
-  <T extends IconHandlerProps>({
-    Handler,
-    icon,
-    ...props
-  }: IconProxyHandlerProps<T>) =>
-  ({ collection }: HandlerPros) => {
+const IconProxyHandler = <T extends IconHandlerProps>({
+  Handler,
+  icon,
+  ...props
+}: IconProxyHandlerProps<T>) =>
+  function IconProxyLoader({ collection }: HandlerPros) {
     const Icon = collection[icon];
     return (
       // @ts-ignore TS2322
@@ -41,9 +40,7 @@ const IconLoader = <T extends IconHandlerProps>({
   if (!getCollectionsInfo(collectionId).exists(icon)) {
     return (
       // @ts-ignore TS2322
-      (Handler && <Handler Icon={RcRocketIcon} />) || (
-        <RcRocketIcon {...props} />
-      )
+      (Handler && <Handler Icon={RcRocketIcon} />) || <RcRocketIcon {...props} />
     );
   }
 

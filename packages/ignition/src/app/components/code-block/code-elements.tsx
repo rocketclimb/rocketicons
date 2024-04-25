@@ -8,15 +8,15 @@ const colors = {
     "tag-name": "text-pink-400",
     "attr-name": "text-slate-300",
     "attr-value": "text-sky-300",
-    "common-text": "text-slate-100",
+    "common-text": "text-slate-100"
   },
   js: {
     "common-notation": "text-slate-500",
     "tag-name": "text-pink-400",
     "attr-name": "text-slate-300",
     "attr-value": "text-sky-300",
-    "common-text": "text-slate-50",
-  },
+    "common-text": "text-slate-50"
+  }
 };
 
 type Lang = keyof typeof colors;
@@ -33,17 +33,8 @@ type RawSpanProps = React.SVGAttributes<HTMLElement> & {
   codeType: ColorType;
 } & PropsWithChildrenAndClassName;
 
-const RawSpan = ({
-  colors,
-  codeType,
-  children,
-  className,
-  ...props
-}: RawSpanProps) => (
-  <span
-    className={`font-monospace ${colors[codeType]} ${className}`}
-    {...props}
-  >
+const RawSpan = ({ colors, codeType, children, className, ...props }: RawSpanProps) => (
+  <span className={`font-monospace ${colors[codeType]} ${className}`} {...props}>
     {children}
   </span>
 );
@@ -66,11 +57,7 @@ export const TagName = ({ lang, children, ...props }: CodeElementProps) => (
   </RawSpan>
 );
 
-export const CommonNotation = ({
-  lang,
-  children,
-  ...props
-}: CodeElementProps) => (
+export const CommonNotation = ({ lang, children, ...props }: CodeElementProps) => (
   <RawSpan colors={colors[lang]} codeType="common-notation" {...props}>
     {children}
   </RawSpan>

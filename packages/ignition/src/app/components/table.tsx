@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import { Languages } from "@/types";
-import { useLocale } from "../locales";
+import { withLocale } from "@/locales";
 
 type LineProp = Record<string, string | undefined> & { comment?: string };
 
@@ -19,7 +19,7 @@ type TableValueProps = {
 const TableValue = ({ value, comment }: TableValueProps) => (
   <div>
     <span>{value}</span>
-    {comment && <span className="text-indigo-400"> /* {comment} */</span>}{" "}
+    {comment && <span className="text-indigo-400"> {`/* ${comment} */`}</span>}
   </div>
 );
 
@@ -27,20 +27,12 @@ type TablePropAsValueProps = {
   prop: LineProp;
 };
 
-const TablePropAsValue = ({
-  prop: { comment, ...prop },
-}: TablePropAsValueProps) => {
+const TablePropAsValue = ({ prop: { comment, ...prop } }: TablePropAsValueProps) => {
   const [value] = Object.entries(prop).map(([key, value]) => `${key}:${value}`);
   return <TableValue value={value} comment={comment} />;
 };
 
-export const TableLine = ({
-  attr,
-  value,
-  comment,
-  props,
-  aditional,
-}: TableLineProps) => (
+export const TableLine = ({ attr, value, comment, props, aditional }: TableLineProps) => (
   <tr className="border-b border-slate-100 dark:border-slate-400/10">
     <td className="py-2 pr-2 font-mono font-medium text-xs leading-6 text-sky-500 whitespace-nowrap dark:text-sky-400">
       {attr}
@@ -48,15 +40,11 @@ export const TableLine = ({
     <td className="py-2 pl-2 flex gap-4 font-mono text-xs leading-6 whitespace-pre text-indigo-600  dark:text-indigo-300">
       {value && <TableValue value={value} comment={comment} />}
       <div className="text-indigo-600/70  dark:text-indigo-300/70">
-        {props?.map((prop, i) => (
-          <TablePropAsValue key={i} prop={prop} />
-        ))}
+        {props?.map((prop, i) => <TablePropAsValue key={i} prop={prop} />)}
       </div>
     </td>
     {aditional && (
-      <td className="py-2 pl-2 leading-6 text-indigo-600  dark:text-indigo-300">
-        {aditional}
-      </td>
+      <td className="py-2 pl-2 leading-6 text-indigo-600  dark:text-indigo-300">{aditional}</td>
     )}
   </tr>
 );
@@ -75,13 +63,8 @@ type TableProps = {
   collapse?: boolean;
 } & PropsWithChildren;
 
-export const Table = ({
-  lang,
-  hasAdditional,
-  collapse,
-  children,
-}: TableProps) => {
-  const locale = useLocale(lang);
+export const Table = ({ lang, hasAdditional, collapse, children }: TableProps) => {
+  const locale = withLocale(lang);
 
   const [header1, header2] = locale.config("table").headers;
   return (

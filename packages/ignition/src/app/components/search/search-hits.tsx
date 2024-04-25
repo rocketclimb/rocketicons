@@ -1,7 +1,7 @@
 "use client";
 import { useInstantSearch, Highlight } from "react-instantsearch";
 import Link from "next/link";
-import { useLocale } from "@/locales";
+import { withLocale } from "@/locales";
 import { PropsWithLang } from "@/types";
 import { SiAlgolia } from "rocketicons/si";
 import IconLoader from "@/components/icons/icon-loader";
@@ -12,9 +12,7 @@ import { GoBook } from "rocketicons/go";
 
 const borderClass = "border-slate-100 dark:border-slate-700";
 
-const Loader = () => (
-  <BiLoaderAlt className="animate-spin duration-1000 icon-sky-500-xl mr-3" />
-);
+const Loader = () => <BiLoaderAlt className="animate-spin duration-1000 icon-sky-500-xl mr-3" />;
 
 type IconHitProps = {
   hit: any;
@@ -51,7 +49,7 @@ type PropsHit = {
 } & PropsWithLang;
 
 const Hit = ({ hit, lang }: PropsHit) => {
-  const groupSlug = useLocale(hit.locale || lang).doc(hit.group)?.slug;
+  const groupSlug = withLocale(hit.locale || lang).doc(hit.group)?.slug;
 
   return (
     <Link
@@ -88,9 +86,9 @@ const Importer = ({ component, lang }: ImporterProps) => (
     clipboardText={`import * as Icons from "${component}";`}
     className="group/copy font-monospace text-xs font-light italic pt-2 after:text-slate-200 after:not-italic after:font-inter after:-right-3 after:-top-5"
   >
-    <ImporterInfo>import * as Icons from "</ImporterInfo>
+    <ImporterInfo>import * as Icons from &quot;</ImporterInfo>
     <span>{component}</span>
-    <ImporterInfo>";</ImporterInfo>
+    <ImporterInfo>&quot;;</ImporterInfo>
   </WithCopy>
 );
 
@@ -142,9 +140,7 @@ const IconResult = ({ id, group, hits, lang }: IconResultProps) => {
 const HitResult = ({ group, hits, lang }: HitResultProps) => {
   const groupTitle = hits[0]?.groupName ?? group;
 
-  const hitsWithNoParent = hits.filter(
-    (hit: any) => hit.group !== hit.objectID
-  );
+  const hitsWithNoParent = hits.filter((hit: any) => hit.group !== hit.objectID);
 
   return (
     <div className="m-2">
@@ -166,24 +162,20 @@ type GroupedHitsProps = {
 
 const IconsGroupedHits = ({ lang, groupedHits }: GroupedHitsProps) =>
   Object.values(groupedHits || {})
-    .sort(({ group: groupA }: any, { group: groupB }: any) =>
-      groupA.localeCompare(groupB)
-    )
+    .sort(({ group: groupA }: any, { group: groupB }: any) => groupA.localeCompare(groupB))
     .map(({ id, group, hits }: any) => (
       <IconResult key={group} id={id} group={group} lang={lang} hits={hits} />
     ));
 
 const GroupedHits = ({ lang, groupedHits }: GroupedHitsProps) =>
   Object.values(groupedHits || {})
-    .sort(({ group: groupA }: any, { group: groupB }: any) =>
-      groupA.localeCompare(groupB)
-    )
+    .sort(({ group: groupA }: any, { group: groupB }: any) => groupA.localeCompare(groupB))
     .map(({ group, hits }: any) => {
       return <HitResult key={group} group={group} lang={lang} hits={hits} />;
     });
 
 const SearchHits = ({ lang }: PropsWithLang) => {
-  const { "no-results": noResults } = useLocale(lang).config("search");
+  const { "no-results": noResults } = withLocale(lang).config("search");
   const { results } = useInstantSearch();
 
   const groupedHits = results.hits.reduce(
@@ -195,7 +187,7 @@ const SearchHits = ({ lang }: PropsWithLang) => {
           id: hit.group,
           group: key,
           isIcon: hit.isIcon,
-          hits: [],
+          hits: []
         };
         group[key].hits.push(hit);
       }
@@ -214,10 +206,9 @@ const SearchHits = ({ lang }: PropsWithLang) => {
           {results.nbHits > 0 && Object.keys(groupedHits.icons).length > 0 && (
             <IconsGroupedHits groupedHits={groupedHits.icons} lang={lang} />
           )}
-          {results.nbHits > 0 &&
-            Object.keys(groupedHits.documents).length > 0 && (
-              <GroupedHits groupedHits={groupedHits.documents} lang={lang} />
-            )}
+          {results.nbHits > 0 && Object.keys(groupedHits.documents).length > 0 && (
+            <GroupedHits groupedHits={groupedHits.documents} lang={lang} />
+          )}
         </div>
       </div>
       <div className={`p-4 text-right h-14 border-t ${borderClass}`}>
