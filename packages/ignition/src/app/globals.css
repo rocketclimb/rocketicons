@@ -13,6 +13,16 @@
   --dark-scrollbar-track-thumb: theme("colors.slate.700");
 }
 
+html {
+  background-color: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    background-color: #0f172a;
+  }
+}
+
 * {
   scrollbar-gutter: stable;
 }
@@ -62,6 +72,10 @@ html {
 }
 
 @layer componenets {
+  .modal-context {
+    opacity: 0;
+  }
+
   .theme-selector,
   .modal-context {
     min-height: 100vh;
