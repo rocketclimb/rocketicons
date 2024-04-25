@@ -85,13 +85,13 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
             const mainDoc = doc[1][lang];
             const componentsProp = Object.values(mainDoc.components);
             const hasComponents = componentsProp.length > 0;
-            const sortedComponents = componentsProp.sort(sortComponents);
+            componentsProp.sort(sortComponents);
             const componentsByGroup = docs.filter(
               (doc: any) =>
                 doc[1][lang].group === mainDocEnSlug && doc[1][lang].group != doc[1][lang].enslug
             );
 
-            const components = hasComponents ? sortedComponents : componentsByGroup;
+            const components = hasComponents ? componentsProp : componentsByGroup;
 
             return (
               mainDoc && (
