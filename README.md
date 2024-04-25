@@ -1,6 +1,9 @@
 [![All Contributors](https://img.shields.io/github/all-contributors/rocketclimb/rocketicons?color=ee8449&style=flat-square)](#contributors)
 
-![rocketicons](https://github.com/rocketclimb/rocketicons/blob/develop/packages/ignition/public/rocketicons-logo.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/rocketclimb/rocketicons/develop/packages/ignition/public/logo-rocketicons-white-nobg-512.png">
+  <img alt="Text changing depending on mode. Light: 'So light!' Dark: 'So dark!'" src="https://raw.githubusercontent.com/rocketclimb/rocketicons/develop/packages/ignition/public/logo-rocketicons-black-nobg-512.png">
+</picture>
 
 | Name        |                                                                                           Quality Gate                                                                                            |
 | :---------- | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
@@ -55,5 +58,15 @@ This project is licensed under the [MIT License](https://github.com/rocketclimb/
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
+## Star History
+
+<a href="https://star-history.com/#rocketclimb/rocketicons&Timeline">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=rocketclimb/rocketicons&type=Timeline&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=rocketclimb/rocketicons&type=Timeline" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=rocketclimb/rocketicons&type=Timeline" />
+ </picture>
+</a>
 
 © 2024 rocketclimb
