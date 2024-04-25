@@ -4,6 +4,8 @@ node_modules
 tsconfig*.tsbuildinfo
 packages/icons
 packages/icons/package.json
+packages/icons/.release-it.js
+packages/icons/.npmignore
 .DS_Store
 .vercel
 .env
