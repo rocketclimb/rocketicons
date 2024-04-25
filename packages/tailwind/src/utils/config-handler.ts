@@ -79,7 +79,7 @@ export const configHandler = <T extends ThemeOptions>(config: Config): ThemeHand
       );
 
     const handleCustomConfig = (): T =>
-      isExtending ? deepMerge(defaultTheme!, custom!) : (custom as T);
+      isExtending ? deepMerge(defaultTheme, custom!) : (custom as T);
 
     return (!hasCustomConfig ? defaultTheme : handleCustomConfig()) as T;
   };

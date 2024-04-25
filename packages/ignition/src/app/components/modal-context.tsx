@@ -78,7 +78,11 @@ const ModalContent = ({ children, isOpen, closeModal }: ModalContentProps) => {
         data-open={isOpen}
         className="fixed z-50 inset-0 peer hidden modal-open data-[open=true]:block"
       >
-        <div onClick={() => closeModal()} className="fixed z-40 w-full h-full"></div>
+        <div
+          role="button"
+          onClick={() => closeModal()}
+          className="fixed z-40 w-full h-full"
+        ></div>
         {children}
       </div>
     </>
