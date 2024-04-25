@@ -205,16 +205,16 @@ export const writeIconVersions = async ({ rootDir }: TaskContext) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const writePackageJson = async (override: Overrrides, { DIST, rootDir }: TaskContext) => {
-  const packageJsonStr = await fs.readFile(path.resolve(rootDir, "package.json"), "utf-8");
+export const writePackageJson = async (override: Overrrides, { DIST }: TaskContext) => {
+  const packageJsonStr = await fs.readFile(path.resolve(DIST, "package.json"), "utf-8");
   let packageJson = JSON.parse(packageJsonStr);
   packageJson.main = "./index.js";
 
-  delete packageJson.private;
-  delete packageJson.dependencies;
-  delete packageJson.devDependencies;
-  delete packageJson.scripts;
-  delete packageJson.files;
+  // delete packageJson.private;
+  // delete packageJson.dependencies;
+  // delete packageJson.devDependencies;
+  // delete packageJson.scripts;
+  // delete packageJson.files;
 
   packageJson = {
     ...packageJson,
