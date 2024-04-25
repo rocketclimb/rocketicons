@@ -5,7 +5,7 @@ const theme: ThemeOptions = {
   baseStyle: "p-0 inline-block",
   variants: {
     filled: "",
-    outlined: "",
+    outlined: ""
   },
   sizes: {
     xs: "size-2",
@@ -18,8 +18,8 @@ const theme: ThemeOptions = {
     "4xl": "size-10",
     "5xl": "size-11",
     "6xl": "size-12",
-    "7xl": "size-14",
-  },
+    "7xl": "size-14"
+  }
 };
 
 export default theme;
