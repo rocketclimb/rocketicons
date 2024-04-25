@@ -9,83 +9,57 @@ import {
   ConfigProp,
   ThemeConfig,
   ThemeOption,
-  ThemeProp
+  ThemeProp,
+  ParsedColors
 } from "@/types";
 
 const AVAILABLE_VARIANTS = ["outlined", "filled"];
 
 export const DEFAULT_CLASS_NAME = "default";
 
-export const configHandler = <T extends ThemeOptions>(config: Config): ThemeHandler<T> => {
-  const customConfig = config("components");
-  const themeColors: ConfigProp = config("theme").colors;
+const themeHandler = <T extends ThemeOptions>(
+  isExtending: boolean,
+  defaultTheme: ThemeOptions,
+  custom?: T
+): T => {
+  const hasCustomConfig = !!(custom && Object.keys(custom).length);
 
-  const getColorDefaults = (color: string, variants: ConfigProp) => {
-    if (typeof variants === "string" || variants.DEFAULT) {
-      return color;
+  const getNewProperties = (baseConfig: ThemeOptions | ThemeProp, customConfig: T): T =>
+    (Object.entries(customConfig) as [ThemeOption, ThemeOptions][])
+      .filter(([key]) => !baseConfig[key])
+      .reduce((reduced, [key, entry]) => ({ ...reduced, [key]: entry }), {}) as T;
+
+  const parseProperty = (value: ConfigProp | undefined | T, defaults?: string | ThemeProp) => {
+    if (value === undefined) {
+      return defaults;
     }
 
-    return (variants["500"] && `${color}-500`) || `${color}-${Object.keys(variants).shift()}`;
+    return typeof value === "object" ? deepMerge(defaults as ThemeProp, value as T) : value;
   };
 
-  const colorVariantsReducer = (color: string, variants: ConfigProp) =>
-    typeof variants === "object"
-      ? Object.keys(variants)
-          .filter((key) => key !== "DEFAULT")
-          .reduce(
-            (reduced, key) => ({
-              ...reduced,
-              [`${color}-${key}`]: `${color}-${key}`
-            }),
-            {}
-          )
-      : {};
+  const deepMerge = (baseConfig: ThemeOptions | ThemeProp, customConfig: T): T =>
+    (Object.keys(baseConfig) as ThemeOption[]).reduce(
+      (reduced, key) => ({
+        ...reduced,
+        [key]: parseProperty(customConfig && customConfig[key], baseConfig[key])
+      }),
+      getNewProperties(baseConfig, customConfig) as T
+    );
 
-  const parsedColors: Record<string, string> = Object.entries(themeColors || {}).reduce(
-    (reduced, [key, value]) => ({
-      ...reduced,
-      [key]: getColorDefaults(key, value as ConfigProp),
-      ...colorVariantsReducer(key, value as ConfigProp)
-    }),
-    {}
-  );
+  const handleCustomConfig = (): T =>
+    isExtending ? deepMerge(defaultTheme, custom!) : (custom as T);
 
-  const isExtending = customConfig && !!customConfig["extends"];
-  const themeConfig: ThemeConfig<T> = (isExtending && customConfig["extends"]) || customConfig;
+  return (!hasCustomConfig ? defaultTheme : handleCustomConfig()) as T;
+};
 
-  const themeHandler = (defaultTheme: ThemeOptions, custom?: T): T => {
-    const hasCustomConfig = !!(custom && Object.keys(custom).length);
-
-    const getNewProperties = (baseConfig: ThemeOptions | ThemeProp, customConfig: T): T =>
-      (Object.entries(customConfig) as [ThemeOption, ThemeOptions][])
-        .filter(([key]) => !baseConfig[key])
-        .reduce((reduced, [key, entry]) => ({ ...reduced, [key]: entry }), {}) as T;
-
-    const parseProperty = (value: ConfigProp | undefined | T, defaults?: string | ThemeProp) => {
-      if (value === undefined) {
-        return defaults;
-      }
-
-      return typeof value === "object" ? deepMerge(defaults as ThemeProp, value as T) : value;
-    };
-
-    const deepMerge = (baseConfig: ThemeOptions | ThemeProp, customConfig: T): T =>
-      (Object.keys(baseConfig) as ThemeOption[]).reduce(
-        (reduced, key) => ({
-          ...reduced,
-          [key]: parseProperty(customConfig && customConfig[key], baseConfig[key])
-        }),
-        getNewProperties(baseConfig, customConfig) as T
-      );
-
-    const handleCustomConfig = (): T =>
-      isExtending ? deepMerge(defaultTheme, custom!) : (custom as T);
-
-    return (!hasCustomConfig ? defaultTheme : handleCustomConfig()) as T;
-  };
-
-  return (property: ThemeProperties<T>, defaultTheme: ThemeOptions) => {
-    const theme = themeHandler(defaultTheme, themeConfig && themeConfig[property]);
+const generateConfig =
+  <T extends ThemeOptions>(
+    isExtending: boolean,
+    themeConfig: ThemeConfig<T>,
+    parsedColors: ParsedColors
+  ) =>
+  (property: ThemeProperties<T>, defaultTheme: ThemeOptions) => {
+    const theme = themeHandler(isExtending, defaultTheme, themeConfig && themeConfig[property]);
 
     const getDefaults = (): Defaults => {
       const pieces = theme.default!.split("-");
@@ -142,4 +116,43 @@ export const configHandler = <T extends ThemeOptions>(config: Config): ThemeHand
       sizes: () => sizeVariants()
     };
   };
+
+export const configHandler = <T extends ThemeOptions>(config: Config): ThemeHandler<T> => {
+  const customConfig = config("components");
+  const themeColors: ConfigProp = config("theme").colors;
+
+  const getColorDefaults = (color: string, variants: ConfigProp) => {
+    if (typeof variants === "string" || variants.DEFAULT) {
+      return color;
+    }
+
+    return (variants["500"] && `${color}-500`) || `${color}-${Object.keys(variants).shift()}`;
+  };
+
+  const colorVariantsReducer = (color: string, variants: ConfigProp) =>
+    typeof variants === "object"
+      ? Object.keys(variants)
+          .filter((key) => key !== "DEFAULT")
+          .reduce(
+            (reduced, key) => ({
+              ...reduced,
+              [`${color}-${key}`]: `${color}-${key}`
+            }),
+            {}
+          )
+      : {};
+
+  const parsedColors: ParsedColors = Object.entries(themeColors || {}).reduce(
+    (reduced, [key, value]) => ({
+      ...reduced,
+      [key]: getColorDefaults(key, value as ConfigProp),
+      ...colorVariantsReducer(key, value as ConfigProp)
+    }),
+    {}
+  );
+
+  const isExtending = customConfig && !!customConfig["extends"];
+  const themeConfig: ThemeConfig<T> = (isExtending && customConfig["extends"]) || customConfig;
+
+  return generateConfig(isExtending, themeConfig, parsedColors);
 };

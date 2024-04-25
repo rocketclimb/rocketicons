@@ -51,3 +51,5 @@ export type ThemeHandler<T extends ThemeOptions> = (
   property: ThemeProperties<T>,
   defaultTheme: ThemeOptions
 ) => Theme;
+
+export type ParsedColors = Record<string, string>;
