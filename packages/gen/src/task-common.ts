@@ -210,12 +210,6 @@ export const writePackageJson = async (override: Overrrides, { DIST }: TaskConte
   let packageJson = JSON.parse(packageJsonStr);
   packageJson.main = "./index.js";
 
-  // delete packageJson.private;
-  // delete packageJson.dependencies;
-  // delete packageJson.devDependencies;
-  // delete packageJson.scripts;
-  // delete packageJson.files;
-
   packageJson = {
     ...packageJson,
     ...override
