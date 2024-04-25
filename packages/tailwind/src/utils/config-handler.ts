@@ -52,70 +52,62 @@ const themeHandler = <T extends ThemeOptions>(
   return (!hasCustomConfig ? defaultTheme : handleCustomConfig()) as T;
 };
 
-const generateConfig =
-  <T extends ThemeOptions>(
-    isExtending: boolean,
-    themeConfig: ThemeConfig<T>,
-    parsedColors: ParsedColors
-  ) =>
-  (property: ThemeProperties<T>, defaultTheme: ThemeOptions) => {
-    const theme = themeHandler(isExtending, defaultTheme, themeConfig && themeConfig[property]);
-
-    const getDefaults = (): Defaults => {
-      const pieces = theme.default!.split("-");
-      const defaultSize = pieces.pop()!;
-      return { defaultColor: pieces.join("-"), defaultSize };
-    };
-
-    const { defaultColor, defaultSize } = getDefaults();
-
-    const sizeVariants = () =>
-      ([] as StyleHandler[]).concat(...AVAILABLE_VARIANTS.map((variant) => sizes(variant)));
-
-    const variants = () =>
-      AVAILABLE_VARIANTS.map((variant) => ({
-        variant: () => variant,
-        name: () => DEFAULT_CLASS_NAME,
-        styles: () => stylesFor({ variant }),
-        options: () => [...colors(variant), ...sizes(variant)]
-      }));
-
-    const colors = (variant: string) =>
-      Object.keys(parsedColors).map((color) => ({
-        variant: () => variant,
-        name: () => color,
-        styles: () => stylesFor({ variant, color }),
-        options: () => sizes(variant, color)
-      }));
-
-    const sizes = (variant: string, color?: string) =>
-      Object.keys(theme.sizes).map((size) => ({
-        variant: () => variant,
-        name: () => size,
-        styles: () => stylesFor({ variant, color, size }),
-        options: () => [] as StyleHandler[]
-      }));
-
-    const sanitize = (classes: string): string => classes.trim().replace(/\s{2,}/g, " ");
-
-    const stylesFor = ({ variant, color, size }: StyleOptions) => {
-      color = color || defaultColor;
-      size = size || defaultSize;
-      const currentStyle = (theme.variants && theme.variants[variant]) || "";
-      const currentColorStyle = (color && parsedColors[color]) || "";
-      const appliedColor = `fill-${currentColorStyle} stroke-${currentColorStyle}`;
-      return sanitize(
-        `${theme.baseStyle || ""} ${currentStyle || ""} ${appliedColor || ""} ${
-          theme.sizes[size] || ""
-        }`
-      );
-    };
-
-    return {
-      variants,
-      sizes: () => sizeVariants()
-    };
+const generateConfig = <T extends ThemeOptions>(theme: T, parsedColors: ParsedColors) => {
+  const getDefaults = (): Defaults => {
+    const pieces = theme.default!.split("-");
+    const defaultSize = pieces.pop()!;
+    return { defaultColor: pieces.join("-"), defaultSize };
   };
+
+  const { defaultColor, defaultSize } = getDefaults();
+
+  const sizeVariants = () =>
+    ([] as StyleHandler[]).concat(...AVAILABLE_VARIANTS.map((variant) => sizes(variant)));
+
+  const variants = () =>
+    AVAILABLE_VARIANTS.map((variant) => ({
+      variant: () => variant,
+      name: () => DEFAULT_CLASS_NAME,
+      styles: () => stylesFor({ variant }),
+      options: () => [...colors(variant), ...sizes(variant)]
+    }));
+
+  const colors = (variant: string) =>
+    Object.keys(parsedColors).map((color) => ({
+      variant: () => variant,
+      name: () => color,
+      styles: () => stylesFor({ variant, color }),
+      options: () => sizes(variant, color)
+    }));
+
+  const sizes = (variant: string, color?: string) =>
+    Object.keys(theme.sizes).map((size) => ({
+      variant: () => variant,
+      name: () => size,
+      styles: () => stylesFor({ variant, color, size }),
+      options: () => [] as StyleHandler[]
+    }));
+
+  const sanitize = (classes: string): string => classes.trim().replace(/\s{2,}/g, " ");
+
+  const stylesFor = ({ variant, color, size }: StyleOptions) => {
+    color = color || defaultColor;
+    size = size || defaultSize;
+    const currentStyle = (theme.variants && theme.variants[variant]) || "";
+    const currentColorStyle = (color && parsedColors[color]) || "";
+    const appliedColor = `fill-${currentColorStyle} stroke-${currentColorStyle}`;
+    return sanitize(
+      `${theme.baseStyle || ""} ${currentStyle || ""} ${appliedColor || ""} ${
+        theme.sizes[size] || ""
+      }`
+    );
+  };
+
+  return {
+    variants,
+    sizes: () => sizeVariants()
+  };
+};
 
 export const configHandler = <T extends ThemeOptions>(config: Config): ThemeHandler<T> => {
   const customConfig = config("components");
@@ -154,5 +146,8 @@ export const configHandler = <T extends ThemeOptions>(config: Config): ThemeHand
   const isExtending = customConfig && !!customConfig["extends"];
   const themeConfig: ThemeConfig<T> = (isExtending && customConfig["extends"]) || customConfig;
 
-  return generateConfig(isExtending, themeConfig, parsedColors);
+  return (property: ThemeProperties<T>, defaultTheme: ThemeOptions) => {
+    const theme = themeHandler(isExtending, defaultTheme, themeConfig && themeConfig[property]);
+    return generateConfig(theme, parsedColors);
+  };
 };
