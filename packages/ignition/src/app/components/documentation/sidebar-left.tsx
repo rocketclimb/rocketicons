@@ -83,14 +83,16 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
           {mainMenus.map((doc: any, i: number) => {
             const mainDocEnSlug = doc[0];
             const mainDoc = doc[1][lang];
-            const components =
-              Object.keys(mainDoc.components).length > 0
-                ? Object.values(mainDoc.components).sort((a: any, b: any) => a.order - b.order)
-                : docs.filter(
-                    (doc: any) =>
-                      doc[1][lang].group === mainDocEnSlug &&
-                      doc[1][lang].group != doc[1][lang].enslug
-                  );
+            const componentsProp = Object.values(mainDoc.components);
+            const hasComponents = componentsProp.length > 0;
+            componentsProp.sort(sortComponents);
+            const componentsByGroup = docs.filter(
+              (doc: any) =>
+                doc[1][lang].group === mainDocEnSlug && doc[1][lang].group != doc[1][lang].enslug
+            );
+
+            const components = hasComponents ? componentsProp : componentsByGroup;
+
             return (
               mainDoc && (
                 <MenuBlock key={i}>
@@ -178,3 +180,5 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
     </nav>
   );
 };
+
+const sortComponents = (a: any, b: any) => a.order - b.order;
