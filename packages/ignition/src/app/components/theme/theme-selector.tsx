@@ -6,7 +6,7 @@ import { MdOutlineMonitor, MdKeyboardArrowDown } from "rocketicons/md";
 
 import { ThemeOptions } from "@/hooks/use-theme-handler";
 import useKeyboardShortcut from "@/hooks/use-keyboard-shortcut";
-import { withLocale } from "@/app/locales/with-locale";
+import { withLocale } from "@/locales/with-locale";
 
 import { PropsWithClassName, PropsWithLang } from "@/types";
 

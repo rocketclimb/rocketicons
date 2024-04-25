@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import { Languages } from "@/types";
-import { withLocale } from "../locales";
+import { withLocale } from "@/locales";
 
 type LineProp = Record<string, string | undefined> & { comment?: string };
 

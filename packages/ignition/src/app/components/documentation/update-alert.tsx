@@ -1,6 +1,6 @@
 import React from "react";
 import { TbHandMove } from "rocketicons/tb";
-import { withLocale } from "@/app/locales/with-locale";
+import { withLocale } from "@/locales/with-locale";
 import { PropsWithLang } from "@/types";
 
 type UpdateAlertProps = {

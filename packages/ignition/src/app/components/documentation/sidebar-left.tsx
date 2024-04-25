@@ -6,7 +6,7 @@ import { PropsWithClassName, PropsWithLang } from "@/types";
 import { IconsManifest } from "@/data-helpers/icons/manifest";
 import RocketIconsText from "@/components/rocketicons-text";
 import { siteConfig } from "@/config/site";
-import { withLocale } from "@/app/locales/with-locale";
+import { withLocale } from "@/locales/with-locale";
 import SearchButton from "@/app/components/search/search";
 
 const selectedClassName = (slug: string) => `group-has-[.docs-${slug}]:active-content`;

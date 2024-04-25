@@ -3,7 +3,7 @@ import MainNavAsMenu from "./main-nav-as-menu";
 import { NavItem } from "./types";
 import { PropsWithLang } from "@/types";
 import ThemeSelector from "@/components/theme/theme-selector";
-import { withLocale } from "@/app/locales/with-locale";
+import { withLocale } from "@/locales/with-locale";
 import GitHubIcon from "@/components/github-icon";
 
 const MainNav = ({ lang }: PropsWithLang) => {

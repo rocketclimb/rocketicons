@@ -1,6 +1,6 @@
 import { PropsWithLang } from "@/types";
 import dynamic from "next/dynamic";
-import { withLocale } from "@/app/locales/with-locale";
+import { withLocale } from "@/locales/with-locale";
 
 export const MdxDoc = ({ lang, slug }: PropsWithLang & { slug: string }) => {
   const { doc } = withLocale(lang);
