@@ -39,7 +39,7 @@ const SearchButton = ({ lang }: SearchButtonProps) => {
           K
         </kbd>
       </Button>
-      <Modal>
+      <Modal keepOnResize>
         <SearchAlgolia lang={lang} close={close} />
       </Modal>
     </>

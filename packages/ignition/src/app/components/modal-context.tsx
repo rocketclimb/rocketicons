@@ -14,7 +14,7 @@ import UrlObserver from "./url-observer";
 
 type ModalContentType = JSX.Element;
 
-type AddModal = (Add: ModalContentType) => void;
+type AddModal = (Add: ModalContentType, ignoringResize?: boolean) => void;
 type StateGenerator = (
   id: string
 ) => [state: boolean, (state: boolean) => void, AddModal];
@@ -29,11 +29,12 @@ const useModalContext = () => useContext(Context);
 
 const ModalContext = ({ children }: PropsWithChildren) => {
   const [opened, setOpened] = useState<string[]>([]);
+  const [ignoringResize, setIgnoringResize] = useState<Set<string>>(new Set());
   const [modals, setModals] = useState<Map<string, ModalContentType>>(
     new Map()
   );
 
-  const setIndexState = (id: string, state: boolean) =>
+  const setModalState = (id: string, state: boolean) =>
     setOpened((ids) => {
       if (state) {
         !ids.includes(id) && ids.push(id);
@@ -47,22 +48,34 @@ const ModalContext = ({ children }: PropsWithChildren) => {
   const generateState: StateGenerator = useCallback(
     (id: string) => [
       opened.includes(id),
-      (state: boolean) => setIndexState(id, state),
-      (add: ModalContentType) => setModals((modals) => modals.set(id, add)),
+      (state) => setModalState(id, state),
+      (add, ignoreResize) => {
+        setModals((modals) => modals.set(id, add));
+        ignoreResize && setIgnoringResize((ignoring) => ignoring.add(id));
+      },
     ],
     []
   );
 
   return (
     <Context.Provider value={generateState}>
-      <ModalContent isOpen={!!opened.length} closeModal={() => setOpened([])}>
+      <ModalContent
+        isOpen={!!opened.length}
+        closeModal={(isResizing) =>
+          setOpened((opened) =>
+            !isResizing
+              ? []
+              : [...opened.filter((id) => ignoringResize.has(id))]
+          )
+        }
+      >
         {opened.map((id) => (
           <div className="fixed z-50" key={id}>
             {modals.get(id)!}
           </div>
         ))}
       </ModalContent>
-      <div className="modal-context flex flex-col peer-data-[open=true]:blur-sm peer-data-[open=true]:backdrop-brightness-90 dark:peer-data-[open=true]:backdrop-brightness-50 peer-data-[open=true]:opacity-50 w-full">
+      <div className="transition-opacity duration-300 opacity-100 modal-context flex flex-col peer-data-[open=true]:blur-sm peer-data-[open=true]:backdrop-brightness-90 dark:peer-data-[open=true]:backdrop-brightness-50 peer-data-[open=true]:opacity-50 w-full">
         {children}
       </div>
     </Context.Provider>
@@ -70,11 +83,19 @@ const ModalContext = ({ children }: PropsWithChildren) => {
 };
 
 type ModalContentProps = PropsWithChildren & {
-  closeModal: () => void;
+  closeModal: (isResizing?: boolean) => void;
   isOpen: boolean;
 };
 
 const ModalContent = ({ children, isOpen, closeModal }: ModalContentProps) => {
+  useEffect(() => {
+    const handleResize = () => closeModal(true);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   useKeyboardShortcut(() => closeModal(), {
     code: "Escape",
   });
@@ -96,13 +117,17 @@ const ModalContent = ({ children, isOpen, closeModal }: ModalContentProps) => {
   );
 };
 
-type ModalProps = {
-  add: AddModal;
+type ModalOptionsProps = {
+  keepOnResize?: boolean;
 } & PropsWithChildren;
 
-const Modal = ({ add, children }: ModalProps) => {
+type ModalProps = {
+  add: AddModal;
+} & ModalOptionsProps;
+
+const Modal = ({ add, keepOnResize, children }: ModalProps) => {
   useEffect(() => {
-    add(<>{children}</>);
+    add(<>{children}</>, keepOnResize);
   }, []);
   return <></>;
 };
@@ -125,8 +150,10 @@ export const useDisclosure = (id?: string) => {
     isOpen,
     open,
     close,
-    Modal: ({ children }: PropsWithChildren) => (
-      <Modal add={addModal}>{children}</Modal>
+    Modal: ({ keepOnResize, children }: ModalOptionsProps) => (
+      <Modal keepOnResize={keepOnResize} add={addModal}>
+        {children}
+      </Modal>
     ),
   };
 };
