@@ -6,7 +6,7 @@ import { PropsWithLangParams } from "@/types";
 import { RcRocketIcon } from "rocketicons/rc";
 import RocketIconsText from "@/components/rocketicons-text";
 import SearchButton from "@/app/components/search/search";
-import { withLocale } from "@/app/locales/with-locale";
+import { withLocale } from "@/locales/with-locale";
 import Footer from "@/components/footer";
 import CustomMetadata from "@/components/metadata-custom";
 
