@@ -80,6 +80,7 @@ const ModalContent = ({ children, isOpen, closeModal }: ModalContentProps) => {
       >
         <div
           role="button"
+          tabIndex={0}
           onClick={() => closeModal()}
           className="fixed z-40 w-full h-full"
         ></div>
