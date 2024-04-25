@@ -7,21 +7,16 @@ import {
   IconsManifestType,
   IconsInfoManifest,
   IconInfo,
-  CollectionDataInfo,
+  CollectionDataInfo
 } from "@/types";
 
 export const IconGenerator =
   (data: IconTree, variant: Variants, _name: string): IconType =>
-  ({ className, ...props }: IconBaseProps) =>
-    (
-      <svg
-        {...data.attr}
-        {...props}
-        className={handleClassName(variant, className ?? "")}
-      >
-        {tree2Element(data.child)}
-      </svg>
-    );
+  ({ className, ...props }: IconBaseProps) => (
+    <svg {...data.attr} {...props} className={handleClassName(variant, className ?? "")}>
+      {tree2Element(data.child)}
+    </svg>
+  );
 
 export {
   IconTree,
@@ -31,5 +26,5 @@ export {
   IconInfo,
   CollectionDataInfo,
   IconsInfoManifest,
-  IconsManifestType,
+  IconsManifestType
 };

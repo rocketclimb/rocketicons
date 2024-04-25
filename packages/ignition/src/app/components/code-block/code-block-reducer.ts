@@ -9,7 +9,7 @@ export type CodeEditState = Record<string, CodeEditOptions>;
 
 const initialState: CodeEditOptions = {
   elementState: "",
-  codeState: "",
+  codeState: ""
 };
 
 export const reducer = (state: CodeEditState, action: Actions) => {
@@ -19,7 +19,7 @@ export const reducer = (state: CodeEditState, action: Actions) => {
       const current = state[id] || initialState;
       return {
         ...state,
-        [id]: { ...current, codeState: updating },
+        [id]: { ...current, codeState: updating }
       };
     }
     case Action.COMMIT: {
@@ -27,7 +27,7 @@ export const reducer = (state: CodeEditState, action: Actions) => {
       const { codeState } = state[id] || initialState;
       return {
         ...state,
-        [id]: { codeState, elementState: codeState },
+        [id]: { codeState, elementState: codeState }
       };
     }
   }

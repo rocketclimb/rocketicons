@@ -1,10 +1,6 @@
-import { StyleHandler, DEFAULT_CLASS_NAME } from "./config-handler";
+import { DEFAULT_CLASS_NAME } from "./config-handler";
 
-export type Style = Record<string, Record<string, {}>>;
-
-type Extensor = (classPrefix: string) => Generator;
-
-type Generator = (className: string, styles: string) => Style;
+import { Extensor, Style, StyleHandler } from "@/types";
 
 const builder: Extensor =
   (classPrefix: string) =>
@@ -24,13 +20,11 @@ export const stylesGenerator = () => {
     for (const option of themes) {
       parsedStyles = {
         ...parsedStyles,
-        ...generator(`${prefix}${option.name()}`, option.styles()),
+        ...generator(`${prefix}${option.name()}`, option.styles())
       };
       creator(
         option?.options(),
-        (option.name() !== DEFAULT_CLASS_NAME &&
-          `${prefix}${option.name()}-`) ||
-          ""
+        (option.name() !== DEFAULT_CLASS_NAME && `${prefix}${option.name()}-`) || ""
       );
     }
   };
@@ -41,6 +35,6 @@ export const stylesGenerator = () => {
   };
 
   return {
-    add,
+    add
   };
 };

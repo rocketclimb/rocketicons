@@ -8,27 +8,27 @@ export const svgoConfig: Config = {
         overrides: {
           removeViewBox: false,
           convertColors: {
-            currentColor: true,
-          },
-        },
-      },
+            currentColor: true
+          }
+        }
+      }
     },
     {
-      name: "convertStyleToAttrs",
+      name: "convertStyleToAttrs"
     },
     {
-      name: "removeDimensions",
+      name: "removeDimensions"
     },
     {
       name: "removeAttributesBySelector",
       params: {
         selector: "*:not(svg)",
-        attributes: ["stroke"],
-      },
+        attributes: ["stroke"]
+      }
     },
     {
       name: "removeAttrs",
-      params: { attrs: "data.*" },
-    },
-  ],
+      params: { attrs: "data.*" }
+    }
+  ]
 };

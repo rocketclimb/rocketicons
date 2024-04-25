@@ -2,19 +2,13 @@
 
 import path from "path";
 import { promises as fs } from "fs";
-//@ts-ignore
+// @ts-expect-error TS7016: types not found for find-package
 import findPackage from "find-package";
-import { promisify } from "util";
-const exec = promisify(require("child_process").exec);
 import { IconsManifestType, IconsInfoManifest } from "@rocketicons/core";
 import { icons } from "./definitions";
 import { getIconFiles } from "./logics";
-import { IconDefinition, TaskContext } from "./types";
-import {
-  DataTypeHeaderTemplate,
-  DataTypeFooterTemplate,
-  DataIndexJsTemplate,
-} from "./templates";
+import { IconDefinition, Overrrides, TaskContext } from "./types";
+import { DataTypeHeaderTemplate, DataTypeFooterTemplate, DataIndexJsTemplate } from "./templates";
 
 export const writeIconsManifest = async (
   { DATA, DIST }: TaskContext,
@@ -25,18 +19,16 @@ export const writeIconsManifest = async (
     .filter(({ id }) => id !== "rc")
     .sort(({ id: a }, { id: b }) => a.localeCompare(b));
 
-  const writeObj: IconsManifestType<string, string>[] = [rc, ...others].map(
-    (icon) => ({
-      id: icon.id,
-      ...(icon?.compPrefix && { compPrefix: icon.compPrefix }),
-      name: icon.name,
-      projectUrl: icon.projectUrl,
-      license: icon.license,
-      licenseUrl: icon.licenseUrl,
-      icons: [],
-      totalIcons: 0,
-    })
-  );
+  const writeObj: IconsManifestType<string, string>[] = [rc, ...others].map((icon) => ({
+    id: icon.id,
+    ...(icon?.compPrefix && { compPrefix: icon.compPrefix }),
+    name: icon.name,
+    projectUrl: icon.projectUrl,
+    license: icon.license,
+    licenseUrl: icon.licenseUrl,
+    icons: [],
+    totalIcons: 0
+  }));
 
   const mjsDataIcons: string[] = [];
   const jsDataIcons: string[] = [];
@@ -58,11 +50,7 @@ export const writeIconsManifest = async (
     typeLicenses.push(`"${license}"`);
   });
 
-  await fs.writeFile(
-    path.resolve(DATA, "icons.mjs"),
-    mjsDataIcons.join("\n"),
-    "utf8"
-  );
+  await fs.writeFile(path.resolve(DATA, "icons.mjs"), mjsDataIcons.join("\n"), "utf8");
 
   await fs.writeFile(
     path.resolve(DATA, "icons.js"),
@@ -72,7 +60,7 @@ export const writeIconsManifest = async (
     "utf8"
   );
 
-  for (let [key, info] of Object.entries(iconInfoManifest)) {
+  for (const [key, info] of Object.entries(iconInfoManifest)) {
     const dataInfo = JSON.stringify(info, null, 2);
 
     await fs.writeFile(
@@ -106,16 +94,8 @@ export const writeIconsManifest = async (
 
   const manifest = JSON.stringify(writeObj, null, 2);
 
-  await fs.writeFile(
-    path.resolve(DATA, "icons-info.mjs"),
-    `${mjsIconsInfo.join("\n")}`,
-    "utf8"
-  );
-  await fs.writeFile(
-    path.resolve(DATA, "icons-info.js"),
-    `${jsIconsInfo.join("\n")}`,
-    "utf8"
-  );
+  await fs.writeFile(path.resolve(DATA, "icons-info.mjs"), `${mjsIconsInfo.join("\n")}`, "utf8");
+  await fs.writeFile(path.resolve(DATA, "icons-info.js"), `${jsIconsInfo.join("\n")}`, "utf8");
 
   await fs.writeFile(
     path.resolve(DATA, "icons-manifest.mjs"),
@@ -134,11 +114,7 @@ export const writeIconsManifest = async (
     "utf8"
   );
 
-  await fs.writeFile(
-    path.resolve(DATA, "index.js"),
-    DataIndexJsTemplate,
-    "utf8"
-  );
+  await fs.writeFile(path.resolve(DATA, "index.js"), DataIndexJsTemplate, "utf8");
 
   await fs.writeFile(
     path.resolve(DATA, "index.d.ts"),
@@ -155,41 +131,24 @@ export const writeLicense = async ({ DIST, rootDir }: TaskContext) => {
   const iconLicenses =
     icons
       .map((icon) =>
-        [
-          `${icon.name} - ${icon.projectUrl}`,
-          `License: ${icon.license} ${icon.licenseUrl}`,
-        ].join("\n")
+        [`${icon.name} - ${icon.projectUrl}`, `License: ${icon.license} ${icon.licenseUrl}`].join(
+          "\n"
+        )
       )
       .join("\n\n") + "\n";
 
-  await fs.copyFile(
-    path.resolve(rootDir, "LICENSE_HEADER"),
-    path.resolve(DIST, "LICENSE")
-  );
+  await fs.copyFile(path.resolve(rootDir, "LICENSE_HEADER"), path.resolve(DIST, "LICENSE"));
   await fs.appendFile(path.resolve(DIST, "LICENSE"), iconLicenses, "utf8");
 };
 
 export const writeEntryPoints = async ({ DIST }: TaskContext) => {
   const generateEntryCjs = () => `module.exports = require('./core/index.js');`;
 
-  const generateEntryMjs = (filename = "index.mjs") =>
-    `export * from './core/${filename}';`;
+  const generateEntryMjs = (filename = "index.mjs") => `export * from './core/${filename}';`;
 
-  await fs.appendFile(
-    path.resolve(DIST, "index.js"),
-    generateEntryCjs(),
-    "utf8"
-  );
-  await fs.appendFile(
-    path.resolve(DIST, "index.mjs"),
-    generateEntryMjs(),
-    "utf8"
-  );
-  await fs.appendFile(
-    path.resolve(DIST, "index.d.ts"),
-    generateEntryMjs("index.d.ts"),
-    "utf8"
-  );
+  await fs.appendFile(path.resolve(DIST, "index.js"), generateEntryCjs(), "utf8");
+  await fs.appendFile(path.resolve(DIST, "index.mjs"), generateEntryMjs(), "utf8");
+  await fs.appendFile(path.resolve(DIST, "index.d.ts"), generateEntryMjs("index.d.ts"), "utf8");
 };
 
 interface IconsetVersion {
@@ -217,15 +176,13 @@ export const writeIconVersions = async ({ rootDir }: TaskContext) => {
     versions.push({
       icon,
       version,
-      count: files.length,
+      count: files.length
     });
   }
 
   const emptyVersions = versions.filter((v) => v.count === 0);
   if (emptyVersions.length !== 0) {
-    throw Error(
-      `empty icon sets: ${emptyVersions.map((v) => v.icon).join(", ")}`
-    );
+    throw Error(`empty icon sets: ${emptyVersions.map((v) => v.icon).join(", ")}`);
   }
 
   const versionsStr =
@@ -238,7 +195,7 @@ export const writeIconVersions = async ({ rootDir }: TaskContext) => {
             `[${v.icon.name}](${v.icon.projectUrl})`,
             `[${v.icon.license}](${v.icon.licenseUrl})`,
             v.version,
-            v.count,
+            v.count
           ].join(" | ")} |`
       )
       .join("\n") +
@@ -248,26 +205,14 @@ export const writeIconVersions = async ({ rootDir }: TaskContext) => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const writePackageJson = async (
-  override: any,
-  { DIST, rootDir }: TaskContext
-) => {
-  const packageJsonStr = await fs.readFile(
-    path.resolve(rootDir, "package.json"),
-    "utf-8"
-  );
+export const writePackageJson = async (override: Overrrides, { DIST }: TaskContext) => {
+  const packageJsonStr = await fs.readFile(path.resolve(DIST, "package.json"), "utf-8");
   let packageJson = JSON.parse(packageJsonStr);
   packageJson.main = "./index.js";
 
-  delete packageJson.private;
-  delete packageJson.dependencies;
-  delete packageJson.devDependencies;
-  delete packageJson.scripts;
-  delete packageJson.files;
-
   packageJson = {
     ...packageJson,
-    ...override,
+    ...override
   };
 
   const editedPackageJsonStr = JSON.stringify(packageJson, null, 2) + "\n";
@@ -275,7 +220,4 @@ export const writePackageJson = async (
 };
 
 export const copyReadme = async ({ DIST, rootDir }: TaskContext) =>
-  await fs.copyFile(
-    path.resolve(rootDir, "../../README.md"),
-    path.resolve(DIST, "README.md")
-  );
+  await fs.copyFile(path.resolve(rootDir, "../../README.md"), path.resolve(DIST, "README.md"));

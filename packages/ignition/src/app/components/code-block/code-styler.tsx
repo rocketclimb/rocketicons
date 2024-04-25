@@ -24,11 +24,7 @@ type TabSelectorProps = {
   allowSelectionUntil: number;
 };
 
-const TabSelector = ({
-  tabs,
-  allowSelectionUntil,
-  onTabChange,
-}: TabSelectorProps) => {
+const TabSelector = ({ tabs, allowSelectionUntil, onTabChange }: TabSelectorProps) => {
   const [selected, setSelected] = useState<number>(0);
   return (
     <div className="flex text-slate-400 text-xs leading-6 mt-2 -mr-1 overflow-y-auto thin-scroll">
@@ -57,7 +53,7 @@ const CodeStyler = ({
   allowSelectionUntil,
   onTabChange,
   children,
-  animatedPreviewer,
+  animatedPreviewer
 }: CodeStylerProps) => (
   <div
     data-variant={variant || "full"}

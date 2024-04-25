@@ -7,10 +7,7 @@ import { sizes } from "./utils";
 import { useEffect, useState } from "react";
 import { CollectionID } from "rocketicons/data";
 
-const Animation = ({
-  Icon,
-  iconName,
-}: IconHandlerProps & { iconName: string }) => {
+const Animation = ({ Icon, iconName }: IconHandlerProps & { iconName: string }) => {
   const [state, setState] = useState<string>("icon-base");
   const [script, setScript] = useState<Script>([]);
 
@@ -27,15 +24,15 @@ const Animation = ({
             from: prev,
             to: "icon-",
             skipCommit: true,
-            delay: 120,
+            delay: 120
           },
           {
             action: ScriptAction.UPDATE_TYPING,
             elementId: "el_0.el_0",
             text: `${size}`,
-            delay: 120,
-          },
-        ],
+            delay: 120
+          }
+        ]
       }),
       { prev: "icon-base", script: [] as any[] }
     );
@@ -61,17 +58,17 @@ const Animation = ({
             from: "icon-7xl",
             to: "icon-",
             skipCommit: true,
-            delay: 120,
+            delay: 120
           },
           {
             action: ScriptAction.UPDATE_TYPING,
             elementId: "el_0.el_0",
             text: "base",
-            delay: 120,
+            delay: 120
           },
           {
-            action: ScriptAction.RESTART,
-          },
+            action: ScriptAction.RESTART
+          }
         ]}
       >
         <div>
@@ -89,12 +86,7 @@ type SizingAnimationProsp = {
 
 const SizingAnimation = ({ collection, icon }: SizingAnimationProsp) => (
   <div className="flex h-48 flex-col sm:flex-row my-12 items-center justify-center gap-4">
-    <IconLoader
-      collectionId={collection}
-      icon={icon}
-      iconName={icon}
-      Handler={Animation}
-    />
+    <IconLoader collectionId={collection} icon={icon} iconName={icon} Handler={Animation} />
   </div>
 );
 

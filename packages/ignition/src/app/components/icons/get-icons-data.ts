@@ -2,10 +2,7 @@ import { IconsManifestType } from "rocketicons";
 import { CollectionID, License } from "rocketicons/data";
 import { IconsManifest } from "@/app/data-helpers/icons/manifest";
 
-type IconsManifest = Map<
-  CollectionID,
-  IconsManifestType<CollectionID, License>
->;
+type IconsManifest = Map<CollectionID, IconsManifestType<CollectionID, License>>;
 
 let iconsManifest: IconsManifest;
 
@@ -21,8 +18,7 @@ export const getCollectionsInfo = (id: CollectionID) => {
 
   return {
     exists: (icon?: string) =>
-      iconsManifest.has(id) &&
-      (!icon || iconsManifest.get(id)?.icons.includes(icon)),
-    get: () => iconsManifest.get(id),
+      iconsManifest.has(id) && (!icon || iconsManifest.get(id)?.icons.includes(icon)),
+    get: () => iconsManifest.get(id)
   };
 };

@@ -6,21 +6,19 @@ import { PropsWithLangParams } from "@/types";
 import { RcRocketIcon } from "rocketicons/rc";
 import RocketIconsText from "@/components/rocketicons-text";
 import SearchButton from "@/app/components/search/search";
-import { useLocale } from "@/locales/use-locale";
+import { withLocale } from "@/locales/with-locale";
 import Footer from "@/components/footer";
 import CustomMetadata from "@/components/metadata-custom";
 
-export const generateMetadata = ({
-  params: { lang },
-}: PropsWithLangParams): Metadata => {
-  const { component } = useLocale(lang);
+export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
+  const { component } = withLocale(lang);
   const { title, description } = component("home");
 
   return CustomMetadata(lang, title, description);
 };
 
 const Home = ({ params: { lang } }: PropsWithLangParams) => {
-  const nav = useLocale(lang).config("nav");
+  const nav = withLocale(lang).config("nav");
 
   return (
     <div className="flex flex-col grow overflow-y-auto items-center justify-between bg-cover bg-hero-light dark:bg-hero-dark">
@@ -48,32 +46,32 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
               time: "4s",
               action: ScriptAction.UPDATE,
               elementId: "el_0",
-              text: "h-32",
+              text: "h-32"
             },
             {
               action: ScriptAction.UPDATE,
               elementId: "el_0.el_0",
-              text: "size-10",
+              text: "size-10"
             },
             {
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_0",
               text: " border border-slate-200 dark:border-white",
-              delay: 50,
+              delay: 50
             },
             {
               time: "2s",
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0",
               text: " flex gap-3",
-              delay: 60,
+              delay: 60
             },
             {
               time: "2s",
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_0",
               text: " size-32 bg-slate-200 dark:bg-white",
-              delay: 50,
+              delay: 50
             },
             {
               time: "5s",
@@ -81,51 +79,51 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
               elementId: "el_0.el_1.el_1.el_1",
               from: "icon-red-900-md",
               to: "icon-",
-              skipCommit: true,
+              skipCommit: true
             },
             {
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_1.el_1.el_1",
-              text: "sky-500",
+              text: "sky-500"
             },
             {
               time: "5s",
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_1.el_1.el_1",
-              text: "-lg",
+              text: "-lg"
             },
             {
               time: "2s",
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_1.el_1.el_1",
               text: " dark:icon-white-lg",
-              delay: 30,
+              delay: 30
             },
             {
               time: "1s",
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_1.el_1.el_1",
-              text: " mx-1",
+              text: " mx-1"
             },
             {
               time: "30s",
               action: ScriptAction.REPLACE_TYPING,
               elementId: "el_0.el_1.el_1.el_1",
-              text: "icon-slate-900-sm dark:icon-red-500-sm",
+              text: "icon-slate-900-sm dark:icon-red-500-sm"
             },
             {
               action: ScriptAction.UPDATE,
               elementId: "el_0",
-              text: "h-32",
+              text: "h-32"
             },
             {
               action: ScriptAction.UPDATE,
               elementId: "el_0.el_0",
-              text: "size-10",
+              text: "size-10"
             },
             {
-              action: ScriptAction.RESTART,
-            },
+              action: ScriptAction.RESTART
+            }
           ]}
         >
           <div className="h-32">
@@ -140,11 +138,9 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
                   data-cb-tag="RcRocketIcon"
                   className="icon-slate-900-sm dark:icon-red-500-sm"
                 />
-                you've never seen before.
+                you&apos;ve never seen before.
               </div>
-              <div className="mt-0.5 text-xs leading-6">
-                A funny way handling icons
-              </div>
+              <div className="mt-0.5 text-xs leading-6">A funny way handling icons</div>
             </div>
           </div>
         </AnimatedCodeBlock>

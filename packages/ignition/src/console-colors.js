@@ -17,7 +17,7 @@ const consoleColours = {
     cyan: "\x1b[36m",
     white: "\x1b[37m",
     gray: "\x1b[90m",
-    crimson: "\x1b[38m", // Scarlet
+    crimson: "\x1b[38m" // Scarlet
   },
   bg: {
     black: "\x1b[40m",
@@ -29,8 +29,8 @@ const consoleColours = {
     cyan: "\x1b[46m",
     white: "\x1b[47m",
     gray: "\x1b[100m",
-    crimson: "\x1b[48m",
-  },
+    crimson: "\x1b[48m"
+  }
 };
 
 export default consoleColours;

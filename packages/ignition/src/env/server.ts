@@ -9,11 +9,9 @@ type serverSchema = {
 export const serverEnv = {
   NEXT_PUBLIC_APP_URL: String(process.env.NEXT_PUBLIC_APP_URL),
   GOOGLE_ANALYTICS_ID: String(process.env.NEXT_GOOGLE_ANALYTICS_ID),
-  NEXT_PUBLIC_ALGOLIA_APPLICATION_ID: String(
-    process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID
-  ),
+  NEXT_PUBLIC_ALGOLIA_APPLICATION_ID: String(process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID),
   NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY: String(
     process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY
   ),
-  ALGOLIA_ADMIN_KEY: String(process.env.ALGOLIA_ADMIN_KEY),
+  ALGOLIA_ADMIN_KEY: String(process.env.ALGOLIA_ADMIN_KEY)
 } satisfies serverSchema;

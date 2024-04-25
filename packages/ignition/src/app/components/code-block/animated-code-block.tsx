@@ -22,7 +22,7 @@ const AnimatedCodeBlock = ({
   showCodeElementdId,
   variants,
   className,
-  onCommit,
+  onCommit
 }: AnimatedCodeBlockProps) => {
   const elements = element2Array(children);
   return (

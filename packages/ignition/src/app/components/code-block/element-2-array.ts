@@ -7,20 +7,17 @@ const typeToTagName = (type: string | Function): string =>
 const nodeMap = ({ type, props }: ReactElement): DataElement => {
   const { children, "data-cb-tag": dataTag, ...rest } = props || {};
 
-  const mapChildren = (
-    child: string | undefined | ReactElement
-  ): DataChildren => (typeof child === "object" ? nodeMap(child) : child);
+  const mapChildren = (child: string | undefined | ReactElement): DataChildren =>
+    typeof child === "object" ? nodeMap(child) : child;
 
   return {
     tag: dataTag || typeToTagName(type),
     props: rest,
-    children: Array.isArray(children)
-      ? children.map(mapChildren)
-      : mapChildren(children),
+    children: Array.isArray(children) ? children.map(mapChildren) : mapChildren(children)
   };
 };
 
-export default (nodes: any): DataElement[] =>
-  (Children.toArray(nodes) as ReactElement[])
-    .filter(({ type }) => !!type)
-    .map(nodeMap);
+const elements2Array = (nodes: any): DataElement[] =>
+  (Children.toArray(nodes) as ReactElement[]).filter(({ type }) => !!type).map(nodeMap);
+
+export default elements2Array;

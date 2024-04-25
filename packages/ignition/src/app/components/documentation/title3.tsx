@@ -1,11 +1,7 @@
 import BaseDocElement, { DocElementProps } from "./base-doc-element";
 
 const Title3 = ({ children, ...props }: DocElementProps) => (
-  <BaseDocElement
-    Tag="h3"
-    defaultClassName="sub-title sub-section flex text-lg mb-3"
-    {...props}
-  >
+  <BaseDocElement Tag="h3" defaultClassName="sub-title sub-section flex text-lg mb-3" {...props}>
     {children}
   </BaseDocElement>
 );

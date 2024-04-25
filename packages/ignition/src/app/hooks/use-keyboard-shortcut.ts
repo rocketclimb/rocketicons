@@ -1,10 +1,7 @@
 "use client";
 import { useEffect, useCallback } from "react";
 
-type OptionalConfig = Pick<
-  KeyboardEvent,
-  "altKey" | "ctrlKey" | "shiftKey" | "metaKey"
->;
+type OptionalConfig = Pick<KeyboardEvent, "altKey" | "ctrlKey" | "shiftKey" | "metaKey">;
 
 interface ShortcutConfig extends Partial<OptionalConfig> {
   code: KeyboardEvent["code"];
@@ -13,10 +10,7 @@ interface ShortcutConfig extends Partial<OptionalConfig> {
 
 type ShortcutAction = (e: KeyboardEvent) => void;
 
-const useKeyboardShortcut = (
-  shortcutAction: ShortcutAction,
-  config: ShortcutConfig
-) => {
+const useKeyboardShortcut = (shortcutAction: ShortcutAction, config: ShortcutConfig) => {
   const eventHandler = useCallback(
     (e: KeyboardEvent) => {
       const { code, ctrlKey, altKey, shiftKey, metaKey } = e;
@@ -34,11 +28,7 @@ const useKeyboardShortcut = (
   useEffect(() => {
     const targetElement = config.shortcutTarget || document;
     targetElement.addEventListener("keydown", eventHandler as EventListener);
-    return () =>
-      targetElement.removeEventListener(
-        "keydown",
-        eventHandler as EventListener
-      );
+    return () => targetElement.removeEventListener("keydown", eventHandler as EventListener);
   }, [config.shortcutTarget, eventHandler]);
 };
 

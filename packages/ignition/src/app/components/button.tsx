@@ -1,8 +1,5 @@
 import { ButtonHTMLAttributes } from "react";
-const Button = ({
-  children,
-  ...props
-}: ButtonHTMLAttributes<HTMLButtonElement>) => (
+const Button = ({ children, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) => (
   <button type="button" {...props}>
     {children}
   </button>

@@ -13,7 +13,7 @@ describe("styleToString", () => {
       paddingRight: "0",
       paddingTop: "0",
       stroke: "#ffc800",
-      textAlign: "center",
+      textAlign: "center"
     });
 
     expect(style).toBe(
@@ -31,7 +31,7 @@ describe("styleToString", () => {
       paddingRight: "0",
       paddingTop: "0",
       stroke: "#ffc800",
-      textAlign: "center",
+      textAlign: "center"
     });
 
     expect(style).toBe(

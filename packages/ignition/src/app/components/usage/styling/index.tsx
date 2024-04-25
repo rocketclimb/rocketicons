@@ -9,10 +9,7 @@ import CodeSample from "@/components/code-block/code-sample";
 import StylingAnimation from "./styling-animation";
 import Wrapper from "@/components/documentation/wrapper";
 
-const StateManagement = ({
-  lang,
-  queryIcon,
-}: PropsWithLang & { queryIcon?: string }) => {
+const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
   const { icon, collection, Icon } = getCurrentIconData(queryIcon);
   return (
     <>
@@ -50,18 +47,9 @@ const StateManagement = ({
         <CodeSample>
           <div>
             <div data-cb-tag={icon} className="border border-slate-600 ..." />
-            <div
-              data-cb-tag={icon}
-              className="rounded border border-slate-600 ..."
-            />
-            <div
-              data-cb-tag={icon}
-              className="rounded-md border border-slate-600 ..."
-            />
-            <div
-              data-cb-tag={icon}
-              className="rounded-lg border border-slate-600 ..."
-            />
+            <div data-cb-tag={icon} className="rounded border border-slate-600 ..." />
+            <div data-cb-tag={icon} className="rounded-md border border-slate-600 ..." />
+            <div data-cb-tag={icon} className="rounded-lg border border-slate-600 ..." />
           </div>
         </CodeSample>
       </Wrapper>
@@ -94,22 +82,10 @@ const StateManagement = ({
         </GridContainer>
         <CodeSample>
           <div>
-            <div
-              data-cb-tag={icon}
-              className="border-solid border-slate-600 ..."
-            />
-            <div
-              data-cb-tag={icon}
-              className="border-dashed border-slate-600 ..."
-            />
-            <div
-              data-cb-tag={icon}
-              className="border-dotted border-slate-600 ..."
-            />
-            <div
-              data-cb-tag={icon}
-              className="border-double border-slate-600 ..."
-            />
+            <div data-cb-tag={icon} className="border-solid border-slate-600 ..." />
+            <div data-cb-tag={icon} className="border-dashed border-slate-600 ..." />
+            <div data-cb-tag={icon} className="border-dotted border-slate-600 ..." />
+            <div data-cb-tag={icon} className="border-double border-slate-600 ..." />
           </div>
         </CodeSample>
       </Wrapper>
@@ -124,18 +100,9 @@ const StateManagement = ({
         </GridContainer>
         <CodeSample>
           <div>
-            <div
-              data-cb-tag={icon}
-              className="outline outline-offset-2 outline-1 ..."
-            />
-            <div
-              data-cb-tag={icon}
-              className="outline outline-offset-2 outline-2 ..."
-            />
-            <div
-              data-cb-tag={icon}
-              className="outline outline-offset-2 outline-4 ..."
-            />
+            <div data-cb-tag={icon} className="outline outline-offset-2 outline-1 ..." />
+            <div data-cb-tag={icon} className="outline outline-offset-2 outline-2 ..." />
+            <div data-cb-tag={icon} className="outline outline-offset-2 outline-4 ..." />
           </div>
         </CodeSample>
       </Wrapper>
@@ -195,11 +162,7 @@ const StateManagement = ({
         </CodeSample>
       </Wrapper>
       <Wrapper>
-        <MdxPartial
-          lang={lang}
-          slug={"styling/styling-transform"}
-          path="docs"
-        />
+        <MdxPartial lang={lang} slug={"styling/styling-transform"} path="docs" />
         <GridContainer>
           <div className="mx-auto flex justify-center gap-6 my-8">
             <Icon className="size-16 md:size-20 lg:size-32 scale-50" />

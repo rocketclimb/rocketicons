@@ -1,6 +1,6 @@
 "use client";
 import { LuSearch } from "rocketicons/lu";
-import { useLocale } from "@/locales";
+import { withLocale } from "@/locales";
 import { Languages } from "@/types";
 import { useDisclosure } from "@/components/modal-context";
 import SearchAlgolia from "@/components/search/search-algolia";
@@ -14,11 +14,11 @@ type SearchButtonProps = {
 
 const SearchButton = ({ lang }: SearchButtonProps) => {
   const { open, close, Modal } = useDisclosure("search-disclosure");
-  const { placeholder } = useLocale(lang).config("search");
+  const { placeholder } = withLocale(lang).config("search");
 
   useKeyboardShortcut(() => open(), {
     code: "KeyK",
-    metaKey: true,
+    metaKey: true
   });
 
   return (
@@ -39,7 +39,7 @@ const SearchButton = ({ lang }: SearchButtonProps) => {
           K
         </kbd>
       </Button>
-      <Modal>
+      <Modal keepOnResize>
         <SearchAlgolia lang={lang} close={close} />
       </Modal>
     </>

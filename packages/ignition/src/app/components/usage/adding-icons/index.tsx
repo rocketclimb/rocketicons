@@ -12,19 +12,11 @@ const AddingIcons = async ({ lang }: PropsWithLang) => {
       <MdxPartial lang={lang} slug={"adding-icons"} path="docs" />
       <Importer lang={lang} />
       <Wrapper>
-        <MdxPartial
-          lang={lang}
-          slug={"adding-icons/adding-icons-including"}
-          path="docs"
-        />
+        <MdxPartial lang={lang} slug={"adding-icons/adding-icons-including"} path="docs" />
         <ElementBlock lang={lang} />
       </Wrapper>
       <Wrapper>
-        <MdxPartial
-          lang={lang}
-          slug={"adding-icons/adding-icons-next"}
-          path="docs"
-        />
+        <MdxPartial lang={lang} slug={"adding-icons/adding-icons-next"} path="docs" />
       </Wrapper>
     </>
   );

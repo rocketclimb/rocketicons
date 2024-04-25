@@ -3,28 +3,28 @@ import MainNavAsMenu from "./main-nav-as-menu";
 import { NavItem } from "./types";
 import { PropsWithLang } from "@/types";
 import ThemeSelector from "@/components/theme/theme-selector";
-import { useLocale } from "@/locales/use-locale";
+import { withLocale } from "@/locales/with-locale";
 import GitHubIcon from "@/components/github-icon";
 
 const MainNav = ({ lang }: PropsWithLang) => {
-  const nav = useLocale(lang).config("nav");
+  const nav = withLocale(lang).config("nav");
 
   const navItems: NavItem[] = [
     {
       name: "docs",
       label: nav["docs"],
-      link: `/${lang}/docs/${nav["usage-slug"]}`,
+      link: `/${lang}/docs/${nav["usage-slug"]}`
     },
     {
       name: "getting-started",
       label: nav["getting-started"],
-      link: `/${lang}/docs/${nav["getting-started-slug"]}`,
+      link: `/${lang}/docs/${nav["getting-started-slug"]}`
     },
     {
       name: "icons",
       label: nav["icons"],
-      link: `/${lang}/icons`,
-    },
+      link: `/${lang}/icons`
+    }
   ];
   return (
     <>

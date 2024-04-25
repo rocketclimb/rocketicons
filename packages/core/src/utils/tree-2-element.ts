@@ -3,9 +3,5 @@ import { IconTree } from "@/types";
 
 export const tree2Element = (tree: IconTree[]): React.ReactElement[] =>
   tree?.map((node, i) =>
-    React.createElement(
-      node.tag,
-      { key: i, ...node.attr },
-      tree2Element(node.child)
-    )
+    React.createElement(node.tag, { key: i, ...node.attr }, tree2Element(node.child))
   );

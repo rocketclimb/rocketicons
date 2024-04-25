@@ -11,14 +11,9 @@ const useThemeHandler = (): {
 } => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [isDarkOnSystem, setIsDarkOnSystem] = useState<boolean>();
-  const [themePrefs, setThemePrefs] = useStorage<ThemeOptions>(
-    "theme-prefs",
-    "dark",
-    true
-  );
+  const [themePrefs, setThemePrefs] = useStorage<ThemeOptions>("theme-prefs", "dark", true);
 
-  const systemListener = (e: MediaQueryListEvent) =>
-    setIsDarkOnSystem(e.matches);
+  const systemListener = (e: MediaQueryListEvent) => setIsDarkOnSystem(e.matches);
 
   const init = () => {
     setIsLoaded(true);
@@ -38,12 +33,10 @@ const useThemeHandler = (): {
   return {
     isLoaded,
     isDark:
-      (isLoaded &&
-        (themePrefs === "dark" ||
-          (themePrefs === "system" && isDarkOnSystem))) ||
+      (isLoaded && (themePrefs === "dark" || (themePrefs === "system" && isDarkOnSystem))) ||
       undefined,
     userPref: themePrefs,
-    setPref: (option: ThemeOptions) => setThemePrefs(option),
+    setPref: (option: ThemeOptions) => setThemePrefs(option)
   };
 };
 

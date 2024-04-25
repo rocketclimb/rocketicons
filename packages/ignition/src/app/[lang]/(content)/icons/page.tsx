@@ -3,14 +3,13 @@ import { IconsManifest, total } from "@/data-helpers/icons/manifest";
 import { MdxComponent } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangParams } from "@/types";
-import { useLocale } from "@/locales";
+
+import { withLocale } from "@/locales";
 import CustomMetadata from "@/components/metadata-custom";
 import NumberFormatter from "@/components/number-formatter";
 
-export const generateMetadata = ({
-  params: { lang },
-}: PropsWithLangParams): Metadata => {
-  const { component, config } = useLocale(lang);
+export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
+  const { component, config } = withLocale(lang);
   const { icons } = config("opengraph");
   const { title, description } = component("icons-hero");
 
@@ -22,7 +21,7 @@ export const generateMetadata = ({
 };
 
 const Page = ({ params: { lang } }: PropsWithLangParams) => {
-  const { config } = useLocale(lang);
+  const { config } = withLocale(lang);
   const { "total-icon-count-text": totalIconCountText } = config("brand");
   return (
     <div className="flex flex-col">

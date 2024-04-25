@@ -1,18 +1,13 @@
 import { siteConfig } from "@/config/site";
-import { useLocale } from "@/locales";
+import { withLocale } from "@/locales";
 import { Languages } from "@/types";
 import type { Metadata } from "next";
 
-const CustomMetadata = (
-  lang: Languages,
-  title?: string,
-  description?: string
-): Metadata => {
+const CustomMetadata = (lang: Languages, title?: string, description?: string): Metadata => {
   const { name, url, defaultLocale } = siteConfig;
-  const brand = useLocale(lang).config("brand");
+  const brand = withLocale(lang).config("brand");
 
-  const pageTitle =
-    `${title ?? name}` + (title?.endsWith(siteConfig.name) ? "" : ` | ${name}`);
+  const pageTitle = `${title ?? name}` + (title?.endsWith(siteConfig.name) ? "" : ` | ${name}`);
   const pageDescription = description ?? brand.description;
   return {
     title: pageTitle,
@@ -24,13 +19,13 @@ const CustomMetadata = (
       "Tailwind",
       "rocketclimb",
       "rocketicons",
-      "icons",
+      "icons"
     ],
     authors: [
       {
         name: "RocketClimb",
-        url: "https://rocketclimb.io",
-      },
+        url: "https://rocketclimb.io"
+      }
     ],
     creator: "RocketClimb",
     openGraph: {
@@ -39,19 +34,19 @@ const CustomMetadata = (
       url: url,
       title: pageTitle,
       description: pageDescription,
-      siteName: name,
+      siteName: name
     },
     twitter: {
       card: "summary_large_image",
       title: pageTitle,
       description: pageDescription,
-      creator: "@therocketclimb",
+      creator: "@therocketclimb"
     },
     icons: {
       icon: "/favicon.ico",
-      shortcut: "/favicon-16x16.png",
+      shortcut: "/favicon-16x16.png"
     },
-    metadataBase: new URL(url),
+    metadataBase: new URL(url)
   };
 };
 

@@ -6,16 +6,15 @@ import { PropsWithClassName, PropsWithLang } from "@/types";
 import { IconsManifest } from "@/data-helpers/icons/manifest";
 import RocketIconsText from "@/components/rocketicons-text";
 import { siteConfig } from "@/config/site";
-import { useLocale } from "@/locales/use-locale";
+import { withLocale } from "@/locales/with-locale";
 import SearchButton from "@/app/components/search/search";
 
-const selectedClassName = (slug: string) =>
-  `group-has-[.docs-${slug}]:active-content`;
+const selectedClassName = (slug: string) => `group-has-[.docs-${slug}]:active-content`;
 
 const TextMenuTitle = ({
   text,
   href,
-  className,
+  className
 }: {
   text: string;
   href: string;
@@ -28,7 +27,7 @@ const TextMenuTitle = ({
 const MenuTitle = ({
   href,
   className,
-  children,
+  children
 }: PropsWithChildren & {
   href: string;
 } & PropsWithClassName) => (
@@ -54,7 +53,7 @@ const SubMenu = ({ children }: PropsWithChildren) => (
 const MenuItem = ({
   href,
   className,
-  children,
+  children
 }: PropsWithChildren & {
   href: string;
   className: string;
@@ -69,9 +68,24 @@ const MenuItem = ({
   </Link>
 );
 
+const IconList = ({ lang }: PropsWithLang) => (
+  <>
+    {IconsManifest.map(({ id, name }) => (
+      <li key={`${id}-${name}`}>
+        <MenuItem href={`/${lang}/icons/${id}`} className={selectedClassName(id)}>
+          {(name === "rocketclimb" && (
+            <RocketIconsText className="text-gray-950 hover:text-sky-500 dark:text-neutral-100 dark:hover:text-sky-500" />
+          )) ||
+            name}
+        </MenuItem>
+      </li>
+    ))}
+  </>
+);
+
 export const SidebarLeft = ({ lang }: PropsWithLang) => {
   const DocList = () => {
-    const { docs: getDocs } = useLocale(lang);
+    const { docs: getDocs } = withLocale(lang);
     const docs = Object.entries(getDocs() || {});
     const mainMenus = docs.filter((doc: any) => doc[1][lang].group === doc[0]);
 
@@ -84,16 +98,16 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
           {mainMenus.map((doc: any, i: number) => {
             const mainDocEnSlug = doc[0];
             const mainDoc = doc[1][lang];
-            const components =
-              Object.keys(mainDoc.components).length > 0
-                ? Object.values(mainDoc.components).sort(
-                    (a: any, b: any) => a.order - b.order
-                  )
-                : docs.filter(
-                    (doc: any) =>
-                      doc[1][lang].group === mainDocEnSlug &&
-                      doc[1][lang].group != doc[1][lang].enslug
-                  );
+            const componentsProp = Object.values(mainDoc.components);
+            const hasComponents = componentsProp.length > 0;
+            componentsProp.sort(sortComponents);
+            const componentsByGroup = docs.filter(
+              (doc: any) =>
+                doc[1][lang].group === mainDocEnSlug && doc[1][lang].group != doc[1][lang].enslug
+            );
+
+            const components = hasComponents ? componentsProp : componentsByGroup;
+
             return (
               mainDoc && (
                 <MenuBlock key={i}>
@@ -105,36 +119,29 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
                   />
 
                   <SubMenu>
-                    {components &&
-                      components.map((model: any, i: number) => {
-                        const isComponent = mainDoc.components.hasOwnProperty(
-                          model.enslug
-                        );
+                    {components?.map((model: any, i: number) => {
+                      const isComponent = mainDoc.components.hasOwnProperty(model.enslug);
 
-                        const subMenu = isComponent ? model : model[1][lang];
+                      const subMenu = isComponent ? model : model[1][lang];
 
-                        return (
-                          (siteConfig.menuConfig.componentGroups.indexOf(
-                            mainDocEnSlug
-                          ) > -1 ||
-                            !isComponent) && (
-                            <li key={i}>
-                              <MenuItem
-                                href={
-                                  isComponent
-                                    ? `/${lang}/docs/${mainDoc.slug}#${subMenu.slug}`
-                                    : `/${lang}/docs/${subMenu.slug}`
-                                }
-                                className={subMenu.activeSelector}
-                              >
-                                <span className={subMenu.activeSelector}>
-                                  {subMenu.title}
-                                </span>
-                              </MenuItem>
-                            </li>
-                          )
-                        );
-                      })}
+                      return (
+                        (siteConfig.menuConfig.componentGroups.indexOf(mainDocEnSlug) > -1 ||
+                          !isComponent) && (
+                          <li key={i}>
+                            <MenuItem
+                              href={
+                                isComponent
+                                  ? `/${lang}/docs/${mainDoc.slug}#${subMenu.slug}`
+                                  : `/${lang}/docs/${subMenu.slug}`
+                              }
+                              className={subMenu.activeSelector}
+                            >
+                              <span className={subMenu.activeSelector}>{subMenu.title}</span>
+                            </MenuItem>
+                          </li>
+                        )
+                      );
+                    })}
                   </SubMenu>
                 </MenuBlock>
               )
@@ -147,31 +154,9 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
     return renderDocList();
   };
 
-  const IconList = () => (
-    <>
-      {IconsManifest.map(
-        ({ id, name }: { id: string; name: string }, i: number) => (
-          <li key={i}>
-            <MenuItem
-              href={`/${lang}/icons/${id}`}
-              className={selectedClassName(id)}
-            >
-              {(name === "rocketclimb" && (
-                <RocketIconsText className="text-gray-950 hover:text-sky-500 dark:text-neutral-100 dark:hover:text-sky-500" />
-              )) ||
-                name}
-            </MenuItem>
-          </li>
-        )
-      )}
-    </>
-  );
-
   return (
     <nav className="text-sm">
-      <ul
-        className={`hidden relative lg:w-56 lg:block group-data-[open=true]:block`}
-      >
+      <ul className={`hidden relative lg:w-56 lg:block group-data-[open=true]:block`}>
         <DocList />
         <MenuBlock>
           <TextMenuTitle
@@ -180,7 +165,7 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
             className={`group-has-[.docs-icons]:active-content`}
           />
           <SubMenu>
-            <IconList />
+            <IconList lang={lang} />
           </SubMenu>
         </MenuBlock>
         <MenuBlock>
@@ -194,3 +179,5 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
     </nav>
   );
 };
+
+const sortComponents = (a: any, b: any) => a.order - b.order;
