@@ -1,3 +1,9 @@
+## [0.4.0](https://github.com/rocketclimb/rocketicons/compare/0.3.0...0.4.0) (2024-04-25)
+
+### Features
+
+- **test:** force5 ([86dde36](https://github.com/rocketclimb/rocketicons/commit/86dde360cd4c7a4e714aab1adedea4048c88526e))
+
 ## [0.3.0](https://github.com/rocketclimb/rocketicons/compare/0.2.0...0.3.0) (2024-04-25)
 
 ### Features
