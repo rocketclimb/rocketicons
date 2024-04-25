@@ -31,7 +31,7 @@
   "scripts": {
     "build-all": "npm run build --workspaces --if-present",
     "clean-all": "npm run clean --workspaces --if-present",
-    "prepare": "npm run clean-all && npm run build-all",
+    "prepare": "husky && npm run clean-all && npm run build-all",
     "test-all": "npm run test --workspaces --if-present",
     "format-all": "npm run format --workspaces --if-present",
     "lint-all": "npm run lint --workspaces --if-present"
@@ -58,11 +58,6 @@
     "react": ">=18.2.0",
     "react-dom": ">=18.2.0",
     "react-native-svg": ">=15.1.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "git diff HEAD --quiet && npm run test-all"
-    }
   },
   "lint-staged": {
     "*.+(ts|tsx)": [
