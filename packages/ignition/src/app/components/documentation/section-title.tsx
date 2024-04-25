@@ -5,12 +5,7 @@ type SectionTitleProps = {
   selected: boolean;
 } & PropsWithChildrenAndClassName;
 
-const SectionTitle = ({
-  className,
-  onClick,
-  selected,
-  children,
-}: SectionTitleProps) => (
+const SectionTitle = ({ className, onClick, selected, children }: SectionTitleProps) => (
   <button onClick={() => onClick()}>
     <h6
       data-selected={selected}

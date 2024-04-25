@@ -15,12 +15,10 @@ const UrlChangesObserver = ({ onChanges }: UrlObserverProps) => {
 
     const lastPath = pathName.split("/").pop() ?? "";
     const hash =
-      window.location.hash && target
-        ? targetId
-        : (pathName.split("/").pop() as string);
+      window.location.hash && target ? targetId : (pathName.split("/").pop() as string);
     onChanges({
       lastPath,
-      hash,
+      hash
     });
   }, [pathName, searchParams]);
   return <></>;

@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
   useCallback,
-  useId,
+  useId
 } from "react";
 import useKeyboardShortcut from "@/hooks/use-keyboard-shortcut";
 
@@ -15,23 +15,15 @@ import UrlObserver from "./url-observer";
 type ModalContentType = JSX.Element;
 
 type AddModal = (Add: ModalContentType) => void;
-type StateGenerator = (
-  id: string
-) => [state: boolean, (state: boolean) => void, AddModal];
+type StateGenerator = (id: string) => [state: boolean, (state: boolean) => void, AddModal];
 
-const Context = createContext<StateGenerator>(() => [
-  false,
-  () => {},
-  () => false,
-]);
+const Context = createContext<StateGenerator>(() => [false, () => {}, () => false]);
 
 const useModalContext = () => useContext(Context);
 
 const ModalContext = ({ children }: PropsWithChildren) => {
   const [opened, setOpened] = useState<string[]>([]);
-  const [modals, setModals] = useState<Map<string, ModalContentType>>(
-    new Map()
-  );
+  const [modals, setModals] = useState<Map<string, ModalContentType>>(new Map());
 
   const setIndexState = (id: string, state: boolean) =>
     setOpened((ids) => {
@@ -48,7 +40,7 @@ const ModalContext = ({ children }: PropsWithChildren) => {
     (id: string) => [
       opened.includes(id),
       (state: boolean) => setIndexState(id, state),
-      (add: ModalContentType) => setModals((modals) => modals.set(id, add)),
+      (add: ModalContentType) => setModals((modals) => modals.set(id, add))
     ],
     []
   );
@@ -76,7 +68,7 @@ type ModalContentProps = PropsWithChildren & {
 
 const ModalContent = ({ children, isOpen, closeModal }: ModalContentProps) => {
   useKeyboardShortcut(() => closeModal(), {
-    code: "Escape",
+    code: "Escape"
   });
 
   return (
@@ -86,10 +78,7 @@ const ModalContent = ({ children, isOpen, closeModal }: ModalContentProps) => {
         data-open={isOpen}
         className="fixed z-50 inset-0 peer hidden modal-open data-[open=true]:block"
       >
-        <div
-          onClick={() => closeModal()}
-          className="fixed z-40 w-full h-full"
-        ></div>
+        <div onClick={() => closeModal()} className="fixed z-40 w-full h-full"></div>
         {children}
       </div>
     </>
@@ -125,9 +114,7 @@ export const useDisclosure = (id?: string) => {
     isOpen,
     open,
     close,
-    Modal: ({ children }: PropsWithChildren) => (
-      <Modal add={addModal}>{children}</Modal>
-    ),
+    Modal: ({ children }: PropsWithChildren) => <Modal add={addModal}>{children}</Modal>
   };
 };
 

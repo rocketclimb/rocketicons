@@ -13,20 +13,16 @@ export const GET = async (request: NextRequest) => {
 
   if (!collectionId ?? !collection) {
     return await OpenGraph({
-      lang: lang as Languages,
+      lang: lang as Languages
     });
   }
 
   const iconName = iconId && changeCase.pascalCase(iconId);
 
-  let Icon = (await opengraphIconLoader.get(collectionId)!())[
-    iconName ?? collection.icons[0]
-  ];
+  let Icon = (await opengraphIconLoader.get(collectionId)!())[iconName ?? collection.icons[0]];
 
   if (!Icon) {
-    Icon = (await opengraphIconLoader.get(collectionId)!())[
-      collection.icons[0]
-    ];
+    Icon = (await opengraphIconLoader.get(collectionId)!())[collection.icons[0]];
   }
 
   return await OpenGraph({
@@ -35,7 +31,7 @@ export const GET = async (request: NextRequest) => {
     iconCollectionCount: collection.icons.length,
     iconCollectionName: collection.name,
     iconName: iconName,
-    Icon: collection && collectionId && Icon,
+    Icon: collection && collectionId && Icon
   });
 };
 

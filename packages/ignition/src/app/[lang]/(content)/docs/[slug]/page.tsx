@@ -24,7 +24,7 @@ export function generateStaticParams() {
 
 export const generateMetadata = ({
   params: { lang, slug },
-  searchParams: { i },
+  searchParams: { i }
 }: PageProps): Metadata => {
   const { doc } = withLocale(lang);
 
@@ -86,12 +86,7 @@ const Page = ({ params: { lang, slug }, searchParams: { i } }: PageProps) => {
 
   return (
     <div className="w-full">
-      <DocFactory
-        slug={slug}
-        index={enSlugFromIndex}
-        lang={lang}
-        requestedIcon={i}
-      />
+      <DocFactory slug={slug} index={enSlugFromIndex} lang={lang} requestedIcon={i} />
     </div>
   );
 };

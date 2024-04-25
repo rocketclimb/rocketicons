@@ -20,8 +20,7 @@ type SelectorsProps = {
 
 const SelectedTheme = ({ selectors }: SelectorsProps) => {
   const [current] = useThemeContext();
-  const { Icon, label } =
-    selectors.find(({ theme }) => theme === current) || {};
+  const { Icon, label } = selectors.find(({ theme }) => theme === current) || {};
   return (
     <>
       {Icon && (
@@ -41,12 +40,7 @@ type ThemeComponentProps = {
 
 type SelectorMenuProps = PropsWithClassName & ThemeComponentProps;
 
-const SelectorMenu = ({
-  showing,
-  className,
-  selectors,
-  updateTheme,
-}: SelectorMenuProps) => {
+const SelectorMenu = ({ showing, className, selectors, updateTheme }: SelectorMenuProps) => {
   const [current] = useThemeContext();
   return (
     <ul
@@ -61,15 +55,8 @@ const SelectorMenu = ({
             theme === current && "text-sky-500"
           }`}
         >
-          <Button
-            className="w-full text-left"
-            onClick={() => updateTheme(theme)}
-          >
-            <Icon
-              className={`${
-                (theme === current && "icon-sky-500") || "icon-slate-500"
-              }`}
-            />{" "}
+          <Button className="w-full text-left" onClick={() => updateTheme(theme)}>
+            <Icon className={`${(theme === current && "icon-sky-500") || "icon-slate-500"}`} />{" "}
             {label}
           </Button>
         </li>
@@ -82,22 +69,12 @@ type ThemeSelectorProps = {
   toggle: () => void;
 } & ThemeComponentProps;
 
-const ThemeSelectorAsIcon = ({
-  toggle,
-  selectors,
-  showing,
-  ...props
-}: ThemeSelectorProps) => (
+const ThemeSelectorAsIcon = ({ toggle, selectors, showing, ...props }: ThemeSelectorProps) => (
   <div className="relative hidden lg:block">
     <Button className="flex" onClick={() => toggle()}>
       <SelectedTheme selectors={selectors} />
     </Button>
-    <SelectorMenu
-      className="right-0"
-      showing={showing}
-      selectors={selectors}
-      {...props}
-    />
+    <SelectorMenu className="right-0" showing={showing} selectors={selectors} {...props} />
   </div>
 );
 
@@ -112,7 +89,7 @@ const ThemeSelectorAsMenu = ({
   switchTheme,
   selectors,
   showing,
-  updateTheme,
+  updateTheme
 }: ThemeSelectorAsMenuProps) => {
   useKeyboardShortcut(() => close(), { code: "Escape" });
   return (
@@ -151,7 +128,7 @@ const ThemeSelector = ({ lang }: PropsWithLang) => {
   const selectors: Selector[] = [
     { theme: "dark", label: themes.dark, Icon: BsMoonStars },
     { theme: "light", label: themes.light, Icon: BsSun },
-    { theme: "system", label: themes.system, Icon: MdOutlineMonitor },
+    { theme: "system", label: themes.system, Icon: MdOutlineMonitor }
   ];
 
   const updateTheme = (theme: ThemeOptions) => {

@@ -10,10 +10,7 @@ import { TbCheckbox, TbUserQuestion, TbUserStar, TbUser } from "rocketicons/tb";
 import CodeSample from "@/components/code-block/code-sample";
 import Wrapper from "@/components/documentation/wrapper";
 
-const StateManagement = ({
-  lang,
-  queryIcon,
-}: PropsWithLang & { queryIcon?: string }) => {
+const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
   const { icon, Icon } = getCurrentIconData(queryIcon);
   return (
     <>
@@ -33,11 +30,7 @@ const StateManagement = ({
         </div>
       </CodeSample>
       <Wrapper>
-        <MdxPartial
-          lang={lang}
-          slug={"state-management/state-management-order"}
-          path="docs"
-        />
+        <MdxPartial lang={lang} slug={"state-management/state-management-order"} path="docs" />
         <GridContainer>
           <div className="mx-auto flex justify-center gap-6 my-8">
             <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-white last:border-slate-600" />
@@ -48,31 +41,15 @@ const StateManagement = ({
         </GridContainer>
         <CodeSample>
           <div>
-            <div
-              data-cb-tag={icon}
-              className="first:bg-white last:border-slate-600 ..."
-            />
-            <div
-              data-cb-tag={icon}
-              className="first:bg-white last:border-slate-600 ..."
-            />
-            <div
-              data-cb-tag={icon}
-              className="first:bg-white last:border-slate-600 ..."
-            />
-            <div
-              data-cb-tag={icon}
-              className="first:bg-white last:border-slate-600 ..."
-            />
+            <div data-cb-tag={icon} className="first:bg-white last:border-slate-600 ..." />
+            <div data-cb-tag={icon} className="first:bg-white last:border-slate-600 ..." />
+            <div data-cb-tag={icon} className="first:bg-white last:border-slate-600 ..." />
+            <div data-cb-tag={icon} className="first:bg-white last:border-slate-600 ..." />
           </div>
         </CodeSample>
       </Wrapper>
       <Wrapper>
-        <MdxPartial
-          lang={lang}
-          slug={"state-management/state-management-order-eo"}
-          path="docs"
-        />
+        <MdxPartial lang={lang} slug={"state-management/state-management-order-eo"} path="docs" />
         <GridContainer>
           <div className="mx-auto flex justify-center gap-6 my-8">
             <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent even:bg-white odd:border-slate-600" />
@@ -83,22 +60,10 @@ const StateManagement = ({
         </GridContainer>
         <CodeSample>
           <div>
-            <div
-              data-cb-tag={icon}
-              className="even:bg-white odd:border-slate-600 ..."
-            />
-            <div
-              data-cb-tag={icon}
-              className="even:bg-white odd:border-slate-600 ..."
-            />
-            <div
-              data-cb-tag={icon}
-              className="even:bg-white odd:border-slate-600 ..."
-            />
-            <div
-              data-cb-tag={icon}
-              className="even:bg-white odd:border-slate-600 ..."
-            />
+            <div data-cb-tag={icon} className="even:bg-white odd:border-slate-600 ..." />
+            <div data-cb-tag={icon} className="even:bg-white odd:border-slate-600 ..." />
+            <div data-cb-tag={icon} className="even:bg-white odd:border-slate-600 ..." />
+            <div data-cb-tag={icon} className="even:bg-white odd:border-slate-600 ..." />
           </div>
         </CodeSample>
       </Wrapper>
@@ -129,10 +94,7 @@ const StateManagement = ({
           <div>
             <button className="group/sample ...">
               <div className="flex">
-                <div
-                  data-cb-tag={icon}
-                  className="icon-sky-500 group-hover/sample:icon-white"
-                />
+                <div data-cb-tag={icon} className="icon-sky-500 group-hover/sample:icon-white" />
                 <span className="dark:text-slate-900 font-quicksand group-hover/sample:text-white">
                   <span>rocket</span>
                   <span className="font-semibold">icons</span>
@@ -164,10 +126,7 @@ const StateManagement = ({
                 name="permission"
               />
               <TbCheckbox className="transition-opacity duration-200 pointer-events-none ml-2 opacity-40 -mt-0.5 icon-slate-400 peer-hover/admin:opacity-100 peer-checked/admin:opacity-90 peer-checked/admin:icon-sky-500" />
-              <label
-                htmlFor="admin"
-                className="ml-2 peer-checked/admin:text-sky-500"
-              >
+              <label htmlFor="admin" className="ml-2 peer-checked/admin:text-sky-500">
                 Admin
               </label>
 
@@ -178,10 +137,7 @@ const StateManagement = ({
                 name="permission"
               />
               <TbCheckbox className="transition duration-200 pointer-events-none opacity-40 -mt-0.5 icon-slate-400  peer-hover/user:opacity-100 peer-checked/user:opacity-90 peer-checked/user:icon-sky-500" />
-              <label
-                htmlFor="user"
-                className="ml-2 peer-checked/user:text-sky-500"
-              >
+              <label htmlFor="user" className="ml-2 peer-checked/user:text-sky-500">
                 User
               </label>
               <TbUserQuestion className="transition duration-500 opacity-100 absolute block size-20 right-0 top-2 peer-checked/admin:opacity-0 peer-checked/user:opacity-0" />
@@ -194,37 +150,21 @@ const StateManagement = ({
           <div>
             <fieldset>
               <legend>User permission</legend>
-              <input
-                id="admin"
-                className="peer/admin"
-                type="radio"
-                name="permission"
-              />
+              <input id="admin" className="peer/admin" type="radio" name="permission" />
               <div
                 data-cb-tag="TbCheckbox"
                 className="transition ... peer-hover/admin:opacity-100 peer-checked/admin:opacity-90 peer-checked/admin:icon-sky-500"
               />
-              <label
-                htmlFor="admin"
-                className="ml-2 peer-checked/admin:text-sky-500"
-              >
+              <label htmlFor="admin" className="ml-2 peer-checked/admin:text-sky-500">
                 Admin
               </label>
 
-              <input
-                id="user"
-                className="peer/user"
-                type="radio"
-                name="permission"
-              />
+              <input id="user" className="peer/user" type="radio" name="permission" />
               <div
                 data-cb-tag="TbCheckbox"
                 className="transition ... peer-hover/user:opacity-100 peer-checked/user:opacity-90 peer-checked/user:icon-sky-500"
               />
-              <label
-                htmlFor="user"
-                className="ml-2 peer-checked/user:text-sky-500"
-              >
+              <label htmlFor="user" className="ml-2 peer-checked/user:text-sky-500">
                 User
               </label>
               <div

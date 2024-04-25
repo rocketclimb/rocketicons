@@ -16,8 +16,7 @@ export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
   const { isOpen, open, close, Modal } = useDisclosure();
   const { menuConfig } = siteConfig;
   const { enSlug } = withLocale(lang);
-  const notComponentMenu =
-    menuConfig.componentGroups.indexOf(enSlug(lastPath)) === -1;
+  const notComponentMenu = menuConfig.componentGroups.indexOf(enSlug(lastPath)) === -1;
 
   const pathClassName = !hash || notComponentMenu ? `docs-${lastPath}` : "";
   const hashClassName = hash ? ` docs-${hash}` : "";
@@ -37,11 +36,7 @@ export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
           className="group fixed w-full top-[64px] sm:-ml-8 z-10 border-y border-slate-900/10 dark:border-slate-800 px-2 sm:px-8 py-3 backdrop-blur transition-colors duration-500 bg-white/95 dark:bg-slate-900/70 lg:hidden"
         >
           <div className="flex flex-col justify-between">
-            <Button
-              className="flex items-center"
-              type="button"
-              onClick={() => open()}
-            >
+            <Button className="flex items-center" type="button" onClick={() => open()}>
               <IoMenuOutline className="icon-slate-500-xl dark:icon-slate-400-xl" />
             </Button>
           </div>

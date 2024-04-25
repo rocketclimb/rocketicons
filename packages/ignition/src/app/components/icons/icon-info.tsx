@@ -10,7 +10,7 @@ import {
   CodeImportBlock,
   CodeElementBlock,
   CodeElementOptionsStyler,
-  CodeElementTabs,
+  CodeElementTabs
 } from "@/components/code-block";
 import { CollectionID } from "rocketicons/data";
 import FloatBlock from "@/components/icons/float-block";
@@ -30,14 +30,7 @@ type IconInfoProps = {
   onClose: () => void;
 } & PropsWithLang;
 
-const IconInfo = ({
-  lang,
-  show,
-  collectionId,
-  info,
-  Icon,
-  onClose,
-}: IconInfoProps) => {
+const IconInfo = ({ lang, show, collectionId, info, Icon, onClose }: IconInfoProps) => {
   const router = useRouter();
 
   const {
@@ -45,14 +38,8 @@ const IconInfo = ({
     sizes,
     combining,
     "dark-mode": darkMode,
-    states,
-  } = withLocale(lang).config(
-    "colors",
-    "sizes",
-    "combining",
-    "dark-mode",
-    "states"
-  );
+    states
+  } = withLocale(lang).config("colors", "sizes", "combining", "dark-mode", "states");
 
   const defaultStyle = "icon-2xl lg:icon-7xl";
   const [section, setSection] = useState<string>("sizes");
@@ -86,11 +73,7 @@ const IconInfo = ({
                 )}
               </div>
               <div className="col-span-8 lg:col-span-6 thin">
-                <MdxClientPartial
-                  path="components"
-                  lang={lang}
-                  slug="icon-info-import"
-                />
+                <MdxClientPartial path="components" lang={lang} slug="icon-info-import" />
                 {info && (
                   <CodeStyler variant="compact">
                     <CodeImportBlock
@@ -103,11 +86,7 @@ const IconInfo = ({
                 )}
               </div>
               <div className="col-span-8 lg:col-span-6 thin">
-                <MdxClientPartial
-                  path="components"
-                  lang={lang}
-                  slug="icon-info-usage"
-                />
+                <MdxClientPartial path="components" lang={lang} slug="icon-info-usage" />
                 <CodeStyler variant="compact">
                   {info && (
                     <CodeElementBlock
@@ -124,11 +103,7 @@ const IconInfo = ({
               className="group/sections grow max-lg:overflow-y-auto my-3 mx-1 px-3 pb-3 rounded-xl bg-slate-50 dark:bg-slate-800/35"
             >
               <div>
-                <MdxClientPartial
-                  path="components"
-                  lang={lang}
-                  slug="icon-info-styling"
-                />
+                <MdxClientPartial path="components" lang={lang} slug="icon-info-styling" />
               </div>
               <div className="mt-2 p-2 pb-0">
                 <div className="flex overflow-y-auto thin-scroll mb-2 border-b dark:border-gray-200/5">
@@ -176,25 +151,17 @@ const IconInfo = ({
                 <div className="relative w-full overflow-hidden flex">
                   <SectionContent className="transition-all duration-300 group-data-[section=sizes]/sections:-ml-[0%] group-data-[section=colors]/sections:-ml-[100%] group-data-[section=combining]/sections:-ml-[200%] group-data-[section=dark-mode]/sections:-ml-[300%] group-data-[section=states]/sections:-ml-[400%]">
                     <div className="mb-4 prose">
-                      <MdxClientPartial
-                        path="components"
-                        lang={lang}
-                        slug="icon-info-sizing"
-                      />
+                      <MdxClientPartial path="components" lang={lang} slug="icon-info-sizing" />
                     </div>
                     {info && (
                       <CodeElementOptionsStyler
                         onTabChange={(_i, tab) => {
                           if ((tab as Tab)?.id === CodeElementTabs.MORE) {
-                            router.push(
-                              `/docs/sizing-icons?i=${collectionId}.${info?.compName}`
-                            );
+                            router.push(`/docs/sizing-icons?i=${collectionId}.${info?.compName}`);
                             return;
                           }
                           setSelected(
-                            tab === CodeElementTabs.DEFAULT
-                              ? defaultStyle
-                              : (tab as string)
+                            tab === CodeElementTabs.DEFAULT ? defaultStyle : (tab as string)
                           );
                         }}
                         showMore
@@ -212,25 +179,17 @@ const IconInfo = ({
                   </SectionContent>
                   <SectionContent>
                     <div className="mb-4 prose">
-                      <MdxClientPartial
-                        path="components"
-                        lang={lang}
-                        slug="icon-info-colors"
-                      />
+                      <MdxClientPartial path="components" lang={lang} slug="icon-info-colors" />
                     </div>
                     {info && (
                       <CodeElementOptionsStyler
                         onTabChange={(_i, tab) => {
                           if ((tab as Tab)?.id === CodeElementTabs.MORE) {
-                            router.push(
-                              `/docs/colors?i=${collectionId}.${info?.compName}`
-                            );
+                            router.push(`/docs/colors?i=${collectionId}.${info?.compName}`);
                             return;
                           }
                           setSelected(
-                            tab === CodeElementTabs.DEFAULT
-                              ? defaultStyle
-                              : (tab as Tab).id
+                            tab === CodeElementTabs.DEFAULT ? defaultStyle : (tab as Tab).id
                           );
                         }}
                         showMore
@@ -238,16 +197,16 @@ const IconInfo = ({
                         options={[
                           {
                             id: "icon-violet-xl lg:icon-violet-7xl",
-                            name: "icon-violet",
+                            name: "icon-violet"
                           },
                           {
                             id: "icon-red-600-xl lg:icon-red-600-7xl",
-                            name: "icon-red-600",
+                            name: "icon-red-600"
                           },
                           {
                             id: "icon-sky-300-xl lg:icon-sky-300-7xl",
-                            name: "icon-sky-300",
-                          },
+                            name: "icon-sky-300"
+                          }
                         ]}
                         component={info.compName}
                       />
@@ -271,15 +230,11 @@ const IconInfo = ({
                       <CodeElementOptionsStyler
                         onTabChange={(_i, tab) => {
                           if ((tab as Tab)?.id === CodeElementTabs.MORE) {
-                            router.push(
-                              `/docs/styling?i=${collectionId}.${info?.compName}`
-                            );
+                            router.push(`/docs/styling?i=${collectionId}.${info?.compName}`);
                             return;
                           }
                           setSelected(
-                            tab === CodeElementTabs.DEFAULT
-                              ? defaultStyle
-                              : (tab as string)
+                            tab === CodeElementTabs.DEFAULT ? defaultStyle : (tab as string)
                           );
                         }}
                         showMore
@@ -297,11 +252,7 @@ const IconInfo = ({
                   </SectionContent>
                   <SectionContent>
                     <div className="mb-4 prose">
-                      <MdxClientPartial
-                        path="components"
-                        lang={lang}
-                        slug="icon-info-dark"
-                      />
+                      <MdxClientPartial path="components" lang={lang} slug="icon-info-dark" />
                     </div>
                     {info && (
                       <CodeStyler variant="compact">
@@ -311,7 +262,7 @@ const IconInfo = ({
                             className="text-xs"
                             attrs={{
                               className:
-                                "icon-indigo-800-lg border border-slate-900 dark:icon-purple-900-7xl dark:border-none",
+                                "icon-indigo-800-lg border border-slate-900 dark:icon-purple-900-7xl dark:border-none"
                             }}
                             component={info.compName}
                           />
@@ -327,11 +278,7 @@ const IconInfo = ({
                   </SectionContent>
                   <SectionContent>
                     <div className="mb-4 prose">
-                      <MdxClientPartial
-                        path="components"
-                        lang={lang}
-                        slug="icon-info-states"
-                      />
+                      <MdxClientPartial path="components" lang={lang} slug="icon-info-states" />
                     </div>
                     {info && (
                       <CodeStyler variant="compact">
@@ -341,7 +288,7 @@ const IconInfo = ({
                             className="text-xs flex no-wrap"
                             attrs={{
                               className:
-                                "transition-all duration-200 icon-indigo-800-5xl hover:icon-purple-900-7xl",
+                                "transition-all duration-200 icon-indigo-800-5xl hover:icon-purple-900-7xl"
                             }}
                             component={info.compName}
                           />

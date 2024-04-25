@@ -15,9 +15,6 @@ export const total = IconsManifest.reduce((reduced, { icons }) => reduced + icon
 `;
 
 const generator = async () =>
-  await write(
-    OUTPUT_FILE,
-    templateBuilder(ManifestTemplate, `${MANIFEST_LENGTH}`)
-  );
+  await write(OUTPUT_FILE, templateBuilder(ManifestTemplate, `${MANIFEST_LENGTH}`));
 
 generator();

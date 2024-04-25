@@ -70,10 +70,7 @@ const generator = async () => {
     items.push(templateBuilder(ItemTemplate, id, id.toUpperCase()));
   });
 
-  await write(
-    OUTPUT_FILE,
-    templateBuilder(CollectionLoaderTemplate, items.join(""))
-  );
+  await write(OUTPUT_FILE, templateBuilder(CollectionLoaderTemplate, items.join("")));
 };
 
 generator();

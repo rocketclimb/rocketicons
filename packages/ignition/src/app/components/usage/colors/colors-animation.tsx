@@ -10,7 +10,7 @@ import IconLoader, { IconHandlerProps } from "@/components/icons/icon-loader";
 const Animation = ({
   Icon,
   colors,
-  iconName,
+  iconName
 }: IconHandlerProps & { colors: string[]; iconName: string }) => {
   const [state, setState] = useState<string>("icon-slate-200");
   const [script, setScript] = useState<Script>([]);
@@ -18,7 +18,7 @@ const Animation = ({
   useEffect(() => {
     const { script } = shuffle([
       ...colors.slice(0, 3).map((color) => `${color}`),
-      ...putVariantsOnIt(colors.slice(-3)),
+      ...putVariantsOnIt(colors.slice(-3))
     ]).reduce(
       ({ prev, script }, color) => ({
         prev: `icon-${color}`,
@@ -30,14 +30,14 @@ const Animation = ({
             elementId: "el_0.el_0",
             from: prev,
             to: "icon-",
-            skipCommit: true,
+            skipCommit: true
           },
           {
             action: ScriptAction.UPDATE_TYPING,
             elementId: "el_0.el_0",
-            text: `${color}`,
-          },
-        ],
+            text: `${color}`
+          }
+        ]
       }),
       { prev: "icon-slate-200", script: [] as any[] }
     );
@@ -57,8 +57,8 @@ const Animation = ({
         script={[
           ...script,
           {
-            action: ScriptAction.RESTART,
-          },
+            action: ScriptAction.RESTART
+          }
         ]}
       >
         <div>
@@ -76,11 +76,7 @@ type ColorsAnimationProsp = {
 };
 
 // TODO: Allow the IconLoader to pass along the iconName to the handler being called.
-const ColorsAnimation = ({
-  collection,
-  icon,
-  colors,
-}: ColorsAnimationProsp) => (
+const ColorsAnimation = ({ collection, icon, colors }: ColorsAnimationProsp) => (
   <div className="flex h-72 sm:h-48 flex-col sm:flex-row my-12 items-center justify-center gap-4">
     <IconLoader
       collectionId={collection}

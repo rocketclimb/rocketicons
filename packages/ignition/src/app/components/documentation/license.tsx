@@ -11,7 +11,7 @@ const shortForm: Record<LicenseType, string> = {
   "CC BY 3.0": "CC3.0",
   ISC: "ISC",
   "SIL OFL 1.1": "OFL",
-  "CC0 1.0 Universal": "CC0",
+  "CC0 1.0 Universal": "CC0"
 };
 
 type LicenseTagProps = {
@@ -29,9 +29,7 @@ type LicenseProps = {
 };
 const License = ({ url, license }: LicenseProps) => (
   <DocLink href={url}>
-    <span className="hidden md:ml-3 md:mt-2 md:inline-block lg:m-0">
-      {license}
-    </span>
+    <span className="hidden md:ml-3 md:mt-2 md:inline-block lg:m-0">{license}</span>
     <LicenseTag license={license} />
   </DocLink>
 );

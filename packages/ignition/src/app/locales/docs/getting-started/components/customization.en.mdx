@@ -8,11 +8,12 @@ activeSelector: group-has-[.docs-customization]:active-content
 
 import RocketIconsText, { RocketIconsTextDefault } from "@/components/rocketicons-text";
 
-import { SiReact, SiTailwindcss } from 'rocketicons/si';
+import { SiReact, SiTailwindcss } from "rocketicons/si";
 
 ### Customization
 
-<RocketIconsTextDefault /> can be easily customized on every use using <SiTailwindcss className="-mt-1" />  **Tailwind** classes to match your application's design.
+<RocketIconsTextDefault /> can be easily customized on every use using <SiTailwindcss className="-mt-1" /> **Tailwind**
+classes to match your application's design.
 
 You can also create <SiReact className="-mt-1 icon-sky-800" /> **React** components on your project which extends the default component and add your custom styles.
 
@@ -24,8 +25,8 @@ You can define a global customization for all icons in two ways:
 
 #### 1. By redefining the default theme
 
-- Add a components element under the theme section of your ***tailwind.config.js*** and a icon element 
-under the components element.
+- Add a components element under the theme section of your **_tailwind.config.js_** and a icon element
+  under the components element.
 
 Like this:
 
@@ -60,10 +61,11 @@ Like this:
 },
 ```
 
-> Remember, when using this method, you must define all properties and make sure the default size matches 
-an available one, like shown above.
+> Remember, when using this method, you must define all properties and make sure the default size matches
+> an available one, like shown above.
 
 This is what our default theme looks like:
+
 ```js
 {
   default: "sky-500-base",
@@ -90,7 +92,7 @@ This is what our default theme looks like:
 
 #### 2. By extending the default theme
 
-If the default theme is fine and you just want to tweak some properties or add new variants or sizes, 
+If the default theme is fine and you just want to tweak some properties or add new variants or sizes,
 you can just extend the default theme.
 
 Here is how you change the base size, for example:
@@ -130,9 +132,10 @@ And here is how you create a brand new size:
 Cool, huh?
 
 And you can do that to:
+
 - default
 - baseStyle
 - variants
 - sizes
 
-You can't extend colors since they are not defined in the default theme and we just use the ones proved by ***Tailwind***, which are [A LOT](https://tailwindcss.com/docs/customizing-colors).
+You can't extend colors since they are not defined in the default theme and we just use the ones proved by **_Tailwind_**, which are [A LOT](https://tailwindcss.com/docs/customizing-colors).

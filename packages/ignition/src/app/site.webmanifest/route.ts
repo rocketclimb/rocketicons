@@ -29,8 +29,8 @@ export const GET = async (request: NextRequest) => {
     }`,
     {
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     }
   );
 };

@@ -7,7 +7,7 @@ import {
   Action,
   ElementId,
   CodeStylerVariations,
-  OnScriptCommit,
+  OnScriptCommit
 } from "./types";
 import CodeGen from "./code-gen";
 import CodeStyler from "./code-styler";
@@ -33,7 +33,7 @@ const CodeAnimator = ({
   skipRender,
   variants,
   className,
-  onCommit,
+  onCommit
 }: CodeAnimatorProps) => {
   const [state, dispatch] = useReducer(reducer, {});
 
@@ -45,17 +45,10 @@ const CodeAnimator = ({
     data: ElementPreviewData;
   };
 
-  const ElementPreviewer = ({
-    child,
-    props,
-    id,
-    data,
-  }: ElementPreviewerProps) => {
+  const ElementPreviewer = ({ child, props, id, data }: ElementPreviewerProps) => {
     const { children, ...rest } = props;
     const codeClassName = data?.props?.className || "";
-    const classNamePrefix = (props?.className || "")
-      .replace(codeClassName, "")
-      .trim();
+    const classNamePrefix = (props?.className || "").replace(codeClassName, "").trim();
 
     const getDataChildren = (
       index: number,
@@ -64,9 +57,7 @@ const CodeAnimator = ({
       if (!children || typeof children === "string") {
         return;
       }
-      return Array.isArray(children)
-        ? getDataChildren(index, children[index])
-        : children;
+      return Array.isArray(children) ? getDataChildren(index, children[index]) : children;
     };
 
     return (
@@ -75,9 +66,7 @@ const CodeAnimator = ({
           child,
           {
             ...rest,
-            className: `${classNamePrefix} ${
-              state[id]?.elementState || codeClassName
-            }`,
+            className: `${classNamePrefix} ${state[id]?.elementState || codeClassName}`
           },
           ((Array.isArray(children) && children) || [children]).map(
             (child: string | undefined | object, key) =>
@@ -98,8 +87,7 @@ const CodeAnimator = ({
     );
   };
 
-  const stateCurrent = (elementId: ElementId) =>
-    state[elementId]?.codeState || "";
+  const stateCurrent = (elementId: ElementId) => state[elementId]?.codeState || "";
 
   const stateUpdate = (elementId: ElementId, updating: string) =>
     dispatch({ type: Action.UPDATE, id: elementId, updating });
@@ -112,7 +100,7 @@ const CodeAnimator = ({
   useScriptRunner(script, {
     update: stateUpdate,
     commit: stateCommit,
-    current: stateCurrent,
+    current: stateCurrent
   });
 
   return (

@@ -18,10 +18,7 @@ type AlgoliaIndexRecord = {
 };
 
 const toKebabCase = (str: string) =>
-  str.replace(
-    /[A-Z]+(?![a-z])|[A-Z]/g,
-    ($, ofs) => (ofs ? "-" : "") + $.toLowerCase()
-  );
+  str.replace(/[A-Z]+(?![a-z])|[A-Z]/g, ($, ofs) => (ofs ? "-" : "") + $.toLowerCase());
 
 const indexer = async () => {
   try {
@@ -34,17 +31,16 @@ const indexer = async () => {
     const availableLocales = siteConfig.locales;
 
     // flatten the iconmanifest.icons into a single array where the group is collection.id
-    const transformedIcons: AlgoliaIndexRecord[] = IconsManifest.flatMap(
-      (collection) =>
-        collection.icons.map((icon) => ({
-          objectID: `${collection.id}-${toKebabCase(icon.substring(2))}`,
-          title: `${toKebabCase(icon.substring(2)).replaceAll("-", " ")}`,
-          group: collection.id,
-          groupName: collection.name,
-          locale: "", // Add the appropriate locale value here
-          text: icon,
-          isIcon: true,
-        }))
+    const transformedIcons: AlgoliaIndexRecord[] = IconsManifest.flatMap((collection) =>
+      collection.icons.map((icon) => ({
+        objectID: `${collection.id}-${toKebabCase(icon.substring(2))}`,
+        title: `${toKebabCase(icon.substring(2)).replaceAll("-", " ")}`,
+        group: collection.id,
+        groupName: collection.name,
+        locale: "", // Add the appropriate locale value here
+        text: icon,
+        isIcon: true
+      }))
     );
 
     let totalCount = 0;
@@ -82,7 +78,7 @@ const indexer = async () => {
             locale: doc.locale,
             text: doc.content,
             isIcon: false,
-            isFragment: doc.isComponent,
+            isFragment: doc.isComponent
           };
         });
 
@@ -94,28 +90,22 @@ const indexer = async () => {
         );
 
         // Index records to Algolia
-        const articlesPromise = index
-          .saveObjects(articleRecords)
-          .then(({ objectIDs }) => {
-            totalCount += objectIDs.length;
-            console.log(
-              `Succesfully indexed records for locale ${locale}: `,
-              consoleColors.fg.blue,
-              objectIDs.length,
-              consoleColors.reset
-            );
-          });
+        const articlesPromise = index.saveObjects(articleRecords).then(({ objectIDs }) => {
+          totalCount += objectIDs.length;
+          console.log(
+            `Succesfully indexed records for locale ${locale}: `,
+            consoleColors.fg.blue,
+            objectIDs.length,
+            consoleColors.reset
+          );
+        });
         promises.push(articlesPromise);
 
         // Index icons to Algolia
-        const iconsPromise = index
-          .saveObjects(transformedIcons)
-          .then(({ objectIDs }) => {
-            totalCount += objectIDs.length;
-            console.log(
-              `Succesfully indexed ${objectIDs.length} icons for locale ${locale}`
-            );
-          });
+        const iconsPromise = index.saveObjects(transformedIcons).then(({ objectIDs }) => {
+          totalCount += objectIDs.length;
+          console.log(`Succesfully indexed ${objectIDs.length} icons for locale ${locale}`);
+        });
         promises.push(iconsPromise);
       } catch (e) {
         console.log(consoleColors.fg.red, "ERROR!", e);

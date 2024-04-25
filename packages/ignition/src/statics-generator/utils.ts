@@ -9,15 +9,9 @@ const DATA_DIR = `${DATA_APP}data-helpers/`;
 export const MANIFEST_LENGTH = 5;
 
 export const templateBuilder = (template: string, ...params: string[]) =>
-  params.reduce(
-    (parsed, param, i) => parsed.replace(RegExp(`\\{${i}\\}`, "g"), param),
-    template
-  );
+  params.reduce((parsed, param, i) => parsed.replace(RegExp(`\\{${i}\\}`, "g"), param), template);
 
-export const write = async (
-  filename: string,
-  content: string
-): Promise<void> => {
+export const write = async (filename: string, content: string): Promise<void> => {
   filename = `${DATA_DIR}${filename}`;
 
   await fs.mkdirSync(path.dirname(filename), { recursive: true });

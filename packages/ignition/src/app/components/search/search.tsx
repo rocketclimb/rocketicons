@@ -18,7 +18,7 @@ const SearchButton = ({ lang }: SearchButtonProps) => {
 
   useKeyboardShortcut(() => open(), {
     code: "KeyK",
-    metaKey: true,
+    metaKey: true
   });
 
   return (

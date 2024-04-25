@@ -1,5 +1,4 @@
-export const shuffle = (array: string[]) =>
-  [...array].sort(() => Math.random() - 0.5);
+export const shuffle = (array: string[]) => [...array].sort(() => Math.random() - 0.5);
 
 export const colors = [
   "slate",
@@ -23,7 +22,7 @@ export const colors = [
   "purple",
   "fuchsia",
   "pink",
-  "rose",
+  "rose"
 ];
 
 export const variations = [
@@ -37,7 +36,7 @@ export const variations = [
   "700",
   "800",
   "900",
-  "950",
+  "950"
 ];
 
 export const putVariantsOnIt = (colors: string[]) =>
@@ -71,7 +70,7 @@ export const colorsUtilities = [
   "icon-purple",
   "icon-fuchsia-500",
   "icon-pink-800",
-  "icon-rose",
+  "icon-rose"
 ];
 
 export const colorsTable = [
@@ -321,5 +320,5 @@ export const colorsTable = [
   ["icon-rose-700", "rgb(190 18 60)"],
   ["icon-rose-800", "rgb(159 18 57)"],
   ["icon-rose-900", "rgb(136 19 55)"],
-  ["icon-rose-950", "rgb(76 5 25)"],
+  ["icon-rose-950", "rgb(76 5 25)"]
 ];

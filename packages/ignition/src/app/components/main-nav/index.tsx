@@ -13,18 +13,18 @@ const MainNav = ({ lang }: PropsWithLang) => {
     {
       name: "docs",
       label: nav["docs"],
-      link: `/${lang}/docs/${nav["usage-slug"]}`,
+      link: `/${lang}/docs/${nav["usage-slug"]}`
     },
     {
       name: "getting-started",
       label: nav["getting-started"],
-      link: `/${lang}/docs/${nav["getting-started-slug"]}`,
+      link: `/${lang}/docs/${nav["getting-started-slug"]}`
     },
     {
       name: "icons",
       label: nav["icons"],
-      link: `/${lang}/icons`,
-    },
+      link: `/${lang}/icons`
+    }
   ];
   return (
     <>

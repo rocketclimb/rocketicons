@@ -21,7 +21,7 @@ type PageProps = PropsWithLangParams & {
 };
 
 export const generateMetadata = async ({
-  params: { lang, collection },
+  params: { lang, collection }
 }: PageProps): Promise<Metadata> => {
   const [id, icon] = collection;
   const info = IconsManifest.find(({ id: search }) => search === id)!;
@@ -33,8 +33,7 @@ export const generateMetadata = async ({
   const pageTitle = `${title} | ${info?.name} ${icon || ""} | rocketicons`;
 
   const openGraphImageUrl =
-    `${serverEnv.NEXT_PUBLIC_APP_URL}/${lang}/opengraph/${id}` +
-    (icon ? `/${icon}` : "");
+    `${serverEnv.NEXT_PUBLIC_APP_URL}/${lang}/opengraph/${id}` + (icon ? `/${icon}` : "");
 
   const ogImagesArray = [
     {
@@ -42,8 +41,8 @@ export const generateMetadata = async ({
       type: "image/png",
       width: 1200,
       height: 630,
-      alt: pageTitle,
-    },
+      alt: pageTitle
+    }
   ];
 
   return {
@@ -54,7 +53,7 @@ export const generateMetadata = async ({
       description,
       url: `${serverEnv.NEXT_PUBLIC_APP_URL}`,
       siteName: name,
-      images: ogImagesArray,
+      images: ogImagesArray
     },
     twitter: {
       card: "summary_large_image",
@@ -62,8 +61,8 @@ export const generateMetadata = async ({
       site: name,
       description,
       creator: "@rocketclimb",
-      images: ogImagesArray,
-    },
+      images: ogImagesArray
+    }
   };
 };
 

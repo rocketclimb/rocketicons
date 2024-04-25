@@ -5,10 +5,7 @@ import useThemeHandler, { ThemeOptions } from "@/hooks/use-theme-handler";
 
 type SetTheme = (theme: ThemeOptions) => void;
 
-const Context = createContext<[ThemeOptions | undefined, SetTheme]>([
-  undefined,
-  () => {},
-]);
+const Context = createContext<[ThemeOptions | undefined, SetTheme]>([undefined, () => {}]);
 
 export const useThemeContext = () => useContext(Context);
 

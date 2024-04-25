@@ -1,11 +1,7 @@
 "use client";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import {
-  CollectionDataInfo,
-  IconType,
-  IconInfo as IconInfoType,
-} from "rocketicons";
+import { CollectionDataInfo, IconType, IconInfo as IconInfoType } from "rocketicons";
 
 import Button from "@/components/button";
 
@@ -59,14 +55,14 @@ const Content = ({
   lang,
   icon,
   manifest,
-  collection,
+  collection
 }: HandlerPros & IconsCollectionsProps) => {
   const [, , slug] = usePathname().split("/");
 
   const [selected, setSelected] = useState<SelectedIcon>(
     (icon && {
       id: icon,
-      ...getCurrentInfo(icon, manifest, collection),
+      ...getCurrentInfo(icon, manifest, collection)
     }) || { id: "" }
   );
 

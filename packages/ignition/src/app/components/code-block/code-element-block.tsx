@@ -16,17 +16,9 @@ type CodeElementBlockProps = {
   attrs?: Record<string, string>;
 } & PropsWithClassName;
 
-const CodeElementBlock = ({
-  locale,
-  attrs,
-  component,
-  className,
-}: CodeElementBlockProps) => {
+const CodeElementBlock = ({ locale, attrs, component, className }: CodeElementBlockProps) => {
   return (
-    <WithCopy
-      lang={locale}
-      clipboardText={`<${component}  ${attributesAsText(attrs)} />`}
-    >
+    <WithCopy lang={locale} clipboardText={`<${component}  ${attributesAsText(attrs)} />`}>
       <CommonNotation lang="html" className={className ?? "text-sm"}>
         {"<"}
         <TagName lang="html">{component}</TagName>{" "}

@@ -11,7 +11,7 @@ class ClipboardHandler extends EventTarget {
   private emitChangedEvent() {
     this.dispatchEvent(
       new CustomEvent<string>("changed", {
-        detail: this.currentValue,
+        detail: this.currentValue
       })
     );
   }
@@ -43,7 +43,7 @@ const useClipboard = (text: string): Clipboard => {
       clipboard.write(text);
       setCurrent(text);
     },
-    isCurrent: () => text === current,
+    isCurrent: () => text === current
   };
 };
 

@@ -41,8 +41,7 @@ const ResponsiveDesign = ({ lang }: PropsWithLang) => {
                 you&apos;ve never seen before.
               </p>
               <p className="mx-4 mt-2 sm:text-lg md:text-sm text-slate-700 dark:text-slate-400 font-normal">
-                Looking for a way to share code between web and native
-                applications?
+                Looking for a way to share code between web and native applications?
               </p>
               <p className="mx-4 mt-2 sm:text-lg md:text-sm text-slate-700 dark:text-slate-400 font-normal">
                 This tool can help you achieve that goal.

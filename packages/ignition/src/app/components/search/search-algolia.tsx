@@ -23,10 +23,7 @@ const SearchAlgolia = ({ lang, close }: SearchButtonProps) => {
 
   return (
     <>
-      <InstantSearch
-        searchClient={searchClient}
-        indexName={`${siteConfig.name}-${lang}`}
-      >
+      <InstantSearch searchClient={searchClient} indexName={`${siteConfig.name}-${lang}`}>
         <div className="fixed w-full h-full inset-0 flex flex-col items-center pt-8 lg:pt-[10vh] px-2 pointer-events-none">
           <div className="w-full max-w-2xl pointer-events-auto rounded-lg text-slate-900 dark:text-slate-200 bg-white dark:bg-slate-800">
             <div className="w-full mb-2">

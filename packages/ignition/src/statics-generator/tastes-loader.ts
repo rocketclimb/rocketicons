@@ -56,21 +56,13 @@ const generator = async () => {
       )
     );
     conditionals.push(
-      templateBuilder(
-        ConditionalTemplate,
-        selected.map((icon) => `${icon}_${id}`).join(", "),
-        id
-      )
+      templateBuilder(ConditionalTemplate, selected.map((icon) => `${icon}_${id}`).join(", "), id)
     );
   });
 
   await write(
     OUTPUT_FILE,
-    templateBuilder(
-      TastesLoaderTemplate,
-      imports.join(""),
-      conditionals.join("")
-    )
+    templateBuilder(TastesLoaderTemplate, imports.join(""), conditionals.join(""))
   );
 };
 

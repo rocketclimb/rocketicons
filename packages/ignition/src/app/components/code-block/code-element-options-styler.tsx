@@ -20,7 +20,7 @@ const CodeElementOptionsStyler = ({
   options,
   component,
   className,
-  showMore,
+  showMore
 }: CodeElementOptionsProps) => {
   const { config } = withLocale(locale);
   const tabs = [CodeElementTabs.DEFAULT, ...options];
@@ -28,7 +28,7 @@ const CodeElementOptionsStyler = ({
   showMore &&
     tabs.push({
       id: CodeElementTabs.MORE,
-      name: `... ${config("code-block").more}`,
+      name: `... ${config("code-block").more}`
     });
   const [selected, setSelected] = useState<number>(0);
 
@@ -52,7 +52,7 @@ const CodeElementOptionsStyler = ({
         className={className}
         component={component}
         attrs={{
-          className: tabs[selected] !== "default" ? getSelectedTabName() : "",
+          className: tabs[selected] !== "default" ? getSelectedTabName() : ""
         }}
       />
     </CodeStyler>

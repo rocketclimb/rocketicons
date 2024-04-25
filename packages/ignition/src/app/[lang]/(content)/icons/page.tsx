@@ -6,9 +6,7 @@ import { PropsWithLangParams } from "@/types";
 import { withLocale } from "@/locales";
 import CustomMetadata from "@/app/components/metadata-custom";
 
-export const generateMetadata = ({
-  params: { lang },
-}: PropsWithLangParams): Metadata => {
+export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
   const { component } = withLocale(lang);
   const { title, description } = component("icons-hero");
 

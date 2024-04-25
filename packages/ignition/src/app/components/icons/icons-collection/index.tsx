@@ -15,14 +15,7 @@ const Loader = () => (
 );
 
 const IconsCollections = (props: IconsCollectionsProps) => {
-  return (
-    <IconsLoader
-      collectionId={props.id}
-      Handler={Content}
-      {...props}
-      Loading={Loader}
-    />
-  );
+  return <IconsLoader collectionId={props.id} Handler={Content} {...props} Loading={Loader} />;
 };
 
 export default IconsCollections;

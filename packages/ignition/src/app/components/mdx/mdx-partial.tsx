@@ -22,7 +22,7 @@ export const MdxPartial = ({
   path,
   className,
   callback,
-  deps,
+  deps
 }: MdxPartialProps & CacheFunctionProps) => {
   const [slug, componentSlug] = unparsedSlug.split("/");
   const { component, doc } = withLocale(lang);
@@ -32,14 +32,13 @@ export const MdxPartial = ({
     return (componentSlug && loaded["components"][componentSlug]) || loaded;
   };
 
-  const selectedDoc =
-    path === "docs" ? loadDoc() : component(slug);
+  const selectedDoc = path === "docs" ? loadDoc() : component(slug);
 
   callback = callback || (((cb: any, _deps: DependencyList) => cb) as Callback);
 
   const DynamicMarkDownComponent = callback(
     dynamic(() => import(`@/locales/${path}/${selectedDoc?.filePath}`), {
-      loading: () => <p className={className ?? ""}>Loading...</p>,
+      loading: () => <p className={className ?? ""}>Loading...</p>
     }),
     deps || []
   );

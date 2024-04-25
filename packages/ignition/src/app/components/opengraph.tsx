@@ -19,11 +19,11 @@ const selectRandomIcon = (
   iconKey?: string
 ): IconType | undefined => {
   const iconsMap = new Map<string, any>([
-    ["LuSmile", <LuSmile key={'lusmile'} style={style} />],
-    ["LuBird", <LuBird key={'lubird'} style={style} />],
-    ["FaFly", <FaFly key={'fafly'} style={style} />],
-    ["PiFlyingSaucer", <PiFlyingSaucer key={'piflyingsaucer'} style={style} />],
-    ["PiAlien", <PiAlien key={'pialien'} style={style} />],
+    ["LuSmile", <LuSmile key={"lusmile"} style={style} />],
+    ["LuBird", <LuBird key={"lubird"} style={style} />],
+    ["FaFly", <FaFly key={"fafly"} style={style} />],
+    ["PiFlyingSaucer", <PiFlyingSaucer key={"piflyingsaucer"} style={style} />],
+    ["PiAlien", <PiAlien key={"pialien"} style={style} />]
   ]);
 
   if (iconKey && iconsMap.has(iconKey)) {
@@ -39,7 +39,7 @@ export const RocketIconChooser = ({
   subheading,
   style,
   iconKey,
-  Icon,
+  Icon
 }: {
   subheading?: string;
   style?: React.CSSProperties;
@@ -72,7 +72,7 @@ const OpenGraph = async ({
   iconName,
   text,
   darkMode = true,
-  Icon,
+  Icon
 }: {
   lang: Languages;
   subheading?: string;
@@ -104,24 +104,15 @@ const OpenGraph = async ({
   const bgImage = darkMode ? "og-hero-dark.jpg" : "og-hero-light.jpg";
 
   const quicksandRegular = fetch(
-    new URL(
-      `${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/Quicksand-Regular.ttf`,
-      import.meta.url
-    )
+    new URL(`${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/Quicksand-Regular.ttf`, import.meta.url)
   ).then((res) => res.arrayBuffer());
 
   const interMedium = fetch(
-    new URL(
-      `${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/Inter-Medium.ttf`,
-      import.meta.url
-    )
+    new URL(`${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/Inter-Medium.ttf`, import.meta.url)
   ).then((res) => res.arrayBuffer());
 
   const firaCodeRegular = fetch(
-    new URL(
-      `${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/FiraCode-Regular.ttf`,
-      import.meta.url
-    )
+    new URL(`${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/FiraCode-Regular.ttf`, import.meta.url)
   ).then((res) => res.arrayBuffer());
 
   const groupedCollections: Map<string, number> = new Map();
@@ -143,7 +134,7 @@ const OpenGraph = async ({
     display: "flex",
     color: textColor,
     backgroundImage: `url("${serverEnv.NEXT_PUBLIC_APP_URL}/img/${bgImage}")`,
-    backgroundSize: "1200px 630px",
+    backgroundSize: "1200px 630px"
   };
 
   const bigIconsStyle = {
@@ -153,41 +144,38 @@ const OpenGraph = async ({
     fill: iconColor,
     stroke: iconColor,
     color: iconColor,
-    padding: "0px",
+    padding: "0px"
   };
 
   const smallIconStyle = {
     ...bigIconsStyle,
     width: `${smallIconSize}px`,
-    height: `${smallIconSize}px`,
+    height: `${smallIconSize}px`
   };
 
   const mainTextBasicStyle: React.CSSProperties = {
     background: textGradient,
     backgroundClip: "text",
     color: "transparent",
-    fontFamily: "Quicksand, sans-serif",
+    fontFamily: "Quicksand, sans-serif"
   };
 
   const mainTextStyle: React.CSSProperties = {
     ...mainTextBasicStyle,
-    textWrap: "balance",
+    textWrap: "balance"
   };
 
   const subHeadingStyle: React.CSSProperties = {
-    textWrap: "balance",
+    textWrap: "balance"
   };
 
   const afterLogoTextStyle: React.CSSProperties = {
-    ...mainTextBasicStyle,
+    ...mainTextBasicStyle
   };
 
   return new ImageResponse(
     (
-      <div
-        tw={`h-full w-full flex flex-col ${outerPaddingClass}`}
-        style={mainDivStyle}
-      >
+      <div tw={`h-full w-full flex flex-col ${outerPaddingClass}`} style={mainDivStyle}>
         <div tw="flex flex-col">
           <div tw="flex flex-row">
             <div tw="text-left flex flex-col grow">
@@ -206,31 +194,20 @@ const OpenGraph = async ({
                 )}
               </div>
               {(iconCollectionName || subheading) && (
-                <p
-                  tw={`text-7xl ${internalLeftMarginClass}`}
-                  style={subHeadingStyle}
-                >
+                <p tw={`text-7xl ${internalLeftMarginClass}`} style={subHeadingStyle}>
                   {iconCollectionName ?? subheading}
                 </p>
               )}
             </div>
             <div tw="flex">
-              <RocketIconChooser
-                subheading={subheading}
-                style={bigIconsStyle}
-                Icon={Icon}
-              />
+              <RocketIconChooser subheading={subheading} style={bigIconsStyle} Icon={Icon} />
             </div>
           </div>
         </div>
         <div tw={`flex grow mt-10 ${internalLeftMarginClass}`}>
           <span
             tw="mb-7 text-4xl"
-            style={
-              iconName || iconCollectionName
-                ? mainTextBasicStyle
-                : mainTextStyle
-            }
+            style={iconName || iconCollectionName ? mainTextBasicStyle : mainTextStyle}
           >
             {iconName ?? iconCollectionName ?? text ?? brand["motto"]}
           </span>
@@ -269,19 +246,19 @@ const OpenGraph = async ({
         {
           name: "Inter",
           data: await interMedium,
-          style: "normal",
+          style: "normal"
         },
         {
           name: "Quicksand",
           data: await quicksandRegular,
-          style: "normal",
+          style: "normal"
         },
         {
           name: "FiraCode",
           data: await firaCodeRegular,
-          style: "normal",
-        },
-      ],
+          style: "normal"
+        }
+      ]
     }
   );
 };

@@ -8,12 +8,7 @@ type WithCopyProps = {
   clipboardText: string;
 } & PropsWithChildrenAndLang;
 
-const WithCopy = ({
-  lang,
-  clipboardText,
-  className,
-  children,
-}: WithCopyProps) => {
+const WithCopy = ({ lang, clipboardText, className, children }: WithCopyProps) => {
   const { copy, copied } = withLocale(lang).config("code-block");
   const { write, isCurrent } = useClipboard(clipboardText);
 

@@ -10,22 +10,11 @@ type SampleBoxProps = {
   options: string[];
 } & PropsWithClassName;
 
-const SampleBox = ({
-  Icon,
-  icon,
-  locale,
-  options,
-  className,
-}: SampleBoxProps) => (
+const SampleBox = ({ Icon, icon, locale, options, className }: SampleBoxProps) => (
   <>
     <SamplePreviewer Icon={Icon} options={options} />
 
-    <SampleCode
-      className={className || "block"}
-      locale={locale}
-      icon={icon}
-      options={options}
-    />
+    <SampleCode className={className || "block"} locale={locale} icon={icon} options={options} />
   </>
 );
 

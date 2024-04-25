@@ -3,9 +3,7 @@ import { useState } from "react";
 
 type Callback = () => Promise<void> | void;
 
-const useWaitToExecute = (
-  delay: number
-): [(callback: Callback) => void, () => void, boolean] => {
+const useWaitToExecute = (delay: number): [(callback: Callback) => void, () => void, boolean] => {
   let timeOutId: NodeJS.Timeout;
   let pendingCount = 0;
 

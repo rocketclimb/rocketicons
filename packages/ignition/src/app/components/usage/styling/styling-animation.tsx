@@ -5,10 +5,7 @@ import { useState } from "react";
 import { CollectionID } from "rocketicons/data";
 import IconLoader, { IconHandlerProps } from "@/components/icons/icon-loader";
 
-const Animation = ({
-  Icon,
-  iconName,
-}: IconHandlerProps & { iconName: string }) => {
+const Animation = ({ Icon, iconName }: IconHandlerProps & { iconName: string }) => {
   const initialIconColor = "icon-rose-500";
   const [state, setState] = useState<string>(initialIconColor);
 
@@ -27,12 +24,12 @@ const Animation = ({
             time: "3s",
             action: ScriptAction.UPDATE,
             elementId: "el_0.el_0",
-            text: `${initialIconColor}`,
+            text: `${initialIconColor}`
           },
           {
             action: ScriptAction.UPDATE_TYPING,
             elementId: "el_0.el_0",
-            text: " border border-red-500",
+            text: " border border-red-500"
           },
           {
             time: "3s",
@@ -40,18 +37,18 @@ const Animation = ({
             elementId: "el_0.el_0",
             from: `${initialIconColor} border border-red-500`,
             to: `${initialIconColor} border border-`,
-            skipCommit: true,
+            skipCommit: true
           },
           {
             action: ScriptAction.UPDATE_TYPING,
             elementId: "el_0.el_0",
-            text: "slate-600",
+            text: "slate-600"
           },
           {
             time: "3s",
             action: ScriptAction.UPDATE_TYPING,
             elementId: "el_0.el_0",
-            text: " rounded-md",
+            text: " rounded-md"
           },
           {
             time: "3s",
@@ -59,18 +56,18 @@ const Animation = ({
             elementId: "el_0.el_0",
             from: `${initialIconColor} border border-slate-600 rounded-md`,
             to: `${initialIconColor} border border-slate-600 rounded-`,
-            skipCommit: true,
+            skipCommit: true
           },
           {
             action: ScriptAction.UPDATE_TYPING,
             elementId: "el_0.el_0",
-            text: "lg",
+            text: "lg"
           },
           {
             time: "3s",
             action: ScriptAction.UPDATE_TYPING,
             elementId: "el_0.el_0",
-            text: " bg-slate-50",
+            text: " bg-slate-50"
           },
           {
             time: "15s",
@@ -78,11 +75,11 @@ const Animation = ({
             elementId: "el_0.el_0",
             from: `${initialIconColor} border border-slate-600 rounded-xl bg-slate-50`,
             to: initialIconColor,
-            skipCommit: false,
+            skipCommit: false
           },
           {
-            action: ScriptAction.RESTART,
-          },
+            action: ScriptAction.RESTART
+          }
         ]}
       >
         <div>
@@ -100,12 +97,7 @@ type StylingAnimationProsp = {
 
 const StylingAnimation = ({ collection, icon }: StylingAnimationProsp) => (
   <div className="flex h-72 sm:h-48 flex-col sm:flex-row my-12 items-center justify-center gap-4">
-    <IconLoader
-      collectionId={collection}
-      icon={icon}
-      iconName={icon}
-      Handler={Animation}
-    />
+    <IconLoader collectionId={collection} icon={icon} iconName={icon} Handler={Animation} />
   </div>
 );
 

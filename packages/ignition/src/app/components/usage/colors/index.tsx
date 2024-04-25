@@ -6,19 +6,10 @@ import { Table, TableLine } from "@/components/table";
 import Wrapper from "@/components/documentation/wrapper";
 
 import ColorsAnimation from "./colors-animation";
-import {
-  shuffle,
-  colors,
-  colorsTable,
-  variations,
-  colorsUtilities,
-} from "./utils";
+import { shuffle, colors, colorsTable, variations, colorsUtilities } from "./utils";
 import SampleBox from "@/components/documentation/sample-box";
 
-const Colors = async ({
-  lang,
-  queryIcon,
-}: PropsWithLang & { queryIcon?: string }) => {
+const Colors = async ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
   const { icon, collection, Icon } = getCurrentIconData(queryIcon);
 
   type ColorBoxProps = {
@@ -63,11 +54,7 @@ const Colors = async ({
   return (
     <>
       <MdxPartial lang={lang} slug={"colors"} path="docs" />
-      <ColorsAnimation
-        icon={icon}
-        collection={collection}
-        colors={shuffle(colors)}
-      />
+      <ColorsAnimation icon={icon} collection={collection} colors={shuffle(colors)} />
       <div className="md:px-5">
         <Table lang={lang} hasAdditional collapse>
           {colorsTable.map(([utility, color], i) => (
@@ -83,12 +70,7 @@ const Colors = async ({
       <Wrapper>
         <MdxPartial lang={lang} slug={"colors/colors-utilities"} path="docs" />
         <div className="mt-12">
-          <SampleBox
-            locale={lang}
-            icon={icon}
-            Icon={Icon}
-            options={colorsUtilities}
-          />
+          <SampleBox locale={lang} icon={icon} Icon={Icon} options={colorsUtilities} />
         </div>
       </Wrapper>
       <Wrapper>
