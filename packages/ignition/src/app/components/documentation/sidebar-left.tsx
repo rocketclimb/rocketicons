@@ -68,6 +68,21 @@ const MenuItem = ({
   </Link>
 );
 
+const IconList = ({ lang }: PropsWithLang) => (
+  <>
+    {IconsManifest.map(({ id, name }) => (
+      <li key={`${id}-${name}`}>
+        <MenuItem href={`/${lang}/icons/${id}`} className={selectedClassName(id)}>
+          {(name === "rocketclimb" && (
+            <RocketIconsText className="text-gray-950 hover:text-sky-500 dark:text-neutral-100 dark:hover:text-sky-500" />
+          )) ||
+            name}
+        </MenuItem>
+      </li>
+    ))}
+  </>
+);
+
 export const SidebarLeft = ({ lang }: PropsWithLang) => {
   const DocList = () => {
     const { docs: getDocs } = withLocale(lang);
@@ -104,30 +119,29 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
                   />
 
                   <SubMenu>
-                    {components &&
-                      components.map((model: any, i: number) => {
-                        const isComponent = mainDoc.components.hasOwnProperty(model.enslug);
+                    {components?.map((model: any, i: number) => {
+                      const isComponent = mainDoc.components.hasOwnProperty(model.enslug);
 
-                        const subMenu = isComponent ? model : model[1][lang];
+                      const subMenu = isComponent ? model : model[1][lang];
 
-                        return (
-                          (siteConfig.menuConfig.componentGroups.indexOf(mainDocEnSlug) > -1 ||
-                            !isComponent) && (
-                            <li key={i}>
-                              <MenuItem
-                                href={
-                                  isComponent
-                                    ? `/${lang}/docs/${mainDoc.slug}#${subMenu.slug}`
-                                    : `/${lang}/docs/${subMenu.slug}`
-                                }
-                                className={subMenu.activeSelector}
-                              >
-                                <span className={subMenu.activeSelector}>{subMenu.title}</span>
-                              </MenuItem>
-                            </li>
-                          )
-                        );
-                      })}
+                      return (
+                        (siteConfig.menuConfig.componentGroups.indexOf(mainDocEnSlug) > -1 ||
+                          !isComponent) && (
+                          <li key={i}>
+                            <MenuItem
+                              href={
+                                isComponent
+                                  ? `/${lang}/docs/${mainDoc.slug}#${subMenu.slug}`
+                                  : `/${lang}/docs/${subMenu.slug}`
+                              }
+                              className={subMenu.activeSelector}
+                            >
+                              <span className={subMenu.activeSelector}>{subMenu.title}</span>
+                            </MenuItem>
+                          </li>
+                        )
+                      );
+                    })}
                   </SubMenu>
                 </MenuBlock>
               )
@@ -140,21 +154,6 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
     return renderDocList();
   };
 
-  const IconList = () => (
-    <>
-      {IconsManifest.map(({ id, name }: { id: string; name: string }, i: number) => (
-        <li key={i}>
-          <MenuItem href={`/${lang}/icons/${id}`} className={selectedClassName(id)}>
-            {(name === "rocketclimb" && (
-              <RocketIconsText className="text-gray-950 hover:text-sky-500 dark:text-neutral-100 dark:hover:text-sky-500" />
-            )) ||
-              name}
-          </MenuItem>
-        </li>
-      ))}
-    </>
-  );
-
   return (
     <nav className="text-sm">
       <ul className={`hidden relative lg:w-56 lg:block group-data-[open=true]:block`}>
@@ -166,7 +165,7 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
             className={`group-has-[.docs-icons]:active-content`}
           />
           <SubMenu>
-            <IconList />
+            <IconList lang={lang} />
           </SubMenu>
         </MenuBlock>
         <MenuBlock>
