@@ -8,16 +8,16 @@ type PropMap = {
 const variantsPropertyMap: Record<Variants, PropMap> = {
   filled: {
     properies: ["fill"],
-    blacklist: ["stroke"],
+    blacklist: ["stroke"]
   },
   outlined: {
     properies: ["stroke"],
-    blacklist: ["fill"],
+    blacklist: ["fill"]
   },
   full: {
     properies: ["fill", "stroke"],
-    blacklist: [],
-  },
+    blacklist: []
+  }
 };
 
 export const styleToString = (

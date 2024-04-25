@@ -39,7 +39,7 @@ export interface CollectionDataInfo<ID extends string, Licence extends string>
   icons: Record<string, IconInfo>;
 }
 
-export type IconsInfoManifest<
-  ID extends string,
-  Licence extends string
-> = Record<ID, CollectionDataInfo<ID, Licence>>;
+export type IconsInfoManifest<ID extends string, Licence extends string> = Record<
+  ID,
+  CollectionDataInfo<ID, Licence>
+>;
