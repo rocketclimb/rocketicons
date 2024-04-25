@@ -1,4 +1,5 @@
-import { promises as fs } from "fs";
+import fs from "node:fs";
+import path from "node:path";
 import { Cheerio, load as cheerioLoad, Element as CheerioElement } from "cheerio";
 import camelcase from "camelcase";
 
@@ -114,8 +115,10 @@ export const convertIconData = async (
   return { iconData, variant }; // like: [ { tag: 'path', attr: { d: 'M436 160c6.6 ...', ... }, child: { ... } } ]
 };
 
-export const rmDirRecursive = async (dest: string) => {
-  await fs.rm(dest, { recursive: true, force: true });
+export const rmDirRecursive = async (dest: string, ignore: string[] = []) => {
+  fs.readdirSync(dest)
+    .filter((file) => !ignore.includes(file))
+    .forEach((file) => fs.rmSync(path.join(dest, file), { recursive: true, force: true }));
 };
 
 export const buildPackageExports = (
