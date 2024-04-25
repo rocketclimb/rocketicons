@@ -2,7 +2,6 @@
 import { AnimatedCodeBlock, ScriptAction } from "@/components/code-block";
 import { Script } from "@/components/code-block/types";
 
-import { shuffle, putVariantsOnIt } from "./utils";
 import { useEffect, useState } from "react";
 import { CollectionID } from "rocketicons/data";
 import IconLoader, { IconHandlerProps } from "@/components/icons/icon-loader";
@@ -12,34 +11,35 @@ const Animation = ({
   colors,
   iconName
 }: IconHandlerProps & { colors: string[]; iconName: string }) => {
-  const [state, setState] = useState<string>("icon-slate-200");
+  const [first] = colors;
+  const final = `icon-${[...colors].pop()!}`;
+  const initial = `icon-${first}`;
+  const [state, setState] = useState<string>(initial);
   const [script, setScript] = useState<Script>([]);
 
+  const createScriptColorAction = (from: string, to: string): Script => [
+    {
+      time: "3s",
+      action: ScriptAction.DELETE_TYPING,
+      elementId: "el_0.el_0",
+      from,
+      to: "icon-",
+      skipCommit: true
+    },
+    {
+      action: ScriptAction.UPDATE_TYPING,
+      elementId: "el_0.el_0",
+      text: to
+    }
+  ];
+
   useEffect(() => {
-    const { script } = shuffle([
-      ...colors.slice(0, 3).map((color) => `${color}`),
-      ...putVariantsOnIt(colors.slice(-3))
-    ]).reduce(
+    const { script } = colors.slice(1).reduce(
       ({ prev, script }, color) => ({
         prev: `icon-${color}`,
-        script: [
-          ...script,
-          {
-            time: "3s",
-            action: ScriptAction.DELETE_TYPING,
-            elementId: "el_0.el_0",
-            from: prev,
-            to: "icon-",
-            skipCommit: true
-          },
-          {
-            action: ScriptAction.UPDATE_TYPING,
-            elementId: "el_0.el_0",
-            text: `${color}`
-          }
-        ]
+        script: [...script, ...createScriptColorAction(prev, color)]
       }),
-      { prev: "icon-slate-200", script: [] as any[] }
+      { prev: initial, script: [] as Script }
     );
     setScript(script);
   }, [colors]);
@@ -56,13 +56,14 @@ const Animation = ({
         onCommit={(_, state) => state && setState(state)}
         script={[
           ...script,
+          ...createScriptColorAction(final, first),
           {
             action: ScriptAction.RESTART
           }
         ]}
       >
         <div>
-          <Icon data-cb-tag={iconName} className="icon-slate-200" />
+          <Icon data-cb-tag={iconName} className={initial} />
         </div>
       </AnimatedCodeBlock>
     </>
