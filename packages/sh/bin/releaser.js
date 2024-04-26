@@ -39,6 +39,7 @@ export const releaser = (args) => {
       const tag = process.env.PRE_RELEASE_TAG ? `-${process.env.PRE_RELEASE_TAG.trim()}` : "";
       const { icons } = versions;
       const updateTo = bumpVersion(icons.replace(tag, ""), packagesBumpType.icons);
+      console.log("d", updateTo, icons);
       bumper(`${updateTo}${tag}, '-w packages/icons`);
       newVersion[ICONS_SCOPE_NAME] = updateTo;
     } catch (e) {
