@@ -8,12 +8,11 @@ import { changelog, ROOT_PKG_NAME, ICONS_SCOPE_NAME } from "./changelog.js";
 import { bumpVersion } from "./utils.js";
 
 const bumper = (toVersion, addParams) => {
-  console.log(`npm version ${toVersion} ${addParams ?? ""}`);
-  const [, version] = execSync(`npm version ${toVersion} ${addParams ?? ""}`)
+  const [l1, l2] = execSync(`npm version ${toVersion} ${addParams ?? ""}`)
     .toString()
     .trim()
     .split("\n");
-  return version.trim();
+  return (l2 ?? l1).trim();
 };
 
 export const releaser = (args) => {
@@ -53,8 +52,9 @@ export const releaser = (args) => {
     // be happy
   }
 
-  console.log("dfaf", packagesBumpType, packagesBumpType[ROOT_PKG_NAME]);
-  newVersion[ROOT_PKG_NAME] = bumper(packagesBumpType[ROOT_PKG_NAME]);
+  if (newVersion[ROOT_PKG_NAME]) {
+    newVersion[ROOT_PKG_NAME] = bumper(packagesBumpType[ROOT_PKG_NAME]);
+  }
 
   //console.log(packagesBumpType, packagesBumpType[ROOT_PKG_NAME], newVersion);
   return code;
