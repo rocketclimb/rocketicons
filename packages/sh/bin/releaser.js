@@ -46,7 +46,11 @@ export const releaser = (args) => {
     }
   }
 
-  execSync("git add . && git commit -m 'ci(changelog): update'");
+  try {
+    execSync('git add . && git commit -m "ci(changelog): update"');
+  } catch (e) {
+    // be happy
+  }
 
   newVersion[ROOT_PKG_NAME] = bumper(packagesBumpType[ROOT_PKG_NAME]);
 
