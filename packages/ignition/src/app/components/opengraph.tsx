@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { ImageResponse } from "next/og";
 import { Languages } from "@/types";
 import { serverEnv } from "@/env/server";
@@ -180,7 +179,7 @@ const OpenGraph = async ({
           <div tw="flex flex-row">
             <div tw="text-left flex flex-col grow">
               <div tw="flex flex-row">
-                <Image
+                <img
                   src={`${serverEnv.NEXT_PUBLIC_APP_URL}/${logoImg}`}
                   alt="rocketicons Logo"
                   tw="w-128 h-23"
