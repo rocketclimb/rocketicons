@@ -1,5 +1,5 @@
 "use client";
-import { useInstantSearch, Highlight } from "react-instantsearch";
+import { useInstantSearch } from "react-instantsearch";
 import Link from "next/link";
 import { withLocale } from "@/locales";
 import { PropsWithLang } from "@/types";

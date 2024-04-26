@@ -4,10 +4,6 @@ import { useState, useEffect } from "react";
 class ClipboardHandler extends EventTarget {
   private currentValue: string = "";
 
-  constructor() {
-    super();
-  }
-
   private emitChangedEvent() {
     this.dispatchEvent(
       new CustomEvent<string>("changed", {
