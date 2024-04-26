@@ -3,9 +3,11 @@ import fs from "fs";
 import shell from "shelljs";
 import minimist from "minimist";
 import { printCmdRet } from "./print-cmd-ret.js";
-import { CMD_BLOCKLIST, EXIT_CODES, CONFIG_FILE } from "./config.js";
+import { changelog } from "./changelog.js";
+import { releaser } from "./releaser.js";
+import { CMD_BLOCKLIST, EXIT_CODES, CONFIG_FILE, ADDITIONAL_CMD } from "./config.js";
 
-shell.help = () => console.log("bolt-sh");
+shell.help = () => console.log("rocketicon-sh");
 
 const convertSedRegex = (args) => {
   const newArgs = [];
@@ -52,19 +54,17 @@ const recursiveRename = (args) => {
     const [src] = arg.split("/**/");
     shell.find(arg).forEach((file) => {
       const ext = path.extname(file);
-      const newFileName = file
-        .replace(src, dest)
-        .replace(RegExp(`${ext}$`), newExt);
+      const newFileName = file.replace(src, dest).replace(RegExp(`${ext}$`), newExt);
       ret = shell.cp("-f", file, newFileName);
     });
   }
   return ret;
 };
 
-export function boltsh(argv) {
+export function rcsh(argv) {
   const parsedArgs = minimist(argv.slice(2), {
     stopEarly: true,
-    boolean: true,
+    boolean: true
   });
 
   const [fnName, ...args] = parsedArgs._;
@@ -94,7 +94,7 @@ export function boltsh(argv) {
   }
 
   // validate command
-  if (typeof shell[fnName] !== "function") {
+  if (typeof shell[fnName] !== "function" && !ADDITIONAL_CMD.includes(fnName)) {
     console.error(`Error: Invalid ShellJS command: ${fnName}.`);
     console.error(help());
     return EXIT_CODES.SHX_ERROR;
@@ -117,6 +117,12 @@ export function boltsh(argv) {
   } else if (fnName === "sed") {
     const newArgs = convertSedRegex(args);
     ret = shell[fnName].apply(input, newArgs);
+  } else if (fnName === "changelog") {
+    const newArgs = convertSedRegex(args);
+    ret = changelog(newArgs);
+  } else if (fnName === "releaser") {
+    const newArgs = convertSedRegex(args);
+    ret = releaser(newArgs);
   } else {
     ret = shell[fnName].apply(input, args);
   }
@@ -125,11 +131,7 @@ export function boltsh(argv) {
   /* instanbul ignore next */
   let code = Object.prototype.hasOwnProperty.call(ret, "code") && ret.code;
 
-  if (
-    (fnName === "pwd" || fnName === "which") &&
-    !ret.match(/\n$/) &&
-    ret.length > 1
-  ) {
+  if ((fnName === "pwd" || fnName === "which") && !ret.match(/\n$/) && ret.length > 1) {
     ret += "\n";
   }
 

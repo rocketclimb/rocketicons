@@ -1,0 +1,19 @@
+{
+  "git": {
+    "push": false,
+    "pushRepo": "git@github.com:rocketclimb/rocketicons.git",
+    "commitMessage": "feat(test): bora",
+    "requireCommits": true,
+    "requireCommitsFail": false,
+    "requireCleanWorkingDir": false,
+    "changelog": "git log --pretty=format:\"* (%h) %s\" ${from}...${to}"
+  },
+  "github": {
+    "release": false,
+    "preRelease": false
+  },
+  "npm": {
+    "publish": false,
+    "versionArgs": ["--workspaces false"]
+  }
+}

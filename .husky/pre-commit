@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 . "$(dirname "$0")/_/husky.sh"
 
-git --no-pager diff  --cached --name-only | grep packages/icons/package.json && git reset packages/icons/package.json && git update-index --skip-worktree packages/icons/package.json
+git --no-pager diff --cached --name-only | grep packages/icons/package.json && git reset packages/icons/package.json && git update-index --skip-worktree packages/icons/package.json
 
 npx lint-staged

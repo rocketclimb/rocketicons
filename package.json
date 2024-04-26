@@ -1,6 +1,6 @@
 {
   "name": "rocketclimb-icons",
-  "version": "0.16.2",
+  "version": "0.1.0",
   "description": "React / React Native powered by tailwind",
   "keywords": [
     "icons",
@@ -59,8 +59,8 @@
   "peerDependencies": {
     "@babel/preset-env": "7.24.3",
     "nativewind": ">=2.0.11",
-    "react": ">=18.2.0",
-    "react-dom": ">=18.2.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-native-svg": ">=15.1.0"
   },
   "lint-staged": {
@@ -71,5 +71,9 @@
     "*.+(json|css|md)": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "@conventional-commits/parser": "^0.4.1",
+    "conventional-commits-parser": "^5.0.0"
   }
 }
