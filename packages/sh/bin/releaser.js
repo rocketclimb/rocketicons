@@ -8,6 +8,7 @@ import { changelog, ROOT_PKG_NAME, ICONS_SCOPE_NAME } from "./changelog.js";
 import { bumpVersion } from "./utils.js";
 
 const bumper = (toVersion, addParams) => {
+  console.log(`npm version ${toVersion} ${addParams ?? ""}`);
   const [, version] = execSync(`npm version ${toVersion} ${addParams ?? ""}`)
     .toString()
     .trim()
@@ -52,9 +53,9 @@ export const releaser = (args) => {
     // be happy
   }
 
-  //newVersion[ROOT_PKG_NAME] = bumper(packagesBumpType[ROOT_PKG_NAME]);
+  newVersion[ROOT_PKG_NAME] = bumper(packagesBumpType[ROOT_PKG_NAME]);
 
-  console.log(packagesBumpType, packagesBumpType[ROOT_PKG_NAME], newVersion);
+  //console.log(packagesBumpType, packagesBumpType[ROOT_PKG_NAME], newVersion);
   return code;
 };
 
