@@ -5,7 +5,7 @@ name: Release Packages
 on:
   push:
     branches:
-      - main
+      - feat/release-final
 
 env:
   NODE_VERSION: 18
