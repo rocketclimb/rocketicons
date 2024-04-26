@@ -54,7 +54,7 @@ export const releaser = (args) => {
 
   //newVersion[ROOT_PKG_NAME] = bumper(packagesBumpType[ROOT_PKG_NAME]);
 
-  console.log(packagesBumpType, newVersion);
+  console.log(packagesBumpType, packagesBumpType[ROOT_PKG_NAME], newVersion);
   return code;
 };
 
