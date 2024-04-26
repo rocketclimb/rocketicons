@@ -53,6 +53,7 @@ export const releaser = (args) => {
     // be happy
   }
 
+  console.log("dfaf");
   newVersion[ROOT_PKG_NAME] = bumper(packagesBumpType[ROOT_PKG_NAME]);
 
   //console.log(packagesBumpType, packagesBumpType[ROOT_PKG_NAME], newVersion);
