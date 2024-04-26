@@ -13,49 +13,26 @@ env:
 permissions: write-all
 
 jobs:
-  build:
-    name: Build & Test
+  create-tag:
     runs-on: ubuntu-latest
-    env:
-      NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
         with:
-          node-version: $NODE_VERSION
-      - name: Cache node_modules
-        id: cache-modules
-        uses: actions/cache@v4
+          fetch-depth: 0
+      - uses: rickstaa/action-create-tag@v1
+        id: "tag_create"
         with:
-          path: node_modules
-          key: $NODE_VERSION-${{ runner.OS }}-build-${{ hashFiles('package.json') }}
-      - name: Build
-        if: steps.cache-modules.outputs.cache-hit != 'true'
-        run: npm install
-      - name: Test
-        run: npm test
+          tag: "latest"
+          tag_exists_error: false
+          message: |
+            "Latest release"
+            "Test 1"
+            "Line 3"
 
-  release:
-    name: Release
-    needs: build
-    runs-on: ubuntu-latest
-    env:
-      NPM_TOKEN: ${{secrets.NPM_TOKEN}}
-      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-    if: github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' )
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Cache node_modules
-        id: cache-modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: $NODE_VERSION-${{ runner.OS }}-build-${{ hashFiles('package.json') }}
-      - name: Build
-        if: steps.cache-modules.outputs.cache-hit != 'true'
-        run: npm install
-      - name: Release
-        run: npm run release
+      # Print result using the env variable.
+      - run: |
+          echo "Tag already present: ${{ env.TAG_EXISTS }}"
+
+      # Print result using the action output.
+      - run: |
+          echo "Tag already present: ${{ steps.tag_create.outputs.tag_exists }}"
