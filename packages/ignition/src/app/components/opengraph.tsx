@@ -13,6 +13,9 @@ import { LuBird, LuSmile } from "rocketicons/lu";
 import { PiAlien, PiFlyingSaucer } from "rocketicons/pi";
 import { BsCollection } from "rocketicons/bs";
 
+const numberFormatter = (lang: Languages, number: number) =>
+  new Intl.NumberFormat(lang).format(number);
+
 const selectRandomIcon = (
   style: React.CSSProperties | undefined,
   iconKey?: string
@@ -196,7 +199,7 @@ const OpenGraph = async ({
               </div>
               {(iconCollectionName || subheading) && (
                 <p tw={`text-7xl ${internalLeftMarginClass}`} style={subHeadingStyle}>
-                  {iconCollectionName ?? subheading}
+                  {iconName ?? subheading}
                 </p>
               )}
             </div>
@@ -208,9 +211,9 @@ const OpenGraph = async ({
         <div tw={`flex grow mt-10 ${internalLeftMarginClass}`}>
           <span
             tw="mb-7 text-4xl"
-            style={iconName || iconCollectionName ? mainTextBasicStyle : mainTextStyle}
+            style={iconCollectionName ? mainTextBasicStyle : mainTextStyle}
           >
-            {iconName ?? iconCollectionName ?? text ?? brand["motto"]}
+            {iconCollectionName ?? text ?? brand["motto"]}
           </span>
         </div>
         <div tw="w-full flex flex-row text-2xl">
@@ -218,7 +221,7 @@ const OpenGraph = async ({
             <div tw="flex flex-row grow">
               <BsCollection style={smallIconStyle} />
               <div tw="flex flex-col ml-3">
-                <span>{iconCollectionCount}</span>
+                <span>{numberFormatter(lang, iconCollectionCount)}</span>
                 <span>{opengraph["int-this-collection"]}</span>
               </div>
             </div>
@@ -226,14 +229,14 @@ const OpenGraph = async ({
           <div tw="flex flex-row grow">
             <BiCollection style={smallIconStyle} />
             <div tw="flex flex-col ml-3">
-              <span>{groupedCollections.size}</span>
+              <span>{numberFormatter(lang, groupedCollections.size)}</span>
               <span>{opengraph["collections"]}</span>
             </div>
           </div>
           <div tw="flex flex-row grow">
             <TbIcons style={smallIconStyle} />
             <div tw="flex flex-col ml-3">
-              <span>{totalIconsCount}</span>
+              <span>{numberFormatter(lang, totalIconsCount)}</span>
               <span>{opengraph["icons"]}</span>
             </div>
           </div>
