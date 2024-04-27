@@ -7,3 +7,4 @@ packages/icons/package.json
 .DS_Store
 .vercel
 .env
+.vscode

@@ -33,5 +33,8 @@ export const reducer = (state: CodeEditState, action: Actions) => {
   }
 };
 
-export const getElementId = (index: number, parent: string = ""): string =>
-  `${parent ? `${parent}.` : ""}el_${index}`;
+export const getElementId = (index: number, parent: string = ""): string => {
+  const parentText = parent ? `${parent}.` : "";
+
+  return `${parentText}el_${index}`;
+};

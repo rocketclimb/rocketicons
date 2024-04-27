@@ -72,7 +72,7 @@ const CodeAnimator = ({
             (child: string | undefined | object, key) =>
               typeof child === "object" ? (
                 <ElementPreviewer
-                  key={key}
+                  key={getElementId(key, id)}
                   child={child as ReactElement}
                   props={(child as ReactElement)?.props}
                   id={getElementId(key, id)}
@@ -120,12 +120,13 @@ const CodeAnimator = ({
             <div className="transition-all bg-white rounded-lg overflow-hidden ring-1 ring-slate-900/5 dark:bg-slate-800 dark:highlight-white/5 dark:ring-0 flex mb-4">
               {Children.map(children as ReactElement[], (child, i) => {
                 const { props } = child;
+                const key = getElementId(i);
                 return (
                   <ElementPreviewer
-                    key={i}
+                    key={key}
                     child={child}
                     props={props}
-                    id={getElementId(i)}
+                    id={key}
                     data={data[i]}
                   />
                 );

@@ -15,6 +15,7 @@
 
 html {
   background-color: #fff;
+  height: -webkit-fill-available;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -25,10 +26,6 @@ html {
 
 * {
   scrollbar-gutter: stable;
-}
-
-html {
-  height: -webkit-fill-available;
 }
 
 ::-webkit-scrollbar {

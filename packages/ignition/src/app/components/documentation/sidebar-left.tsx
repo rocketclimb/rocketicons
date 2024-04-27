@@ -33,7 +33,7 @@ const MenuTitle = ({
 } & PropsWithClassName) => (
   <h5
     className={`mb-8 pl-1 lg:mb-3 block border-l border-transparent hover:border-slate-400 font-semibold text-slate-900 dark:text-slate-200 hover:text-slate-900 dark:hover:text-slate-300 dark:hover:border-slate-500 ${
-      className || ""
+      className ?? ""
     }`}
   >
     <Link href={href}>{children}</Link>
@@ -68,6 +68,36 @@ const MenuItem = ({
   </Link>
 );
 
+const SubMenuItems = ({
+  lang,
+  components,
+  mainDoc,
+  mainDocEnSlug
+}: PropsWithLang & { components: any[]; mainDoc: any; mainDocEnSlug: any }) => {
+  return components?.map((model: any, i: number) => {
+    const isComponent = mainDoc.components.hasOwnProperty(model.enslug);
+
+    const subMenu = isComponent ? model : model[1][lang];
+
+    return (
+      (siteConfig.menuConfig.componentGroups.indexOf(mainDocEnSlug) > -1 || !isComponent) && (
+        <li key={`menu-${subMenu.slug}`}>
+          <MenuItem
+            href={
+              isComponent
+                ? `/${lang}/docs/${mainDoc.slug}#${subMenu.slug}`
+                : `/${lang}/docs/${subMenu.slug}`
+            }
+            className={subMenu.activeSelector}
+          >
+            <span className={subMenu.activeSelector}>{subMenu.title}</span>
+          </MenuItem>
+        </li>
+      )
+    );
+  });
+};
+
 const IconList = ({ lang }: PropsWithLang) => (
   <>
     {IconsManifest.map(({ id, name }) => (
@@ -101,47 +131,27 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
             const componentsProp = Object.values(mainDoc.components);
             const hasComponents = componentsProp.length > 0;
             componentsProp.sort(sortComponents);
-            const componentsByGroup = docs.filter(
-              (doc: any) =>
-                doc[1][lang].group === mainDocEnSlug && doc[1][lang].group != doc[1][lang].enslug
-            );
+            const componentsByGroup = docs.filter(filterComponentsByGroup(lang, mainDocEnSlug));
 
             const components = hasComponents ? componentsProp : componentsByGroup;
 
             return (
               mainDoc && (
-                <MenuBlock key={i}>
+                <MenuBlock key={`menublock-${mainDoc.slug}`}>
                   <TextMenuTitle
-                    key={i}
+                    key={`menutitle-${mainDoc.slug}`}
                     text={mainDoc.title}
                     href={`/${lang}/docs/${mainDoc.slug}`}
                     className={selectedClassName(mainDoc.slug)}
                   />
 
                   <SubMenu>
-                    {components?.map((model: any, i: number) => {
-                      const isComponent = mainDoc.components.hasOwnProperty(model.enslug);
-
-                      const subMenu = isComponent ? model : model[1][lang];
-
-                      return (
-                        (siteConfig.menuConfig.componentGroups.indexOf(mainDocEnSlug) > -1 ||
-                          !isComponent) && (
-                          <li key={i}>
-                            <MenuItem
-                              href={
-                                isComponent
-                                  ? `/${lang}/docs/${mainDoc.slug}#${subMenu.slug}`
-                                  : `/${lang}/docs/${subMenu.slug}`
-                              }
-                              className={subMenu.activeSelector}
-                            >
-                              <span className={subMenu.activeSelector}>{subMenu.title}</span>
-                            </MenuItem>
-                          </li>
-                        )
-                      );
-                    })}
+                    <SubMenuItems
+                      lang={lang}
+                      components={components}
+                      mainDoc={mainDoc}
+                      mainDocEnSlug={mainDocEnSlug}
+                    />
                   </SubMenu>
                 </MenuBlock>
               )
@@ -181,3 +191,11 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => {
 };
 
 const sortComponents = (a: any, b: any) => a.order - b.order;
+
+const filterComponentsByGroup = (
+  lang: string,
+  mainDocEnSlug: any
+): ((value: [string, unknown], index: number, array: [string, unknown][]) => unknown) => {
+  return (doc: any) =>
+    doc[1][lang].group === mainDocEnSlug && doc[1][lang].group != doc[1][lang].enslug;
+};
