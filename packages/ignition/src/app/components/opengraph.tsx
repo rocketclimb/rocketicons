@@ -179,13 +179,15 @@ const OpenGraph = async ({
           <div tw="flex flex-row">
             <div tw="text-left flex flex-col grow">
               <div tw="flex flex-row">
-                <img
-                  src={`${serverEnv.NEXT_PUBLIC_APP_URL}/${logoImg}`}
-                  alt="rocketicons Logo"
-                  tw="w-128 h-23"
-                  width={128}
-                  height={23}
-                />
+                <picture>
+                  <img
+                    src={`${serverEnv.NEXT_PUBLIC_APP_URL}/${logoImg}`}
+                    alt="rocketicons Logo"
+                    tw="w-128 h-23"
+                    width={128}
+                    height={23}
+                  />
+                </picture>
                 {iconCollectionId && (
                   <span tw="mt-1.3 text-7xl" style={afterLogoTextStyle}>
                     /{iconCollectionId}
