@@ -32,9 +32,9 @@ const jsonConfigMapper = (filename: string, config: Config) =>
       }
 
       const lang = filename.replace(/.json$/i, "");
-      const json = Object.entries(JSON.parse(contents.toString())) as [string, string][];
+      const json = Object.entries(JSON.parse(contents.toString()));
 
-      json.forEach(([key, data]) => configMapper(lang, key, data, config));
+      json.forEach(([key, data]) => configMapper(lang, key, data as string, config));
 
       resolve();
     });
