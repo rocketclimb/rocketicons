@@ -1,8 +1,4 @@
-import {
-  Schema,
-  defineCollection,
-  defineConfig,
-} from "@rocketclimb/content-collections";
+import { Schema, defineCollection, defineConfig } from "@rocketclimb/content-collections";
 
 import fs from "fs";
 import z from "zod";
@@ -13,12 +9,7 @@ const localesFolder = "src/app/locales";
 type Configuration = Record<string, string | Record<string, string>>;
 type Config = Record<string, Configuration>;
 
-const configMapper = (
-  lang: string,
-  key: string,
-  data: string,
-  config: Config
-) => {
+const configMapper = (lang: string, key: string, data: string, config: Config) => {
   const value =
     typeof data === "string"
       ? data
@@ -41,10 +32,7 @@ const jsonConfigMapper = (filename: string, config: Config) =>
       }
 
       const lang = filename.replace(/.json$/i, "");
-      const json = Object.entries(JSON.parse(contents.toString())) as [
-        string,
-        string
-      ][];
+      const json = Object.entries(JSON.parse(contents.toString())) as [string, string][];
 
       json.forEach(([key, data]) => configMapper(lang, key, data, config));
 
@@ -53,9 +41,7 @@ const jsonConfigMapper = (filename: string, config: Config) =>
   });
 
 const loadConfig = async (): Promise<Record<string, Configuration>> => {
-  const configFiles = fs
-    .readdirSync(localesFolder)
-    .filter((file) => /\.json$/i.test(file));
+  const configFiles = fs.readdirSync(localesFolder).filter((file) => /\.json$/i.test(file));
 
   const config = {};
   await Promise.all(configFiles.map((file) => jsonConfigMapper(file, config)));
@@ -69,10 +55,10 @@ const components = defineCollection({
   schema: (z: any) => ({
     title: z.string(),
     description: z.string(),
-    slug: z.string(),
+    slug: z.string()
   }),
   transform: mdxTransformer,
-  onBeforeSave: onBeforeSavePageComponentsCollection,
+  onBeforeSave: onBeforeSavePageComponentsCollection
 });
 
 const docSchema = {
@@ -81,7 +67,7 @@ const docSchema = {
   slug: z.string(),
   order: z.number(),
   group: z.string().optional(),
-  activeSelector: z.string(),
+  activeSelector: z.string()
 };
 
 const docs = defineCollection({
@@ -90,11 +76,11 @@ const docs = defineCollection({
   include: "**/*.mdx",
   schema: (z: any) => docSchema,
   transform: mdxTransformer,
-  onBeforeSave: onBeforeSaveDocsCollection,
+  onBeforeSave: onBeforeSaveDocsCollection
 });
 
 export default defineConfig({
-  collections: [components, docs],
+  collections: [components, docs]
 });
 
 async function onBeforeSavePageComponentsCollection(
@@ -115,11 +101,7 @@ async function onBeforeSavePageComponentsCollection(
   );
 }
 
-async function onBeforeSaveDocsCollection(
-  collection: any,
-  collections: any,
-  configuration: any
-) {
+async function onBeforeSaveDocsCollection(collection: any, collections: any, configuration: any) {
   const config = await loadConfig();
   const docs = {} as any;
   const slugMap = {} as any;
@@ -142,21 +124,16 @@ function onBeforeSaveCollectionCommon(
   docStructure: any
 ) {
   const configSchema = z.record(z.string(), z.record(z.string(), z.string()));
-  const docSchema = z.record(
-    z.string(),
-    z.record(z.string(), z.record(z.string(), z.string()))
-  );
+  const docSchema = z.record(z.string(), z.record(z.string(), z.record(z.string(), z.string())));
   const slugMapSchema = z.record(z.string(), z.string());
   let indexSchema = {
     config: configSchema,
     docs: docSchema,
-    slugMap: slugMapSchema,
+    slugMap: slugMapSchema
   };
 
   (collection as any).documents.forEach(
-    ({
-      document: { enslug, locale, group, isComponent, _meta, ...data },
-    }: any) => {
+    ({ document: { enslug, locale, group, isComponent, _meta, ...data } }: any) => {
       if (data.slug != enslug) docStructure.slugMap[data.slug] = enslug;
 
       const docs = docStructure.docs;
@@ -208,19 +185,15 @@ function insertNewCollection(
     parser: collection.parser,
     documents: [
       {
-        document,
-      },
-    ],
+        document
+      }
+    ]
   };
 
   if (collections.map((x: any) => x.name).indexOf(newCollection.name) === -1) {
     collections.push(newCollection);
   }
-  if (
-    configuration?.collections
-      ?.map((x: any) => x.name)
-      .indexOf(newCollection.name) === -1
-  ) {
+  if (configuration?.collections?.map((x: any) => x.name).indexOf(newCollection.name) === -1) {
     configuration?.collections?.push(newCollection);
   }
 }
@@ -239,31 +212,6 @@ function mdxTransformer(document: any): Schema<"frontmatter", any> {
     enslug,
     locale,
     group: document.group || group,
-    isComponent,
-  };
-}
-
-function generateRecursiveStructure() {
-  return (
-    slug: string,
-    locale: string,
-    path: string[],
-    data: any,
-    obj: any,
-    parentObj?: any
-  ) => {
-    parentObj = parentObj || {};
-    const [newKey, ...rest] = path;
-    if (newKey) {
-      if (!obj[newKey]) {
-        if (parentObj[newKey]) {
-          parentObj[newKey] = { ...data, ...parentObj[newKey] };
-        } else {
-          obj[newKey] = newKey === slug ? { ...data } : {};
-        }
-      }
-
-      generateRecursiveStructure()(slug, locale, rest, data, obj[newKey], obj);
-    }
+    isComponent
   };
 }
