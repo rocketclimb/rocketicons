@@ -2,8 +2,7 @@
 
 ### Features
 
-- **icons** release ([798bd9a](https://github.com/rocketclimb/rocketicons/commit/798bd9a482b21b8c6e5b593e1f7b76c8ad737f7b))
-
-### Bug Fixes
-
-- force action ([8dba6fa](https://github.com/rocketclimb/rocketicons/commit/8dba6faf888af9120893bc10328c7f30441c070d))
+- animated landing page
+- rich documentation with examples
+- public roadmap
+- rich opengraph data

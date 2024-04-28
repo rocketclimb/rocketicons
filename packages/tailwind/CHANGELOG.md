@@ -2,5 +2,4 @@
 
 ### Features
 
-- icon modules generation
-- manifest generation
+- Tailwind Icon Plugin
