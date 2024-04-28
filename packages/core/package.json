@@ -16,8 +16,5 @@
     "rebuild": "npm run clean && npm run build",
     "test": "jest ./src",
     "typecheck": "tsc --noEmit"
-  },
-  "devDependencies": {
-    "@rocketclimb/sh": "latest"
   }
 }

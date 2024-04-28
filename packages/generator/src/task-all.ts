@@ -18,7 +18,7 @@ export const dirInit = async ({ DIST, LIB, PLUGIN, DATA }: TaskContext) => {
     throw err;
   };
 
-  await rmDirRecursive(DIST, ["package.json"]);
+  await rmDirRecursive(DIST, ["package.json", "CHANGELOG.md"]);
   await fs.mkdir(DIST, { recursive: true }).catch(ignore);
   await fs.mkdir(LIB).catch(ignore);
   await fs.mkdir(PLUGIN).catch(ignore);

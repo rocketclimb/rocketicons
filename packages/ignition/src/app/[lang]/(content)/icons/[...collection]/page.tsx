@@ -6,6 +6,8 @@ import { IconsManifest } from "@/data-helpers/icons/manifest";
 import { withLocale } from "@/locales";
 import { PropsWithLang, PropsWithLangParams } from "@/types";
 
+import icons from "@/data-helpers/params/icons.json";
+
 import Title from "@/components/documentation/title";
 import DocLink from "@/components/documentation/doc-link";
 import License from "@/components/documentation/license";
@@ -20,6 +22,10 @@ type PageProps = PropsWithLangParams & {
   params: {
     collection: [CollectionID, string];
   };
+};
+
+export const generateStaticParams = () => {
+  return icons;
 };
 
 export const generateMetadata = async ({
@@ -92,7 +98,7 @@ const Page = async ({ params: { lang, collection } }: PageProps) => {
           href={info.projectUrl}
           className="border-b border-sky-500 pb-0.5 hover:border-b-2 lg:pb-0 lg:border-none lg:cursor-default"
         >
-          <Title className="grow">{info.name}</Title>
+          <Title className="grow truncate">{info.name}</Title>
         </DocLink>
         <div className="lg:my-3 order-last">
           <IconCountBadge lang={lang} count={info.icons.length} />

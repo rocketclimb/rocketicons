@@ -13,9 +13,6 @@
     "test": "jest ./src",
     "typecheck": "tsc --noEmit"
   },
-  "devDependencies": {
-    "@rocketclimb/sh": "latest"
-  },
   "files": [
     "dist/"
   ]

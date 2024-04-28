@@ -1,0 +1,105 @@
+name: Release Packages
+
+on:
+  push:
+    branches:
+      - feat/releaser
+
+env:
+  NODE_VERSION: 18
+
+permissions: write-all
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
+      PRE_RELEASE_TAG: ${{ vars.PRE_RELEASE_TAG }}
+
+    outputs:
+      tag-name: ${{ steps.prepare-release.outputs.TAG_NAME }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+
+      - name: Install packages
+        run: npm install
+
+      - name: Run tests
+        run: npm run test-all
+
+      - name: Setup git user
+        run: |
+          git config user.name "Astronaut"
+          git config user.email "contact@rocketclimb.io"
+
+      - name: Prepare tag or release
+        id: prepare-release
+        run: |
+          echo "TAG_NAME=$(npm run release | grep v)" >> $GITHUB_OUTPUT
+
+      - name: Creating Tag
+        run: |
+          git tag -a ${{ steps.prepare-release.outputs.TAG_NAME }} -m "${{ steps.prepare-release.outputs.TAG_NAME }}" && git push origin ${{ steps.prepare-release.outputs.TAG_NAME }}  --no-verify
+
+      - name: Get genereated package name
+        if: contains(steps.prepare-release.outputs.TAG_NAME, 'release')
+        id: generated-pkg-name
+        run: echo "PKG_FILE=$(ls *.tgz)" >> $GITHUB_OUTPUT
+
+      - name: Upload artifacts to release job
+        if: contains(steps.prepare-release.outputs.TAG_NAME, 'release')
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts
+          path: |
+            release-notes.md
+            ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
+
+  create-release:
+    if: contains(needs.create-tag.outputs.tag-name, 'release')
+    runs-on: ubuntu-latest
+    needs: create-tag
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+          registry-url: "https://registry.npmjs.org"
+          always-auth: true
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: artifacts
+
+      - name: Show config
+        run: cat /home/runner/work/_temp/.npmrc
+
+      - name: Publish package
+        run: |
+          tar zxf *.tgz && (cd package && npm publish) && rm -fR package
+
+      - name: Get package name
+        id: get-package-name
+        run: |
+          echo "PKG_NAME=$(ls *.tgz)" >> $GITHUB_OUTPUT
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.create-tag.outputs.tag-name }}
+          body_path: ${{ github.workspace }}/release-notes.md
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            ${{ steps.get-package-name.outputs.PKG_NAME }}

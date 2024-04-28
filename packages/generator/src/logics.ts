@@ -160,5 +160,10 @@ export const buildPackageExports = (
     };
   });
 
-  return exports;
+  return {
+    ...exports,
+    "./package.json": {
+      default: "./package.json"
+    }
+  } as PackageExports;
 };
