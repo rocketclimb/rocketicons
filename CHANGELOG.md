@@ -1,3 +1,15 @@
+## [v0.1.1](https://github.com/rocketclimb/rocketicons/compare/v0.1.0-release...v0.1.1) (2024-04-28)
+
+### Bug Fixes
+
+- generator refactor [[rocketclimb-icons](./packages/rocketclimb-icons/CHANGELOG.md), [rocketclimb-icons](./packages/rocketclimb-icons/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md)] ([58ab1db](https://github.com/rocketclimb/rocketicons/commit/58ab1dbf7c48cb93e918a57baadf3789f158984d))
+
+### undefined
+
+- null [[rocketclimb-icons](./packages/rocketclimb-icons/CHANGELOG.md)] ([d516db9](https://github.com/rocketclimb/rocketicons/commit/d516db9a3f462cfb7a253b42c8bc0639325bdca1))
+- null [[rocketclimb-icons](./packages/rocketclimb-icons/CHANGELOG.md)] ([9f07eaa](https://github.com/rocketclimb/rocketicons/commit/9f07eaa58a77e68bcb07102714d176d30e315714))
+- null [[rocketclimb-icons](./packages/rocketclimb-icons/CHANGELOG.md)] ([cf9dfab](https://github.com/rocketclimb/rocketicons/commit/cf9dfab7d04afb026f7fb0237c2e58af93259640))
+
 ## [v0.1.0](https://github.com/rocketclimb/rocketicons/compare/v0.0.0...v0.1.0) (2024-04-28)
 
 ### Features
