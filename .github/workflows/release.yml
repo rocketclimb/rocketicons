@@ -3,7 +3,7 @@ name: Release Packages
 on:
   push:
     branches:
-      - feat/release-final
+      - feat/releaser
 
 env:
   NODE_VERSION: 18
