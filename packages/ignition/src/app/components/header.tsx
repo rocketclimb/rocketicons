@@ -13,7 +13,7 @@ const LogoLink = ({ lang }: PropsWithLang) => {
 };
 
 const VersionLabel = () => (
-  <span className="transition-all duration-200 cursor-default ml-5 text-xs font-medium text-slate-500 dark:text-slate-400 bg-gray-200 dark:bg-slate-400/10 rounded-full py-1 px-3 items-center hover:bg-slate-400/20 dark:hover:bg-slate-400/40 ">
+  <span className="transition-all duration-200 cursor-default mx-1 md:ml-5 text-[10px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 bg-gray-200 dark:bg-slate-400/10 rounded-full py-1 px-3 items-center hover:bg-slate-400/20 dark:hover:bg-slate-400/40 text-nowrap">
     {pkgVersion}
   </span>
 );

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "prebuild": "npm run generate-statics",
-    "build:disabled": "next build",
+    "build": "next build",
     "predev": "npm run generate-statics",
     "dev": "next dev",
     "predev:all-icons": "npm run generate-statics:all-icons",
