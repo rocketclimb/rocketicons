@@ -24,7 +24,7 @@
     "packages/sh",
     "packages/core",
     "packages/tailwind",
-    "packages/gen",
+    "packages/generator",
     "packages/icons",
     "packages/ignition"
   ],
