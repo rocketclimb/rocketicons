@@ -8,9 +8,9 @@
   ],
   "scripts": {
     "build": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json && tsconfig-replace-paths",
-    "postbuild": "rocketicons-sh cp \"dist-esm/**/*.js\" \"dist/**/*.mjs\"",
-    "clean": "rocketicons-sh rm -fR dist dist-esm && rocketicons-sh rm -fR *.tsbuildinfo",
-    "clean:o": "rocketicons-sh rm -fR node_modules",
+    "postbuild": "rocketclimb-sh cp \"dist-esm/**/*.js\" \"dist/**/*.mjs\"",
+    "clean": "rocketclimb-sh rm -fR dist dist-esm && rocketclimb-sh rm -fR *.tsbuildinfo",
+    "clean:o": "rocketclimb-sh rm -fR node_modules",
     "format": "prettier --check . --write --ignore-path ../../.gitignore",
     "lint": "eslint src/**/*",
     "rebuild": "npm run clean && npm run build",
@@ -18,6 +18,6 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "rocketicons-sh": "*"
+    "@rocketclimb/sh": "latest"
   }
 }

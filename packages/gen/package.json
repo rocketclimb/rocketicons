@@ -8,10 +8,10 @@
   ],
   "scripts": {
     "build": "npx ts-node ./src/build.ts",
-    "clean": "rocketicons-sh rm -fR dist core *.tsbuildinfo",
+    "clean": "rocketclimb-sh rm -fR dist core *.tsbuildinfo",
     "prebuild": "npm run fetch",
     "postbuild": "npm run copy-files",
-    "copy-files": "rocketicons-sh cp -fR ../core/dist/* ../icons/core/ && rocketicons-sh cp -fR ../tailwind/dist/* ../icons/tailwind/",
+    "copy-files": "rocketclimb-sh cp -fR ../core/dist/* ../icons/core/ && rocketclimb-sh cp -fR ../tailwind/dist/* ../icons/tailwind/",
     "fetch": "npx ts-node ./src/fetcher.ts",
     "format": "prettier --check src/* --write --ignore-path ../../.gitignore",
     "lint": "eslint src/**/*",
@@ -37,7 +37,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native-svg": "15.1.0",
-    "rocketicons-sh": "*",
+    "@rocketclimb/sh": "latest",
     "svgo": "^3.2.0"
   },
   "engines": {

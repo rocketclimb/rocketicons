@@ -5,13 +5,16 @@
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc --build && tsconfig-replace-paths",
-    "clean": "rocketicons-sh rm -fR dist *.tsbuildinfo",
-    "clean:o": "rocketicons-sh rm -fR node_modules",
+    "clean": "rocketclimb-sh rm -fR dist *.tsbuildinfo",
+    "clean:o": "rocketclimb-sh rm -fR node_modules",
     "format": "prettier --check . --write --ignore-path ../../.gitignore",
     "lint": "eslint src/**/*",
     "rebuild": "npm run clean && npm run build",
     "test": "jest ./src",
     "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@rocketclimb/sh": "latest"
   },
   "files": [
     "dist/"
