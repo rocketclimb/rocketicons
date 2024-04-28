@@ -18,9 +18,9 @@ type PageProps = {
   searchParams: Record<string, string>;
 } & PropsWithLangSlugParams;
 
-export function generateStaticParams() {
+export const generateStaticParams = () => {
   return docs;
-}
+};
 
 export const generateMetadata = ({
   params: { lang, slug },

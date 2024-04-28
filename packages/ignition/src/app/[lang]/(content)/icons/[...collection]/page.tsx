@@ -6,6 +6,8 @@ import { IconsManifest } from "@/data-helpers/icons/manifest";
 import { withLocale } from "@/locales";
 import { PropsWithLang, PropsWithLangParams } from "@/types";
 
+import icons from "@/data-helpers/params/icons.json";
+
 import Title from "@/components/documentation/title";
 import DocLink from "@/components/documentation/doc-link";
 import License from "@/components/documentation/license";
@@ -20,6 +22,10 @@ type PageProps = PropsWithLangParams & {
   params: {
     collection: [CollectionID, string];
   };
+};
+
+export const generateStaticParams = () => {
+  return icons;
 };
 
 export const generateMetadata = async ({

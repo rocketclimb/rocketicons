@@ -18,18 +18,26 @@ export interface IconDefinitionContent {
 
 export type IconSetSource = IconSetGitSource;
 
-export type PackageExports = Record<
-  string,
-  {
-    types: string;
-    require: string;
-    import: string;
-    default: string;
-  }
->;
+type PackageJsonExports = {
+  ["./package.json"]: {
+    default: "./package.json";
+  };
+};
+
+export type PackageExports =
+  | PackageJsonExports
+  | Record<
+      string,
+      {
+        types: string;
+        require: string;
+        import: string;
+        default: string;
+      }
+    >;
 
 export type Overrrides = {
-  name: string;
+  name?: string;
   exports: PackageExports;
 };
 

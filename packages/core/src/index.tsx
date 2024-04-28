@@ -11,7 +11,10 @@ import {
 } from "@/types";
 
 export const IconGenerator =
-  (data: IconTree, variant: Variants, _name: string): IconType =>
+  (
+    data: IconTree,
+    variant: Variants
+  ): IconType => // eslint-disable-next-line react/display-name
   ({ className, ...props }: IconBaseProps) => (
     <svg {...data.attr} {...props} className={handleClassName(variant, className ?? "")}>
       {tree2Element(data.child)}
