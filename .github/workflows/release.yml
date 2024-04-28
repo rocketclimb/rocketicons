@@ -3,7 +3,7 @@ name: Release Packages
 on:
   push:
     branches:
-      - feat/releaser
+      - feat/release-merge-test
 
 env:
   NODE_VERSION: 18
@@ -85,10 +85,6 @@ jobs:
 
       - name: Show config
         run: cat /home/runner/work/_temp/.npmrc
-
-      - name: Publish package
-        run: |
-          tar zxf *.tgz && (cd package && npm publish) && rm -fR package
 
       - name: Get package name
         id: get-package-name
