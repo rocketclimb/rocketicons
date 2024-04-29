@@ -2,8 +2,11 @@ dist
 dist-esm
 node_modules
 tsconfig*.tsbuildinfo
-packages/icons
+packages/icons/*
+!packages/icons/CHANGELOG.md
 packages/icons/package.json
+*.tgz
+release-notes.md
 .DS_Store
 .vercel
 .env
