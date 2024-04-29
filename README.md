@@ -37,7 +37,7 @@ We are still working on the demos for you to demonstrate the power of **rocketic
 
 ## License
 
-This project is licensed under the [MIT License](https://github.com/rocketclimb/rocketicons/blob/develop/LICENSE)
+This project is licensed under the [MIT License](https://github.com/rocketclimb/rocketicons/blob/develop/LICENSE).
 
 ## Contributors
 
