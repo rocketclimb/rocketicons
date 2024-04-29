@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Languages } from "@/types";
 
 import { siteConfig } from "./config/site";
 
-const defaultLocale = "en";
+const { defaultLocale, locales } = siteConfig;
 
 const getLocale = (request: NextRequest): string =>
   (
@@ -11,8 +12,7 @@ const getLocale = (request: NextRequest): string =>
       ?.split(",")
       .map((language) => language.split(";").shift())
       .find(
-        (language) =>
-          language && siteConfig.locales.includes(language.toLocaleLowerCase())
+        (language) => language && locales.includes(language.toLocaleLowerCase() as Languages)
       ) || defaultLocale
   ).toLowerCase();
 
@@ -20,7 +20,7 @@ export const middleware = (request: NextRequest) => {
   const locale = getLocale(request);
   const { pathname } = request.nextUrl;
 
-  const pathnameHasLocale = siteConfig.locales.some(
+  const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
@@ -29,15 +29,11 @@ export const middleware = (request: NextRequest) => {
   }
 
   request.nextUrl.pathname = `/${locale}${pathname}`;
-  const isDefaultLocale = locale === defaultLocale;
-
-  return isDefaultLocale
-    ? NextResponse.rewrite(request.nextUrl)
-    : NextResponse.redirect(request.nextUrl);
+  return NextResponse.redirect(request.nextUrl);
 };
 
 export const config = {
   matcher: [
-    "/((?!_next|img|favicon|icon|logo|android|apple-touch|mstile|safari-pinned).*)",
-  ],
+    "/((?!_next|_vercel|examples|img|favicon|icon-rocketicons|logo|android|apple-touch|mstile|safari-pinned|sitemap|fonts|api|.well-known|site.webmanifest|robots).*)"
+  ]
 };

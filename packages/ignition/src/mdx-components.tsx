@@ -1,30 +1,22 @@
 import type { MDXComponents } from "mdx/types";
+import Title from "@/components/documentation/title";
+import Title2 from "@/components/documentation/title2";
+import Title3 from "@/components/documentation/title3";
+import Title4 from "@/components/documentation/title4";
+import Paragraph from "@/components/documentation/paragraph";
+import Code from "@/components/documentation/code";
+import CodeStyler from "@/components/code-block/code-styler";
+import DocLink from "@/components/documentation/doc-link";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   const allComponentClasses = "mb-4";
   const titleClasses = `text-slate-900 dark:text-white font-semibold ${allComponentClasses}`;
 
   return {
-    h1: ({ id, className, children }) => (
-      <h1 id={id} className={`${className || ""} ${titleClasses}`}>
-        {children}
-      </h1>
-    ),
-    h2: ({ id, className, children }) => (
-      <h2 id={id} className={`${className || ""} ${titleClasses}`}>
-        {children}
-      </h2>
-    ),
-    h3: ({ id, className, children }) => (
-      <h3 id={id} className={`${className || ""} ${titleClasses}`}>
-        {children}
-      </h3>
-    ),
-    h4: ({ id, className, children }) => (
-      <h4 id={id} className={`${className || ""} ${titleClasses}`}>
-        {children}
-      </h4>
-    ),
+    h1: ({ children, ...props }) => <Title {...props}>{children}</Title>,
+    h2: ({ children, ...props }) => <Title2 {...props}>{children}</Title2>,
+    h3: ({ children, ...props }) => <Title3 {...props}>{children}</Title3>,
+    h4: ({ children, ...props }) => <Title4 {...props}>{children}</Title4>,
     h5: ({ id, className, children }) => (
       <h5 id={id} className={`${className || ""} ${titleClasses}`}>
         {children}
@@ -35,21 +27,18 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </h6>
     ),
-    p: ({ className, children }) => (
-      <p className={`${className || ""} ${allComponentClasses}`}>{children}</p>
+    p: ({ children, ...props }) => <Paragraph {...props}>{children}</Paragraph>,
+    pre: ({ className, children, ...props }) => (
+      <div className="my-3">
+        <CodeStyler {...props} className={`pre ${className}`} variant="minimalist">
+          {children}
+        </CodeStyler>
+      </div>
     ),
-    pre: ({ className, children }) => (
-      <pre
-        className={`rounded-lg p-3 bg-black ${
-          className || ""
-        } ${allComponentClasses}`}
-      >
-        {children}
-      </pre>
-    ),
+    code: ({ children }) => <Code>{children}</Code>,
     ul: ({ className, children }) => (
       <ul
-        className={`list-disc list-inside ${
+        className={`list-disc list-inside default-text-color ${
           className || ""
         } ${allComponentClasses}`}
       >
@@ -58,30 +47,24 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     ol: ({ className, children }) => (
       <ol
-        className={`list-decimal list-inside ${
+        className={`list-decimal list-inside default-text-color ${
           className || ""
         } ${allComponentClasses}`}
       >
         {children}
       </ol>
     ),
-    a: ({ className, children, href }) => (
-      <a
-        className={`${className || ""} text-sky-500 hover:underline`}
-        href={href}
-      >
+    li: ({ children, ...props }) => (
+      <li {...props} className="text-sm lg:text-base">
         {children}
-      </a>
+      </li>
     ),
-    blockquote: ({ className, children }) => (
-      <blockquote
-        className={`rounded-lg p-3 text-2xl italic font-semibold border-s-4 border-gray-300 bg-slate-50 dark:bg-slate-800 text-black dark:text-white ${
-          className || ""
-        } ${allComponentClasses}`}
-      >
+    a: ({ href, children, ...props }) => (
+      <DocLink external={href?.startsWith("http")} href={href || "#"} {...props}>
         {children}
-      </blockquote>
+      </DocLink>
     ),
-    ...components,
+    blockquote: ({ children, ...props }) => <blockquote {...props}>{children}</blockquote>,
+    ...components
   };
 }

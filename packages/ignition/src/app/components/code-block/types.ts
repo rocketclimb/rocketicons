@@ -1,6 +1,6 @@
 export enum Action {
   UPDATE = "update",
-  COMMIT = "commit",
+  COMMIT = "commit"
 }
 
 type UpdateAction = {
@@ -50,7 +50,7 @@ export enum ScriptActionType {
   DELETE_TYPING = "delete.typing",
   DELETE_ALL_TYPING = "delete.all.typing",
   UPDATE = "update",
-  RESTART = "restart",
+  RESTART = "restart"
 }
 
 export type ElementId = `el_${string}`;
@@ -120,5 +120,5 @@ export type CodeStylerVariations = "full" | "minimalist" | "compact";
 
 export enum CodeElementTabs {
   DEFAULT = "default",
-  MORE = "more",
+  MORE = "more"
 }

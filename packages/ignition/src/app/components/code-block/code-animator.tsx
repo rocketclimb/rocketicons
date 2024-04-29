@@ -7,7 +7,7 @@ import {
   Action,
   ElementId,
   CodeStylerVariations,
-  OnScriptCommit,
+  OnScriptCommit
 } from "./types";
 import CodeGen from "./code-gen";
 import CodeStyler from "./code-styler";
@@ -33,7 +33,7 @@ const CodeAnimator = ({
   skipRender,
   variants,
   className,
-  onCommit,
+  onCommit
 }: CodeAnimatorProps) => {
   const [state, dispatch] = useReducer(reducer, {});
 
@@ -45,17 +45,10 @@ const CodeAnimator = ({
     data: ElementPreviewData;
   };
 
-  const ElementPreviewer = ({
-    child,
-    props,
-    id,
-    data,
-  }: ElementPreviewerProps) => {
+  const ElementPreviewer = ({ child, props, id, data }: ElementPreviewerProps) => {
     const { children, ...rest } = props;
     const codeClassName = data?.props?.className || "";
-    const classNamePrefix = (props?.className || "")
-      .replace(codeClassName, "")
-      .trim();
+    const classNamePrefix = (props?.className || "").replace(codeClassName, "").trim();
 
     const getDataChildren = (
       index: number,
@@ -64,9 +57,7 @@ const CodeAnimator = ({
       if (!children || typeof children === "string") {
         return;
       }
-      return Array.isArray(children)
-        ? getDataChildren(index, children[index])
-        : children;
+      return Array.isArray(children) ? getDataChildren(index, children[index]) : children;
     };
 
     return (
@@ -75,15 +66,13 @@ const CodeAnimator = ({
           child,
           {
             ...rest,
-            className: `${classNamePrefix} ${
-              state[id]?.elementState || codeClassName
-            }`,
+            className: `${classNamePrefix} ${state[id]?.elementState || codeClassName}`
           },
           ((Array.isArray(children) && children) || [children]).map(
             (child: string | undefined | object, key) =>
               typeof child === "object" ? (
                 <ElementPreviewer
-                  key={key}
+                  key={getElementId(key, id)}
                   child={child as ReactElement}
                   props={(child as ReactElement)?.props}
                   id={getElementId(key, id)}
@@ -98,8 +87,7 @@ const CodeAnimator = ({
     );
   };
 
-  const stateCurrent = (elementId: ElementId) =>
-    state[elementId]?.codeState || "";
+  const stateCurrent = (elementId: ElementId) => state[elementId]?.codeState || "";
 
   const stateUpdate = (elementId: ElementId, updating: string) =>
     dispatch({ type: Action.UPDATE, id: elementId, updating });
@@ -112,7 +100,7 @@ const CodeAnimator = ({
   useScriptRunner(script, {
     update: stateUpdate,
     commit: stateCommit,
-    current: stateCurrent,
+    current: stateCurrent
   });
 
   return (
@@ -121,21 +109,24 @@ const CodeAnimator = ({
         data-previewer={!skipRender}
         className={
           !skipRender
-            ? `max-w-sm mx-auto mt-20 px-4 sm:max-w-lg md:max-w-screen-md lg:max-w-7xl sm:px-6 md:px-8 sm:mt-24 lg:mt-32 lg:grid lg:gap-8 lg:grid-cols-12 lg:items-center ${className}`
+            ? `w-full mx-auto max-w-3xl mt-20 lg:max-w-7xl lg:grid lg:gap-6 lg:items-center lg:grid-cols-12 ${
+                className ?? ""
+              }`
             : ""
         }
       >
         {!skipRender && (
-          <div className="relative row-start-1 col-start-1 col-span-5 xl:col-span-6 -mt-10">
+          <div className="row-start-1 col-start-1 lg:col-span-5">
             <div className="transition-all bg-white rounded-lg overflow-hidden ring-1 ring-slate-900/5 dark:bg-slate-800 dark:highlight-white/5 dark:ring-0 flex mb-4">
               {Children.map(children as ReactElement[], (child, i) => {
                 const { props } = child;
+                const key = getElementId(i);
                 return (
                   <ElementPreviewer
-                    key={i}
+                    key={key}
                     child={child}
                     props={props}
-                    id={getElementId(i)}
+                    id={key}
                     data={data[i]}
                   />
                 );
@@ -144,7 +135,7 @@ const CodeAnimator = ({
           </div>
         )}
         <CodeStyler
-          className={(skipRender && className) || ""}
+          className={(skipRender && className) || "lg:col-span-7"}
           animatedPreviewer={!skipRender}
           variant={variants}
         >

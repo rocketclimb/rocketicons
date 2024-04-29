@@ -1,35 +1,35 @@
-import { IoLogoGithub } from "rocketicons/io";
 import Link from "next/link";
 import MainNavAsMenu from "./main-nav-as-menu";
 import { NavItem } from "./types";
 import { PropsWithLang } from "@/types";
 import ThemeSelector from "@/components/theme/theme-selector";
-import { useLocale } from "@/locales";
+import { withLocale } from "@/locales/with-locale";
+import GitHubIcon from "@/components/github-icon";
 
 const MainNav = ({ lang }: PropsWithLang) => {
-  const nav = useLocale(lang).config("nav");
+  const nav = withLocale(lang).config("nav");
 
   const navItems: NavItem[] = [
     {
       name: "docs",
       label: nav["docs"],
-      link: `/${lang}/docs/${nav["usage-slug"]}`,
+      link: `/${lang}/docs/${nav["usage-slug"]}`
     },
     {
       name: "getting-started",
       label: nav["getting-started"],
-      link: `/${lang}/docs/${nav["getting-started-slug"]}`,
+      link: `/${lang}/docs/${nav["getting-started-slug"]}`
     },
     {
       name: "icons",
       label: nav["icons"],
-      link: `/${lang}/icons`,
-    },
+      link: `/${lang}/icons`
+    }
   ];
   return (
     <>
       <div className="flex w-full items-center justify-end">
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <ul className="flex items-center gap-x-7">
             {navItems.map(({ label, link }, i) => (
               <li
@@ -43,15 +43,9 @@ const MainNav = ({ lang }: PropsWithLang) => {
             ))}
           </ul>
         </div>
-        <div className="hidden md:flex items-center border-l border-slate-200 ml-6 pl-6 dark:border-slate-800">
+        <div className="hidden lg:flex items-center border-l border-slate-200 ml-6 pl-6 dark:border-slate-800">
           <ThemeSelector lang={lang} />
-          <a
-            className="flex"
-            href="https://github.com/rocketclimb/rocketicons"
-            title="rockeicons @github.com/rocketclimb"
-          >
-            <IoLogoGithub className="ml-6 icon-slate-500 hover:icon-slate-600 dark:hover:icon-slate-400" />
-          </a>
+          <GitHubIcon className="ml-6" />
         </div>
       </div>
       <MainNavAsMenu navItems={navItems} lang={lang} />

@@ -31,9 +31,7 @@ const useTypeWritter = (): TypeWritter => {
   const typingBackward = () => {
     if (currentText !== text) {
       const timeout = setTimeout(() => {
-        setCurrentText((prevText) =>
-          (prevText || "").slice(0, currentIndex - 1)
-        );
+        setCurrentText((prevText) => (prevText || "").slice(0, currentIndex - 1));
         setCurrentIndex((prevIndex) => prevIndex - 1);
       }, delay);
 

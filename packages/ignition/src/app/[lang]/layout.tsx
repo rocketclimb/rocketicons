@@ -4,14 +4,11 @@ import Header from "@/app/components/header";
 
 import { PropsWithChildrenAndLangParams } from "@/types";
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   return [{ lang: "en" }, { lang: "pt-br" }];
 }
 
-const Layout = ({
-  children,
-  params: { lang },
-}: PropsWithChildrenAndLangParams) => (
+const Layout = ({ children, params: { lang } }: PropsWithChildrenAndLangParams) => (
   <ThemeContext>
     <ModalContext>
       <Header lang={lang} />

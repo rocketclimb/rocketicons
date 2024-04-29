@@ -12,5 +12,5 @@ export {
   CodeImportBlock,
   CodeElementBlock,
   CodeElementOptionsStyler,
-  CodeElementTabs,
+  CodeElementTabs
 };

@@ -1,6 +1,7 @@
 "use client";
 import { Languages, PropsWithClassName } from "@/types";
-import { CodeElementBlock, CodeStyler } from "@/components/code-block";
+import CodeElementBlock from "@/components/code-block/code-element-block";
+import CodeStyler from "@/components/code-block/code-styler";
 
 type SampleCodeProps = {
   locale: Languages;
@@ -9,14 +10,9 @@ type SampleCodeProps = {
 } & PropsWithClassName;
 
 const SampleCode = ({ icon, options, ...props }: SampleCodeProps) => (
-  <CodeStyler className="text-sm" variant="minimalist">
+  <CodeStyler className="text-xs md:text-sm" variant="minimalist">
     {options.map((className, i) => (
-      <CodeElementBlock
-        key={i}
-        {...props}
-        attrs={{ className }}
-        component={icon}
-      />
+      <CodeElementBlock key={i} {...props} attrs={{ className }} component={icon} />
     ))}
   </CodeStyler>
 );

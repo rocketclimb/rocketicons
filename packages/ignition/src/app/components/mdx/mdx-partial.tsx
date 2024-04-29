@@ -1,6 +1,6 @@
 import { PropsWithClassName, PropsWithLang } from "@/types";
 import dynamic from "next/dynamic";
-import { useLocale } from "@/app/locales";
+import { withLocale } from "@/app/locales";
 import { DependencyList } from "react";
 
 type Callback = <T extends Function>(callback: T, deps: DependencyList) => T;
@@ -22,24 +22,23 @@ export const MdxPartial = ({
   path,
   className,
   callback,
-  deps,
+  deps
 }: MdxPartialProps & CacheFunctionProps) => {
   const [slug, componentSlug] = unparsedSlug.split("/");
-  const locale = useLocale(lang, slug);
+  const { component, doc } = withLocale(lang);
 
   const loadDoc = () => {
-    const doc = locale.docFromIndex();
-    return (componentSlug && doc["components"][componentSlug]) || doc;
+    const loaded = doc(slug);
+    return (componentSlug && loaded["components"][componentSlug]) || loaded;
   };
 
-  const selectedDoc =
-    path === "docs" ? loadDoc() : locale.pageComponentFromIndex();
+  const selectedDoc = path === "docs" ? loadDoc() : component(slug);
 
   callback = callback || (((cb: any, _deps: DependencyList) => cb) as Callback);
 
   const DynamicMarkDownComponent = callback(
     dynamic(() => import(`@/locales/${path}/${selectedDoc?.filePath}`), {
-      loading: () => <p className={className || ""}>Loading...</p>,
+      loading: () => <p className={className ?? ""}>Loading...</p>
     }),
     deps || []
   );

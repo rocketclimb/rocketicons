@@ -4,7 +4,7 @@ import {
   ScriptAction,
   ScriptActionType as Action,
   ElementId,
-  TypeWritter,
+  TypeWritter
 } from "./types";
 import useTypeWritter from "./use-type-writter";
 
@@ -17,10 +17,7 @@ type StateHandler = {
 type Done = (action?: number) => void;
 
 const useActionBuilder =
-  (
-    { typeFoward, backspacing }: TypeWritter,
-    { commit, update, current }: StateHandler
-  ) =>
+  ({ typeFoward, backspacing }: TypeWritter, { commit, update, current }: StateHandler) =>
   (script: ScriptAction) => {
     const createDeleteAction = (
       done: Done,
@@ -82,13 +79,11 @@ const useActionBuilder =
       }
       case Action.DELETE_TYPING: {
         const { elementId, from, to, skipCommit, delay } = script;
-        return (done: Done) =>
-          createDeleteAction(done, elementId, from, to, !!skipCommit, delay);
+        return (done: Done) => createDeleteAction(done, elementId, from, to, !!skipCommit, delay);
       }
       case Action.DELETE_ALL_TYPING: {
         const { elementId, text, skipCommit, delay } = script;
-        return (done: Done) =>
-          createDeleteAction(done, elementId, text, "", !!skipCommit, delay);
+        return (done: Done) => createDeleteAction(done, elementId, text, "", !!skipCommit, delay);
       }
       case Action.RESTART: {
         return (done: Done) => done(0);
@@ -106,14 +101,15 @@ const useScriptRunner = (script: Script, stateHandler: StateHandler) => {
       const { time } = current;
       const action = actionBuilder(current);
       const done = (action?: number) => {
-        action !== undefined
-          ? setAction(action)
-          : setAction((action) => (action || 0) + 1);
+        action !== undefined ? setAction(action) : setAction((action) => (action || 0) + 1);
       };
       if (time) {
-        const timeout = setTimeout(() => {
-          action(done);
-        }, parseFloat(time) * 1000);
+        const timeout = setTimeout(
+          () => {
+            action(done);
+          },
+          parseFloat(time) * 1000
+        );
         return () => clearTimeout(timeout);
       } else {
         action(done);

@@ -2,9 +2,7 @@ interface Array<T> {
   groupBy<K>(grouper: (item: T) => K): Map<K, Array<T>>;
 }
 
-Array.prototype.groupBy = function <K, V>(
-  grouper: (item: V) => K
-): Map<K, Array<V>> {
+Array.prototype.groupBy = function <K, V>(grouper: (item: V) => K): Map<K, Array<V>> {
   return this.reduce((store: Map<K, Array<V>>, item: V) => {
     const key = grouper(item);
     if (!store.has(key)) {

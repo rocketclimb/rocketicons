@@ -1,1 +1,1 @@
-export * from "./use-locale";
+export * from "./with-locale";

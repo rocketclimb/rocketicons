@@ -20,13 +20,20 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/components/*": ["./src/app/components/*"],
+      "@/data-helpers/*": ["./src/app/data-helpers/*"],
       "@/hooks": ["./src/app/hooks/"],
       "@/hooks/*": ["./src/app/hooks/*"],
       "@/locales": ["./src/app/locales/"],
       "@/locales/*": ["./src/app/locales/*"],
       "@/types": ["./src/app/types/"],
       "@/utils": ["./src/app/utils/"],
+      "@/config": ["./src/config/"],
       "content-collections": ["./.content-collections/generated"]
+    }
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

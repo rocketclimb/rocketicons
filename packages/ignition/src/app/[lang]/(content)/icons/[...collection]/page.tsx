@@ -1,13 +1,22 @@
 import { Metadata } from "next";
 import { CollectionID } from "rocketicons/data";
-import IconsCollection from "@/components/icons/icons-collection";
+import IconsCollection from "@/app/components/icons/icons-collection";
+import { IconsManifest } from "@/data-helpers/icons/manifest";
 
-import { PropsWithLangParams } from "@/types";
+import { withLocale } from "@/locales";
+import { PropsWithLang, PropsWithLangParams } from "@/types";
 
-import { Title, DocLink, License } from "@/components/documentation";
-import { getIconsDataManifest } from "@/components/icons/get-icons-data";
+import icons from "@/data-helpers/params/icons.json";
+
+import Title from "@/components/documentation/title";
+import DocLink from "@/components/documentation/doc-link";
+import License from "@/components/documentation/license";
+
 import FloatBlock from "@/components/icons/float-block";
-import { useLocale } from "@/locales";
+import { serverEnv } from "@/env/server";
+import { siteConfig } from "@/config/site";
+import NumberFormatter from "@/components/number-formatter";
+import Badge from "@/app/components/documentation/badge";
 
 type PageProps = PropsWithLangParams & {
   params: {
@@ -15,25 +24,72 @@ type PageProps = PropsWithLangParams & {
   };
 };
 
+export const generateStaticParams = () => {
+  return icons;
+};
+
 export const generateMetadata = async ({
-  params: { lang, collection },
+  params: { lang, collection }
 }: PageProps): Promise<Metadata> => {
   const [id, icon] = collection;
-  const info = await getIconsDataManifest(id);
-  const { title, description } = useLocale(
-    lang,
-    "icons-collection"
-  ).pageComponentFromIndex();
+  const info = IconsManifest.find(({ id: search }) => search === id)!;
+  const { name } = siteConfig;
+
+  const { component } = withLocale(lang);
+  const { title, description } = component("icons-collection");
+
+  const pageTitle = `${title} | ${info?.name} ${icon || ""} | rocketicons`;
+
+  const openGraphImageUrl =
+    `${serverEnv.NEXT_PUBLIC_APP_URL}/${lang}/opengraph/${id}` + (icon ? `/${icon}` : "");
+
+  const ogImagesArray = [
+    {
+      url: openGraphImageUrl,
+      type: "image/png",
+      width: 1200,
+      height: 630,
+      alt: pageTitle
+    }
+  ];
+
   return {
-    title: `${title} | ${info.name} ${icon || ""} | rocketicons`,
+    title: pageTitle,
     description,
+    openGraph: {
+      title: pageTitle,
+      description,
+      url: `${serverEnv.NEXT_PUBLIC_APP_URL}`,
+      siteName: name,
+      images: ogImagesArray
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: pageTitle,
+      site: name,
+      description,
+      creator: "@rocketclimb",
+      images: ogImagesArray
+    }
   };
+};
+
+const IconCountBadge = ({ lang, count }: PropsWithLang & { count: number }) => {
+  const { config } = withLocale(lang);
+  const { icons } = config("opengraph");
+
+  return (
+    <Badge className="lg:absolute right-1.5 top-1.5 text-nowrap">
+      <NumberFormatter lang={lang} number={count} />
+      <span className="lowercase"> {icons}</span>
+    </Badge>
+  );
 };
 
 const Page = async ({ params: { lang, collection } }: PageProps) => {
   const [id, icon] = collection;
 
-  const info = await getIconsDataManifest(id);
+  const info = IconsManifest.find(({ id: search }) => search === id)!;
 
   return (
     <div className="collection-page">
@@ -42,8 +98,11 @@ const Page = async ({ params: { lang, collection } }: PageProps) => {
           href={info.projectUrl}
           className="border-b border-sky-500 pb-0.5 hover:border-b-2 lg:pb-0 lg:border-none lg:cursor-default"
         >
-          <Title>{info.name}</Title>
+          <Title className="grow truncate">{info.name}</Title>
         </DocLink>
+        <div className="lg:my-3 order-last">
+          <IconCountBadge lang={lang} count={info.icons.length} />
+        </div>
         <div className="lg:my-3">
           <p className="hidden lg:block">
             <DocLink href={info.projectUrl} />

@@ -1,10 +1,41 @@
 {
   "name": "rocketicons",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha",
+  "description": "rocketicons is a React component system, for web and mobile, that provides a variety of collections with high-quality open-source icons for your projects. With the power of Tailwind.",
   "license": "MIT",
+  "keywords": [
+    "icons",
+    "react",
+    "react-native",
+    "tailwind",
+    "nativewind"
+  ],
+  "private": false,
   "main": "./index.js",
+  "module": "./index.mjs",
+  "types": "./index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "test": "echo \"Go icons!\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rocketclimb/rocketicons.git"
+  },
+  "homepage": "https://rocketicons.io",
+  "bugs": {
+    "url": "https://github.com/rocketclimb/rocketicons/issues"
+  },
   "engines": {
     "npm": ">=6.0.0"
+  },
+  "peerDependencies": {
+    "nativewind": ">=2",
+    "react": "*",
+    "react-native-svg": ">=15"
+  },
+  "devDependencies": {
+    "tailwindcss": ">=3"
   },
   "exports": {
     ".": {
@@ -222,6 +253,9 @@
       "require": "./lia/index.js",
       "import": "./lia/index.mjs",
       "default": "./lia/index.mjs"
+    },
+    "./package.json": {
+      "default": "./package.json"
     }
   }
 }

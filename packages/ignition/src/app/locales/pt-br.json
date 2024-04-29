@@ -1,6 +1,13 @@
 {
   "brand": {
-    "motto": "Ícones do seu jeito e como você precisa. Na Web ou no Mobile."
+    "motto": "Ícones do seu jeito e como você precisa. Na Web ou no Mobile.",
+    "description": "A biblioteca de ícones que você estava procurando. Funciona em React e em React Native, sem mudanças. Apenas um código, que roda onde você precisa. E com todo o poder que você já conheçe do Tailwind.",
+    "total-icon-count-text": "Nossa contagem atual de ícones é:"
+  },
+  "opengraph": {
+    "collections": "Coleções",
+    "icons": "Ícones",
+    "int-this-collection": "Nesta coleção"
   },
   "themes": {
     "dark": "Escuro",
@@ -14,14 +21,29 @@
     "getting-started-slug": "primeiros-passos",
     "usage": "Usando",
     "usage-slug": "usando",
-    "icons": "Icones"
+    "icons": "Icones",
+    "roadmap": "Roadmap"
   },
-  "search": "Procurar",
+  "roadmap": {
+    "released": "Lançado",
+    "in-progress": "Em progresso",
+    "planned": "Planejado"
+  },
+  "search": {
+    "placeholder": "Procurar",
+    "no-results": "Nada foi encontrado"
+  },
   "colors": "Cores",
   "sizes": "Tamanhos",
   "combining": "Combinando",
   "dark-mode": "Modo escuro",
+  "light-mode": "Modo claro",
   "states": "Estados",
+  "show-all": "Todos os ícones",
+  "icon": "ícone",
+  "table": {
+    "headers": ["Classes", "Propriedades"]
+  },
   "code-block": {
     "copy": "click e copie",
     "copied": "copiado",
@@ -30,6 +52,7 @@
   "update-alert": {
     "hover-alert": "Passe o mouse sobre o ícone e veja o que acontence",
     "dark-mode-alert": "Selecione outro tema e veja as mudanças no ícone",
-    "changes-alert": "Observe o ícone mudando conforme outra opções são escolhidas"
+    "changes-alert": "Observe o ícone mudando conforme outra opções são escolhidas",
+    "drag-alert": "Arraste o handle do demo para ver o funcionamento"
   }
 }

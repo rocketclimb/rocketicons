@@ -1,9 +1,13 @@
-import { PropsWithChildren } from "react";
+import BaseDocElement, { DocElementProps } from "./base-doc-element";
 
-const Title = ({ children }: PropsWithChildren) => (
-  <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight dark:text-slate-200">
+const Title = ({ children, ...props }: DocElementProps) => (
+  <BaseDocElement
+    Tag="h1"
+    defaultClassName="text-3xl md:text-4xl tracking-tight font-extrabold default-text-color"
+    {...props}
+  >
     {children}
-  </h1>
+  </BaseDocElement>
 );
 
 export default Title;

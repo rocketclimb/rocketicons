@@ -12,6 +12,7 @@
     "strictPropertyInitialization": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "resolveJsonModule": true,
     "jsx": "react-jsx",
     "allowJs": true,
     "baseUrl": "./src",

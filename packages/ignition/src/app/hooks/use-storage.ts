@@ -1,10 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 
 const useStorage = <T>(
   key: string,
@@ -16,7 +10,7 @@ const useStorage = <T>(
 
   const storage = {
     getItem: (key: string) => localStorage.getItem(key),
-    setItem: (key: string, value: string) => localStorage.setItem(key, value),
+    setItem: (key: string, value: string) => localStorage.setItem(key, value)
   };
 
   const [storedValue, setStoredValue] = useState<T | undefined>(initial);

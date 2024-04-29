@@ -1,6 +1,13 @@
 {
   "brand": {
-    "motto": "Icons your way and as you need them. On the Web or Mobile."
+    "motto": "Icons your way and as you need them. On the Web or Mobile.",
+    "description": "The icon library you've been looking for. Works in React and React Native without any changes. Just one code that runs wherever you need it. And with all the power you already know from Tailwind",
+    "total-icon-count-text": "Our current total count of icons is:"
+  },
+  "opengraph": {
+    "collections": "Collections",
+    "icons": "Icons",
+    "int-this-collection": "In This Collection"
   },
   "themes": {
     "dark": "Dark",
@@ -14,14 +21,29 @@
     "getting-started-slug": "getting-started",
     "usage": "Usage",
     "usage-slug": "usage",
-    "icons": "Icons"
+    "icons": "Icons",
+    "roadmap": "Roadmap"
   },
-  "search": "Quick seach",
+  "roadmap": {
+    "released": "Released",
+    "in-progress": "In Progress",
+    "planned": "Planned"
+  },
+  "search": {
+    "placeholder": "Quick seach",
+    "no-results": "No results found"
+  },
   "colors": "Colors",
   "sizes": "Sizes",
   "combining": "Combining",
   "dark-mode": "Dark mode",
+  "light-mode": "Light mode",
   "states": "States",
+  "show-all": "Show all icons",
+  "icon": "icon",
+  "table": {
+    "headers": ["Class", "Properties"]
+  },
   "code-block": {
     "copy": "click to copy",
     "copied": "copied",
@@ -30,6 +52,7 @@
   "update-alert": {
     "hover-alert": "Hover over the icon and see changes",
     "dark-mode-alert": "Change the theme mode and see the changes",
-    "changes-alert": "Watch icon updates as options change."
+    "changes-alert": "Watch icon updates as options change.",
+    "drag-alert": "Drag handle in the demo to see the expected behaviour"
   }
 }

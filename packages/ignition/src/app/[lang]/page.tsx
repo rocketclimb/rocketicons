@@ -5,29 +5,25 @@ import { Metadata } from "next";
 import { PropsWithLangParams } from "@/types";
 import { RcRocketIcon } from "rocketicons/rc";
 import RocketIconsText from "@/components/rocketicons-text";
-import SearchButton from "@/components/search-button";
-import { useLocale } from "@/locales";
+import SearchButton from "@/app/components/search/search";
+import { withLocale } from "@/locales/with-locale";
+import Footer from "@/components/footer";
+import CustomMetadata from "@/components/metadata-custom";
 
-export const generateMetadata = ({
-  params: { lang },
-}: PropsWithLangParams): Metadata => {
-  const { title, description } = useLocale(
-    lang,
-    "home"
-  ).pageComponentFromIndex();
-  return {
-    title: `${title} | rocketicons`,
-    description,
-  };
+export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
+  const { component } = withLocale(lang);
+  const { title, description } = component("home");
+
+  return CustomMetadata(lang, title, description);
 };
 
 const Home = ({ params: { lang } }: PropsWithLangParams) => {
-  const { nav, search } = useLocale(lang).config("nav", "search");
+  const nav = withLocale(lang).config("nav");
 
   return (
     <div className="flex flex-col grow overflow-y-auto items-center justify-between bg-cover bg-hero-light dark:bg-hero-dark">
       <div
-        className="absolute inset-0 bg-grid-slate-900/[0.04] bg-[bottom_1px_center] bg-grid dark:bg-grid-slate-400/[0.05] dark:bg-bottom dark:border-b dark:border-slate-100/5"
+        className="absolute inset-0 bg-grid-slate-900/[0.04] bg-[bottom_1px_center] bg-grid dark:bg-grid-slate-400/[0.05] dark:bg-bottom dark:border-0 dark:border-slate-100/5"
         style={{ maskImage: "linear-gradient(transparent, black)" }}
       ></div>
       <div className="relative max-w-5xl mx-auto pt-20 px-4 sm:px-6 md:px-8 sm:pt-24 lg:pt-32">
@@ -39,38 +35,43 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
           >
             {nav["getting-started"]}
           </Link>
-          <SearchButton label={search} />
+          <SearchButton lang={lang} />
         </div>
       </div>
-      <div className="mb-6">
+      <div className="mb-6 px-4 w-full z-10">
         <AnimatedCodeBlock
+          className="deep-[4]"
           script={[
             {
-              time: "1s",
+              time: "4s",
               action: ScriptAction.UPDATE,
-              elementId: "el_0.el_0",
-              text: "w-32 h-32",
+              elementId: "el_0",
+              text: "h-32"
             },
             {
-              time: "2s",
+              action: ScriptAction.UPDATE,
+              elementId: "el_0.el_0",
+              text: "size-10"
+            },
+            {
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_0",
               text: " border border-slate-200 dark:border-white",
-              delay: 50,
+              delay: 50
+            },
+            {
+              time: "2s",
+              action: ScriptAction.UPDATE_TYPING,
+              elementId: "el_0",
+              text: " flex gap-3",
+              delay: 60
             },
             {
               time: "2s",
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_0",
-              text: " bg-slate-200 dark:bg-white",
-              delay: 50,
-            },
-            {
-              time: "2s",
-              action: ScriptAction.REPLACE_TYPING,
-              elementId: "el_0",
-              text: "flex gap-3",
-              delay: 60,
+              text: " size-32 bg-slate-200 dark:bg-white",
+              delay: 50
             },
             {
               time: "5s",
@@ -78,70 +79,75 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
               elementId: "el_0.el_1.el_1.el_1",
               from: "icon-red-900-md",
               to: "icon-",
-              skipCommit: true,
+              skipCommit: true
             },
             {
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_1.el_1.el_1",
-              text: "sky-500",
+              text: "sky-500"
             },
             {
               time: "5s",
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_1.el_1.el_1",
-              text: "-lg",
+              text: "-lg"
             },
             {
               time: "2s",
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_1.el_1.el_1",
               text: " dark:icon-white-lg",
-              delay: 30,
+              delay: 30
             },
             {
               time: "1s",
               action: ScriptAction.UPDATE_TYPING,
               elementId: "el_0.el_1.el_1.el_1",
-              text: " mx-1",
+              text: " mx-1"
             },
             {
               time: "30s",
               action: ScriptAction.REPLACE_TYPING,
               elementId: "el_0.el_1.el_1.el_1",
-              text: "icon-slate-900-sm dark:icon-red-500-sm",
+              text: "icon-slate-900-sm dark:icon-red-500-sm"
             },
             {
               action: ScriptAction.UPDATE,
               elementId: "el_0",
-              text: "",
+              text: "h-32"
             },
             {
               action: ScriptAction.UPDATE,
               elementId: "el_0.el_0",
-              text: "w-32 h-32",
+              text: "size-10"
             },
             {
-              action: ScriptAction.RESTART,
-            },
+              action: ScriptAction.RESTART
+            }
           ]}
         >
-          <div>
-            <RcRocketIcon className="w-32 h-32" />
+          <div className="h-32">
+            <RcRocketIcon data-cb-tag="RcRocketIcon" className="size-10" />
             <div>
               <div className="text-slate-900 text-2xl font-light dark:text-white mt-2">
-                <RocketIconsText />
+                <RocketIconsText data-cb-tag="RocketIconsText" />
               </div>
               <div className="mr-2">
                 Styling in a way
-                <RcRocketIcon className="icon-slate-900-sm dark:icon-red-500-sm" />
-                you've never seen before.
+                <RcRocketIcon
+                  data-cb-tag="RcRocketIcon"
+                  className="icon-slate-900-sm dark:icon-red-500-sm"
+                />
+                you&apos;ve never seen before.
               </div>
-              <div className="mt-0.5 text-xs leading-6">
-                A funny way handling icons
-              </div>
+              <div className="mt-0.5 text-xs leading-6">A funny way handling icons</div>
             </div>
           </div>
         </AnimatedCodeBlock>
+      </div>
+
+      <div className="mt-5 md:mt-0 w-full max-w-7xl">
+        <Footer />
       </div>
     </div>
   );

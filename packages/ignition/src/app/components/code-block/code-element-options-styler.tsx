@@ -4,7 +4,7 @@ import CodeStyler from "./code-styler";
 import CodeElementBlock from "./code-element-block";
 import { useState } from "react";
 import { Languages, PropsWithClassName } from "@/types";
-import { useLocale } from "@/app/locales";
+import { withLocale } from "@/app/locales";
 
 type CodeElementOptionsProps = {
   locale: Languages;
@@ -20,14 +20,15 @@ const CodeElementOptionsStyler = ({
   options,
   component,
   className,
-  showMore,
+  showMore
 }: CodeElementOptionsProps) => {
+  const { config } = withLocale(locale);
   const tabs = [CodeElementTabs.DEFAULT, ...options];
   const allowSelectionUntil = tabs.length;
   showMore &&
     tabs.push({
       id: CodeElementTabs.MORE,
-      name: `... ${useLocale(locale).config("code-block").more}`,
+      name: `... ${config("code-block").more}`
     });
   const [selected, setSelected] = useState<number>(0);
 
@@ -51,7 +52,7 @@ const CodeElementOptionsStyler = ({
         className={className}
         component={component}
         attrs={{
-          className: tabs[selected] !== "default" ? getSelectedTabName() : "",
+          className: tabs[selected] !== "default" ? getSelectedTabName() : ""
         }}
       />
     </CodeStyler>
