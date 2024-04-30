@@ -5,20 +5,23 @@ on:
     branches:
       - main
 
-env:
-  NODE_VERSION: 18
-
 permissions: write-all
+
+env:
+  NODE_VERSION: "18.x"
+  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
+  PRE_RELEASE_TAG: ${{ vars.PRE_RELEASE_TAG }}
+  AUTOMATION_USER_NAME: ${{ vars.AUTOMATION_USER_NAME }}
+  AUTOMATION_USER_EMAIL: ${{ vars.AUTOMATION_USER_EMAIL }}
+  PENDING_TAG: ${{ vars.PENDING_TAG }}
+  PENDING_RELEASE_RUN_ID: ${{ vars.PENDING_RELEASE_RUN_ID }}
 
 jobs:
   create-tag:
+    name: Create Tag
     runs-on: ubuntu-latest
-    env:
-      NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
-      PRE_RELEASE_TAG: ${{ vars.PRE_RELEASE_TAG }}
 
-    outputs:
-      tag-name: ${{ steps.prepare-release.outputs.TAG_NAME }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,53 +31,27 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
-
-      - name: Install packages
-        run: npm install
-
-      - name: Run tests
-        run: npm run test-all
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Setup git user
         run: |
-          git config user.name "Astronaut"
-          git config user.email "contact@rocketclimb.io"
+          git config user.name ${{ env.AUTOMATION_USER_NAME }}
+          git config user.email ${{ env.AUTOMATION_USER_EMAIL }}
 
-      - name: Prepare tag or release
-        id: prepare-release
+      - name: Creating Tag ${{ env.PENDING_TAG }}
         run: |
-          echo "TAG_NAME=$(npm run release | grep v)" >> $GITHUB_OUTPUT
-
-      - name: Creating Tag
-        run: |
-          git tag -a ${{ steps.prepare-release.outputs.TAG_NAME }} -m "${{ steps.prepare-release.outputs.TAG_NAME }}" && git push origin ${{ steps.prepare-release.outputs.TAG_NAME }}  --no-verify
-
-      - name: Get genereated package name
-        if: contains(steps.prepare-release.outputs.TAG_NAME, 'release')
-        id: generated-pkg-name
-        run: echo "PKG_FILE=$(ls *.tgz)" >> $GITHUB_OUTPUT
-
-      - name: Upload artifacts to release job
-        if: contains(steps.prepare-release.outputs.TAG_NAME, 'release')
-        uses: actions/upload-artifact@v4
-        with:
-          name: artifacts
-          path: |
-            release-notes.md
-            ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
+          git tag --force -a ${{ env.PENDING_TAG }} -m "${{ env.PENDING_TAG }}" && git push origin ${{ env.PENDING_TAG }}  --no-verify
 
   create-release:
-    if: contains(needs.create-tag.outputs.tag-name, 'release')
+    if: contains(vars.PENDING_TAG, 'release')
     runs-on: ubuntu-latest
     needs: create-tag
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
+      - run: echo "Generating the Release for  '${{ env.PENDING_TAG }}'"
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: "https://registry.npmjs.org"
           always-auth: true
 
@@ -82,6 +59,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: artifacts
+          github-token: ${{ secrets.GH_ACTIONS }} # token with actions:read permissions on target repo
+          repository: programad/ritest
+          run-id: ${{ env.PENDING_RELEASE_RUN_ID }}
 
       - name: Show config
         run: cat /home/runner/work/_temp/.npmrc
@@ -98,7 +78,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ needs.create-tag.outputs.tag-name }}
+          tag_name: ${{ env.PENDING_TAG  }}
           body_path: ${{ github.workspace }}/release-notes.md
           token: ${{ secrets.GITHUB_TOKEN }}
           files: |
