@@ -1,13 +1,9 @@
-[![All Contributors](https://img.shields.io/github/all-contributors/rocketclimb/rocketicons?color=ee8449&style=flat-square)](#contributors)
-
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/rocketclimb/rocketicons/develop/packages/ignition/public/logo-rocketicons-white-nobg-512.png">
   <img alt="Text changing depending on mode. Light: 'So light!' Dark: 'So dark!'" src="https://raw.githubusercontent.com/rocketclimb/rocketicons/develop/packages/ignition/public/logo-rocketicons-black-nobg-512.png">
 </picture>
 
-| Name        |                                                                                           Quality Gate                                                                                            |
-| :---------- | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| development | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rocketclimb_rocketicons&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=rocketclimb_rocketicons) |
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rocketclimb_rocketicons&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=rocketclimb_rocketicons) [![All Contributors](https://img.shields.io/github/all-contributors/rocketclimb/rocketicons?color=ee8449&style=flat-square)](#contributors)
 
 ## Introduction
 
