@@ -5,20 +5,26 @@ on:
     branches:
       - main
 
-env:
-  NODE_VERSION: 18
-
 permissions: write-all
+
+env:
+  NODE_VERSION: "18.x"
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
+  PRE_RELEASE_TAG: ${{ vars.PRE_RELEASE_TAG }}
+  AUTOMATION_USER_NAME: ${{ vars.AUTOMATION_USER_NAME }}
+  AUTOMATION_USER_EMAIL: ${{ vars.AUTOMATION_USER_EMAIL }}
 
 jobs:
   create-tag:
+    name: Create Tag
     runs-on: ubuntu-latest
-    env:
-      NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
-      PRE_RELEASE_TAG: ${{ vars.PRE_RELEASE_TAG }}
 
     outputs:
-      tag-name: ${{ steps.prepare-release.outputs.TAG_NAME }}
+      latest-workflow-run-id: ${{ steps.get-latest-workflow-run.outputs.LATEST_WORKFLOW_RUN_ID }}
+      pending-tag: ${{ steps.set-tag.outputs.PENDING_TAG }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,60 +34,53 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
+          node-version: ${{ env.NODE_VERSION }}
 
-      - name: Install packages
-        run: npm install
+      - name: Getting Latest Workflow Run ID
+        id: get-latest-workflow-run
+        run: |
+          echo "LATEST_WORKFLOW_RUN_ID=$(curl -L -H 'Accept: application/vnd.github+json' -H 'Authorization: Bearer ${{ env.GH_TOKEN }}' -H 'X-GitHub-Api-Version: 2022-11-28' '${{ github.api_url }}/actions/workflows/prepare-release.yml/runs?status=success&per_page=1' | jq '.workflow_runs[0].id')" >> $GITHUB_OUTPUT
 
-      - name: Run tests
-        run: npm run test-all
+      - name: Download tag artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: tag-artifact
+          github-token: ${{ env.GH_TOKEN }}
+          run-id: ${{ steps.get-latest-workflow-run.outputs.LATEST_WORKFLOW_RUN_ID }}
+
+      - name: Set tag as environment variable
+        id: set-tag
+        run: |
+          echo "PENDING_TAG=$(cat .tagrc)" >> $GITHUB_OUTPUT
 
       - name: Setup git user
         run: |
-          git config user.name "Astronaut"
-          git config user.email "contact@rocketclimb.io"
+          git config user.name ${{ env.AUTOMATION_USER_NAME }}
+          git config user.email ${{ env.AUTOMATION_USER_EMAIL }}
 
-      - name: Prepare tag or release
-        id: prepare-release
+      - name: Creating Tag ${{ steps.set-tag.outputs.PENDING_TAG }}
         run: |
-          echo "TAG_NAME=$(npm run release | grep v)" >> $GITHUB_OUTPUT
-
-      - name: Creating Tag
-        run: |
-          git tag -a ${{ steps.prepare-release.outputs.TAG_NAME }} -m "${{ steps.prepare-release.outputs.TAG_NAME }}" && git push origin ${{ steps.prepare-release.outputs.TAG_NAME }}  --no-verify
-
-      - name: Get genereated package name
-        if: contains(steps.prepare-release.outputs.TAG_NAME, 'release')
-        id: generated-pkg-name
-        run: echo "PKG_FILE=$(ls *.tgz)" >> $GITHUB_OUTPUT
-
-      - name: Upload artifacts to release job
-        if: contains(steps.prepare-release.outputs.TAG_NAME, 'release')
-        uses: actions/upload-artifact@v4
-        with:
-          name: artifacts
-          path: |
-            release-notes.md
-            ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
+          git tag --force -a ${{ steps.set-tag.outputs.PENDING_TAG }} -m "${{ steps.set-tag.outputs.PENDING_TAG }}" && git push origin ${{ steps.set-tag.outputs.PENDING_TAG }}  --no-verify
 
   create-release:
-    if: contains(needs.create-tag.outputs.tag-name, 'release')
     runs-on: ubuntu-latest
     needs: create-tag
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    if: contains(needs.create-tag.outputs.pending-tag, 'release')
     steps:
+      - run: echo "Generating the Release for  '${{ needs.create-tag.outputs.pending-tag }}'"
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "18.x"
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: "https://registry.npmjs.org"
           always-auth: true
 
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: artifacts
+          name: deployable-artifacts
+          github-token: ${{ env.GH_TOKEN }}
+          run-id: ${{ needs.create-tag.outputs.latest-workflow-run-id }}
 
       - name: Show config
         run: cat /home/runner/work/_temp/.npmrc
@@ -98,8 +97,8 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ needs.create-tag.outputs.tag-name }}
+          tag_name: ${{ needs.create-tag.outputs.pending-tag  }}
           body_path: ${{ github.workspace }}/release-notes.md
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ env.GH_TOKEN }}
           files: |
             ${{ steps.get-package-name.outputs.PKG_NAME }}
