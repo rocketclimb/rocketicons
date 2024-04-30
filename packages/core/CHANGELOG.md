@@ -9,6 +9,10 @@
 
 - changelog title format ([d66ca4d](https://github.com/rocketclimb/rocketicons/commit/d66ca4d60c9d595f75a65352d3aba432a9e3b173))
 
+### Continuous integration
+
+- **releaser** bump packages versions and update changelog for release/liftoff ([45f1f70](https://github.com/rocketclimb/rocketicons/commit/45f1f70b81a84c35147a69065bcfc476decc7a2d))
+
 ## [0.1.0](https://github.com/rocketclimb/rocketicons/compare/v0.0.0...v0.1.0) (2024-04-28)
 
 ### Features
