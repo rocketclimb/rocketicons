@@ -98,7 +98,7 @@ const Page = async ({ params: { lang, collection } }: PageProps) => {
           href={info.projectUrl}
           className="border-b border-sky-500 pb-0.5 hover:border-b-2 lg:pb-0 lg:border-none lg:cursor-default"
         >
-          <Title className="grow truncate">{info.name}</Title>
+          <Title className="grow truncate max-w-52 sm:max-w-64 md:max-w-none">{info.name}</Title>
         </DocLink>
         <div className="lg:my-3 order-last">
           <IconCountBadge lang={lang} count={info.icons.length} />
