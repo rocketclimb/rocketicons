@@ -1,3 +1,15 @@
+## [0.2.0-alpha](https://github.com/rocketclimb/rocketicons/compare/v0.1.0...v0.2.0) (2024-04-30)
+
+### Features
+
+- **icons** initial version set ([22fab59](https://github.com/rocketclimb/rocketicons/commit/22fab597d3528ee244f97d0a2a94eacab1c9dc20))
+- **icons**  sh bumped version ([dbb6177](https://github.com/rocketclimb/rocketicons/commit/dbb61779c50ce380f3a356738f928b381d4813b7))
+- **icons** fixing branch changes ([d392dfb](https://github.com/rocketclimb/rocketicons/commit/d392dfbce5cfd53ccd3ae8819aecae40d3d77886))
+
+### Documentation
+
+- changelog title format ([d66ca4d](https://github.com/rocketclimb/rocketicons/commit/d66ca4d60c9d595f75a65352d3aba432a9e3b173))
+
 ## [0.1.0](https://github.com/rocketclimb/rocketicons/compare/v0.0.0...v0.1.0) (2024-04-28)
 
 ### Features
