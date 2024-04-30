@@ -2,25 +2,34 @@ import { siteConfig } from "@/config/site";
 import { serverEnv } from "@/env/server";
 import { IconsManifest } from "rocketicons/data";
 
+export type ChangeFrequency =
+  | "always"
+  | "hourly"
+  | "daily"
+  | "weekly"
+  | "monthly"
+  | "yearly"
+  | "never";
+
 type SitemapRow = {
   url: string;
-  lastModified?: string | Date;
-  changeFrequency?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
+  lastModified?: Date;
+  changeFrequency?: ChangeFrequency;
   priority?: number;
   alternateRefs: Array<{ href: string; hreflang: string }>;
 };
 
 type Sitemap = Array<SitemapRow>;
 const mapAlternate = ({ href, hreflang }: { href: string; hreflang: string }) =>
-  `<xhtml:link rel="alternate" hreflang="${hreflang}" href="${href}"/>`;
+  `<xhtml:link rel="alternate" hreflang="${hreflang}" href="${encodeURI(href)}"/>`;
 
 const mapRowToUrl = (row: SitemapRow) =>
   `<url>
-        <loc>${row.url}</loc>
-        <lastmod>${row.lastModified || ""}</lastmod>
+        <loc>${encodeURI(row.url)}</loc>
+        <lastmod>${row.lastModified?.toISOString() || ""}</lastmod>
         ${row.alternateRefs.map(mapAlternate).join("\n        ")}
         <changefreq>${row.changeFrequency ?? ""}</changefreq>
-        <priority>${row.priority?.toFixed(1)}</priority>
+        <priority>${row.priority?.toFixed(1) ?? 0.5}</priority>
     </url>`;
 
 const sitemapToXml = (sitemap: SitemapRow[]) => `<?xml version="1.0" encoding="UTF-8"?>
@@ -33,7 +42,11 @@ const sitemapToXml = (sitemap: SitemapRow[]) => `<?xml version="1.0" encoding="U
 </urlset>
 `;
 
-const generateSitemapEntry = (path?: string, lastModified?: Date): SitemapRow => {
+const generateSitemapEntry = (
+  path?: string,
+  lastModified?: Date,
+  changefreq?: ChangeFrequency
+): SitemapRow => {
   const { locales } = siteConfig;
   const urlWithPath = `${serverEnv.NEXT_PUBLIC_APP_URL}${path ?? ""}`;
 
@@ -51,7 +64,8 @@ const generateSitemapEntry = (path?: string, lastModified?: Date): SitemapRow =>
     alternateRefs: Object.entries(alternates).map(([hreflang, href]) => ({
       hreflang,
       href
-    }))
+    })),
+    changeFrequency: changefreq ?? "daily"
   };
 };
 
