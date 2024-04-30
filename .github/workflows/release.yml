@@ -9,18 +9,21 @@ permissions: write-all
 
 env:
   NODE_VERSION: "18.x"
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
   PRE_RELEASE_TAG: ${{ vars.PRE_RELEASE_TAG }}
   AUTOMATION_USER_NAME: ${{ vars.AUTOMATION_USER_NAME }}
   AUTOMATION_USER_EMAIL: ${{ vars.AUTOMATION_USER_EMAIL }}
-  PENDING_TAG: ${{ vars.PENDING_TAG }}
-  PENDING_RELEASE_RUN_ID: ${{ vars.PENDING_RELEASE_RUN_ID }}
 
 jobs:
   create-tag:
     name: Create Tag
     runs-on: ubuntu-latest
+
+    outputs:
+      latest-workflow-run-id: ${{ steps.get-latest-workflow-run.outputs.LATEST_WORKFLOW_RUN_ID }}
+      pending-tag: ${{ steps.set-tag.outputs.PENDING_TAG }}
 
     steps:
       - name: Checkout
@@ -33,21 +36,38 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Getting Latest Workflow Run ID
+        id: get-latest-workflow-run
+        run: |
+          echo "LATEST_WORKFLOW_RUN_ID=$(curl -L -H 'Accept: application/vnd.github+json' -H 'Authorization: Bearer ${{ env.GH_TOKEN }}' -H 'X-GitHub-Api-Version: 2022-11-28' '${{ github.api_url }}/actions/workflows/prepare-release.yml/runs?status=success&per_page=1' | jq '.workflow_runs[0].id')" >> $GITHUB_OUTPUT
+
+      - name: Download tag artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: tag-artifact
+          github-token: ${{ env.GH_TOKEN }}
+          run-id: ${{ steps.get-latest-workflow-run.outputs.LATEST_WORKFLOW_RUN_ID }}
+
+      - name: Set tag as environment variable
+        id: set-tag
+        run: |
+          echo "PENDING_TAG=$(cat .tagrc)" >> $GITHUB_OUTPUT
+
       - name: Setup git user
         run: |
           git config user.name ${{ env.AUTOMATION_USER_NAME }}
           git config user.email ${{ env.AUTOMATION_USER_EMAIL }}
 
-      - name: Creating Tag ${{ env.PENDING_TAG }}
+      - name: Creating Tag ${{ steps.set-tag.outputs.PENDING_TAG }}
         run: |
-          git tag --force -a ${{ env.PENDING_TAG }} -m "${{ env.PENDING_TAG }}" && git push origin ${{ env.PENDING_TAG }}  --no-verify
+          git tag --force -a ${{ steps.set-tag.outputs.PENDING_TAG }} -m "${{ steps.set-tag.outputs.PENDING_TAG }}" && git push origin ${{ steps.set-tag.outputs.PENDING_TAG }}  --no-verify
 
   create-release:
-    if: contains(vars.PENDING_TAG, 'release')
     runs-on: ubuntu-latest
     needs: create-tag
+    if: contains(needs.create-tag.outputs.pending-tag, 'release')
     steps:
-      - run: echo "Generating the Release for  '${{ env.PENDING_TAG }}'"
+      - run: echo "Generating the Release for  '${{ needs.create-tag.outputs.pending-tag }}'"
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -58,10 +78,9 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: artifacts
-          github-token: ${{ secrets.GH_ACTIONS }} # token with actions:read permissions on target repo
-          repository: programad/ritest
-          run-id: ${{ env.PENDING_RELEASE_RUN_ID }}
+          name: deployable-artifacts
+          github-token: ${{ env.GH_TOKEN }}
+          run-id: ${{ needs.create-tag.outputs.latest-workflow-run-id }}
 
       - name: Show config
         run: cat /home/runner/work/_temp/.npmrc
@@ -78,8 +97,8 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.PENDING_TAG  }}
+          tag_name: ${{ needs.create-tag.outputs.pending-tag  }}
           body_path: ${{ github.workspace }}/release-notes.md
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ env.GH_TOKEN }}
           files: |
             ${{ steps.get-package-name.outputs.PKG_NAME }}

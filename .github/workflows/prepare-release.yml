@@ -63,11 +63,23 @@ jobs:
         id: generated-pkg-name
         run: echo "PKG_FILE=$(ls *.tgz)" >> $GITHUB_OUTPUT
 
-      - name: Upload artifacts to release job
+      - name: Generate Tag artifact file
+        if: contains(steps.prepare-release.outputs.TAG_NAME, 'release')
+        run: |
+          echo "${{ steps.prepare-release.outputs.TAG_NAME }}" >> .tagrc
+
+      - name: Upload tag artifact to release job
         if: contains(steps.prepare-release.outputs.TAG_NAME, 'release')
         uses: actions/upload-artifact@v4
         with:
-          name: artifacts
+          name: tag-artifact
+          path: .tagrc
+
+      - name: Upload deployable artifacts to release job
+        if: contains(steps.prepare-release.outputs.TAG_NAME, 'release')
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployable-artifacts
           path: |
             release-notes.md
             ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
@@ -91,19 +103,3 @@ jobs:
           else
             echo "No tag name was received from the previous job"
           fi
-
-      - name: Set PENDING_TAG Variable
-        uses: mmoyaferrer/set-github-variable@v1.0.0
-        with:
-          name: "PENDING_TAG"
-          value: ${{ env.TAG_NAME }}
-          repository: programad/ritest
-          token: ${{ secrets.GH_ACTIONS }}
-
-      - name: Set PENDING_RELEASE_RUN_ID
-        uses: mmoyaferrer/set-github-variable@v1.0.0
-        with:
-          name: "PENDING_RELEASE_RUN_ID"
-          value: ${{ github.run_id }}
-          repository: programad/ritest
-          token: ${{ secrets.GH_ACTIONS }}
