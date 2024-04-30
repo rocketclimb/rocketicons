@@ -41,7 +41,7 @@
     "@commitlint/config-conventional": "^19.2.2",
     "@jest/globals": "^29.7.0",
     "@typescript-eslint/eslint-plugin": "^7.7.1",
-    "@rocketclimb/sh": "0.1.11",
+    "@rocketclimb/sh": "0.1.14",
     "conventional-commits-parser": "^5.0.0",
     "eslint-plugin-react": "^7.34.1",
     "husky": "^9.0.11",
