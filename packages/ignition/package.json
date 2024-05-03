@@ -1,6 +1,6 @@
 {
   "name": "ignition",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "scripts": {
     "prebuild": "test -z $SKIP_GENERATE_IGNITION_STATICS && npm run generate-statics || echo '[IGNITION] skip statics generate'",
