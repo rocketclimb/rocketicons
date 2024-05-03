@@ -33,6 +33,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.head_ref }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -95,7 +96,7 @@ jobs:
 
       - name: Get genereated package name
         id: generated-pkg-name
-        run: echo "PKG_FILE=$(ls *.tgz)" >> $GITHUB_OUTPUT
+        run: echo "PKG_FILE=$(ls -1 -t *.tgz | head -1)" >> $GITHUB_OUTPUT
 
       - name: Generate artifact for tag ${{ steps.prepare-release.outputs.TAG_NAME }}
         run: |
