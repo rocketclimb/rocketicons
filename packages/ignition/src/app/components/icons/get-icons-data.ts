@@ -1,3 +1,4 @@
+import * as changeCase from "change-case";
 import { IconsManifestType } from "rocketicons";
 import { CollectionID, License } from "rocketicons/data";
 import { IconsManifest } from "@/app/data-helpers/icons/manifest";
@@ -5,6 +6,9 @@ import { IconsManifest } from "@/app/data-helpers/icons/manifest";
 type IconsManifest = Map<CollectionID, IconsManifestType<CollectionID, License>>;
 
 let iconsManifest: IconsManifest;
+
+export const asCompName = (icon: string) =>
+  !icon.includes("-") ? icon : changeCase.pascalCase(icon);
 
 export const getIconsManifest = () => IconsManifest;
 
@@ -18,7 +22,7 @@ export const getCollectionsInfo = (id: CollectionID) => {
 
   return {
     exists: (icon?: string) =>
-      iconsManifest.has(id) && (!icon || iconsManifest.get(id)?.icons.includes(icon)),
+      iconsManifest.has(id) && (!icon || iconsManifest.get(id)?.icons.includes(asCompName(icon))),
     get: () => iconsManifest.get(id)
   };
 };

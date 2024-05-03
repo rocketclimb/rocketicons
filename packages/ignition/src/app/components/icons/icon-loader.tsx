@@ -1,10 +1,13 @@
-import { IconProps, IconType } from "rocketicons";
+import { CollectionDataInfo, IconInfo, IconProps, IconType } from "rocketicons";
 import { RcRocketIcon } from "rocketicons/rc";
-import { CollectionID } from "rocketicons/data";
+import { CollectionID, License } from "rocketicons/data";
 import IconsLoader, { HandlerPros } from "@/data-helpers/icons/icons-loader";
-import { getCollectionsInfo } from "./get-icons-data";
+import { getCollectionsInfo, asCompName } from "./get-icons-data";
 
-export type IconHandlerProps = { Icon: IconType };
+export type IconHandlerProps = {
+  Icon: IconType;
+  iconInfo: IconInfo;
+};
 
 type IconProxyHandlerProps<T extends IconHandlerProps> = {
   icon: string;
@@ -16,18 +19,21 @@ const IconProxyHandler = <T extends IconHandlerProps>({
   icon,
   ...props
 }: IconProxyHandlerProps<T>) =>
-  function IconProxyLoader({ collection }: HandlerPros) {
-    const Icon = collection[icon];
+  function IconProxyLoader({ collection, manifest, ..._props }: HandlerPros) {
+    const iconId = asCompName(icon);
+    const Icon = collection[iconId];
+    const iconInfo = manifest.icons[iconId];
+    props = { ..._props, ...props };
     return (
       // @ts-ignore TS2322
-      (Handler && <Handler Icon={Icon} {...props} />) || <Icon {...props} />
+      (Handler && <Handler Icon={Icon} iconInfo={iconInfo} {...props} />) || <Icon {...props} />
     );
   };
 
 type IconLoaderProps<T extends IconHandlerProps> = {
   collectionId: CollectionID;
   Loading?: () => JSX.Element;
-} & Omit<T, "Icon"> &
+} & Omit<T, "Icon" | "iconInfo"> &
   IconProxyHandlerProps<T>;
 
 const IconLoader = <T extends IconHandlerProps>({
@@ -40,14 +46,14 @@ const IconLoader = <T extends IconHandlerProps>({
   if (!getCollectionsInfo(collectionId).exists(icon)) {
     return (
       // @ts-ignore TS2322
-      (Handler && <Handler Icon={RcRocketIcon} />) || <RcRocketIcon {...props} />
+      (Handler && <Handler Icon={RcRocketIcon} {...props} />) || <RcRocketIcon {...props} />
     );
   }
 
   return (
     <IconsLoader
       collectionId={collectionId}
-      Handler={IconProxyHandler({ Handler, icon, ...props })}
+      Handler={IconProxyHandler({ Handler, icon, ...{ collectionId, ...props } })}
       Loading={Loading}
     />
   );
