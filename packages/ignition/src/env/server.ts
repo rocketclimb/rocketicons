@@ -4,6 +4,7 @@ type serverSchema = {
   NEXT_PUBLIC_ALGOLIA_APPLICATION_ID: string;
   NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY: string;
   ALGOLIA_ADMIN_KEY: string;
+  SKIP_BUILD_STATIC_GENERATION: boolean;
 };
 
 export const serverEnv = {
@@ -13,5 +14,6 @@ export const serverEnv = {
   NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY: String(
     process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY
   ),
-  ALGOLIA_ADMIN_KEY: String(process.env.ALGOLIA_ADMIN_KEY)
+  ALGOLIA_ADMIN_KEY: String(process.env.ALGOLIA_ADMIN_KEY),
+  SKIP_BUILD_STATIC_GENERATION: Boolean(process.env.SKIP_BUILD_STATIC_GENERATION)
 } satisfies serverSchema;

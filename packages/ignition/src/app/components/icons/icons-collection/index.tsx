@@ -1,4 +1,3 @@
-"use client";
 import IconsLoader from "@/data-helpers/icons/icons-loader";
 import Content from "./content";
 import { IconsCollectionsProps } from "./types";

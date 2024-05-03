@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/rocketclimb/rocketicons/compare/v0.2.0-release...v0.2.1) (2024-05-03)
+
+### Bug Fixes
+
+- **opengraph** custom metadata improvements ([4cc8016](https://github.com/rocketclimb/rocketicons/commit/4cc801673d6958cc143d72424738185192f44428))
+- change collection page structure improving cache and speed load ([aed3e4a](https://github.com/rocketclimb/rocketicons/commit/aed3e4ab568db4eb0dfd2db756a206d13cc88fa1))
+
 ## [0.2.0](https://github.com/rocketclimb/rocketicons/compare/v0.1.0...v0.2.0) (2024-04-30)
 
 ### Features

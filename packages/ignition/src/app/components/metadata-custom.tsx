@@ -7,7 +7,9 @@ const CustomMetadata = (lang: Languages, title?: string, description?: string): 
   const { name, url, defaultLocale } = siteConfig;
   const brand = withLocale(lang).config("brand");
 
-  const pageTitle = `${title ?? name}` + (title?.endsWith(siteConfig.name) ? "" : ` | ${name}`);
+  const pageTitle =
+    `${title ?? name}` +
+    (title?.endsWith(siteConfig.name) ? "" : ` | ${name} | ${brand["title-suffix"]}`);
   const pageDescription = description ?? brand.description;
   return {
     title: pageTitle,

@@ -2,13 +2,9 @@ name: Prepare Release
 
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [opened, synchronize, reopened]
     branches:
       - main
-  push:
-    branches:
-      - "release/**"
-      - "hotfix/**"
 
 env:
   NODE_VERSION: "18.x"
@@ -24,26 +20,66 @@ jobs:
       PRE_RELEASE_TAG: ${{ vars.PRE_RELEASE_TAG }}
       AUTOMATION_USER_NAME: ${{ vars.AUTOMATION_USER_NAME }}
       AUTOMATION_USER_EMAIL: ${{ vars.AUTOMATION_USER_EMAIL }}
+      SKIP_IGNITION_BUILD: true
 
     outputs:
       tag-name: ${{ steps.prepare-release.outputs.TAG_NAME }}
+      dependency-hash: ${{ steps.extract-dependencies.outputs.DEPENDENCY_HASH }}
+      rocketicons-tgz: ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
+      rocketicons-artifact-id: ${{ contains(steps.prepare-release.outputs.TAG_NAME, 'release') == true && 'deployable-artifacts' || 'rocketicons-pkg' }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.head_ref }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Extract Dependencies
+        id: extract-dependencies
+        run: echo "DEPENDENCY_HASH=$(npx --yes @rocketclimb/sh extract-dependencies)" >> $GITHUB_OUTPUT
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        id: npm-cache
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ steps.extract-dependencies.outputs.DEPENDENCY_HASH }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Cache icons
+        uses: actions/cache@v4
+        id: icons-cache
+        with:
+          path: |
+            packages/generator/icons
+          key: ${{ runner.os }}-icons-${{ hashFiles('packages/generator/src/definitions.ts') }}
+          restore-keys: |
+            ${{ runner.os }}-icons-
+
       - name: Install packages
-        run: npm install
+        if: steps.npm-cache.outputs.cache-hit != 'true'
+        run: npm install --ignore-scripts
+
+      - name: Icons Fetch
+        if: steps.icons-cache.outputs.cache-hit != 'true'
+        run: npm run fetch --workspace=packages/generator
+
+      - name: Build All
+        run: npm run build-all
 
       - name: Run tests
         run: npm run test-all
+
+      - name: Build Ignition statics
+        run: npm run generate-statics:all-icons --workspace=packages/ignition
 
       - name: Setup git user
         run: |
@@ -59,17 +95,14 @@ jobs:
         run: echo "TAG_NAME=${{ steps.prepare-release.outputs.TAG_NAME }}" >> $GITHUB_ENV
 
       - name: Get genereated package name
-        if: contains(steps.prepare-release.outputs.TAG_NAME, 'release')
         id: generated-pkg-name
-        run: echo "PKG_FILE=$(ls *.tgz)" >> $GITHUB_OUTPUT
+        run: echo "PKG_FILE=$(ls -1 -t *.tgz | head -1)" >> $GITHUB_OUTPUT
 
-      - name: Generate Tag artifact file
-        if: contains(steps.prepare-release.outputs.TAG_NAME, 'release')
+      - name: Generate artifact for tag ${{ steps.prepare-release.outputs.TAG_NAME }}
         run: |
           echo "${{ steps.prepare-release.outputs.TAG_NAME }}" >> .tagrc
 
       - name: Upload tag artifact to release job
-        if: contains(steps.prepare-release.outputs.TAG_NAME, 'release')
         uses: actions/upload-artifact@v4
         with:
           name: tag-artifact
@@ -84,22 +117,25 @@ jobs:
             release-notes.md
             ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
 
-  set-variables:
-    name: Set Variables
-    runs-on: ubuntu-latest
-    needs: prepare-artifacts
-    env:
-      TAG_NAME: ${{needs.prepare-artifacts.outputs.tag-name}}
-    steps:
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Upload rocketicons tgz as artifact
+        if: contains(steps.prepare-release.outputs.TAG_NAME, 'release') == false
+        uses: actions/upload-artifact@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          name: rocketicons-pkg
+          path: ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
 
-      - name: Identifying tag name to be used
-        run: |
-          if [[ -n "$TAG_NAME" ]]; then
-            echo "We got $TAG_NAME as TAG_NAME from the previous job."
-          else
-            echo "No tag name was received from the previous job"
-          fi
+      - name: Upload data-helpers
+        uses: actions/upload-artifact@v4
+        with:
+          name: data-helpers
+          path: packages/ignition/src/app/data-helpers
+
+  publish-ignition:
+    needs: prepare-artifacts
+    uses: ./.github/workflows/publish-ignition.yml
+    with:
+      dependencies-hash: ${{ needs.prepare-artifacts.outputs.dependency-hash }}
+      rocketicons-tgz: ${{ needs.prepare-artifacts.outputs.rocketicons-tgz }}
+      rocketicons-artifact-id: ${{ needs.prepare-artifacts.outputs.rocketicons-artifact-id }}
+    secrets:
+      token: ${{ secrets.VERCEL_TOKEN }}

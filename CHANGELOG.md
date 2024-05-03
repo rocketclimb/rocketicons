@@ -1,3 +1,14 @@
+## [0.2.1](https://github.com/rocketclimb/rocketicons/compare/v0.2.0-release...v0.2.1) (2024-05-03)
+
+### Bug Fixes
+
+- **opengraph** custom metadata improvements [[ignition](./packages/ignition/CHANGELOG.md)] ([4cc8016](https://github.com/rocketclimb/rocketicons/commit/4cc801673d6958cc143d72424738185192f44428))
+- change collection page structure improving cache and speed load [[ignition](./packages/ignition/CHANGELOG.md)] ([aed3e4a](https://github.com/rocketclimb/rocketicons/commit/aed3e4ab568db4eb0dfd2db756a206d13cc88fa1))
+
+### Continuous integration
+
+- release scripts updated ([430f02b](https://github.com/rocketclimb/rocketicons/commit/430f02bf721e1f75cfad400b9934f838c2a19a38))
+
 ## [0.2.0](https://github.com/rocketclimb/rocketicons/compare/v0.1.0...v0.2.0) (2024-04-30)
 
 ### Features

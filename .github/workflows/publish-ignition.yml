@@ -1,0 +1,138 @@
+name: Publish Ignition
+
+on:
+  workflow_call:
+    inputs:
+      dependencies-hash:
+        required: true
+        type: string
+
+      rocketicons-artifact-id:
+        required: false
+        type: string
+        default: "deployable-artifacts"
+
+      rocketicons-tgz:
+        required: false
+        type: string
+        default: ""
+
+      node-version:
+        required: false
+        type: string
+        default: "18.x"
+
+      run-id:
+        required: false
+        type: string
+        default: ${{ github.run_id }}
+
+      env:
+        required: false
+        type: string
+        default: "preview"
+
+      vercel-org-id:
+        required: false
+        type: string
+        default: ${{ vars.VERCEL_ORG_ID }}
+
+      vercel-project-id:
+        required: false
+        type: string
+        default: ${{ vars.VERCEL_PROJECT_ID }}
+
+    secrets:
+      token:
+        required: true
+
+jobs:
+  publish:
+    env:
+      SKIP_GENERATE_IGNITION_STATICS: true
+      NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
+      NEXT_PUBLIC_VERCEL_ENV: ${{ inputs.env }}
+      VERCEL_ORG_ID: ${{ inputs.vercel-org-id }}
+      VERCEL_PROJECT_ID: ${{ inputs.vercel-project-id }}
+
+    runs-on: ubuntu-latest
+    name: Publish Ignition
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Isolate Ignition
+        run: mv packages/ignition .
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        id: npm-cache
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-ignition-node-${{ inputs.dependencies-hash }}
+          restore-keys: |
+            ${{ runner.os }}-ignition-node-
+
+      - name: Cache Next
+        uses: actions/cache@v4
+        id: ignition-cache
+        with:
+          path: |
+            ignition/.next/cache
+          key: ${{ runner.os }}-ignition-cache
+
+      - name: Download rocketicons pkg
+        if: ${{ inputs.rocketicons-tgz != '' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.rocketicons-artifact-id }}
+          run-id: ${{ inputs.run-id }}
+          github-token: ${{ github.token }}
+
+      - name: Download data-helpers
+        uses: actions/download-artifact@v4
+        with:
+          name: data-helpers
+          path: ignition/src/app/data-helpers
+          run-id: ${{ inputs.run-id }}
+          github-token: ${{ github.token }}
+
+      - name: Install packages from tgz
+        if: ${{ inputs.rocketicons-tgz != '' }}
+        working-directory: ./ignition
+        run: npm install ../${{ inputs.rocketicons-tgz }}
+
+      - name: Install Vercel CLI
+        working-directory: ./ignition
+        run: npm install vercel@latest
+
+      - name: Pull Vercel Environment Information
+        working-directory: ./ignition
+        run: npx vercel pull --yes --environment=${{ env.NEXT_PUBLIC_VERCEL_ENV }} --token=${{ secrets.token }}
+
+      - name: Build Ignition
+        if: ${{ env.NEXT_PUBLIC_VERCEL_ENV != 'production' }}
+        working-directory: ./ignition
+        run: npx vercel build --token=${{ secrets.token }}
+
+      - name: Deploy Ignition to Vercel
+        if: ${{ env.NEXT_PUBLIC_VERCEL_ENV != 'production' }}
+        working-directory: ./ignition
+        run: npx vercel deploy --prebuilt --no-wait --token=${{ secrets.token }}
+
+      - name: Build Ignition to Production
+        if: ${{ env.NEXT_PUBLIC_VERCEL_ENV == 'production' }}
+        working-directory: ./ignition
+        run: npx vercel build  --prod --token=${{ secrets.token }}
+
+      - name: Deploy Ignition to Production on Vercel
+        if: ${{ env.NEXT_PUBLIC_VERCEL_ENV == 'production' }}
+        working-directory: ./ignition
+        run: npx vercel deploy --prebuilt --prod --token=${{ secrets.token }}
