@@ -1,6 +1,6 @@
 {
   "name": "ignition",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "scripts": {
     "prebuild": "test -z $SKIP_GENERATE_IGNITION_STATICS && npm run generate-statics || echo '[IGNITION] skip statics generate'",
@@ -28,7 +28,7 @@
     "@vercel/speed-insights": "^1.0.10",
     "algoliasearch": "^4.23.3",
     "change-case": "^5.4.4",
-    "next": "14.1.4",
+    "next": "14.2.3",
     "react": "~18.2",
     "react-dom": "~18.2",
     "react-instantsearch": "^7.7.2",
