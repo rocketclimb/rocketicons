@@ -1,6 +1,6 @@
 {
   "name": "@rocketicons/core",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "main": "./dist/index.js",
   "files": [
@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "build": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json && tsconfig-replace-paths",
-    "postbuild": "rocketclimb-sh cp \"dist-esm/**/*.js\" \"dist/**/*.mjs\"",
+    "postbuild": "rocketclimb-sh cp \"dist-esm/**/*.js\" \"dist/**/*.mjs\" && rocketclimb-sh fix-esm ./dist",
     "clean": "rocketclimb-sh rm -fR dist dist-esm && rocketclimb-sh rm -fR *.tsbuildinfo",
     "clean:o": "rocketclimb-sh rm -fR node_modules",
     "format": "prettier --check . --write --ignore-path ../../.gitignore",

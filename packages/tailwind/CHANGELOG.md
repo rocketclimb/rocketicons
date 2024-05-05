@@ -1,3 +1,9 @@
+## [0.2.1](https://github.com/rocketclimb/rocketicons/compare/v0.2.1...v0.2.2) (2024-05-05)
+
+### Bug Fixes
+
+- **esm module** tailwind plugin and core package ([11fa38a](https://github.com/rocketclimb/rocketicons/commit/11fa38a9385a937f69afc499148b9063728e4594))
+
 ## [0.2.0](https://github.com/rocketclimb/rocketicons/compare/v0.1.0...v0.2.0) (2024-04-30)
 
 ### Features
