@@ -1,6 +1,6 @@
 {
   "name": "ignition",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "scripts": {
     "prebuild": "test -z $SKIP_GENERATE_IGNITION_STATICS && npm run generate-statics || echo '[IGNITION] skip statics generate'",
@@ -45,7 +45,7 @@
     "autoprefixer": "^10.4.19",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.3",
     "typescript": "^5.4.3"
   }
 }
