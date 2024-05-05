@@ -1,3 +1,9 @@
+## [0.2.2](https://github.com/rocketclimb/rocketicons/compare/v0.2.2-release...v0.2.3) (2024-05-05)
+
+### Other
+
+-  ([28cca95](https://github.com/rocketclimb/rocketicons/commit/28cca95f43178e556ac16ef63d7fbf8b1b1cd765))
+
 ## [0.2.1](https://github.com/rocketclimb/rocketicons/compare/v0.2.0-release...v0.2.1) (2024-05-03)
 
 ### Bug Fixes
