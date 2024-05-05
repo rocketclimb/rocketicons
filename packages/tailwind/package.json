@@ -4,8 +4,9 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc --build && tsconfig-replace-paths",
-    "clean": "rocketclimb-sh rm -fR dist *.tsbuildinfo",
+    "build": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json && tsconfig-replace-paths",
+    "postbuild": "rocketclimb-sh cp \"dist-esm/**/*.js\" \"dist/**/*.mjs\" && rocketclimb-sh fix-esm ./dist",
+    "clean": "rocketclimb-sh rm -fR dist dist-esm && rocketclimb-sh rm -fR *.tsbuildinfo",
     "clean:o": "rocketclimb-sh rm -fR node_modules",
     "format": "prettier --check . --write --ignore-path ../../.gitignore",
     "lint": "eslint src/**/*",
