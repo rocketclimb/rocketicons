@@ -1,3 +1,9 @@
+## [0.2.4](https://github.com/rocketclimb/rocketicons/compare/v0.2.2-release...v0.2.3) (2024-05-06)
+
+### Other
+
+- **deps-dev** bump ionicons from 4.6.3 to 7.4.0 ([1d987df](https://github.com/rocketclimb/rocketicons/commit/1d987df793c117e3b28129987b51e7b95a38498a))
+
 ## [0.2.3](https://github.com/rocketclimb/rocketicons/compare/v0.2.1...v0.2.2) (2024-05-05)
 
 ### Bug Fixes

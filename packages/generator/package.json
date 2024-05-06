@@ -1,6 +1,6 @@
 {
   "name": "@rocketicons/generator",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "main": "./dist/index.js",
   "files": [
@@ -31,7 +31,7 @@
     "feather-icons": "^4.29.1",
     "find-package": "^1.0.0",
     "glob-promise": "^6.0.5",
-    "ionicons": "^4.6.3",
+    "ionicons": "^7.4.0",
     "ionicons-5": "npm:ionicons@5",
     "lucide-static": "^0.263.0",
     "react": "18.2.0",
