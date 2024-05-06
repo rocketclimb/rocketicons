@@ -135,6 +135,7 @@ jobs:
       dependencies-hash: ${{ needs.get-dependency-token.outputs.dependency-hash }}
       run-id: ${{ needs.create-tag.outputs.latest-workflow-run-id }}
       env: "production"
+      branch: "main"
 
   publish-ignition-for-release:
     name: Publish Ignition with rocketicons release
@@ -151,3 +152,4 @@ jobs:
       dependencies-hash: ${{ needs.get-dependency-token.outputs.dependency-hash }}
       run-id: ${{ needs.create-tag.outputs.latest-workflow-run-id }}
       env: "production"
+      branch: "main"

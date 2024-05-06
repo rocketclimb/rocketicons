@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import { PropsWithLangParams } from "@/types";
 
 import { withLocale } from "@/locales";
-import CustomMetadata from "@/components/metadata-custom";
+import customMetadata from "@/components/metadata-custom";
 import NumberFormatter from "@/components/number-formatter";
 
 export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
@@ -17,7 +17,7 @@ export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Met
 
   let titleWithNumber = `${title} | ${total} ${icons}`;
 
-  return CustomMetadata(lang, titleWithNumber, descriptionWithNumber);
+  return customMetadata(lang, "page", titleWithNumber, descriptionWithNumber, icons);
 };
 
 const Page = ({ params: { lang } }: PropsWithLangParams) => {

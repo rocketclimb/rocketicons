@@ -10,7 +10,7 @@ import { MdxDoc } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-and-slug-param";
 import { withLocale } from "@/locales/with-locale";
-import CustomMetadata from "@/components/metadata-custom";
+import customMetadata from "@/components/metadata-custom";
 import docs from "@/data-helpers/params/docs.json";
 import { PropsWithLang } from "@/app/types";
 
@@ -43,7 +43,7 @@ export const generateMetadata = ({
     description: string;
   };
 
-  return CustomMetadata(lang, title, description);
+  return customMetadata(lang, "doc", title, description);
 };
 
 type DocFactoryProps = {

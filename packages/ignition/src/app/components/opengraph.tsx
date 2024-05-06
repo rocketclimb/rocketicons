@@ -1,3 +1,5 @@
+import { readFileSync } from "fs";
+import { resolve } from "path";
 import { ImageResponse } from "next/og";
 import { Languages } from "@/types";
 import { serverEnv } from "@/env/server";
@@ -38,24 +40,30 @@ const selectRandomIcon = (
 };
 
 export const RocketIconChooser = ({
+  lang,
   subheading,
   style,
   iconKey,
   Icon
 }: {
+  lang: Languages;
   subheading?: string;
   style?: React.CSSProperties;
   iconKey?: string;
   Icon?: IconType;
 }): any => {
+  const { config } = withLocale(lang);
+  const { icons } = config("opengraph");
+  const { roadmap } = config("nav");
+
   if (Icon) {
     return <Icon style={style} />;
   } else if (subheading) {
     if (subheading.startsWith("/docs")) {
       return <SlDocs style={style} />;
-    } else if (subheading.startsWith("/icons")) {
+    } else if (subheading.startsWith(icons)) {
       return <FaIcons style={style} />;
-    } else if (subheading.startsWith("roadmap")) {
+    } else if (subheading.startsWith(roadmap)) {
       return <FaRoad style={style} />;
     } else {
       return selectRandomIcon(style, iconKey);
@@ -88,9 +96,17 @@ const OpenGraph = async ({
 }) => {
   const opengraph = withLocale(lang).config("opengraph");
 
-  const logoImg = darkMode
-    ? "logo-rocketicons-white-nobg-512.png"
-    : "logo-rocketicons-black-nobg-512.png";
+  const quicksandRegular = readFileSync(resolve("./public", "fonts", "Quicksand-Regular.ttf"));
+  const interMedium = readFileSync(resolve("./public", "fonts", "Inter-Medium.ttf"));
+
+  const logoImg = readFileSync(
+    resolve(
+      "./public",
+      darkMode ? "logo-rocketicons-white-nobg-512.png" : "logo-rocketicons-black-nobg-512.png"
+    ),
+    { encoding: "base64" }
+  );
+
   const bigIconSize = 200;
   const smallIconSize = 28;
   const color = darkMode ? "#ddd" : "#444";
@@ -102,20 +118,6 @@ const OpenGraph = async ({
 
   const outerPaddingClass = "p-80px";
   const internalLeftMarginClass = "ml-20px";
-
-  const bgImage = darkMode ? "og-hero-dark.jpg" : "og-hero-light.jpg";
-
-  const quicksandRegular = fetch(
-    new URL(`${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/Quicksand-Regular.ttf`, import.meta.url)
-  ).then((res) => res.arrayBuffer());
-
-  const interMedium = fetch(
-    new URL(`${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/Inter-Medium.ttf`, import.meta.url)
-  ).then((res) => res.arrayBuffer());
-
-  const firaCodeRegular = fetch(
-    new URL(`${serverEnv.NEXT_PUBLIC_APP_URL}/fonts/FiraCode-Regular.ttf`, import.meta.url)
-  ).then((res) => res.arrayBuffer());
 
   const groupedCollections: Map<string, number> = new Map();
   IconsManifest.forEach(({ id, icons }: { id: string; icons: any[] }) => {
@@ -132,10 +134,15 @@ const OpenGraph = async ({
 
   const brand = withLocale(lang).config("brand");
 
+  const bgImg = readFileSync(
+    resolve("./public", darkMode ? "img/og-hero-dark.jpg" : "img/og-hero-light.jpg"),
+    { encoding: "base64" }
+  );
+
   const mainDivStyle = {
     display: "flex",
     color: textColor,
-    backgroundImage: `url("${serverEnv.NEXT_PUBLIC_APP_URL}/img/${bgImage}")`,
+    backgroundImage: `url("data:image/jpeg;base64,${bgImg}")`,
     backgroundSize: "1200px 630px"
   };
 
@@ -184,7 +191,7 @@ const OpenGraph = async ({
               <div tw="flex flex-row">
                 <picture>
                   <img
-                    src={`${serverEnv.NEXT_PUBLIC_APP_URL}/${logoImg}`}
+                    src={`data:image/png;base64,${logoImg}`}
                     alt="rocketicons Logo"
                     tw="w-128 h-23"
                     width={128}
@@ -204,7 +211,12 @@ const OpenGraph = async ({
               )}
             </div>
             <div tw="flex">
-              <RocketIconChooser subheading={subheading} style={bigIconsStyle} Icon={Icon} />
+              <RocketIconChooser
+                lang={lang}
+                subheading={subheading}
+                style={bigIconsStyle}
+                Icon={Icon}
+              />
             </div>
           </div>
         </div>
@@ -249,17 +261,12 @@ const OpenGraph = async ({
       fonts: [
         {
           name: "Inter",
-          data: await interMedium,
+          data: interMedium,
           style: "normal"
         },
         {
           name: "Quicksand",
-          data: await quicksandRegular,
-          style: "normal"
-        },
-        {
-          name: "FiraCode",
-          data: await firaCodeRegular,
+          data: quicksandRegular,
           style: "normal"
         }
       ]

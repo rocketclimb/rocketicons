@@ -1,9 +1,20 @@
 import { siteConfig } from "@/config/site";
+import { serverEnv } from "@/env/server";
 import { withLocale } from "@/locales";
 import { Languages } from "@/types";
 import type { Metadata } from "next";
 
-const CustomMetadata = (lang: Languages, title?: string, description?: string): Metadata => {
+export type OpenGraphImageType = "page" | "doc" | "collection" | "icon";
+
+const customMetadata = (
+  lang: Languages,
+  type: OpenGraphImageType,
+  title?: string,
+  description?: string,
+  subheading?: string,
+  collectionId?: string,
+  iconId?: string
+): Metadata => {
   const { name, url, defaultLocale } = siteConfig;
   const brand = withLocale(lang).config("brand");
 
@@ -11,6 +22,37 @@ const CustomMetadata = (lang: Languages, title?: string, description?: string): 
     `${title ?? name}` +
     (title?.endsWith(siteConfig.name) ? "" : ` | ${name} | ${brand["title-suffix"]}`);
   const pageDescription = description ?? brand.description;
+
+  let openGraphImageUrl = `${serverEnv.NEXT_PUBLIC_APP_URL}/${lang}/opengraph/${type}`;
+
+  if (collectionId) {
+    openGraphImageUrl = openGraphImageUrl.concat(`/${collectionId}`);
+  }
+
+  if (iconId) {
+    openGraphImageUrl = openGraphImageUrl.concat(`/${iconId}`);
+  }
+
+  openGraphImageUrl = openGraphImageUrl.concat(`?x=1`);
+
+  if (subheading) {
+    openGraphImageUrl = openGraphImageUrl.concat(`&subheading=${subheading}`);
+  }
+
+  if (title) {
+    openGraphImageUrl = openGraphImageUrl.concat(`&title=${title}`);
+  }
+
+  const ogImagesArray = [
+    {
+      url: openGraphImageUrl,
+      type: "image/png",
+      width: 1200,
+      height: 630,
+      alt: pageTitle
+    }
+  ];
+
   return {
     title: pageTitle,
     description: pageDescription,
@@ -33,16 +75,19 @@ const CustomMetadata = (lang: Languages, title?: string, description?: string): 
     openGraph: {
       type: "website",
       locale: lang || defaultLocale,
-      url: url,
+      url: `${serverEnv.NEXT_PUBLIC_APP_URL}`,
       title: pageTitle,
       description: pageDescription,
-      siteName: name
+      siteName: name,
+      images: ogImagesArray
     },
     twitter: {
       card: "summary_large_image",
       title: pageTitle,
-      description: pageDescription,
-      creator: "@therocketclimb"
+      site: name,
+      description,
+      creator: "@therocketclimb",
+      images: ogImagesArray
     },
     icons: {
       icon: "/favicon.ico",
@@ -52,4 +97,4 @@ const CustomMetadata = (lang: Languages, title?: string, description?: string): 
   };
 };
 
-export default CustomMetadata;
+export default customMetadata;

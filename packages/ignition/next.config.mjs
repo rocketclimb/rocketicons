@@ -25,6 +25,11 @@ const withMDX = createMDX({
 const nextConfig = {
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
 
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false, path: false };
+    return config;
+  },
+
   experimental: {
     optimizePackageImports: [
       "rocketicons/ai",

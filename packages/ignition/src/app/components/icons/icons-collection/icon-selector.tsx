@@ -4,17 +4,15 @@ import { CollectionID } from "rocketicons/data";
 import Button from "@/components/button";
 import { PropsWithChildrenAndLang } from "@/types";
 
-import useIconChange from "./use-icon-change";
-
 type IconSelectorProp = {
   id: string;
   name: string;
+  selected?: string;
   collectionId: CollectionID;
 } & PropsWithChildrenAndLang;
 
-const IconSelector = ({ id, name, lang, collectionId, children }: IconSelectorProp) => {
+const IconSelector = ({ id, name, lang, selected, collectionId, children }: IconSelectorProp) => {
   const router = useRouter();
-  const { selected } = useIconChange();
 
   return (
     <Button

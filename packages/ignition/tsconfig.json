@@ -28,6 +28,7 @@
       "@/types": ["./src/app/types/"],
       "@/utils": ["./src/app/utils/"],
       "@/config": ["./src/config/"],
+      "@/public/*": ["./public/*"],
       "content-collections": ["./.content-collections/generated"]
     }
   },
