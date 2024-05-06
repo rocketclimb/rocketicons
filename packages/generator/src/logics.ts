@@ -17,16 +17,15 @@ export const getIconFiles = async (content: IconDefinitionContent) => {
   return content.files();
 };
 
-export const convertIconData = async (
+export const elementToTree = (
   svg: string,
-  multiColor: boolean | undefined
-): Promise<{ iconData: IconTree; variant: Variants }> => {
+  multiColor: boolean | undefined,
+  colorProps?: Record<string, boolean>
+) => {
   const $doc = cheerioLoad(svg, { xmlMode: true });
   const $svg = $doc("svg");
-  const colorProps: Record<string, boolean> = {
-    fill: false,
-    stroke: false
-  };
+
+  colorProps = colorProps || {};
 
   // filter/convert attributes
   // 1. remove class attr
@@ -75,7 +74,7 @@ export const convertIconData = async (
       );
 
   // convert to [ { tag: 'path', attr: { d: 'M436 160c6.6 ...', ... }, child: { ... } } ]
-  const elementToTree = (
+  const convertElementToTree = (
     element: Cheerio<CheerioElement>,
     isChild: boolean = false
   ): IconTree[] =>
@@ -87,12 +86,24 @@ export const convertIconData = async (
         tag: e.tagName,
         attr: attrConverter(e.attribs, e.tagName, isChild),
         child: e?.children.length
-          ? elementToTree($doc(e.children) as Cheerio<CheerioElement>, true)
+          ? convertElementToTree($doc(e.children) as Cheerio<CheerioElement>, true)
           : []
       }))
       .get();
 
-  const [iconData] = elementToTree($svg);
+  return convertElementToTree($svg);
+};
+
+export const convertIconData = async (
+  svg: string,
+  multiColor: boolean | undefined
+): Promise<{ iconData: IconTree; variant: Variants }> => {
+  const colorProps: Record<string, boolean> = {
+    fill: false,
+    stroke: false
+  };
+
+  const [iconData] = elementToTree(svg, multiColor, colorProps);
 
   const getVariant = (): "full" | "outlined" | "filled" => {
     if (colorProps.fill && colorProps.stroke) {
