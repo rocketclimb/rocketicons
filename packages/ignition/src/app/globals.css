@@ -13,8 +13,12 @@
   --dark-scrollbar-track-thumb: theme("colors.slate.700");
 }
 
+html,
+body {
+  overflow-x: hidden;
+}
+
 html {
-  background-color: #fff;
   height: -webkit-fill-available;
 }
 
