@@ -2,10 +2,10 @@ import path from "path";
 import { promises as fs } from "fs";
 import camelcase from "camelcase";
 import { optimize as svgoOptimize } from "svgo";
-import { IconTree, IconsInfoManifest } from "@rocketicons/core";
+import { IconsInfoManifest } from "@rocketicons/core";
 import { icons } from "./definitions";
 import { iconRowTemplate } from "./templates";
-import { getIconFiles, convertIconData, rmDirRecursive, elementToTree } from "./logics";
+import { getIconFiles, convertIconData, rmDirRecursive } from "./logics";
 import { svgoConfig } from "./svgo-config";
 import { IconDefinition, IconDefinitionContent, TaskContext } from "./types";
 
@@ -85,13 +85,14 @@ export const dirInit = async ({ DIST, LIB, PLUGIN, DATA, SVGS }: TaskContext) =>
   }
 };
 
-export const writeIconModule = async (
+export const writeIconModuleAndSvgs = async (
   icon: IconDefinition,
-  { DIST }: TaskContext,
+  { DIST, SVGS }: TaskContext,
   iconInfoManifest: IconsInfoManifest<string, string>
 ) => {
   const exists = new Set(); // for remove duplicate
   for (const content of icon.contents) {
+    await mkdir(SVGS, icon.id);
     const files = await getIconFiles(content);
 
     iconInfoManifest[icon.id] = iconInfoManifest[icon.id] || {
@@ -114,71 +115,30 @@ export const writeIconModule = async (
       if (exists.has(name)) continue;
       exists.add(name);
 
-      // write like: module/fa/index.mjs
       const modRes = iconRowTemplate(icon, name, iconData, variant, "module");
-      await fs.appendFile(path.resolve(DIST, icon.id, "index.mjs"), modRes, "utf8");
       const comRes = iconRowTemplate(icon, name, iconData, variant, "common");
-
-      await fs.appendFile(path.resolve(DIST, icon.id, "index.js"), comRes, "utf8");
       const dtsRes = iconRowTemplate(icon, name, iconData, variant, "dts");
-      await fs.appendFile(path.resolve(DIST, icon.id, "index.d.ts"), dtsRes, "utf8");
-
       const manifestName = nameToManifest(icon, name);
 
+      await Promise.all([
+        fs.appendFile(path.resolve(DIST, icon.id, "index.mjs"), modRes, "utf8"),
+        fs.appendFile(path.resolve(DIST, icon.id, "index.js"), comRes, "utf8"),
+        fs.appendFile(path.resolve(DIST, icon.id, "index.d.ts"), dtsRes, "utf8"),
+        write(
+          JSON.stringify({ iconTree: iconData, variant }, null, 2),
+          SVGS,
+          icon.id,
+          `${nameToManifest(icon, name)}.json`
+        )
+      ]);
+
       iconInfoManifest[icon.id].icons[name] = {
-        id: `${icon.id}-${manifestName}`,
+        id: `${icon?.compPrefix ?? icon.id}-${manifestName}`,
         name: manifestName.replace(/-/g, " "),
         compName: name,
         variant,
         ...(icon?.compPrefix && { comPrefix: icon?.compPrefix })
       };
-      exists.add(file);
-    }
-  }
-};
-
-export const writeSvgs = async (
-  icon: IconDefinition,
-  { SVGS }: TaskContext,
-  iconInfoManifest: IconsInfoManifest<string, string>
-) => {
-  const exists = new Set(); // for remove duplicate
-
-  const tree2Svg = ({ tag, attr, child }: IconTree): string => {
-    const attrToString = (Object.entries(attr) as [string, string][])
-      .map(([key, value]) => `${key}="${value}"`)
-      .join(" ");
-
-    const childToString = child.map((c) => tree2Svg(c)).join("\n");
-
-    return (
-      `<${tag} ${attrToString}` + (childToString ? `>\n  ${childToString}\n</${tag}>` : "/>")
-    );
-  };
-
-  for (const content of icon.contents) {
-    await mkdir(SVGS, icon.id);
-    const files = await getIconFiles(content);
-
-    iconInfoManifest[icon.id] = iconInfoManifest[icon.id] || {
-      id: icon.id,
-      name: icon.name,
-      license: icon.license,
-      projectUrl: icon.projectUrl,
-      licenseUrl: icon.licenseUrl,
-      icons: {}
-    };
-
-    for (const file of files) {
-      const svgStrRaw = await fs.readFile(file, "utf8");
-      const svgStr = content.processWithSVGO
-        ? svgoOptimize(svgStrRaw, svgoConfig).data
-        : svgStrRaw;
-      const [iconData] = elementToTree(svgStr, content.multiColor);
-
-      const name = getName(file, content);
-
-      await write(tree2Svg(iconData), SVGS, icon.id, `${nameToManifest(icon, name)}.svg`);
       exists.add(file);
     }
   }

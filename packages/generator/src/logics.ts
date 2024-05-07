@@ -148,6 +148,12 @@ export const buildPackageExports = (
       import: "./core/index.mjs",
       default: "./core/index.mjs"
     },
+    "./core/utils": {
+      types: "./core/utils/index.d.ts",
+      require: "./core/utils/index.js",
+      import: "./core/utils/index.mjs",
+      default: "./core/utils/index.mjs"
+    },
     "./data": {
       types: "./data/index.d.ts",
       require: "./data/index.js",

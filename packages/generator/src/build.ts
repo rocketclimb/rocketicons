@@ -42,18 +42,14 @@ async function main() {
 
     const iconInfoManifest: IconsInfoManifest<string, string> = {};
 
-    await task("rocketicons write icons", async () => {
+    await task("rocketicons write icons and svgs", async () => {
       await Promise.all(
-        icons.map((icon) => taskAll.writeIconModule(icon, allOpt, iconInfoManifest))
+        icons.map((icon) => taskAll.writeIconModuleAndSvgs(icon, allOpt, iconInfoManifest))
       );
     });
 
     await task("rocketicons write manifest", async () => {
       await taskCommon.writeIconsManifest(allOpt, iconInfoManifest);
-    });
-
-    await task("rocketicons write svgs", async () => {
-      await Promise.all(icons.map((icon) => taskAll.writeSvgs(icon, allOpt, iconInfoManifest)));
     });
 
     console.log("done");
