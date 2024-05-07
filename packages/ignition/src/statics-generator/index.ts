@@ -4,4 +4,3 @@ import "./collections-static-params";
 import "./manifest-loader";
 import "./svg-files";
 import "./tastes-loader";
-import "./opengraph-icons-loader";

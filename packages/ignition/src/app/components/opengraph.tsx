@@ -1,76 +1,127 @@
+import * as changeCase from "change-case";
 import { readFileSync } from "fs";
 import { resolve } from "path";
 import { ImageResponse } from "next/og";
 import { Languages } from "@/types";
-import { serverEnv } from "@/env/server";
 import { withLocale } from "@/locales";
-import { FaFly, FaIcons, FaRoad } from "rocketicons/fa";
-import { CollectionID, IconsManifest } from "rocketicons/data";
-import { IconType } from "rocketicons";
+import { CollectionID } from "rocketicons/data";
+import { IconsManifest, collectionsCounts, total } from "@/data-helpers/icons/manifest";
+import { IconTree } from "rocketicons";
 import { BiCollection } from "rocketicons/bi";
 import { TbIcons } from "rocketicons/tb";
-import { RcRocketIcon } from "rocketicons/rc";
-import { SlDocs } from "rocketicons/sl";
-import { LuBird, LuSmile } from "rocketicons/lu";
-import { PiAlien, PiFlyingSaucer } from "rocketicons/pi";
 import { BsCollection } from "rocketicons/bs";
+import React from "react";
+import { tree2Element } from "rocketicons/core/utils";
 
 const numberFormatter = (lang: Languages, number: number) =>
   new Intl.NumberFormat(lang).format(number);
 
-const selectRandomIcon = (
-  style: React.CSSProperties | undefined,
-  iconKey?: string
-): IconType | undefined => {
-  const iconsMap = new Map<string, any>([
-    ["LuSmile", <LuSmile key={"lusmile"} style={style} />],
-    ["LuBird", <LuBird key={"lubird"} style={style} />],
-    ["FaFly", <FaFly key={"fafly"} style={style} />],
-    ["PiFlyingSaucer", <PiFlyingSaucer key={"piflyingsaucer"} style={style} />],
-    ["PiAlien", <PiAlien key={"pialien"} style={style} />]
-  ]);
-
-  if (iconKey && iconsMap.has(iconKey)) {
-    return iconsMap.get(iconKey);
-  }
-  const iconsArray = Array.from(iconsMap.values());
+const selectRandomIcon = (): string[] => {
+  const iconsArray: string[][] = [
+    ["lu", "smile"],
+    ["lu", "bird"],
+    ["fa", "fly"],
+    ["pi", "flying-saucer"],
+    ["pi", "alien"]
+  ];
   const randomIndex = Math.floor(Math.random() * iconsArray.length);
 
   return iconsArray[randomIndex];
 };
 
-export const RocketIconChooser = ({
-  lang,
-  subheading,
-  style,
-  iconKey,
-  Icon
-}: {
-  lang: Languages;
-  subheading?: string;
-  style?: React.CSSProperties;
-  iconKey?: string;
-  Icon?: IconType;
-}): any => {
+const chooseIconByType = (lang: Languages, subheading?: string): string[] => {
   const { config } = withLocale(lang);
   const { icons } = config("opengraph");
   const { roadmap } = config("nav");
 
-  if (Icon) {
-    return <Icon style={style} />;
-  } else if (subheading) {
+  if (subheading) {
     if (subheading.startsWith("/docs")) {
-      return <SlDocs style={style} />;
+      return ["sl", "docs"];
     } else if (subheading.startsWith(icons)) {
-      return <FaIcons style={style} />;
+      return ["fa", "icons"];
     } else if (subheading.startsWith(roadmap)) {
-      return <FaRoad style={style} />;
+      return ["fa", "road"];
     } else {
-      return selectRandomIcon(style, iconKey);
+      return selectRandomIcon();
     }
   } else {
-    return <RcRocketIcon style={style} />;
+    return ["rc", "rocket-icon"];
   }
+};
+
+const traverseSvgToSetFillOnChildren = (
+  node: IconTree,
+  iconFilename: string,
+  iconVariant: string | undefined
+) => {
+  if (iconFilename === "rocket-icon" && node.tag === "path") {
+    node.attr.stroke =
+      iconVariant == "full" && node.attr.fill == "none" ? "currentColor" : "none";
+  }
+
+  if (node.child) {
+    node.child.forEach((child) => {
+      traverseSvgToSetFillOnChildren(child, iconFilename, iconVariant);
+    });
+  }
+};
+
+const selectIcon = (
+  iconCollectionId: string | undefined,
+  iconId: string | undefined,
+  lang: Languages,
+  subheading: string | undefined
+): { iconName: string; iconJson: IconTree } => {
+  let iconJson: IconTree | undefined = undefined;
+  const hasCollection = !!iconCollectionId;
+  const hasIcon = hasCollection && !!iconId;
+  let iconName: string | undefined;
+  let iconVariant: string | undefined;
+  let isValidCollection = false;
+  let isValidIcon = false;
+  let selectedIconCollectionId: CollectionID | undefined;
+  let iconFilename: string | undefined;
+
+  if (hasCollection) {
+    const collection = IconsManifest.find(({ id }) => id === iconCollectionId);
+    isValidCollection = (iconCollectionId && collection !== undefined) || false;
+    isValidCollection = collection !== undefined;
+    selectedIconCollectionId = iconCollectionId as CollectionID;
+    if (hasIcon) {
+      iconName = iconId && changeCase.pascalCase(iconId);
+      iconFilename = iconId.replace(`${iconCollectionId}-`, "");
+    } else {
+      const icon = collection?.icons[0] ?? "";
+      iconFilename = changeCase.kebabCase(icon);
+
+      isValidIcon = icon !== undefined;
+
+      iconFilename = iconFilename.replace(`${iconCollectionId}-`, "");
+    }
+  } else {
+    const chosenIcon = chooseIconByType(lang, subheading);
+    selectedIconCollectionId = chosenIcon[0] as CollectionID;
+    iconFilename = chosenIcon[1];
+  }
+
+  const iconUrl = resolve(
+    "./src/app/data-helpers/svgs",
+    `${selectedIconCollectionId}/${iconFilename}.json`
+  );
+
+  const loadedIcon = readFileSync(iconUrl, {
+    encoding: "utf-8"
+  });
+
+  if (loadedIcon) {
+    const json = JSON.parse(loadedIcon);
+    iconVariant = json.variant;
+    iconJson = json.iconTree;
+  }
+
+  traverseSvgToSetFillOnChildren(iconJson!, iconFilename, iconVariant);
+
+  return { iconName: iconName!, iconJson: iconJson! };
 };
 
 const OpenGraph = async ({
@@ -79,21 +130,31 @@ const OpenGraph = async ({
   iconCollectionId,
   iconCollectionCount,
   iconCollectionName,
-  iconName,
+  iconId,
   text,
-  darkMode = true,
-  Icon
+  darkMode = true
 }: {
   lang: Languages;
   subheading?: string;
   iconCollectionId?: CollectionID;
   iconCollectionCount?: number;
   iconCollectionName?: string;
-  iconName?: string;
+  iconId?: string;
   text?: string;
   darkMode?: boolean;
-  Icon?: IconType;
 }) => {
+  const bigIconSize = 200;
+  const smallIconSize = 28;
+  const color = darkMode ? "#ddd" : "#444";
+  const outerPaddingClass = "p-80px";
+  const internalLeftMarginClass = "ml-20px";
+
+  const textColor = color,
+    iconColor = color;
+  const textGradient = `linear-gradient(to bottom right, ${
+    darkMode ? "#fff 20%, #0ea5e9 70%" : "#000000 20%, #0ea5e9 70%"
+  })`;
+
   const opengraph = withLocale(lang).config("opengraph");
 
   const quicksandRegular = readFileSync(resolve("./public", "fonts", "Quicksand-Regular.ttf"));
@@ -107,30 +168,9 @@ const OpenGraph = async ({
     { encoding: "base64" }
   );
 
-  const bigIconSize = 200;
-  const smallIconSize = 28;
-  const color = darkMode ? "#ddd" : "#444";
-  const textColor = color,
-    iconColor = color;
-  const textGradient = `linear-gradient(to bottom right, ${
-    darkMode ? "#fff 20%, #0ea5e9 70%" : "#000000 20%, #0ea5e9 70%"
-  })`;
+  const { iconName, iconJson } = selectIcon(iconCollectionId, iconId, lang, subheading);
 
-  const outerPaddingClass = "p-80px";
-  const internalLeftMarginClass = "ml-20px";
-
-  const groupedCollections: Map<string, number> = new Map();
-  IconsManifest.forEach(({ id, icons }: { id: string; icons: any[] }) => {
-    if (!groupedCollections.get(id)) {
-      groupedCollections.set(id, 0);
-    }
-    groupedCollections.set(id, icons.length);
-  });
-
-  const totalIconsCount = Array.from(groupedCollections.values()).reduce(
-    (acc, count) => acc + count,
-    0
-  );
+  const totalIconsCount = total;
 
   const brand = withLocale(lang).config("brand");
 
@@ -149,7 +189,7 @@ const OpenGraph = async ({
   const bigIconsStyle = {
     width: `${bigIconSize}px`,
     height: `${bigIconSize}px`,
-    display: "block",
+    display: "flex",
     fill: iconColor,
     stroke: iconColor,
     color: iconColor,
@@ -210,14 +250,13 @@ const OpenGraph = async ({
                 </p>
               )}
             </div>
-            <div tw="flex">
-              <RocketIconChooser
-                lang={lang}
-                subheading={subheading}
-                style={bigIconsStyle}
-                Icon={Icon}
-              />
-            </div>
+            {iconJson && (
+              <div tw="flex">
+                <svg {...iconJson.attr} style={bigIconsStyle}>
+                  {tree2Element(iconJson.child)}
+                </svg>
+              </div>
+            )}
           </div>
         </div>
         <div tw={`flex grow mt-10 ${internalLeftMarginClass}`}>
@@ -241,7 +280,7 @@ const OpenGraph = async ({
           <div tw="flex flex-row grow">
             <BiCollection style={smallIconStyle} />
             <div tw="flex flex-col ml-3">
-              <span>{numberFormatter(lang, groupedCollections.size)}</span>
+              <span>{numberFormatter(lang, collectionsCounts.size)}</span>
               <span>{opengraph["collections"]}</span>
             </div>
           </div>

@@ -146,13 +146,13 @@ jobs:
         if: ${{ env.NEXT_PUBLIC_VERCEL_ENV != 'production' }}
         working-directory: ./ignition
         run: |
-          url="$(npx vercel deploy --prebuilt --token=${{ secrets.token }})"
+          url="$(npx vercel deploy --archive=tgz --prebuilt --token=${{ secrets.token }})"
           npx vercel alias set "$url" ${{ inputs.vercel-url-alias }} --token=${{ secrets.token }}
 
       - name: Build Ignition to Production
         if: ${{ env.NEXT_PUBLIC_VERCEL_ENV == 'production' }}
         working-directory: ./ignition
-        run: npx vercel build  --prod --token=${{ secrets.token }}
+        run: npx vercel build --archive=tgz --prod --token=${{ secrets.token }}
 
       - name: Deploy Ignition to Production on Vercel
         if: ${{ env.NEXT_PUBLIC_VERCEL_ENV == 'production' }}
