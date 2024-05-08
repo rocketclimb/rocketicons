@@ -11,7 +11,7 @@ const customMetadata = (
   type: OpenGraphImageType,
   title?: string,
   description?: string,
-  subheading?: string,
+  slug?: string,
   collectionId?: string,
   iconId?: string
 ): Metadata => {
@@ -23,29 +23,25 @@ const customMetadata = (
     (title?.endsWith(siteConfig.name) ? "" : ` | ${name} | ${brand["title-suffix"]}`);
   const pageDescription = description ?? brand.description;
 
-  let openGraphImageUrl = `${serverEnv.NEXT_PUBLIC_APP_URL}/${lang}/opengraph/${type}`;
+  let path = `${lang}/opengraph/${type}`;
 
   if (collectionId) {
-    openGraphImageUrl = openGraphImageUrl.concat(`/${collectionId}`);
+    path = path.concat(`/${collectionId}`);
+
+    if (iconId) {
+      path = path.concat(`/${iconId}`);
+    }
   }
 
-  if (iconId) {
-    openGraphImageUrl = openGraphImageUrl.concat(`/${iconId}`);
-  }
+  const finalUrl = new URL(path, `${serverEnv.NEXT_PUBLIC_APP_URL}`);
 
-  openGraphImageUrl = openGraphImageUrl.concat(`?x=1`);
-
-  if (subheading) {
-    openGraphImageUrl = openGraphImageUrl.concat(`&subheading=${subheading}`);
-  }
-
-  if (title) {
-    openGraphImageUrl = openGraphImageUrl.concat(`&title=${title}`);
+  if (slug) {
+    finalUrl.searchParams.append("slug", slug);
   }
 
   const ogImagesArray = [
     {
-      url: openGraphImageUrl,
+      url: finalUrl.toString(),
       type: "image/png",
       width: 1200,
       height: 630,
@@ -67,8 +63,8 @@ const customMetadata = (
     ],
     authors: [
       {
-        name: "RocketClimb",
-        url: "https://rocketclimb.io"
+        name: name,
+        url: url
       }
     ],
     creator: "RocketClimb",

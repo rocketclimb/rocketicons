@@ -43,7 +43,7 @@ export const generateMetadata = ({
     description: string;
   };
 
-  return customMetadata(lang, "doc", title, description);
+  return customMetadata(lang, "doc", title, description, slug);
 };
 
 type DocFactoryProps = {

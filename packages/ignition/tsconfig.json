@@ -26,6 +26,7 @@
       "@/locales": ["./src/app/locales/"],
       "@/locales/*": ["./src/app/locales/*"],
       "@/types": ["./src/app/types/"],
+      "@/types/*": ["./src/app/types/*"],
       "@/utils": ["./src/app/utils/"],
       "@/config": ["./src/config/"],
       "@/public/*": ["./public/*"],

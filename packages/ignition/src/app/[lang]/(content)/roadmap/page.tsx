@@ -3,9 +3,9 @@ import { PropsWithLangParams } from "@/types";
 import { withLocale } from "@/locales";
 import { LuCheck } from "rocketicons/lu";
 import { IoCaretUp } from "rocketicons/io5";
-import { RoadmapFile } from "../../../types/roadmap";
+import { RoadmapFile } from "@/types/roadmap";
 import { BiQuestionMark } from "rocketicons/bi";
-import customMetadata from "@/app/components/metadata-custom";
+import customMetadata from "@/components/metadata-custom";
 import { Metadata } from "next";
 
 export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {

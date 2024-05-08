@@ -1,7 +1,5 @@
 import { version } from "rocketicons/package.json";
 import { templateBuilder, write, MANIFEST_LENGTH } from "./utils";
-import { IconsManifest } from "rocketicons/data";
-import { siteConfig } from "@/config/site";
 
 const OUTPUT_FILE = "icons/manifest.ts";
 
