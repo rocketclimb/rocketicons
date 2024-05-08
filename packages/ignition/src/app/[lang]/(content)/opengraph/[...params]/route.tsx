@@ -17,7 +17,7 @@ export const GET = async (request: NextRequest) => {
 
   try {
     if (type === "icon" || type === "collection") {
-      const collection = IconsManifest.find(({ id }) => id === param1)!;
+      const collection = IconsManifest.find(({ id }: { id: string }) => id === param1)!;
 
       const { iconName, iconJson } = selectIcon(param1, param2, language);
 
@@ -111,26 +111,18 @@ const selectIcon = (
   const hasCollection = !!iconCollectionId;
   const hasIcon = hasCollection && !!iconId;
   let iconName: string | undefined;
-  let isValidCollection = false;
-  let isValidIcon = false;
   let selectedIconCollectionId: CollectionID | undefined;
   let iconFilename: string | undefined;
 
   if (hasCollection) {
-    const collection = IconsManifest.find(({ id }) => id === iconCollectionId);
-    isValidCollection = (iconCollectionId && collection !== undefined) || false;
-    isValidCollection = collection !== undefined;
+    const collection = IconsManifest.find(({ id }: { id: string }) => id === iconCollectionId);
     selectedIconCollectionId = iconCollectionId as CollectionID;
     if (hasIcon) {
       iconName = iconId && changeCase.pascalCase(iconId);
-      iconFilename = iconId.replace(`${iconCollectionId}-`, "");
+      iconFilename = iconId.replace(`${collection.compPrefix}-`, "");
     } else {
       const icon = collection?.icons[0] ?? "";
-      iconFilename = changeCase.kebabCase(icon);
-
-      isValidIcon = icon !== undefined;
-
-      iconFilename = iconFilename.replace(`${iconCollectionId}-`, "");
+      iconFilename = changeCase.kebabCase(icon).replace(`${collection.compPrefix}-`, "");
     }
   } else {
     const chosenIcon = chooseIconByType(lang, subheading);

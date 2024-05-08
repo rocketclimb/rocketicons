@@ -89,10 +89,6 @@ const customMetadata = (
   } else {
     languagesObj = AvailableLanguages.reduce((reduced, language) => {
       canonicalUrl = new URL(`${path}`, canonicalUrl);
-      if (path === "icons") {
-        const nav = withLocale(language).config("nav");
-        path = nav["icons-slug"];
-      }
 
       return {
         ...reduced,
