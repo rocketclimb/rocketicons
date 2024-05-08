@@ -1,17 +1,17 @@
 import { siteConfig } from "@/config/site";
 import { serverEnv } from "@/env/server";
 import { withLocale } from "@/locales";
-import { Languages } from "@/types";
+import { AvailableLanguages, Languages } from "@/types";
 import type { Metadata } from "next";
 
-export type OpenGraphImageType = "page" | "doc" | "collection" | "icon";
+export type MetadataType = "page" | "doc" | "collection" | "icon";
 
 const customMetadata = (
   lang: Languages,
-  type: OpenGraphImageType,
+  type: MetadataType,
+  path: string,
   title?: string,
   description?: string,
-  slug?: string,
   collectionId?: string,
   iconId?: string
 ): Metadata => {
@@ -23,25 +23,25 @@ const customMetadata = (
     (title?.endsWith(siteConfig.name) ? "" : ` | ${name} | ${brand["title-suffix"]}`);
   const pageDescription = description ?? brand.description;
 
-  let path = `${lang}/opengraph/${type}`;
+  let openGraphImagePath = `${lang}/opengraph/${type}`;
 
   if (collectionId) {
-    path = path.concat(`/${collectionId}`);
+    openGraphImagePath = openGraphImagePath.concat(`/${collectionId}`);
 
     if (iconId) {
-      path = path.concat(`/${iconId}`);
+      openGraphImagePath = openGraphImagePath.concat(`/${iconId}`);
     }
   }
 
-  const finalUrl = new URL(path, `${serverEnv.NEXT_PUBLIC_APP_URL}`);
+  const finalOpenGraphImageUrl = new URL(openGraphImagePath, `${serverEnv.NEXT_PUBLIC_APP_URL}`);
 
-  if (slug) {
-    finalUrl.searchParams.append("slug", slug);
+  if (path) {
+    finalOpenGraphImageUrl.searchParams.append("slug", path);
   }
 
   const ogImagesArray = [
     {
-      url: finalUrl.toString(),
+      url: finalOpenGraphImageUrl.toString(),
       type: "image/png",
       width: 1200,
       height: 630,
@@ -49,7 +49,59 @@ const customMetadata = (
     }
   ];
 
-  return {
+  let canonicalUrl = new URL(url.replace(lang, ""));
+
+  let languagesObj;
+
+  if (type === "doc") {
+    const basePath = "docs";
+    canonicalUrl = new URL(`${basePath}/${path}`, canonicalUrl);
+
+    languagesObj = AvailableLanguages.reduce((reduced, language) => {
+      const doc = withLocale(language).doc(path);
+
+      return {
+        ...reduced,
+        [language]: new URL(`${url}/${language}/${basePath}/${doc.slug}`).toString()
+      };
+    }, {});
+  } else if (type === "collection" || type === "icon") {
+    const basePath = "icons";
+
+    canonicalUrl = new URL(`${basePath}/${collectionId}`, canonicalUrl);
+
+    if (iconId) {
+      canonicalUrl = new URL(`${collectionId}/${iconId}`, canonicalUrl);
+    }
+
+    languagesObj = AvailableLanguages.reduce((reduced, language) => {
+      let localeUrl = new URL(`${url}/${language}/${basePath}/${collectionId}`);
+
+      if (iconId) {
+        localeUrl = new URL(`${collectionId}/${iconId}`, localeUrl);
+      }
+
+      return {
+        ...reduced,
+        [language]: localeUrl.toString()
+      };
+    }, {});
+  } else {
+    languagesObj = AvailableLanguages.reduce((reduced, language) => {
+      canonicalUrl = new URL(`${path}`, canonicalUrl);
+      if (path === "icons") {
+        const nav = withLocale(language).config("nav");
+        path = nav["icons-slug"];
+      }
+
+      return {
+        ...reduced,
+        [language]: new URL(`${url}/${language}/${path}`).toString()
+      };
+    }, {});
+  }
+
+  const metadataObj: Metadata = {
     title: pageTitle,
     description: pageDescription,
     keywords: [
@@ -89,8 +141,14 @@ const customMetadata = (
       icon: "/favicon.ico",
       shortcut: "/favicon-16x16.png"
     },
+    alternates: {
+      canonical: canonicalUrl.toString(),
+      languages: languagesObj
+    },
     metadataBase: new URL(url)
   };
+
+  return metadataObj;
 };
 
 export default customMetadata;
