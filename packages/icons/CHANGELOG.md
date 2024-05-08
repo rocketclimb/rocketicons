@@ -1,15 +1,15 @@
-## [0.2.2-alpha](https://github.com/rocketclimb/rocketicons/compare/v0.2.2-release...v0.2.3) (2024-05-07)
+## [0.2.1](https://github.com/rocketclimb/rocketicons/compare/v0.2.1...v0.2.2) (2024-05-05)
 
 ### Bug Fixes
 
-- **icons** icons id on manifest, generate json with svgs instructions and peformance improvements ([877abc3](https://github.com/rocketclimb/rocketicons/commit/877abc3c3a1572aef5284870df63e8959c96c89c))
+- **esm module** tailwind plugin and core package ([11fa38a](https://github.com/rocketclimb/rocketicons/commit/11fa38a9385a937f69afc499148b9063728e4594))
 
 ## [0.2.0-alpha](https://github.com/rocketclimb/rocketicons/compare/v0.1.0...v0.2.0) (2024-04-30)
 
 ### Features
 
 - **icons** initial version set ([22fab59](https://github.com/rocketclimb/rocketicons/commit/22fab597d3528ee244f97d0a2a94eacab1c9dc20))
-- **icons**  sh bumped version ([dbb6177](https://github.com/rocketclimb/rocketicons/commit/dbb61779c50ce380f3a356738f928b381d4813b7))
+- **icons** sh bumped version ([dbb6177](https://github.com/rocketclimb/rocketicons/commit/dbb61779c50ce380f3a356738f928b381d4813b7))
 - **icons** fixing branch changes ([d392dfb](https://github.com/rocketclimb/rocketicons/commit/d392dfbce5cfd53ccd3ae8819aecae40d3d77886))
 
 ### Documentation
