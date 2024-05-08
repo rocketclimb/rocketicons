@@ -1,0 +1,35 @@
+{
+  "iconTree": {
+    "tag": "svg",
+    "attr": {
+      "viewBox": "0 0 24 24",
+      "fill": "none"
+    },
+    "child": [
+      {
+        "tag": "path",
+        "attr": {
+          "d": "M2 5H22V3H2V5Z"
+        },
+        "child": []
+      },
+      {
+        "tag": "path",
+        "attr": {
+          "d": "M2 21H22V19H2V21Z"
+        },
+        "child": []
+      },
+      {
+        "tag": "path",
+        "attr": {
+          "fillRule": "evenodd",
+          "clipRule": "evenodd",
+          "d": "M2 7V17H22V7H2ZM4 9H20V15H4V9Z"
+        },
+        "child": []
+      }
+    ]
+  },
+  "variant": "filled"
+}

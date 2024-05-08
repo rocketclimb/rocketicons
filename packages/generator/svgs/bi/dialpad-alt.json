@@ -1,0 +1,75 @@
+{
+  "iconTree": {
+    "tag": "svg",
+    "attr": {
+      "viewBox": "0 0 24 24",
+      "fill": "currentColor"
+    },
+    "child": [
+      {
+        "tag": "circle",
+        "attr": {
+          "cx": "12",
+          "cy": "6",
+          "r": "2"
+        },
+        "child": []
+      },
+      {
+        "tag": "circle",
+        "attr": {
+          "cx": "6",
+          "cy": "6",
+          "r": "2"
+        },
+        "child": []
+      },
+      {
+        "tag": "circle",
+        "attr": {
+          "cx": "18",
+          "cy": "6",
+          "r": "2"
+        },
+        "child": []
+      },
+      {
+        "tag": "circle",
+        "attr": {
+          "cx": "12",
+          "cy": "12",
+          "r": "2"
+        },
+        "child": []
+      },
+      {
+        "tag": "circle",
+        "attr": {
+          "cx": "6",
+          "cy": "12",
+          "r": "2"
+        },
+        "child": []
+      },
+      {
+        "tag": "circle",
+        "attr": {
+          "cx": "18",
+          "cy": "12",
+          "r": "2"
+        },
+        "child": []
+      },
+      {
+        "tag": "circle",
+        "attr": {
+          "cx": "12",
+          "cy": "18",
+          "r": "2"
+        },
+        "child": []
+      }
+    ]
+  },
+  "variant": "filled"
+}

@@ -1,0 +1,42 @@
+{
+  "iconTree": {
+    "tag": "svg",
+    "attr": {
+      "viewBox": "0 0 24 24",
+      "fill": "currentColor"
+    },
+    "child": [
+      {
+        "tag": "g",
+        "attr": {
+          "fill": "none"
+        },
+        "child": [
+          {
+            "tag": "path",
+            "attr": {
+              "d": "M0 0h24v24H0z"
+            },
+            "child": []
+          },
+          {
+            "tag": "path",
+            "attr": {
+              "d": "M0 0h24v24H0z",
+              "opacity": ".87"
+            },
+            "child": []
+          }
+        ]
+      },
+      {
+        "tag": "path",
+        "attr": {
+          "d": "M3 13h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7zm-4 6h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7z"
+        },
+        "child": []
+      }
+    ]
+  },
+  "variant": "filled"
+}

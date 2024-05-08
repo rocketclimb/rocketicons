@@ -1,0 +1,27 @@
+{
+  "iconTree": {
+    "tag": "svg",
+    "attr": {
+      "viewBox": "0 0 24 24",
+      "fill": "currentColor"
+    },
+    "child": [
+      {
+        "tag": "path",
+        "attr": {
+          "fill": "none",
+          "d": "M0 0h24v24H0z"
+        },
+        "child": []
+      },
+      {
+        "tag": "path",
+        "attr": {
+          "d": "M2 4v7h20V4zm8 16h12v-7H10zm-8 0h6v-7H2z"
+        },
+        "child": []
+      }
+    ]
+  },
+  "variant": "filled"
+}

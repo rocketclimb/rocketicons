@@ -1,0 +1,19 @@
+{
+  "iconTree": {
+    "tag": "svg",
+    "attr": {
+      "viewBox": "0 0 24 24",
+      "fill": "currentColor"
+    },
+    "child": [
+      {
+        "tag": "path",
+        "attr": {
+          "d": "M8 12L14 6V18L8 12Z"
+        },
+        "child": []
+      }
+    ]
+  },
+  "variant": "filled"
+}

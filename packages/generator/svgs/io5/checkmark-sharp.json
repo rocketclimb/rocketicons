@@ -1,0 +1,23 @@
+{
+  "iconTree": {
+    "tag": "svg",
+    "attr": {
+      "viewBox": "0 0 512 512",
+      "stroke": "currentColor"
+    },
+    "child": [
+      {
+        "tag": "path",
+        "attr": {
+          "fill": "none",
+          "strokeLinecap": "square",
+          "strokeMiterlimit": "10",
+          "strokeWidth": "44",
+          "d": "M416 128 192 384l-96-96"
+        },
+        "child": []
+      }
+    ]
+  },
+  "variant": "outlined"
+}

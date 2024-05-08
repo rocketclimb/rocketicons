@@ -1,0 +1,23 @@
+{
+  "iconTree": {
+    "tag": "svg",
+    "attr": {
+      "viewBox": "0 0 24 24",
+      "stroke": "currentColor"
+    },
+    "child": [
+      {
+        "tag": "circle",
+        "attr": {
+          "cx": "12",
+          "cy": "12",
+          "r": "11",
+          "fill": "none",
+          "strokeWidth": "2"
+        },
+        "child": []
+      }
+    ]
+  },
+  "variant": "outlined"
+}

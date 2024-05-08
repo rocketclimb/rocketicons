@@ -1,0 +1,27 @@
+{
+  "iconTree": {
+    "tag": "svg",
+    "attr": {
+      "viewBox": "0 0 24 24",
+      "fill": "none"
+    },
+    "child": [
+      {
+        "tag": "path",
+        "attr": {
+          "d": "M12 21L12 9L6 9L6 15L12 21Z",
+          "fillOpacity": "0.5"
+        },
+        "child": []
+      },
+      {
+        "tag": "path",
+        "attr": {
+          "d": "M18 9V3H6L12 9H6V15H18L12 9H18Z"
+        },
+        "child": []
+      }
+    ]
+  },
+  "variant": "filled"
+}

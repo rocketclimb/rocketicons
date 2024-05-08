@@ -1,0 +1,23 @@
+{
+  "iconTree": {
+    "tag": "svg",
+    "attr": {
+      "viewBox": "0 0 24 24",
+      "fill": "none"
+    },
+    "child": [
+      {
+        "tag": "rect",
+        "attr": {
+          "x": "3",
+          "y": "10",
+          "width": "18",
+          "height": "4",
+          "rx": "2"
+        },
+        "child": []
+      }
+    ]
+  },
+  "variant": "filled"
+}
