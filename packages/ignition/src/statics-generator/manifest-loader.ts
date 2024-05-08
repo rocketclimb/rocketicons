@@ -8,16 +8,25 @@ const ManifestTemplate = `
 import { IconsManifest as Manifest } from "rocketicons/data";
 import { siteConfig } from "@/config/site";
 
+export const pkgVersion = "{0}";
+
 const manifest = [...Manifest];
 export const IconsManifest =
-  siteConfig.env === "local" ? manifest.slice(0, {0}) : manifest;
+  siteConfig.env === "local" ? manifest.slice(0, {1}) : manifest;
 
 export const total = IconsManifest.reduce((reduced, { icons }) => reduced + icons.length, 0);
 
-export const pkgVersion = "{1}";
+export const collectionsCounts: Map<string, number> = IconsManifest.reduce(
+  (reduced, { id, icons }) => {
+    reduced.set(id, icons.length);
+    return reduced;
+  },
+  new Map()
+);
 `;
 
-const generator = async () =>
-  await write(OUTPUT_FILE, templateBuilder(ManifestTemplate, `${MANIFEST_LENGTH}`, version));
+const generator = async () => {
+  await write(OUTPUT_FILE, templateBuilder(ManifestTemplate, version, `${MANIFEST_LENGTH}`));
+};
 
 generator();

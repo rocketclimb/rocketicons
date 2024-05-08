@@ -4,7 +4,7 @@ import { allDocs } from "content-collections";
 import { siteConfig } from "@/config/site";
 import { serverEnv } from "@/env/server";
 import { IconsManifest } from "rocketicons/data";
-import consoleColors from "./console-colors";
+import consoleColors from "./console-colors.json";
 
 type AlgoliaIndexRecord = {
   objectID: string;

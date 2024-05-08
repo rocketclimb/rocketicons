@@ -8,7 +8,7 @@ type IconsManifest = Map<CollectionID, IconsManifestType<CollectionID, License>>
 let iconsManifest: IconsManifest;
 
 export const asCompName = (icon: string) =>
-  !icon.includes("-") ? icon : changeCase.pascalCase(icon);
+  !icon.includes("-") ? icon : changeCase.pascalCase(icon, { mergeAmbiguousCharacters: true });
 
 export const getIconsManifest = () => IconsManifest;
 

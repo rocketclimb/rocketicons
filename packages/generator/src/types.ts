@@ -56,6 +56,7 @@ export interface TaskContext {
   LIB: string;
   PLUGIN: string;
   DATA: string;
+  SVGS: string;
 }
 
 export interface Context {

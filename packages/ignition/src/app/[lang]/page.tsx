@@ -8,13 +8,13 @@ import RocketIconsText from "@/components/rocketicons-text";
 import SearchButton from "@/app/components/search/search";
 import { withLocale } from "@/locales/with-locale";
 import Footer from "@/components/footer";
-import CustomMetadata from "@/components/metadata-custom";
+import customMetadata from "@/components/metadata-custom";
 
 export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
   const { component } = withLocale(lang);
   const { title, description } = component("home");
 
-  return CustomMetadata(lang, title, description);
+  return customMetadata(lang, "page", title, description);
 };
 
 const Home = ({ params: { lang } }: PropsWithLangParams) => {
