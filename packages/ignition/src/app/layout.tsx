@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { serverEnv } from "@/env/server";
 import { PropsWithLangParams } from "./types";
-import CustomMetadata from "@/components/metadata-custom";
+import customMetadata from "@/components/metadata-custom";
 
 const monospace = Fira_Code({
   style: ["normal"],
@@ -29,7 +29,7 @@ const inter = Inter({
 });
 
 export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
-  return CustomMetadata(lang);
+  return customMetadata(lang, "page");
 };
 
 export default function RootLayout({
