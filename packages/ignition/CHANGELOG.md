@@ -1,11 +1,3 @@
-## [0.2.4](https://github.com/rocketclimb/rocketicons/compare/v0.2.3-release...v0.2.4) (2024-05-09)
-
-### Bug Fixes
-
-- google index improvements ([6921061](https://github.com/rocketclimb/rocketicons/commit/69210612e21756df8b79cda09b154b9878da4302))
-
-## [0.2.3](https://github.com/rocketclimb/rocketicons/compare/v0.2.3-release...v0.2.4) (2024-05-08)
-
 ## [0.2.2](https://github.com/rocketclimb/rocketicons/compare/v0.2.2-release...v0.2.3) (2024-05-08)
 
 ### Bug Fixes

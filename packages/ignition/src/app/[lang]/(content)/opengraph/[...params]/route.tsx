@@ -70,36 +70,36 @@ export const GET = async (request: NextRequest) => {
 
 // This is a workaround for next.js bug with opengraph-image under catch-all file route. See https://github.com/vercel/next.js/issues/49630
 
-const selectRandomIcon = (): string[] => {
-  const iconsArray: string[][] = [
-    ["lu", "smile"],
-    ["lu", "bird"],
-    ["fa", "fly"],
-    ["pi", "flying-saucer"],
-    ["pi", "alien"]
+const selectRandomIcon = (): [CollectionID, string] => {
+  const iconsArray: [CollectionID, string][] = [
+    ["lu", "lu-smile"],
+    ["lu", "lu-bird"],
+    ["fa", "fa-fly"],
+    ["pi", "pi-flying-saucer"],
+    ["pi", "pi-alien"]
   ];
   const randomIndex = Math.floor(Math.random() * iconsArray.length);
 
   return iconsArray[randomIndex];
 };
 
-const chooseIconByType = (lang: Languages, subheading?: string): string[] => {
+const chooseIconByType = (lang: Languages, subheading?: string): [CollectionID, string] => {
   const { config } = withLocale(lang);
   const { icons } = config("opengraph");
   const { roadmap } = config("nav");
 
   if (subheading) {
     if (subheading.startsWith("/docs")) {
-      return ["sl", "docs"];
+      return ["sl", "sl-docs"];
     } else if (subheading.startsWith(icons)) {
-      return ["fa", "icons"];
+      return ["fa", "fa-icons"];
     } else if (subheading.startsWith(roadmap)) {
-      return ["fa", "road"];
+      return ["fa", "fa-road"];
     } else {
       return selectRandomIcon();
     }
   } else {
-    return ["rc", "rocket-icon"];
+    return ["rc", "rc-rocket-icon"];
   }
 };
 
