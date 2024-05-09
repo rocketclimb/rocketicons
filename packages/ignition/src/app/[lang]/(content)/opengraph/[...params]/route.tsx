@@ -7,7 +7,8 @@ import { Languages } from "@/types";
 import { NextRequest } from "next/server";
 import { readFileSync } from "node:fs";
 import { Variants, IconTree } from "rocketicons";
-import { CollectionID, IconsManifest } from "rocketicons/data";
+import { IconsManifest } from "@/data-helpers/icons/manifest";
+import { CollectionID } from "rocketicons/data";
 import { resolve } from "node:path";
 
 export const GET = async (request: NextRequest) => {
@@ -116,13 +117,16 @@ const selectIcon = (
 
   if (hasCollection) {
     const collection = IconsManifest.find(({ id }: { id: string }) => id === iconCollectionId);
+
     selectedIconCollectionId = iconCollectionId as CollectionID;
-    if (hasIcon) {
-      iconName = iconId && changeCase.pascalCase(iconId);
-      iconFilename = iconId.replace(`${collection.compPrefix}-`, "");
-    } else {
-      const icon = collection?.icons[0] ?? "";
-      iconFilename = changeCase.kebabCase(icon).replace(`${collection.compPrefix}-`, "");
+    if (!!collection) {
+      if (hasIcon) {
+        iconName = iconId && changeCase.pascalCase(iconId);
+        iconFilename = iconId;
+      } else {
+        const [icon] = collection?.icons ?? [];
+        iconFilename = changeCase.kebabCase(icon);
+      }
     }
   } else {
     const chosenIcon = chooseIconByType(lang, subheading);

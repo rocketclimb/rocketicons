@@ -128,7 +128,7 @@ export const writeIconModuleAndSvgs = async (
           JSON.stringify({ iconTree: iconData, variant }, null, 2),
           SVGS,
           icon.id,
-          `${nameToManifest(icon, name)}.json`
+          `${icon?.compPrefix ?? icon.id}-${nameToManifest(icon, name)}.json`
         )
       ]);
 
