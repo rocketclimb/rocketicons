@@ -14,7 +14,7 @@ export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Met
   const { component } = withLocale(lang);
   const { title, description } = component("home");
 
-  return customMetadata(lang, "page", title, description);
+  return customMetadata(lang, "page", "", title, description);
 };
 
 const Home = ({ params: { lang } }: PropsWithLangParams) => {

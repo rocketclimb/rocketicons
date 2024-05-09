@@ -47,7 +47,7 @@ export const middleware = (request: NextRequest) => {
   const { pathname } = request.nextUrl;
 
   request.nextUrl.pathname = `/${localeFromHeaders}${pathname}`;
-  return NextResponse.redirect(request.nextUrl);
+  return NextResponse.redirect(request.nextUrl, { status: 302 });
 };
 
 export const config = {

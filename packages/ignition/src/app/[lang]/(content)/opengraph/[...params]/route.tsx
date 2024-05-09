@@ -7,7 +7,8 @@ import { Languages } from "@/types";
 import { NextRequest } from "next/server";
 import { readFileSync } from "node:fs";
 import { Variants, IconTree } from "rocketicons";
-import { CollectionID, IconsManifest } from "rocketicons/data";
+import { IconsManifest } from "@/data-helpers/icons/manifest";
+import { CollectionID } from "rocketicons/data";
 import { resolve } from "node:path";
 
 export const GET = async (request: NextRequest) => {
@@ -17,7 +18,7 @@ export const GET = async (request: NextRequest) => {
 
   try {
     if (type === "icon" || type === "collection") {
-      const collection = IconsManifest.find(({ id }) => id === param1)!;
+      const collection = IconsManifest.find(({ id }: { id: string }) => id === param1)!;
 
       const { iconName, iconJson } = selectIcon(param1, param2, language);
 
@@ -69,36 +70,36 @@ export const GET = async (request: NextRequest) => {
 
 // This is a workaround for next.js bug with opengraph-image under catch-all file route. See https://github.com/vercel/next.js/issues/49630
 
-const selectRandomIcon = (): string[] => {
-  const iconsArray: string[][] = [
-    ["lu", "smile"],
-    ["lu", "bird"],
-    ["fa", "fly"],
-    ["pi", "flying-saucer"],
-    ["pi", "alien"]
+const selectRandomIcon = (): [CollectionID, string] => {
+  const iconsArray: [CollectionID, string][] = [
+    ["lu", "lu-smile"],
+    ["lu", "lu-bird"],
+    ["fa", "fa-fly"],
+    ["pi", "pi-flying-saucer"],
+    ["pi", "pi-alien"]
   ];
   const randomIndex = Math.floor(Math.random() * iconsArray.length);
 
   return iconsArray[randomIndex];
 };
 
-const chooseIconByType = (lang: Languages, subheading?: string): string[] => {
+const chooseIconByType = (lang: Languages, subheading?: string): [CollectionID, string] => {
   const { config } = withLocale(lang);
   const { icons } = config("opengraph");
   const { roadmap } = config("nav");
 
   if (subheading) {
     if (subheading.startsWith("/docs")) {
-      return ["sl", "docs"];
+      return ["sl", "sl-docs"];
     } else if (subheading.startsWith(icons)) {
-      return ["fa", "icons"];
+      return ["fa", "fa-icons"];
     } else if (subheading.startsWith(roadmap)) {
-      return ["fa", "road"];
+      return ["fa", "fa-road"];
     } else {
       return selectRandomIcon();
     }
   } else {
-    return ["rc", "rocket-icon"];
+    return ["rc", "rc-rocket-icon"];
   }
 };
 
@@ -111,26 +112,21 @@ const selectIcon = (
   const hasCollection = !!iconCollectionId;
   const hasIcon = hasCollection && !!iconId;
   let iconName: string | undefined;
-  let isValidCollection = false;
-  let isValidIcon = false;
   let selectedIconCollectionId: CollectionID | undefined;
   let iconFilename: string | undefined;
 
   if (hasCollection) {
-    const collection = IconsManifest.find(({ id }) => id === iconCollectionId);
-    isValidCollection = (iconCollectionId && collection !== undefined) || false;
-    isValidCollection = collection !== undefined;
+    const collection = IconsManifest.find(({ id }: { id: string }) => id === iconCollectionId);
+
     selectedIconCollectionId = iconCollectionId as CollectionID;
-    if (hasIcon) {
-      iconName = iconId && changeCase.pascalCase(iconId);
-      iconFilename = iconId.replace(`${iconCollectionId}-`, "");
-    } else {
-      const icon = collection?.icons[0] ?? "";
-      iconFilename = changeCase.kebabCase(icon);
-
-      isValidIcon = icon !== undefined;
-
-      iconFilename = iconFilename.replace(`${iconCollectionId}-`, "");
+    if (!!collection) {
+      if (hasIcon) {
+        iconName = iconId && changeCase.pascalCase(iconId);
+        iconFilename = iconId;
+      } else {
+        const [icon] = collection?.icons ?? [];
+        iconFilename = changeCase.kebabCase(icon);
+      }
     }
   } else {
     const chosenIcon = chooseIconByType(lang, subheading);

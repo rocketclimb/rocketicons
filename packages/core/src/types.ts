@@ -26,6 +26,7 @@ interface BaseIconsManifestType<ID extends string, Licence extends string> {
   projectUrl: string;
   license: Licence;
   licenseUrl: string;
+  comPrefix?: string;
 }
 
 export interface IconsManifestType<ID extends string, Licence extends string>
