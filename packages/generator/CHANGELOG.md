@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/rocketclimb/rocketicons/compare/v0.2.2-release...v0.2.3) (2024-05-08)
+
+### Bug Fixes
+
+- **icons** icons id on manifest, generate json with svgs instructions and peformance improvements ([877abc3](https://github.com/rocketclimb/rocketicons/commit/877abc3c3a1572aef5284870df63e8959c96c89c))
+- improve collections cache page ([b561d0b](https://github.com/rocketclimb/rocketicons/commit/b561d0b1026d1efeaf6317a536aec65d40e61bc2))
+
 ## [0.2.0](https://github.com/rocketclimb/rocketicons/compare/v0.1.0...v0.2.0) (2024-04-30)
 
 ### Features

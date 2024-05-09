@@ -1,4 +1,16 @@
+<<<<<<< HEAD
+
 ## [0.2.4](https://github.com/rocketclimb/rocketicons/compare/v0.2.2-release...v0.3.0) (2024-05-08)
+
+=======
+
+## [0.2.4](https://github.com/rocketclimb/rocketicons/compare/v0.2.2-release...v0.2.3) (2024-05-08)
+
+### Bug Fixes
+
+- **icons** icons id on manifest, generate json with svgs instructions and peformance improvements [[generator](./packages/generator/CHANGELOG.md)] ([877abc3](https://github.com/rocketclimb/rocketicons/commit/877abc3c3a1572aef5284870df63e8959c96c89c))
+- improve collections cache page [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([b561d0b](https://github.com/rocketclimb/rocketicons/commit/b561d0b1026d1efeaf6317a536aec65d40e61bc2))
+  > > > > > > > develop
 
 ## [0.2.3](https://github.com/rocketclimb/rocketicons/compare/v0.2.1...v0.2.2) (2024-05-05)
 
@@ -22,7 +34,7 @@
 ### Features
 
 - **icons** initial version set [[core](./packages/core/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md), [tailwind](./packages/tailwind/CHANGELOG.md)] ([22fab59](https://github.com/rocketclimb/rocketicons/commit/22fab597d3528ee244f97d0a2a94eacab1c9dc20))
-- **icons**  sh bumped version ([dbb6177](https://github.com/rocketclimb/rocketicons/commit/dbb61779c50ce380f3a356738f928b381d4813b7))
+- **icons** sh bumped version ([dbb6177](https://github.com/rocketclimb/rocketicons/commit/dbb61779c50ce380f3a356738f928b381d4813b7))
 - **icons** fixing branch changes [[core](./packages/core/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md), [tailwind](./packages/tailwind/CHANGELOG.md)] ([d392dfb](https://github.com/rocketclimb/rocketicons/commit/d392dfbce5cfd53ccd3ae8819aecae40d3d77886))
 
 ### Bug Fixes

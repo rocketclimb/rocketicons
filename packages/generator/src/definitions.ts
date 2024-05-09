@@ -464,6 +464,7 @@ export const icons: IconDefinition[] = [
   {
     id: "hi2",
     name: "Heroicons 2",
+    compPrefix: "hi",
     contents: [
       {
         files: path.resolve(__dirname, "../icons/heroicons-2/optimized/24/solid/*.svg"),

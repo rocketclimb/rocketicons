@@ -1,4 +1,8 @@
-## [0.3.0](https://github.com/rocketclimb/rocketicons/compare/v0.2.2-release...v0.3.0) (2024-05-08)
+## [0.2.2](https://github.com/rocketclimb/rocketicons/compare/v0.2.2-release...v0.2.3) (2024-05-08)
+
+### Bug Fixes
+
+- improve collections cache page ([b561d0b](https://github.com/rocketclimb/rocketicons/commit/b561d0b1026d1efeaf6317a536aec65d40e61bc2))
 
 ## [0.2.1](https://github.com/rocketclimb/rocketicons/compare/v0.2.0-release...v0.2.1) (2024-05-03)
 

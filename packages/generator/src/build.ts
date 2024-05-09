@@ -26,7 +26,8 @@ async function main() {
       DIST: path.resolve(_rootDir, "../icons"),
       LIB: path.resolve(_rootDir, "../icons/core"),
       DATA: path.resolve(_rootDir, "../icons/data"),
-      PLUGIN: path.resolve(_rootDir, "../icons/tailwind")
+      PLUGIN: path.resolve(_rootDir, "../icons/tailwind"),
+      SVGS: path.resolve(_rootDir, "./svgs")
     };
     await task("rocketicons initialize", async () => {
       await taskAll.dirInit(allOpt);
@@ -41,9 +42,9 @@ async function main() {
 
     const iconInfoManifest: IconsInfoManifest<string, string> = {};
 
-    await task("rocketicons write icons", async () => {
+    await task("rocketicons write icons and svgs", async () => {
       await Promise.all(
-        icons.map((icon) => taskAll.writeIconModule(icon, allOpt, iconInfoManifest))
+        icons.map((icon) => taskAll.writeIconModuleAndSvgs(icon, allOpt, iconInfoManifest))
       );
     });
 
