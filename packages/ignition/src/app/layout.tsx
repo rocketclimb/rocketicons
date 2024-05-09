@@ -29,7 +29,7 @@ const inter = Inter({
 });
 
 export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
-  return customMetadata(lang, "page");
+  return customMetadata(lang, "page", "");
 };
 
 export default function RootLayout({

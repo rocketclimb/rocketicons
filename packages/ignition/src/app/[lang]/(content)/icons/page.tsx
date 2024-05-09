@@ -17,7 +17,7 @@ export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Met
 
   let titleWithNumber = `${title} | ${total} ${icons}`;
 
-  return customMetadata(lang, "page", titleWithNumber, descriptionWithNumber, "icons-hero");
+  return customMetadata(lang, "page", `icons`, titleWithNumber, descriptionWithNumber);
 };
 
 const Page = ({ params: { lang } }: PropsWithLangParams) => {

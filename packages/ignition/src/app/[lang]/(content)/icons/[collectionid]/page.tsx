@@ -39,7 +39,7 @@ export const generateMetadata = async ({
 
   const openGrapgImageType = icon ? "icon" : "collection";
 
-  return customMetadata(lang, openGrapgImageType, pageTitle, description, undefined, id, icon);
+  return customMetadata(lang, openGrapgImageType, `icons`, pageTitle, description, id, icon);
 };
 
 const Page = ({ params: { lang, collectionid }, searchParams: { i: iconId } }: PageProps) => {

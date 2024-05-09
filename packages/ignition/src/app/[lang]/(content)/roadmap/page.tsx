@@ -9,10 +9,11 @@ import customMetadata from "@/components/metadata-custom";
 import { Metadata } from "next";
 
 export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
-  const { config } = withLocale(lang);
+  const { config, component } = withLocale(lang);
   const { roadmap } = config("nav");
+  const { description } = component("home");
 
-  return customMetadata(lang, "doc", roadmap);
+  return customMetadata(lang, "page", "roadmap", roadmap, description);
 };
 
 const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
