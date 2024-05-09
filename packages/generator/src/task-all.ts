@@ -101,6 +101,7 @@ export const writeIconModuleAndSvgs = async (
       license: icon.license,
       projectUrl: icon.projectUrl,
       licenseUrl: icon.licenseUrl,
+      ...(icon?.compPrefix && { comPrefix: icon?.compPrefix }),
       icons: {}
     };
 
@@ -136,8 +137,7 @@ export const writeIconModuleAndSvgs = async (
         id: `${icon?.compPrefix ?? icon.id}-${manifestName}`,
         name: manifestName.replace(/-/g, " "),
         compName: name,
-        variant,
-        ...(icon?.compPrefix && { comPrefix: icon?.compPrefix })
+        variant
       };
       exists.add(file);
     }
