@@ -152,12 +152,12 @@ jobs:
       - name: Build Ignition to Production
         if: ${{ env.NEXT_PUBLIC_VERCEL_ENV == 'production' }}
         working-directory: ./ignition
-        run: npx vercel build --archive=tgz --prod --token=${{ secrets.token }}
+        run: npx vercel build --prod --token=${{ secrets.token }}
 
       - name: Deploy Ignition to Production on Vercel
         if: ${{ env.NEXT_PUBLIC_VERCEL_ENV == 'production' }}
         working-directory: ./ignition
-        run: npx vercel deploy --prebuilt --prod --token=${{ secrets.token }}
+        run: npx vercel deploy --prebuilt --archive=tgz --prod --token=${{ secrets.token }}
 
       - uses: actions/github-script@v7
         with:

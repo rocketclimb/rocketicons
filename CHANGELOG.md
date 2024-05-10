@@ -1,8 +1,9 @@
-<<<<<<< HEAD
+## [0.2.5](https://github.com/rocketclimb/rocketicons/compare/v0.2.3-release...v0.2.4) (2024-05-09)
 
-## [0.2.4](https://github.com/rocketclimb/rocketicons/compare/v0.2.2-release...v0.3.0) (2024-05-08)
+### Bug Fixes
 
-=======
+- **icons** remove duplicated com prefix information ([04580f8](https://github.com/rocketclimb/rocketicons/commit/04580f8ad9d7d43b8f91e769bc809c0a53e403e9))
+- google index improvements [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([6921061](https://github.com/rocketclimb/rocketicons/commit/69210612e21756df8b79cda09b154b9878da4302))
 
 ## [0.2.4](https://github.com/rocketclimb/rocketicons/compare/v0.2.2-release...v0.2.3) (2024-05-08)
 
@@ -10,7 +11,6 @@
 
 - **icons** icons id on manifest, generate json with svgs instructions and peformance improvements [[generator](./packages/generator/CHANGELOG.md)] ([877abc3](https://github.com/rocketclimb/rocketicons/commit/877abc3c3a1572aef5284870df63e8959c96c89c))
 - improve collections cache page [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([b561d0b](https://github.com/rocketclimb/rocketicons/commit/b561d0b1026d1efeaf6317a536aec65d40e61bc2))
-  > > > > > > > develop
 
 ## [0.2.3](https://github.com/rocketclimb/rocketicons/compare/v0.2.1...v0.2.2) (2024-05-05)
 

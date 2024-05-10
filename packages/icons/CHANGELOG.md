@@ -1,3 +1,9 @@
+## [0.2.3-alpha](https://github.com/rocketclimb/rocketicons/compare/v0.2.3-release...v0.2.4) (2024-05-09)
+
+### Bug Fixes
+
+- **icons** remove duplicated com prefix information ([04580f8](https://github.com/rocketclimb/rocketicons/commit/04580f8ad9d7d43b8f91e769bc809c0a53e403e9))
+
 ## [0.2.2-alpha](https://github.com/rocketclimb/rocketicons/compare/v0.2.2-release...v0.2.3) (2024-05-08)
 
 ### Bug Fixes
