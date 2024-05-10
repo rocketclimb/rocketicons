@@ -109,7 +109,7 @@ const CodeAnimator = ({
         data-previewer={!skipRender}
         className={
           !skipRender
-            ? `w-full mx-auto max-w-3xl mt-20 lg:max-w-7xl lg:grid lg:gap-6 lg:items-center lg:grid-cols-12 ${
+            ? `w-full mx-auto max-w-3xl mt-6 xs:mt-14 lg:mt-20 lg:max-w-7xl lg:grid lg:gap-6 lg:items-center lg:grid-cols-12 ${
                 className ?? ""
               }`
             : ""

@@ -1,27 +1,7 @@
 import React from "react";
 import { Attrs } from "./types";
 import { PropsWithChildrenAndClassName } from "@/types";
-
-const colors = {
-  html: {
-    "common-notation": "text-slate-100",
-    "tag-name": "text-pink-400",
-    "attr-name": "text-slate-300",
-    "attr-value": "text-sky-300",
-    "common-text": "text-slate-100"
-  },
-  js: {
-    "common-notation": "text-slate-500",
-    "tag-name": "text-pink-400",
-    "attr-name": "text-slate-300",
-    "attr-value": "text-sky-300",
-    "common-text": "text-slate-50"
-  }
-};
-
-type Lang = keyof typeof colors;
-type Colors = typeof colors.html | typeof colors.js;
-type ColorType = keyof Colors;
+import { Lang, CodeType, getLanguageClass, getCodeTypeClass } from "./utils";
 
 type CodeElementProps = {
   lang: Lang;
@@ -29,42 +9,45 @@ type CodeElementProps = {
   React.SVGAttributes<HTMLElement>;
 
 type RawSpanProps = React.SVGAttributes<HTMLElement> & {
-  colors: Colors;
-  codeType: ColorType;
+  lang: Lang;
+  codeType: CodeType;
 } & PropsWithChildrenAndClassName;
 
-const RawSpan = ({ colors, codeType, children, className, ...props }: RawSpanProps) => (
-  <span className={`font-monospace ${colors[codeType]} ${className}`} {...props}>
+const RawSpan = ({ lang, codeType, children, className, ...props }: RawSpanProps) => (
+  <span
+    className={`font-monospace ${getLanguageClass(lang)} ${getCodeTypeClass(codeType)} ${className ?? ""}`}
+    {...props}
+  >
     {children}
   </span>
 );
 
 export const AttrName = ({ lang, children, ...props }: CodeElementProps) => (
-  <RawSpan colors={colors[lang]} codeType="attr-name" {...props}>
+  <RawSpan lang={lang} codeType="attr-name" {...props}>
     {children}
   </RawSpan>
 );
 
 export const AttrValue = ({ lang, children, ...props }: CodeElementProps) => (
-  <RawSpan colors={colors[lang]} codeType="attr-value" {...props}>
+  <RawSpan lang={lang} codeType="attr-value" {...props}>
     {children}
   </RawSpan>
 );
 
 export const TagName = ({ lang, children, ...props }: CodeElementProps) => (
-  <RawSpan colors={colors[lang]} codeType="tag-name" {...props}>
+  <RawSpan lang={lang} codeType="tag-name" {...props}>
     {children}
   </RawSpan>
 );
 
 export const CommonNotation = ({ lang, children, ...props }: CodeElementProps) => (
-  <RawSpan colors={colors[lang]} codeType="common-notation" {...props}>
+  <RawSpan lang={lang} codeType="common-notation" {...props}>
     {children}
   </RawSpan>
 );
 
 export const CommonText = ({ lang, children, ...props }: CodeElementProps) => (
-  <RawSpan colors={colors[lang]} codeType="common-text" {...props}>
+  <RawSpan lang={lang} codeType="common-text" {...props}>
     {children}
   </RawSpan>
 );

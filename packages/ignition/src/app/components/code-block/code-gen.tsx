@@ -2,6 +2,7 @@ import { PropsWithChildren } from "react";
 import { DataElement, Attrs } from "./types";
 import { getElementId, CodeEditState } from "./code-block-reducer";
 import { CommonNotation, TagName, Attributes } from "./code-elements";
+import Block from "./block";
 
 type TagProps = {
   tagName: string;
@@ -93,10 +94,10 @@ const CodeGen = (props: CodeGenProps) => {
   };
   return (
     <pre className="min-h-full">
-      <code className="with-lines block text-wrap font-monospace py-4 group-data-[variant=minimalist]/styler:p-0 group-data-[variant=minimalist]/styler:-ml-7 group-data-[variant=minimalist]/styler:text-xs group-data-[variant=minimalist]/styler:md:text-sm text-sm leading-6 text-slate-50">
+      <Block className="with-lines block text-wrap language-html">
         <Generator {...props} />
         <div className="count"></div>
-      </code>
+      </Block>
     </pre>
   );
 };

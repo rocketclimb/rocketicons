@@ -1,10 +1,12 @@
 "use client";
+import { PropsWithChildren } from "react";
 import BaseWithCopy from "@/components/documentation/with-copy";
-import { PropsWithChildrenAndLang } from "@/types";
+import { Languages } from "@/types";
 
 type WithCopyProps = {
+  lang?: Languages;
   clipboardText: string;
-} & PropsWithChildrenAndLang;
+} & PropsWithChildren;
 
 const WithCopy = ({ lang, clipboardText, children }: WithCopyProps) => (
   <BaseWithCopy
