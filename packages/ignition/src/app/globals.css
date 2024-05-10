@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@30,300,0,0");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,6 +17,8 @@
 html,
 body {
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 html {
@@ -24,7 +27,7 @@ html {
 
 @media (prefers-color-scheme: dark) {
   html {
-    background-color: #0f172a;
+    background-color: theme("colors.slate.900");
   }
 }
 
