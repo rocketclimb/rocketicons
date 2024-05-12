@@ -43,7 +43,9 @@
   "show-all": "Show all icons",
   "icon": "icon",
   "table": {
-    "headers": ["Class", "Properties"]
+    "headers": ["Class", "Properties"],
+    "show-all": "show all",
+    "show-fewer": "show fewer"
   },
   "code-block": {
     "copy": "click to copy",
