@@ -1,8 +1,9 @@
 import Link from "next/link";
 import Logo from "./logo";
 import MainNav from "./main-nav";
-import { PropsWithLang } from "@/app/types/props-with-lang";
+import { PropsWithLang } from "@/types/props-with-lang";
 import { pkgVersion } from "@/data-helpers/icons/manifest";
+import { CollapsedSidebar } from "@/components/sidebar/collapsed-sidebar";
 
 const LogoLink = ({ lang }: PropsWithLang) => {
   return (
@@ -19,12 +20,13 @@ const VersionLabel = () => (
 );
 
 const Header = ({ lang }: PropsWithLang) => (
-  <div className="sticky top-0 z-40 w-full h-16 px-2 sm:px-8 py-4 backdrop-blur transition-colors duration-500 bg-white/95 lg:z-50  lg:border-b lg:border-slate-900/10 dark:border-slate-50/[0.06] dark:bg-slate-900/70">
-    <div className="flex mx-auto items-center max-w-screen-2xl min-[1550px]:px-8">
+  <div className="fixed top-0 z-40 lg:static w-full landpage:pb-4 lg:pb-4 px-2 sm:px-8 pt-4 backdrop-blur transition-colors duration-500 bg-white/95 lg:z-50 border-b lg:border-slate-900/10 dark:border-slate-50/[0.06] dark:bg-slate-900/70">
+    <div className="flex mx-auto items-center w-full max-w-screen-2xl min-[1550px]:px-8">
       <LogoLink lang={lang} />
       <VersionLabel />
       <MainNav lang={lang} />
     </div>
+    <CollapsedSidebar lang={lang} />
   </div>
 );
 
