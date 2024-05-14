@@ -160,13 +160,14 @@ jobs:
         run: npx vercel deploy --prebuilt --archive=tgz --prod --token=${{ secrets.token }}
 
       - uses: actions/github-script@v7
+        continue-on-error: true
         with:
           script: |
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `**The deployment is available on Vercel**. Visit on [Vercel](${{ env.NEXT_PUBLIC_APP_URL }}/)
+              body: `**The deployment is available on [Vercel](${{ env.NEXT_PUBLIC_APP_URL }}/)**.
 
               Deployment details:
                 - ${{ env.NEXT_PUBLIC_APP_URL }}/`
