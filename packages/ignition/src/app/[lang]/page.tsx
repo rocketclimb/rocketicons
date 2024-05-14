@@ -9,7 +9,7 @@ import SearchButton from "@/app/components/search/search";
 import { withLocale } from "@/locales/with-locale";
 import Footer from "@/components/footer";
 import customMetadata from "@/components/metadata-custom";
-import { getConfig } from "@/config";
+import { config } from "@/config";
 
 export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
   const { component } = withLocale(lang);
@@ -19,7 +19,7 @@ export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Met
 };
 
 const Home = async ({ params: { lang } }: PropsWithLangParams) => {
-  const playgroundUrl = await getConfig("playgroundUrl");
+  const playgroundUrl = await config.getPlaygroundUrl();
   const nav = withLocale(lang).config("nav");
 
   return (
