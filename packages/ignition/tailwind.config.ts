@@ -7,7 +7,8 @@ const config: Config = {
   darkMode: "class",
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "../../node_modules/@rocketclimb/code-block/**/*.{js,ts,jsx,tsx,mdx}" //should be fixed on the package
+    "../../node_modules/@rocketclimb/code-block/**/*.{js,ts,jsx,tsx,mdx}", //should be fixed on the package
+    "./node_modules/@rocketclimb/code-block/**/*.{js,ts,jsx,tsx,mdx}" //should be fixed on the package
   ],
   theme: {
     extend: {
