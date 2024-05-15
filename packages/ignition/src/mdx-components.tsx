@@ -1,12 +1,30 @@
+import { HtmlHTMLAttributes } from "react";
 import type { MDXComponents } from "mdx/types";
 import Title from "@/components/documentation/title";
 import Title2 from "@/components/documentation/title2";
 import Title3 from "@/components/documentation/title3";
 import Title4 from "@/components/documentation/title4";
 import Paragraph from "@/components/documentation/paragraph";
-import Code from "@/components/documentation/code";
-import CodeStyler from "@/components/code-block/code-styler";
+import { Lang, WithCopy, CodeStyler } from "@rocketclimb/code-block";
+import Code from "@rocketclimb/code-block/code";
+
 import DocLink from "@/components/documentation/doc-link";
+
+type PreProps = HtmlHTMLAttributes<HTMLPreElement> & {
+  "data-filename"?: string;
+  "data-lang"?: Lang;
+};
+
+type CodeProps = HtmlHTMLAttributes<HTMLPreElement> & {
+  "data-clipboardText"?: string;
+};
+
+const CodeContainer = ({ "data-clipboardText": clipboardText, children }: CodeProps) =>
+  (!!clipboardText && (
+    <WithCopy clipboardText={Buffer.from(clipboardText, "base64").toString()}>
+      {children}
+    </WithCopy>
+  )) || <>{children}</>;
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   const allComponentClasses = "mb-4";
@@ -28,18 +46,34 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </h6>
     ),
     p: ({ children, ...props }) => <Paragraph {...props}>{children}</Paragraph>,
-    pre: ({ className, children, ...props }) => (
+    pre: ({
+      className,
+      children,
+      "data-filename": filename,
+      "data-lang": lang,
+      ...props
+    }: PreProps) => (
       <div className="my-3">
-        <CodeStyler {...props} className={`pre ${className}`} variant="minimalist">
+        <CodeStyler
+          {...props}
+          lang={lang}
+          filename={lang === "bash" ? "terminal" : filename}
+          className={`pre ${className}`}
+          variant="minimalist"
+        >
           {children}
         </CodeStyler>
       </div>
     ),
-    code: ({ children }) => <Code>{children}</Code>,
+    code: ({ children, ...props }: CodeProps) => (
+      <CodeContainer {...props}>
+        <Code>{children}</Code>
+      </CodeContainer>
+    ),
     ul: ({ className, children }) => (
       <ul
         className={`list-disc list-inside default-text-color ${
-          className || ""
+          className ?? ""
         } ${allComponentClasses}`}
       >
         {children}
@@ -48,7 +82,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ol: ({ className, children }) => (
       <ol
         className={`list-decimal list-inside default-text-color ${
-          className || ""
+          className ?? ""
         } ${allComponentClasses}`}
       >
         {children}
@@ -60,7 +94,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </li>
     ),
     a: ({ href, children, ...props }) => (
-      <DocLink external={href?.startsWith("http")} href={href || "#"} {...props}>
+      <DocLink external={href?.startsWith("http")} href={href ?? "#"} {...props}>
         {children}
       </DocLink>
     ),
