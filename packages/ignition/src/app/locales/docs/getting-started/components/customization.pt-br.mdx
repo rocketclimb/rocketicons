@@ -33,7 +33,7 @@ Você pode definir uma personalização global para todos os ícones de duas man
 
 Assim:
 
-```js
+```json filename=tailwind.config.js
 {
     components: {
         icon: {
@@ -45,22 +45,22 @@ Assim:
 
 - Dentro da propriedade icon, você deve definir todas as propriedades do nosso tema padrão como desejar.
 
-```js
+```json filename=tailwind.config.js
 {
-    ... existing tailwind configs
-    components: {
-        icon: {
-            default: "sky-500-base",
-            baseStyle: "p-0 inline-block",
-            variants: {
-                filled: "",
-                outlined: "",
-            },
-            sizes: {
-                base: "size-5",
-            },
-        },
+  ... existing tailwind configs
+  components: {
+    icon: {
+      default: "sky-500-base",
+      baseStyle: "p-0 inline-block",
+      variants: {
+        filled: "",
+        outlined: "",
+      },
+      sizes: {
+        base: "size-5",
+      },
     },
+  },
 },
 ```
 
@@ -69,7 +69,7 @@ Assim:
 
 O nosso tema padrão é assim:
 
-```js
+```json filename=tailwind/theme.js
 {
   default: "sky-500-base",
   baseStyle: "p-0 inline-block",
@@ -100,35 +100,35 @@ ou tamanhos, você pode simplesmente estender o tema padrão.
 
 Você pode alterar o tamanho **_base_**, por exemplo:
 
-```js
+```json filename=tailwind.config.js
 {
-    ... existing tailwind configs
-    components: {
-        icon: {
-            extend: {
-                sizes: {
-                    base: "size-6",
-                },
-            },
+  ... existing tailwind configs
+  components: {
+    icon: {
+      extend: {
+        sizes: {
+          base: "size-6",
         },
+      },
     },
+  },
 },
 ```
 
 E você pode até criar um novo tamanho assim:
 
-```js
+```json filename=tailwind.config.js
 {
-    ... existing tailwind configs
-    components: {
-        icon: {
-            extend: {
-                sizes: {
-                    myNewCoolGiantSize: "size-56",
-                },
-            },
+  ... existing tailwind configs
+  components: {
+    icon: {
+      extend: {
+        sizes: {
+          myNewCoolGiantSize: "size-56",
         },
+      },
     },
+  },
 },
 ```
 

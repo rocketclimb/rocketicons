@@ -42,10 +42,11 @@
   "states": "Estados",
   "show-all": "Todos os ícones",
   "icon": "ícone",
+  "learn-more": "Saiba mais",
   "table": {
     "headers": ["Classes", "Propriedades"],
-    "show-all": "mostrar mais",
-    "show-fewer": "mostrar menos"
+    "show-all": "Mostrar mais",
+    "show-fewer": "Mostrar menos"
   },
   "code-block": {
     "copy": "click e copie",
@@ -53,9 +54,9 @@
     "more": "ver mais"
   },
   "update-alert": {
-    "hover-alert": "Passe o mouse sobre o ícone e veja o que acontence",
-    "dark-mode-alert": "Selecione outro tema e veja as mudanças no ícone",
-    "changes-alert": "Observe o ícone mudando conforme outra opções são escolhidas",
+    "hover-alert": "Passe o mouse sobre o ícone e veja",
+    "dark-mode-alert": "Troque de tema e veja as mudanças no ícone",
+    "changes-alert": "Observe o ícone mudando na troca de opções",
     "drag-alert": "Arraste o handle do demo para ver o funcionamento"
   }
 }
