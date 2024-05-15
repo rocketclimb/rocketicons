@@ -65,7 +65,7 @@ const ModalContext = ({ children }: PropsWithChildren) => {
           </div>
         ))}
       </ModalContent>
-      <div className="transition-opacity duration-300 opacity-100 modal-context flex flex-col peer-data-[open=true]:blur-sm peer-data-[open=true]:backdrop-brightness-90 dark:peer-data-[open=true]:backdrop-brightness-50 peer-data-[open=true]:opacity-50 w-full">
+      <div className="transition-opacity duration-300 opacity-100 modal-context lg:flex lg:flex-col peer-data-[open=true]:blur-sm peer-data-[open=true]:backdrop-brightness-90 dark:peer-data-[open=true]:backdrop-brightness-50 peer-data-[open=true]:opacity-50 w-full">
         {children}
       </div>
     </Context.Provider>
