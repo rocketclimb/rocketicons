@@ -1,16 +1,21 @@
 "use client";
+import { withLocale } from "@/locales";
 import { PropsWithLang } from "@/types";
-import { CodeImportBlock, CodeStyler } from "@/components/code-block";
+import { CodeImportBlock, CodeStyler } from "@rocketclimb/code-block";
 
-const Importer = ({ lang }: PropsWithLang) => (
-  <CodeStyler variant="compact">
-    <CodeImportBlock
-      locale={lang}
-      className="text-xs flex"
-      component="RcRocketIcon"
-      module="rocketicons/rc"
-    />
-  </CodeStyler>
-);
+const Importer = ({ lang }: PropsWithLang) => {
+  const { copy, copied } = withLocale(lang).config("code-block");
+  return (
+    <CodeStyler variant="compact" lang="js">
+      <CodeImportBlock
+        copy={copy}
+        copied={copied}
+        className="flex"
+        component="RcRocketIcon"
+        module="rocketicons/rc"
+      />
+    </CodeStyler>
+  );
+};
 
 export default Importer;

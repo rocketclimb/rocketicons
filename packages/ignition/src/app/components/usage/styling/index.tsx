@@ -5,7 +5,7 @@ import { getCurrentIconData } from "@/components/usage/utils";
 import GridContainer from "@/components/documentation/grid-container";
 import UpdateAlert from "@/components/documentation/update-alert";
 
-import CodeSample from "@/components/code-block/code-sample";
+import { CodeSample } from "@rocketclimb/code-block";
 import StylingAnimation from "./styling-animation";
 import Wrapper from "@/components/documentation/wrapper";
 

@@ -7,7 +7,7 @@ import UpdateAlert from "@/components/documentation/update-alert";
 import { RocketIconsTextDefault } from "@/components/rocketicons-text";
 import { TbCheckbox, TbUserQuestion, TbUserStar, TbUser } from "rocketicons/tb";
 
-import CodeSample from "@/components/code-block/code-sample";
+import { CodeSample } from "@rocketclimb/code-block";
 import Wrapper from "@/components/documentation/wrapper";
 
 const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
