@@ -5,11 +5,7 @@ import { tailwind as codeBlock } from "@rocketclimb/code-block";
 
 const config: Config = {
   darkMode: "class",
-  content: [
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "../../node_modules/@rocketclimb/code-block/**/*.{js,ts,jsx,tsx,mdx}", //should be fixed on the package
-    "./node_modules/@rocketclimb/code-block/**/*.{js,ts,jsx,tsx,mdx}" //should be fixed on the package
-  ],
+  content: ["./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       backgroundImage: {
@@ -105,6 +101,11 @@ const config: Config = {
               }
             }
           }
+        },
+        "[data-section]": {
+          code: {
+            "@apply lg:text-[.9rem]/normal": {}
+          }
         }
       });
       addVariant("highlight", "h1 + &");
@@ -153,11 +154,7 @@ const config: Config = {
   safelist: [
     {
       pattern: /icon-*/
-    },
-    {
-      pattern: /rc-cb-token-*/
-    },
-    "language-bash"
+    }
   ]
 };
 

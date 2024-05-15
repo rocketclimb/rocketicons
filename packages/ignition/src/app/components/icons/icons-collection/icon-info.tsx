@@ -37,7 +37,7 @@ const InfoHandler = ({
     "dark-mode": darkMode,
     "learn-more": learnMore,
     states,
-    "code-block": { copy, copied }
+    "code-block": { copy, copied, more }
   } = withLocale(lang).config(
     "colors",
     "sizes",
@@ -50,7 +50,7 @@ const InfoHandler = ({
 
   const router = useRouter();
 
-  const defaultStyle = "icon-2xl lg:icon-7xl";
+  const defaultStyle = "icon-6xl lg:icon-7xl";
   const [section, setSection] = useState<string>("sizes");
   const [bounce, setBounce] = useState<boolean>(false);
   const [selected, setSelected] = useState<string>(defaultStyle);
@@ -69,7 +69,7 @@ const InfoHandler = ({
           </Title3>
           <div
             data-bounce={bounce}
-            className="col-span-8 my-0.5 h-14 xs:h-16 w-full data-[bounce=true]:border-0 md:border-0 border border-slate-200 dark:border-slate-700 md:bg-slate-50 md:mx-3 md:mt-8 md:dark:bg-slate-800/35 lg:order-none md:row-span-2 size-10 rounded-md md:rounded-xl md:size-auto md:col-span-2 lg:static flex items-center justify-center"
+            className="col-span-8 my-0.5 h-14 xs:h-16 w-full data-[bounce=true]:border-0 md:border-0 border border-slate-200 dark:border-slate-700 md:bg-slate-50 md:mx-3 md:mt-8 md:dark:bg-slate-800/35 lg:order-none md:row-span-2 rounded-md md:rounded-xl md:size-auto md:col-span-2 lg:static flex items-center justify-center"
           >
             <Icon
               data-bounce={bounce}
@@ -181,6 +181,7 @@ const InfoHandler = ({
                     setSelected(tab === CodeElementTabs.DEFAULT ? defaultStyle : (tab as string));
                   }}
                   showMore
+                  showMoreLabel={more}
                   copy={copy}
                   copied={copied}
                   options={["icon-xl", "icon-lg", "icon-base", "icon-sm"]}
@@ -207,6 +208,7 @@ const InfoHandler = ({
                     setSelected(tab === CodeElementTabs.DEFAULT ? defaultStyle : (tab as Tab).id);
                   }}
                   showMore
+                  showMoreLabel={more}
                   copy={copy}
                   copied={copied}
                   options={[
@@ -249,6 +251,7 @@ const InfoHandler = ({
                       );
                     }}
                     showMore
+                    showMoreLabel={more}
                     copy={copy}
                     copied={copied}
                     options={["icon-blue-2xl", "icon-purple-600-sm"]}
