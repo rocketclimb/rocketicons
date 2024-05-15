@@ -56,13 +56,6 @@
     "tsconfig-replace-paths": "^0.0.14",
     "typescript": "^5.4.3"
   },
-  "peerDependencies": {
-    "@babel/preset-env": "7.24.3",
-    "nativewind": ">=2.0.11",
-    "react": ">=18.2.0",
-    "react-dom": ">=18.2.0",
-    "react-native-svg": ">=15.1.0"
-  },
   "lint-staged": {
     "*.+(ts|tsx)": [
       "eslint --fix",
