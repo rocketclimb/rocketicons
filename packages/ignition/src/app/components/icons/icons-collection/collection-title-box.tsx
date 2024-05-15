@@ -30,23 +30,23 @@ type TitleBoxProps = {
 } & PropsWithLang;
 
 const CollectionTitleBox = ({ lang, info }: TitleBoxProps) => (
-  <FloatBlock className="transition-all duration-200 px-3 pt-2 mt-2 h-12 flex lg:block lg:sticky lg:top-2 lg:h-32 lg:w-[550px] lg:z-10 lg:border">
+  <FloatBlock className="icon-title-box transition-all duration-200 px-3 pt-2 mt-2 h-12 flex flex-col lg:block lg:sticky lg:top-2 lg:h-32 lg:w-[550px] lg:z-10 lg:border">
     <DocLink
       href={getProjectUrl(lang, info)}
-      className="border-b border-sky-500 pb-0.5 hover:border-b-2 lg:pb-0 lg:border-none lg:cursor-default"
+      className="border-b border-sky-500 mb-1 hover:border-b-2 hover:mb-[3px] lg:pb-0 lg:border-none lg:cursor-default"
     >
-      <Title className="grow truncate max-w-52 sm:max-w-64 md:max-w-none">{info.name}</Title>
+      <Title className="grow truncate capitalize md:max-w-none">{info.name}</Title>
     </DocLink>
-    <div className="lg:my-3 order-last">
-      <IconCountBadge lang={lang} count={info.icons.length} />
-    </div>
-    <div className="lg:my-3">
+    <div className="lg:my-3 flex lg:block">
       <p className="hidden lg:block">
         <DocLink href={getProjectUrl(lang, info)} />
       </p>
       <p>
         <LicenseBox url={info.licenseUrl} license={info.license} />
       </p>
+      <div className="ml-3 md:ml-0 lg:my-3">
+        <IconCountBadge lang={lang} count={info.icons.length} />
+      </div>
     </div>
   </FloatBlock>
 );

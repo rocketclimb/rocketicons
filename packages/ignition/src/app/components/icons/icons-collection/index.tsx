@@ -3,7 +3,7 @@ import Content from "./content";
 import { IconsCollectionsProps } from "./types";
 
 const Loader = () => (
-  <ul className="animate-pulse ml-0 mt-6 min-h-[655px] flex gap-1 justify-between px-4 gap-x-5 gap-y-10 flex-wrap">
+  <ul className="animate-pulse ml-0 mt-10 min-h-[655px] flex gap-1 justify-between px-4 gap-x-5 gap-y-10 flex-wrap">
     {Array.from(Array(48).keys()).map((current) => (
       <li
         key={current}
