@@ -20,7 +20,7 @@ type LicenseTagProps = {
 };
 
 const LicenseTag = ({ license }: LicenseTagProps) => (
-  <Badge className="md:hidden">{shortForm[license]}</Badge>
+  <Badge className="lg:hidden">{shortForm[license]}</Badge>
 );
 
 type LicenseProps = {
@@ -30,7 +30,7 @@ type LicenseProps = {
 
 const License = ({ url, license }: LicenseProps) => (
   <DocLink href={url}>
-    <span className="hidden md:ml-3 md:mt-2 md:inline-block lg:m-0">{license}</span>
+    <span className="hidden md:ml-3 md:mt-2 lg:inline-block lg:m-0">{license}</span>
     <LicenseTag license={license} />
   </DocLink>
 );

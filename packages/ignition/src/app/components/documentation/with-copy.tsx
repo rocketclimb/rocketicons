@@ -1,14 +1,12 @@
 "use client";
 import useClipboard from "@/hooks/use-clipboard";
 import { withLocale } from "@/locales";
-import { Languages } from "@/types";
-import { PropsWithChildren } from "react";
+import { Languages, PropsWithChildrenAndClassName } from "@/types";
 
 type WithCopyProps = {
-  className?: string;
   lang?: Languages;
   clipboardText: string;
-} & PropsWithChildren;
+} & PropsWithChildrenAndClassName;
 
 const WithCopy = ({ lang, clipboardText, className, children }: WithCopyProps) => {
   const useIcons = !lang;
@@ -26,7 +24,7 @@ const WithCopy = ({ lang, clipboardText, className, children }: WithCopyProps) =
       data-txt-copied={useIcons ? copiedIcon : `${copied} ✓`}
       onClick={() => write()}
       onKeyDown={({ key }) => key === "c" && write()}
-      className={`relative after:hidden after:absolute after:w-30 after:border-slate-700 after:rounded after:py-0.5 after:px-1 data-[icons=true]:after:text-2xl data-[icons=true]:after:mr-2 data-[icons=true]:after:font-icons hover:after:block hover:after:bg-slate-900 hover:after:border hover:after:content-[attr(data-txt-copy)] data-[copied=true]:after:content-[attr(data-txt-copied)] ${
+      className={`relative after:text-xs after:hidden after:absolute after:w-30 after:border-slate-700 after:rounded after:py-0.5 after:px-1 data-[icons=true]:after:text-2xl data-[icons=true]:after:mr-2 data-[icons=true]:after:font-icons hover:after:block hover:after:bg-slate-900 hover:after:border hover:after:content-[attr(data-txt-copy)] data-[copied=true]:after:content-[attr(data-txt-copied)] ${
         className ?? ""
       }`}
     >
