@@ -5,7 +5,7 @@
   "scripts": {
     "prebuild": "test -z $SKIP_GENERATE_IGNITION_STATICS && npm run generate-statics || echo '[IGNITION] skip statics generate'",
     "build": "test -z $SKIP_IGNITION_BUILD && next build || echo '[IGNITION] skip build'",
-    "predevx": "npm run generate-statics",
+    "predev": "npm run generate-statics",
     "dev": "next dev",
     "predev:all-icons": "npm run generate-statics:all-icons",
     "dev:all-icons": "NEXT_PUBLIC_VERCEL_ENV=develop next dev",
@@ -22,7 +22,7 @@
     "@mdx-js/react": "^3.0.1",
     "@next/mdx": "^14.1.4",
     "@next/third-parties": "^14.1.4",
-    "@rocketclimb/code-block": "^0.0.3",
+    "@rocketclimb/code-block": "^0.0.1",
     "@rocketclimb/content-collections": "latest",
     "@shikijs/rehype": "1.3.0",
     "@vercel/analytics": "^1.2.2",
