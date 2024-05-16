@@ -12,7 +12,7 @@ const Content = ({
   collection
 }: HandlerPros & IconsCollectionsProps) => (
   <>
-    <ul className="transition-all duration-200 ml-0 mt-10 lg:mt-[-630px] min-h-[655px] flex justify-between gap-x-2 gap-y-4 flex-wrap">
+    <ul className="transition-all duration-200 ml-0 mt-10 lg:mt-[-630px] peer-data-[open=true]/info:min-h-[655px] flex justify-between gap-x-2 gap-y-4 flex-wrap">
       {Object.values(manifest.icons).map((iconInfo) => {
         const { id: iconId, name, compName } = iconInfo;
         const Icon = collection[compName];

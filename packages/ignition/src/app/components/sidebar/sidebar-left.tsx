@@ -20,10 +20,10 @@ type MenuBlockProps = {
 };
 
 const MenuBlock = ({ children, href, text, exactMatch }: PropsWithChildren & MenuBlockProps) => (
-  <li className="mt-12 lg:mt-8">
+  <li className="mt-10 lg:mt-8">
     <h5
       className={`current-url-${exactMatch ? "is-" : ""}[${href}]
-        mb-8 pl-1 lg:mb-3 block border-l border-transparent hover:border-slate-400 font-semibol
+        mb-5 pl-1.5 lg:mb-3 block border-l border-transparent hover:border-slate-400 font-semibol
         text-slate-900 dark:text-slate-200 hover:text-slate-900 dark:hover:text-slate-300 dark:hover:border-slate-500
       `}
     >
@@ -37,7 +37,7 @@ const MenuBlock = ({ children, href, text, exactMatch }: PropsWithChildren & Men
 );
 
 const SubMenu = ({ children }: PropsWithChildren) => (
-  <ul className="space-y-6 lg:space-y-2 border-l border-slate-100 dark:border-slate-800">
+  <ul className="space-y-4 lg:space-y-2 border-l border-slate-100 dark:border-slate-800">
     {children}
   </ul>
 );
