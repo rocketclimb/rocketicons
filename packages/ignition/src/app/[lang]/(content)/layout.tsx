@@ -1,5 +1,4 @@
-import { CollapsedSidebar } from "@/components/documentation/collapsed-sidebar";
-import { SidebarLeft } from "@/components/documentation/sidebar-left";
+import { SidebarLeft } from "@/components/sidebar/sidebar-left";
 
 import Footer from "@/components/footer";
 import { PropsWithChildrenAndLangParams } from "@/types";
@@ -8,14 +7,9 @@ import Link from "next/link";
 import { withLocale } from "@/app/locales";
 import { HiPlay } from "rocketicons/hi2";
 
-const Layout = async ({ children, params: { lang } }: PropsWithChildrenAndLangParams) => {
-  const playgroundUrl = await config.getPlaygroundUrl();
-  const nav = withLocale(lang).config("nav");
-
-  return (
-    <>
-      <CollapsedSidebar lang={lang} />
-      <div className="hidden lg:block group shrink-0 content-area pb-10 md:pr-7 lg:hover:overflow-y-auto">
+const Layout = ({ children, params: { lang } }: PropsWithChildrenAndLangParams) => (
+  <>
+    <div className="hidden lg:block group shrink-0 content-area pb-10 md:pr-7 lg:hover:overflow-y-auto">
         {playgroundUrl && (
           <div className="flex flex-row mt-3 items-center text-sm">
             <HiPlay className="icon-slate-500-sm" />
@@ -28,14 +22,15 @@ const Layout = async ({ children, params: { lang } }: PropsWithChildrenAndLangPa
             </Link>
           </div>
         )}
-        <SidebarLeft lang={lang} />
-      </div>
-      <div className="grow flex flex-col items-center mt-4 px-0.5 content-area overflow-y-auto md:pr-7 mr-0 lg:mt-0">
-        <article className="grow w-full pt-5 has-[.collection-page]:pt-0">{children}</article>
-        <Footer />
-      </div>
-    </>
-  );
-};
+      <SidebarLeft lang={lang} />
+    </div>
+    <div className="lg:grow lg:flex lg:flex-col lg:items-center lg:mt-0 lg:pt-0 mt-20 pt-2 px-0.5 content-area lg:overflow-y-auto md:pr-7 mr-0">
+      <article className="lg:grow lg:flex-shrink-0 w-full pt-5 has-[.collection-page]:pt-0">
+        {children}
+      </article>
+      <Footer />
+    </div>
+  </>
+);
 
 export default Layout;

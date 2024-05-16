@@ -1,14 +1,11 @@
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 import icons from "rocketicons/tailwind";
+import { tailwind as codeBlock } from "@rocketclimb/code-block";
 
 const config: Config = {
   darkMode: "class",
-  content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}"
-  ],
+  content: ["./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       backgroundImage: {
@@ -21,7 +18,11 @@ const config: Config = {
       fontFamily: {
         inter: ["var(--font-inter)"],
         quicksand: ["var(--font-quicksand)"],
-        monospace: ["var(--font-monospace)"]
+        monospace: ["var(--font-monospace)"],
+        icons: ["Material Symbols Outlined"]
+      },
+      screens: {
+        xs: "375px"
       },
       keyframes: {
         "delayed-appearing": {
@@ -41,8 +42,13 @@ const config: Config = {
   },
   plugins: [
     icons,
+    codeBlock,
     plugin(({ addComponents, addVariant, matchUtilities }) => {
       addComponents({
+        ".hero h1": {
+          "@apply text-slate-900 font-extrabold text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight text-center dark:text-white":
+            {}
+        },
         ".active-content": {
           "@apply border-sky-500 dark:border-sky-500": {}
         },
@@ -66,40 +72,70 @@ const config: Config = {
         },
         ".sub-section": {
           "@apply mb-4 lg:-ml-2 lg:pl-2 default-text-color": {}
+        },
+        ".collapse-table": {
+          "&[data-collapse=true]": {
+            "& > div:first-child": {
+              "@apply lg:overflow-hidden": {}
+            },
+            "&:hover > div:first-child": {
+              "@apply lg:overflow-auto": {}
+            },
+            "&:not(:has(:checked))": {
+              "& > div:first-child": {
+                "@apply h-96 max-lg:overflow-hidden": {}
+              },
+              "& .showing-fewer": {
+                "@apply hidden": {}
+              },
+              "& .showing-all": {
+                "@apply inline": {}
+              }
+            },
+            "&:has(:checked)": {
+              "& .showing-fewer": {
+                "@apply inline": {}
+              },
+              "& .showing-all": {
+                "@apply hidden": {}
+              }
+            }
+          }
+        },
+        "[data-section]": {
+          code: {
+            "@apply lg:text-[.9rem]/normal": {}
+          }
         }
       });
       addVariant("highlight", "h1 + &");
       addVariant("section", "[data-section] &");
+      addVariant("tab-section", "[data-section] section &");
       addVariant("prose", ".prose &");
       addVariant("blockquote", "blockquote &");
       addVariant("quote", ".quote &");
       addVariant("thin", ".thin &");
       addVariant("docked", "nav &");
+      addVariant("landpage", ".landpage ~ .theme-selector &");
+      addVariant("content", ".content ~ .theme-selector &");
+      addVariant("hero", ".hero &");
+      addVariant("icons-hero", ".icons-hero &");
+      addVariant("icon-title-box", ".icon-title-box &");
+      addVariant("icon-info-area", ".icon-info-area &");
+      addVariant("after-p", "p ~ &");
       matchUtilities({
-        deep: (value) => {
-          type Style = string | Record<string, string>;
-          const styles: Record<string, Style | Record<string, Style | Record<string, Style>>> = {
-            counterReset: "list-number",
-            "& .count": {
-              display: "flex",
-              "&::before": {
-                "@apply w-0 overflow-hidden -ml-5 md:ml-0 md:w-7 md:pl-2 md:mr-2 grow-0 shrink-0 font-monospace text-sm leading-6 whitespace-normal text-slate-600 text-right select-none h-full":
-                  {},
-                counterIncrement: "list-number",
-                content: "counter(list-number)"
-              }
-            }
-          };
-          const deep = parseInt(value);
-          for (let i = 1; i <= deep; i++) {
-            styles[`${".deep ".repeat(i)} .count::before`] = {
-              marginRight: `${i * 20}px !important`
-            };
+        "current-url": (value) => ({
+          [`nav[data-current^="${value}"] &`]: {
+            "@apply border-sky-500 dark:border-sky-500 text-sky-500 dark:text-sky-500": {}
           }
-          return {
-            "& .with-lines": styles
-          };
-        }
+        })
+      });
+      matchUtilities({
+        "current-url-is": (value) => ({
+          [`nav[data-current="${value}"] &`]: {
+            "@apply border-sky-500 dark:border-sky-500 text-sky-500 dark:text-sky-500": {}
+          }
+        })
       });
     })
   ],
@@ -107,7 +143,8 @@ const config: Config = {
     {
       pattern: /icon-*/
     }
-  ]
+  ],
+  blocklist: ["current-url-[${href}]"]
 };
 
 export default config;

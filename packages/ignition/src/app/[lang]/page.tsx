@@ -1,4 +1,4 @@
-import { AnimatedCodeBlock, ScriptAction } from "@/components/code-block";
+import { AnimatedCodeBlock, ScriptAction } from "@rocketclimb/code-block";
 import Link from "next/link";
 import { MdxComponent } from "@/components/mdx";
 import { Metadata } from "next";
@@ -17,8 +17,9 @@ export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Met
   return customMetadata(lang, "page", "", title, description);
 };
 
-const Home = async ({ params: { lang } }: PropsWithLangParams) => {
-  const nav = withLocale(lang).config("nav");
+const Home = ({ params: { lang } }: PropsWithLangParams) => {
+  const { "getting-started-slug": gettingStartedSlug, "getting-started": gettingStarted } =
+    withLocale(lang).config("nav");
 
   return (
     <div className="flex flex-col grow overflow-y-auto items-center justify-between bg-cover bg-hero-light dark:bg-hero-dark">
@@ -26,14 +27,14 @@ const Home = async ({ params: { lang } }: PropsWithLangParams) => {
         className="absolute inset-0 bg-grid-slate-900/[0.04] bg-[bottom_1px_center] bg-grid dark:bg-grid-slate-400/[0.05] dark:bg-bottom dark:border-0 dark:border-slate-100/5"
         style={{ maskImage: "linear-gradient(transparent, black)" }}
       ></div>
-      <div className="relative max-w-5xl mx-auto pt-20 px-4 sm:px-6 md:px-8 sm:pt-24 lg:pt-32">
+      <div className="hero relative max-w-5xl mx-auto pt-20 px-2 sm:px-6 md:px-8 sm:pt-24 lg:pt-32">
         <MdxComponent lang={lang} slug="home" />
-        <div className="mt-6 sm:mt-10 flex justify-center space-x-6 text-sm">
+        <div className="mt-4 xs:mt-6 lg:mt-10 flex justify-center space-x-6 text-sm">
           <Link
-            className="bg-slate-900 max-w-lg hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold h-12 px-6 rounded-lg w-full flex items-center text-center justify-center sm:w-auto dark:bg-sky-500 dark:highlight-white/20 dark:hover:bg-sky-400"
-            href={`${lang}/docs/${nav["getting-started-slug"]}`}
+            className="h-10 xs:h-12 px-6 bg-slate-900 max-w-lg hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold rounded-lg w-full flex items-center justify-center sm:w-auto dark:bg-sky-500 dark:highlight-white/20 dark:hover:bg-sky-400"
+            href={`/${lang}/docs/${gettingStartedSlug}`}
           >
-            {nav["getting-started"]}
+            {gettingStarted}
           </Link>
           <SearchButton lang={lang} />
         </div>
@@ -109,7 +110,7 @@ const Home = async ({ params: { lang } }: PropsWithLangParams) => {
               time: "30s",
               action: ScriptAction.REPLACE_TYPING,
               elementId: "el_0.el_1.el_1.el_1",
-              text: "icon-slate-900-sm dark:icon-red-500-sm"
+              text: "icon-slate-900-base dark:icon-red-500-base"
             },
             {
               action: ScriptAction.UPDATE,
@@ -129,18 +130,20 @@ const Home = async ({ params: { lang } }: PropsWithLangParams) => {
           <div className="h-32">
             <RcRocketIcon data-cb-tag="RcRocketIcon" className="size-10" />
             <div>
-              <div className="text-slate-900 text-2xl font-light dark:text-white mt-2">
+              <div className="text-slate-900 text-xl xs:text-2xl font-light dark:text-white mt-1 xs:mt-2">
                 <RocketIconsText data-cb-tag="RocketIconsText" />
               </div>
-              <div className="mr-2">
+              <div className="mr-2 text-sm xs:text-base">
                 Styling in a way
                 <RcRocketIcon
                   data-cb-tag="RcRocketIcon"
-                  className="icon-slate-900-sm dark:icon-red-500-sm"
+                  className="icon-slate-900-base dark:icon-red-500-base"
                 />
                 you&apos;ve never seen before.
               </div>
-              <div className="mt-0.5 text-xs leading-6">A funny way handling icons</div>
+              <div className="mt-0.5 text-xs leading-4 xs:leading-6">
+                A funny way handling icons
+              </div>
             </div>
           </div>
         </AnimatedCodeBlock>

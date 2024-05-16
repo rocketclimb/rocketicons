@@ -24,10 +24,10 @@ const Page = ({ params: { lang } }: PropsWithLangParams) => {
   const { config } = withLocale(lang);
   const { "total-icon-count-text": totalIconCountText } = config("brand");
   return (
-    <div className="flex flex-col">
+    <div className="icons-hero flex flex-col">
       <MdxComponent lang={lang} slug="icons-hero" />
 
-      <p className="italic font-light">
+      <p className="italic font-light text text-[0.7rem] leading-4 xs:text-xs lg:text-sm lg:leading-5">
         {totalIconCountText}
         <span className="ml-2 font-normal not-italic">
           <NumberFormatter lang={lang} number={total} />

@@ -2,7 +2,7 @@ import { PropsWithLang } from "@/app/types";
 import { MdxPartial } from "@/components/mdx";
 
 import Wrapper from "@/components/documentation/wrapper";
-import CodeSample from "@/components/code-block/code-sample";
+import { CodeSample } from "@rocketclimb/code-block";
 
 import Demo from "./demo";
 

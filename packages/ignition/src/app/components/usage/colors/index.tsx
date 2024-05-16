@@ -23,7 +23,7 @@ const ColorBox = ({ name, tone, Icon }: ColorBoxProps) => (
     <div className="mx-auto size-14">
       <Icon className={`icon-${name}-4xl m-2`} />
     </div>
-    <span className="text-slate-500 text-[11px] sm:text-xs font-mono lowercase dark:text-slate-400 group-data-[tone=light]/color:text-slate-400 group-data-[tone=dark]/color:dark:text-slate-500">
+    <span className="text-slate-500 text-[0.55rem] xs:text-[0.65rem] sm:text-[0.67rem] font-mono lowercase dark:text-slate-400 group-data-[tone=light]/color:text-slate-400 group-data-[tone=dark]/color:dark:text-slate-500">
       {name}
     </span>
   </div>

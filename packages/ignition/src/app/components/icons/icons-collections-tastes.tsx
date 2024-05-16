@@ -24,7 +24,7 @@ type TitleProps = {
 };
 
 const Title = ({ name }: TitleProps) => (
-  <h4 className="text-xl text-slate-700 dark:text-slate-400">
+  <h4 className="truncate text-base lg:text-xl text-slate-700 dark:text-slate-400">
     {(name === "rocketclimb" && <RocketiconsText />) || name}
   </h4>
 );
@@ -50,7 +50,7 @@ const LiContainer = ({ id, className, selected, children }: LiContainerProps) =>
   return (
     <li
       data-selected={isSelected ? "true" : "false"}
-      className={`animate-pulse has-[li]:animate-none min-h-[90px] relative px-2 py-1 rounded-xl border border-gray-200 dark:border-0 dark:ring-1 dark:ring-inset dark:ring-white/10 dark:bg-slate-800 data-[selected=false]:cursor-pointer data-[selected=true]:ring-1 data-[selected=true]:ring-sky-800 data-[selected=true]:dark:ring-2 data-[selected=true]:dark:ring-sky-500/20 ${
+      className={`animate-pulse has-[li]:animate-none min-h-[80px] relative px-2 py-1 rounded-xl border border-gray-200 dark:border-0 dark:ring-1 dark:ring-inset dark:ring-white/10 dark:bg-slate-800 data-[selected=false]:cursor-pointer data-[selected=true]:ring-1 data-[selected=true]:ring-sky-800 data-[selected=true]:dark:ring-2 data-[selected=true]:dark:ring-sky-500/20 ${
         className || ""
       }`}
     >
@@ -68,14 +68,17 @@ type ItemProps = {
 const Item = ({ id, iconId, name, lang, children }: ItemProps) => (
   <Link
     href={`/${lang}/icons/${id}/${iconId}`}
-    className="group/button transition-all duration-200 flex flex-col flex-shrink-0 items-center justify-center overflow-auto size-24 sm:size-28 mb-2 hover:mb-0 rounded border border-transparent hover:border-sky-900 dark:hover:bg-slate-700"
+    className="group/button transition-all duration-200 flex flex-col flex-shrink-0 items-center justify-center overflow-auto size-20 xs:size-28 lg:size-36 mb-2 hover:mb-0 rounded border border-transparent hover:border-sky-900 dark:hover:bg-slate-700"
   >
     {children}
-    <span className="transition-all duration-200 capitalize text-xs mt-2 max-w-16 sm:max-w-24 truncate group-hover/button:mt-1 group-hover/button:underline">
+    <span className="transition-all duration-200 capitalize text-[0.7rem] lg:text-[0.78rem] mt-2 max-w-16 xs:max-w-24 sm:max-w-24 lg:max-w-32 truncate group-hover/button:mt-1 group-hover/button:underline">
       {name}
     </span>
   </Link>
 );
+
+//group/button transition-all duration-200 flex flex-col flex-shrink-0 items-center justify-center overflow-auto size-24 sm:size-28 mb-2 hover:mb-0 rounded border border-transparent hover:border-sky-900 dark:hover:bg-slate-700
+//transition-all duration-200 capitalize text-xs mt-2 max-w-16 sm:max-w-24 truncate group-hover/button:mt-1 group-hover/button:underline
 
 type ItemsLoaderProps = {
   size: number;
@@ -104,7 +107,7 @@ const Items = ({ id, lang, manifest, collection }: ItemsProps) => {
           return (
             <li key={iconId}>
               <Item lang={lang} id={id} iconId={iconId} name={name}>
-                <Icon className="transition-all duration-200 transform-gpu icon-sky-900-4xl group-hover/button:icon-sky-900-5xl dark:icon-sky-500-4xl group-hover/button:dark:icon-sky-500-5xl" />
+                <Icon className="transition-all duration-200 transform-gpu icon-sky-900-xl dark:icon-sky-500-xl group-hover/button:icon-sky-900-2xl group-hover/button:dark:icon-sky-500-2xl xs:icon-sky-900-2xl dark:xs:icon-sky-500-2xl  group-hover/button:xs:icon-sky-900-3xl  group-hover/button:dark:xs:icon-sky-500-3xl lg:icon-sky-900-4xl dark:lg:icon-sky-500-4xl  group-hover/button:lg:icon-sky-900-5xl  group-hover/button:dark:lg:icon-sky-500-5xl" />
               </Item>
             </li>
           );
@@ -125,14 +128,18 @@ const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
   const [selected, setSelected] = useState<string>("");
 
   return (
-    <ul className="transition-all duration-300 mt-6 grid grid-cols-2 grid-flow-dense lg:grid-cols-3 gap-3 min-[1218px]:pt-1">
+    <ul className="transition-all duration-300 mt-6 grid grid-cols-1 xs:grid-cols-2 grid-flow-dense lg:grid-cols-3 gap-3 min-[1218px]:pt-1">
       {manifests.map(({ id, name, totalIcons }, i) => {
         const tastes = tastesLoader(id);
         const isSelected = id === selected;
 
         return (
           <Fragment key={i}>
-            <LiContainer id={id} selected={selected} className="group/collapsed">
+            <LiContainer
+              id={id}
+              selected={selected}
+              className="group/collapsed data-[selected=true]:hidden data-[selected=true]:xs:block"
+            >
               <div
                 onClick={() => !isSelected && setSelected(id)}
                 onKeyDown={({ key }) => key === "Enter" && !isSelected && setSelected(id)}
@@ -141,17 +148,17 @@ const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
                 className="transition-all duration-200 group-data-[selected=false]/collapsed:hover:scale-[1.01] group-data-[selected=true]/collapsed:opacity-60"
               >
                 <Title name={name} />
-                <p className="text-sm text-slate-500 rounded h-4 w-20 bg-gray-200 dark:bg-slate-700 has-[span]:h-auto has-[span]:w-auto has-[span]:bg-transparent has-[span]:dark:bg-transparent">
+                <p className="text-xs lg:text-sm text-slate-500 rounded h-4 w-20 bg-gray-200 dark:bg-slate-700 has-[span]:h-auto has-[span]:w-auto has-[span]:bg-transparent has-[span]:dark:bg-transparent">
                   <span className="capitalize">
                     <NumberFormatter lang={lang} number={totalIcons} /> {icon}
                     {totalIcons > 1 && "s"}
                   </span>
                 </p>
 
-                <UlContainer className="group-data-[selected=true]/collapsed:opacity-0 justify-between group-data-[selected=false]/collapsed:[mask-image:--icons-fade]">
+                <UlContainer className="group-data-[selected=true]/collapsed:opacity-0 md:my-1 justify-between group-data-[selected=false]/collapsed:[mask-image:--icons-fade]">
                   {tastes.slice(0, 10).map((Icon, i) => (
                     <li key={i}>
-                      <Icon className="icon-sky-900-lg dark:icon-sky-500-lg min-[800px]:icon-sky-900-2xl dark:min-[800px]:icon-sky-500-2xl lg:icon-sky-900-lg dark:lg:icon-sky-500-lg min-[1340px]:icon-sky-900-2xl dark:min-[1340px]:icon-sky-500-2xl" />
+                      <Icon className="icon-sky-900-base dark:icon-sky-500-base xs:icon-sky-900-lg dark:xs:icon-sky-500-lg lg:icon-sky-900-xl dark:lg:icon-sky-500-xl" />
                     </li>
                   ))}
                 </UlContainer>
@@ -161,7 +168,7 @@ const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
               <LiContainer
                 id={id}
                 selected={selected}
-                className="group/expanded relative data-[selected=true]:col-span-2 data-[selected=true]:lg:col-span-3"
+                className="group/expanded relative data-[selected=true]:col-span-1 data-[selected=true]:xs:col-span-2 data-[selected=true]:lg:col-span-3"
               >
                 <Title name={name} />
                 <Button
@@ -170,7 +177,7 @@ const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
                 >
                   <IoMdClose className="icon-slate-500 hover:icon-slate-600 dark:icon-slate-400 dark:hover:icon-slate-300" />
                 </Button>
-                <UlContainer className="opacity-0 has-[a]:opacity-100 min-h-32 justify-start px-4 gap-x-5 gap-y-10 flex-wrap mt-4">
+                <UlContainer className="opacity-0 has-[a]:opacity-100 min-h-32 justify-between px-0.5 gap-y-5 flex-wrap mt-4">
                   <IconsLoader
                     collectionId={id}
                     Handler={Items}

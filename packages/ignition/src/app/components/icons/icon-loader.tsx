@@ -1,6 +1,6 @@
-import { CollectionDataInfo, IconInfo, IconProps, IconType } from "rocketicons";
+import { IconInfo, IconProps, IconType } from "rocketicons";
 import { RcRocketIcon } from "rocketicons/rc";
-import { CollectionID, License } from "rocketicons/data";
+import { CollectionID } from "rocketicons/data";
 import IconsLoader, { HandlerPros } from "@/data-helpers/icons/icons-loader";
 import { getCollectionsInfo, asCompName } from "./get-icons-data";
 
