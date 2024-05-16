@@ -66,8 +66,7 @@ const docSchema = {
   description: z.string(),
   slug: z.string(),
   order: z.number(),
-  group: z.string().optional(),
-  activeSelector: z.string()
+  group: z.string().optional()
 };
 
 const docs = defineCollection({
