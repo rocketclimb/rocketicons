@@ -1,7 +1,7 @@
 import { serverEnv } from "@/env/server";
 import { AvailableLanguages, Languages } from "@/types";
 import { IconsManifest } from "@/data-helpers/icons/manifest";
-import { SitemapIndexRow } from "@/types/sitemap";
+import { SitemapIndexRow } from "@/types/sitemap-types";
 import { sitemapToXmlString } from "@/app/utils/sitemap-utils";
 
 type Sitemap = Array<SitemapIndexRow>;

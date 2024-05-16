@@ -3,7 +3,7 @@ import * as changeCase from "change-case";
 import { Languages } from "@/types";
 import { NextRequest } from "next/server";
 import { IconsManifest } from "@/data-helpers/icons/manifest";
-import { SitemapRow } from "@/types/sitemap";
+import { SitemapRow } from "@/types/sitemap-types";
 import { generateSitemapEntry, sitemapToXml } from "@/app/utils/sitemap-utils";
 
 type Sitemap = Array<SitemapRow>;

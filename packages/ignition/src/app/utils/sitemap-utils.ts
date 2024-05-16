@@ -1,6 +1,6 @@
 import { siteConfig } from "@/config/site";
 import { serverEnv } from "@/env/server";
-import { ChangeFrequency, SitemapIndexRow, SitemapRow } from "@/types/sitemap";
+import { ChangeFrequency, SitemapIndexRow, SitemapRow } from "@/types/sitemap-types";
 import { Languages } from "@/types";
 
 const mapAlternate = ({ href, hreflang }: { href: string; hreflang: string }) =>
