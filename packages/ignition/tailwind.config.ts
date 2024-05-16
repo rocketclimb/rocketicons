@@ -143,7 +143,8 @@ const config: Config = {
     {
       pattern: /icon-*/
     }
-  ]
+  ],
+  blocklist: ["current-url-[${href}]"]
 };
 
 export default config;

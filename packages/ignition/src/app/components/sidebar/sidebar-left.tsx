@@ -124,6 +124,7 @@ const DocList = ({ lang }: PropsWithLang) => {
               key={`menublock-${mainDoc.slug}`}
               text={mainDoc.title}
               href={`/${lang}/docs/${mainDoc.slug}`}
+              exactMatch={componentGroups.includes(mainDoc.enslug)}
             >
               <SubMenu>
                 <SubMenuItems

@@ -20,13 +20,14 @@ const Template = `
  */
 `;
 
-const generateClass = (url: string) => ` * current-url-[${url}]`;
+const generateClassMatcher = (url: string) => ` * current-url-[${url}]`;
+const generateExactClassMatcher = (url: string) => ` * current-url-is-[${url}]`;
 
 const componetsMapper = (language: string, parent: string, components: Components): string => {
-  const links: string[] = [generateClass(`/${language}/docs/${parent}`)];
+  const links: string[] = [generateExactClassMatcher(`/${language}/docs/${parent}`)];
   links.push(
     ...Object.values(components).map(({ slug }) =>
-      generateClass(`/${language}/docs/${parent}#${slug}`)
+      generateClassMatcher(`/${language}/docs/${parent}#${slug}`)
     )
   );
   return links.join("\n");
@@ -37,11 +38,11 @@ const mapper =
   ([language, { slug, components }]: [string, MainComponent]): string =>
     componentGroups.includes(enSlug)
       ? componetsMapper(language, slug, components)
-      : generateClass(`/${language}/docs/${slug}`);
+      : generateClassMatcher(`/${language}/docs/${slug}`);
 
 const generator = async () => {
   const classes: string[] = AvailableLanguages.map((language) =>
-    OTHER_PAGES.map((page) => ` * current-url-is-[/${language}/${page}]`).join(`\n`)
+    OTHER_PAGES.map((page) => generateExactClassMatcher(`/${language}/${page}`)).join(`\n`)
   );
   const docs = Object.entries(docIndex["docs"] as Docs);
   docs.forEach(([enSlug, doc]) => classes.push(...Object.entries(doc).map(mapper(enSlug))));
@@ -49,7 +50,7 @@ const generator = async () => {
   classes.push(
     ...([] as string[]).concat(
       ...getManifest().map(({ id }) =>
-        AvailableLanguages.map((language) => generateClass(`/${language}/icons/${id}`))
+        AvailableLanguages.map((language) => generateClassMatcher(`/${language}/icons/${id}`))
       )
     )
   );

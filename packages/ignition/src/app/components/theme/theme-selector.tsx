@@ -95,7 +95,7 @@ const ThemeSelectorAsMenu = ({
   useKeyboardShortcut(() => close(), { code: "Escape" });
   return (
     <div className="flex lg:hidden items-center mt-6 w-full h-20 font-normal border-t border-slate-900/10 dark:border-slate-50/[0.06]">
-      <div className="grow text-sm">{switchTheme} </div>
+      <div className="grow text-[0.8rem]">{switchTheme} </div>
       <Button
         className="flex items-center py-2 px-3 border border-slate-200 rounded-lg dark:highlight-white/5 dark:bg-slate-600 dark:border-slate-600 dark:text-slate-200"
         onClick={() => toggle()}
