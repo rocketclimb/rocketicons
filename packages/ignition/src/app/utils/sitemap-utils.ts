@@ -6,7 +6,7 @@ const mapAlternate = ({ href, hreflang }: { href: string; hreflang: string }) =>
 const mapRowToUrl = (row: SitemapRow) =>
   `<url>
         <loc>${encodeURI(row.url)}</loc>
-        <lastmod>${row.lastModified?.toISOString() || ""}</lastmod>
+        <lastmod>${row.lastModified?.toISOString() ?? ""}</lastmod>
         ${row.alternateRefs.map(mapAlternate).join("\n        ")}
         <changefreq>${row.changeFrequency ?? ""}</changefreq>
         <priority>${row.priority?.toFixed(1) ?? 0.5}</priority>
@@ -25,7 +25,7 @@ export const sitemapToXml = (sitemap: SitemapRow[]) => `<?xml version="1.0" enco
 const indexRowToXmlString = (row: SitemapIndexRow) =>
   `<sitemap>
         <loc>${encodeURI(row.url)}</loc>
-        <lastmod>${row.lastModified?.toISOString() || ""}</lastmod>
+        <lastmod>${row.lastModified?.toISOString() ?? ""}</lastmod>
     </sitemap>`;
 
 export const sitemapToXmlString = (

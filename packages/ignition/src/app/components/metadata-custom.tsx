@@ -49,7 +49,7 @@ const customMetadata = (
     }
   ];
 
-  let canonicalUrl = new URL(lang, url);
+  let canonicalUrl;
 
   let languagesObj;
 
