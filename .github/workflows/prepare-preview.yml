@@ -86,7 +86,7 @@ jobs:
       - name: Branch Name to Url
         id: branch-to-url
         run: |
-          echo "URL_ID=$(echo "${{ github.ref }}" | tr -s ' ' | tr '[:upper:]' '[:lower:]' | sed 's,[ /],-,g')" >> $GITHUB_OUTPUT
+          echo "URL_ID=$(echo "${{ github.ref }}" | tr -s ' ' | tr '[:upper:]' '[:lower:]' | sed 's,[ /\.],-,g' | sed 's/--/-/g')" >> $GITHUB_OUTPUT
 
       - name: Get genereated package name
         id: generated-pkg-name
