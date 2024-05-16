@@ -92,16 +92,6 @@ jobs:
         id: generated-pkg-name
         run: echo "PKG_FILE=$(ls -1 -t *.tgz | head -1)" >> $GITHUB_OUTPUT
 
-      - name: Generate artifact for ${{ steps.branch-to-url.outputs.URL_ID }}
-        run: |
-          echo "${{ steps.branch-to-url.outputs.URL_ID }}" >> .tagrc
-
-      - name: Upload tag artifact to release job
-        uses: actions/upload-artifact@v4
-        with:
-          name: tag-artifact
-          path: .tagrc
-
       - name: Upload rocketicons tgz as artifact
         uses: actions/upload-artifact@v4
         with:
