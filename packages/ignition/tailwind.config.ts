@@ -124,30 +124,18 @@ const config: Config = {
       addVariant("icon-info-area", ".icon-info-area &");
       addVariant("after-p", "p ~ &");
       matchUtilities({
-        deep: (value) => {
-          type Style = string | Record<string, string>;
-          const styles: Record<string, Style | Record<string, Style | Record<string, Style>>> = {
-            counterReset: "list-number",
-            "& .count": {
-              display: "flex",
-              "&::before": {
-                "@apply w-0 overflow-hidden -ml-2 md:ml-0 md:w-7 md:pl-2 md:mr-2 grow-0 shrink-0 font-monospace text-sm leading-6 whitespace-normal text-slate-600 text-right select-none h-full":
-                  {},
-                counterIncrement: "list-number",
-                content: "counter(list-number)"
-              }
-            }
-          };
-          const deep = parseInt(value);
-          for (let i = 1; i <= deep; i++) {
-            styles[`${".deep ".repeat(i)} .count::before`] = {
-              marginRight: `${i * 10}px !important`
-            };
+        "current-url": (value) => ({
+          [`nav[data-current^="${value}"] &`]: {
+            "@apply border-sky-500 dark:border-sky-500 text-sky-500 dark:text-sky-500": {}
           }
-          return {
-            "& .with-lines": styles
-          };
-        }
+        })
+      });
+      matchUtilities({
+        "current-url-is": (value) => ({
+          [`nav[data-current="${value}"] &`]: {
+            "@apply border-sky-500 dark:border-sky-500 text-sky-500 dark:text-sky-500": {}
+          }
+        })
       });
     })
   ],

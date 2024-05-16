@@ -1,14 +1,13 @@
 "use client";
 import { useDisclosure } from "@/components/modal-context";
 import { useState } from "react";
-import UrlObserver from "@/components/url-observer";
 
 import Button from "@/components/button";
 import { IoMenuOutline } from "rocketicons/io5";
-import { PropsWithLang } from "@/app/types";
+import { PropsWithLang } from "@/types";
 import { SidebarLeft } from "./sidebar-left";
 import { siteConfig } from "@/config/site";
-import { withLocale } from "@/app/locales";
+import { withLocale } from "@/locales";
 
 export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
   const [lastPath, setLastPath] = useState<string>("" as string);
@@ -23,16 +22,9 @@ export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
 
   return (
     <>
-      <UrlObserver
-        onChanges={({ lastPath, hash }) => {
-          isOpen && close();
-          setLastPath(lastPath);
-          setHash(hash);
-        }}
-      />
       <div className={`${pathClassName}${hashClassName} landpage:hidden`}>
         <div
-          data-open={true}
+          data-open={isOpen}
           className="group w-full py-3 transition-colors duration-500 lg:hidden"
         >
           <div className="flex flex-col justify-between">
@@ -50,7 +42,6 @@ export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
           </Modal>
         </div>
       </div>
-      <div className="collapsed-menu lg:hidden"></div>
     </>
   );
 };
