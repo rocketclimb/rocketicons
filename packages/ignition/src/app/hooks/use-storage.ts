@@ -36,6 +36,11 @@ const useStorage = <T>(
     async (value: T) => {
       try {
         await storage.setItem(key, JSON.stringify(value));
+        window.dispatchEvent(
+          new CustomEvent<string>(`storage.${key}`, {
+            detail: JSON.stringify(value)
+          })
+        );
       } catch (error) {
         console.warn(`Error setting localStorage key “${key}”:`, error);
       }
@@ -45,6 +50,18 @@ const useStorage = <T>(
 
   useEffect(() => {
     init();
+    const onStorageChange = ({ detail }: CustomEvent<string>) => {
+      setStoredValue(JSON.parse(detail) as T);
+    };
+    window.addEventListener(`storage.${key}`, (event) =>
+      onStorageChange(event as CustomEvent<string>)
+    );
+
+    return () =>
+      window.removeEventListener(
+        `storage.${key}`,
+        onStorageChange as EventListenerOrEventListenerObject
+      );
   }, []);
 
   useEffect(() => {

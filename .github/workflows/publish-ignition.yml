@@ -109,9 +109,16 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: data-helpers
-          path: ignition/src/app/data-helpers
           run-id: ${{ inputs.run-id }}
           github-token: ${{ github.token }}
+
+      - name: "Untar data-helpers"
+        run: tar -xvf data-helpers.tar
+
+      - name: Setup npm register
+        run: |
+          npm config set @rocketclimb:registry https://npm.pkg.github.com
+          npm config set //npm.pkg.github.com/:_authToken ${{ github.token }}
 
       - name: Install packages from tgz
         if: ${{ inputs.rocketicons-tgz != '' }}
@@ -159,7 +166,9 @@ jobs:
         working-directory: ./ignition
         run: npx vercel deploy --prebuilt --archive=tgz --prod --token=${{ secrets.token }}
 
-      - uses: actions/github-script@v7
+      - name: Comment on PR
+        if: ${{ env.NEXT_PUBLIC_VERCEL_ENV != 'production' }}
+        uses: actions/github-script@v7
         with:
           script: |
             github.rest.issues.createComment({

@@ -36,7 +36,7 @@ const IconHit = ({ hit, lang }: IconHitProps) => {
       <WithCopy
         lang={lang}
         clipboardText={`<${hit.text} />`}
-        className="text-left pr-4 relative after:hidden after:text-xs after:font-light after:-right-3 after:-top-3"
+        className="text-left text-[0.6rem]/normal group-hover/result:xs:text-[0.7rem]/normal group-hover/result:md:text-sm md:text-sm  pr-4 !absolute md:!relative italic md:not-italic font-extralight opacity-40 md:opacity-100 group-hover/result:opacity-90 group-hover/result:md:opacity-100 right-0 bottom-0 after:hidden after:text-xs after:font-light after:-right-3 after:-top-3"
       >
         <span className="font-monospace font-light">{`<${hit.text} />`}</span>
       </WithCopy>
@@ -71,7 +71,7 @@ const Hit = ({ hit, lang }: PropsHit) => {
 };
 
 const ImporterInfo = ({ children }: PropsWithChildren) => (
-  <span className="transition-opacity duration-300 opacity-5 group-hover/copy:opacity-100">
+  <span className="transition-opacity duration-300 opacity-5 group-hover/result-title:opacity-100">
     {children}
   </span>
 );
@@ -84,7 +84,7 @@ const Importer = ({ component, lang }: ImporterProps) => (
   <WithCopy
     lang={lang}
     clipboardText={`import * as Icons from "${component}";`}
-    className="group/copy font-monospace text-xs font-light italic pt-2 after:text-slate-200 after:not-italic after:font-inter after:-right-3 after:-top-5"
+    className="group/copy font-monospace text-[0.65rem]/normal md:text-xs/normal !absolute md:!relative top-0 right-0 font-light italic pt-2 after:text-slate-200 after:not-italic after:font-inter after:-right-3 after:-top-5"
   >
     <ImporterInfo>import * as Icons from &quot;</ImporterInfo>
     <span>{component}</span>
@@ -97,14 +97,16 @@ type ResultTitleProps = {
 } & PropsWithChildren;
 
 const ResultTitle = ({ label, children }: ResultTitleProps) => (
-  <div className="text-slate-900 dark:text-slate-200 flex cursor-default pt-6 mb-4 leading-6">
-    <h2 className="grow font-semibold">{label}</h2>
+  <div className="group/result-title text-xs md:text-base/6 text-slate-900 dark:text-slate-200 relative cursor-default pt-1 md:pt-6 mt-5 mb-4 md:flex">
+    <h2 className="group-hover/result-title:opacity-0 transition-opacity duration-300 grow font-semibold">
+      {label}
+    </h2>
     {children}
   </div>
 );
 
 const ResultItem = ({ children }: PropsWithChildren) => (
-  <li className="group/result w-full flex rounded-lg mb-2 text-sm font-normal text-slate-500 dark:text-slate-200 hover:text-white bg-slate-50 dark:bg-slate-700/30 hover:bg-sky-500 hover:dark:bg-sky-500">
+  <li className="group/result relative w-full flex rounded-lg mb-2 text-sm font-normal text-slate-500 dark:text-slate-200 hover:text-white bg-slate-50 dark:bg-slate-700/30 hover:bg-sky-500 hover:dark:bg-sky-500">
     {children}
   </li>
 );
@@ -201,7 +203,7 @@ const SearchHits = ({ lang }: PropsWithLang) => {
       <div className="px-1">
         {results.nbHits === 0 && <div className="py-3 px-6">{noResults}</div>}
         <div
-          className={`px-2 h-full min-h-40 max-h-[600px] lg:max-h-[65vh] overflow-auto thin-scroll ${borderClass}`}
+          className={`px-2 h-full min-h-40 max-h-80 xs:max-h-[80dvh] lg:max-h-[65vh] overflow-auto thin-scroll ${borderClass}`}
         >
           {results.nbHits > 0 && Object.keys(groupedHits.icons).length > 0 && (
             <IconsGroupedHits groupedHits={groupedHits.icons} lang={lang} />

@@ -41,7 +41,6 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="rocketicons" />
         <meta name="application-name" content="rocketicons" />
         <meta name="msapplication-TileColor" content="#000000" />
-        <meta name="theme-color" content="#ffffff" />
       </head>
       <body
         className={`${inter.variable} ${quicksand.variable} ${monospace.variable} font-inter bg-white has-[.theme-selector.dark]:bg-slate-900 has-[.theme-selector.dark]:dark-scrollbar`}
