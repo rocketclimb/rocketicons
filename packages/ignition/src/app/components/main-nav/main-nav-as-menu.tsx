@@ -27,10 +27,10 @@ const MainNavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
         <LuSearch className="icon-slate-500 hover:icon-slate-700 dark:hover:icon-slate-400" />
       </Button>
       <Button className="flex" onClick={() => open()}>
-        <HiOutlineDotsVertical className="icon-slate-500 ml-6 hover:icon-slate-700 dark:hover:icon-slate-400" />
+        <HiOutlineDotsVertical className="icon-slate-500 ml-2 xs:ml-4 sm:ml-6 hover:icon-slate-700 dark:hover:icon-slate-400" />
       </Button>
       <Modal>
-        <div className="fixed top-4 right-4 w-72 max-w-xs bg-white rounded-lg shadow-lg px-6 text-base font-semibold text-slate-900 dark:bg-slate-800 dark:text-slate-400 dark:highlight-white/5">
+        <div className="fixed top-4 right-4 w-60 max-w-xs bg-white rounded-lg shadow-lg px-6 text-base font-semibold text-slate-900 dark:bg-slate-800 dark:text-slate-400 dark:highlight-white/5">
           <nav>
             <Button
               onClick={() => close()}
@@ -42,7 +42,11 @@ const MainNavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
               <ul>
                 {navItems.map(({ label, link }, i) => (
                   <li className="mb-6" key={i}>
-                    <Link className="hover:text-sky-500" href={link} onClick={() => close()}>
+                    <Link
+                      className="hover:text-sky-500 text-sm"
+                      href={link}
+                      onClick={() => close()}
+                    >
                       {label}
                     </Link>
                   </li>

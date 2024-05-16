@@ -1,16 +1,22 @@
 import createMDX from "@next/mdx";
+import { createCssVariablesTheme } from "shiki";
 import rehypeShiki from "@shikijs/rehype";
 import rehypeSlug from "rehype-slug-custom-id";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
-import { createContentCollectionPlugin } from "@rocketclimb/content-collections";
+import { shikiColorToClassTransform } from "@rocketclimb/code-block/shiki-tranform";
 import { IconsManifest } from "rocketicons/data";
 
+const theme = createCssVariablesTheme({
+  name: "css-variables",
+  variablePrefix: "--shiki-",
+  variableDefaults: {},
+  fontStyle: true
+});
+
 const shikiOptions = {
-  themes: {
-    light: "dracula",
-    dark: "dracula"
-  }
+  theme,
+  transformers: [shikiColorToClassTransform()]
 };
 const withMDX = createMDX({
   options: {
@@ -38,8 +44,4 @@ const nextConfig = {
   }
 };
 
-const withContentCollections = createContentCollectionPlugin({
-  skipWatcher: true
-});
-
-export default withContentCollections(withMDX(nextConfig));
+export default withMDX(nextConfig);

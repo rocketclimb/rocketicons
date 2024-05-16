@@ -1,5 +1,5 @@
 "use client";
-import { AnimatedCodeBlock, ScriptAction } from "@/components/code-block";
+import { AnimatedCodeBlock, ScriptAction } from "@rocketclimb/code-block";
 
 import { useState } from "react";
 import { CollectionID } from "rocketicons/data";

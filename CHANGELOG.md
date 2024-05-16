@@ -1,9 +1,8 @@
-## [0.2.5](https://github.com/rocketclimb/rocketicons/compare/v0.2.3-release...v0.2.4) (2024-05-09)
+## [0.2.6](https://github.com/rocketclimb/rocketicons/compare/v0.2.4-release...v0.3.0) (2024-05-16)
 
 ### Bug Fixes
 
-- **icons** remove duplicated com prefix information ([04580f8](https://github.com/rocketclimb/rocketicons/commit/04580f8ad9d7d43b8f91e769bc809c0a53e403e9))
-- google index improvements [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([6921061](https://github.com/rocketclimb/rocketicons/commit/69210612e21756df8b79cda09b154b9878da4302))
+- layout issues on mobile and small screens [[ignition](./packages/ignition/CHANGELOG.md)] ([d3d05ed3](https://github.com/rocketclimb/rocketicons/commit/d3d05ed32d5114a1290ad51d19c4b1be0fbc96fe))
 
 ## [0.2.5](https://github.com/rocketclimb/rocketicons/compare/v0.2.3-release...v0.2.4) (2024-05-09)
 

@@ -67,7 +67,10 @@ jobs:
 
       - name: Install packages
         if: steps.npm-cache.outputs.cache-hit != 'true'
-        run: npm install --ignore-scripts
+        run: |
+          npm config set @rocketclimb:registry https://npm.pkg.github.com
+          npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
+          npm install --ignore-scripts
 
       - name: Icons Fetch
         if: steps.icons-cache.outputs.cache-hit != 'true'
@@ -130,11 +133,16 @@ jobs:
           name: rocketicons-pkg
           path: ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
 
+      - name: "Tar data-helpers"
+        working-directory: ./packages
+        run: tar -cvf data-helpers.tar ignition/src/app/data-helpers
+
       - name: Upload data-helpers
         uses: actions/upload-artifact@v4
         with:
           name: data-helpers
-          path: packages/ignition/src/app/data-helpers
+          path: packages/data-helpers.tar
+          compression-level: 9
 
   publish-ignition:
     needs: prepare-artifacts

@@ -4,7 +4,7 @@ import { getCurrentIconData } from "@/components/usage/utils";
 import GridContainer from "@/components/documentation/grid-container";
 import { withLocale } from "@/locales";
 
-import CodeSample from "@/components/code-block/code-sample";
+import { CodeSample } from "@rocketclimb/code-block";
 import Wrapper from "@/components/documentation/wrapper";
 import SampleBox from "@/components/documentation/sample-box";
 
