@@ -1,0 +1,118 @@
+name: Prepare Preview
+
+on:
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: "18.x"
+
+permissions: write-all
+
+jobs:
+  prepare-artifacts:
+    name: Prepare Artifacts
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
+      PRE_RELEASE_TAG: ${{ vars.PRE_RELEASE_TAG }}
+      AUTOMATION_USER_NAME: ${{ vars.AUTOMATION_USER_NAME }}
+      AUTOMATION_USER_EMAIL: ${{ vars.AUTOMATION_USER_EMAIL }}
+      SKIP_IGNITION_BUILD: true
+
+    outputs:
+      dependency-hash: ${{ steps.extract-dependencies.outputs.DEPENDENCY_HASH }}
+      rocketicons-tgz: ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
+      rocketicons-artifact-id: ${{ steps.branch-to-url.outputs.URL_ID }}-artifacts
+      vercel-url-alias: ${{ steps.branch-to-url.outputs.URL_ID }}${{ vars.VERCEL_ALIAS_DOMAIN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Extract Dependencies
+        id: extract-dependencies
+        run: echo "DEPENDENCY_HASH=$(npx --yes @rocketclimb/sh extract-dependencies)" >> $GITHUB_OUTPUT
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        id: npm-cache
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ steps.extract-dependencies.outputs.DEPENDENCY_HASH }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Cache icons
+        uses: actions/cache@v4
+        id: icons-cache
+        with:
+          path: |
+            packages/generator/icons
+          key: ${{ runner.os }}-icons-${{ hashFiles('packages/generator/src/definitions.ts') }}
+          restore-keys: |
+            ${{ runner.os }}-icons-
+
+      - name: Install packages
+        if: steps.npm-cache.outputs.cache-hit != 'true'
+        run: npm install --ignore-scripts
+
+      - name: Icons Fetch
+        if: steps.icons-cache.outputs.cache-hit != 'true'
+        run: npm run fetch --workspace=packages/generator
+
+      - name: Build All
+        run: npm run build-all
+
+      - name: Run tests
+        run: npm run test-all
+
+      - name: Build Ignition statics
+        run: npm run generate-statics:all-icons --workspace=packages/ignition
+
+      - name: Setup git user
+        run: |
+          git config user.name ${{ env.AUTOMATION_USER_NAME }}
+          git config user.email ${{ env.AUTOMATION_USER_EMAIL }}
+
+      - name: Branch Name to Url
+        id: branch-to-url
+        run: |
+          echo "URL_ID=$(echo "${{ github.ref }}" | tr -s ' ' | tr '[:upper:]' '[:lower:]' | sed 's,[ /],-,g')" >> $GITHUB_OUTPUT
+
+      - name: Get genereated package name
+        id: generated-pkg-name
+        run: echo "PKG_FILE=$(ls -1 -t *.tgz | head -1)" >> $GITHUB_OUTPUT
+
+      - name: Upload rocketicons tgz as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.branch-to-url.outputs.URL_ID }}-artifacts
+          path: ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
+
+      - name: Upload data-helpers
+        uses: actions/upload-artifact@v4
+        with:
+          name: data-helpers
+          path: packages/ignition/src/app/data-helpers
+
+  publish-ignition:
+    needs: prepare-artifacts
+    uses: ./.github/workflows/publish-ignition.yml
+    with:
+      dependencies-hash: ${{ needs.prepare-artifacts.outputs.dependency-hash }}
+      rocketicons-tgz: ${{ needs.prepare-artifacts.outputs.rocketicons-tgz }}
+      rocketicons-artifact-id: ${{ needs.prepare-artifacts.outputs.rocketicons-artifact-id }}
+      vercel-url-alias: ${{ needs.prepare-artifacts.outputs.vercel-url-alias }}
+      branch: ${{ github.ref }}
+      env: "preview"
+    secrets:
+      token: ${{ secrets.VERCEL_TOKEN }}

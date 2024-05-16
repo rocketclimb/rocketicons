@@ -4,11 +4,8 @@ import { Inter, Quicksand, Fira_Code } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { Analytics } from "@vercel/analytics/react";
-import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { serverEnv } from "@/env/server";
-import { PropsWithLangParams } from "./types";
-import customMetadata from "@/components/metadata-custom";
 
 const monospace = Fira_Code({
   style: ["normal"],
@@ -27,10 +24,6 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"]
 });
-
-export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
-  return customMetadata(lang, "page", "");
-};
 
 export default function RootLayout({
   children

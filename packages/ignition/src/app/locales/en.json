@@ -23,7 +23,8 @@
     "usage": "Usage",
     "usage-slug": "usage",
     "icons": "Icons",
-    "roadmap": "Roadmap"
+    "roadmap": "Roadmap",
+    "try-it": "Try it!"
   },
   "roadmap": {
     "released": "Released",
