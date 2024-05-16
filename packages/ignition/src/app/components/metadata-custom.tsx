@@ -49,13 +49,13 @@ const customMetadata = (
     }
   ];
 
-  let canonicalUrl = new URL(url.replace(lang, ""));
+  let canonicalUrl = new URL(lang, url);
 
   let languagesObj;
 
   if (type === "doc") {
     const basePath = "docs";
-    canonicalUrl = new URL(`${basePath}/${path}`, canonicalUrl);
+    canonicalUrl = new URL(`${lang}/${basePath}/${path}`, url);
 
     languagesObj = AvailableLanguages.reduce((reduced, language) => {
       const doc = withLocale(language).doc(path);
@@ -68,10 +68,10 @@ const customMetadata = (
   } else if (type === "collection" || type === "icon") {
     const basePath = "icons";
 
-    canonicalUrl = new URL(`${basePath}/${collectionId}`, canonicalUrl);
+    canonicalUrl = new URL(`${lang}/${basePath}/${collectionId}`, url);
 
     if (iconId) {
-      canonicalUrl = new URL(`${collectionId}/${iconId}`, canonicalUrl);
+      canonicalUrl = new URL(`${lang}/${collectionId}/${iconId}`, url);
     }
 
     languagesObj = AvailableLanguages.reduce((reduced, language) => {
@@ -87,9 +87,9 @@ const customMetadata = (
       };
     }, {});
   } else {
-    languagesObj = AvailableLanguages.reduce((reduced, language) => {
-      canonicalUrl = new URL(`${path}`, canonicalUrl);
+    canonicalUrl = new URL(`${lang}/${path}`, url);
 
+    languagesObj = AvailableLanguages.reduce((reduced, language) => {
       return {
         ...reduced,
         [language]: new URL(`${url}/${language}/${path}`).toString()
