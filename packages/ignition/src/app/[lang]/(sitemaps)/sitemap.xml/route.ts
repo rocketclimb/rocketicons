@@ -1,40 +1,10 @@
-import { siteConfig } from "@/config/site";
-import { serverEnv } from "@/env/server";
 import { IconsManifest } from "@/data-helpers/icons/manifest";
 import { Languages } from "@/types";
 import { NextRequest } from "next/server";
-import { ChangeFrequency, SitemapRow } from "@/types/sitemap";
-import { sitemapToXml } from "@/app/utils/sitemap-utils";
+import { SitemapRow } from "@/types/sitemap";
+import { generateSitemapEntry, sitemapToXml } from "@/app/utils/sitemap-utils";
 
 type Sitemap = Array<SitemapRow>;
-
-const generateSitemapEntry = (
-  lang: Languages,
-  path?: string,
-  lastModified?: Date,
-  changefreq?: ChangeFrequency
-): SitemapRow => {
-  const { locales } = siteConfig;
-  const urlWithPath = `${serverEnv.NEXT_PUBLIC_APP_URL}/${lang}/${path ?? ""}`;
-
-  const alternates = locales.reduce(
-    (acc, locale) => {
-      acc[locale] = `${serverEnv.NEXT_PUBLIC_APP_URL}/${locale}${path ?? ""}`;
-      return acc;
-    },
-    {} as { [key: string]: string }
-  );
-
-  return {
-    url: urlWithPath,
-    lastModified: lastModified ?? new Date(),
-    alternateRefs: Object.entries(alternates).map(([hreflang, href]) => ({
-      hreflang,
-      href
-    })),
-    changeFrequency: changefreq ?? "daily"
-  };
-};
 
 const pagesForSitemap = (lang: Languages): Sitemap => {
   const urls = [];

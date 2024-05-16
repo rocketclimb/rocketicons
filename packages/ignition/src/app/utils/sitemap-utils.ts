@@ -1,4 +1,7 @@
-import { SitemapIndexRow, SitemapRow } from "@/types/sitemap";
+import { siteConfig } from "@/config/site";
+import { serverEnv } from "@/env/server";
+import { ChangeFrequency, SitemapIndexRow, SitemapRow } from "@/types/sitemap";
+import { Languages } from "@/types";
 
 const mapAlternate = ({ href, hreflang }: { href: string; hreflang: string }) =>
   `<xhtml:link rel="alternate" hreflang="${hreflang}" href="${encodeURI(href)}"/>`;
@@ -37,3 +40,31 @@ export const sitemapToXmlString = (
     ${sitemap.map(indexRowToXmlString).join("\n     ")}
 </sitemapindex>
 `;
+
+export const generateSitemapEntry = (
+  lang: Languages,
+  path?: string,
+  lastModified?: Date,
+  changefreq?: ChangeFrequency
+): SitemapRow => {
+  const { locales } = siteConfig;
+  const urlWithPath = `${serverEnv.NEXT_PUBLIC_APP_URL}/${lang}${path ?? ""}`;
+
+  const alternates = locales.reduce(
+    (acc, locale) => {
+      acc[locale] = `${serverEnv.NEXT_PUBLIC_APP_URL}/${locale}${path ?? ""}`;
+      return acc;
+    },
+    {} as { [key: string]: string }
+  );
+
+  return {
+    url: urlWithPath,
+    lastModified: lastModified ?? new Date(),
+    alternateRefs: Object.entries(alternates).map(([hreflang, href]) => ({
+      hreflang,
+      href
+    })),
+    changeFrequency: changefreq ?? "daily"
+  };
+};

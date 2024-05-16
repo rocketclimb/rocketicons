@@ -56,11 +56,3 @@ export const GET = async () => {
     headers: { "Content-Type": "application/xml; charset=utf-8" }
   });
 };
-
-// This is a temporary solution as proposed here: https://www.reddit.com/r/nextjs/comments/161cbms/creating_a_sitemap_with_translated_alternate/
-// Official documentation for this: https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap
-// The official implementation of alternates is coming in Next 14.3.0:
-// https://github.com/vercel/next.js/discussions/53540
-// https://github.com/vercel/next.js/pull/53765
-// https://github.com/vercel/next.js/commit/e4cd547a505c8380cbf010a78f1e2e3ade0f2307
-// When it comes, we can use a simple sitemap.ts file under /app folder to generate sitemap.xml
