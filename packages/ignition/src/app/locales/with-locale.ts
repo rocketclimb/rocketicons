@@ -1,6 +1,6 @@
 import { Languages } from "@/types";
 import { docIndex, pageComponentIndex } from "content-collections";
-import { Config, Configs, SelectedConfig } from "./types";
+import { Config, Configs, SelectedConfig, Docs } from "./types";
 
 export const withLocale = (lang: Languages) => {
   const getContentFromIndex = (slug: string, { docs, slugMap }: Record<string, any>) => {
@@ -31,7 +31,7 @@ export const withLocale = (lang: Languages) => {
 
   return {
     enSlug: (slug: string) => enSlugFromIndex(slug, docIndex),
-    docs: () => docIndex["docs"],
+    docs: (): Docs => docIndex["docs"],
     doc: (slug: string) => getContentFromIndex(slug, docIndex),
     component: (slug: string) => getContentFromIndex(slug, pageComponentIndex),
     config
