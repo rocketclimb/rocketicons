@@ -43,7 +43,7 @@ export const GET = async (request: NextRequest) => {
         // if it is a page, it should come from the nav locale
         const nav = locale.config("nav") as Record<string, string>;
 
-        if (!!slug) {
+        if (slug) {
           subheading = nav[slug];
         }
       }
@@ -119,7 +119,7 @@ const selectIcon = (
     const collection = IconsManifest.find(({ id }: { id: string }) => id === iconCollectionId);
 
     selectedIconCollectionId = iconCollectionId as CollectionID;
-    if (!!collection) {
+    if (collection) {
       if (hasIcon) {
         iconName = iconId && changeCase.pascalCase(iconId);
         iconFilename = iconId;
@@ -129,9 +129,7 @@ const selectIcon = (
       }
     }
   } else {
-    const chosenIcon = chooseIconByType(lang, subheading);
-    selectedIconCollectionId = chosenIcon[0] as CollectionID;
-    iconFilename = chosenIcon[1];
+    [selectedIconCollectionId, iconFilename] = chooseIconByType(lang, subheading);
   }
 
   const iconUrl = resolve(
