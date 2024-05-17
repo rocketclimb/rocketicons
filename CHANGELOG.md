@@ -1,4 +1,7 @@
 ## [0.3.1](https://github.com/rocketclimb/rocketicons/compare/v0.3.0-release...v0.3.1) (2024-05-17)
+- landingpage layout fixes
+
+## [0.3.0](https://github.com/rocketclimb/rocketicons/compare/v0.3.0-release...v0.3.1) (2024-05-17)
 
 ### Bug Fixes
 
