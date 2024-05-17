@@ -1,6 +1,6 @@
 {
   "name": "ignition",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "scripts": {
     "prebuild": "npm run prebuild:cc && npm run prebuild:gs",
@@ -35,7 +35,7 @@
     "change-case": "^5.4.4",
     "next": "14.1.4",
     "react": "~18.2",
-    "react-dom": "~18.2",
+    "react-dom": "~18.3",
     "react-instantsearch": "^7.7.2",
     "rehype-slug-custom-id": "^1.1.0",
     "remark-frontmatter": "^5.0.0",

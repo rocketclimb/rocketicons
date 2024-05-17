@@ -1,3 +1,9 @@
+## [0.3.1](https://github.com/rocketclimb/rocketicons/compare/v0.3.0-release...v0.3.1) (2024-05-17)
+
+### Miscellaneous
+
+- **deps** bump react-dom from 18.2.0 to 18.3.1 ([6043e5a8](https://github.com/rocketclimb/rocketicons/commit/6043e5a880fbee5b8a93d6d238d9e2c517cbd997))
+
 ## [0.3.0](https://github.com/rocketclimb/rocketicons/compare/v0.2.4-release...v0.3.0) (2024-05-17)
 
 ### Features
