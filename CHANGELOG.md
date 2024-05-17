@@ -9,6 +9,17 @@
 - seo improvements [[ignition](./packages/ignition/CHANGELOG.md)] ([78c70062](https://github.com/rocketclimb/rocketicons/commit/78c700629608fd81c707f4dffcf5251fb219ac15))
 - layout issues on mobile and small screens [[ignition](./packages/ignition/CHANGELOG.md)] ([d3d05ed3](https://github.com/rocketclimb/rocketicons/commit/d3d05ed32d5114a1290ad51d19c4b1be0fbc96fe))
 
+## [0.5.0](https://github.com/rocketclimb/rocketicons/compare/v0.2.4-release...v0.3.0) (2024-05-17)
+
+### Features
+
+- basic playground [[ignition](./packages/ignition/CHANGELOG.md)] ([97c108e0](https://github.com/rocketclimb/rocketicons/commit/97c108e0c4375e2f67de20ee1b7959c8f852a472))
+
+### Bug Fixes
+
+- seo improvements [[ignition](./packages/ignition/CHANGELOG.md)] ([78c70062](https://github.com/rocketclimb/rocketicons/commit/78c700629608fd81c707f4dffcf5251fb219ac15))
+- layout issues on mobile and small screens [[ignition](./packages/ignition/CHANGELOG.md)] ([d3d05ed3](https://github.com/rocketclimb/rocketicons/commit/d3d05ed32d5114a1290ad51d19c4b1be0fbc96fe))
+
 ## [0.4.0](https://github.com/rocketclimb/rocketicons/compare/v0.2.4-release...v0.3.0) (2024-05-17)
 
 ### Features

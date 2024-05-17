@@ -9,7 +9,7 @@
 - seo improvements ([78c70062](https://github.com/rocketclimb/rocketicons/commit/78c700629608fd81c707f4dffcf5251fb219ac15))
 - layout issues on mobile and small screens ([d3d05ed3](https://github.com/rocketclimb/rocketicons/commit/d3d05ed32d5114a1290ad51d19c4b1be0fbc96fe))
 
-## [0.4.0](https://github.com/rocketclimb/rocketicons/compare/v0.2.4-release...v0.3.0) (2024-05-16)
+## [0.4.0](https://github.com/rocketclimb/rocketicons/compare/v0.2.4-release...v0.3.0) (2024-05-17)
 
 ### Features
 
