@@ -11,6 +11,7 @@ import { withLocale } from "@/locales/with-locale";
 import SearchButton from "@/app/components/search/search";
 import Nav from "./nav";
 import Playground from "./playground";
+import { serverEnv } from "@/env/server";
 
 const { componentGroups } = siteConfig.menuConfig;
 
@@ -146,6 +147,7 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => (
       <div className="mt-3">
         <SearchButton lang={lang} />
       </div>
+      <span>{serverEnv.NEXT_PUBLIC_PLAYGROUND_URL == undefined}</span>
       <Playground />
       <DocList lang={lang} />
       <MenuBlock text="Icons" href={`/${lang}/icons`} exactMatch>
