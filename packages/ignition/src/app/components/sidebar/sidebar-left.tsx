@@ -10,6 +10,7 @@ import { MainComponent, Slug, Component, ComponentsAsList, DocsAsList } from "@/
 import { withLocale } from "@/locales/with-locale";
 import SearchButton from "@/app/components/search/search";
 import Nav from "./nav";
+import Playground from "./playground";
 
 const { componentGroups } = siteConfig.menuConfig;
 
@@ -106,9 +107,6 @@ const DocList = ({ lang }: PropsWithLang) => {
 
   return (
     <>
-      <div className="mt-3">
-        <SearchButton lang={lang} />
-      </div>
       {mainMenus.map(([mainDocEnSlug, doc]) => {
         const mainDoc = doc[lang];
         const componentsProp = Object.values(mainDoc.components);
@@ -145,6 +143,10 @@ const DocList = ({ lang }: PropsWithLang) => {
 export const SidebarLeft = ({ lang }: PropsWithLang) => (
   <Nav>
     <ul className={`hidden relative lg:w-56 lg:block group-data-[open=true]:block`}>
+      <div className="mt-3">
+        <SearchButton lang={lang} />
+      </div>
+      <Playground />
       <DocList lang={lang} />
       <MenuBlock text="Icons" href={`/${lang}/icons`} exactMatch>
         <SubMenu>
