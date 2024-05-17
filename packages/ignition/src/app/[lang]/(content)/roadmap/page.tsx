@@ -2,7 +2,6 @@ import { PropsWithLangParams } from "@/types";
 import { withLocale } from "@/locales";
 import { LuCheck } from "rocketicons/lu";
 import { IoCaretUp } from "rocketicons/io5";
-import { RoadmapFile } from "@/types/roadmap";
 import { BiQuestionMark } from "rocketicons/bi";
 import customMetadata from "@/components/metadata-custom";
 import { Metadata } from "next";
@@ -19,7 +18,7 @@ export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Met
 const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
   const { nav, roadmap } = withLocale(lang).config("nav", "roadmap");
 
-  const itemList = (roadmapFile as RoadmapFile)?.items.map((item: any, i: number) => {
+  const itemList = roadmapFile?.items.map((item: any, i: number) => {
     const released = item.type === "released";
     const key = item.date.replace(/[^a-zA-Z0-9]/g, "");
 

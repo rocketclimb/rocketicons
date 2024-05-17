@@ -10,8 +10,6 @@ import { withLocale } from "@/locales/with-locale";
 
 import { PropsWithClassName, PropsWithLang } from "@/types";
 
-//import { useThemeContext } from "./theme-context";
-
 import Button from "@/components/button";
 
 type SelectorsProps = {
@@ -19,7 +17,7 @@ type SelectorsProps = {
 };
 
 const SelectedTheme = ({ selectors }: SelectorsProps) => {
-  const { isLoaded, isDark, userPref: current, setPref } = useThemeHandler();
+  const { userPref: current } = useThemeHandler();
 
   const { Icon, label } = selectors.find(({ theme }) => theme === current) || {};
   return (

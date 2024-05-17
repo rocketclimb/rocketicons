@@ -77,9 +77,6 @@ const Item = ({ id, iconId, name, lang, children }: ItemProps) => (
   </Link>
 );
 
-//group/button transition-all duration-200 flex flex-col flex-shrink-0 items-center justify-center overflow-auto size-24 sm:size-28 mb-2 hover:mb-0 rounded border border-transparent hover:border-sky-900 dark:hover:bg-slate-700
-//transition-all duration-200 capitalize text-xs mt-2 max-w-16 sm:max-w-24 truncate group-hover/button:mt-1 group-hover/button:underline
-
 type ItemsLoaderProps = {
   size: number;
 };

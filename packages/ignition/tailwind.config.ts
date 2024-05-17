@@ -116,7 +116,7 @@ const config: Config = {
       addVariant("quote", ".quote &");
       addVariant("thin", ".thin &");
       addVariant("docked", "nav &");
-      addVariant("landpage", ".landpage ~ .theme-selector &");
+      addVariant("landingpage", ".landingpage ~ .theme-selector &");
       addVariant("content", ".content ~ .theme-selector &");
       addVariant("hero", ".hero &");
       addVariant("icons-hero", ".icons-hero &");

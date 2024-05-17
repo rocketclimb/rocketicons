@@ -8,10 +8,9 @@ import RocketIconsText from "@/components/rocketicons-text";
 import { siteConfig } from "@/config/site";
 import { MainComponent, Slug, Component, ComponentsAsList, DocsAsList } from "@/locales/types";
 import { withLocale } from "@/locales/with-locale";
-import SearchButton from "@/app/components/search/search";
+import SearchButton from "@/components/search/search";
 import Nav from "./nav";
 import Playground from "./playground";
-import { serverEnv } from "@/env/server";
 
 const { componentGroups } = siteConfig.menuConfig;
 
@@ -114,7 +113,7 @@ const DocList = ({ lang }: PropsWithLang) => {
         const hasComponents = componentsProp.length > 0;
 
         const components = hasComponents
-          ? componentsProp.sort(sortComponents)
+          ? toSorted(componentsProp)
           : docs.filter(filterComponentsByGroup(lang, mainDocEnSlug));
 
         return (
@@ -147,7 +146,6 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => (
       <div className="mt-3">
         <SearchButton lang={lang} />
       </div>
-      <span>{serverEnv.NEXT_PUBLIC_PLAYGROUND_URL == undefined}</span>
       <Playground />
       <DocList lang={lang} />
       <MenuBlock text="Icons" href={`/${lang}/icons`} exactMatch>
@@ -160,7 +158,8 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => (
   </Nav>
 );
 
-const sortComponents = ({ order: a }: Component, { order: b }: Component) => a - b;
+const toSorted = (sorting: Component[]) =>
+  sorting.sort(({ order: a }: Component, { order: b }: Component) => a - b);
 
 const filterComponentsByGroup =
   (
