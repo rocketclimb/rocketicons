@@ -1,3 +1,9 @@
+## [0.3.1](https://github.com/rocketclimb/rocketicons/compare/v0.3.0-release...v0.3.1) (2024-05-17)
+
+### Miscellaneous
+
+- **deps-dev** bump react-native-svg from 15.1.0 to 15.3.0 ([d047a097](https://github.com/rocketclimb/rocketicons/commit/d047a097701959308e704ab911dbe4278e816afd))
+
 ## [0.3.0](https://github.com/rocketclimb/rocketicons/compare/v0.2.4-release...v0.3.0) (2024-05-17)
 
 ### Features
