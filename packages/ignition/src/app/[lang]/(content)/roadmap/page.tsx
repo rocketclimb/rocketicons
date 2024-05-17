@@ -1,4 +1,3 @@
-import { promises as fs } from "fs";
 import { PropsWithLangParams } from "@/types";
 import { withLocale } from "@/locales";
 import { LuCheck } from "rocketicons/lu";
