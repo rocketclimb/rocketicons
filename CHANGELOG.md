@@ -1,4 +1,10 @@
 ## [0.3.1](https://github.com/rocketclimb/rocketicons/compare/v0.3.0-release...v0.3.1) (2024-05-17)
+
+### Bug Fixes
+
+- playground url fixed [[ignition](./packages/ignition/CHANGELOG.md)] ([8355e217](https://github.com/rocketclimb/rocketicons/commit/8355e217ca22d848d6bd22a07bd7b8f49378a8b2))
+
+## [0.3.1](https://github.com/rocketclimb/rocketicons/compare/v0.3.0-release...v0.3.1) (2024-05-17)
 - landingpage layout fixes
 
 ## [0.3.0](https://github.com/rocketclimb/rocketicons/compare/v0.3.0-release...v0.3.1) (2024-05-17)
