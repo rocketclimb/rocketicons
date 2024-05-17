@@ -43,7 +43,7 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#000000" />
       </head>
       <body
-        className={`${inter.variable} ${quicksand.variable} ${monospace.variable} font-inter bg-white has-[.theme-selector.dark]:bg-slate-900 has-[.theme-selector.dark]:dark-scrollbar`}
+        className={`${inter.variable} ${quicksand.variable} ${monospace.variable} font-inter bg-white has-[.theme-selector.dark]:bg-slate-900`}
       >
         {children}
         <Analytics />

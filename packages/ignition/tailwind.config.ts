@@ -55,12 +55,6 @@ const config: Config = {
         ".active-content span": {
           "@apply text-sky-500 dark:text-sky-500": {}
         },
-        ".dark-scrollbar::-webkit-scrollbar-thumb": {
-          background: "var(--dark-scrollbar-track-thumb)"
-        },
-        ".dark-scrollbar::-webkit-scrollbar-track": {
-          background: "var(--dark-scrollbar-track-bg)"
-        },
         ".default-text-color": {
           "@apply text-slate-900 dark:text-slate-200": {}
         },
@@ -106,6 +100,12 @@ const config: Config = {
           code: {
             "@apply lg:text-[.9rem]/normal": {}
           }
+        },
+        ".dark-mask-image": {
+          "mask-image": "linear-gradient(transparent, black)"
+        },
+        ".light-mask-image": {
+          "mask-image": "linear-gradient(to bottom, transparent, black)"
         }
       });
       addVariant("highlight", "h1 + &");

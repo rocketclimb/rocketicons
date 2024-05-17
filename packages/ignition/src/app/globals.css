@@ -27,6 +27,8 @@ html:has(.theme-selector.dark) {
 
 * {
   scrollbar-gutter: stable;
+  scrollbar-color: var(--scrollbar-track-thumb) var(--scrollbar-track-bg);
+  scrollbar-width: thin;
 }
 
 ::-webkit-scrollbar {
@@ -67,6 +69,29 @@ html:has(.theme-selector.dark) {
 
 .dark ::-webkit-scrollbar-thumb {
   background: var(--dark-scrollbar-track-thumb);
+}
+
+.dark * {
+  scrollbar-color: var(--dark-scrollbar-track-thumb) var(--dark-scrollbar-track-bg);
+}
+
+html:has(.theme-selector.dark),
+body:has(.theme-selector.dark) {
+  scrollbar-color: var(--dark-scrollbar-track-thumb) var(--dark-scrollbar-track-bg);
+}
+
+html:has(.theme-selector.dark)::-webkit-scrollbar-thumb,
+body:has(.theme-selector.dark)::-webkit-scrollbar-thumb {
+  background: var(--dark-scrollbar-track-thumb);
+}
+
+html:has(.theme-selector.dark)::-webkit-scrollbar-track,
+body:has(.theme-selector.dark)::-webkit-scrollbar-track {
+  background: var(--dark-scrollbar-track-bg);
+}
+
+[data-previewer="true"] {
+  position: relative;
 }
 
 @layer componenets {
