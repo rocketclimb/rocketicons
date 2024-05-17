@@ -1,6 +1,5 @@
 "use client";
-import { AnimatedCodeBlock, ScriptAction } from "@/components/code-block";
-import { Script } from "@/components/code-block/types";
+import { AnimatedCodeBlock, ScriptAction, Script } from "@rocketclimb/code-block";
 import IconLoader, { IconHandlerProps } from "@/components/icons/icon-loader";
 
 import { sizes } from "./utils";
@@ -45,7 +44,7 @@ const Animation = ({ Icon, iconName }: IconHandlerProps & { iconName: string }) 
         <Icon className={`transition duration-500 ${state}`} />
       </div>
       <AnimatedCodeBlock
-        className="w-96 md:w-[500px]"
+        className="w-[298px] xs:w-[365px] md:w-[500px]"
         variants="minimalist"
         skipRender={true}
         onCommit={(_, state) => state && setState(state)}
@@ -85,7 +84,7 @@ type SizingAnimationProsp = {
 };
 
 const SizingAnimation = ({ collection, icon }: SizingAnimationProsp) => (
-  <div className="flex h-48 flex-col sm:flex-row my-12 items-center justify-center gap-4">
+  <div className="flex h-48 flex-col sm:flex-row xs:my-12 items-center justify-center gap-4">
     <IconLoader collectionId={collection} icon={icon} iconName={icon} Handler={Animation} />
   </div>
 );

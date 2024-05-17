@@ -42,8 +42,11 @@
   "states": "States",
   "show-all": "Show all icons",
   "icon": "icon",
+  "learn-more": "Learn more",
   "table": {
-    "headers": ["Class", "Properties"]
+    "headers": ["Class", "Properties"],
+    "show-all": "show all",
+    "show-fewer": "show fewer"
   },
   "code-block": {
     "copy": "click to copy",

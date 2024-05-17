@@ -1,5 +1,6 @@
 import path from "path";
 import { promises as fs } from "fs";
+import { createHash } from "crypto";
 import camelcase from "camelcase";
 import { optimize as svgoOptimize } from "svgo";
 import { IconsInfoManifest } from "@rocketicons/core";
@@ -30,6 +31,9 @@ const ignore = (err: any) => {
 
 export const write = (str: string, ROOT: string, ...filePath: string[]) =>
   fs.writeFile(path.resolve(ROOT, ...filePath), str, "utf8").catch(ignore);
+
+export const append = (str: string, ROOT: string, ...filePath: string[]) =>
+  fs.appendFile(path.resolve(ROOT, ...filePath), str, "utf8").catch(ignore);
 
 export const mkdir = (ROOT: string, ...filePath: string[]) =>
   fs.mkdir(path.resolve(ROOT, ...filePath)).catch(ignore);
@@ -83,6 +87,8 @@ export const dirInit = async ({ DIST, LIB, PLUGIN, DATA, SVGS }: TaskContext) =>
   for (const file of initFiles) {
     await write("// THIS FILE IS AUTO GENERATED\n", DIST, file);
   }
+
+  await write("// THIS FILE IS AUTO GENERATED\n", SVGS, ".lock");
 };
 
 export const writeIconModuleAndSvgs = async (
@@ -122,9 +128,9 @@ export const writeIconModuleAndSvgs = async (
       const manifestName = nameToManifest(icon, name);
 
       await Promise.all([
-        fs.appendFile(path.resolve(DIST, icon.id, "index.mjs"), modRes, "utf8"),
-        fs.appendFile(path.resolve(DIST, icon.id, "index.js"), comRes, "utf8"),
-        fs.appendFile(path.resolve(DIST, icon.id, "index.d.ts"), dtsRes, "utf8"),
+        append(modRes, DIST, icon.id, "index.mjs"),
+        append(comRes, DIST, icon.id, "index.js"),
+        append(dtsRes, DIST, icon.id, "index.d.ts"),
         write(
           JSON.stringify({ iconTree: iconData, variant }, null, 2),
           SVGS,
@@ -142,4 +148,5 @@ export const writeIconModuleAndSvgs = async (
       exists.add(file);
     }
   }
+  await append(createHash("md5").update(JSON.stringify(icon)).digest("hex"), SVGS, ".lock");
 };

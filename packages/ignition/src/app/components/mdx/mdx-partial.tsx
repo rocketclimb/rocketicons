@@ -1,6 +1,6 @@
 import { PropsWithClassName, PropsWithLang } from "@/types";
 import dynamic from "next/dynamic";
-import { withLocale } from "@/app/locales";
+import { withLocale } from "@/locales";
 import { DependencyList } from "react";
 
 type Callback = <T extends Function>(callback: T, deps: DependencyList) => T;

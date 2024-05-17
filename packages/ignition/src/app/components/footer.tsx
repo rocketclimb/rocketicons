@@ -7,9 +7,9 @@ import GitHubIcon from "@/app/components/github-icon";
 const Footer = () => {
   return (
     <footer className="w-full mt-8 h-16">
-      <div className="px-4 pt-4 pb-5 border-t border-slate-200 flex flex-row text-slate-500 dark:border-slate-200/5">
+      <div className="px-4 pt-4 pb-5 border-t border-slate-200 flex flex-row items-center text-slate-500 dark:border-slate-200/5">
         <div className="grow">
-          <p>
+          <p className="text-sm xs:text-base">
             Copyright © 2024 <RocketClimbText />
           </p>
         </div>

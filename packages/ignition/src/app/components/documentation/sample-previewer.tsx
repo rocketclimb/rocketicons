@@ -8,8 +8,8 @@ type SamplePreviewerProps = {
 
 const SamplePreviewer = ({ options, Icon }: SamplePreviewerProps) => (
   <GridContainer>
-    <div className="mx-auto rounded-xl max-w-[380px] md:max-w-xl lg:max-w-2xl xl:max-w-max overflow-hidden p-8">
-      <div className="flex w-full justify-center items-end space-x-4 font-mono font-bold text-xs text-center text-white">
+    <div className="mx-auto rounded-xl max-w-[320px] xs:max-w-[380px] md:max-w-xl lg:max-w-2xl xl:max-w-max overflow-hidden p-8">
+      <div className="flex w-full justify-center items-end space-x-2 xs:space-x-4 font-mono font-bold text-xs text-center text-white">
         {options.map((option, i) => (
           <div key={i}>
             <Icon className={option} />

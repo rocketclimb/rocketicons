@@ -1,6 +1,5 @@
 "use client";
-import { AnimatedCodeBlock, ScriptAction } from "@/components/code-block";
-import { Script } from "@/components/code-block/types";
+import { AnimatedCodeBlock, ScriptAction, Script } from "@rocketclimb/code-block";
 
 import { useEffect, useState } from "react";
 import { CollectionID } from "rocketicons/data";
@@ -9,8 +8,8 @@ import IconLoader, { IconHandlerProps } from "@/components/icons/icon-loader";
 const Animation = ({
   Icon,
   colors,
-  iconName
-}: IconHandlerProps & { colors: string[]; iconName: string }) => {
+  iconInfo: { compName: iconName }
+}: IconHandlerProps & { colors: string[] }) => {
   const [first] = colors;
   const final = `icon-${[...colors].pop()!}`;
   const initial = `icon-${first}`;
@@ -46,11 +45,11 @@ const Animation = ({
 
   return (
     <>
-      <div className="size-48 order-last sm:order-none flex items-center justify-center border rounded-lg border-slate-200 dark:border-slate-800">
-        <Icon className={`transition duration-500 ${state} size-48`} />
+      <div className="size-20 xs:size-32 lg:size-48 order-last sm:order-none flex items-center justify-center border rounded-lg border-slate-200 dark:border-slate-800">
+        <Icon className={`transition duration-500 ${state} size-20 xs:size-32 lg:size-48`} />
       </div>
       <AnimatedCodeBlock
-        className="w-96 md:w-[480px]"
+        className="w-[298px] xs:w-[365px] md:w-[480px]"
         variants="minimalist"
         skipRender={true}
         onCommit={(_, state) => state && setState(state)}
@@ -76,16 +75,9 @@ type ColorsAnimationProsp = {
   colors: string[];
 };
 
-// TODO: Allow the IconLoader to pass along the iconName to the handler being called.
 const ColorsAnimation = ({ collection, icon, colors }: ColorsAnimationProsp) => (
-  <div className="flex h-72 sm:h-48 flex-col sm:flex-row my-12 items-center justify-center gap-4">
-    <IconLoader
-      collectionId={collection}
-      icon={icon}
-      iconName={icon}
-      Handler={Animation}
-      colors={colors}
-    />
+  <div className="flex h-52 sm:h-48 flex-col sm:flex-row my-3 xs:my-12 items-center justify-center gap-4">
+    <IconLoader collectionId={collection} icon={icon} Handler={Animation} colors={colors} />
   </div>
 );
 

@@ -4,11 +4,8 @@ import { Inter, Quicksand, Fira_Code } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { Analytics } from "@vercel/analytics/react";
-import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { serverEnv } from "@/env/server";
-import { PropsWithLangParams } from "./types";
-import customMetadata from "@/components/metadata-custom";
 
 const monospace = Fira_Code({
   style: ["normal"],
@@ -28,10 +25,6 @@ const inter = Inter({
   subsets: ["latin"]
 });
 
-export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
-  return customMetadata(lang, "page", "");
-};
-
 export default function RootLayout({
   children
 }: Readonly<{
@@ -48,7 +41,6 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="rocketicons" />
         <meta name="application-name" content="rocketicons" />
         <meta name="msapplication-TileColor" content="#000000" />
-        <meta name="theme-color" content="#ffffff" />
       </head>
       <body
         className={`${inter.variable} ${quicksand.variable} ${monospace.variable} font-inter bg-white has-[.theme-selector.dark]:bg-slate-900 has-[.theme-selector.dark]:dark-scrollbar`}
