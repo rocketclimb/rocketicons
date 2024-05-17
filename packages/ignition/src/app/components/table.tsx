@@ -73,30 +73,28 @@ export const Table = ({ lang, hasAdditional, collapse, children }: TableProps) =
   } = withLocale(lang).config("table");
 
   return (
-    <>
-      <div data-collapse={collapse} className="group/table collapse-table">
-        <div className="min-w-full sm:px-6 md:px-0">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr>
-                <Th>{header1}</Th>
-                <Th>{header2}</Th>
-                {hasAdditional && <Th />}
-              </tr>
-            </thead>
-            <tbody className="align-baseline">{children}</tbody>
-          </table>
-        </div>
-        <div className="hidden group-data-[collapse=true]/table:max-lg:block text-center backdrop-opacity-90 bg-white/50 dark:bg-slate-900/75 -mt-8 has-[:checked]:mt-0 has-[:checked]:sticky has-[:checked]:bottom-0 py-1.5">
-          <div className="text-sm py-1 dark:py-1.5 px-4 cursor-pointer dark:text-slate-50 dark:ring-1 ring-slate-100/20 dark:ring-inset font-semibold inline-block border rounded-xl bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-600/10">
-            <input id="show-all" className="w-0 invisible" type="checkbox" name="show-all" />
-            <label htmlFor="show-all" className="cursor-pointer">
-              <span className="showing-all capitalize">{showAll}</span>
-              <span className="showing-fewer capitalize">{showFewer}</span>
-            </label>
-          </div>
+    <div data-collapse={collapse} className="group/table collapse-table">
+      <div className="min-w-full sm:px-6 md:px-0">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr>
+              <Th>{header1}</Th>
+              <Th>{header2}</Th>
+              {hasAdditional && <Th />}
+            </tr>
+          </thead>
+          <tbody className="align-baseline">{children}</tbody>
+        </table>
+      </div>
+      <div className="hidden group-data-[collapse=true]/table:max-lg:block text-center backdrop-opacity-90 bg-white/50 dark:bg-slate-900/75 -mt-8 has-[:checked]:mt-0 has-[:checked]:sticky has-[:checked]:bottom-0 py-1.5">
+        <div className="text-sm py-1 dark:py-1.5 px-4 cursor-pointer dark:text-slate-50 dark:ring-1 ring-slate-100/20 dark:ring-inset font-semibold inline-block border rounded-xl bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-600/10">
+          <input id="show-all" className="w-0 invisible" type="checkbox" name="show-all" />
+          <label htmlFor="show-all" className="cursor-pointer">
+            <span className="showing-all capitalize">{showAll}</span>
+            <span className="showing-fewer capitalize">{showFewer}</span>
+          </label>
         </div>
       </div>
-    </>
+    </div>
   );
 };

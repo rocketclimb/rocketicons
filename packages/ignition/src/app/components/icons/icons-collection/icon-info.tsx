@@ -29,7 +29,7 @@ const InfoHandler = ({
   Icon,
   collectionId,
   iconInfo: info
-}: { icon: string; collectionId: CollectionID } & IconHandlerProps & PropsWithLang) => {
+}: { collectionId: CollectionID } & IconHandlerProps & PropsWithLang) => {
   const {
     colors,
     sizes,
