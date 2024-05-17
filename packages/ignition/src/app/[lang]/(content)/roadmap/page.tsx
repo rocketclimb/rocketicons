@@ -20,7 +20,7 @@ const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
   const { nav, roadmap } = withLocale(lang).config("nav", "roadmap");
 
   const roadmapFile = JSON.parse(
-    await fs.readFile(process.cwd() + `/src/app/locales/roadmap.json`, "utf-8")
+    await fs.readFile(`src/app/locales/roadmap.json`, "utf-8")
   ) as RoadmapFile;
 
   const itemList = roadmapFile?.items.map((item: any, i: number) => {
