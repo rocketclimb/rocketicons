@@ -28,21 +28,19 @@ const MainNav = ({ lang }: PropsWithLang) => {
   ];
   return (
     <>
-      <div className="flex w-full items-center justify-end">
-        <div className="hidden lg:block">
-          <ul className="flex items-center gap-x-7">
-            {navItems.map(({ label, link }, i) => (
-              <li
-                className="font-semibold text-slate-700 text-sm leading-6 dark:text-slate-200"
-                key={i}
-              >
-                <Link className="hover:text-sky-500" href={link}>
-                  {label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="hidden lg:flex w-full items-center justify-end">
+        <ul className="flex items-center gap-x-7">
+          {navItems.map(({ label, link }, i) => (
+            <li
+              className="font-semibold text-slate-700 text-sm leading-6 dark:text-slate-200"
+              key={i}
+            >
+              <Link className="hover:text-sky-500" href={link}>
+                {label}
+              </Link>
+            </li>
+          ))}
+        </ul>
         <div className="hidden lg:flex items-center border-l border-slate-200 ml-6 pl-6 dark:border-slate-800">
           <ThemeSelector lang={lang} />
           <GitHubIcon className="ml-6" />
