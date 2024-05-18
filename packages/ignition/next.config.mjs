@@ -4,7 +4,7 @@ import rehypeShiki from "@shikijs/rehype";
 import rehypeSlug from "rehype-slug-custom-id";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
-import { shikiColorToClassTransform } from "@rocketclimb/code-block/shiki-tranform";
+import { shikiColorToClassTransform } from "@rocketclimb/code-block/shiki-transform";
 import { IconsManifest } from "rocketicons/data";
 
 const theme = createCssVariablesTheme({
