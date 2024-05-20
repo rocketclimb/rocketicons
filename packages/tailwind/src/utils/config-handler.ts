@@ -23,6 +23,32 @@ const VARIANT_CLASSES: Record<Variant, "stroke" | "fill"> = {
 export const DEFAULT_CLASS_NAME = "default";
 export const CLASS_NAME_SEPARATOR = ".";
 
+const sanitize = (classes: string): string => classes.trim().replace(/\s{2,}/g, " ");
+
+const toColorsStyles = (parsedColors: ParsedColors, variant: Variant) =>
+  ([] as StyleHandler[]).concat(
+    ...Object.entries(parsedColors).map(([name, color]) => ({
+      name: () => `${name}${CLASS_NAME_SEPARATOR}${variant}`,
+      styles: () => `${VARIANT_CLASSES[variant]}-${color}`
+    }))
+  );
+
+const toShortCutStyles = (theme: ThemeOptions, name: string, color: string) =>
+  ([] as StyleHandler[]).concat(
+    ...Object.keys(theme.sizes).map((size) =>
+      ([] as StyleHandler[]).concat([
+        {
+          name: () => `${name}-${size}`,
+          styles: () => sanitize(theme.sizes[size])
+        },
+        ...AVAILABLE_VARIANTS.map((variant) => ({
+          name: () => `${name}-${size}${CLASS_NAME_SEPARATOR}${variant}`,
+          styles: () => `${VARIANT_CLASSES[variant]}-${color}`
+        }))
+      ])
+    )
+  );
+
 const themeHandler = <T extends ThemeOptions>(
   isExtending: boolean,
   defaultTheme: ThemeOptions,
@@ -69,14 +95,7 @@ const generateConfig = <T extends ThemeOptions>(theme: T, parsedColors: ParsedCo
 
   const colors = () =>
     ([] as StyleHandler[]).concat(
-      ...AVAILABLE_VARIANTS.map((variant) =>
-        ([] as StyleHandler[]).concat(
-          ...Object.entries(parsedColors).map(([name, color]) => ({
-            name: () => `${name}${CLASS_NAME_SEPARATOR}${variant}`,
-            styles: () => `${VARIANT_CLASSES[variant]}-${color}`
-          }))
-        )
-      )
+      ...AVAILABLE_VARIANTS.map((variant) => toColorsStyles(parsedColors, variant))
     );
 
   const sizes = () =>
@@ -110,25 +129,8 @@ const generateConfig = <T extends ThemeOptions>(theme: T, parsedColors: ParsedCo
 
   const shortcuts = () =>
     ([] as StyleHandler[]).concat(
-      ...Object.entries(parsedColors).map(([name, color]) =>
-        ([] as StyleHandler[]).concat(
-          ...Object.keys(theme.sizes).map((size) =>
-            ([] as StyleHandler[]).concat([
-              {
-                name: () => `${name}-${size}`,
-                styles: () => sanitize(theme.sizes[size])
-              },
-              ...AVAILABLE_VARIANTS.map((variant) => ({
-                name: () => `${name}-${size}${CLASS_NAME_SEPARATOR}${variant}`,
-                styles: () => `${VARIANT_CLASSES[variant]}-${color}`
-              }))
-            ])
-          )
-        )
-      )
+      ...Object.entries(parsedColors).map(([name, color]) => toShortCutStyles(theme, name, color))
     );
-
-  const sanitize = (classes: string): string => classes.trim().replace(/\s{2,}/g, " ");
 
   return {
     defaults,

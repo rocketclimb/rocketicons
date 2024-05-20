@@ -4,8 +4,6 @@ import { Extensor, Style, StyleHandler } from "@/types";
 
 export const stylesGenerator = (prefix: string) => {
   const classPrefix = `.${prefix}`;
-  prefix = `${prefix}-`;
-
   const parsedStyles: Style = {};
 
   const extractClasses = (name: string) => {
@@ -19,7 +17,7 @@ export const stylesGenerator = (prefix: string) => {
     }
     const [main, secondary] = extractClasses(name);
     const className = `${classPrefix}-${main}`;
-    const selector = `${main === DEFAULT_CLASS_NAME ? "" : `${classPrefix}-${DEFAULT_CLASS_NAME}`}`;
+    const selector = main === DEFAULT_CLASS_NAME ? "" : `${classPrefix}-${DEFAULT_CLASS_NAME}`;
     const style = (parsedStyles[className] ?? {}) as Style;
     if (secondary) {
       style[`&${selector}${secondary}`] = { [`@apply ${styles}`]: {} };
