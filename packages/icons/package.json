@@ -30,8 +30,10 @@
     "npm": ">=6.0.0"
   },
   "peerDependencies": {
+    "react": "*"
+  },
+  "optionalDependencies": {
     "nativewind": ">=2",
-    "react": "*",
     "react-native-svg": ">=15"
   },
   "devDependencies": {
