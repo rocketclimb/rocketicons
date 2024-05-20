@@ -122,7 +122,7 @@ const generateConfig = <T extends ThemeOptions>(theme: T, parsedColors: ParsedCo
       name: () => `${DEFAULT_CLASS_NAME}${CLASS_NAME_SEPARATOR}${variant}`,
       styles: () =>
         sanitize(
-          `${(theme.variants && theme.variants[variant]) || ""} ${VARIANT_CLASSES[variant]}-${parsedColors[defaultColor]}`
+          `${theme.variants?.[variant] ?? ""} ${VARIANT_CLASSES[variant]}-${parsedColors[defaultColor]}`
         )
     }))
   ];
