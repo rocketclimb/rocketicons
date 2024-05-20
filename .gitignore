@@ -4,7 +4,7 @@ node_modules
 tsconfig*.tsbuildinfo
 packages/icons/*
 !packages/icons/CHANGELOG.md
-packages/icons/package.json
+!packages/icons/package.json
 *.tgz
 release-notes.md
 .DS_Store
