@@ -4,7 +4,7 @@ export type Style = Record<string, Record<string, object>>;
 
 export type Extensor = (classPrefix: string) => Generator;
 
-export type Generator = (className: string, styles: string) => Style;
+export type Generator = (className: string, styles: string) => void;
 
 export interface ThemeOptions {
   default?: string;
@@ -30,21 +30,20 @@ export type Config = PluginAPI["config"];
 export type ConfigProp = string | Record<string, string | string[]>;
 
 export type StyleHandler = {
-  variant: () => string;
   name: () => string;
   styles: () => string;
-  options: () => StyleHandler[];
 };
 
 export type DefaultStyleHandler = {
-  variants: () => StyleHandler[];
   colors: () => StyleHandler[];
   sizes: () => StyleHandler[];
 };
 
 export type Theme = {
-  variants: () => StyleHandler[];
+  defaults: () => StyleHandler[];
   sizes: () => StyleHandler[];
+  colors: () => StyleHandler[];
+  shortcuts: () => StyleHandler[];
 };
 
 export type ThemeHandler<T extends ThemeOptions> = (

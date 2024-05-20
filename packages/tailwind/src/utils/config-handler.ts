@@ -5,7 +5,6 @@ import {
   ThemeProperties,
   Defaults,
   StyleHandler,
-  StyleOptions,
   ConfigProp,
   ThemeConfig,
   ThemeOption,
@@ -13,9 +12,16 @@ import {
   ParsedColors
 } from "@/types";
 
-const AVAILABLE_VARIANTS = ["outlined", "filled"];
+const AVAILABLE_VARIANTS = ["outlined", "filled"] as const;
+type Variant = (typeof AVAILABLE_VARIANTS)[number];
+
+const VARIANT_CLASSES: Record<Variant, "stroke" | "fill"> = {
+  outlined: "stroke",
+  filled: "fill"
+};
 
 export const DEFAULT_CLASS_NAME = "default";
+export const CLASS_NAME_SEPARATOR = ".";
 
 const themeHandler = <T extends ThemeOptions>(
   isExtending: boolean,
@@ -61,51 +67,74 @@ const generateConfig = <T extends ThemeOptions>(theme: T, parsedColors: ParsedCo
 
   const { defaultColor, defaultSize } = getDefaults();
 
-  const sizeVariants = () =>
-    ([] as StyleHandler[]).concat(...AVAILABLE_VARIANTS.map((variant) => sizes(variant)));
+  const colors = () =>
+    ([] as StyleHandler[]).concat(
+      ...AVAILABLE_VARIANTS.map((variant) =>
+        ([] as StyleHandler[]).concat(
+          ...Object.entries(parsedColors).map(([name, color]) => ({
+            name: () => `${name}${CLASS_NAME_SEPARATOR}${variant}`,
+            styles: () => `${VARIANT_CLASSES[variant]}-${color}`
+          }))
+        )
+      )
+    );
 
-  const variants = () =>
-    AVAILABLE_VARIANTS.map((variant) => ({
-      variant: () => variant,
+  const sizes = () =>
+    ([] as StyleHandler[]).concat(
+      ([] as StyleHandler[]).concat(
+        ...Object.keys(theme.sizes).map((size) => ({
+          name: () => `${size}`,
+          styles: () => sanitize(theme.sizes[size])
+        }))
+      )
+    );
+
+  const defaults = () => [
+    {
       name: () => DEFAULT_CLASS_NAME,
-      styles: () => stylesFor({ variant }),
-      options: () => [...colors(variant), ...sizes(variant)]
-    }));
-
-  const colors = (variant: string) =>
-    Object.keys(parsedColors).map((color) => ({
+      styles: () => sanitize(`${theme.baseStyle ?? ""}`)
+    },
+    {
+      name: () => `${DEFAULT_CLASS_NAME}`,
+      styles: () => sanitize(`${theme.sizes[defaultSize]}`)
+    },
+    ...AVAILABLE_VARIANTS.map((variant) => ({
       variant: () => variant,
-      name: () => color,
-      styles: () => stylesFor({ variant, color }),
-      options: () => sizes(variant, color)
-    }));
+      name: () => `${DEFAULT_CLASS_NAME}${CLASS_NAME_SEPARATOR}${variant}`,
+      styles: () =>
+        sanitize(
+          `${(theme.variants && theme.variants[variant]) || ""} ${VARIANT_CLASSES[variant]}-${parsedColors[defaultColor]}`
+        )
+    }))
+  ];
 
-  const sizes = (variant: string, color?: string) =>
-    Object.keys(theme.sizes).map((size) => ({
-      variant: () => variant,
-      name: () => size,
-      styles: () => stylesFor({ variant, color, size }),
-      options: () => [] as StyleHandler[]
-    }));
+  const shortcuts = () =>
+    ([] as StyleHandler[]).concat(
+      ...Object.entries(parsedColors).map(([name, color]) =>
+        ([] as StyleHandler[]).concat(
+          ...Object.keys(theme.sizes).map((size) =>
+            ([] as StyleHandler[]).concat([
+              {
+                name: () => `${name}-${size}`,
+                styles: () => sanitize(theme.sizes[size])
+              },
+              ...AVAILABLE_VARIANTS.map((variant) => ({
+                name: () => `${name}-${size}${CLASS_NAME_SEPARATOR}${variant}`,
+                styles: () => `${VARIANT_CLASSES[variant]}-${color}`
+              }))
+            ])
+          )
+        )
+      )
+    );
 
   const sanitize = (classes: string): string => classes.trim().replace(/\s{2,}/g, " ");
 
-  const stylesFor = ({ variant, color, size }: StyleOptions) => {
-    color = color || defaultColor;
-    size = size || defaultSize;
-    const currentStyle = (theme.variants && theme.variants[variant]) || "";
-    const currentColorStyle = (color && parsedColors[color]) || "";
-    const appliedColor = `fill-${currentColorStyle} stroke-${currentColorStyle}`;
-    return sanitize(
-      `${theme.baseStyle || ""} ${currentStyle || ""} ${appliedColor || ""} ${
-        theme.sizes[size] || ""
-      }`
-    );
-  };
-
   return {
-    variants,
-    sizes: () => sizeVariants()
+    defaults,
+    colors,
+    sizes,
+    shortcuts
   };
 };
 
