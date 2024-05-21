@@ -2,9 +2,10 @@ import { PluginAPI } from "tailwindcss/types/config";
 
 export type Style = Record<string, Record<string, object>>;
 
-export type Extensor = (classPrefix: string) => Generator;
-
-export type Generator = (className: string, styles: string) => void;
+export type Generator = {
+  generator: (className: string, styles: string) => void;
+  styles: () => Style;
+};
 
 export interface ThemeOptions {
   default?: string;

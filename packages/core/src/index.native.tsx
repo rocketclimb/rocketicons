@@ -1,6 +1,12 @@
 import { SvgCss } from "react-native-svg/css";
 import { styled } from "nativewind";
-import { attrToString, styleToString, tree2String, handleClassName, mergeStyles } from "./utils";
+import {
+  attrToString,
+  styleToString,
+  tree2String,
+  nativeHandleClassName,
+  mergeStyles
+} from "./utils";
 import { IconTree, Variants, IconType, IconBaseProps } from "@/types";
 
 type NativeIconProps = {
@@ -26,16 +32,17 @@ const NativeIcon = ({ style, name, variant, data }: NativeIconProps) => {
 
 const StyledNativeIcon = styled(NativeIcon);
 
-const NativeGenIcon =
-  (data: any, variant: Variants, name: string): IconType =>
-  ({ className }: IconBaseProps) => (
-    <StyledNativeIcon
-      data={data}
-      name={name}
-      variant={variant}
-      className={handleClassName(variant, className ?? "")}
-    />
-  );
+const NativeGenIcon = (data: IconTree, variant: Variants, name: string): IconType =>
+  function NativeGenIcon({ className }: IconBaseProps) {
+    return (
+      <StyledNativeIcon
+        data={data}
+        name={name}
+        variant={variant}
+        className={nativeHandleClassName(variant, className ?? "")}
+      />
+    );
+  };
 
 export const IconGenerator = (svg: IconTree, variant: Variants, name: string): IconType =>
   NativeGenIcon(svg, variant, name);

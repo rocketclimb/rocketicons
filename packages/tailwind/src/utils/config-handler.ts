@@ -12,6 +12,8 @@ import {
   ParsedColors
 } from "@/types";
 
+import sanitize from "./sanitize";
+
 const AVAILABLE_VARIANTS = ["outlined", "filled"] as const;
 type Variant = (typeof AVAILABLE_VARIANTS)[number];
 
@@ -20,10 +22,9 @@ const VARIANT_CLASSES: Record<Variant, "stroke" | "fill"> = {
   filled: "fill"
 };
 
+export const ROOT_CLASS_NAME = "ri";
 export const DEFAULT_CLASS_NAME = "default";
 export const CLASS_NAME_SEPARATOR = ".";
-
-const sanitize = (classes: string): string => classes.trim().replace(/\s{2,}/g, " ");
 
 const toColorsStyles = (parsedColors: ParsedColors, variant: Variant) =>
   ([] as StyleHandler[]).concat(
