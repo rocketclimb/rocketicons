@@ -1,3 +1,15 @@
+## [0.2.2](https://github.com/rocketclimb/rocketicons/compare/v0.3.1...v0.3.2) (2024-05-21)
+
+### Bug Fixes
+
+- replace 'size' with 'h' and 'w' to avoid compatibility issues for nativewind users ([4f4cd0a0](https://github.com/rocketclimb/rocketicons/commit/4f4cd0a0a1bf3a8d31a46b87e316147f1eabd893))
+- **icons** allow multiple icon classes to coexist ([8883e3e5](https://github.com/rocketclimb/rocketicons/commit/8883e3e5eda09af88be332383d0afd6cc7cbc13e))
+
+### Miscellaneous
+
+- remove brain-overload situations ([90ee3016](https://github.com/rocketclimb/rocketicons/commit/90ee301680f7a1cb96d3d43d27e8ac510ddf1de9))
+- increase test coverage ([46421748](https://github.com/rocketclimb/rocketicons/commit/4642174815b6d00a707ac9f41dfa7c9918e17aa7))
+
 ## [0.2.1](https://github.com/rocketclimb/rocketicons/compare/v0.2.1...v0.2.2) (2024-05-05)
 
 ### Bug Fixes

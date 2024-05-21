@@ -1,3 +1,10 @@
+## [0.2.4](https://github.com/rocketclimb/rocketicons/compare/v0.3.1...v0.3.2) (2024-05-21)
+
+### Bug Fixes
+
+- attrToString function and increase test coverage ([41bdbf54](https://github.com/rocketclimb/rocketicons/commit/41bdbf54d302017a14dac796e5bf02dbe7bd2d27))
+- **icons** allow multiple icon classes to coexist ([8883e3e5](https://github.com/rocketclimb/rocketicons/commit/8883e3e5eda09af88be332383d0afd6cc7cbc13e))
+
 ## [0.2.3](https://github.com/rocketclimb/rocketicons/compare/v0.2.4-release...v0.3.0) (2024-05-17)
 
 ## [0.2.2](https://github.com/rocketclimb/rocketicons/compare/v0.2.3-release...v0.2.4) (2024-05-09)
