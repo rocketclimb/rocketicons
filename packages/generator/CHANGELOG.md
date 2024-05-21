@@ -1,3 +1,9 @@
+## [0.2.4](https://github.com/rocketclimb/rocketicons/compare/v0.3.1...v0.3.2) (2024-05-21)
+
+### Bug Fixes
+
+- allow react-native to use native platform-specific files ([e4d4a29c](https://github.com/rocketclimb/rocketicons/commit/e4d4a29c09023de6fb8f74001a1d6c0376eeca99))
+
 ## [0.2.3](https://github.com/rocketclimb/rocketicons/compare/v0.2.4-release...v0.3.0) (2024-05-17)
 
 ## [0.2.2](https://github.com/rocketclimb/rocketicons/compare/v0.2.3-release...v0.2.4) (2024-05-09)

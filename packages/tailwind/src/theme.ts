@@ -8,17 +8,17 @@ const theme: ThemeOptions = {
     outlined: ""
   },
   sizes: {
-    xs: "size-2",
-    sm: "size-4",
-    base: "size-5",
-    lg: "size-6",
-    xl: "size-7",
-    "2xl": "size-8",
-    "3xl": "size-9",
-    "4xl": "size-10",
-    "5xl": "size-11",
-    "6xl": "size-12",
-    "7xl": "size-14"
+    xs: "h-2 w-2",
+    sm: "h-4 w-4",
+    base: "h-5 w-5",
+    lg: "h-6 w-6",
+    xl: "h-7 w-7",
+    "2xl": "h-8 w-8",
+    "3xl": "h-9 w-9",
+    "4xl": "h-10 w-10",
+    "5xl": "h-11 w-11",
+    "6xl": "h-12 w-12",
+    "7xl": "h-14 w-14"
   }
 };
 

@@ -58,7 +58,7 @@ export const dirInit = async ({ DIST, LIB, PLUGIN, DATA, SVGS }: TaskContext) =>
       "index.js"
     );
     await write(
-      "// THIS FILE IS AUTO GENERATED\nimport { IconGenerator } from '../core/index.mjs';\n",
+      "// THIS FILE IS AUTO GENERATED\nimport { IconGenerator } from '../core';\n",
       DIST,
       icon.id,
       "index.mjs"
