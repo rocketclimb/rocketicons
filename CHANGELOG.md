@@ -1,3 +1,18 @@
+## [0.3.2](https://github.com/rocketclimb/rocketicons/compare/v0.3.1...v0.3.2) (2024-05-21)
+
+### Bug Fixes
+
+- attrToString function and increase test coverage [[core](./packages/core/CHANGELOG.md)] ([41bdbf54](https://github.com/rocketclimb/rocketicons/commit/41bdbf54d302017a14dac796e5bf02dbe7bd2d27))
+- allow react-native to use native platform-specific files ([e4d4a29c](https://github.com/rocketclimb/rocketicons/commit/e4d4a29c09023de6fb8f74001a1d6c0376eeca99))
+- replace 'size' with 'h' and 'w' to avoid compatibility issues for nativewind users ([4f4cd0a0](https://github.com/rocketclimb/rocketicons/commit/4f4cd0a0a1bf3a8d31a46b87e316147f1eabd893))
+- **icons** allow multiple icon classes to coexist [[core](./packages/core/CHANGELOG.md), [tailwind](./packages/tailwind/CHANGELOG.md)] ([8883e3e5](https://github.com/rocketclimb/rocketicons/commit/8883e3e5eda09af88be332383d0afd6cc7cbc13e))
+- **icons** mark native dependencies as optional since most users just need react fix [#106](https://github.com/rocketclimb/rocketicons/issues/106) ([4116886e](https://github.com/rocketclimb/rocketicons/commit/4116886ec215346f4b1fca2ef327def17b442ff7))
+
+### Miscellaneous
+
+- remove brain-overload situations [[tailwind](./packages/tailwind/CHANGELOG.md)] ([90ee3016](https://github.com/rocketclimb/rocketicons/commit/90ee301680f7a1cb96d3d43d27e8ac510ddf1de9))
+- increase test coverage [[tailwind](./packages/tailwind/CHANGELOG.md)] ([46421748](https://github.com/rocketclimb/rocketicons/commit/4642174815b6d00a707ac9f41dfa7c9918e17aa7))
+
 ## [0.3.1](https://github.com/rocketclimb/rocketicons/compare/v0.3.0-release...v0.3.1) (2024-05-17)
 
 ### Bug Fixes
@@ -5,6 +20,7 @@
 - playground url fixed [[ignition](./packages/ignition/CHANGELOG.md)] ([8355e217](https://github.com/rocketclimb/rocketicons/commit/8355e217ca22d848d6bd22a07bd7b8f49378a8b2))
 
 ## [0.3.1](https://github.com/rocketclimb/rocketicons/compare/v0.3.0-release...v0.3.1) (2024-05-17)
+
 - landingpage layout fixes
 
 ## [0.3.0](https://github.com/rocketclimb/rocketicons/compare/v0.3.0-release...v0.3.1) (2024-05-17)
