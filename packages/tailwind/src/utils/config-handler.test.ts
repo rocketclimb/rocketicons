@@ -170,7 +170,7 @@ describe("configHandler - Theme tests", () => {
     {
       name: "Extends New Default Color",
       config: {
-        extends: {
+        extend: {
           icon: {
             default: "tertiary-500-lg"
           }
@@ -192,7 +192,7 @@ describe("configHandler - Theme tests", () => {
     {
       name: "Extends New Default Size",
       config: {
-        extends: {
+        extend: {
           icon: {
             default: "tertiary-500-md"
           }
@@ -216,7 +216,7 @@ describe("configHandler - Theme tests", () => {
     {
       name: "Extends New Default",
       config: {
-        extends: {
+        extend: {
           icon: {
             default: "secondary-md"
           }

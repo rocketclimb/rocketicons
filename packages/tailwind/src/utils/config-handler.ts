@@ -175,8 +175,8 @@ export const configHandler = <T extends ThemeOptions>(config: Config): ThemeHand
     {}
   );
 
-  const isExtending = customConfig && !!customConfig["extends"];
-  const themeConfig: ThemeConfig<T> = (isExtending && customConfig["extends"]) || customConfig;
+  const isExtending = customConfig && !!customConfig["extend"];
+  const themeConfig: ThemeConfig<T> = (isExtending && customConfig["extend"]) || customConfig;
 
   return (property: ThemeProperties<T>, defaultTheme: ThemeOptions) => {
     const theme = themeHandler(isExtending, defaultTheme, themeConfig && themeConfig[property]);
