@@ -26,9 +26,8 @@ const handleIconsPage = (locale: Languages, request: NextRequest) => {
   const { pathname } = request.nextUrl;
   if (pathname.startsWith(collectionUrl)) {
     const [collection, icon] = pathname.replace(collectionUrl, "").split("/");
-    if (icon) {
-      request.nextUrl.pathname = `${collectionUrl}${collection}`;
-      request.nextUrl.searchParams.set("i", icon);
+    if (!icon) {
+      request.nextUrl.pathname = `${collectionUrl}${collection}/collection-index.ri`;
       return NextResponse.rewrite(request.nextUrl);
     }
   }

@@ -50,7 +50,7 @@ const InfoHandler = ({
 
   const router = useRouter();
 
-  const defaultStyle = "icon-6xl lg:icon-7xl";
+  const defaultStyle = "size-28 lg:icon-7xl";
   const [section, setSection] = useState<string>("sizes");
   const [bounce, setBounce] = useState<boolean>(false);
   const [selected, setSelected] = useState<string>(defaultStyle);
@@ -58,18 +58,18 @@ const InfoHandler = ({
     <div className="panel opacity-0 group-data-[open=true]/info:opacity-100 group-data-[open=true]/info:animate-delayed-appearing h-full">
       <Button
         onClick={() => router.push(`/${lang}/icons/${collectionId}`)}
-        className="absolute top-1 right-1 w-8 h-8 flex items-center justify-center"
+        className="absolute top-0 right-0 w-8 h-8 flex items-center justify-center"
       >
         <IoMdClose className="icon-slate-500 hover:icon-slate-600 dark:icon-slate-400 dark:hover:icon-slate-300" />
       </Button>
       <div className="flex flex-col h-full">
         <div className="grid grid-cols-8">
-          <Title3 className="icon-info-title capitalize col-span-8 justify-start md:justify-center">
+          <Title3 className="icon-info-title size- capitalize col-span-8 justify-start md:justify-center">
             {info.name}
           </Title3>
           <div
             data-bounce={bounce}
-            className="col-span-8 my-0.5 h-14 xs:h-16 w-full data-[bounce=true]:border-0 md:border-0 border border-slate-200 dark:border-slate-700 md:bg-slate-50 md:mx-3 md:mt-8 md:dark:bg-slate-800/35 lg:order-none md:row-span-2 rounded-md md:rounded-xl md:size-auto md:col-span-2 lg:static flex items-center justify-center"
+            className="col-span-8 my-0.5 xs:h-16 w-full md:bg-slate-50 md:mx-3 md:mt-8 md:dark:bg-slate-800/35 lg:order-none md:row-span-2 rounded-md md:rounded-xl md:size-auto md:col-span-2 lg:static flex items-center justify-center"
           >
             <Icon
               data-bounce={bounce}
