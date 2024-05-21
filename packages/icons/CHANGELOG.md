@@ -1,3 +1,10 @@
+## [0.2.5-alpha](https://github.com/rocketclimb/rocketicons/compare/v0.3.1...v0.3.2) (2024-05-21)
+
+### Bug Fixes
+
+- **icons** allow multiple icon classes to coexist ([8883e3e5](https://github.com/rocketclimb/rocketicons/commit/8883e3e5eda09af88be332383d0afd6cc7cbc13e))
+- **icons** mark native dependencies as optional since most users just need react fix [#106](https://github.com/rocketclimb/rocketicons/issues/106) ([4116886e](https://github.com/rocketclimb/rocketicons/commit/4116886ec215346f4b1fca2ef327def17b442ff7))
+
 ## [0.2.4-alpha](https://github.com/rocketclimb/rocketicons/compare/v0.2.4-release...v0.3.0) (2024-05-17)
 
 ## [0.2.3-alpha](https://github.com/rocketclimb/rocketicons/compare/v0.2.3-release...v0.2.4) (2024-05-09)
