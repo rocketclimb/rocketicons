@@ -3,7 +3,7 @@ import { IconTree } from "@/types";
 export const attrToString = (attr: Record<string, string>): string =>
   Object.entries(attr)
     .map(([key, value]) => `${key}="${value}"`)
-    .join("");
+    .join(" ");
 
 const elementToString = (tag: string, attr: Record<string, string>, children: string): string =>
   `<${tag} ${attrToString(attr)}>${children}</${tag}>`;
