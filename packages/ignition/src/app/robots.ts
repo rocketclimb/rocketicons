@@ -6,9 +6,9 @@ const robots = (): MetadataRoute.Robots => {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/_next/"]
+      disallow: ["/api/"],
     },
-    sitemap: `${serverEnv.NEXT_PUBLIC_APP_URL}/sitemap_index.xml`
+    sitemap: `${serverEnv.NEXT_PUBLIC_APP_URL}/sitemap_index.xml`,
   };
 };
 
