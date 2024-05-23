@@ -2,13 +2,32 @@ import { Style, StyleHandler } from "@/types";
 import { DEFAULT_CLASS_NAME, ROOT_CLASS_NAME, CLASS_NAME_SEPARATOR } from "./config-handler";
 import sanitize from "./sanitize";
 
-import { IStyleGenerator, SpecialStyleProps, SpecialProps } from "./types";
+import { SpecialStyleProps, SpecialProps } from "./types";
 
-class StyleGenerator implements IStyleGenerator {
-  private classPrefix: string;
-  private rootClassName: string;
-  private defaultClassName: string;
-  private separator: string;
+abstract class StyleGenerator {
+  protected classPrefix: string;
+
+  protected defaultClassName: string;
+  protected separator: string;
+
+  constructor(classPrefix: string, defaultClassName: string, separator: string) {
+    this.classPrefix = classPrefix;
+    this.defaultClassName = defaultClassName;
+    this.separator = separator;
+  }
+
+  protected extractClasses = (name: string) => {
+    const [main, secondary] = name.split(this.separator);
+    return [main, secondary ? `${this.classPrefix}-${secondary}` : ""];
+  };
+
+  abstract add(_name: string, _styles: string): void;
+  abstract styles: Style;
+}
+
+class WebStyleGenerator extends StyleGenerator {
+  protected rootClassName: string;
+  parsed: Style = {};
 
   constructor(
     classPrefix: string,
@@ -16,18 +35,9 @@ class StyleGenerator implements IStyleGenerator {
     defaultClassName: string,
     separator: string
   ) {
-    this.classPrefix = classPrefix;
-    this.defaultClassName = defaultClassName;
+    super(classPrefix, defaultClassName, separator);
     this.rootClassName = rootClassName;
-    this.separator = separator;
   }
-
-  parsed: Style = {};
-
-  private extractClasses = (name: string) => {
-    const [main, secondary] = name.split(this.separator);
-    return [main, secondary ? `${this.classPrefix}-${secondary}` : ""];
-  };
 
   add(name: string, styles: string): void {
     if (!styles) {
@@ -83,34 +93,24 @@ class StyleProps {
   }
 }
 
-class NativeStyleGenerator implements IStyleGenerator {
-  private classPrefix: string;
-  private defaultClassName: string;
-  private separator: string;
-
-  constructor(classPrefix: string, defaultClassName: string, separator: string) {
-    this.classPrefix = classPrefix;
-    this.defaultClassName = defaultClassName;
-    this.separator = separator;
-  }
-
+class NativeStyleGenerator extends StyleGenerator {
   private parsed: Record<string, StyleProps> = {
     ".icon-outlined": new StyleProps("fill-none !important"),
     ".icon-filled": new StyleProps("stroke-none !important")
   };
 
-  private extractMainClass = (name: string) => name.split(this.separator).shift();
-
   private getCurrentStyleFor(className: string): StyleProps {
     if (!this.parsed[className]) {
-      const defaults = this.parsed[`${this.classPrefix}-${this.defaultClassName}`];
-      this.parsed[className] = new StyleProps(...(defaults?.syle ?? "").split(" "));
+      this.parsed[className] = new StyleProps();
     }
     return this.parsed[className];
   }
 
   add(name: string, styles: string): void {
-    const main = this.extractMainClass(name);
+    const [main, secondary] = this.extractClasses(name);
+    if (secondary.endsWith(this.defaultClassName)) {
+      return;
+    }
     const className = `${this.classPrefix}-${main}`;
     const handler = this.getCurrentStyleFor(className);
     styles.split(" ").forEach((style) => handler.add(style));
@@ -132,7 +132,12 @@ export const stylesGenerator = (prefix: string, isNative: boolean = false) => {
 
   const generator = isNative
     ? new NativeStyleGenerator(classPrefix, DEFAULT_CLASS_NAME, CLASS_NAME_SEPARATOR)
-    : new StyleGenerator(classPrefix, ROOT_CLASS_NAME, DEFAULT_CLASS_NAME, CLASS_NAME_SEPARATOR);
+    : new WebStyleGenerator(
+        classPrefix,
+        ROOT_CLASS_NAME,
+        DEFAULT_CLASS_NAME,
+        CLASS_NAME_SEPARATOR
+      );
 
   const creator = (themes: StyleHandler[]) => {
     for (const option of themes) {

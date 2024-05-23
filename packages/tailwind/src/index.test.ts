@@ -83,6 +83,7 @@ describe("plugin", () => {
           from: undefined
         }
       );
+      fs.writeFileSync("index.native.test.css", css);
       expect(css).toBe(expectation.toString());
     });
   });
