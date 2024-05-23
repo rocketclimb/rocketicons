@@ -1,9 +1,9 @@
 {
-  "rocketclimb-icons": "0.3.2",
+  "rocketclimb-icons": "0.3.3",
   "core": "0.2.4",
   "generator": "0.2.4",
   "icons": "0.2.5-alpha",
-  "ignition": "0.3.2",
+  "ignition": "0.3.4",
   "tailwind": "0.2.2",
   "hash": "2253b7fa3921b1941a543755a4cc2d78"
 }
