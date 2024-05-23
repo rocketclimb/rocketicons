@@ -25,7 +25,6 @@ const UrlChangesObserver = ({ onChanges }: UrlObserverProps) => {
     const lastPath = pathName.split("/").pop() ?? "";
     const hash = window.location.hash;
     const targetAnchor = hash && target ? targetId : lastPath;
-    console.log(hash);
     onChanges({
       pathName,
       lastPath,

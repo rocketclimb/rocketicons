@@ -13,7 +13,6 @@ const Nav = ({ children }: PropsWithChildren) => {
         onChanges={({ pathName, hash }) => {
           isOpen && close();
           setPathName(pathName);
-          console.log("x", hash);
           setHash(hash);
         }}
       />
