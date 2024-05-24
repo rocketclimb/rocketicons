@@ -82,9 +82,6 @@ jobs:
       - name: Run tests
         run: npm run test-all
 
-      - name: Build Ignition statics
-        run: npm run generate-statics:all-icons --workspace=packages/ignition
-
       - name: Setup git user
         run: |
           git config user.name ${{ env.AUTOMATION_USER_NAME }}
@@ -94,6 +91,9 @@ jobs:
         id: prepare-release
         run: |
           echo "TAG_NAME=$(npm run release | grep v)" >> $GITHUB_OUTPUT
+
+      - name: Build Ignition statics
+        run: npm run generate-statics:all-icons --workspace=packages/ignition
 
       - name: Set output as environment variable
         run: echo "TAG_NAME=${{ steps.prepare-release.outputs.TAG_NAME }}" >> $GITHUB_ENV
