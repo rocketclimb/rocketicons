@@ -10,7 +10,7 @@ const getLocaleFromHeaders = (headers: Headers): Languages =>
       .map((language) => language.split(";").shift())
       .find(
         (language) => language && locales.includes(language.toLocaleLowerCase() as Languages)
-      ) || defaultLocale
+      ) ?? defaultLocale
   ).toLowerCase() as Languages;
 
 export default getLocaleFromHeaders;
