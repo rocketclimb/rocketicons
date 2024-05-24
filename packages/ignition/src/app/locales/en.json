@@ -58,5 +58,9 @@
     "dark-mode-alert": "Change the theme mode and see the changes",
     "changes-alert": "Watch icon updates as options change.",
     "drag-alert": "Drag handle in the demo to see the expected behaviour"
+  },
+  "errors": {
+    "error_404": "page not found",
+    "error_500": "things got wrong"
   }
 }

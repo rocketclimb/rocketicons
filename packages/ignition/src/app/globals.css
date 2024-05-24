@@ -145,6 +145,45 @@ body:has(.theme-selector.dark)::-webkit-scrollbar-track {
     color: theme("colors.slate.300");
   }
 
+  svg.rocket-404 g path:first-child {
+    animation: launch 3s ease-in forwards;
+    transform-origin: center;
+  }
+
+  svg.rocket-404 g path.flame {
+    animation: flicker 1s infinite alternate;
+    transform-origin: center;
+  }
+
+  @keyframes launch {
+    to {
+      transform: scale3d(0.9, 1.1, 1);
+    }
+  }
+
+  @keyframes flicker {
+    0% {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+    25% {
+      transform: scale(1.02) translateY(0);
+      opacity: 0.9;
+    }
+    50% {
+      transform: scale(0.98) translateY(0);
+      opacity: 0.8;
+    }
+    75% {
+      transform: scale(1.02) translateY(0);
+      opacity: 0.9;
+    }
+    100% {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+  }
+
   @media (max-width: 1024px) {
     .icon-info-area {
       height: calc(100dvh);

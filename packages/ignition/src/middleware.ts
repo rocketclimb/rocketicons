@@ -1,25 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AvailableLanguages, Languages } from "@/types";
-
-import { siteConfig } from "./config/site";
-
-const { defaultLocale, locales } = siteConfig;
+import getLocaleFromHeaders from "@/locales/get-locale-from-headers";
 
 const getLocaleFromUrl = ({ nextUrl: { pathname } }: NextRequest): Languages | undefined => {
   const [, segment] = pathname.split("/") as Languages[];
   return AvailableLanguages.includes(segment) ? segment : undefined;
 };
-
-const getLocaleFromHeaders = (request: NextRequest): Languages =>
-  (
-    request.headers
-      .get("accept-language")
-      ?.split(",")
-      .map((language) => language.split(";").shift())
-      .find(
-        (language) => language && locales.includes(language.toLocaleLowerCase() as Languages)
-      ) || defaultLocale
-  ).toLowerCase() as Languages;
 
 const handleIconsPage = (locale: Languages, request: NextRequest) => {
   const collectionUrl = `/${locale}/icons/`;
@@ -42,7 +28,7 @@ export const middleware = (request: NextRequest) => {
     return handleIconsPage(localeFromUrl, request);
   }
 
-  const localeFromHeaders = getLocaleFromHeaders(request);
+  const localeFromHeaders = getLocaleFromHeaders(request.headers);
   const { pathname } = request.nextUrl;
 
   request.nextUrl.pathname = `/${localeFromHeaders}${pathname}`;
