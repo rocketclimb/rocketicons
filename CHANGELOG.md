@@ -4,6 +4,16 @@
 
 - **icons** improve class name handling on native [[core](./packages/core/CHANGELOG.md), [tailwind](./packages/tailwind/CHANGELOG.md)] ([6575100f](https://github.com/rocketclimb/rocketicons/commit/6575100fa60dd11dd3086225d25ebc532805cda2))
 
+### Other
+
+-  ([ffdc4f63](https://github.com/rocketclimb/rocketicons/commit/ffdc4f63d82267c407aa8bb1173917eea9fc6922))
+
+## [0.3.4](https://github.com/rocketclimb/rocketicons/compare/v0.3.3...v0.3.4) (2024-05-25)
+
+### Bug Fixes
+
+- **icons** improve class name handling on native [[core](./packages/core/CHANGELOG.md), [tailwind](./packages/tailwind/CHANGELOG.md)] ([6575100f](https://github.com/rocketclimb/rocketicons/commit/6575100fa60dd11dd3086225d25ebc532805cda2))
+
 ## [0.3.4](https://github.com/rocketclimb/rocketicons/compare/v0.3.3...v0.3.4) (2024-05-25)
 
 ### Bug Fixes
