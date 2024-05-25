@@ -1,3 +1,9 @@
+## [0.2.5](https://github.com/rocketclimb/rocketicons/compare/v0.3.3...v0.3.4) (2024-05-25)
+
+### Bug Fixes
+
+- **icons** improve class name handling on native ([6575100f](https://github.com/rocketclimb/rocketicons/commit/6575100fa60dd11dd3086225d25ebc532805cda2))
+
 ## [0.2.4](https://github.com/rocketclimb/rocketicons/compare/v0.3.1...v0.3.2) (2024-05-21)
 
 ### Bug Fixes
