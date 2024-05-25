@@ -15,7 +15,7 @@ const OnError = ({ error, lang, children }: OnErrorProps) => {
   return (
     <ThemeControl>
       <ModalContext>
-        <div className="relative w-full h-dvh flex justify-end items-center overflow-hidden">
+        <div className="relative max-w-screen-2xl mx-auto w-full h-dvh flex justify-end items-center overflow-hidden">
           <div className="text-right pr-10 md:pr-20">
             <h1 className="text-8xl tracking-tight font-extrabold default-text-color">
               {errorNumber}
