@@ -77,12 +77,7 @@ const InfoHandler = ({
             />
           </div>
           <div className="col-span-8 md:col-span-6 thin">
-            <MdxClientPartial
-              path="components"
-              className="h-9"
-              lang={lang}
-              slug="icon-info-import"
-            />
+            <MdxClientPartial path="components" lang={lang} slug="icon-info-import" />
             <CodeStyler variant="compact">
               <CodeImportBlock
                 copy={copy}
@@ -94,12 +89,7 @@ const InfoHandler = ({
             </CodeStyler>
           </div>
           <div className="col-span-8 md:col-span-6 thin">
-            <MdxClientPartial
-              path="components"
-              className="h-9"
-              lang={lang}
-              slug="icon-info-usage"
-            />
+            <MdxClientPartial path="components" lang={lang} slug="icon-info-usage" />
             <CodeStyler variant="compact">
               <CodeElementBlock
                 copy={copy}
@@ -115,12 +105,7 @@ const InfoHandler = ({
           className="group/sections grow max-lg:overflow-y-auto my-2 xs:my-4 mx-1 px-1 xs:px-2 py-1 xs:py-2 xs:overflow-y-hidden rounded-xl bg-slate-50 dark:bg-slate-800/35"
         >
           <div className="relative xs:static">
-            <MdxClientPartial
-              path="components"
-              className="h-[100px]"
-              lang={lang}
-              slug="icon-info-styling"
-            />
+            <MdxClientPartial path="components" lang={lang} slug="icon-info-styling" />
             <div className="">
               <Link
                 className="hover:underline default-text-color text-[0.7rem] italic absolute right-1 top-1 xs:hidden"

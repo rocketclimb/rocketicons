@@ -3,12 +3,9 @@ import { notFound } from "next/navigation";
 import { CollectionID } from "rocketicons/data";
 
 import { IconsManifest } from "@/data-helpers/icons/manifest";
-import collections from "@/data-helpers/params/collections.json";
 
-import CollectionTitleBox from "@/components/icons/icons-collection/collection-title-box";
 import IconInfoPanel from "@/components/icons/icons-collection/icon-info-panel";
 import IconInfo from "@/components/icons/icons-collection/icon-info";
-import IconsCollection from "@/components/icons/icons-collection";
 
 import { withLocale } from "@/locales";
 import { PropsWithLangParams } from "@/types";
@@ -18,19 +15,18 @@ import customMetadata from "@/app/components/metadata-custom";
 type PageProps = PropsWithLangParams & {
   params: {
     collectionid: CollectionID;
+    iconid: string;
   };
-  searchParams: Record<string, string>;
 };
 
-export const dynamicParams = false;
-
-export const generateStaticParams = () => collections;
+const getIconFromParam = (iconParam: string): string | false =>
+  iconParam !== "collection-index.ri" && iconParam;
 
 export const generateMetadata = async ({
-  params: { lang, collectionid: id },
-  searchParams: { i: icon }
+  params: { lang, collectionid: id, iconid }
 }: PageProps): Promise<Metadata> => {
   const info = IconsManifest.find(({ id: search }) => search === id)!;
+  const icon = getIconFromParam(iconid);
 
   const { component } = withLocale(lang);
   const { title, description } = component("icons-collection");
@@ -39,24 +35,28 @@ export const generateMetadata = async ({
 
   const openGrapgImageType = icon ? "icon" : "collection";
 
-  return customMetadata(lang, openGrapgImageType, `icons`, pageTitle, description, id, icon);
+  return customMetadata(
+    lang,
+    openGrapgImageType,
+    `icons`,
+    pageTitle,
+    description,
+    id,
+    icon || undefined
+  );
 };
 
-const Page = ({ params: { lang, collectionid }, searchParams: { i: iconId } }: PageProps) => {
+const Page = ({ params: { lang, collectionid, iconid } }: PageProps) => {
   const info = IconsManifest.find(({ id: search }) => search === collectionid)!;
-
+  const iconId = getIconFromParam(iconid);
   if (!info || (iconId && !info.icons.includes(asCompName(iconId)))) {
     return notFound();
   }
 
   return (
-    <div className="collection-page">
-      <CollectionTitleBox lang={lang} info={info} />
-      <IconInfoPanel selected={!!iconId}>
-        {iconId && <IconInfo lang={lang} collectionId={collectionid} iconId={iconId} />}
-      </IconInfoPanel>
-      <IconsCollection lang={lang} id={collectionid} icon={iconId} />
-    </div>
+    <IconInfoPanel selected={!!iconId}>
+      {iconId && <IconInfo lang={lang} collectionId={collectionid} iconId={iconId} />}
+    </IconInfoPanel>
   );
 };
 

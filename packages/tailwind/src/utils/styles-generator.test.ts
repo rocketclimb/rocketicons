@@ -110,19 +110,19 @@ describe("stylesGenerator", () => {
             "@apply border w-1 h-1 stroke-primary fill-primary": {}
           },
           ".icon-primary": {
-            "@apply border w-1 h-1 stroke-primary fill-primary": {}
+            "@apply stroke-primary fill-primary": {}
           },
           ".icon-sm": {
-            "@apply border w-1 h-1 stroke-primary fill-primary": {}
+            "@apply w-1 h-1": {}
           },
           ".icon-md": {
-            "@apply border w-2 h-2 stroke-primary fill-primary": {}
+            "@apply w-2 h-2": {}
           },
           ".icon-primary-sm": {
-            "@apply border w-1 h-1 stroke-primary fill-primary": {}
+            "@apply w-1 h-1 stroke-primary fill-primary": {}
           },
           ".icon-secondary-200-md": {
-            "@apply border w-2 h-2 stroke-secondary-200 fill-secondary-200": {}
+            "@apply w-2 h-2 stroke-secondary-200 fill-secondary-200": {}
           }
         });
       });

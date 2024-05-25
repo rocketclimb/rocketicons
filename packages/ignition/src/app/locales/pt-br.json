@@ -58,5 +58,9 @@
     "dark-mode-alert": "Troque de tema e veja as mudanças no ícone",
     "changes-alert": "Observe o ícone mudando na troca de opções",
     "drag-alert": "Arraste o handle do demo para ver o funcionamento"
+  },
+  "errors": {
+    "error_404": "não encontrada",
+    "error_500": "isso é inesperado"
   }
 }

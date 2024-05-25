@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 import icons from "rocketicons/tailwind";
-import { tailwind as codeBlock } from "@rocketclimb/code-block";
+import { plugin as codeBlock } from "@rocketclimb/code-block/tailwind";
 
 const config: Config = {
   darkMode: "class",
