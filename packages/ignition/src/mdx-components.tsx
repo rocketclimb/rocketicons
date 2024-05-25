@@ -5,8 +5,7 @@ import Title2 from "@/components/documentation/title2";
 import Title3 from "@/components/documentation/title3";
 import Title4 from "@/components/documentation/title4";
 import Paragraph from "@/components/documentation/paragraph";
-import { Lang, WithCopy, CodeStyler } from "@rocketclimb/code-block";
-import Code from "@rocketclimb/code-block/code";
+import { Lang, WithCopy, CodeStyler, Block } from "@rocketclimb/code-block";
 
 import DocLink from "@/components/documentation/doc-link";
 
@@ -16,10 +15,10 @@ type PreProps = HtmlHTMLAttributes<HTMLPreElement> & {
 };
 
 type CodeProps = HtmlHTMLAttributes<HTMLPreElement> & {
-  "data-clipboardText"?: string;
+  "data-clipboard-text"?: string;
 };
 
-const CodeContainer = ({ "data-clipboardText": clipboardText, children }: CodeProps) =>
+const CodeContainer = ({ "data-clipboard-text": clipboardText, children }: CodeProps) =>
   (!!clipboardText && (
     <WithCopy clipboardText={Buffer.from(clipboardText, "base64").toString()}>
       {children}
@@ -67,7 +66,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     code: ({ children, ...props }: CodeProps) => (
       <CodeContainer {...props}>
-        <Code>{children}</Code>
+        <Block>{children}</Block>
       </CodeContainer>
     ),
     ul: ({ className, children }) => (

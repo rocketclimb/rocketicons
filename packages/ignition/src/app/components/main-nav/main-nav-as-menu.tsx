@@ -22,7 +22,7 @@ const MainNavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
   const { open: openSearch } = useDisclosure("search-disclosure");
 
   return (
-    <div className="flex lg:hidden">
+    <div className="flex col-span-2 landingpage:col-span-5 md:grow justify-self-end md:justify-end lg:hidden">
       <Button className="flex" onClick={() => openSearch()}>
         <LuSearch className="icon-slate-500 hover:icon-slate-700 dark:hover:icon-slate-400" />
       </Button>
