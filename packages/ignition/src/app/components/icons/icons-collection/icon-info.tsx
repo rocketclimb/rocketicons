@@ -1,9 +1,9 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { IoMdClose } from "rocketicons/io";
 import { RcRocketIcon } from "rocketicons/rc";
-import Button from "@/components/button";
 import {
   Tab,
   CodeStyler,
@@ -13,6 +13,7 @@ import {
   CodeElementTabs
 } from "@rocketclimb/code-block";
 import { CollectionID } from "rocketicons/data";
+import Button from "@/components/button";
 import Title3 from "@/components/documentation/title3";
 import SectionTitle from "@/components/documentation/section-title";
 import SectionContent from "@/components/documentation/section-content";
@@ -20,9 +21,9 @@ import UpdateAlert from "@/components/documentation/update-alert";
 import { MdxClientPartial } from "@/components/mdx";
 import { PropsWithLang } from "@/types";
 import { withLocale } from "@/locales";
+import iconsSizes from "@/components/usage/sizing/sizes.json";
 
 import IconLoader, { IconHandlerProps } from "@/components/icons/icon-loader";
-import Link from "next/link";
 
 const InfoHandler = ({
   lang,
@@ -50,7 +51,7 @@ const InfoHandler = ({
 
   const router = useRouter();
 
-  const defaultStyle = "icon-6xl lg:icon-7xl";
+  const defaultStyle = "size-36 lg:icon-7xl";
   const [section, setSection] = useState<string>("sizes");
   const [bounce, setBounce] = useState<boolean>(false);
   const [selected, setSelected] = useState<string>(defaultStyle);
@@ -69,12 +70,26 @@ const InfoHandler = ({
           </Title3>
           <div
             data-bounce={bounce}
-            className="col-span-8 my-0.5 h-14 xs:h-16 w-full data-[bounce=true]:border-0 md:border-0 border border-slate-200 dark:border-slate-700 md:bg-slate-50 md:mx-3 md:mt-8 md:dark:bg-slate-800/35 lg:order-none md:row-span-2 rounded-md md:rounded-xl md:size-auto md:col-span-2 lg:static flex items-center justify-center"
+            className="col-span-5 h-40 my-0.5 w-full md:bg-slate-50 md:mx-3 md:mt-8 md:dark:bg-slate-800/35 lg:order-none md:row-span-2 rounded-md md:rounded-xl md:size-auto md:col-span-2 lg:static flex items-center justify-center"
           >
             <Icon
               data-bounce={bounce}
               className={`data-[bounce=true]:animate-bounce ${selected}`}
             />
+          </div>
+          <div className="col-span-3 h-40 overflow-y-auto">
+            <div className="flex flex-col items-center">
+              {Object.keys(iconsSizes)
+                .reverse()
+                .map((size) => (
+                  <div
+                    key={`size-box-${size}`}
+                    className="size-16 border rounded-lg flex justify-center items-center mb-1.5"
+                  >
+                    <Icon className={`icon-${size}`} />
+                  </div>
+                ))}
+            </div>
           </div>
           <div className="col-span-8 md:col-span-6 thin">
             <MdxClientPartial path="components" lang={lang} slug="icon-info-import" />
