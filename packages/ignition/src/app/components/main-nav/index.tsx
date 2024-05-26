@@ -39,10 +39,10 @@ const MainNav = ({ lang, asList }: MainNavProps) => {
         <ul className="group-data-[as-list=false]/main-nav:flex group-data-[as-list=false]/main-nav:items-center gap-x-7">
           {navItems.map(({ label, link }, i) => (
             <li
-              className="group-data-[as-list=true]/main-nav:mb-1.5 group-data-[as-list=true]/main-nav:text-sm group-data-[as-list=true]/main-nav:w-fit group-data-[as-list=true]/main-nav:ml-auto group-data-[as-list=true]/main-nav:border-b group-data-[as-list=true]/main-nav:border-sky-500 font-semibold text-slate-700 text-sm leading-6 dark:text-slate-200"
+              className="group-data-[as-list=true]/main-nav:mb-1.5 group-data-[as-list=true]/main-nav:text-sm group-data-[as-list=true]/main-nav:w-fit group-data-[as-list=true]/main-nav:ml-auto group-data-[as-list=true]/main-nav:border-b group-data-[as-list=true]/main-nav:border-secondary font-semibold text-slate-700 text-sm leading-6 dark:text-slate-200"
               key={i}
             >
-              <Link className="hover:text-sky-500" href={link}>
+              <Link className="hover:text-secondary" href={link}>
                 {label}
               </Link>
             </li>

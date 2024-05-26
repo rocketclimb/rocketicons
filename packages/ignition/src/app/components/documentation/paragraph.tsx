@@ -15,7 +15,7 @@ const thinStyle = `
 `;
 
 const quoteStyle = `
-  quote:text-slate-900 quote:dark:text-slate-200 quote:text-sm quote:lg:text-base/6
+  quote:text-primary quote:dark:text-primary-dark quote:text-sm quote:lg:text-base/6
 `;
 
 const blockquoteStyle = `
@@ -34,7 +34,7 @@ const tabSectionStyle = `
 `;
 
 const heroStyle = `
-  hero:mt-4 hero:xs:mt-6 hero:xs:px-3 hero:text-sm hero:xs:text-base hero:md:text-lg hero:text-slate-600 hero:text-center hero:max-w-3xl mx-auto
+  hero:mt-4 hero:xs:mt-6 hero:xs:px-3 hero:text-sm hero:xs:text-base hero:md:text-lg hero:text-primary-medium hero:text-center hero:max-w-3xl mx-auto
 `;
 
 const iconsHeroStyle = `
@@ -48,7 +48,7 @@ const iconsInfoBoxStyle = `
 const Paragraph = ({ children, ...props }: DocElementProps) => (
   <BaseDocElement
     Tag="p"
-    defaultClassName={`group/p paragraph text-slate-700 dark:text-slate-400 font-normal text-sm leading-6 after-p:mt-2 lg:text-base ${heroStyle} ${sectionStyle} ${blockquoteStyle} ${quoteStyle} ${highlightStyle} ${proseStyle} ${thinStyle} ${iconsHeroStyle} ${iconsInfoBoxStyle} ${tabSectionStyle}`}
+    defaultClassName={`group/p paragraph text-primary/70 dark:text-primary-lighter font-normal text-sm leading-6 after-p:mt-2 lg:text-base ${heroStyle} ${sectionStyle} ${blockquoteStyle} ${quoteStyle} ${highlightStyle} ${proseStyle} ${thinStyle} ${iconsHeroStyle} ${iconsInfoBoxStyle} ${tabSectionStyle}`}
     {...props}
   >
     {children}

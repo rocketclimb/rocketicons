@@ -14,13 +14,13 @@ const LogoLink = ({ lang }: PropsWithLang) => {
 };
 
 const VersionLabel = () => (
-  <span className="transition-all duration-200 col-span-3 text-center max-w-20 md:max-w-28 landingpage:hidden cursor-default mx-1 md:ml-5 text-[10px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 bg-gray-200 dark:bg-slate-400/10 rounded-full py-1 px-3 items-center hover:bg-slate-400/20 dark:hover:bg-slate-400/40 text-nowrap">
+  <span className="transition-all duration-200 col-span-3 text-center max-w-20 md:max-w-28 landingpage:hidden cursor-default mx-1 md:ml-5 text-[10px] sm:text-xs font-medium text-primary-light dark:text-primary-lighter bg-surface-border-light dark:bg-surface-border-lighter/10 rounded-full py-1 px-3 items-center hover:bg-surface-border-lighter/20 dark:hover:bg-surface-border-lighter/40 text-nowrap">
     {pkgVersion}
   </span>
 );
 
 const Header = ({ lang }: PropsWithLang) => (
-  <div className="fixed top-0 z-40 lg:static w-full landingpage:pb-4 lg:pb-4 px-2 sm:px-8 pt-4 backdrop-blur transition-colors duration-500 bg-white/95 lg:z-50 border-b lg:border-slate-900/10 dark:border-slate-50/[0.06] dark:bg-slate-900/70">
+  <div className="fixed top-0 z-40 lg:static w-full landingpage:pb-4 lg:pb-4 px-2 sm:px-8 pt-4 backdrop-blur transition-colors duration-500 bg-background/95 lg:z-50 border-b lg:border-surface-border-dark/10 dark:border-surface-border/10 dark:bg-background-dark/70">
     <div className="grid gap-0.5 grid-cols-10 md:flex mx-auto items-center w-full max-w-screen-2xl min-[1550px]:px-8">
       <LogoLink lang={lang} />
       <VersionLabel />

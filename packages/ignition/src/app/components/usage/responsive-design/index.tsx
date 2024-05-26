@@ -26,7 +26,7 @@ const ResponsiveDesign = ({ lang }: PropsWithLang) => {
               <p className="font-semibold text-xs sm:text-sm md:text-sm max-[300px]:text-[10px] text-sky-500 tracking-normal dark:text-sky-400">
                 A funny way handling icons
               </p>
-              <span className="text-slate-900 dark:text-white text-3xl sm:text-4xl md:text-5xl max-[300px]:text-2xl">
+              <span className="text-primary dark:text-primary text-3xl sm:text-4xl md:text-5xl max-[300px]:text-2xl">
                 <span className="font-quicksand">rocket</span>
                 <span className="font-quicksand font-semibold">icons</span>
               </span>
@@ -36,7 +36,7 @@ const ResponsiveDesign = ({ lang }: PropsWithLang) => {
                 Styling in a way
                 <div
                   data-cb-tag="RcRocketIcon"
-                  className="icon-slate-900-base sm:icon-slate-900-lg md:icon-slate-900-sm"
+                  className="icon-primary-base sm:icon-lg md:icon-sm"
                 />
                 you&apos;ve never seen before.
               </p>

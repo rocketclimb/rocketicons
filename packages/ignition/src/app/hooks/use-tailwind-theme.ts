@@ -5,9 +5,26 @@ import tailwindConfig from "@/tailwind-conf";
 
 type CustomColors = {
   primary: string;
-  "primary-variant": string;
+  "primary-bright": string;
+  "primary-lighter": string;
+  "primary-light": string;
+  "primary-medium": string;
+  "primary-dark": string;
   "on-primary": string;
-  "on-primary-variant": string;
+  surface: string;
+  "surface-border": string;
+  "surface-border-light": string;
+  "surface-medium": string;
+  "surface-border-medium": string;
+  "surface-dark": string;
+  "on-surface": string;
+  "on-surface-dark": string;
+  secondary: string;
+  "secondary-light": string;
+  "secondary-medium": string;
+  "secondary-dark": string;
+  background: string;
+  "background-dark": string;
 };
 
 const useTailwindTheme = () => {

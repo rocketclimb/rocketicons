@@ -17,7 +17,7 @@ const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: stri
       <MdxPartial lang={lang} slug={"state-management"} path="docs" />
       <GridContainer>
         <div className="mx-auto w-32 my-8">
-          <Icon className="size-32 border border-transparent rounded-xl hover:border-slate-600" />
+          <Icon className="size-32 border border-transparent rounded-xl hover:border-primary-medium" />
         </div>
       </GridContainer>
       <UpdateAlert alert="hover" lang={lang} />
@@ -25,7 +25,7 @@ const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: stri
         <div>
           <div
             data-cb-tag={icon}
-            className="size-32 border border-transparent rounded-xl hover:border-slate-600"
+            className="size-32 border border-transparent rounded-xl hover:border-primary-medium"
           />
         </div>
       </CodeSample>
@@ -33,18 +33,30 @@ const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: stri
         <MdxPartial lang={lang} slug={"state-management/state-management-order"} path="docs" />
         <GridContainer>
           <div className="mx-auto flex justify-center gap-6 my-8">
-            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-white last:border-slate-600" />
-            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-white last:border-slate-600" />
-            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-white last:border-slate-600" />
-            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-white last:border-slate-600" />
+            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-background last:border-primary-medium" />
+            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-background last:border-primary-medium" />
+            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-background last:border-primary-medium" />
+            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-background last:border-primary-medium" />
           </div>
         </GridContainer>
         <CodeSample>
           <div>
-            <div data-cb-tag={icon} className="first:bg-white last:border-slate-600 ..." />
-            <div data-cb-tag={icon} className="first:bg-white last:border-slate-600 ..." />
-            <div data-cb-tag={icon} className="first:bg-white last:border-slate-600 ..." />
-            <div data-cb-tag={icon} className="first:bg-white last:border-slate-600 ..." />
+            <div
+              data-cb-tag={icon}
+              className="first:bg-background last:border-primary-medium ..."
+            />
+            <div
+              data-cb-tag={icon}
+              className="first:bg-background last:border-primary-medium ..."
+            />
+            <div
+              data-cb-tag={icon}
+              className="first:bg-background last:border-primary-medium ..."
+            />
+            <div
+              data-cb-tag={icon}
+              className="first:bg-background last:border-primary-medium ..."
+            />
           </div>
         </CodeSample>
       </Wrapper>
@@ -52,18 +64,30 @@ const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: stri
         <MdxPartial lang={lang} slug={"state-management/state-management-order-eo"} path="docs" />
         <GridContainer>
           <div className="mx-auto flex justify-center gap-6 my-8">
-            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent even:bg-white odd:border-slate-600" />
-            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent even:bg-white odd:border-slate-600" />
-            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent even:bg-white odd:border-slate-600" />
-            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent even:bg-white odd:border-slate-600" />
+            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent even:bg-background odd:border-primary-medium" />
+            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent even:bg-background odd:border-primary-medium" />
+            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent even:bg-background odd:border-primary-medium" />
+            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent even:bg-background odd:border-primary-medium" />
           </div>
         </GridContainer>
         <CodeSample>
           <div>
-            <div data-cb-tag={icon} className="even:bg-white odd:border-slate-600 ..." />
-            <div data-cb-tag={icon} className="even:bg-white odd:border-slate-600 ..." />
-            <div data-cb-tag={icon} className="even:bg-white odd:border-slate-600 ..." />
-            <div data-cb-tag={icon} className="even:bg-white odd:border-slate-600 ..." />
+            <div
+              data-cb-tag={icon}
+              className="even:bg-background odd:border-primary-medium ..."
+            />
+            <div
+              data-cb-tag={icon}
+              className="even:bg-background odd:border-primary-medium ..."
+            />
+            <div
+              data-cb-tag={icon}
+              className="even:bg-background odd:border-primary-medium ..."
+            />
+            <div
+              data-cb-tag={icon}
+              className="even:bg-background odd:border-primary-medium ..."
+            />
           </div>
         </CodeSample>
       </Wrapper>
@@ -75,15 +99,15 @@ const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: stri
         />
         <GridContainer>
           <div className="mx-auto flex justify-center gap-6 my-8">
-            <button className="group/sample block max-w-xs mx-auto rounded-lg p-6 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-sky-500 hover:ring-sky-500">
+            <button className="group/sample block max-w-xs mx-auto rounded-lg p-6 bg-background ring-1 ring-primary/5 shadow-lg space-y-3 hover:bg-sky-500 hover:ring-sky-500">
               <div className="flex items-center space-x-2">
                 <Icon className="icon-sky-500 group-hover/sample:icon-white" />
                 <RocketIconsTextDefault
-                  className="dark:text-slate-900 group-hover/sample:text-white"
+                  className="dark:text-primary group-hover/sample:text-white"
                   showIcon={false}
                 />
               </div>
-              <p className="text-slate-500 group-hover/sample:text-white text-sm">
+              <p className="text-primary-light group-hover/sample:text-primary-dark text-sm">
                 Group state can be used to change style of the icon.
               </p>
             </button>
@@ -95,12 +119,12 @@ const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: stri
             <button className="group/sample ...">
               <div className="flex">
                 <div data-cb-tag={icon} className="icon-sky-500 group-hover/sample:icon-white" />
-                <span className="dark:text-slate-900 font-quicksand group-hover/sample:text-white">
+                <span className="dark:text-primary font-quicksand group-hover/sample:text-primary-dark">
                   <span>rocket</span>
                   <span className="font-semibold">icons</span>
                 </span>
               </div>
-              <p className="text-slate-500 group-hover/sample:text-white text-sm">
+              <p className="text-primary-light group-hover/sample:text-primary-dark text-sm">
                 Group state can be used to change style of the icon.
               </p>
             </button>
@@ -114,9 +138,9 @@ const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: stri
           path="docs"
         />
         <GridContainer>
-          <div className="relative max-w-xs mx-auto rounded-lg p-6 pb-4 bg-white my-8">
+          <div className="relative max-w-xs mx-auto rounded-lg p-6 pb-4 bg-background my-8">
             <fieldset>
-              <legend className="text-slate-400 pb-1.5 mb-3 pr-16 border-b border-slate-200 font-semibold">
+              <legend className="text-primary-lighter pb-1.5 mb-3 pr-16 border-b border-surface-border font-semibold">
                 User permission
               </legend>
               <input
@@ -125,7 +149,7 @@ const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: stri
                 type="radio"
                 name="permission"
               />
-              <TbCheckbox className="transition-opacity duration-200 pointer-events-none ml-2 opacity-40 -mt-0.5 icon-slate-400 peer-hover/admin:opacity-100 peer-checked/admin:opacity-90 peer-checked/admin:icon-sky-500" />
+              <TbCheckbox className="transition-opacity duration-200 pointer-events-none ml-2 opacity-40 -mt-0.5 icon-primary-lighter peer-hover/admin:opacity-100 peer-checked/admin:opacity-90 peer-checked/admin:icon-sky-500" />
               <label htmlFor="admin" className="ml-2 peer-checked/admin:text-sky-500">
                 Admin
               </label>
@@ -136,7 +160,7 @@ const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: stri
                 type="radio"
                 name="permission"
               />
-              <TbCheckbox className="transition duration-200 pointer-events-none opacity-40 -mt-0.5 icon-slate-400  peer-hover/user:opacity-100 peer-checked/user:opacity-90 peer-checked/user:icon-sky-500" />
+              <TbCheckbox className="transition duration-200 pointer-events-none opacity-40 -mt-0.5 icon-primary-lighter peer-hover/user:opacity-100 peer-checked/user:opacity-90 peer-checked/user:icon-sky-500" />
               <label htmlFor="user" className="ml-2 peer-checked/user:text-sky-500">
                 User
               </label>

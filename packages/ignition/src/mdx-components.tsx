@@ -27,7 +27,7 @@ const CodeContainer = ({ "data-clipboard-text": clipboardText, children }: CodeP
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   const allComponentClasses = "mb-4";
-  const titleClasses = `text-slate-900 dark:text-white font-semibold ${allComponentClasses}`;
+  const titleClasses = `text-primary dark:primary-dark font-semibold ${allComponentClasses}`;
 
   return {
     h1: ({ children, ...props }) => <Title {...props}>{children}</Title>,

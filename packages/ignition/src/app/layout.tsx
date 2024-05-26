@@ -45,7 +45,7 @@ export default function RootLayout({
         <ThemeColor />
       </head>
       <body
-        className={`${inter.variable} ${quicksand.variable} ${monospace.variable} font-inter bg-primary has-[.theme-selector.dark]:bg-primary-variant`}
+        className={`${inter.variable} ${quicksand.variable} ${monospace.variable} font-inter bg-background has-[.theme-selector.dark]:bg-background-dark`}
       >
         {children}
         <Analytics />

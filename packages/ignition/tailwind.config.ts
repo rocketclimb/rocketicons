@@ -23,10 +23,34 @@ const config: Config = {
         icons: ["Material Symbols Outlined"]
       },
       colors: {
-        primary: colors.white,
-        "primary-variant": colors.slate[900],
-        "on-primary": colors.slate[900],
-        "on-primary-variant": colors.slate[200]
+        background: colors.white,
+        "background-dark": colors.slate[900],
+        primary: colors.slate[900],
+        "primary-bright": colors.slate[300],
+        "primary-lighter": colors.slate[400],
+        "primary-light": colors.slate[500],
+        "primary-medium": colors.slate[600],
+        "primary-dark": colors.slate[200],
+        "primary-darken": colors.slate[700],
+        "on-primary": colors.white,
+        surface: colors.white,
+        "surface-lighter": colors.slate[50],
+        "surface-border": colors.slate[200],
+        "surface-border-lighter": colors.slate[400],
+        "surface-light": colors.slate[600],
+        "surface-border-light": colors.gray[200],
+        "surface-medium": colors.slate[700],
+        "surface-border-medium": colors.sky[900],
+        "surface-dark": colors.slate[800],
+        "surface-border-dark": colors.slate[900],
+        "on-surface": colors.slate[700],
+        "on-surface-dark": colors.slate[400],
+        secondary: colors.sky[500],
+        "secondary-lighter": colors.sky[400],
+        "secondary-light": colors.sky[800],
+        "secondary-medium": colors.sky[900],
+        "secondary-dark": colors.sky[950],
+        "on-secondary-lighter": colors.sky[600]
       },
       screens: {
         xs: "375px"
@@ -63,7 +87,7 @@ const config: Config = {
           "@apply text-sky-500": {}
         },
         ".default-text-color": {
-          "@apply text-on-primary dark:text-on-primary-variant": {}
+          "@apply text-primary dark:text-primary-dark": {}
         },
         ".sub-title": {
           "@apply whitespace-pre-wrap font-semibold": {},

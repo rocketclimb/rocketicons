@@ -7,10 +7,10 @@ const ThemeColor = () => {
   const { colors } = useTailwindTheme();
   return (
     <>
-      <meta name="theme-color" content={isDark ? colors["on-primary"] : colors.primary} />
+      <meta name="theme-color" content={isDark ? colors["background-dark"] : colors.background} />
       <meta
         name="msapplication-TileColor"
-        content={isDark ? colors["on-primary"] : colors.primary}
+        content={isDark ? colors["background-dark"] : colors.background}
       />
     </>
   );

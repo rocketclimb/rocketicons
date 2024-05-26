@@ -12,7 +12,7 @@ const Content = ({ id, lang, manifest, collection }: HandlerPros & IconsCollecti
       return (
         <li key={iconId}>
           <IconSelector lang={lang} collectionId={id} id={iconId} name={name}>
-            <Icon className="transition-all duration-200 transform-gpu icon-sky-900-3xl group-hover/button:icon-sky-900-4xl dark:icon-sky-500-3xl group-hover/button:dark:icon-sky-500-4xl xs:icon-sky-900-4xl group-hover/button:xs:icon-sky-900-5xl dark:xs:icon-sky-500-4xl group-hover/button:dark:xs:icon-sky-500-5xl " />
+            <Icon className="transition-all duration-200 transform-gpu icon-secondary-medium-3xl group-hover/button:icon-secondary-medium-4xl dark:icon-secondary-3xl group-hover/button:dark:icon-secondary-4xl xs:icon-secondary-medium-4xl group-hover/button:xs:icon-secondary-medium-5xl dark:xs:icon-secondary-4xl group-hover/button:dark:xs:icon-secondary-5xl " />
           </IconSelector>
         </li>
       );
