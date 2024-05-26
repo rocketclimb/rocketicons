@@ -18,6 +18,7 @@
       }
     ],
     "paths": {
+      "@/tailwind-conf": ["./tailwind.config.ts"],
       "@/*": ["./src/*"],
       "@/components/*": ["./src/app/components/*"],
       "@/data-helpers/*": ["./src/app/data-helpers/*"],

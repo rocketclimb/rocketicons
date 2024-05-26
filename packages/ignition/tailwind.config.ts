@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import colors from "tailwindcss/colors";
 import plugin from "tailwindcss/plugin";
 import icons from "rocketicons/tailwind";
 import { plugin as codeBlock } from "@rocketclimb/code-block/tailwind";
@@ -20,6 +21,12 @@ const config: Config = {
         quicksand: ["var(--font-quicksand)"],
         monospace: ["var(--font-monospace)"],
         icons: ["Material Symbols Outlined"]
+      },
+      colors: {
+        primary: colors.white,
+        "primary-variant": colors.slate[900],
+        "on-primary": colors.slate[900],
+        "on-primary-variant": colors.slate[200]
       },
       screens: {
         xs: "375px"
@@ -50,13 +57,13 @@ const config: Config = {
             {}
         },
         ".active-content": {
-          "@apply border-sky-500 dark:border-sky-500": {}
+          "@apply border-sky-500": {}
         },
         ".active-content span": {
-          "@apply text-sky-500 dark:text-sky-500": {}
+          "@apply text-sky-500": {}
         },
         ".default-text-color": {
-          "@apply text-slate-900 dark:text-slate-200": {}
+          "@apply text-on-primary dark:text-on-primary-variant": {}
         },
         ".sub-title": {
           "@apply whitespace-pre-wrap font-semibold": {},
@@ -126,14 +133,14 @@ const config: Config = {
       matchUtilities({
         "current-url": (value) => ({
           [`nav[data-current^="${value}"] &`]: {
-            "@apply border-sky-500 dark:border-sky-500 text-sky-500 dark:text-sky-500": {}
+            "@apply border-sky-500 text-sky-500": {}
           }
         })
       });
       matchUtilities({
         "current-url-is": (value) => ({
           [`nav[data-current="${value}"] &`]: {
-            "@apply border-sky-500 dark:border-sky-500 text-sky-500 dark:text-sky-500": {}
+            "@apply border-sky-500 text-sky-500": {}
           }
         })
       });
