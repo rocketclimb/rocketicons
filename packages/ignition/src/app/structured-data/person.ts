@@ -1,4 +1,4 @@
-import { Thing } from ".";
+import { Thing } from "./thing";
 
 export class Person extends Thing {
   constructor(name: string) {

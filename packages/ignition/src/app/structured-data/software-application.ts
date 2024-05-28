@@ -1,4 +1,5 @@
-import { CreativeWork, Offer } from ".";
+import { CreativeWork } from "./creative-work";
+import { Offer } from "./offer";
 
 export class SoftwareApplication extends CreativeWork {
   public applicationCategory: string | string[] = [];

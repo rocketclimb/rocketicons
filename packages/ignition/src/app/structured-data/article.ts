@@ -1,4 +1,4 @@
-import { CreativeWork } from ".";
+import { CreativeWork } from "./creative-work";
 
 export class Article extends CreativeWork {
   public headline?: string;

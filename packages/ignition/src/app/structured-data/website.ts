@@ -1,4 +1,4 @@
-import { CreativeWork } from ".";
+import { CreativeWork } from "./creative-work";
 
 export class WebSite extends CreativeWork {
   constructor(name: string, description: string) {

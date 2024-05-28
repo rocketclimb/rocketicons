@@ -1,4 +1,4 @@
-import { Intangible, Thing } from ".";
+import { Intangible } from "./intangible";
 
 export class Offer extends Intangible {
   public price: string | number;

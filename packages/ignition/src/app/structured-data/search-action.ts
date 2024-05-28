@@ -1,4 +1,4 @@
-import { Action, Thing } from ".";
+import { Action } from "./action";
 
 export class SearchAction extends Action {
   public "query-input": string;

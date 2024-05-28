@@ -1,4 +1,5 @@
-import { Person, Thing } from ".";
+import { Person } from "./person";
+import { Thing } from "./thing";
 
 // a type with all the possible organization types from schema.org
 export type OrganizationType =

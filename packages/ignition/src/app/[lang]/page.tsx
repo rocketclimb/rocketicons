@@ -26,146 +26,140 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
   const { organization, software } = withStructuredData(lang);
 
   return (
-    <>
-      <div className="flex flex-col grow overflow-y-auto items-center justify-between bg-cover bg-hero-light dark:bg-hero-dark">
-        <section className="relative w-full inset-0 before:absolute before:top-0 before:right-0 before:left-0 before:bottom-16 before:light-mask-image before:dark:dark-mask-image before:bg-grid before:bg-bottom before:bg-slate-900/[0.04] dark:before:bg-slate-400/[0.05] dark:before:border-b before:border-slate-200 dark:before:border-slate-100/5">
-          <div className="hero relative max-w-5xl mx-auto pt-20 px-2 sm:px-6 md:px-8 sm:pt-24 lg:pt-32">
-            <MdxComponent lang={lang} slug="home" />
-            <div className="mt-4 xs:mt-6 lg:mt-10 flex justify-center space-x-6 text-sm">
-              <Link
-                className="h-10 xs:h-12 px-6 bg-slate-900 max-w-lg hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold rounded-lg w-full flex items-center justify-center sm:w-auto dark:bg-sky-500 dark:highlight-white/20 dark:hover:bg-sky-400"
-                href={`/${lang}/docs/${gettingStartedSlug}`}
-              >
-                {gettingStarted}
-              </Link>
-              <SearchButton lang={lang} />
-            </div>
-          </div>
-          <div className="mb-6 px-4 w-full z-10">
-            <AnimatedCodeBlock
-              className="deep-[4]"
-              script={[
-                {
-                  time: "4s",
-                  action: ScriptAction.UPDATE,
-                  elementId: "el_0",
-                  text: "h-32"
-                },
-                {
-                  action: ScriptAction.UPDATE,
-                  elementId: "el_0.el_0",
-                  text: "size-10"
-                },
-                {
-                  action: ScriptAction.UPDATE_TYPING,
-                  elementId: "el_0.el_0",
-                  text: " border border-slate-200 dark:border-white",
-                  delay: 50
-                },
-                {
-                  time: "2s",
-                  action: ScriptAction.UPDATE_TYPING,
-                  elementId: "el_0",
-                  text: " flex gap-3",
-                  delay: 60
-                },
-                {
-                  time: "2s",
-                  action: ScriptAction.UPDATE_TYPING,
-                  elementId: "el_0.el_0",
-                  text: " size-32 bg-slate-200 dark:bg-white",
-                  delay: 50
-                },
-                {
-                  time: "5s",
-                  action: ScriptAction.DELETE_TYPING,
-                  elementId: "el_0.el_1.el_1.el_1",
-                  from: "icon-red-900-md",
-                  to: "icon-",
-                  skipCommit: true
-                },
-                {
-                  action: ScriptAction.UPDATE_TYPING,
-                  elementId: "el_0.el_1.el_1.el_1",
-                  text: "sky-500"
-                },
-                {
-                  time: "5s",
-                  action: ScriptAction.UPDATE_TYPING,
-                  elementId: "el_0.el_1.el_1.el_1",
-                  text: "-lg"
-                },
-                {
-                  time: "2s",
-                  action: ScriptAction.UPDATE_TYPING,
-                  elementId: "el_0.el_1.el_1.el_1",
-                  text: " dark:icon-white-lg",
-                  delay: 30
-                },
-                {
-                  time: "1s",
-                  action: ScriptAction.UPDATE_TYPING,
-                  elementId: "el_0.el_1.el_1.el_1",
-                  text: " mx-1"
-                },
-                {
-                  time: "30s",
-                  action: ScriptAction.REPLACE_TYPING,
-                  elementId: "el_0.el_1.el_1.el_1",
-                  text: "icon-slate-900-base dark:icon-red-500-base"
-                },
-                {
-                  action: ScriptAction.UPDATE,
-                  elementId: "el_0",
-                  text: "h-32"
-                },
-                {
-                  action: ScriptAction.UPDATE,
-                  elementId: "el_0.el_0",
-                  text: "size-10"
-                },
-                {
-                  action: ScriptAction.RESTART
-                }
-              ]}
+    <div className="flex flex-col grow overflow-y-auto items-center justify-between bg-cover bg-hero-light dark:bg-hero-dark">
+      <main className="relative w-full inset-0 before:absolute before:top-0 before:right-0 before:left-0 before:bottom-16 before:light-mask-image before:dark:dark-mask-image before:bg-grid before:bg-bottom before:bg-slate-900/[0.04] dark:before:bg-slate-400/[0.05] dark:before:border-b before:border-slate-200 dark:before:border-slate-100/5">
+        <div className="hero relative max-w-5xl mx-auto pt-20 px-2 sm:px-6 md:px-8 sm:pt-24 lg:pt-32">
+          <MdxComponent lang={lang} slug="home" />
+          <div className="mt-4 xs:mt-6 lg:mt-10 flex justify-center space-x-6 text-sm">
+            <Link
+              className="h-10 xs:h-12 px-6 bg-slate-900 max-w-lg hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold rounded-lg w-full flex items-center justify-center sm:w-auto dark:bg-sky-500 dark:highlight-white/20 dark:hover:bg-sky-400"
+              href={`/${lang}/docs/${gettingStartedSlug}`}
             >
-              <div className="h-32">
-                <RcRocketIcon data-cb-tag="RcRocketIcon" className="size-10" />
-                <div>
-                  <div className="text-slate-900 text-xl xs:text-2xl font-light dark:text-white mt-1 xs:mt-2">
-                    <RocketIconsText data-cb-tag="RocketIconsText" />
-                  </div>
-                  <div className="mr-2 text-sm xs:text-base">
-                    Styling in a way
-                    <RcRocketIcon
-                      data-cb-tag="RcRocketIcon"
-                      className="icon-slate-900-base dark:icon-red-500-base"
-                    />
-                    you&apos;ve never seen before.
-                  </div>
-                  <div className="mt-0.5 text-xs leading-4 xs:leading-6">
-                    A funny way handling icons
-                  </div>
+              {gettingStarted}
+            </Link>
+            <SearchButton lang={lang} />
+          </div>
+        </div>
+        <div className="mb-6 px-4 w-full z-10">
+          <AnimatedCodeBlock
+            className="deep-[4]"
+            script={[
+              {
+                time: "4s",
+                action: ScriptAction.UPDATE,
+                elementId: "el_0",
+                text: "h-32"
+              },
+              {
+                action: ScriptAction.UPDATE,
+                elementId: "el_0.el_0",
+                text: "size-10"
+              },
+              {
+                action: ScriptAction.UPDATE_TYPING,
+                elementId: "el_0.el_0",
+                text: " border border-slate-200 dark:border-white",
+                delay: 50
+              },
+              {
+                time: "2s",
+                action: ScriptAction.UPDATE_TYPING,
+                elementId: "el_0",
+                text: " flex gap-3",
+                delay: 60
+              },
+              {
+                time: "2s",
+                action: ScriptAction.UPDATE_TYPING,
+                elementId: "el_0.el_0",
+                text: " size-32 bg-slate-200 dark:bg-white",
+                delay: 50
+              },
+              {
+                time: "5s",
+                action: ScriptAction.DELETE_TYPING,
+                elementId: "el_0.el_1.el_1.el_1",
+                from: "icon-red-900-md",
+                to: "icon-",
+                skipCommit: true
+              },
+              {
+                action: ScriptAction.UPDATE_TYPING,
+                elementId: "el_0.el_1.el_1.el_1",
+                text: "sky-500"
+              },
+              {
+                time: "5s",
+                action: ScriptAction.UPDATE_TYPING,
+                elementId: "el_0.el_1.el_1.el_1",
+                text: "-lg"
+              },
+              {
+                time: "2s",
+                action: ScriptAction.UPDATE_TYPING,
+                elementId: "el_0.el_1.el_1.el_1",
+                text: " dark:icon-white-lg",
+                delay: 30
+              },
+              {
+                time: "1s",
+                action: ScriptAction.UPDATE_TYPING,
+                elementId: "el_0.el_1.el_1.el_1",
+                text: " mx-1"
+              },
+              {
+                time: "30s",
+                action: ScriptAction.REPLACE_TYPING,
+                elementId: "el_0.el_1.el_1.el_1",
+                text: "icon-slate-900-base dark:icon-red-500-base"
+              },
+              {
+                action: ScriptAction.UPDATE,
+                elementId: "el_0",
+                text: "h-32"
+              },
+              {
+                action: ScriptAction.UPDATE,
+                elementId: "el_0.el_0",
+                text: "size-10"
+              },
+              {
+                action: ScriptAction.RESTART
+              }
+            ]}
+          >
+            <div className="h-32">
+              <RcRocketIcon data-cb-tag="RcRocketIcon" className="size-10" />
+              <div>
+                <div className="text-slate-900 text-xl xs:text-2xl font-light dark:text-white mt-1 xs:mt-2">
+                  <RocketIconsText data-cb-tag="RocketIconsText" />
+                </div>
+                <div className="mr-2 text-sm xs:text-base">
+                  Styling in a way
+                  <RcRocketIcon
+                    data-cb-tag="RcRocketIcon"
+                    className="icon-slate-900-base dark:icon-red-500-base"
+                  />
+                  you&apos;ve never seen before.
+                </div>
+                <div className="mt-0.5 text-xs leading-4 xs:leading-6">
+                  A funny way handling icons
                 </div>
               </div>
-            </AnimatedCodeBlock>
-          </div>
-        </section>
-        <section className="mt-5 md:mt-0 w-full max-w-7xl">
-          <Footer />
-        </section>
-        <section>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(software) }}
-          />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
-          />
-        </section>
-      </div>
-    </>
+            </div>
+          </AnimatedCodeBlock>
+        </div>
+      </main>
+      <Footer className="mt-5 md:mt-0 w-full max-w-7xl" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(software) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
+      />
+    </div>
   );
 };
 

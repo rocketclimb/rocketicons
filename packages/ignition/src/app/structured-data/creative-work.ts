@@ -1,4 +1,5 @@
-import { Organization, Thing } from ".";
+import { Organization } from "./organization";
+import { Thing } from "./thing";
 
 export class CreativeWork extends Thing {
   public mainEntity?: Thing;

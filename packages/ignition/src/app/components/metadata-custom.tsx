@@ -86,15 +86,7 @@ export const customMetadata = (
   const metadataObj: Metadata = {
     title: pageTitle,
     description: pageDescription,
-    keywords: [
-      "React",
-      "React Native",
-      "Vercel",
-      "Tailwind",
-      siteConfig.companyName,
-      "rocketicons",
-      "icons"
-    ],
+    keywords: ["React", "React Native", "Tailwind", "rocketicons", "icons"],
     authors: [
       {
         name: name,

@@ -8,9 +8,9 @@ const Layout = async ({ children, params: { lang } }: PropsWithChildrenAndLangPa
       <SidebarLeft lang={lang} />
     </div>
     <div className="lg:grow lg:flex lg:flex-col lg:items-center lg:mt-0 lg:pt-0 mt-20 pt-2 px-1 xs:px-1.5 content-area lg:overflow-y-auto md:pr-7 mr-0">
-      <div className="lg:grow lg:flex-shrink-0 w-full pt-5 has-[.collection-page]:pt-0">
+      <main className="lg:grow lg:flex-shrink-0 w-full pt-5 has-[.collection-page]:pt-0">
         {children}
-      </div>
+      </main>
       <Footer />
     </div>
   </>
