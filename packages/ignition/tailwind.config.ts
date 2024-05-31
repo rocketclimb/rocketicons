@@ -50,6 +50,7 @@ const config: Config = {
         "secondary-light": colors.sky[800],
         "secondary-medium": colors.sky[900],
         "secondary-dark": colors.sky[950],
+        "on-secondary": colors.white,
         "on-secondary-lighter": colors.sky[600]
       },
       screens: {
@@ -63,11 +64,17 @@ const config: Config = {
         "delayed-hidden": {
           "0%, 40%": { visibility: "visible" },
           "100%": { visibility: "hidden" }
+        },
+        flash: {
+          "0%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
+          "100%": { opacity: "1" }
         }
       },
       animation: {
         "delayed-appearing": "delayed-appearing 300ms ease-in-out forwards",
-        "delayed-hidden": "delayed-hidden 300ms ease-in-out forwards"
+        "delayed-hidden": "delayed-hidden 300ms ease-in-out forwards",
+        "flash-it": "flash 300ms ease-in-out forwards"
       }
     }
   },
@@ -81,10 +88,13 @@ const config: Config = {
             {}
         },
         ".active-content": {
-          "@apply border-sky-500": {}
+          "@apply border-secondary": {}
         },
         ".active-content span": {
-          "@apply text-sky-500": {}
+          "@apply text-secondary": {}
+        },
+        ".content-box": {
+          "@apply px-2 pt-1": {}
         },
         ".default-text-color": {
           "@apply text-primary dark:text-primary-dark": {}

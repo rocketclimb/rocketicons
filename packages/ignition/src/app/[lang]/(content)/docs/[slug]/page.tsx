@@ -6,6 +6,7 @@ import DarkMode from "@/components/usage/dark-mode";
 import ResponsiveDesign from "@/components/usage/responsive-design";
 import StateManagement from "@/components/usage/state-management";
 import Styling from "@/components/usage/styling";
+import Shortcuts from "@/components/usage/shortcuts";
 import { MdxDoc } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-and-slug-param";
@@ -74,6 +75,9 @@ const DocFactory = ({ lang, slug, index, requestedIcon }: DocFactoryProps) => {
     }
     case "styling": {
       return <Styling lang={lang} queryIcon={requestedIcon} />;
+    }
+    case "shortcuts": {
+      return <Shortcuts lang={lang} queryIcon={requestedIcon} />;
     }
     default:
       return <MdxDoc lang={lang} slug={slug} />;

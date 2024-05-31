@@ -143,7 +143,7 @@ const DocList = ({ lang }: PropsWithLang) => {
 
 export const SidebarLeft = ({ lang }: PropsWithLang) => (
   <Nav>
-    <ul className={`hidden relative lg:w-56 lg:block group-data-[open=true]:block`}>
+    <ul className={`hidden relative z-40 lg:w-56 lg:block group-data-[open=true]:block`}>
       <div className="mt-3">
         <SearchButton lang={lang} />
       </div>

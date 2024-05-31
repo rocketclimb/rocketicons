@@ -68,7 +68,7 @@ type ItemProps = {
 const Item = ({ id, iconId, name, lang, children }: ItemProps) => (
   <Link
     href={`/${lang}/icons/${id}/${iconId}`}
-    className="group/button transition-all duration-200 flex flex-col flex-shrink-0 items-center justify-center overflow-auto size-20 xs:size-28 lg:size-36 mb-2 hover:mb-0 rounded border border-transparent hover:border-surface-border-medium dark:hover:bg-surface-medium"
+    className="group/button transition-all duration-200 flex flex-col flex-shrink-0 items-center justify-center overflow-auto size-20 xs:size-28 lg:size-36 mb-2 rounded border border-transparent hover:border-surface-border-medium dark:hover:bg-surface-medium"
   >
     {children}
     <span className="transition-all duration-200 capitalize text-[0.7rem] lg:text-[0.78rem] mt-2 max-w-16 xs:max-w-24 sm:max-w-24 lg:max-w-32 truncate group-hover/button:mt-1 group-hover/button:underline">
@@ -104,7 +104,7 @@ const Items = ({ id, lang, manifest, collection }: ItemsProps) => {
           return (
             <li key={iconId}>
               <Item lang={lang} id={id} iconId={iconId} name={name}>
-                <Icon className="transition-all duration-200 transform-gpu icon-sky-900-xl dark:icon-sky-500-xl group-hover/button:icon-sky-900-2xl group-hover/button:dark:icon-sky-500-2xl xs:icon-sky-900-2xl dark:xs:icon-sky-500-2xl  group-hover/button:xs:icon-sky-900-3xl  group-hover/button:dark:xs:icon-sky-500-3xl lg:icon-sky-900-4xl dark:lg:icon-sky-500-4xl  group-hover/button:lg:icon-sky-900-5xl  group-hover/button:dark:lg:icon-sky-500-5xl" />
+                <Icon className="transition-all duration-200 transform-gpu icon-sky-900 icon-xl xs:icon-2xl lg:icon-4xl dark:icon-sky-500 group-hover/button:icon-2xl group-hover/button:xs:icon-3xl group-hover/button:lg:icon-5xl" />
               </Item>
             </li>
           );
@@ -188,7 +188,7 @@ const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
                     <UlContainer className="px-6 pt-12 gap-x-5 flex-wrap justify-start h-24 sm:h-28 overflow-hidden">
                       {tastes.slice(0, 10).map((Icon, i) => (
                         <Item lang={lang} key={i} id={id}>
-                          <Icon className="transition-all duration-200 transform-gpu icon-sky-900-4xl group-hover/button:icon-sky-900-5xl dark:icon-sky-500-4xl group-hover/button:dark:icon-sky-500-5xl" />
+                          <Icon className="transition-all duration-200 transform-gpu icon-sky-900 dark:icon-sky-500 icon-4xl group-hover/button:icon-5xl" />
                         </Item>
                       ))}
                     </UlContainer>

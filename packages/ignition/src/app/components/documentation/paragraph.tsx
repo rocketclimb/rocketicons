@@ -11,7 +11,7 @@ const proseStyle = `
 `;
 
 const thinStyle = `
-  thin:my-1.5 thin:text-xs thin:xs:text-[0.83rem] thin:md:text-[0.93rem]
+  thin:my-1.5 thin:text-xs thin:xs:text-[0.83rem] thin:md:text-[0.89rem]/snug
 `;
 
 const quoteStyle = `
