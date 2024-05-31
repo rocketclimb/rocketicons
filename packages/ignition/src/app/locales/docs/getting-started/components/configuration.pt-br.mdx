@@ -14,15 +14,31 @@ Você precisa ter o tailwind em seu projeto e, é claro, o arquivo `tailwind.con
 
 Nesse arquivo, importe o plugin e adicione-o ao array `plugins` assim:
 
-```js filename="tailwind.config.js"
-// tailwind.config.js
+```js
+// @tabContent(tailwind.config.ts)
 import icons from "rocketicons/tailwind";
-
 ...
 plugins: [
   icons
 ],
 ...
+// @endTabContent
+// @tabContent(tailwind.config.mjs)
+import icons from "rocketicons/tailwind";
+...
+plugins: [
+  icons
+],
+...
+// @endTabContent
+// @tabContent(tailwind.config.js)
+const icons = require("rocketicons/tailwind");
+...
+plugins: [
+  icons
+],
+...
+// @endTabContent
 ```
 
 Depois disso, você pode usar <RocketIconsTextDefault /> em seu projeto.
