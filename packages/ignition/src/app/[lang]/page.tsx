@@ -8,7 +8,8 @@ import RocketIconsText from "@/components/rocketicons-text";
 import SearchButton from "@/app/components/search/search";
 import { withLocale } from "@/locales/with-locale";
 import Footer from "@/components/footer";
-import customMetadata from "@/components/metadata-custom";
+import { customMetadata } from "@/components/metadata-custom";
+import { withStructuredData } from "@/config";
 
 export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
   const { component } = withLocale(lang);
@@ -18,12 +19,15 @@ export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Met
 };
 
 const Home = ({ params: { lang } }: PropsWithLangParams) => {
+  const { config } = withLocale(lang);
   const { "getting-started-slug": gettingStartedSlug, "getting-started": gettingStarted } =
-    withLocale(lang).config("nav");
+    config("nav");
+
+  const { organization, software } = withStructuredData(lang);
 
   return (
     <div className="flex flex-col grow overflow-y-auto items-center justify-between bg-cover bg-hero-light dark:bg-hero-dark">
-      <div className="relative w-full inset-0 before:absolute before:top-0 before:right-0 before:left-0 before:bottom-16 before:light-mask-image before:dark:dark-mask-image before:bg-grid before:bg-bottom before:bg-slate-900/[0.04] dark:before:bg-slate-400/[0.05] dark:before:border-b before:border-slate-200 dark:before:border-slate-100/5">
+      <main className="relative w-full inset-0 before:absolute before:top-0 before:right-0 before:left-0 before:bottom-16 before:light-mask-image before:dark:dark-mask-image before:bg-grid before:bg-bottom before:bg-slate-900/[0.04] dark:before:bg-slate-400/[0.05] dark:before:border-b before:border-slate-200 dark:before:border-slate-100/5">
         <div className="hero relative max-w-5xl mx-auto pt-20 px-2 sm:px-6 md:px-8 sm:pt-24 lg:pt-32">
           <MdxComponent lang={lang} slug="home" />
           <div className="mt-4 xs:mt-6 lg:mt-10 flex justify-center space-x-6 text-sm">
@@ -145,10 +149,16 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
             </div>
           </AnimatedCodeBlock>
         </div>
-      </div>
-      <div className="mt-5 md:mt-0 w-full max-w-7xl">
-        <Footer />
-      </div>
+      </main>
+      <Footer className="mt-5 md:mt-0 w-full max-w-7xl" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(software) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
+      />
     </div>
   );
 };

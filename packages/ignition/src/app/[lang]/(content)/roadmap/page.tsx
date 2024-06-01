@@ -3,7 +3,7 @@ import { withLocale } from "@/locales";
 import { LuCheck } from "rocketicons/lu";
 import { IoCaretUp } from "rocketicons/io5";
 import { BiQuestionMark } from "rocketicons/bi";
-import customMetadata from "@/components/metadata-custom";
+import { customMetadata } from "@/components/metadata-custom";
 import { Metadata } from "next";
 import roadmapFile from "@/locales/roadmap.json";
 
