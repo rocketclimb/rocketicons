@@ -1,0 +1,11 @@
+export { Thing } from "./thing";
+export { CreativeWork } from "./creative-work";
+export { Article } from "./article";
+export { Organization } from "./organization";
+export { SoftwareApplication } from "./software-application";
+export { WebSite } from "./website";
+export { Person } from "./person";
+export { Action } from "./action";
+export { SearchAction } from "./search-action";
+export { Intangible } from "./intangible";
+export { Offer } from "./offer";

@@ -9,3 +9,4 @@ export * from "./props-with-children-and-class-name";
 export * from "./props-with-class-name";
 export * from "./props-with-class-name-and-lang";
 export * from "./props-with-children-and-class-name-and-lang";
+export * from "./doc";

@@ -11,9 +11,11 @@ import { MdxDoc } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-and-slug-param";
 import { withLocale } from "@/locales/with-locale";
-import customMetadata from "@/components/metadata-custom";
+import { customMetadata, getOpenGraphImage } from "@/components/metadata-custom";
 import docs from "@/data-helpers/params/docs.json";
-import { PropsWithLang } from "@/app/types";
+import { Doc, Languages, PropsWithLang } from "@/app/types";
+import { withStructuredData } from "@/config";
+import { Article } from "@/app/structured-data";
 
 type PageProps = {
   searchParams: Record<string, string>;
@@ -27,9 +29,8 @@ export const generateMetadata = ({
   params: { lang, slug },
   searchParams: { i }
 }: PageProps): Metadata => {
-  const { doc } = withLocale(lang);
+  const selectedDoc = getDoc(lang, slug);
 
-  const selectedDoc = doc(slug);
   if (slug != selectedDoc.slug) {
     redirect(`/${lang}/docs/${selectedDoc.slug}${(i && "?i=" + i) || ""}`);
   }
@@ -39,12 +40,7 @@ export const generateMetadata = ({
     redirect(`/${lang}/docs/${selectedDoc.group}#${slug}`);
   }
 
-  const { title, description } = doc(slug) as {
-    title: string;
-    description: string;
-  };
-
-  return customMetadata(lang, "doc", slug, title, description);
+  return customMetadata(lang, "doc", slug, selectedDoc.title, selectedDoc.description);
 };
 
 type DocFactoryProps = {
@@ -84,14 +80,35 @@ const DocFactory = ({ lang, slug, index, requestedIcon }: DocFactoryProps) => {
   }
 };
 
+const getDoc = (lang: Languages, slug: string): Doc => {
+  const { doc } = withLocale(lang);
+
+  return doc(slug);
+};
+
 const Page = ({ params: { lang, slug }, searchParams: { i } }: PageProps) => {
   const { enSlug } = withLocale(lang);
+  const { organization, software } = withStructuredData(lang);
   const enSlugFromIndex = enSlug(slug);
+  const selectedDoc = getDoc(lang, slug);
+
+  const openGprahImageUrl = getOpenGraphImage(lang, "doc", slug);
+
+  const articleLd = new Article(selectedDoc.title, selectedDoc.description)
+    .setAuthor(organization)
+    .setMainEntity(software)
+    .setImage(openGprahImageUrl.toString());
 
   return (
-    <div className="w-full">
-      <DocFactory slug={slug} index={enSlugFromIndex} lang={lang} requestedIcon={i} />
-    </div>
+    <section>
+      <article className="w-full">
+        <DocFactory slug={slug} index={enSlugFromIndex} lang={lang} requestedIcon={i} />
+      </article>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
+      />
+    </section>
   );
 };
 

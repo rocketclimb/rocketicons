@@ -4,7 +4,6 @@ import { Inter, Quicksand, Fira_Code } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { serverEnv } from "@/env/server";
 import ThemeColor from "@/components/theme-color";
 
@@ -49,7 +48,6 @@ export default function RootLayout({
       >
         {children}
         <Analytics />
-        <SpeedInsights />
         <GoogleAnalytics gaId={serverEnv.GOOGLE_ANALYTICS_ID} />
       </body>
     </html>

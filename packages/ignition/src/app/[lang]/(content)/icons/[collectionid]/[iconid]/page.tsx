@@ -10,7 +10,7 @@ import IconInfoLoader from "@/components/icons/icons-collection/icon-info/loader
 import { withLocale } from "@/locales";
 import { PropsWithLangParams } from "@/types";
 import { asCompName } from "@/components/icons/get-icons-data";
-import customMetadata from "@/app/components/metadata-custom";
+import { customMetadata } from "@/app/components/metadata-custom";
 
 type PageProps = PropsWithLangParams & {
   params: {
