@@ -24,8 +24,8 @@ const MenuBlock = ({ children, href, text, exactMatch }: PropsWithChildren & Men
   <li className="mt-10 lg:mt-8">
     <h5
       className={`current-url-${exactMatch ? "is-" : ""}[${href}]
-        mb-5 pl-1.5 lg:mb-3 block border-l border-transparent hover:border-slate-400 font-semibol
-        text-slate-900 dark:text-slate-200 hover:text-slate-900 dark:hover:text-slate-300 dark:hover:border-slate-500
+        mb-5 pl-1.5 lg:mb-3 block border-l border-transparent hover:border-surface-border-lighterfont-semibol
+        text-primary dark:text-primary-dark hover:text-primary dark:hover:text--primary-dark dark:hover:border-surface-border-lighter
       `}
     >
       <Link href={href}>
@@ -38,7 +38,7 @@ const MenuBlock = ({ children, href, text, exactMatch }: PropsWithChildren & Men
 );
 
 const SubMenu = ({ children }: PropsWithChildren) => (
-  <ul className="space-y-4 lg:space-y-2 border-l border-slate-100 dark:border-slate-800">
+  <ul className="space-y-4 lg:space-y-2 border-l border-surface-border dark:border-surface-dark">
     {children}
   </ul>
 );
@@ -50,7 +50,7 @@ const MenuItem = ({
   href: string;
 }) => (
   <Link
-    className={`block border-l pl-4 -ml-px border-transparent hover:border-slate-400 dark:hover:border-slate-500 text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 current-url-[${href}]`}
+    className={`block border-l pl-4 -ml-px border-transparent hover:border-surface-border-lighter dark:hover:border-surface-light/90 text-primary-medium hover:text-primary dark:text-primary-lighter dark:hover:text-primary-bright current-url-[${href}]`}
     href={href}
   >
     {children}
@@ -93,7 +93,8 @@ const IconList = ({ lang }: PropsWithLang) => (
     {IconsManifest.map(({ id, name }) => (
       <li key={`${id}-${name}`}>
         <MenuItem href={`/${lang}/icons/${id}`}>
-          {(name === "rocketclimb" && <RocketIconsText className="hover:text-sky-500" />) || name}
+          {(name === "rocketclimb" && <RocketIconsText className="hover:text-secondary" />) ||
+            name}
         </MenuItem>
       </li>
     ))}
@@ -142,7 +143,7 @@ const DocList = ({ lang }: PropsWithLang) => {
 
 export const SidebarLeft = ({ lang }: PropsWithLang) => (
   <Nav>
-    <ul className={`hidden relative lg:w-56 lg:block group-data-[open=true]:block`}>
+    <ul className={`hidden relative z-40 lg:w-56 lg:block group-data-[open=true]:block`}>
       <div className="mt-3">
         <SearchButton lang={lang} />
       </div>

@@ -18,12 +18,12 @@ type ColorBoxProps = {
 const ColorBox = ({ name, tone, Icon }: ColorBoxProps) => (
   <div
     data-tone={tone}
-    className="group/color text-center px-1 py-2 rounded-lg border border-slate-200 dark:border-slate-800/80 data-[tone=light]:dark:bg-transparent data-[tone=dark]:dark:bg-white/70 data-[tone=light]:bg-slate-700"
+    className="group/color text-center px-1 py-2 rounded-lg border border-surface-border dark:border-surface-border-dark/60 data-[tone=light]:dark:bg-transparent data-[tone=dark]:dark:bg-white/70 data-[tone=light]:bg-surface-medium"
   >
     <div className="mx-auto size-14">
       <Icon className={`icon-${name}-4xl m-2`} />
     </div>
-    <span className="text-slate-500 text-[0.55rem] xs:text-[0.65rem] sm:text-[0.67rem] font-mono lowercase dark:text-slate-400 group-data-[tone=light]/color:text-slate-400 group-data-[tone=dark]/color:dark:text-slate-500">
+    <span className="text-primary-light text-[0.55rem] xs:text-[0.65rem] sm:text-[0.67rem] font-mono lowercase dark:text-primary-lighter group-data-[tone=light]/color:text-primary-lighter group-data-[tone=dark]/color:dark:text-primary-light">
       {name}
     </span>
   </div>
@@ -35,7 +35,7 @@ type ColorViewerProps = {
 };
 const ColorViewer = ({ color, Icon }: ColorViewerProps) => (
   <div>
-    <h5 className="text-sm capitalize font-semibold text-slate-900 dark:text-slate-200">
+    <h5 className="text-sm capitalize font-semibold text-primary dark:text-primary-dark">
       {color}
     </h5>
     <div className="grid grid-cols-4 gap-x-2 md:gap-x-8 lg:gap-x-4 lg:grid-cols-6 xl:gap-x-2 xl:grid-cols-12 gap-y-5 mt-3 mb-12 justify-between">

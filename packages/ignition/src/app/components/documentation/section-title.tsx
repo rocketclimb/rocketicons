@@ -9,7 +9,7 @@ const SectionTitle = ({ className, onClick, selected, children }: SectionTitlePr
   <button onClick={() => onClick()}>
     <h6
       data-selected={selected}
-      className={`text-xs xs:text-[0.83rem] md:text-sm md:font-bold mr-2 xs:mr-3 text-nowrap text-slate-400 md:text-slate-900 data-[selected=false]:italic data-[selected=false]:md:not-italic data-[selected=false]:text-normal data-[selected=false]:dark:text-slate-600 data-[selected=false]:md:dark:text-slate-200 cursor-default border-b border-transparent pb-1.5 md:pb-2.5 data-[selected=false]:cursor-pointer data-[selected=true]:font-bold data-[selected=true]:text-sky-500 data-[selected=true]:border-sky-500 data-[selected=false]:hover:border-slate-300 data-[selected=false]:hover:dark:border-slate-700 ${className}`}
+      className={`text-xs xs:text-[0.83rem] md:text-sm md:font-bold mr-2 xs:mr-3 text-nowrap text-primary-lighter md:text-primary data-[selected=false]:italic data-[selected=false]:md:not-italic data-[selected=false]:text-normal data-[selected=false]:dark:text-primary-medium data-[selected=false]:md:dark:text-primary-dark cursor-default border-b border-transparent pb-1.5 md:pb-2.5 data-[selected=false]:cursor-pointer data-[selected=true]:font-bold data-[selected=true]:text-secondary data-[selected=true]:border-secondary data-[selected=false]:hover:border-surface-border-lighter data-[selected=false]:hover:dark:border-surface-medium ${className}`}
     >
       {children}
     </h6>

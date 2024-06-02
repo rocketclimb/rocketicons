@@ -24,26 +24,26 @@ const MainNavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
   return (
     <div className="flex col-span-2 landingpage:col-span-5 md:grow justify-self-end md:justify-end lg:hidden">
       <Button className="flex" onClick={() => openSearch()}>
-        <LuSearch className="icon-slate-500 hover:icon-slate-700 dark:hover:icon-slate-400" />
+        <LuSearch className="icon-primary-light hover:icon-primary-medium dark:hover:icon-primary-lighter" />
       </Button>
       <Button className="flex" onClick={() => open()}>
-        <HiOutlineDotsVertical className="icon-slate-500 ml-2 xs:ml-4 sm:ml-6 hover:icon-slate-700 dark:hover:icon-slate-400" />
+        <HiOutlineDotsVertical className="icon-primary-light ml-2 xs:ml-4 sm:ml-6 hover:icon-primary-medium dark:hover:icon-primary-lighter" />
       </Button>
       <Modal>
-        <div className="fixed top-4 right-4 w-64 max-w-xs bg-white rounded-lg shadow-lg px-5 text-base font-semibold text-slate-900 dark:bg-slate-800 dark:text-slate-400 dark:highlight-white/5">
+        <div className="fixed top-4 right-4 w-64 max-w-xs bg-background rounded-lg shadow-lg px-5 text-base font-semibold text-primary dark:bg-surface-dark dark:text-primary-lighter dark:highlight-background/5">
           <nav>
             <Button
               onClick={() => close()}
               className="absolute top-5 right-5 w-8 h-8 flex items-center justify-center"
             >
-              <IoMdClose className="icon-slate-500 hover:icon-slate-600 dark:icon-slate-400 dark:hover:icon-slate-300" />
+              <IoMdClose className="icon-primary-light hover:icon-primary-medium dark:icon-primary-lighter dark:hover:icon-primary-bright" />
             </Button>
             <ul className="mt-6">
               <ul>
                 {navItems.map(({ label, link }, i) => (
                   <li className="mb-6" key={i}>
                     <Link
-                      className="hover:text-sky-500 text-sm"
+                      className="hover:text-secondary text-sm"
                       href={link}
                       onClick={() => close()}
                     >

@@ -33,8 +33,8 @@ const TablePropAsValue = ({ prop: { comment, ...prop } }: TablePropAsValueProps)
 };
 
 export const TableLine = ({ attr, value, comment, props, aditional }: TableLineProps) => (
-  <tr className="border-b border-slate-100 dark:border-slate-400/10">
-    <td className="py-2 pr-0.5 md:pr-2 font-mono font-medium text-[0.6rem] xs:text-[0.68rem] md:text-xs leading-6 text-sky-500 whitespace-nowrap dark:text-sky-400">
+  <tr className="border-b border-surface-border dark:border-surface-border-lighter/10">
+    <td className="py-2 pr-0.5 md:pr-2 font-mono font-medium text-[0.6rem] xs:text-[0.68rem] md:text-xs leading-6 text-secondary whitespace-nowrap dark:text-secondary-lighter">
       {attr}
     </td>
     <td className="py-2 pl-0.5 md:pl-2 flex gap-4 font-mono text-[0.6rem] xs:text-[0.68rem] md:text-xs leading-6 whitespace-pre text-indigo-600  dark:text-indigo-300">
@@ -52,8 +52,8 @@ export const TableLine = ({ attr, value, comment, props, aditional }: TableLineP
 );
 
 const Th = ({ children }: PropsWithChildren) => (
-  <th className="sticky z-10 top-0 text-xs md:text-sm leading-6 font-semibold text-slate-700 bg-white p-0 dark:bg-slate-900 dark:text-slate-300">
-    <div className="py-2 pr-2 border-b border-slate-200 dark:border-slate-400/20">
+  <th className="sticky z-10 top-0 text-xs md:text-sm leading-6 font-semibold text-primary-darken bg-background p-0 dark:bg-background-dark dark:text-primary-bright">
+    <div className="py-2 pr-2 border-b border-surface-border dark:border-surface-border-lighter/20">
       {children || <>&nbsp;</>}
     </div>
   </th>
@@ -86,8 +86,8 @@ export const Table = ({ lang, hasAdditional, collapse, children }: TableProps) =
           <tbody className="align-baseline">{children}</tbody>
         </table>
       </div>
-      <div className="hidden group-data-[collapse=true]/table:max-lg:block text-center backdrop-opacity-90 bg-white/50 dark:bg-slate-900/75 -mt-8 has-[:checked]:mt-0 has-[:checked]:sticky has-[:checked]:bottom-0 py-1.5">
-        <div className="text-sm py-1 dark:py-1.5 px-4 cursor-pointer dark:text-slate-50 dark:ring-1 ring-slate-100/20 dark:ring-inset font-semibold inline-block border rounded-xl bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-600/10">
+      <div className="hidden group-data-[collapse=true]/table:max-lg:block text-center backdrop-opacity-90 bg-background/50 dark:bg-background-dark/75 -mt-8 has-[:checked]:mt-0 has-[:checked]:sticky has-[:checked]:bottom-0 py-1.5">
+        <div className="text-sm py-1 dark:py-1.5 px-4 cursor-pointer dark:text-primary-dark/95 dark:ring-1 ring-primary-dark/25 dark:ring-inset font-semibold inline-block border rounded-xl bg-background dark:bg-background-dark border-surface-border dark:border-surface-light/10">
           <input id="show-all" className="w-0 invisible" type="checkbox" name="show-all" />
           <label htmlFor="show-all" className="cursor-pointer">
             <span className="showing-all capitalize">{showAll}</span>

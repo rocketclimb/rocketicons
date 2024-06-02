@@ -11,12 +11,14 @@ export type IconHandlerProps = {
 
 type IconProxyHandlerProps<T extends IconHandlerProps> = {
   icon: string;
+  collectionId: CollectionID;
   Handler?: (props: T) => JSX.Element;
 } & IconProps;
 
 const IconProxyHandler = <T extends IconHandlerProps>({
   Handler,
   icon,
+  collectionId,
   ...props
 }: IconProxyHandlerProps<T>) =>
   function IconProxyLoader({ collection, manifest, ..._props }: HandlerPros) {
@@ -25,8 +27,10 @@ const IconProxyHandler = <T extends IconHandlerProps>({
     const iconInfo = manifest.icons[iconId];
     props = { ..._props, ...props };
     return (
-      // @ts-ignore TS2322
-      (Handler && <Handler Icon={Icon} iconInfo={iconInfo} {...props} />) || <Icon {...props} />
+      (Handler && (
+        // @ts-ignore TS2322
+        <Handler Icon={Icon} iconInfo={iconInfo} collectionId={collectionId} {...props} />
+      )) || <Icon {...props} />
     );
   };
 
@@ -53,7 +57,7 @@ const IconLoader = <T extends IconHandlerProps>({
   return (
     <IconsLoader
       collectionId={collectionId}
-      Handler={IconProxyHandler({ Handler, icon, ...{ collectionId, ...props } })}
+      Handler={IconProxyHandler({ Handler, icon, collectionId, ...props })}
       Loading={Loading}
     />
   );

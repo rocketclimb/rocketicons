@@ -4,8 +4,8 @@ import { CollectionID } from "rocketicons/data";
 
 import { IconsManifest } from "@/data-helpers/icons/manifest";
 
-import IconInfoPanel from "@/components/icons/icons-collection/icon-info-panel";
-import IconInfo from "@/components/icons/icons-collection/icon-info";
+import IconInfoPanel from "@/components/icons/icons-collection/icon-info/panel";
+import IconInfoLoader from "@/components/icons/icons-collection/icon-info/loader";
 
 import { withLocale } from "@/locales";
 import { PropsWithLangParams } from "@/types";
@@ -55,7 +55,7 @@ const Page = ({ params: { lang, collectionid, iconid } }: PageProps) => {
 
   return (
     <IconInfoPanel selected={!!iconId}>
-      {iconId && <IconInfo lang={lang} collectionId={collectionid} iconId={iconId} />}
+      {iconId && <IconInfoLoader lang={lang} collectionId={collectionid} iconId={iconId} />}
     </IconInfoPanel>
   );
 };

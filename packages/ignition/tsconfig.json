@@ -18,7 +18,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
+      "@/tailwind-conf": ["./tailwind.config.ts"],
       "@/components/*": ["./src/app/components/*"],
       "@/data-helpers/*": ["./src/app/data-helpers/*"],
       "@/hooks": ["./src/app/hooks/"],
@@ -30,6 +30,7 @@
       "@/utils": ["./src/app/utils/"],
       "@/config": ["./src/config/"],
       "@/public/*": ["./public/*"],
+      "@/*": ["./src/*"],
       "content-collections": ["./.content-collections/generated"]
     }
   },

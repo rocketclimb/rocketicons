@@ -10,9 +10,11 @@ import WithCopy from "@/components/documentation/with-copy";
 import { PropsWithChildren } from "react";
 import { GoBook } from "rocketicons/go";
 
-const borderClass = "border-slate-100 dark:border-slate-700";
+const borderClass = "border-surface-lighter dark:border-surface-medium";
 
-const Loader = () => <BiLoaderAlt className="animate-spin duration-1000 icon-sky-500-xl mr-3" />;
+const Loader = () => (
+  <BiLoaderAlt className="animate-spin duration-1000 icon-secondary-xl mr-3" />
+);
 
 type IconHitProps = {
   hit: any;
@@ -28,7 +30,7 @@ const IconHit = ({ hit, lang }: IconHitProps) => {
         <IconLoader
           collectionId={hit.group}
           icon={hit.text}
-          className="icon-sky-500-xl group-hover/result:icon-white-xl mr-3"
+          className="icon-secondary-xl group-hover/result:icon-white-xl mr-3"
           Loading={Loader}
         />
         {hit.title}
@@ -62,9 +64,9 @@ const Hit = ({ hit, lang }: PropsHit) => {
     >
       <span className="grow">{hit.title}</span>
       {hit.isFragment ? (
-        <BiHash className="icon-slate-300 dark:icon-slate-400 align-center mr-3" />
+        <BiHash className="icon-primary-bright dark:icon-primary-lighter align-center mr-3" />
       ) : (
-        <GoBook className="icon-slate-300 dark:icon-slate-400 align-center mr-3" />
+        <GoBook className="icon-primary-bright dark:icon-primary-lighter align-center mr-3" />
       )}
     </Link>
   );
@@ -84,7 +86,7 @@ const Importer = ({ component, lang }: ImporterProps) => (
   <WithCopy
     lang={lang}
     clipboardText={`import * as Icons from "${component}";`}
-    className="group/copy font-monospace text-[0.65rem]/normal md:text-xs/normal !absolute md:!relative top-0 right-0 font-light italic pt-2 after:text-slate-200 after:not-italic after:font-inter after:-right-3 after:-top-5"
+    className="group/copy font-monospace text-[0.65rem]/normal md:text-xs/normal !absolute md:!relative top-0 right-0 font-light italic pt-2 after:text-primary-dark after:not-italic after:font-inter after:-right-3 after:-top-5"
   >
     <ImporterInfo>import * as Icons from &quot;</ImporterInfo>
     <span>{component}</span>
@@ -97,7 +99,7 @@ type ResultTitleProps = {
 } & PropsWithChildren;
 
 const ResultTitle = ({ label, children }: ResultTitleProps) => (
-  <div className="group/result-title text-xs md:text-base/6 text-slate-900 dark:text-slate-200 relative cursor-default pt-1 md:pt-6 mt-5 mb-4 md:flex">
+  <div className="group/result-title text-xs md:text-base/6 text-primary dark:text-primary-dark relative cursor-default pt-1 md:pt-6 mt-5 mb-4 md:flex">
     <h2 className="group-hover/result-title:opacity-0 transition-opacity duration-300 grow font-semibold">
       {label}
     </h2>
@@ -106,7 +108,7 @@ const ResultTitle = ({ label, children }: ResultTitleProps) => (
 );
 
 const ResultItem = ({ children }: PropsWithChildren) => (
-  <li className="group/result relative w-full flex rounded-lg mb-2 text-sm font-normal text-slate-500 dark:text-slate-200 hover:text-white bg-slate-50 dark:bg-slate-700/30 hover:bg-sky-500 hover:dark:bg-sky-500">
+  <li className="group/result relative w-full flex rounded-lg mb-2 text-sm font-normal text-primary-light dark:text-primary-dark hover:text-primary-dark bg-background dark:bg-surface-medium/30 hover:bg-secondary hover:dark:bg-secondary">
     {children}
   </li>
 );

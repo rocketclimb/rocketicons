@@ -22,7 +22,7 @@ const getResizableUtility = (resizable?: Resizable): Resizing | "resize-none" =>
 
 const GridContainer = ({ children, resizable, showResizableTip }: GridContainerProps) => (
   <div
-    className={`mt-4 mb-8 bg-slate-50 rounded-xl overflow-hidden dark:bg-slate-800/25 ${getResizableUtility(
+    className={`mt-4 mb-8 bg-surface-lighter rounded-xl overflow-hidden dark:bg-surface-dark/25 ${getResizableUtility(
       resizable
     )}`}
   >
@@ -33,7 +33,7 @@ const GridContainer = ({ children, resizable, showResizableTip }: GridContainerP
           data-show={showResizableTip}
           className="transition duration-200 absolute opacity-0 right-1 bottom-1 data-[show=true]:opacity-100"
         >
-          <LuArrowDownRight className="icon-sky-base ml-3 mb-1 animate-bounce" />
+          <LuArrowDownRight className="icon-secondary-base ml-3 mb-1 animate-bounce" />
         </div>
       )}
     </div>

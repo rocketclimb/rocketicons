@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import colors from "tailwindcss/colors";
 import plugin from "tailwindcss/plugin";
 import icons from "rocketicons/tailwind";
 import { plugin as codeBlock } from "@rocketclimb/code-block/tailwind";
@@ -21,6 +22,37 @@ const config: Config = {
         monospace: ["var(--font-monospace)"],
         icons: ["Material Symbols Outlined"]
       },
+      colors: {
+        background: colors.white,
+        "background-dark": colors.slate[900],
+        primary: colors.slate[900],
+        "primary-bright": colors.slate[300],
+        "primary-lighter": colors.slate[400],
+        "primary-light": colors.slate[500],
+        "primary-medium": colors.slate[600],
+        "primary-dark": colors.slate[200],
+        "primary-darken": colors.slate[700],
+        "on-primary": colors.white,
+        surface: colors.white,
+        "surface-lighter": colors.slate[50],
+        "surface-border": colors.slate[200],
+        "surface-border-lighter": colors.slate[400],
+        "surface-light": colors.slate[600],
+        "surface-border-light": colors.gray[200],
+        "surface-medium": colors.slate[700],
+        "surface-border-medium": colors.sky[900],
+        "surface-dark": colors.slate[800],
+        "surface-border-dark": colors.slate[900],
+        "on-surface": colors.slate[700],
+        "on-surface-dark": colors.slate[400],
+        secondary: colors.sky[500],
+        "secondary-lighter": colors.sky[400],
+        "secondary-light": colors.sky[800],
+        "secondary-medium": colors.sky[900],
+        "secondary-dark": colors.sky[950],
+        "on-secondary": colors.white,
+        "on-secondary-lighter": colors.sky[600]
+      },
       screens: {
         xs: "375px"
       },
@@ -32,11 +64,17 @@ const config: Config = {
         "delayed-hidden": {
           "0%, 40%": { visibility: "visible" },
           "100%": { visibility: "hidden" }
+        },
+        flash: {
+          "0%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
+          "100%": { opacity: "1" }
         }
       },
       animation: {
         "delayed-appearing": "delayed-appearing 300ms ease-in-out forwards",
-        "delayed-hidden": "delayed-hidden 300ms ease-in-out forwards"
+        "delayed-hidden": "delayed-hidden 300ms ease-in-out forwards",
+        "flash-it": "flash 300ms ease-in-out forwards"
       }
     }
   },
@@ -50,13 +88,16 @@ const config: Config = {
             {}
         },
         ".active-content": {
-          "@apply border-sky-500 dark:border-sky-500": {}
+          "@apply border-secondary": {}
         },
         ".active-content span": {
-          "@apply text-sky-500 dark:text-sky-500": {}
+          "@apply text-secondary": {}
+        },
+        ".content-box": {
+          "@apply px-2 pt-1": {}
         },
         ".default-text-color": {
-          "@apply text-slate-900 dark:text-slate-200": {}
+          "@apply text-primary dark:text-primary-dark": {}
         },
         ".sub-title": {
           "@apply whitespace-pre-wrap font-semibold": {},
@@ -126,14 +167,14 @@ const config: Config = {
       matchUtilities({
         "current-url": (value) => ({
           [`nav[data-current^="${value}"] &`]: {
-            "@apply border-sky-500 dark:border-sky-500 text-sky-500 dark:text-sky-500": {}
+            "@apply border-sky-500 text-sky-500": {}
           }
         })
       });
       matchUtilities({
         "current-url-is": (value) => ({
           [`nav[data-current="${value}"] &`]: {
-            "@apply border-sky-500 dark:border-sky-500 text-sky-500 dark:text-sky-500": {}
+            "@apply border-sky-500 text-sky-500": {}
           }
         })
       });

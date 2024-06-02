@@ -23,11 +23,11 @@ const DarkMode = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) =
       <div className="mx-auto mt-12 w-full max-w-xl lg:max-w-2xl">
         <GridContainer>
           <div className="flex gap-5 p-8">
-            <div className="text-slate-700 bg-white rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl w-1/2">
+            <div className="text-primary-medium bg-background rounded-lg px-6 py-8 ring-1 ring-background-dark/5 shadow-xl w-1/2">
               <p>{ligthModeLabel}</p>
               <Icon className="icon-sky-900-6xl" />
             </div>
-            <div className="text-slate-400 bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl w-1/2">
+            <div className="text-primary-lighter bg-surface-dark rounded-lg px-6 py-8 ring-1 ring-background-dark/5 shadow-xl w-1/2">
               <p>{darModeLabel}</p>
               <Icon className="icon-6xl" />
             </div>
