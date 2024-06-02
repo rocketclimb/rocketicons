@@ -12,7 +12,7 @@ type BoxState = {
   setAnimation: (size: string) => void;
   isDirty: boolean;
   reset: () => void;
-  sizeBox: Map<string, RefObject<HTMLDivElement>>;
+  sizeBox: Map<string, RefObject<HTMLButtonElement>>;
   sections: Map<string, RefObject<HTMLDivElement>>;
 };
 
@@ -38,7 +38,7 @@ const Box = ({ children }: PropsWithChildren) => {
   const [color, setColor] = useState<string>("");
   const [stroke, setStroke] = useState<string>("");
   const [animation, setAnimation] = useState<string>("");
-  const [sizeBox] = useState<Map<string, RefObject<HTMLDivElement>>>(new Map());
+  const [sizeBox] = useState<Map<string, RefObject<HTMLButtonElement>>>(new Map());
   const [sections] = useState<Map<string, RefObject<HTMLDivElement>>>(new Map());
 
   const reset = () => {

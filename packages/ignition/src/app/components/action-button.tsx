@@ -64,7 +64,11 @@ function ActionButton({
       >
         {showCopiedLabel ? <span className="capitalize">{copiedLabel}!</span> : children}
       </Button>
-      {download && <a className="hidden" ref={ref} />}
+      {download && (
+        <a className="hidden" href="#" ref={ref}>
+          download
+        </a>
+      )}
     </>
   );
 }

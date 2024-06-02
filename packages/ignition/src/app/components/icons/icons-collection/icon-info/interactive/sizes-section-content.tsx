@@ -24,10 +24,7 @@ const SizesSectionContent = ({
 }: SizesSectionContentProps) => {
   const router = useRouter();
   const { size: selectedSize, setSize, sizeBox, sections } = useBoxContext();
-  const {
-    "code-block": { copy, copied, more },
-    "learn-more": learnMore
-  } = withLocale(lang).config("code-block", "learn-more");
+  const { copy, copied, more } = withLocale(lang).config("code-block");
   const ref = useRef<HTMLDivElement>(null);
   sections.set("sizes", ref);
   return (

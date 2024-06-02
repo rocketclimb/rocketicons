@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { CollectionID } from "rocketicons/data";
 import { CodeStyler, CodeElementBlock } from "@rocketclimb/code-block";
 import { PropsWithChildrenAndLang } from "@/types";

@@ -64,7 +64,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
           lang={lang}
           filename={lang === "bash" ? "terminal" : filename ?? ""}
           className={`pre ${className}`}
-          tabs={(tabs && tabs.split(" ")) as string[]}
+          tabs={tabs?.split(" ") as string[]}
           variant="minimalist"
         >
           {children}

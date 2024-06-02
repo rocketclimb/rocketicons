@@ -38,6 +38,7 @@ const InfoHandler = ({
     "code-block": { copy, copied }
   } = withLocale(lang).config("learn-more", "code-block");
   const allSizes = Object.keys(iconsSizes).map((size) => `icon-${size}`);
+  const reversedAllSizes = allSizes.reverse();
 
   const iconColorsClass = `
     group-data-[color=slate-700]/icon-panel:icon-slate-700 group-data-[color=gray-300]/icon-panel:icon-gray-300
@@ -85,7 +86,7 @@ const InfoHandler = ({
           </div>
           <div className="col-span-3 py-1 thin-scroll overflow-y-auto">
             <div className="flex flex-col items-center">
-              {allSizes.reverse().map((size) => (
+              {reversedAllSizes.map((size) => (
                 <SizeSelector key={`size-box-${size}`} size={size}>
                   <Icon
                     className={`${size} icon-secondary-medium dark:icon-secondary ${iconColorsClass} ${iconStrokeClass} ${iconAnimationClass}`}
