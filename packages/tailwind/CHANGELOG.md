@@ -1,3 +1,9 @@
+## [0.2.4](https://github.com/rocketclimb/rocketicons/compare/v0.3.4-release...v0.4.0) (2024-06-02)
+
+### Bug Fixes
+
+- avoid small icon to varnish ([f8063d40](https://github.com/rocketclimb/rocketicons/commit/f8063d4035ad1872c54d2db5d13a801534e8e199))
+
 ## [0.2.3](https://github.com/rocketclimb/rocketicons/compare/v0.3.3...v0.3.4) (2024-05-25)
 
 ### Bug Fixes
