@@ -1,5 +1,5 @@
-import fs from "node:fs";
-import path from "node:path";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { IconTree } from "rocketicons";
 import { CollectionID } from "rocketicons/data";
 import ActionButton from "@/components/action-button";
@@ -30,12 +30,8 @@ const iconTreeToSvgString = ({ tag, attr, child }: IconTree, spacer: string = ""
 };
 
 const SvgBox = ({ copiedLabel, collectionId, iconId }: SvgBoxProps) => {
-  const { iconTree } = JSON.parse(
-    fs.readFileSync(path.join(DATA_DIR, collectionId, `${iconId}.json`), {
-      encoding: "utf8",
-      flag: "r"
-    })
-  );
+  const jsonUrl = resolve(DATA_DIR, collectionId, `${iconId}.json`);
+  const { iconTree } = JSON.parse(readFileSync(jsonUrl, { encoding: "utf8", flag: "r" }));
 
   iconTree.attr.xmlns = "http://www.w3.org/2000/svg";
   const svg = iconTreeToSvgString(iconTree);
