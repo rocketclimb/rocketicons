@@ -7,3 +7,8 @@ export type SpecialStyleProps = {
 };
 
 export type SpecialProps = keyof SpecialStyleProps;
+
+export type ResolverOptions<T> = {
+  rootPath?: string;
+  defaultConfig?: T;
+};
