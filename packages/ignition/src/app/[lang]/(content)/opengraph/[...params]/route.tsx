@@ -5,11 +5,11 @@ import { withLocale } from "@/app/locales";
 import OpenGraph from "@/components/opengraph";
 import { Languages } from "@/types";
 import { NextRequest } from "next/server";
-import { readFileSync } from "node:fs";
 import { Variants, IconTree } from "rocketicons";
 import { IconsManifest } from "@/data-helpers/icons/manifest";
 import { CollectionID } from "rocketicons/data";
-import { resolve } from "node:path";
+
+import { getAsJson } from "@/data-helpers/svgs";
 
 export const GET = async (request: NextRequest) => {
   const [, lang, , type, param1, param2] = request.nextUrl.pathname.split("/");
@@ -132,14 +132,7 @@ const selectIcon = (
     [selectedIconCollectionId, iconFilename] = chooseIconByType(lang, subheading);
   }
 
-  const iconUrl = resolve(
-    "./src/app/data-helpers/svgs",
-    `${selectedIconCollectionId}/${iconFilename}.json`
-  );
+  const loadedIcon = getAsJson(selectedIconCollectionId, iconFilename!);
 
-  const loadedIcon = readFileSync(iconUrl, {
-    encoding: "utf-8"
-  });
-
-  return { iconName: iconName!, iconJson: loadedIcon && JSON.parse(loadedIcon) };
+  return { iconName: iconName!, iconJson: loadedIcon && loadedIcon };
 };

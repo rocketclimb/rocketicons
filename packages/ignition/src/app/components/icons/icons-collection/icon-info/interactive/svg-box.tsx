@@ -1,11 +1,7 @@
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
 import { IconTree } from "rocketicons";
 import { CollectionID } from "rocketicons/data";
 import ActionButton from "@/components/action-button";
-
-const DATA_APP = "./src/app/";
-const DATA_DIR = `${DATA_APP}data-helpers/svgs/`;
+import { getAsJson } from "@/data-helpers/svgs";
 
 type SvgBoxProps = {
   collectionId: CollectionID;
@@ -30,9 +26,7 @@ const iconTreeToSvgString = ({ tag, attr, child }: IconTree, spacer: string = ""
 };
 
 const SvgBox = ({ copiedLabel, collectionId, iconId }: SvgBoxProps) => {
-  const jsonUrl = resolve(DATA_DIR, collectionId, `${iconId}.json`);
-  const { iconTree } = JSON.parse(readFileSync(jsonUrl, { encoding: "utf8", flag: "r" }));
-
+  const { iconTree } = getAsJson(collectionId, iconId);
   iconTree.attr.xmlns = "http://www.w3.org/2000/svg";
   const svg = iconTreeToSvgString(iconTree);
 
