@@ -28,6 +28,7 @@
       "@/types": ["./src/app/types/"],
       "@/types/*": ["./src/app/types/*"],
       "@/utils": ["./src/app/utils/"],
+      "@/utils/*": ["./src/app/utils/*"],
       "@/config": ["./src/config/"],
       "@/public/*": ["./public/*"],
       "@/*": ["./src/*"],

@@ -1,7 +1,7 @@
 import { IconTree } from "rocketicons";
 import { CollectionID } from "rocketicons/data";
 import ActionButton from "@/components/action-button";
-import { getAsJson } from "@/data-helpers/svgs";
+import { svgAsJson } from "@/utils/svg-as-json";
 
 type SvgBoxProps = {
   collectionId: CollectionID;
@@ -26,7 +26,7 @@ const iconTreeToSvgString = ({ tag, attr, child }: IconTree, spacer: string = ""
 };
 
 const SvgBox = ({ copiedLabel, collectionId, iconId }: SvgBoxProps) => {
-  const { iconTree } = getAsJson(collectionId, iconId);
+  const { iconTree } = svgAsJson(collectionId, iconId);
   iconTree.attr.xmlns = "http://www.w3.org/2000/svg";
   const svg = iconTreeToSvgString(iconTree);
 

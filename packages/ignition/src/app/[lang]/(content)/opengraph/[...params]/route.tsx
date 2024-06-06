@@ -9,7 +9,7 @@ import { Variants, IconTree } from "rocketicons";
 import { IconsManifest } from "@/data-helpers/icons/manifest";
 import { CollectionID } from "rocketicons/data";
 
-import { getAsJson } from "@/data-helpers/svgs";
+import { svgAsJson } from "@/utils/svg-as-json";
 
 export const GET = async (request: NextRequest) => {
   const [, lang, , type, param1, param2] = request.nextUrl.pathname.split("/");
@@ -132,7 +132,7 @@ const selectIcon = (
     [selectedIconCollectionId, iconFilename] = chooseIconByType(lang, subheading);
   }
 
-  const loadedIcon = getAsJson(selectedIconCollectionId, iconFilename!);
+  const loadedIcon = svgAsJson(selectedIconCollectionId, iconFilename!);
 
   return { iconName: iconName!, iconJson: loadedIcon && loadedIcon };
 };
