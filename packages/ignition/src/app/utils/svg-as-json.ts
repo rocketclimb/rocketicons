@@ -8,7 +8,7 @@ const DATA_FILE = join(DATA_DIR, "jsons.zip");
 
 const getContents = (filename: string, skipUnzip?: boolean): string => {
   try {
-    return readFileSync(join(DATA_DIR, filename), { encoding: "utf8", flag: "r" });
+    return readFileSync(resolve(DATA_DIR, filename), { encoding: "utf8", flag: "r" });
   } catch (e) {
     if (skipUnzip) {
       throw e;
