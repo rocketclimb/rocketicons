@@ -70,7 +70,7 @@ jobs:
         run: |
           npm config set @rocketclimb:registry https://npm.pkg.github.com
           npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
-          npm install --ignore-scripts
+          npm install
 
       - name: Icons Fetch
         if: steps.icons-cache.outputs.cache-hit != 'true'
