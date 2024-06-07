@@ -64,5 +64,8 @@
     "*.+(json|css|md)": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.7"
   }
 }
