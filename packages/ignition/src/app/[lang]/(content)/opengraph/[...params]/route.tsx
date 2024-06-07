@@ -20,7 +20,7 @@ export const GET = async (request: NextRequest) => {
     if (type === "icon" || type === "collection") {
       const collection = IconsManifest.find(({ id }: { id: string }) => id === param1)!;
 
-      const { iconName, iconJson } = selectIcon(param1, param2, language);
+      const { iconName, iconJson } = await selectIcon(param1, param2, language);
 
       return await OpenGraph({
         lang: lang as Languages,
@@ -48,7 +48,7 @@ export const GET = async (request: NextRequest) => {
         }
       }
 
-      const { iconName, iconJson } = selectIcon(param1, param2, language, subheading);
+      const { iconName, iconJson } = await selectIcon(param1, param2, language, subheading);
 
       return await OpenGraph({
         lang: lang as Languages,
@@ -58,7 +58,7 @@ export const GET = async (request: NextRequest) => {
       });
     }
   } catch (error) {
-    const { iconName, iconJson } = selectIcon(param1, param2, language, "Error");
+    const { iconName, iconJson } = await selectIcon(param1, param2, language, "Error");
 
     return await OpenGraph({
       iconName,
@@ -103,12 +103,12 @@ const chooseIconByType = (lang: Languages, subheading?: string): [CollectionID, 
   }
 };
 
-const selectIcon = (
+const selectIcon = async (
   iconCollectionId: string | undefined,
   iconId: string | undefined,
   lang: Languages,
   subheading?: string | undefined
-): { iconName: string; iconJson: { variant: Variants; iconTree: IconTree } } => {
+): Promise<{ iconName: string; iconJson: { variant: Variants; iconTree: IconTree } }> => {
   const hasCollection = !!iconCollectionId;
   const hasIcon = hasCollection && !!iconId;
   let iconName: string | undefined;
@@ -132,7 +132,7 @@ const selectIcon = (
     [selectedIconCollectionId, iconFilename] = chooseIconByType(lang, subheading);
   }
 
-  const loadedIcon = svgAsJson(selectedIconCollectionId, iconFilename!);
+  const loadedIcon = await svgAsJson(selectedIconCollectionId, iconFilename!);
 
   return { iconName: iconName!, iconJson: loadedIcon && loadedIcon };
 };

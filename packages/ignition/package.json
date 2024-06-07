@@ -30,11 +30,9 @@
     "@shikijs/rehype": "1.3.0",
     "@vercel/analytics": "^1.2.2",
     "@vercel/edge-config": "^1.1.0",
-    "adm-zip": "^0.5.14",
     "algoliasearch": "^4.23.3",
     "change-case": "^5.4.4",
     "next": "^14.2",
-    "original-fs": "^1.2.0",
     "react": "~18.2",
     "react-dom": "~18.2",
     "react-instantsearch": "^7.7.2",
@@ -42,6 +40,7 @@
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^4.0.0",
     "rocketicons": "*",
+    "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
