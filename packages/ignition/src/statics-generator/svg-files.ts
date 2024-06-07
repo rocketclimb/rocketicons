@@ -6,7 +6,7 @@ import { getContents } from "./utils";
 
 const SOURCE_SVGS = "../generator/svgs";
 const DEST_SVGS = "./src/app/data-helpers/svgs/";
-const DEST_SQL_SVGS = resolve("./src/app/data-helpers/svgs/svg.db");
+const DEST_SQL_SVGS = resolve("./src/app/data-helpers/svgs/svgs.db");
 
 const hasChanges = () =>
   readFileSync(`${SOURCE_SVGS}/.lock`).toString() !==

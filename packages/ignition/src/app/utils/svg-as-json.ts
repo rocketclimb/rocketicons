@@ -4,7 +4,7 @@ import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 
 const DATA_DIR = "./src/app/data-helpers/svgs/";
-const DATA_DB = resolve(DATA_DIR, "svg.db");
+const DATA_DB = resolve(DATA_DIR, "svgs.db");
 
 export const svgAsJson = async (collectionId: CollectionID, iconId: string) => {
   const filename = join(collectionId, `${iconId}.json`);
