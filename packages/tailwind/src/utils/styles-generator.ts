@@ -1,6 +1,6 @@
 import { Style, StyleHandler } from "@/types";
 import { DEFAULT_CLASS_NAME, ROOT_CLASS_NAME, CLASS_NAME_SEPARATOR } from "./config-handler";
-import sanitize from "./sanitize";
+import { sanitize } from "@rocketclimb/tw-utils";
 
 import { SpecialStyleProps, SpecialProps } from "./types";
 
