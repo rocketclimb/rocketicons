@@ -8,9 +8,7 @@ import {
   ConfigProp,
   ParsedColors
 } from "@/types";
-
-import { configResolver } from "./config-resolver";
-import sanitize from "./sanitize";
+import { configResolver, sanitize } from "@rocketclimb/tw-utils";
 
 const AVAILABLE_VARIANTS = ["outlined", "filled"] as const;
 type Variant = (typeof AVAILABLE_VARIANTS)[number];
@@ -138,7 +136,7 @@ export const configHandler = <T extends ThemeOptions>(config: Config): ThemeHand
   );
 
   return (property: ThemeProperties<T>, defaultTheme: ThemeOptions) => {
-    const theme = configResolver(property, config, {
+    const theme = configResolver<ThemeOptions>(property, config, {
       rootPath: "components",
       defaultConfig: defaultTheme
     });
