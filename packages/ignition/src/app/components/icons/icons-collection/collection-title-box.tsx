@@ -33,7 +33,7 @@ const CollectionTitleBox = ({ lang, info }: TitleBoxProps) => (
   <FloatBlock className="icon-title-box transition-all duration-200 px-3 pt-2 mt-2 h-12 flex flex-col lg:block lg:sticky lg:top-2 lg:h-32 lg:w-[550px] lg:z-10 lg:border">
     <DocLink
       href={getProjectUrl(lang, info)}
-      className="border-b border-sky-500 mb-1 hover:border-b-2 hover:mb-[3px] lg:pb-0 lg:border-none lg:cursor-default"
+      className="border-b border-secondary mb-1 hover:border-b-2 hover:mb-[3px] lg:pb-0 lg:border-none lg:cursor-default"
     >
       <Title className="grow truncate capitalize md:max-w-none">{info.name}</Title>
     </DocLink>

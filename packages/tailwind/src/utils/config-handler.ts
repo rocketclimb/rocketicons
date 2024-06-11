@@ -6,13 +6,9 @@ import {
   Defaults,
   StyleHandler,
   ConfigProp,
-  ThemeConfig,
-  ThemeOption,
-  ThemeProp,
   ParsedColors
 } from "@/types";
-
-import sanitize from "./sanitize";
+import { configResolver, sanitize } from "@rocketclimb/tw-utils";
 
 const AVAILABLE_VARIANTS = ["outlined", "filled"] as const;
 type Variant = (typeof AVAILABLE_VARIANTS)[number];
@@ -49,41 +45,6 @@ const toShortCutStyles = (theme: ThemeOptions, name: string, color: string) =>
       ])
     )
   );
-
-const themeHandler = <T extends ThemeOptions>(
-  isExtending: boolean,
-  defaultTheme: ThemeOptions,
-  custom?: T
-): T => {
-  const hasCustomConfig = !!(custom && Object.keys(custom).length);
-
-  const getNewProperties = (baseConfig: ThemeOptions | ThemeProp, customConfig: T): T =>
-    (Object.entries(customConfig) as [ThemeOption, ThemeOptions][])
-      .filter(([key]) => !baseConfig[key])
-      .reduce((reduced, [key, entry]) => ({ ...reduced, [key]: entry }), {}) as T;
-
-  const parseProperty = (value: ConfigProp | undefined | T, defaults?: string | ThemeProp) => {
-    if (value === undefined) {
-      return defaults;
-    }
-
-    return typeof value === "object" ? deepMerge(defaults as ThemeProp, value as T) : value;
-  };
-
-  const deepMerge = (baseConfig: ThemeOptions | ThemeProp, customConfig: T): T =>
-    (Object.keys(baseConfig) as ThemeOption[]).reduce(
-      (reduced, key) => ({
-        ...reduced,
-        [key]: parseProperty(customConfig && customConfig[key], baseConfig[key])
-      }),
-      getNewProperties(baseConfig, customConfig) as T
-    );
-
-  const handleCustomConfig = (): T =>
-    isExtending ? deepMerge(defaultTheme, custom!) : (custom as T);
-
-  return (!hasCustomConfig ? defaultTheme : handleCustomConfig()) as T;
-};
 
 const generateConfig = <T extends ThemeOptions>(theme: T, parsedColors: ParsedColors) => {
   const getDefaults = (): Defaults => {
@@ -142,7 +103,6 @@ const generateConfig = <T extends ThemeOptions>(theme: T, parsedColors: ParsedCo
 };
 
 export const configHandler = <T extends ThemeOptions>(config: Config): ThemeHandler<T> => {
-  const customConfig = config("components");
   const themeColors: ConfigProp = config("theme").colors;
 
   const getColorDefaults = (color: string, variants: ConfigProp) => {
@@ -175,11 +135,11 @@ export const configHandler = <T extends ThemeOptions>(config: Config): ThemeHand
     {}
   );
 
-  const isExtending = customConfig && !!customConfig["extend"];
-  const themeConfig: ThemeConfig<T> = (isExtending && customConfig["extend"]) || customConfig;
-
   return (property: ThemeProperties<T>, defaultTheme: ThemeOptions) => {
-    const theme = themeHandler(isExtending, defaultTheme, themeConfig && themeConfig[property]);
+    const theme = configResolver<ThemeOptions>(property, config, {
+      rootPath: "components",
+      defaultConfig: defaultTheme
+    });
     return generateConfig(theme, parsedColors);
   };
 };

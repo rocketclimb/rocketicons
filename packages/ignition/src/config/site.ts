@@ -9,6 +9,11 @@ const env =
 
 export const siteConfig = {
   name: "rocketicons",
+  companyName: "rocketclimb",
+  companyDescription: "Creating tools to skyrocket your projects",
+  companyFounders: ["Daniel Gomes", "Jeferson Amorim"],
+  companyUrl: "https://rocketclimb.com",
+  companyEmail: "contact@rocketclimb.io",
   url: baseUrl,
   links: {
     twitter: "https://twitter.com/therocketclimb",

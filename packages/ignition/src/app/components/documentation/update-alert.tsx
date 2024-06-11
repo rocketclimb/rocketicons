@@ -19,8 +19,10 @@ const UpdateAlert = ({ lang, alert, className, ...props }: UpdateAlertProps) => 
       }`}
       {...props}
     >
-      <p className="text-slate-700 w-full text-center text-xs italic md:text-[0.83rem] dark:text-slate-200">
-        {(alert === "hover" || alert === "drag") && <TbHandMove className="icon-sky-sm mr-1" />}
+      <p className="text-primary-darken w-full text-center text-xs italic md:text-[0.83rem] dark:text-primary-dark">
+        {(alert === "hover" || alert === "drag") && (
+          <TbHandMove className="icon-secondary-sm mr-1" />
+        )}
         {message[`${alert}-alert`]}
       </p>
     </div>

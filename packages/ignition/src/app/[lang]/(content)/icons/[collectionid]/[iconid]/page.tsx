@@ -4,13 +4,13 @@ import { CollectionID } from "rocketicons/data";
 
 import { IconsManifest } from "@/data-helpers/icons/manifest";
 
-import IconInfoPanel from "@/components/icons/icons-collection/icon-info-panel";
-import IconInfo from "@/components/icons/icons-collection/icon-info";
+import IconInfoPanel from "@/components/icons/icons-collection/icon-info/panel";
+import IconInfoLoader from "@/components/icons/icons-collection/icon-info/loader";
 
 import { withLocale } from "@/locales";
 import { PropsWithLangParams } from "@/types";
 import { asCompName } from "@/components/icons/get-icons-data";
-import customMetadata from "@/app/components/metadata-custom";
+import { customMetadata } from "@/app/components/metadata-custom";
 
 type PageProps = PropsWithLangParams & {
   params: {
@@ -18,6 +18,8 @@ type PageProps = PropsWithLangParams & {
     iconid: string;
   };
 };
+
+export const generateStaticParams = () => [{ iconid: "collection-index.ri" }];
 
 const getIconFromParam = (iconParam: string): string | false =>
   iconParam !== "collection-index.ri" && iconParam;
@@ -55,7 +57,7 @@ const Page = ({ params: { lang, collectionid, iconid } }: PageProps) => {
 
   return (
     <IconInfoPanel selected={!!iconId}>
-      {iconId && <IconInfo lang={lang} collectionId={collectionid} iconId={iconId} />}
+      {iconId && <IconInfoLoader lang={lang} collectionId={collectionid} iconId={iconId} />}
     </IconInfoPanel>
   );
 };

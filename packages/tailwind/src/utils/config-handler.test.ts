@@ -171,8 +171,10 @@ describe("configHandler - Theme tests", () => {
       name: "Extends New Default Color",
       config: {
         extend: {
-          icon: {
-            default: "tertiary-500-lg"
+          components: {
+            icon: {
+              default: "tertiary-500-lg"
+            }
           }
         }
       },
@@ -193,8 +195,10 @@ describe("configHandler - Theme tests", () => {
       name: "Extends New Default Size",
       config: {
         extend: {
-          icon: {
-            default: "tertiary-500-md"
+          components: {
+            icon: {
+              default: "tertiary-500-md"
+            }
           }
         }
       },
@@ -217,8 +221,10 @@ describe("configHandler - Theme tests", () => {
       name: "Extends New Default",
       config: {
         extend: {
-          icon: {
-            default: "secondary-md"
+          components: {
+            icon: {
+              default: "secondary-md"
+            }
           }
         }
       },
@@ -344,7 +350,11 @@ describe("configHandler - Theme tests", () => {
 
       beforeAll(() => {
         const spyConfig = jest.fn<Config>(((request: string) =>
-          request === "components" ? customConfig : { colors }) as Config);
+          request === "components"
+            ? customConfig
+            : request === "extend"
+              ? customConfig["extend" as keyof typeof customConfig]
+              : { colors }) as Config);
         //@ts-expect-error Config type enforcement
         const config = configHandler(spyConfig);
         const theme = config("icon", baseConfig);

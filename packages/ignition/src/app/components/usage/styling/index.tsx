@@ -35,6 +35,29 @@ const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: stri
         </CodeSample>
       </Wrapper>
       <Wrapper>
+        <MdxPartial lang={lang} slug={"styling/styling-stroke-width"} path="docs" />
+        <GridContainer>
+          <div className="mx-auto flex justify-center gap-6 my-8">
+            <Icon className="size-16 md:size-20 lg:size-32 stroke-[0.2]" />
+            <Icon className="size-16 md:size-20 lg:size-32 stroke-[0.5]" />
+            <Icon className="size-16 md:size-20 lg:size-32 stroke-1" />
+            <Icon className="size-16 md:size-20 lg:size-32 stroke-[1.5]" />
+            <Icon className="size-16 md:size-20 lg:size-32 stroke-2" />
+            <Icon className="size-16 md:size-20 lg:size-32 stroke-[3px]" />
+          </div>
+        </GridContainer>
+        <CodeSample>
+          <div>
+            <div data-cb-tag={icon} className="stroke-[0.2] ..." />
+            <div data-cb-tag={icon} className="stroke-[0.5] ..." />
+            <div data-cb-tag={icon} className="stroke-1 ..." />
+            <div data-cb-tag={icon} className="stroke-[1.5] ..." />
+            <div data-cb-tag={icon} className="stroke-2 ..." />
+            <div data-cb-tag={icon} className="stroke-[3px] ..." />
+          </div>
+        </CodeSample>
+      </Wrapper>
+      <Wrapper>
         <MdxPartial lang={lang} slug={"styling/styling-border"} path="docs" />
         <GridContainer>
           <div className="mx-auto flex justify-center gap-6 my-8">

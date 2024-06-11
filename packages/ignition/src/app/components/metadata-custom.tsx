@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 
 export type MetadataType = "page" | "doc" | "collection" | "icon";
 
-const customMetadata = (
+export const customMetadata = (
   lang: Languages,
   type: MetadataType,
   path: string,
@@ -23,21 +23,7 @@ const customMetadata = (
     (title?.endsWith(siteConfig.name) ? "" : ` | ${name} | ${brand["title-suffix"]}`);
   const pageDescription = description ?? brand.description;
 
-  let openGraphImagePath = `${lang}/opengraph/${type}`;
-
-  if (collectionId) {
-    openGraphImagePath = openGraphImagePath.concat(`/${collectionId}`);
-
-    if (iconId) {
-      openGraphImagePath = openGraphImagePath.concat(`/${iconId}`);
-    }
-  }
-
-  const finalOpenGraphImageUrl = new URL(openGraphImagePath, `${serverEnv.NEXT_PUBLIC_APP_URL}`);
-
-  if (path) {
-    finalOpenGraphImageUrl.searchParams.append("slug", path);
-  }
+  const finalOpenGraphImageUrl = getOpenGraphImage(lang, type, path, collectionId, iconId);
 
   const ogImagesArray = [
     {
@@ -100,22 +86,14 @@ const customMetadata = (
   const metadataObj: Metadata = {
     title: pageTitle,
     description: pageDescription,
-    keywords: [
-      "React",
-      "React Native",
-      "Vercel",
-      "Tailwind",
-      "rocketclimb",
-      "rocketicons",
-      "icons"
-    ],
+    keywords: ["React", "React Native", "Tailwind", "rocketicons", "icons"],
     authors: [
       {
         name: name,
         url: url
       }
     ],
-    creator: "RocketClimb",
+    creator: siteConfig.companyName,
     openGraph: {
       type: "website",
       locale: lang || defaultLocale,
@@ -147,4 +125,27 @@ const customMetadata = (
   return metadataObj;
 };
 
-export default customMetadata;
+export const getOpenGraphImage = (
+  lang: string,
+  type: string,
+  path: string,
+  collectionId?: string | undefined,
+  iconId?: string | undefined
+) => {
+  let openGraphImagePath = `${lang}/opengraph/${type}`;
+
+  if (collectionId) {
+    openGraphImagePath = openGraphImagePath.concat(`/${collectionId}`);
+
+    if (iconId) {
+      openGraphImagePath = openGraphImagePath.concat(`/${iconId}`);
+    }
+  }
+
+  const finalOpenGraphImageUrl = new URL(openGraphImagePath, `${serverEnv.NEXT_PUBLIC_APP_URL}`);
+
+  if (path) {
+    finalOpenGraphImageUrl.searchParams.append("slug", path);
+  }
+  return finalOpenGraphImageUrl;
+};

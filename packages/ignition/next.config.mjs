@@ -40,7 +40,10 @@ const nextConfig = {
   },
 
   experimental: {
-    optimizePackageImports: packagesToOptimize
+    optimizePackageImports: packagesToOptimize,
+    outputFileTracingIncludes: {
+      "/[lang]/icons/[collectionid]/[iconid]": ["./src/app/data-helpers/svgs/svgs.db"]
+    }
   }
 };
 

@@ -10,8 +10,8 @@ const Paragraph = ({ children }: PropsWithChildren) => (
 );
 
 const Page = () => (
-  <div className="bg-white border grid grid-cols-6 grid-rows-4 sm:pt-6 h-96">
-    <div className="col-span-2 self-center md:row-span-4 sm:border-r border-gray-200">
+  <div className="bg-background border grid grid-cols-6 grid-rows-4 sm:pt-6 h-96">
+    <div className="col-span-2 self-center md:row-span-4 sm:border-r border-surface-border-light">
       <RcRocketIcon className="icon-sky-900 mx-auto block size-16 max-[300px]:size-12 sm:size-20 md:size-56" />
     </div>
     <div className="col-span-4 self-center sm:ml-14 md:ml-6 md:mt-16 md:row-span-2">
@@ -26,7 +26,7 @@ const Page = () => (
     <div className="col-span-6 row-span-3 sm:mt-6 sm:pl-6 md:col-span-4 md:pl-2 md:mt-0 md:row-span-2">
       <Paragraph>
         Styling in a way
-        <RcRocketIcon className="icon-slate-900-base sm:icon-slate-900-lg md:icon-slate-900-sm" />
+        <RcRocketIcon className="icon-primary-base sm:icon-lg md:icon-sm" />
         you&apos;ve never seen before.
       </Paragraph>
       <Paragraph>Looking for a way to share code between web and native applications?</Paragraph>

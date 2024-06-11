@@ -8,8 +8,8 @@ const theme: ThemeOptions = {
     outlined: ""
   },
   sizes: {
-    xs: "h-2 w-2",
-    sm: "h-4 w-4",
+    xs: "h-2",
+    sm: "h-4",
     base: "h-5 w-5",
     lg: "h-6 w-6",
     xl: "h-7 w-7",

@@ -3,7 +3,7 @@ import { withLocale } from "@/locales";
 import { LuCheck } from "rocketicons/lu";
 import { IoCaretUp } from "rocketicons/io5";
 import { BiQuestionMark } from "rocketicons/bi";
-import customMetadata from "@/components/metadata-custom";
+import { customMetadata } from "@/components/metadata-custom";
 import { Metadata } from "next";
 import roadmapFile from "@/locales/roadmap.json";
 
@@ -33,7 +33,7 @@ const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
             <div>
               <div className="relative px-1">
                 <div
-                  className={`h-8 w-8  rounded-full ring-8 ring-white dark:ring-slate-900 flex items-center justify-center ${
+                  className={`h-8 w-8  rounded-full ring-8 ring-background dark:ring-background-dark flex items-center justify-center ${
                     released ? "bg-green-500" : "bg-sky-600"
                   }`}
                 >
@@ -48,7 +48,7 @@ const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
                 <div>
                   {item.version && <button className="font-medium mr-2">{item.version}</button>}
 
-                  <button className="my-0.5 relative inline-flex items-center bg-white rounded-full border border-gray-300 px-3 py-0.5 text-sm">
+                  <button className="my-0.5 relative inline-flex items-center bg-background rounded-full border border-surface-border-light px-3 py-0.5 text-sm">
                     <div className="absolute flex-shrink-0 flex items-center justify-center">
                       <span
                         className={`h-1.5 w-1.5 rounded-full ${
@@ -70,7 +70,7 @@ const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
               </div>
               <h2
                 id={`h2-${i}`}
-                className="text-lg font-semibold text-gray-900 dark:text-gray-100"
+                className="text-lg font-semibold text-primary dark:text-primary-dark"
               >
                 {item.heading[lang]}
               </h2>
@@ -93,7 +93,9 @@ const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
 
   return (
     <div className="max-w-xl">
-      <h1 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100">{nav.roadmap}</h1>
+      <h1 className="text-3xl font-extrabold text-primary dark:text-primary-dark">
+        {nav.roadmap}
+      </h1>
       <IoCaretUp className="icon-gray-300-xl -mb-12 ml-1.5" />
       <div className="flow-root">
         <ul className="">{itemList}</ul>

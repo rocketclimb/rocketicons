@@ -13,12 +13,10 @@
     padding: 0px
 }
 .icon-xs {
-    height: 0.5rem;
-    width: 0.5rem
+    height: 0.5rem
 }
 .icon-sm {
-    height: 1rem;
-    width: 1rem
+    height: 1rem
 }
 .icon-base {
     height: 1.25rem;
@@ -1134,13 +1132,11 @@
 }
 .icon-inherit-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: inherit;
     stroke: inherit
 }
 .icon-inherit-sm {
     height: 1rem;
-    width: 1rem;
     fill: inherit;
     stroke: inherit
 }
@@ -1200,13 +1196,11 @@
 }
 .icon-current-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: currentColor;
     stroke: currentColor
 }
 .icon-current-sm {
     height: 1rem;
-    width: 1rem;
     fill: currentColor;
     stroke: currentColor
 }
@@ -1266,13 +1260,11 @@
 }
 .icon-transparent-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: transparent;
     stroke: transparent
 }
 .icon-transparent-sm {
     height: 1rem;
-    width: 1rem;
     fill: transparent;
     stroke: transparent
 }
@@ -1332,13 +1324,11 @@
 }
 .icon-black-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #000;
     stroke: #000
 }
 .icon-black-sm {
     height: 1rem;
-    width: 1rem;
     fill: #000;
     stroke: #000
 }
@@ -1398,13 +1388,11 @@
 }
 .icon-white-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fff;
     stroke: #fff
 }
 .icon-white-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fff;
     stroke: #fff
 }
@@ -1464,13 +1452,11 @@
 }
 .icon-slate-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #64748b;
     stroke: #64748b
 }
 .icon-slate-sm {
     height: 1rem;
-    width: 1rem;
     fill: #64748b;
     stroke: #64748b
 }
@@ -1530,13 +1516,11 @@
 }
 .icon-slate-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f8fafc;
     stroke: #f8fafc
 }
 .icon-slate-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f8fafc;
     stroke: #f8fafc
 }
@@ -1596,13 +1580,11 @@
 }
 .icon-slate-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f1f5f9;
     stroke: #f1f5f9
 }
 .icon-slate-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f1f5f9;
     stroke: #f1f5f9
 }
@@ -1662,13 +1644,11 @@
 }
 .icon-slate-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #e2e8f0;
     stroke: #e2e8f0
 }
 .icon-slate-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #e2e8f0;
     stroke: #e2e8f0
 }
@@ -1728,13 +1708,11 @@
 }
 .icon-slate-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #cbd5e1;
     stroke: #cbd5e1
 }
 .icon-slate-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #cbd5e1;
     stroke: #cbd5e1
 }
@@ -1794,13 +1772,11 @@
 }
 .icon-slate-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #94a3b8;
     stroke: #94a3b8
 }
 .icon-slate-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #94a3b8;
     stroke: #94a3b8
 }
@@ -1860,13 +1836,11 @@
 }
 .icon-slate-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #64748b;
     stroke: #64748b
 }
 .icon-slate-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #64748b;
     stroke: #64748b
 }
@@ -1926,13 +1900,11 @@
 }
 .icon-slate-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #475569;
     stroke: #475569
 }
 .icon-slate-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #475569;
     stroke: #475569
 }
@@ -1992,13 +1964,11 @@
 }
 .icon-slate-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #334155;
     stroke: #334155
 }
 .icon-slate-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #334155;
     stroke: #334155
 }
@@ -2058,13 +2028,11 @@
 }
 .icon-slate-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #1e293b;
     stroke: #1e293b
 }
 .icon-slate-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #1e293b;
     stroke: #1e293b
 }
@@ -2124,13 +2092,11 @@
 }
 .icon-slate-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #0f172a;
     stroke: #0f172a
 }
 .icon-slate-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #0f172a;
     stroke: #0f172a
 }
@@ -2190,13 +2156,11 @@
 }
 .icon-slate-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #020617;
     stroke: #020617
 }
 .icon-slate-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #020617;
     stroke: #020617
 }
@@ -2256,13 +2220,11 @@
 }
 .icon-gray-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #6b7280;
     stroke: #6b7280
 }
 .icon-gray-sm {
     height: 1rem;
-    width: 1rem;
     fill: #6b7280;
     stroke: #6b7280
 }
@@ -2322,13 +2284,11 @@
 }
 .icon-gray-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f9fafb;
     stroke: #f9fafb
 }
 .icon-gray-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f9fafb;
     stroke: #f9fafb
 }
@@ -2388,13 +2348,11 @@
 }
 .icon-gray-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f3f4f6;
     stroke: #f3f4f6
 }
 .icon-gray-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f3f4f6;
     stroke: #f3f4f6
 }
@@ -2454,13 +2412,11 @@
 }
 .icon-gray-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #e5e7eb;
     stroke: #e5e7eb
 }
 .icon-gray-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #e5e7eb;
     stroke: #e5e7eb
 }
@@ -2520,13 +2476,11 @@
 }
 .icon-gray-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #d1d5db;
     stroke: #d1d5db
 }
 .icon-gray-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #d1d5db;
     stroke: #d1d5db
 }
@@ -2586,13 +2540,11 @@
 }
 .icon-gray-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #9ca3af;
     stroke: #9ca3af
 }
 .icon-gray-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #9ca3af;
     stroke: #9ca3af
 }
@@ -2652,13 +2604,11 @@
 }
 .icon-gray-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #6b7280;
     stroke: #6b7280
 }
 .icon-gray-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #6b7280;
     stroke: #6b7280
 }
@@ -2718,13 +2668,11 @@
 }
 .icon-gray-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #4b5563;
     stroke: #4b5563
 }
 .icon-gray-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #4b5563;
     stroke: #4b5563
 }
@@ -2784,13 +2732,11 @@
 }
 .icon-gray-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #374151;
     stroke: #374151
 }
 .icon-gray-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #374151;
     stroke: #374151
 }
@@ -2850,13 +2796,11 @@
 }
 .icon-gray-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #1f2937;
     stroke: #1f2937
 }
 .icon-gray-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #1f2937;
     stroke: #1f2937
 }
@@ -2916,13 +2860,11 @@
 }
 .icon-gray-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #111827;
     stroke: #111827
 }
 .icon-gray-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #111827;
     stroke: #111827
 }
@@ -2982,13 +2924,11 @@
 }
 .icon-gray-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #030712;
     stroke: #030712
 }
 .icon-gray-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #030712;
     stroke: #030712
 }
@@ -3048,13 +2988,11 @@
 }
 .icon-zinc-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #71717a;
     stroke: #71717a
 }
 .icon-zinc-sm {
     height: 1rem;
-    width: 1rem;
     fill: #71717a;
     stroke: #71717a
 }
@@ -3114,13 +3052,11 @@
 }
 .icon-zinc-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fafafa;
     stroke: #fafafa
 }
 .icon-zinc-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fafafa;
     stroke: #fafafa
 }
@@ -3180,13 +3116,11 @@
 }
 .icon-zinc-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f4f4f5;
     stroke: #f4f4f5
 }
 .icon-zinc-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f4f4f5;
     stroke: #f4f4f5
 }
@@ -3246,13 +3180,11 @@
 }
 .icon-zinc-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #e4e4e7;
     stroke: #e4e4e7
 }
 .icon-zinc-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #e4e4e7;
     stroke: #e4e4e7
 }
@@ -3312,13 +3244,11 @@
 }
 .icon-zinc-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #d4d4d8;
     stroke: #d4d4d8
 }
 .icon-zinc-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #d4d4d8;
     stroke: #d4d4d8
 }
@@ -3378,13 +3308,11 @@
 }
 .icon-zinc-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #a1a1aa;
     stroke: #a1a1aa
 }
 .icon-zinc-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #a1a1aa;
     stroke: #a1a1aa
 }
@@ -3444,13 +3372,11 @@
 }
 .icon-zinc-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #71717a;
     stroke: #71717a
 }
 .icon-zinc-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #71717a;
     stroke: #71717a
 }
@@ -3510,13 +3436,11 @@
 }
 .icon-zinc-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #52525b;
     stroke: #52525b
 }
 .icon-zinc-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #52525b;
     stroke: #52525b
 }
@@ -3576,13 +3500,11 @@
 }
 .icon-zinc-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #3f3f46;
     stroke: #3f3f46
 }
 .icon-zinc-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #3f3f46;
     stroke: #3f3f46
 }
@@ -3642,13 +3564,11 @@
 }
 .icon-zinc-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #27272a;
     stroke: #27272a
 }
 .icon-zinc-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #27272a;
     stroke: #27272a
 }
@@ -3708,13 +3628,11 @@
 }
 .icon-zinc-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #18181b;
     stroke: #18181b
 }
 .icon-zinc-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #18181b;
     stroke: #18181b
 }
@@ -3774,13 +3692,11 @@
 }
 .icon-zinc-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #09090b;
     stroke: #09090b
 }
 .icon-zinc-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #09090b;
     stroke: #09090b
 }
@@ -3840,13 +3756,11 @@
 }
 .icon-neutral-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #737373;
     stroke: #737373
 }
 .icon-neutral-sm {
     height: 1rem;
-    width: 1rem;
     fill: #737373;
     stroke: #737373
 }
@@ -3906,13 +3820,11 @@
 }
 .icon-neutral-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fafafa;
     stroke: #fafafa
 }
 .icon-neutral-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fafafa;
     stroke: #fafafa
 }
@@ -3972,13 +3884,11 @@
 }
 .icon-neutral-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f5f5f5;
     stroke: #f5f5f5
 }
 .icon-neutral-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f5f5f5;
     stroke: #f5f5f5
 }
@@ -4038,13 +3948,11 @@
 }
 .icon-neutral-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #e5e5e5;
     stroke: #e5e5e5
 }
 .icon-neutral-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #e5e5e5;
     stroke: #e5e5e5
 }
@@ -4104,13 +4012,11 @@
 }
 .icon-neutral-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #d4d4d4;
     stroke: #d4d4d4
 }
 .icon-neutral-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #d4d4d4;
     stroke: #d4d4d4
 }
@@ -4170,13 +4076,11 @@
 }
 .icon-neutral-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #a3a3a3;
     stroke: #a3a3a3
 }
 .icon-neutral-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #a3a3a3;
     stroke: #a3a3a3
 }
@@ -4236,13 +4140,11 @@
 }
 .icon-neutral-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #737373;
     stroke: #737373
 }
 .icon-neutral-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #737373;
     stroke: #737373
 }
@@ -4302,13 +4204,11 @@
 }
 .icon-neutral-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #525252;
     stroke: #525252
 }
 .icon-neutral-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #525252;
     stroke: #525252
 }
@@ -4368,13 +4268,11 @@
 }
 .icon-neutral-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #404040;
     stroke: #404040
 }
 .icon-neutral-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #404040;
     stroke: #404040
 }
@@ -4434,13 +4332,11 @@
 }
 .icon-neutral-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #262626;
     stroke: #262626
 }
 .icon-neutral-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #262626;
     stroke: #262626
 }
@@ -4500,13 +4396,11 @@
 }
 .icon-neutral-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #171717;
     stroke: #171717
 }
 .icon-neutral-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #171717;
     stroke: #171717
 }
@@ -4566,13 +4460,11 @@
 }
 .icon-neutral-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #0a0a0a;
     stroke: #0a0a0a
 }
 .icon-neutral-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #0a0a0a;
     stroke: #0a0a0a
 }
@@ -4632,13 +4524,11 @@
 }
 .icon-stone-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #78716c;
     stroke: #78716c
 }
 .icon-stone-sm {
     height: 1rem;
-    width: 1rem;
     fill: #78716c;
     stroke: #78716c
 }
@@ -4698,13 +4588,11 @@
 }
 .icon-stone-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fafaf9;
     stroke: #fafaf9
 }
 .icon-stone-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fafaf9;
     stroke: #fafaf9
 }
@@ -4764,13 +4652,11 @@
 }
 .icon-stone-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f5f5f4;
     stroke: #f5f5f4
 }
 .icon-stone-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f5f5f4;
     stroke: #f5f5f4
 }
@@ -4830,13 +4716,11 @@
 }
 .icon-stone-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #e7e5e4;
     stroke: #e7e5e4
 }
 .icon-stone-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #e7e5e4;
     stroke: #e7e5e4
 }
@@ -4896,13 +4780,11 @@
 }
 .icon-stone-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #d6d3d1;
     stroke: #d6d3d1
 }
 .icon-stone-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #d6d3d1;
     stroke: #d6d3d1
 }
@@ -4962,13 +4844,11 @@
 }
 .icon-stone-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #a8a29e;
     stroke: #a8a29e
 }
 .icon-stone-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #a8a29e;
     stroke: #a8a29e
 }
@@ -5028,13 +4908,11 @@
 }
 .icon-stone-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #78716c;
     stroke: #78716c
 }
 .icon-stone-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #78716c;
     stroke: #78716c
 }
@@ -5094,13 +4972,11 @@
 }
 .icon-stone-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #57534e;
     stroke: #57534e
 }
 .icon-stone-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #57534e;
     stroke: #57534e
 }
@@ -5160,13 +5036,11 @@
 }
 .icon-stone-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #44403c;
     stroke: #44403c
 }
 .icon-stone-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #44403c;
     stroke: #44403c
 }
@@ -5226,13 +5100,11 @@
 }
 .icon-stone-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #292524;
     stroke: #292524
 }
 .icon-stone-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #292524;
     stroke: #292524
 }
@@ -5292,13 +5164,11 @@
 }
 .icon-stone-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #1c1917;
     stroke: #1c1917
 }
 .icon-stone-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #1c1917;
     stroke: #1c1917
 }
@@ -5358,13 +5228,11 @@
 }
 .icon-stone-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #0c0a09;
     stroke: #0c0a09
 }
 .icon-stone-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #0c0a09;
     stroke: #0c0a09
 }
@@ -5424,13 +5292,11 @@
 }
 .icon-red-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #ef4444;
     stroke: #ef4444
 }
 .icon-red-sm {
     height: 1rem;
-    width: 1rem;
     fill: #ef4444;
     stroke: #ef4444
 }
@@ -5490,13 +5356,11 @@
 }
 .icon-red-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fef2f2;
     stroke: #fef2f2
 }
 .icon-red-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fef2f2;
     stroke: #fef2f2
 }
@@ -5556,13 +5420,11 @@
 }
 .icon-red-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fee2e2;
     stroke: #fee2e2
 }
 .icon-red-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fee2e2;
     stroke: #fee2e2
 }
@@ -5622,13 +5484,11 @@
 }
 .icon-red-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fecaca;
     stroke: #fecaca
 }
 .icon-red-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fecaca;
     stroke: #fecaca
 }
@@ -5688,13 +5548,11 @@
 }
 .icon-red-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fca5a5;
     stroke: #fca5a5
 }
 .icon-red-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fca5a5;
     stroke: #fca5a5
 }
@@ -5754,13 +5612,11 @@
 }
 .icon-red-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f87171;
     stroke: #f87171
 }
 .icon-red-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f87171;
     stroke: #f87171
 }
@@ -5820,13 +5676,11 @@
 }
 .icon-red-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #ef4444;
     stroke: #ef4444
 }
 .icon-red-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #ef4444;
     stroke: #ef4444
 }
@@ -5886,13 +5740,11 @@
 }
 .icon-red-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #dc2626;
     stroke: #dc2626
 }
 .icon-red-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #dc2626;
     stroke: #dc2626
 }
@@ -5952,13 +5804,11 @@
 }
 .icon-red-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #b91c1c;
     stroke: #b91c1c
 }
 .icon-red-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #b91c1c;
     stroke: #b91c1c
 }
@@ -6018,13 +5868,11 @@
 }
 .icon-red-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #991b1b;
     stroke: #991b1b
 }
 .icon-red-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #991b1b;
     stroke: #991b1b
 }
@@ -6084,13 +5932,11 @@
 }
 .icon-red-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #7f1d1d;
     stroke: #7f1d1d
 }
 .icon-red-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #7f1d1d;
     stroke: #7f1d1d
 }
@@ -6150,13 +5996,11 @@
 }
 .icon-red-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #450a0a;
     stroke: #450a0a
 }
 .icon-red-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #450a0a;
     stroke: #450a0a
 }
@@ -6216,13 +6060,11 @@
 }
 .icon-orange-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f97316;
     stroke: #f97316
 }
 .icon-orange-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f97316;
     stroke: #f97316
 }
@@ -6282,13 +6124,11 @@
 }
 .icon-orange-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fff7ed;
     stroke: #fff7ed
 }
 .icon-orange-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fff7ed;
     stroke: #fff7ed
 }
@@ -6348,13 +6188,11 @@
 }
 .icon-orange-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #ffedd5;
     stroke: #ffedd5
 }
 .icon-orange-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #ffedd5;
     stroke: #ffedd5
 }
@@ -6414,13 +6252,11 @@
 }
 .icon-orange-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fed7aa;
     stroke: #fed7aa
 }
 .icon-orange-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fed7aa;
     stroke: #fed7aa
 }
@@ -6480,13 +6316,11 @@
 }
 .icon-orange-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fdba74;
     stroke: #fdba74
 }
 .icon-orange-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fdba74;
     stroke: #fdba74
 }
@@ -6546,13 +6380,11 @@
 }
 .icon-orange-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fb923c;
     stroke: #fb923c
 }
 .icon-orange-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fb923c;
     stroke: #fb923c
 }
@@ -6612,13 +6444,11 @@
 }
 .icon-orange-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f97316;
     stroke: #f97316
 }
 .icon-orange-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f97316;
     stroke: #f97316
 }
@@ -6678,13 +6508,11 @@
 }
 .icon-orange-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #ea580c;
     stroke: #ea580c
 }
 .icon-orange-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #ea580c;
     stroke: #ea580c
 }
@@ -6744,13 +6572,11 @@
 }
 .icon-orange-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #c2410c;
     stroke: #c2410c
 }
 .icon-orange-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #c2410c;
     stroke: #c2410c
 }
@@ -6810,13 +6636,11 @@
 }
 .icon-orange-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #9a3412;
     stroke: #9a3412
 }
 .icon-orange-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #9a3412;
     stroke: #9a3412
 }
@@ -6876,13 +6700,11 @@
 }
 .icon-orange-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #7c2d12;
     stroke: #7c2d12
 }
 .icon-orange-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #7c2d12;
     stroke: #7c2d12
 }
@@ -6942,13 +6764,11 @@
 }
 .icon-orange-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #431407;
     stroke: #431407
 }
 .icon-orange-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #431407;
     stroke: #431407
 }
@@ -7008,13 +6828,11 @@
 }
 .icon-amber-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f59e0b;
     stroke: #f59e0b
 }
 .icon-amber-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f59e0b;
     stroke: #f59e0b
 }
@@ -7074,13 +6892,11 @@
 }
 .icon-amber-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fffbeb;
     stroke: #fffbeb
 }
 .icon-amber-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fffbeb;
     stroke: #fffbeb
 }
@@ -7140,13 +6956,11 @@
 }
 .icon-amber-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fef3c7;
     stroke: #fef3c7
 }
 .icon-amber-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fef3c7;
     stroke: #fef3c7
 }
@@ -7206,13 +7020,11 @@
 }
 .icon-amber-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fde68a;
     stroke: #fde68a
 }
 .icon-amber-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fde68a;
     stroke: #fde68a
 }
@@ -7272,13 +7084,11 @@
 }
 .icon-amber-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fcd34d;
     stroke: #fcd34d
 }
 .icon-amber-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fcd34d;
     stroke: #fcd34d
 }
@@ -7338,13 +7148,11 @@
 }
 .icon-amber-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fbbf24;
     stroke: #fbbf24
 }
 .icon-amber-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fbbf24;
     stroke: #fbbf24
 }
@@ -7404,13 +7212,11 @@
 }
 .icon-amber-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f59e0b;
     stroke: #f59e0b
 }
 .icon-amber-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f59e0b;
     stroke: #f59e0b
 }
@@ -7470,13 +7276,11 @@
 }
 .icon-amber-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #d97706;
     stroke: #d97706
 }
 .icon-amber-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #d97706;
     stroke: #d97706
 }
@@ -7536,13 +7340,11 @@
 }
 .icon-amber-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #b45309;
     stroke: #b45309
 }
 .icon-amber-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #b45309;
     stroke: #b45309
 }
@@ -7602,13 +7404,11 @@
 }
 .icon-amber-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #92400e;
     stroke: #92400e
 }
 .icon-amber-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #92400e;
     stroke: #92400e
 }
@@ -7668,13 +7468,11 @@
 }
 .icon-amber-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #78350f;
     stroke: #78350f
 }
 .icon-amber-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #78350f;
     stroke: #78350f
 }
@@ -7734,13 +7532,11 @@
 }
 .icon-amber-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #451a03;
     stroke: #451a03
 }
 .icon-amber-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #451a03;
     stroke: #451a03
 }
@@ -7800,13 +7596,11 @@
 }
 .icon-yellow-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #eab308;
     stroke: #eab308
 }
 .icon-yellow-sm {
     height: 1rem;
-    width: 1rem;
     fill: #eab308;
     stroke: #eab308
 }
@@ -7866,13 +7660,11 @@
 }
 .icon-yellow-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fefce8;
     stroke: #fefce8
 }
 .icon-yellow-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fefce8;
     stroke: #fefce8
 }
@@ -7932,13 +7724,11 @@
 }
 .icon-yellow-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fef9c3;
     stroke: #fef9c3
 }
 .icon-yellow-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fef9c3;
     stroke: #fef9c3
 }
@@ -7998,13 +7788,11 @@
 }
 .icon-yellow-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fef08a;
     stroke: #fef08a
 }
 .icon-yellow-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fef08a;
     stroke: #fef08a
 }
@@ -8064,13 +7852,11 @@
 }
 .icon-yellow-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fde047;
     stroke: #fde047
 }
 .icon-yellow-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fde047;
     stroke: #fde047
 }
@@ -8130,13 +7916,11 @@
 }
 .icon-yellow-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #facc15;
     stroke: #facc15
 }
 .icon-yellow-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #facc15;
     stroke: #facc15
 }
@@ -8196,13 +7980,11 @@
 }
 .icon-yellow-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #eab308;
     stroke: #eab308
 }
 .icon-yellow-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #eab308;
     stroke: #eab308
 }
@@ -8262,13 +8044,11 @@
 }
 .icon-yellow-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #ca8a04;
     stroke: #ca8a04
 }
 .icon-yellow-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #ca8a04;
     stroke: #ca8a04
 }
@@ -8328,13 +8108,11 @@
 }
 .icon-yellow-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #a16207;
     stroke: #a16207
 }
 .icon-yellow-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #a16207;
     stroke: #a16207
 }
@@ -8394,13 +8172,11 @@
 }
 .icon-yellow-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #854d0e;
     stroke: #854d0e
 }
 .icon-yellow-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #854d0e;
     stroke: #854d0e
 }
@@ -8460,13 +8236,11 @@
 }
 .icon-yellow-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #713f12;
     stroke: #713f12
 }
 .icon-yellow-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #713f12;
     stroke: #713f12
 }
@@ -8526,13 +8300,11 @@
 }
 .icon-yellow-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #422006;
     stroke: #422006
 }
 .icon-yellow-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #422006;
     stroke: #422006
 }
@@ -8592,13 +8364,11 @@
 }
 .icon-lime-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #84cc16;
     stroke: #84cc16
 }
 .icon-lime-sm {
     height: 1rem;
-    width: 1rem;
     fill: #84cc16;
     stroke: #84cc16
 }
@@ -8658,13 +8428,11 @@
 }
 .icon-lime-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f7fee7;
     stroke: #f7fee7
 }
 .icon-lime-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f7fee7;
     stroke: #f7fee7
 }
@@ -8724,13 +8492,11 @@
 }
 .icon-lime-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #ecfccb;
     stroke: #ecfccb
 }
 .icon-lime-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #ecfccb;
     stroke: #ecfccb
 }
@@ -8790,13 +8556,11 @@
 }
 .icon-lime-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #d9f99d;
     stroke: #d9f99d
 }
 .icon-lime-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #d9f99d;
     stroke: #d9f99d
 }
@@ -8856,13 +8620,11 @@
 }
 .icon-lime-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #bef264;
     stroke: #bef264
 }
 .icon-lime-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #bef264;
     stroke: #bef264
 }
@@ -8922,13 +8684,11 @@
 }
 .icon-lime-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #a3e635;
     stroke: #a3e635
 }
 .icon-lime-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #a3e635;
     stroke: #a3e635
 }
@@ -8988,13 +8748,11 @@
 }
 .icon-lime-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #84cc16;
     stroke: #84cc16
 }
 .icon-lime-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #84cc16;
     stroke: #84cc16
 }
@@ -9054,13 +8812,11 @@
 }
 .icon-lime-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #65a30d;
     stroke: #65a30d
 }
 .icon-lime-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #65a30d;
     stroke: #65a30d
 }
@@ -9120,13 +8876,11 @@
 }
 .icon-lime-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #4d7c0f;
     stroke: #4d7c0f
 }
 .icon-lime-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #4d7c0f;
     stroke: #4d7c0f
 }
@@ -9186,13 +8940,11 @@
 }
 .icon-lime-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #3f6212;
     stroke: #3f6212
 }
 .icon-lime-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #3f6212;
     stroke: #3f6212
 }
@@ -9252,13 +9004,11 @@
 }
 .icon-lime-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #365314;
     stroke: #365314
 }
 .icon-lime-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #365314;
     stroke: #365314
 }
@@ -9318,13 +9068,11 @@
 }
 .icon-lime-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #1a2e05;
     stroke: #1a2e05
 }
 .icon-lime-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #1a2e05;
     stroke: #1a2e05
 }
@@ -9384,13 +9132,11 @@
 }
 .icon-green-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #22c55e;
     stroke: #22c55e
 }
 .icon-green-sm {
     height: 1rem;
-    width: 1rem;
     fill: #22c55e;
     stroke: #22c55e
 }
@@ -9450,13 +9196,11 @@
 }
 .icon-green-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f0fdf4;
     stroke: #f0fdf4
 }
 .icon-green-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f0fdf4;
     stroke: #f0fdf4
 }
@@ -9516,13 +9260,11 @@
 }
 .icon-green-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #dcfce7;
     stroke: #dcfce7
 }
 .icon-green-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #dcfce7;
     stroke: #dcfce7
 }
@@ -9582,13 +9324,11 @@
 }
 .icon-green-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #bbf7d0;
     stroke: #bbf7d0
 }
 .icon-green-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #bbf7d0;
     stroke: #bbf7d0
 }
@@ -9648,13 +9388,11 @@
 }
 .icon-green-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #86efac;
     stroke: #86efac
 }
 .icon-green-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #86efac;
     stroke: #86efac
 }
@@ -9714,13 +9452,11 @@
 }
 .icon-green-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #4ade80;
     stroke: #4ade80
 }
 .icon-green-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #4ade80;
     stroke: #4ade80
 }
@@ -9780,13 +9516,11 @@
 }
 .icon-green-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #22c55e;
     stroke: #22c55e
 }
 .icon-green-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #22c55e;
     stroke: #22c55e
 }
@@ -9846,13 +9580,11 @@
 }
 .icon-green-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #16a34a;
     stroke: #16a34a
 }
 .icon-green-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #16a34a;
     stroke: #16a34a
 }
@@ -9912,13 +9644,11 @@
 }
 .icon-green-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #15803d;
     stroke: #15803d
 }
 .icon-green-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #15803d;
     stroke: #15803d
 }
@@ -9978,13 +9708,11 @@
 }
 .icon-green-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #166534;
     stroke: #166534
 }
 .icon-green-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #166534;
     stroke: #166534
 }
@@ -10044,13 +9772,11 @@
 }
 .icon-green-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #14532d;
     stroke: #14532d
 }
 .icon-green-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #14532d;
     stroke: #14532d
 }
@@ -10110,13 +9836,11 @@
 }
 .icon-green-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #052e16;
     stroke: #052e16
 }
 .icon-green-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #052e16;
     stroke: #052e16
 }
@@ -10176,13 +9900,11 @@
 }
 .icon-emerald-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #10b981;
     stroke: #10b981
 }
 .icon-emerald-sm {
     height: 1rem;
-    width: 1rem;
     fill: #10b981;
     stroke: #10b981
 }
@@ -10242,13 +9964,11 @@
 }
 .icon-emerald-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #ecfdf5;
     stroke: #ecfdf5
 }
 .icon-emerald-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #ecfdf5;
     stroke: #ecfdf5
 }
@@ -10308,13 +10028,11 @@
 }
 .icon-emerald-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #d1fae5;
     stroke: #d1fae5
 }
 .icon-emerald-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #d1fae5;
     stroke: #d1fae5
 }
@@ -10374,13 +10092,11 @@
 }
 .icon-emerald-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #a7f3d0;
     stroke: #a7f3d0
 }
 .icon-emerald-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #a7f3d0;
     stroke: #a7f3d0
 }
@@ -10440,13 +10156,11 @@
 }
 .icon-emerald-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #6ee7b7;
     stroke: #6ee7b7
 }
 .icon-emerald-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #6ee7b7;
     stroke: #6ee7b7
 }
@@ -10506,13 +10220,11 @@
 }
 .icon-emerald-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #34d399;
     stroke: #34d399
 }
 .icon-emerald-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #34d399;
     stroke: #34d399
 }
@@ -10572,13 +10284,11 @@
 }
 .icon-emerald-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #10b981;
     stroke: #10b981
 }
 .icon-emerald-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #10b981;
     stroke: #10b981
 }
@@ -10638,13 +10348,11 @@
 }
 .icon-emerald-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #059669;
     stroke: #059669
 }
 .icon-emerald-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #059669;
     stroke: #059669
 }
@@ -10704,13 +10412,11 @@
 }
 .icon-emerald-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #047857;
     stroke: #047857
 }
 .icon-emerald-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #047857;
     stroke: #047857
 }
@@ -10770,13 +10476,11 @@
 }
 .icon-emerald-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #065f46;
     stroke: #065f46
 }
 .icon-emerald-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #065f46;
     stroke: #065f46
 }
@@ -10836,13 +10540,11 @@
 }
 .icon-emerald-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #064e3b;
     stroke: #064e3b
 }
 .icon-emerald-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #064e3b;
     stroke: #064e3b
 }
@@ -10902,13 +10604,11 @@
 }
 .icon-emerald-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #022c22;
     stroke: #022c22
 }
 .icon-emerald-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #022c22;
     stroke: #022c22
 }
@@ -10968,13 +10668,11 @@
 }
 .icon-teal-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #14b8a6;
     stroke: #14b8a6
 }
 .icon-teal-sm {
     height: 1rem;
-    width: 1rem;
     fill: #14b8a6;
     stroke: #14b8a6
 }
@@ -11034,13 +10732,11 @@
 }
 .icon-teal-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f0fdfa;
     stroke: #f0fdfa
 }
 .icon-teal-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f0fdfa;
     stroke: #f0fdfa
 }
@@ -11100,13 +10796,11 @@
 }
 .icon-teal-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #ccfbf1;
     stroke: #ccfbf1
 }
 .icon-teal-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #ccfbf1;
     stroke: #ccfbf1
 }
@@ -11166,13 +10860,11 @@
 }
 .icon-teal-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #99f6e4;
     stroke: #99f6e4
 }
 .icon-teal-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #99f6e4;
     stroke: #99f6e4
 }
@@ -11232,13 +10924,11 @@
 }
 .icon-teal-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #5eead4;
     stroke: #5eead4
 }
 .icon-teal-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #5eead4;
     stroke: #5eead4
 }
@@ -11298,13 +10988,11 @@
 }
 .icon-teal-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #2dd4bf;
     stroke: #2dd4bf
 }
 .icon-teal-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #2dd4bf;
     stroke: #2dd4bf
 }
@@ -11364,13 +11052,11 @@
 }
 .icon-teal-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #14b8a6;
     stroke: #14b8a6
 }
 .icon-teal-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #14b8a6;
     stroke: #14b8a6
 }
@@ -11430,13 +11116,11 @@
 }
 .icon-teal-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #0d9488;
     stroke: #0d9488
 }
 .icon-teal-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #0d9488;
     stroke: #0d9488
 }
@@ -11496,13 +11180,11 @@
 }
 .icon-teal-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #0f766e;
     stroke: #0f766e
 }
 .icon-teal-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #0f766e;
     stroke: #0f766e
 }
@@ -11562,13 +11244,11 @@
 }
 .icon-teal-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #115e59;
     stroke: #115e59
 }
 .icon-teal-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #115e59;
     stroke: #115e59
 }
@@ -11628,13 +11308,11 @@
 }
 .icon-teal-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #134e4a;
     stroke: #134e4a
 }
 .icon-teal-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #134e4a;
     stroke: #134e4a
 }
@@ -11694,13 +11372,11 @@
 }
 .icon-teal-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #042f2e;
     stroke: #042f2e
 }
 .icon-teal-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #042f2e;
     stroke: #042f2e
 }
@@ -11760,13 +11436,11 @@
 }
 .icon-cyan-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #06b6d4;
     stroke: #06b6d4
 }
 .icon-cyan-sm {
     height: 1rem;
-    width: 1rem;
     fill: #06b6d4;
     stroke: #06b6d4
 }
@@ -11826,13 +11500,11 @@
 }
 .icon-cyan-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #ecfeff;
     stroke: #ecfeff
 }
 .icon-cyan-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #ecfeff;
     stroke: #ecfeff
 }
@@ -11892,13 +11564,11 @@
 }
 .icon-cyan-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #cffafe;
     stroke: #cffafe
 }
 .icon-cyan-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #cffafe;
     stroke: #cffafe
 }
@@ -11958,13 +11628,11 @@
 }
 .icon-cyan-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #a5f3fc;
     stroke: #a5f3fc
 }
 .icon-cyan-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #a5f3fc;
     stroke: #a5f3fc
 }
@@ -12024,13 +11692,11 @@
 }
 .icon-cyan-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #67e8f9;
     stroke: #67e8f9
 }
 .icon-cyan-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #67e8f9;
     stroke: #67e8f9
 }
@@ -12090,13 +11756,11 @@
 }
 .icon-cyan-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #22d3ee;
     stroke: #22d3ee
 }
 .icon-cyan-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #22d3ee;
     stroke: #22d3ee
 }
@@ -12156,13 +11820,11 @@
 }
 .icon-cyan-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #06b6d4;
     stroke: #06b6d4
 }
 .icon-cyan-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #06b6d4;
     stroke: #06b6d4
 }
@@ -12222,13 +11884,11 @@
 }
 .icon-cyan-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #0891b2;
     stroke: #0891b2
 }
 .icon-cyan-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #0891b2;
     stroke: #0891b2
 }
@@ -12288,13 +11948,11 @@
 }
 .icon-cyan-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #0e7490;
     stroke: #0e7490
 }
 .icon-cyan-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #0e7490;
     stroke: #0e7490
 }
@@ -12354,13 +12012,11 @@
 }
 .icon-cyan-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #155e75;
     stroke: #155e75
 }
 .icon-cyan-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #155e75;
     stroke: #155e75
 }
@@ -12420,13 +12076,11 @@
 }
 .icon-cyan-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #164e63;
     stroke: #164e63
 }
 .icon-cyan-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #164e63;
     stroke: #164e63
 }
@@ -12486,13 +12140,11 @@
 }
 .icon-cyan-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #083344;
     stroke: #083344
 }
 .icon-cyan-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #083344;
     stroke: #083344
 }
@@ -12552,13 +12204,11 @@
 }
 .icon-sky-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #0ea5e9;
     stroke: #0ea5e9
 }
 .icon-sky-sm {
     height: 1rem;
-    width: 1rem;
     fill: #0ea5e9;
     stroke: #0ea5e9
 }
@@ -12618,13 +12268,11 @@
 }
 .icon-sky-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f0f9ff;
     stroke: #f0f9ff
 }
 .icon-sky-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f0f9ff;
     stroke: #f0f9ff
 }
@@ -12684,13 +12332,11 @@
 }
 .icon-sky-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #e0f2fe;
     stroke: #e0f2fe
 }
 .icon-sky-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #e0f2fe;
     stroke: #e0f2fe
 }
@@ -12750,13 +12396,11 @@
 }
 .icon-sky-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #bae6fd;
     stroke: #bae6fd
 }
 .icon-sky-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #bae6fd;
     stroke: #bae6fd
 }
@@ -12816,13 +12460,11 @@
 }
 .icon-sky-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #7dd3fc;
     stroke: #7dd3fc
 }
 .icon-sky-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #7dd3fc;
     stroke: #7dd3fc
 }
@@ -12882,13 +12524,11 @@
 }
 .icon-sky-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #38bdf8;
     stroke: #38bdf8
 }
 .icon-sky-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #38bdf8;
     stroke: #38bdf8
 }
@@ -12948,13 +12588,11 @@
 }
 .icon-sky-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #0ea5e9;
     stroke: #0ea5e9
 }
 .icon-sky-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #0ea5e9;
     stroke: #0ea5e9
 }
@@ -13014,13 +12652,11 @@
 }
 .icon-sky-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #0284c7;
     stroke: #0284c7
 }
 .icon-sky-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #0284c7;
     stroke: #0284c7
 }
@@ -13080,13 +12716,11 @@
 }
 .icon-sky-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #0369a1;
     stroke: #0369a1
 }
 .icon-sky-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #0369a1;
     stroke: #0369a1
 }
@@ -13146,13 +12780,11 @@
 }
 .icon-sky-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #075985;
     stroke: #075985
 }
 .icon-sky-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #075985;
     stroke: #075985
 }
@@ -13212,13 +12844,11 @@
 }
 .icon-sky-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #0c4a6e;
     stroke: #0c4a6e
 }
 .icon-sky-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #0c4a6e;
     stroke: #0c4a6e
 }
@@ -13278,13 +12908,11 @@
 }
 .icon-sky-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #082f49;
     stroke: #082f49
 }
 .icon-sky-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #082f49;
     stroke: #082f49
 }
@@ -13344,13 +12972,11 @@
 }
 .icon-blue-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #3b82f6;
     stroke: #3b82f6
 }
 .icon-blue-sm {
     height: 1rem;
-    width: 1rem;
     fill: #3b82f6;
     stroke: #3b82f6
 }
@@ -13410,13 +13036,11 @@
 }
 .icon-blue-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #eff6ff;
     stroke: #eff6ff
 }
 .icon-blue-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #eff6ff;
     stroke: #eff6ff
 }
@@ -13476,13 +13100,11 @@
 }
 .icon-blue-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #dbeafe;
     stroke: #dbeafe
 }
 .icon-blue-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #dbeafe;
     stroke: #dbeafe
 }
@@ -13542,13 +13164,11 @@
 }
 .icon-blue-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #bfdbfe;
     stroke: #bfdbfe
 }
 .icon-blue-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #bfdbfe;
     stroke: #bfdbfe
 }
@@ -13608,13 +13228,11 @@
 }
 .icon-blue-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #93c5fd;
     stroke: #93c5fd
 }
 .icon-blue-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #93c5fd;
     stroke: #93c5fd
 }
@@ -13674,13 +13292,11 @@
 }
 .icon-blue-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #60a5fa;
     stroke: #60a5fa
 }
 .icon-blue-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #60a5fa;
     stroke: #60a5fa
 }
@@ -13740,13 +13356,11 @@
 }
 .icon-blue-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #3b82f6;
     stroke: #3b82f6
 }
 .icon-blue-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #3b82f6;
     stroke: #3b82f6
 }
@@ -13806,13 +13420,11 @@
 }
 .icon-blue-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #2563eb;
     stroke: #2563eb
 }
 .icon-blue-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #2563eb;
     stroke: #2563eb
 }
@@ -13872,13 +13484,11 @@
 }
 .icon-blue-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #1d4ed8;
     stroke: #1d4ed8
 }
 .icon-blue-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #1d4ed8;
     stroke: #1d4ed8
 }
@@ -13938,13 +13548,11 @@
 }
 .icon-blue-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #1e40af;
     stroke: #1e40af
 }
 .icon-blue-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #1e40af;
     stroke: #1e40af
 }
@@ -14004,13 +13612,11 @@
 }
 .icon-blue-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #1e3a8a;
     stroke: #1e3a8a
 }
 .icon-blue-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #1e3a8a;
     stroke: #1e3a8a
 }
@@ -14070,13 +13676,11 @@
 }
 .icon-blue-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #172554;
     stroke: #172554
 }
 .icon-blue-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #172554;
     stroke: #172554
 }
@@ -14136,13 +13740,11 @@
 }
 .icon-indigo-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #6366f1;
     stroke: #6366f1
 }
 .icon-indigo-sm {
     height: 1rem;
-    width: 1rem;
     fill: #6366f1;
     stroke: #6366f1
 }
@@ -14202,13 +13804,11 @@
 }
 .icon-indigo-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #eef2ff;
     stroke: #eef2ff
 }
 .icon-indigo-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #eef2ff;
     stroke: #eef2ff
 }
@@ -14268,13 +13868,11 @@
 }
 .icon-indigo-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #e0e7ff;
     stroke: #e0e7ff
 }
 .icon-indigo-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #e0e7ff;
     stroke: #e0e7ff
 }
@@ -14334,13 +13932,11 @@
 }
 .icon-indigo-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #c7d2fe;
     stroke: #c7d2fe
 }
 .icon-indigo-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #c7d2fe;
     stroke: #c7d2fe
 }
@@ -14400,13 +13996,11 @@
 }
 .icon-indigo-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #a5b4fc;
     stroke: #a5b4fc
 }
 .icon-indigo-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #a5b4fc;
     stroke: #a5b4fc
 }
@@ -14466,13 +14060,11 @@
 }
 .icon-indigo-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #818cf8;
     stroke: #818cf8
 }
 .icon-indigo-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #818cf8;
     stroke: #818cf8
 }
@@ -14532,13 +14124,11 @@
 }
 .icon-indigo-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #6366f1;
     stroke: #6366f1
 }
 .icon-indigo-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #6366f1;
     stroke: #6366f1
 }
@@ -14598,13 +14188,11 @@
 }
 .icon-indigo-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #4f46e5;
     stroke: #4f46e5
 }
 .icon-indigo-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #4f46e5;
     stroke: #4f46e5
 }
@@ -14664,13 +14252,11 @@
 }
 .icon-indigo-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #4338ca;
     stroke: #4338ca
 }
 .icon-indigo-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #4338ca;
     stroke: #4338ca
 }
@@ -14730,13 +14316,11 @@
 }
 .icon-indigo-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #3730a3;
     stroke: #3730a3
 }
 .icon-indigo-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #3730a3;
     stroke: #3730a3
 }
@@ -14796,13 +14380,11 @@
 }
 .icon-indigo-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #312e81;
     stroke: #312e81
 }
 .icon-indigo-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #312e81;
     stroke: #312e81
 }
@@ -14862,13 +14444,11 @@
 }
 .icon-indigo-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #1e1b4b;
     stroke: #1e1b4b
 }
 .icon-indigo-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #1e1b4b;
     stroke: #1e1b4b
 }
@@ -14928,13 +14508,11 @@
 }
 .icon-violet-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #8b5cf6;
     stroke: #8b5cf6
 }
 .icon-violet-sm {
     height: 1rem;
-    width: 1rem;
     fill: #8b5cf6;
     stroke: #8b5cf6
 }
@@ -14994,13 +14572,11 @@
 }
 .icon-violet-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f5f3ff;
     stroke: #f5f3ff
 }
 .icon-violet-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f5f3ff;
     stroke: #f5f3ff
 }
@@ -15060,13 +14636,11 @@
 }
 .icon-violet-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #ede9fe;
     stroke: #ede9fe
 }
 .icon-violet-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #ede9fe;
     stroke: #ede9fe
 }
@@ -15126,13 +14700,11 @@
 }
 .icon-violet-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #ddd6fe;
     stroke: #ddd6fe
 }
 .icon-violet-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #ddd6fe;
     stroke: #ddd6fe
 }
@@ -15192,13 +14764,11 @@
 }
 .icon-violet-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #c4b5fd;
     stroke: #c4b5fd
 }
 .icon-violet-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #c4b5fd;
     stroke: #c4b5fd
 }
@@ -15258,13 +14828,11 @@
 }
 .icon-violet-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #a78bfa;
     stroke: #a78bfa
 }
 .icon-violet-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #a78bfa;
     stroke: #a78bfa
 }
@@ -15324,13 +14892,11 @@
 }
 .icon-violet-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #8b5cf6;
     stroke: #8b5cf6
 }
 .icon-violet-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #8b5cf6;
     stroke: #8b5cf6
 }
@@ -15390,13 +14956,11 @@
 }
 .icon-violet-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #7c3aed;
     stroke: #7c3aed
 }
 .icon-violet-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #7c3aed;
     stroke: #7c3aed
 }
@@ -15456,13 +15020,11 @@
 }
 .icon-violet-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #6d28d9;
     stroke: #6d28d9
 }
 .icon-violet-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #6d28d9;
     stroke: #6d28d9
 }
@@ -15522,13 +15084,11 @@
 }
 .icon-violet-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #5b21b6;
     stroke: #5b21b6
 }
 .icon-violet-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #5b21b6;
     stroke: #5b21b6
 }
@@ -15588,13 +15148,11 @@
 }
 .icon-violet-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #4c1d95;
     stroke: #4c1d95
 }
 .icon-violet-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #4c1d95;
     stroke: #4c1d95
 }
@@ -15654,13 +15212,11 @@
 }
 .icon-violet-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #2e1065;
     stroke: #2e1065
 }
 .icon-violet-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #2e1065;
     stroke: #2e1065
 }
@@ -15720,13 +15276,11 @@
 }
 .icon-purple-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #a855f7;
     stroke: #a855f7
 }
 .icon-purple-sm {
     height: 1rem;
-    width: 1rem;
     fill: #a855f7;
     stroke: #a855f7
 }
@@ -15786,13 +15340,11 @@
 }
 .icon-purple-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #faf5ff;
     stroke: #faf5ff
 }
 .icon-purple-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #faf5ff;
     stroke: #faf5ff
 }
@@ -15852,13 +15404,11 @@
 }
 .icon-purple-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f3e8ff;
     stroke: #f3e8ff
 }
 .icon-purple-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f3e8ff;
     stroke: #f3e8ff
 }
@@ -15918,13 +15468,11 @@
 }
 .icon-purple-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #e9d5ff;
     stroke: #e9d5ff
 }
 .icon-purple-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #e9d5ff;
     stroke: #e9d5ff
 }
@@ -15984,13 +15532,11 @@
 }
 .icon-purple-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #d8b4fe;
     stroke: #d8b4fe
 }
 .icon-purple-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #d8b4fe;
     stroke: #d8b4fe
 }
@@ -16050,13 +15596,11 @@
 }
 .icon-purple-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #c084fc;
     stroke: #c084fc
 }
 .icon-purple-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #c084fc;
     stroke: #c084fc
 }
@@ -16116,13 +15660,11 @@
 }
 .icon-purple-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #a855f7;
     stroke: #a855f7
 }
 .icon-purple-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #a855f7;
     stroke: #a855f7
 }
@@ -16182,13 +15724,11 @@
 }
 .icon-purple-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #9333ea;
     stroke: #9333ea
 }
 .icon-purple-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #9333ea;
     stroke: #9333ea
 }
@@ -16248,13 +15788,11 @@
 }
 .icon-purple-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #7e22ce;
     stroke: #7e22ce
 }
 .icon-purple-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #7e22ce;
     stroke: #7e22ce
 }
@@ -16314,13 +15852,11 @@
 }
 .icon-purple-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #6b21a8;
     stroke: #6b21a8
 }
 .icon-purple-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #6b21a8;
     stroke: #6b21a8
 }
@@ -16380,13 +15916,11 @@
 }
 .icon-purple-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #581c87;
     stroke: #581c87
 }
 .icon-purple-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #581c87;
     stroke: #581c87
 }
@@ -16446,13 +15980,11 @@
 }
 .icon-purple-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #3b0764;
     stroke: #3b0764
 }
 .icon-purple-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #3b0764;
     stroke: #3b0764
 }
@@ -16512,13 +16044,11 @@
 }
 .icon-fuchsia-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #d946ef;
     stroke: #d946ef
 }
 .icon-fuchsia-sm {
     height: 1rem;
-    width: 1rem;
     fill: #d946ef;
     stroke: #d946ef
 }
@@ -16578,13 +16108,11 @@
 }
 .icon-fuchsia-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fdf4ff;
     stroke: #fdf4ff
 }
 .icon-fuchsia-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fdf4ff;
     stroke: #fdf4ff
 }
@@ -16644,13 +16172,11 @@
 }
 .icon-fuchsia-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fae8ff;
     stroke: #fae8ff
 }
 .icon-fuchsia-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fae8ff;
     stroke: #fae8ff
 }
@@ -16710,13 +16236,11 @@
 }
 .icon-fuchsia-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f5d0fe;
     stroke: #f5d0fe
 }
 .icon-fuchsia-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f5d0fe;
     stroke: #f5d0fe
 }
@@ -16776,13 +16300,11 @@
 }
 .icon-fuchsia-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f0abfc;
     stroke: #f0abfc
 }
 .icon-fuchsia-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f0abfc;
     stroke: #f0abfc
 }
@@ -16842,13 +16364,11 @@
 }
 .icon-fuchsia-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #e879f9;
     stroke: #e879f9
 }
 .icon-fuchsia-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #e879f9;
     stroke: #e879f9
 }
@@ -16908,13 +16428,11 @@
 }
 .icon-fuchsia-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #d946ef;
     stroke: #d946ef
 }
 .icon-fuchsia-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #d946ef;
     stroke: #d946ef
 }
@@ -16974,13 +16492,11 @@
 }
 .icon-fuchsia-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #c026d3;
     stroke: #c026d3
 }
 .icon-fuchsia-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #c026d3;
     stroke: #c026d3
 }
@@ -17040,13 +16556,11 @@
 }
 .icon-fuchsia-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #a21caf;
     stroke: #a21caf
 }
 .icon-fuchsia-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #a21caf;
     stroke: #a21caf
 }
@@ -17106,13 +16620,11 @@
 }
 .icon-fuchsia-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #86198f;
     stroke: #86198f
 }
 .icon-fuchsia-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #86198f;
     stroke: #86198f
 }
@@ -17172,13 +16684,11 @@
 }
 .icon-fuchsia-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #701a75;
     stroke: #701a75
 }
 .icon-fuchsia-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #701a75;
     stroke: #701a75
 }
@@ -17238,13 +16748,11 @@
 }
 .icon-fuchsia-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #4a044e;
     stroke: #4a044e
 }
 .icon-fuchsia-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #4a044e;
     stroke: #4a044e
 }
@@ -17304,13 +16812,11 @@
 }
 .icon-pink-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #ec4899;
     stroke: #ec4899
 }
 .icon-pink-sm {
     height: 1rem;
-    width: 1rem;
     fill: #ec4899;
     stroke: #ec4899
 }
@@ -17370,13 +16876,11 @@
 }
 .icon-pink-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fdf2f8;
     stroke: #fdf2f8
 }
 .icon-pink-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fdf2f8;
     stroke: #fdf2f8
 }
@@ -17436,13 +16940,11 @@
 }
 .icon-pink-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fce7f3;
     stroke: #fce7f3
 }
 .icon-pink-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fce7f3;
     stroke: #fce7f3
 }
@@ -17502,13 +17004,11 @@
 }
 .icon-pink-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fbcfe8;
     stroke: #fbcfe8
 }
 .icon-pink-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fbcfe8;
     stroke: #fbcfe8
 }
@@ -17568,13 +17068,11 @@
 }
 .icon-pink-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f9a8d4;
     stroke: #f9a8d4
 }
 .icon-pink-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f9a8d4;
     stroke: #f9a8d4
 }
@@ -17634,13 +17132,11 @@
 }
 .icon-pink-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f472b6;
     stroke: #f472b6
 }
 .icon-pink-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f472b6;
     stroke: #f472b6
 }
@@ -17700,13 +17196,11 @@
 }
 .icon-pink-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #ec4899;
     stroke: #ec4899
 }
 .icon-pink-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #ec4899;
     stroke: #ec4899
 }
@@ -17766,13 +17260,11 @@
 }
 .icon-pink-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #db2777;
     stroke: #db2777
 }
 .icon-pink-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #db2777;
     stroke: #db2777
 }
@@ -17832,13 +17324,11 @@
 }
 .icon-pink-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #be185d;
     stroke: #be185d
 }
 .icon-pink-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #be185d;
     stroke: #be185d
 }
@@ -17898,13 +17388,11 @@
 }
 .icon-pink-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #9d174d;
     stroke: #9d174d
 }
 .icon-pink-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #9d174d;
     stroke: #9d174d
 }
@@ -17964,13 +17452,11 @@
 }
 .icon-pink-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #831843;
     stroke: #831843
 }
 .icon-pink-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #831843;
     stroke: #831843
 }
@@ -18030,13 +17516,11 @@
 }
 .icon-pink-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #500724;
     stroke: #500724
 }
 .icon-pink-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #500724;
     stroke: #500724
 }
@@ -18096,13 +17580,11 @@
 }
 .icon-rose-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f43f5e;
     stroke: #f43f5e
 }
 .icon-rose-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f43f5e;
     stroke: #f43f5e
 }
@@ -18162,13 +17644,11 @@
 }
 .icon-rose-50-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fff1f2;
     stroke: #fff1f2
 }
 .icon-rose-50-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fff1f2;
     stroke: #fff1f2
 }
@@ -18228,13 +17708,11 @@
 }
 .icon-rose-100-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #ffe4e6;
     stroke: #ffe4e6
 }
 .icon-rose-100-sm {
     height: 1rem;
-    width: 1rem;
     fill: #ffe4e6;
     stroke: #ffe4e6
 }
@@ -18294,13 +17772,11 @@
 }
 .icon-rose-200-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fecdd3;
     stroke: #fecdd3
 }
 .icon-rose-200-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fecdd3;
     stroke: #fecdd3
 }
@@ -18360,13 +17836,11 @@
 }
 .icon-rose-300-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fda4af;
     stroke: #fda4af
 }
 .icon-rose-300-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fda4af;
     stroke: #fda4af
 }
@@ -18426,13 +17900,11 @@
 }
 .icon-rose-400-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #fb7185;
     stroke: #fb7185
 }
 .icon-rose-400-sm {
     height: 1rem;
-    width: 1rem;
     fill: #fb7185;
     stroke: #fb7185
 }
@@ -18492,13 +17964,11 @@
 }
 .icon-rose-500-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #f43f5e;
     stroke: #f43f5e
 }
 .icon-rose-500-sm {
     height: 1rem;
-    width: 1rem;
     fill: #f43f5e;
     stroke: #f43f5e
 }
@@ -18558,13 +18028,11 @@
 }
 .icon-rose-600-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #e11d48;
     stroke: #e11d48
 }
 .icon-rose-600-sm {
     height: 1rem;
-    width: 1rem;
     fill: #e11d48;
     stroke: #e11d48
 }
@@ -18624,13 +18092,11 @@
 }
 .icon-rose-700-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #be123c;
     stroke: #be123c
 }
 .icon-rose-700-sm {
     height: 1rem;
-    width: 1rem;
     fill: #be123c;
     stroke: #be123c
 }
@@ -18690,13 +18156,11 @@
 }
 .icon-rose-800-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #9f1239;
     stroke: #9f1239
 }
 .icon-rose-800-sm {
     height: 1rem;
-    width: 1rem;
     fill: #9f1239;
     stroke: #9f1239
 }
@@ -18756,13 +18220,11 @@
 }
 .icon-rose-900-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #881337;
     stroke: #881337
 }
 .icon-rose-900-sm {
     height: 1rem;
-    width: 1rem;
     fill: #881337;
     stroke: #881337
 }
@@ -18822,13 +18284,11 @@
 }
 .icon-rose-950-xs {
     height: 0.5rem;
-    width: 0.5rem;
     fill: #4c0519;
     stroke: #4c0519
 }
 .icon-rose-950-sm {
     height: 1rem;
-    width: 1rem;
     fill: #4c0519;
     stroke: #4c0519
 }

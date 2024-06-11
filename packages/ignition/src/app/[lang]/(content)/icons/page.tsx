@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import { PropsWithLangParams } from "@/types";
 
 import { withLocale } from "@/locales";
-import customMetadata from "@/components/metadata-custom";
+import { customMetadata } from "@/components/metadata-custom";
 import NumberFormatter from "@/components/number-formatter";
 
 export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {

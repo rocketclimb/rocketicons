@@ -18,7 +18,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
+      "@/tailwind-conf": ["./tailwind.config.ts"],
       "@/components/*": ["./src/app/components/*"],
       "@/data-helpers/*": ["./src/app/data-helpers/*"],
       "@/hooks": ["./src/app/hooks/"],
@@ -28,8 +28,10 @@
       "@/types": ["./src/app/types/"],
       "@/types/*": ["./src/app/types/*"],
       "@/utils": ["./src/app/utils/"],
+      "@/utils/*": ["./src/app/utils/*"],
       "@/config": ["./src/config/"],
       "@/public/*": ["./public/*"],
+      "@/*": ["./src/*"],
       "content-collections": ["./.content-collections/generated"]
     }
   },
