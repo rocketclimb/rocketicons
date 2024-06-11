@@ -1,3 +1,9 @@
+## [0.4.0](https://github.com/rocketclimb/rocketicons/compare/v0.3.4-release...v0.4.0) (2024-06-10)
+
+### Features
+
+- structured data and Google rich results ([f56f3f61](https://github.com/rocketclimb/rocketicons/commit/f56f3f6144419f6fb23133ef90068069b640da6d))
+
 ## [0.3.5](https://github.com/rocketclimb/rocketicons/compare/v0.3.3...v0.3.4) (2024-05-25)
 
 ### Other

@@ -21,7 +21,7 @@ export class Thing {
 
   constructor(name?: string, thingType?: string, description?: string) {
     this["@context"] = "https://schema.org";
-    this["@type"] = thingType || "Thing";
+    this["@type"] = thingType ?? "Thing";
     this.name = name;
 
     if (description) {

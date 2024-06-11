@@ -5,11 +5,11 @@ import { withLocale } from "@/app/locales";
 import OpenGraph from "@/components/opengraph";
 import { Languages } from "@/types";
 import { NextRequest } from "next/server";
-import { readFileSync } from "node:fs";
 import { Variants, IconTree } from "rocketicons";
 import { IconsManifest } from "@/data-helpers/icons/manifest";
 import { CollectionID } from "rocketicons/data";
-import { resolve } from "node:path";
+
+import { svgAsJson } from "@/utils/svg-as-json";
 
 export const GET = async (request: NextRequest) => {
   const [, lang, , type, param1, param2] = request.nextUrl.pathname.split("/");
@@ -20,7 +20,7 @@ export const GET = async (request: NextRequest) => {
     if (type === "icon" || type === "collection") {
       const collection = IconsManifest.find(({ id }: { id: string }) => id === param1)!;
 
-      const { iconName, iconJson } = selectIcon(param1, param2, language);
+      const { iconName, iconJson } = await selectIcon(param1, param2, language);
 
       return await OpenGraph({
         lang: lang as Languages,
@@ -48,7 +48,7 @@ export const GET = async (request: NextRequest) => {
         }
       }
 
-      const { iconName, iconJson } = selectIcon(param1, param2, language, subheading);
+      const { iconName, iconJson } = await selectIcon(param1, param2, language, subheading);
 
       return await OpenGraph({
         lang: lang as Languages,
@@ -58,7 +58,7 @@ export const GET = async (request: NextRequest) => {
       });
     }
   } catch (error) {
-    const { iconName, iconJson } = selectIcon(param1, param2, language, "Error");
+    const { iconName, iconJson } = await selectIcon(param1, param2, language, "Error");
 
     return await OpenGraph({
       iconName,
@@ -103,12 +103,12 @@ const chooseIconByType = (lang: Languages, subheading?: string): [CollectionID, 
   }
 };
 
-const selectIcon = (
+const selectIcon = async (
   iconCollectionId: string | undefined,
   iconId: string | undefined,
   lang: Languages,
   subheading?: string | undefined
-): { iconName: string; iconJson: { variant: Variants; iconTree: IconTree } } => {
+): Promise<{ iconName: string; iconJson: { variant: Variants; iconTree: IconTree } }> => {
   const hasCollection = !!iconCollectionId;
   const hasIcon = hasCollection && !!iconId;
   let iconName: string | undefined;
@@ -132,14 +132,7 @@ const selectIcon = (
     [selectedIconCollectionId, iconFilename] = chooseIconByType(lang, subheading);
   }
 
-  const iconUrl = resolve(
-    "./src/app/data-helpers/svgs",
-    `${selectedIconCollectionId}/${iconFilename}.json`
-  );
+  const loadedIcon = await svgAsJson(selectedIconCollectionId, iconFilename!);
 
-  const loadedIcon = readFileSync(iconUrl, {
-    encoding: "utf-8"
-  });
-
-  return { iconName: iconName!, iconJson: loadedIcon && JSON.parse(loadedIcon) };
+  return { iconName: iconName!, iconJson: loadedIcon && loadedIcon };
 };

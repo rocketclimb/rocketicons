@@ -99,9 +99,9 @@ Here is how you change the base size, for example:
 ```json filename=tailwind.config.js
 {
   ... existing tailwind configs
-  components: {
-    icon: {
-      extend: {
+  extend: {
+    components: {
+      icon: {
         sizes: {
           base: "size-6",
         },
@@ -116,9 +116,9 @@ And here is how you create a brand new size:
 ```json filename=tailwind.config.js
 {
   ... existing tailwind configs
-  components: {
-    icon: {
-      extend: {
+  extend: {
+    components: {
+      icon: {
         sizes: {
           myNewCoolGiantSize: "size-56",
         },

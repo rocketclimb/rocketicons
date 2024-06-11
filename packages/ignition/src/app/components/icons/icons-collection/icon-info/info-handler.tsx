@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import { IoMdClose } from "rocketicons/io";
 import { CodeStyler, CodeImportBlock, CodeElementBlock } from "@rocketclimb/code-block";
 import { CollectionID } from "rocketicons/data";
@@ -25,7 +26,6 @@ import CombinedSectionContent from "./interactive/combined-section-content";
 import DarkModeSectionContent from "./interactive/dark-mode-section-content";
 import StatesSectionContent from "./interactive/states-section-content";
 import AnimationsSectionContent from "./interactive/animations-section-content";
-import SvgBox from "./interactive/svg-box";
 
 const InfoHandler = ({
   lang,
@@ -65,6 +65,8 @@ const InfoHandler = ({
     group-data-[animation=animate-bounce]/icon-panel:animate-bounce group-data-[animation=animate-ping]/icon-panel:animate-ping
     group-data-[animation=animate-pulse]/icon-panel:animate-pulse group-data-[animation=animate-spin]/icon-panel:animate-spin
     `;
+
+  const SvgBox = dynamic(() => import("./interactive/svg-box"));
 
   return (
     <Box>
