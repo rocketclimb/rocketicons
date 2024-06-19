@@ -1,3 +1,9 @@
+## [0.4.1](https://github.com/rocketclimb/rocketicons/compare/v0.4.0-release...v0.4.1) (2024-06-19)
+
+### Miscellaneous
+
+- **deps** bump ws from 6.2.2 to 6.2.3 in the npm_and_yarn group ([0173565c](https://github.com/rocketclimb/rocketicons/commit/0173565c92c10d1577ee3400c98e8d7c743b7d58))
+
 ## [0.4.0](https://github.com/rocketclimb/rocketicons/compare/v0.3.4-release...v0.4.0) (2024-06-10)
 
 ### Features
