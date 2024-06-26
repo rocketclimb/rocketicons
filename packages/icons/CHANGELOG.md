@@ -1,3 +1,9 @@
+## [0.2.7](https://github.com/rocketclimb/rocketicons/compare/v0.4.0-release...v0.4.1) (2024-06-26)
+
+### Bug Fixes
+
+- **icons** promoting package out of beta ([cf574c4f](https://github.com/rocketclimb/rocketicons/commit/cf574c4fce5478284c2d564f832a8c3dfdc2eccf))
+
 ## [0.2.7-beta](https://github.com/rocketclimb/rocketicons/compare/v0.3.4-release...v0.4.0) (2024-06-10)
 
 ## [0.2.6-alpha](https://github.com/rocketclimb/rocketicons/compare/v0.3.3...v0.3.4) (2024-05-25)
