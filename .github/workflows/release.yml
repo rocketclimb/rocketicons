@@ -59,8 +59,13 @@ jobs:
           git config user.email ${{ env.AUTOMATION_USER_EMAIL }}
 
       - name: Creating Tag ${{ steps.set-tag.outputs.PENDING_TAG }}
+        if: steps.set-tag.outputs.PENDING_TAG != ''
         run: |
           git tag --force -a ${{ steps.set-tag.outputs.PENDING_TAG }} -m "${{ steps.set-tag.outputs.PENDING_TAG }}" && git push origin ${{ steps.set-tag.outputs.PENDING_TAG }}  --no-verify
+
+      - name: Warning about no Pending tag
+        if: steps.set-tag.outputs.PENDING_TAG == ''
+        run: echo "No pending tag found. Proceeding with Ignition publishing..."
 
   create-release:
     name: Create rocketicons release
@@ -117,9 +122,13 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Set NPM config
+        run: |
+          npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
+
       - name: Get Dependency Hash
         id: get-dependency-hash
-        run: echo "DEPENDENCY_HASH=$(npx --yes @rocketclimb/sh extract-dependencies)" >> $GITHUB_OUTPUT
+        run: echo "DEPENDENCY_HASH=$(npx --yes @rocketclimb/sh extract-dependencies --registry=https://npm.pkg.github.com)" >> $GITHUB_OUTPUT
 
   publish-ignition:
     name: Publish Ignition without rocketicons release
