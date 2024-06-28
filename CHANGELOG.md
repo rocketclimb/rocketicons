@@ -4,6 +4,12 @@
 
 - hover state was broken on state page ([69230c3d](https://github.com/rocketclimb/rocketicons/commit/69230c3d09607f784f9fc32449fa87cdd886b178))
 
+## [0.4.3](https://github.com/rocketclimb/rocketicons/compare/v0.4.1-release...v0.4.2) (2024-06-28)
+
+### Bug Fixes
+
+- hover state was broken on state page ([69230c3d](https://github.com/rocketclimb/rocketicons/commit/69230c3d09607f784f9fc32449fa87cdd886b178))
+
 ## [0.4.2](https://github.com/rocketclimb/rocketicons/compare/v0.4.1-release...v0.4.2) (2024-06-28)
 
 ### Bug Fixes
