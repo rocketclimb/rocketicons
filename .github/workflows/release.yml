@@ -59,8 +59,13 @@ jobs:
           git config user.email ${{ env.AUTOMATION_USER_EMAIL }}
 
       - name: Creating Tag ${{ steps.set-tag.outputs.PENDING_TAG }}
+        if: steps.set-tag.outputs.PENDING_TAG != ''
         run: |
           git tag --force -a ${{ steps.set-tag.outputs.PENDING_TAG }} -m "${{ steps.set-tag.outputs.PENDING_TAG }}" && git push origin ${{ steps.set-tag.outputs.PENDING_TAG }}  --no-verify
+
+      - name: Warning about no Pending tag
+        if: steps.set-tag.outputs.PENDING_TAG == ''
+        run: echo "No pending tag found. Proceeding with Ignition publishing..."
 
   create-release:
     name: Create rocketicons release
@@ -116,6 +121,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+
+      - name: Set NPM config
+        run: |
+          npm config set @rocketclimb:registry https://npm.pkg.github.com
+          npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get Dependency Hash
         id: get-dependency-hash

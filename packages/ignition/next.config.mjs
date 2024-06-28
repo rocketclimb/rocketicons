@@ -44,6 +44,19 @@ const nextConfig = {
     outputFileTracingIncludes: {
       "/[lang]/icons/[collectionid]/[iconid]": ["./src/app/data-helpers/svgs/svgs.db"]
     }
+  },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=0, s-maxage=31536000, must-revalidate"
+          }
+        ]
+      }
+    ];
   }
 };
 
