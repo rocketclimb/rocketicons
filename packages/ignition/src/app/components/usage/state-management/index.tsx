@@ -17,7 +17,7 @@ const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: stri
       <MdxPartial lang={lang} slug={"state-management"} path="docs" />
       <GridContainer>
         <div className="mx-auto w-32 my-8">
-          <Icon className="size-32 border border-transparent rounded-xl hover:border-primary-medium" />
+          <Icon className="size-32 rounded-xl hover:border hover:border-primary-medium" />
         </div>
       </GridContainer>
       <UpdateAlert alert="hover" lang={lang} />
@@ -25,7 +25,7 @@ const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: stri
         <div>
           <div
             data-cb-tag={icon}
-            className="size-32 border border-transparent rounded-xl hover:border-primary-medium"
+            className="size-32 rounded-xl hover:border hover:border-primary-medium"
           />
         </div>
       </CodeSample>
@@ -33,10 +33,10 @@ const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: stri
         <MdxPartial lang={lang} slug={"state-management/state-management-order"} path="docs" />
         <GridContainer>
           <div className="mx-auto flex justify-center gap-6 my-8">
-            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-background last:border-primary-medium" />
-            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-background last:border-primary-medium" />
-            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-background last:border-primary-medium" />
-            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl border border-transparent first:bg-background last:border-primary-medium" />
+            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl first:bg-background hover:border last:border-primary-medium" />
+            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl first:bg-background hover:border last:border-primary-medium" />
+            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl first:bg-background hover:border last:border-primary-medium" />
+            <Icon className="size-16 md:size-20 lg:size-32 rounded-xl first:bg-background hover:border last:border-primary-medium" />
           </div>
         </GridContainer>
         <CodeSample>

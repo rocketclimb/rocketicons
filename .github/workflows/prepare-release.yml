@@ -41,6 +41,11 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Set NPM config
+        run: |
+          npm config set @rocketclimb:registry https://npm.pkg.github.com
+          npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
+
       - name: Extract Dependencies
         id: extract-dependencies
         run: echo "DEPENDENCY_HASH=$(npx --yes @rocketclimb/sh extract-dependencies)" >> $GITHUB_OUTPUT

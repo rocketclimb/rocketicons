@@ -1,3 +1,27 @@
+## [0.4.4](https://github.com/rocketclimb/rocketicons/compare/v0.4.1-release...v0.4.2) (2024-06-28)
+
+### Bug Fixes
+
+- hover state was broken on state page ([69230c3d](https://github.com/rocketclimb/rocketicons/commit/69230c3d09607f784f9fc32449fa87cdd886b178))
+
+## [0.4.3](https://github.com/rocketclimb/rocketicons/compare/v0.4.1-release...v0.4.2) (2024-06-28)
+
+### Bug Fixes
+
+- hover state was broken on state page ([69230c3d](https://github.com/rocketclimb/rocketicons/commit/69230c3d09607f784f9fc32449fa87cdd886b178))
+
+## [0.4.2](https://github.com/rocketclimb/rocketicons/compare/v0.4.1-release...v0.4.2) (2024-06-28)
+
+### Bug Fixes
+
+- hover state was broken on state page ([69230c3d](https://github.com/rocketclimb/rocketicons/commit/69230c3d09607f784f9fc32449fa87cdd886b178))
+
+## [0.4.1](https://github.com/rocketclimb/rocketicons/compare/v0.4.0-release...v0.4.1) (2024-06-26)
+
+### Bug Fixes
+
+- **icons** promoting package out of beta ([cf574c4f](https://github.com/rocketclimb/rocketicons/commit/cf574c4fce5478284c2d564f832a8c3dfdc2eccf))
+
 ## [0.4.0](https://github.com/rocketclimb/rocketicons/compare/v0.3.4-release...v0.4.0) (2024-06-10)
 
 ### Features
