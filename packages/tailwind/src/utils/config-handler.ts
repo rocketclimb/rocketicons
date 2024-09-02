@@ -49,29 +49,30 @@ const toShortCutStyles = (theme: ThemeOptions, name: string, color: string, pref
 const generateConfig = <T extends ThemeOptions>(
   theme: T,
   parsedColors: ParsedColors,
-  prefix?: string
+  prefix: string = ""
 ) => {
-  const prefixToAdd = prefix ? prefix : "";
-
   const getDefaults = (): Defaults => {
     const pieces = theme.default!.split("-");
     const defaultSize = pieces.pop()!;
-    return { defaultColor: pieces.join("-"), defaultSize };
+
+    const defaultColor = pieces.join("-").replace(prefix, "");
+
+    return { defaultColor, defaultSize };
   };
 
   const { defaultColor, defaultSize } = getDefaults();
 
   const colors = () =>
     ([] as StyleHandler[]).concat(
-      ...AVAILABLE_VARIANTS.map((variant) => toColorsStyles(parsedColors, variant, prefixToAdd))
+      ...AVAILABLE_VARIANTS.map((variant) => toColorsStyles(parsedColors, variant, prefix))
     );
 
   const sizes = () =>
     ([] as StyleHandler[]).concat(
       ([] as StyleHandler[]).concat(
         ...Object.keys(theme.sizes).map((size) => ({
-          name: () => `${size}`,
-          styles: () => `${sanitize(theme.sizes[size])}`
+          name: () => size,
+          styles: () => sanitize(theme.sizes[size])
         }))
       )
     );
@@ -90,7 +91,7 @@ const generateConfig = <T extends ThemeOptions>(
       name: () => `${DEFAULT_CLASS_NAME}${CLASS_NAME_SEPARATOR}${variant}`,
       styles: () =>
         sanitize(
-          `${theme.variants?.[variant] ?? ""} ${prefixToAdd}${VARIANT_CLASSES[variant]}-${parsedColors[defaultColor]}`
+          `${theme.variants?.[variant] ?? ""} ${prefix}${VARIANT_CLASSES[variant]}-${parsedColors[defaultColor]}`
         )
     }))
   ];
@@ -98,7 +99,7 @@ const generateConfig = <T extends ThemeOptions>(
   const shortcuts = () =>
     ([] as StyleHandler[]).concat(
       ...Object.entries(parsedColors).map(([name, color]) =>
-        toShortCutStyles(theme, name, color, prefixToAdd)
+        toShortCutStyles(theme, name, color, prefix)
       )
     );
 
