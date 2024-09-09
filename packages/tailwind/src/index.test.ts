@@ -13,6 +13,11 @@ import { iconPlugin, nativeIconPlugin } from "./index";
 const sourceCssFile = path.join(path.resolve(process.cwd()), "src/index.test.css");
 const sourceNativeCssFile = path.join(path.resolve(process.cwd()), "src/index.native.test.css");
 
+const prefixedSourceCssFile = path.join(
+  path.resolve(process.cwd()),
+  "src/index.prefixed.test.css"
+);
+
 describe("plugin", () => {
   describe("web", () => {
     test("Should generate the css without creating a giant bundler", async () => {
@@ -83,6 +88,30 @@ describe("plugin", () => {
           from: undefined
         }
       );
+      expect(css).toBe(expectation.toString());
+    });
+  });
+
+  describe("Tailwind with prefix", () => {
+    test("Should generate the css with prefix", async () => {
+      const expectation = fs.readFileSync(prefixedSourceCssFile);
+      const config = resolveConfig({
+        ...tailwindConfig,
+        plugins: [iconPlugin],
+        prefix: "xpto-",
+        safelist: [
+          {
+            pattern: /icon-*/
+          }
+        ]
+      });
+      const { css } = await postcss([tailwind(config as unknown as Config)]).process(
+        "@tailwind components;",
+        {
+          from: undefined
+        }
+      );
+
       expect(css).toBe(expectation.toString());
     });
   });
