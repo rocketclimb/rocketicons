@@ -1,3 +1,4 @@
 **/*mdx
 packages/tailwind/src/index.test.css
+packages/tailwind/src/index.prefixed.test.css
 packages/tailwind/src/index.native.test.css

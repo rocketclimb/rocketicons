@@ -22,15 +22,15 @@ export const ROOT_CLASS_NAME = "ri";
 export const DEFAULT_CLASS_NAME = "default";
 export const CLASS_NAME_SEPARATOR = ".";
 
-const toColorsStyles = (parsedColors: ParsedColors, variant: Variant) =>
+const toColorsStyles = (parsedColors: ParsedColors, variant: Variant, prefix?: string) =>
   ([] as StyleHandler[]).concat(
     ...Object.entries(parsedColors).map(([name, color]) => ({
       name: () => `${name}${CLASS_NAME_SEPARATOR}${variant}`,
-      styles: () => `${VARIANT_CLASSES[variant]}-${color}`
+      styles: () => `${prefix}${VARIANT_CLASSES[variant]}-${color}`
     }))
   );
 
-const toShortCutStyles = (theme: ThemeOptions, name: string, color: string) =>
+const toShortCutStyles = (theme: ThemeOptions, name: string, color: string, prefix?: string) =>
   ([] as StyleHandler[]).concat(
     ...Object.keys(theme.sizes).map((size) =>
       ([] as StyleHandler[]).concat([
@@ -40,31 +40,38 @@ const toShortCutStyles = (theme: ThemeOptions, name: string, color: string) =>
         },
         ...AVAILABLE_VARIANTS.map((variant) => ({
           name: () => `${name}-${size}${CLASS_NAME_SEPARATOR}${variant}`,
-          styles: () => `${VARIANT_CLASSES[variant]}-${color}`
+          styles: () => `${prefix}${VARIANT_CLASSES[variant]}-${color}`
         }))
       ])
     )
   );
 
-const generateConfig = <T extends ThemeOptions>(theme: T, parsedColors: ParsedColors) => {
+const generateConfig = <T extends ThemeOptions>(
+  theme: T,
+  parsedColors: ParsedColors,
+  prefix: string = ""
+) => {
   const getDefaults = (): Defaults => {
     const pieces = theme.default!.split("-");
     const defaultSize = pieces.pop()!;
-    return { defaultColor: pieces.join("-"), defaultSize };
+
+    const defaultColor = pieces.join("-").replace(prefix, "");
+
+    return { defaultColor, defaultSize };
   };
 
   const { defaultColor, defaultSize } = getDefaults();
 
   const colors = () =>
     ([] as StyleHandler[]).concat(
-      ...AVAILABLE_VARIANTS.map((variant) => toColorsStyles(parsedColors, variant))
+      ...AVAILABLE_VARIANTS.map((variant) => toColorsStyles(parsedColors, variant, prefix))
     );
 
   const sizes = () =>
     ([] as StyleHandler[]).concat(
       ([] as StyleHandler[]).concat(
         ...Object.keys(theme.sizes).map((size) => ({
-          name: () => `${size}`,
+          name: () => size,
           styles: () => sanitize(theme.sizes[size])
         }))
       )
@@ -84,14 +91,16 @@ const generateConfig = <T extends ThemeOptions>(theme: T, parsedColors: ParsedCo
       name: () => `${DEFAULT_CLASS_NAME}${CLASS_NAME_SEPARATOR}${variant}`,
       styles: () =>
         sanitize(
-          `${theme.variants?.[variant] ?? ""} ${VARIANT_CLASSES[variant]}-${parsedColors[defaultColor]}`
+          `${theme.variants?.[variant] ?? ""} ${prefix}${VARIANT_CLASSES[variant]}-${parsedColors[defaultColor]}`
         )
     }))
   ];
 
   const shortcuts = () =>
     ([] as StyleHandler[]).concat(
-      ...Object.entries(parsedColors).map(([name, color]) => toShortCutStyles(theme, name, color))
+      ...Object.entries(parsedColors).map(([name, color]) =>
+        toShortCutStyles(theme, name, color, prefix)
+      )
     );
 
   return {
@@ -102,7 +111,10 @@ const generateConfig = <T extends ThemeOptions>(theme: T, parsedColors: ParsedCo
   };
 };
 
-export const configHandler = <T extends ThemeOptions>(config: Config): ThemeHandler<T> => {
+export const configHandler = <T extends ThemeOptions>(
+  config: Config,
+  prefix?: string
+): ThemeHandler<T> => {
   const themeColors: ConfigProp = config("theme").colors;
 
   const getColorDefaults = (color: string, variants: ConfigProp) => {
@@ -140,6 +152,6 @@ export const configHandler = <T extends ThemeOptions>(config: Config): ThemeHand
       rootPath: "components",
       defaultConfig: defaultTheme
     });
-    return generateConfig(theme, parsedColors);
+    return generateConfig(theme, parsedColors, prefix);
   };
 };
