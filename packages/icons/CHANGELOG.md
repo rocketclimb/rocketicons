@@ -1,3 +1,9 @@
+## [0.2.8](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.4.3) (2024-09-09)
+
+### Bug Fixes
+
+- **icons** correct handling of tailwind prefix ([c383d05b](https://github.com/rocketclimb/rocketicons/commit/c383d05b0777eac03de994cb8a17d10057dac81c))
+
 ## [0.2.7](https://github.com/rocketclimb/rocketicons/compare/v0.4.0-release...v0.4.1) (2024-06-26)
 
 ### Bug Fixes
