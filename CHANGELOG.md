@@ -4,6 +4,12 @@
 
 - **icons** correct handling of tailwind prefix [[tailwind](./packages/tailwind/CHANGELOG.md)] ([c383d05b](https://github.com/rocketclimb/rocketicons/commit/c383d05b0777eac03de994cb8a17d10057dac81c))
 
+## [0.4.5](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.4.3) (2024-09-09)
+
+### Bug Fixes
+
+- **icons** correct handling of tailwind prefix [[tailwind](./packages/tailwind/CHANGELOG.md)] ([c383d05b](https://github.com/rocketclimb/rocketicons/commit/c383d05b0777eac03de994cb8a17d10057dac81c))
+
 ## [0.4.4](https://github.com/rocketclimb/rocketicons/compare/v0.4.1-release...v0.4.2) (2024-06-28)
 
 ### Bug Fixes
