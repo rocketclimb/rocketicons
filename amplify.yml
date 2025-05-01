@@ -4,7 +4,7 @@ frontend:
     preBuild:
       commands:
         - npm config set @rocketclimb:registry https://npm.pkg.github.com
-        - npm config set //npm.pkg.github.com/:_authToken $GITHUB_TOKEN # temp comment
+        - npm config set //npm.pkg.github.com/:_authToken TEST #$GITHUB_TOKEN # temp comment
         - npm install --cache .npm --prefer-offline
     build:
       commands:
