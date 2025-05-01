@@ -1,0 +1,17 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm install --cache .npm --prefer-offline
+    build:
+      commands:
+        - npm run build-all
+  artifacts:
+    baseDirectory: packages/ignition/.next
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - packages/ignition/.next/cache/**/*
+      - .npm/**/*
