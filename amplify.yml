@@ -3,11 +3,11 @@ frontend:
   phases:
     preBuild:
       commands:
+        - npm config set @rocketclimb:registry https://npm.pkg.github.com
+        - npm config set //npm.pkg.github.com/:_authToken $GITHUB_TOKEN
         - npm install --cache .npm --prefer-offline
     build:
       commands:
-        - npm config set @rocketclimb:registry https://npm.pkg.github.com
-        - npm config set //npm.pkg.github.com/:_authToken $GITHUB_TOKEN
         - npm run build-all
   artifacts:
     baseDirectory: packages/ignition/.next
