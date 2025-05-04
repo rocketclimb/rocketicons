@@ -17,3 +17,4 @@ frontend:
     paths:
       - packages/ignition/.next/cache/**/*
       - .npm/**/*
+  appRoot: packages/ignition
