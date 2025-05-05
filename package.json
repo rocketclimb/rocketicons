@@ -34,7 +34,8 @@
     "test-all": "npm run test --workspaces --if-present",
     "format-all": "npm run format --workspaces --if-present",
     "lint-all": "npm run lint --workspaces --if-present",
-    "release": "npx rocketclimb-sh releaser"
+    "release": "npx rocketclimb-sh releaser",
+    "start": "npm run start -w packages/ignition"
   },
   "devDependencies": {
     "@aws-amplify/backend": "^1.16.0",
