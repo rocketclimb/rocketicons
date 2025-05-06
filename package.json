@@ -37,6 +37,9 @@
     "release": "npx rocketclimb-sh releaser",
     "start": "npm run start -w packages/ignition"
   },
+  "dependencies": {
+    "next": "^14.2"
+  },
   "devDependencies": {
     "@aws-amplify/backend": "^1.16.0",
     "@aws-amplify/backend-cli": "^1.7.0",
