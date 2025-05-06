@@ -32,6 +32,7 @@ const packagesToOptimize = IconsManifest.map(({ id }) => `rocketicons/${id}`);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
 
   webpack: (config) => {
