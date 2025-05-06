@@ -10,6 +10,10 @@ frontend:
     build:
       commands:
         - npm run build-all
+    postBuild:
+      commands:
+        - rm -rf node_modules/@swc
+        - rm -rf node_modules/@esbuild
   artifacts:
     baseDirectory: packages/ignition/.next
     files:
