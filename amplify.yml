@@ -1,6 +1,6 @@
 version: 1
 frontend:
-  appRoot: packages/ignition
+  # appRoot: packages/ignition
   phases:
     preBuild:
       commands:
