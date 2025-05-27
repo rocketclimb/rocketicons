@@ -41,4 +41,7 @@ next-env.d.ts
 
 src/app/data-helpers
 
+# Generated icon JSON files (generated during build)
+/public/icons
+
 .env

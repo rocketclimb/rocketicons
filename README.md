@@ -65,3 +65,46 @@ This project is licensed under the [MIT License](https://github.com/rocketclimb/
 </a>
 
 © 2024 rocketclimb
+
+## Bundle Optimization ⚡
+
+This repository has been optimized for fast deployments and reduced bundle sizes. See [`BUNDLE-OPTIMIZATION.md`](./BUNDLE-OPTIMIZATION.md) for complete details.
+
+### Quick Commands
+
+#### Production Deployment (Fast)
+
+```bash
+npm run vercel-build-static  # 95% faster builds, skips icon generation
+```
+
+#### Development
+
+```bash
+npm run build                # Local development build
+npm run start               # Start ignition app
+```
+
+#### Icon Management
+
+```bash
+npm run generate-icons      # Update icons (run locally, then commit)
+npm run generate-icons-force # Force re-download and regenerate
+```
+
+#### Bundle Analysis
+
+```bash
+npm run size-check          # Analyze bundle sizes
+```
+
+### Build Modes
+
+- **Production**: Uses pre-built icons (fast, optimized)
+- **Development**: Limited icons for faster local development
+- **Sample**: Medium set of icons for testing
+- **Full**: All icons (slow, only when updating icons)
+
+---
+
+## 🚀 Features

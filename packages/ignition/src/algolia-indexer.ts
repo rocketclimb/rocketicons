@@ -3,7 +3,7 @@ import algoliasearch from "algoliasearch";
 import { allDocs } from "content-collections";
 import { siteConfig } from "@/config/site";
 import { serverEnv } from "@/env/server";
-import { IconsManifest } from "rocketicons/data";
+import { IconsManifest } from "@/data-helpers/icons/manifest-from-public";
 import consoleColors from "./console-colors.json";
 
 type AlgoliaIndexRecord = {
@@ -30,15 +30,15 @@ const indexer = async () => {
 
     const availableLocales = siteConfig.locales;
 
-    // flatten the iconmanifest.icons into a single array where the group is collection.id
+    // flatten the iconsManifest into a single array where the group is collection.id
     const transformedIcons: AlgoliaIndexRecord[] = IconsManifest.flatMap((collection) =>
-      collection.icons.map((icon) => ({
-        objectID: `${collection.id}-${toKebabCase(icon.substring(2))}`,
-        title: `${toKebabCase(icon.substring(2)).replaceAll("-", " ")}`,
+      Object.values(collection.iconsManifest).map((iconData: any) => ({
+        objectID: `${collection.id}-${iconData.id}`,
+        title: iconData.name,
         group: collection.id,
         groupName: collection.name,
         locale: "", // Add the appropriate locale value here
-        text: icon,
+        text: iconData.compName,
         isIcon: true
       }))
     );

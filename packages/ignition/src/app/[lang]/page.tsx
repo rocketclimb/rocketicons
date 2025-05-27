@@ -3,13 +3,13 @@ import Link from "next/link";
 import { MdxComponent } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangParams } from "@/types";
-import { RcRocketIcon } from "rocketicons/rc";
 import RocketIconsText from "@/components/rocketicons-text";
 import SearchButton from "@/app/components/search/search";
 import { withLocale } from "@/locales/with-locale";
 import Footer from "@/components/footer";
 import { customMetadata } from "@/components/metadata-custom";
 import { withStructuredData } from "@/config";
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
 
 export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
   const { component } = withLocale(lang);
@@ -129,14 +129,21 @@ const Home = ({ params: { lang } }: PropsWithLangParams) => {
             ]}
           >
             <div className="h-32">
-              <RcRocketIcon data-cb-tag="RcRocketIcon" className="size-10" />
+              <PublicJSONIcon
+                collection="rc"
+                name="RcRocketIcon"
+                data-cb-tag="RcRocketIcon"
+                className="size-10"
+              />
               <div>
                 <div className="text-primary text-xl xs:text-2xl font-light dark:text-primary-dark mt-1 xs:mt-2">
                   <RocketIconsText data-cb-tag="RocketIconsText" />
                 </div>
                 <div className="mr-2 text-sm xs:text-base">
                   Styling in a way
-                  <RcRocketIcon
+                  <PublicJSONIcon
+                    collection="rc"
+                    name="RcRocketIcon"
                     data-cb-tag="RcRocketIcon"
                     className="icon-slate-900-base dark:icon-red-500-base"
                   />

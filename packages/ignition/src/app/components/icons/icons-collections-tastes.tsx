@@ -1,11 +1,9 @@
 "use client";
 import { Fragment, useEffect, useState } from "react";
-import { IconsManifestType } from "rocketicons/core";
-import { CollectionID, License } from "rocketicons/data";
+import { CollectionID, License } from "@/app/components/icons/types";
+import { CollectionInfo } from "@/app/data-helpers/icons/manifest-from-public";
 
 import Link from "next/link";
-
-import { IoMdClose } from "rocketicons/io";
 
 import { withLocale } from "@/locales";
 import { PropsWithChildrenAndClassName, PropsWithChildrenAndLang, PropsWithLang } from "@/types";
@@ -17,7 +15,8 @@ import NumberFormatter from "@/components/number-formatter";
 import IconsLoader, { HandlerPros } from "@/data-helpers/icons/icons-loader";
 import tastesLoader from "@/data-helpers/icons/tastes-loader";
 
-const MAX_ITEMS = 200;
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
+const MAX_ITEMS = 200; // Show "Show more Icons" button for collections with more than 200 icons
 
 type TitleProps = {
   name: string;
@@ -97,24 +96,22 @@ type ItemsProps = {
 const Items = ({ id, lang, manifest, collection }: ItemsProps) => {
   return (
     <>
-      {Object.values(manifest.icons)
-        .slice(0, MAX_ITEMS)
-        .map(({ id: iconId, name, compName }) => {
-          const Icon = collection[compName];
-          return (
-            <li key={iconId}>
-              <Item lang={lang} id={id} iconId={iconId} name={name}>
-                <Icon className="transition-all duration-200 transform-gpu icon-sky-900 icon-xl xs:icon-2xl lg:icon-4xl dark:icon-sky-500 group-hover/button:icon-2xl group-hover/button:xs:icon-3xl group-hover/button:lg:icon-5xl" />
-              </Item>
-            </li>
-          );
-        })}
+      {Object.values(manifest.iconsManifest).map(({ id: iconId, name, compName }) => {
+        const Icon = collection[compName];
+        return (
+          <li key={iconId}>
+            <Item lang={lang} id={id} iconId={iconId} name={name}>
+              <Icon className="transition-all duration-200 transform-gpu icon-sky-900 icon-xl xs:icon-2xl lg:icon-4xl dark:icon-sky-500 group-hover/button:icon-2xl group-hover/button:xs:icon-3xl group-hover/button:lg:icon-5xl" />
+            </Item>
+          </li>
+        );
+      })}
     </>
   );
 };
 
 type IconsCollectionsProps = PropsWithLang & {
-  manifests: IconsManifestType<CollectionID, License>[];
+  manifests: CollectionInfo[];
 };
 
 const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
@@ -126,87 +123,120 @@ const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
 
   return (
     <ul className="transition-all duration-300 mt-6 grid grid-cols-1 xs:grid-cols-2 grid-flow-dense lg:grid-cols-3 gap-3 min-[1218px]:pt-1">
-      {manifests.map(({ id, name, totalIcons }, i) => {
-        const tastes = tastesLoader(id);
-        const isSelected = id === selected;
+      {manifests
+        .filter(
+          (manifest) =>
+            manifest &&
+            typeof manifest === "object" &&
+            manifest.id &&
+            manifest.name &&
+            typeof manifest.id === "string" &&
+            typeof manifest.name === "string" &&
+            manifest.iconsManifest &&
+            Object.keys(manifest.iconsManifest).length > 0 &&
+            typeof manifest.totalIcons === "number"
+        )
+        .map(({ id, name, totalIcons }, i) => {
+          // Safely load tastes
+          let tastes: any[] = [];
+          try {
+            tastes = tastesLoader(id);
+          } catch (err) {
+            console.warn(`Failed to load tastes for ${id}:`, err);
+          }
 
-        return (
-          <Fragment key={i}>
-            <LiContainer
-              id={id}
-              selected={selected}
-              className="group/collapsed data-[selected=true]:hidden data-[selected=true]:xs:block"
-            >
-              <div
-                onClick={() => !isSelected && setSelected(id)}
-                onKeyDown={({ key }) => key === "Enter" && !isSelected && setSelected(id)}
-                role="button"
-                tabIndex={0}
-                className="transition-all duration-200 group-data-[selected=false]/collapsed:hover:scale-[1.01] group-data-[selected=true]/collapsed:opacity-60"
-              >
-                <Title name={name} />
-                <p className="text-xs lg:text-sm text-primary-light rounded h-4 w-20 has-[span]:h-auto has-[span]:w-auto">
-                  <span className="capitalize">
-                    <NumberFormatter lang={lang} number={totalIcons} /> {icon}
-                    {totalIcons > 1 && "s"}
-                  </span>
-                </p>
+          // Ensure tastes is an array
+          if (!Array.isArray(tastes)) {
+            tastes = [];
+          }
 
-                <UlContainer className="group-data-[selected=true]/collapsed:opacity-0 md:my-1 justify-between group-data-[selected=false]/collapsed:[mask-image:--icons-fade]">
-                  {tastes.slice(0, 10).map((Icon, i) => (
-                    <li key={i}>
-                      <Icon className="icon-sky-900-base dark:icon-sky-500-base xs:icon-sky-900-lg dark:xs:icon-sky-500-lg lg:icon-sky-900-xl dark:lg:icon-sky-500-xl" />
-                    </li>
-                  ))}
-                </UlContainer>
-              </div>
-            </LiContainer>
-            {isSelected && (
+          const isSelected = id === selected;
+
+          return (
+            <Fragment key={i}>
               <LiContainer
                 id={id}
                 selected={selected}
-                className="group/expanded relative data-[selected=true]:col-span-1 data-[selected=true]:xs:col-span-2 data-[selected=true]:lg:col-span-3"
+                className="group/collapsed data-[selected=true]:hidden data-[selected=true]:xs:block"
               >
-                <Title name={name} />
-                <Button
-                  onClick={() => setSelected("")}
-                  className="absolute top-1 right-2 w-8 h-8 items-center justify-center flex"
+                <div
+                  onClick={() => !isSelected && setSelected(id)}
+                  onKeyDown={({ key }) => key === "Enter" && !isSelected && setSelected(id)}
+                  role="button"
+                  tabIndex={0}
+                  className="transition-all duration-200 group-data-[selected=false]/collapsed:hover:scale-[1.01] group-data-[selected=true]/collapsed:opacity-60"
                 >
-                  <IoMdClose className="icon-slate-500 hover:icon-slate-600 dark:icon-slate-400 dark:hover:icon-slate-300" />
-                </Button>
-                <UlContainer className="opacity-0 has-[a]:opacity-100 min-h-32 justify-between px-0.5 gap-y-5 flex-wrap mt-4">
-                  <IconsLoader
-                    collectionId={id}
-                    Handler={Items}
-                    Loading={() => <ItemsLoader size={totalIcons} />}
-                    id={id}
-                    lang={lang}
-                  />
-                </UlContainer>
-                {totalIcons > MAX_ITEMS && (
-                  <div className="absolute inset-x-0 h-40 mx-0.5 bottom-1 bg-surface dark:bg-surface-dark">
-                    <UlContainer className="px-6 pt-12 gap-x-5 flex-wrap justify-start h-24 sm:h-28 overflow-hidden">
-                      {tastes.slice(0, 10).map((Icon, i) => (
-                        <Item lang={lang} key={i} id={id}>
-                          <Icon className="transition-all duration-200 transform-gpu icon-sky-900 dark:icon-sky-500 icon-4xl group-hover/button:icon-5xl" />
-                        </Item>
-                      ))}
-                    </UlContainer>
-                    <div className="absolute h-full w-full flex justify-center items-center bottom-0 rounded-xl bg-gradient-to-t from-background dark:from-background-dark">
-                      <Link
-                        href={`/${lang}/icons/${id}`}
-                        className="transition duration-300 rounded-lg px-3 py-1 text-base text-on-surface dark:text-on-surface-dark border border-surface-border ring-1 ring-inset ring-surface/10 hover:ring-secondary-dark/95 hover:scale-105 dark:border-secondary-dark bg-surface dark:bg-surface-dark"
-                      >
-                        {showAllLabel}
-                      </Link>
-                    </div>
-                  </div>
-                )}
+                  <Title name={name} />
+                  <p className="text-xs lg:text-sm text-primary-light rounded h-4 w-20 has-[span]:h-auto has-[span]:w-auto">
+                    <span className="capitalize">
+                      <NumberFormatter lang={lang} number={totalIcons} /> {icon}
+                      {totalIcons > 1 && "s"}
+                    </span>
+                  </p>
+
+                  <UlContainer className="group-data-[selected=true]/collapsed:opacity-0 md:my-1 justify-between group-data-[selected=false]/collapsed:[mask-image:--icons-fade]">
+                    {(tastes && Array.isArray(tastes) ? tastes.slice(0, 10) : []).map(
+                      (Icon, i) => (
+                        <li key={i}>
+                          <Icon className="icon-sky-900-base dark:icon-sky-500-base xs:icon-sky-900-lg dark:xs:icon-sky-500-lg lg:icon-sky-900-xl dark:lg:icon-sky-500-xl" />
+                        </li>
+                      )
+                    )}
+                  </UlContainer>
+                </div>
               </LiContainer>
-            )}
-          </Fragment>
-        );
-      })}
+              {isSelected && (
+                <LiContainer
+                  id={id}
+                  selected={selected}
+                  className="group/expanded relative data-[selected=true]:col-span-1 data-[selected=true]:xs:col-span-2 data-[selected=true]:lg:col-span-3"
+                >
+                  <Title name={name} />
+                  <Button
+                    onClick={() => setSelected("")}
+                    className="absolute top-1 right-2 w-8 h-8 items-center justify-center flex"
+                  >
+                    <PublicJSONIcon
+                      collection="io"
+                      iconId="io-md-close"
+                      className="icon-slate-500 hover:icon-slate-600 dark:icon-slate-400 dark:hover:icon-slate-300"
+                    />
+                  </Button>
+                  <UlContainer className="opacity-0 has-[a]:opacity-100 min-h-32 justify-between px-0.5 gap-y-5 flex-wrap mt-4">
+                    <IconsLoader
+                      collectionId={id}
+                      Handler={Items}
+                      Loading={() => <ItemsLoader size={totalIcons} />}
+                      id={id}
+                      lang={lang}
+                    />
+                  </UlContainer>
+                  {totalIcons > MAX_ITEMS && (
+                    <div className="absolute inset-x-0 h-40 mx-0.5 bottom-1 bg-surface dark:bg-surface-dark">
+                      <UlContainer className="px-6 pt-12 gap-x-5 flex-wrap justify-start h-24 sm:h-28 overflow-hidden">
+                        {(tastes && Array.isArray(tastes) ? tastes.slice(0, 10) : []).map(
+                          (Icon, i) => (
+                            <Item lang={lang} key={i} id={id}>
+                              <Icon className="transition-all duration-200 transform-gpu icon-sky-900 dark:icon-sky-500 icon-4xl group-hover/button:icon-5xl" />
+                            </Item>
+                          )
+                        )}
+                      </UlContainer>
+                      <div className="absolute h-full w-full flex justify-center items-center bottom-0 rounded-xl bg-gradient-to-t from-background dark:from-background-dark">
+                        <Link
+                          href={`/${lang}/icons/${id}`}
+                          className="transition duration-300 rounded-lg px-3 py-1 text-base text-on-surface dark:text-on-surface-dark border border-surface-border ring-1 ring-inset ring-surface/10 hover:ring-secondary-dark/95 hover:scale-105 dark:border-secondary-dark bg-surface dark:bg-surface-dark"
+                        >
+                          {showAllLabel}
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                </LiContainer>
+              )}
+            </Fragment>
+          );
+        })}
     </ul>
   );
 };

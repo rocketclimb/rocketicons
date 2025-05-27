@@ -6,7 +6,7 @@ import { IconsCollectionsProps } from "./types";
 
 const Content = ({ id, lang, manifest, collection }: HandlerPros & IconsCollectionsProps) => (
   <ul className="transition-all duration-200 ml-0 mt-10 peer-data-[open=true]/info:min-h-[655px] flex justify-between gap-x-2 gap-y-4 flex-wrap">
-    {Object.values(manifest.icons).map((iconInfo) => {
+    {Object.values(manifest.iconsManifest).map((iconInfo) => {
       const { id: iconId, name, compName } = iconInfo;
       const Icon = collection[compName];
       return (

@@ -3,7 +3,7 @@ import "@/utils";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { Languages, PropsWithLang } from "@/types";
-import { IconsManifest } from "@/data-helpers/icons/manifest";
+import { IconsManifest } from "@/data-helpers/icons/manifest-from-public";
 import RocketIconsText from "@/components/rocketicons-text";
 import { siteConfig } from "@/config/site";
 import { MainComponent, Slug, Component, ComponentsAsList, DocsAsList } from "@/locales/types";

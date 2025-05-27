@@ -1,8 +1,15 @@
-import { IconInfo, IconProps, IconType } from "rocketicons";
-import { RcRocketIcon } from "rocketicons/rc";
-import { CollectionID } from "rocketicons/data";
+import { CollectionID, IconProps, IconType } from "@/app/components/icons/types";
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
 import IconsLoader, { HandlerPros } from "@/data-helpers/icons/icons-loader";
 import { getCollectionsInfo, asCompName } from "./get-icons-data";
+
+// Local IconInfo type to avoid bundling
+interface IconInfo {
+  id: string;
+  name: string;
+  compName: string;
+  variant: string;
+}
 
 export type IconHandlerProps = {
   Icon: IconType;
@@ -24,7 +31,82 @@ const IconProxyHandler = <T extends IconHandlerProps>({
   function IconProxyLoader({ collection, manifest, ..._props }: HandlerPros) {
     const iconId = asCompName(icon);
     const Icon = collection[iconId];
-    const iconInfo = manifest.icons[iconId];
+
+    // Handle case where manifest or manifest.iconsManifest is undefined/invalid
+    if (!manifest || !manifest.iconsManifest || typeof manifest.iconsManifest !== "object") {
+      console.warn(`Invalid manifest for collection ${collectionId}:`, manifest);
+      return Handler ? (
+        // @ts-ignore TS2322
+        <Handler
+          Icon={(props: any) => (
+            <PublicJSONIcon collection="rc" iconId="rc-rocket-icon" {...props} />
+          )}
+          iconInfo={{
+            id: "unknown",
+            name: "Unknown",
+            compName: "RcRocketIcon",
+            variant: "outlined"
+          }}
+          collectionId={collectionId}
+          {..._props}
+          {...props}
+        />
+      ) : (
+        <PublicJSONIcon collection="rc" iconId="rc-rocket-icon" {..._props} {...props} />
+      );
+    }
+
+    // Find icon by component name in iconsManifest
+    const iconInfo = Object.values(manifest.iconsManifest).find(
+      (icon) => icon.compName === iconId
+    );
+
+    // Handle case where specific icon info is not found
+    if (!iconInfo || !iconInfo.name) {
+      console.warn(
+        `Icon info not found for ${iconId} in collection ${collectionId}. Available icons:`,
+        Object.values(manifest.iconsManifest).map((icon) => icon.compName)
+      );
+      return Handler ? (
+        // @ts-ignore TS2322
+        <Handler
+          Icon={(props: any) => (
+            <PublicJSONIcon collection="rc" iconId="rc-rocket-icon" {...props} />
+          )}
+          iconInfo={{
+            id: iconId || "unknown",
+            name: icon || "Unknown",
+            compName: "RcRocketIcon",
+            variant: "outlined"
+          }}
+          collectionId={collectionId}
+          {..._props}
+          {...props}
+        />
+      ) : (
+        <PublicJSONIcon collection="rc" iconId="rc-rocket-icon" {..._props} {...props} />
+      );
+    }
+
+    // Handle case where Icon component is not found
+    if (!Icon) {
+      console.warn(`Icon component ${iconId} not found in collection ${collectionId}`);
+      return Handler ? (
+        // @ts-ignore TS2322
+        <Handler
+          Icon={(props: any) => (
+            <PublicJSONIcon collection="rc" iconId="rc-rocket-icon" {...props} />
+          )}
+          iconInfo={iconInfo}
+          collectionId={collectionId}
+          {..._props}
+          {...props}
+        />
+      ) : (
+        <PublicJSONIcon collection="rc" iconId="rc-rocket-icon" {..._props} {...props} />
+      );
+    }
+
     props = { ..._props, ...props };
     return (
       (Handler && (
@@ -50,7 +132,15 @@ const IconLoader = <T extends IconHandlerProps>({
   if (!getCollectionsInfo(collectionId).exists(icon)) {
     return (
       // @ts-ignore TS2322
-      (Handler && <Handler Icon={RcRocketIcon} {...props} />) || <RcRocketIcon {...props} />
+      (Handler && (
+        // @ts-ignore TS2322
+        <Handler
+          Icon={(props: any) => (
+            <PublicJSONIcon collection="rc" iconId="rc-rocket-icon" {...props} />
+          )}
+          {...props}
+        />
+      )) || <PublicJSONIcon collection="rc" iconId="rc-rocket-icon" {...props} />
     );
   }
 

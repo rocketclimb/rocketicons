@@ -1,8 +1,6 @@
 "use client";
 import { useState } from "react";
-import { IconType } from "rocketicons";
-import { BsMoonStars, BsSun } from "rocketicons/bs";
-import { MdOutlineMonitor, MdKeyboardArrowDown } from "rocketicons/md";
+import { IconType } from "@/app/components/icons/types";
 
 import useThemeHandler, { ThemeOptions } from "@/hooks/use-theme-handler";
 import useKeyboardShortcut from "@/hooks/use-keyboard-shortcut";
@@ -12,6 +10,7 @@ import { PropsWithClassName, PropsWithLang } from "@/types";
 
 import Button from "@/components/button";
 
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
 type SelectorsProps = {
   selectors: Selector[];
 };
@@ -101,7 +100,11 @@ const ThemeSelectorAsMenu = ({
         onClick={() => toggle()}
       >
         <SelectedTheme selectors={selectors} />
-        <MdKeyboardArrowDown className="ml-2 icon-primary-lighter" />
+        <PublicJSONIcon
+          collection="md"
+          iconId="md-keyboard-arrow-down"
+          className="ml-2 icon-primary-lighter"
+        />
       </Button>
       <SelectorMenu
         className="right-5"
@@ -127,9 +130,23 @@ const ThemeSelector = ({ lang }: PropsWithLang) => {
   const [showing, setShowing] = useState<boolean>(false);
 
   const selectors: Selector[] = [
-    { theme: "dark", label: themes.dark, Icon: BsMoonStars },
-    { theme: "light", label: themes.light, Icon: BsSun },
-    { theme: "system", label: themes.system, Icon: MdOutlineMonitor }
+    {
+      theme: "dark",
+      label: themes.dark,
+      Icon: (props: any) => <PublicJSONIcon collection="bs" iconId="bs-moon-stars" {...props} />
+    },
+    {
+      theme: "light",
+      label: themes.light,
+      Icon: (props: any) => <PublicJSONIcon collection="bs" iconId="bs-sun" {...props} />
+    },
+    {
+      theme: "system",
+      label: themes.system,
+      Icon: (props: any) => (
+        <PublicJSONIcon collection="md" iconId="md-outline-monitor" {...props} />
+      )
+    }
   ];
 
   const updateTheme = (theme: ThemeOptions) => {

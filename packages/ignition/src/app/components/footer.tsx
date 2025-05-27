@@ -1,6 +1,6 @@
 import React from "react";
 import RocketClimbText from "@/app/components/rocketclimb-text";
-import { FaDiscord } from "rocketicons/fa";
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
 import Link from "next/link";
 import GitHubIcon from "@/app/components/github-icon";
 
@@ -20,7 +20,11 @@ const Footer = ({ className }: { className?: string }) => {
           title="Join our Discord server!"
         >
           <span className="text-primary-dark text-[1px] dark:text-primary">Discord</span>
-          <FaDiscord className="icon-slate-500 hover:icon-slate-600 dark:hover:icon-slate-400" />
+          <PublicJSONIcon
+            collection="fa"
+            name="FaDiscord"
+            className="icon-slate-500 hover:icon-slate-600 dark:hover:icon-slate-400"
+          />
         </Link>
         <GitHubIcon className="ml-6" />
       </div>

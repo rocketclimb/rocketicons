@@ -1,8 +1,9 @@
 import React from "react";
-import { TbHandMove } from "rocketicons/tb";
+
 import { withLocale } from "@/locales/with-locale";
 import { PropsWithClassNameAndLang } from "@/types";
 
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
 type UpdateAlertProps = {
   alert: "hover" | "dark-mode" | "changes" | "drag";
 } & PropsWithClassNameAndLang &
@@ -21,7 +22,11 @@ const UpdateAlert = ({ lang, alert, className, ...props }: UpdateAlertProps) => 
     >
       <p className="text-primary-darken w-full text-center text-xs italic md:text-[0.83rem] dark:text-primary-dark">
         {(alert === "hover" || alert === "drag") && (
-          <TbHandMove className="icon-secondary-sm mr-1" />
+          <PublicJSONIcon
+            collection="tb"
+            iconId="tb-hand-move"
+            className="icon-secondary-sm mr-1"
+          />
         )}
         {message[`${alert}-alert`]}
       </p>

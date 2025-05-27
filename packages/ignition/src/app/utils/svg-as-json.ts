@@ -1,14 +1,23 @@
-import { join, resolve } from "node:path";
-import { CollectionID } from "rocketicons/data";
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
-
-const DATA_DIR = "./src/app/data-helpers/svgs/";
-const DATA_DB = resolve(DATA_DIR, "svgs.db");
+import { CollectionID } from "@/app/components/icons/types";
 
 export const svgAsJson = async (collectionId: CollectionID, iconId: string) => {
-  const filename = join(collectionId, `${iconId}.json`);
-  const db = await open({ filename: DATA_DB, driver: sqlite3.cached.Database });
-  const { svg } = await db.get("SELECT svg FROM svgs WHERE id = ?", filename);
-  return JSON.parse(svg);
+  try {
+    // Read from public JSON files instead of SQLite database
+    const response = await fetch(`/icons/${collectionId}/${iconId}.json`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch icon: ${collectionId}/${iconId}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Error loading icon ${collectionId}/${iconId}:`, error);
+    // Return a fallback structure
+    return {
+      iconTree: {
+        tag: "svg",
+        attr: { viewBox: "0 0 24 24", fill: "currentColor" },
+        child: []
+      },
+      variant: "outlined"
+    };
+  }
 };

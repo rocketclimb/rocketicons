@@ -17,22 +17,20 @@ import { Doc, Languages, PropsWithLang } from "@/app/types";
 import { withStructuredData } from "@/config";
 import { Article } from "@/app/structured-data";
 
-type PageProps = {
-  searchParams: Record<string, string>;
-} & PropsWithLangSlugParams;
+// Force static generation for docs pages
+export const dynamic = "force-static";
+
+type PageProps = PropsWithLangSlugParams;
 
 export const generateStaticParams = () => {
   return docs;
 };
 
-export const generateMetadata = ({
-  params: { lang, slug },
-  searchParams: { i }
-}: PageProps): Metadata => {
+export const generateMetadata = ({ params: { lang, slug } }: PageProps): Metadata => {
   const selectedDoc = getDoc(lang, slug);
 
   if (slug != selectedDoc.slug) {
-    redirect(`/${lang}/docs/${selectedDoc.slug}${(i && "?i=" + i) || ""}`);
+    redirect(`/${lang}/docs/${selectedDoc.slug}`);
   }
 
   // Redirect to the component section if the doc is a component
@@ -86,7 +84,7 @@ const getDoc = (lang: Languages, slug: string): Doc => {
   return doc(slug);
 };
 
-const Page = ({ params: { lang, slug }, searchParams: { i } }: PageProps) => {
+const Page = ({ params: { lang, slug } }: PageProps) => {
   const { enSlug } = withLocale(lang);
   const { organization, software } = withStructuredData(lang);
   const enSlugFromIndex = enSlug(slug);
@@ -102,7 +100,7 @@ const Page = ({ params: { lang, slug }, searchParams: { i } }: PageProps) => {
   return (
     <section>
       <article className="w-full">
-        <DocFactory slug={slug} index={enSlugFromIndex} lang={lang} requestedIcon={i} />
+        <DocFactory slug={slug} index={enSlugFromIndex} lang={lang} requestedIcon={undefined} />
       </article>
       <script
         type="application/ld+json"

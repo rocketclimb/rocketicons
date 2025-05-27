@@ -1,8 +1,5 @@
 "use client";
 import Link from "next/link";
-import { IoMdClose } from "rocketicons/io";
-import { LuSearch } from "rocketicons/lu";
-import { HiOutlineDotsVertical } from "rocketicons/hi";
 
 import ThemeSelector from "@/components/theme/theme-selector";
 
@@ -13,6 +10,7 @@ import { PropsWithLang } from "@/types";
 
 import { NavItem } from "./types";
 
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
 type NavAsMenuProps = {
   navItems: NavItem[];
 } & PropsWithLang;
@@ -24,10 +22,18 @@ const MainNavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
   return (
     <div className="flex col-span-2 landingpage:col-span-5 md:grow justify-self-end md:justify-end lg:hidden">
       <Button className="flex" onClick={() => openSearch()}>
-        <LuSearch className="icon-primary-light hover:icon-primary-medium dark:hover:icon-primary-lighter" />
+        <PublicJSONIcon
+          collection="lu"
+          iconId="lu-search"
+          className="icon-primary-light hover:icon-primary-medium dark:hover:icon-primary-lighter"
+        />
       </Button>
       <Button className="flex" onClick={() => open()}>
-        <HiOutlineDotsVertical className="icon-primary-light ml-2 xs:ml-4 sm:ml-6 hover:icon-primary-medium dark:hover:icon-primary-lighter" />
+        <PublicJSONIcon
+          collection="hi"
+          iconId="hi-outline-dots-vertical"
+          className="icon-primary-light ml-2 xs:ml-4 sm:ml-6 hover:icon-primary-medium dark:hover:icon-primary-lighter"
+        />
       </Button>
       <Modal>
         <div className="fixed top-4 right-4 w-64 max-w-xs bg-background rounded-lg shadow-lg px-5 text-base font-semibold text-primary dark:bg-surface-dark dark:text-primary-lighter dark:highlight-background/5">
@@ -36,7 +42,11 @@ const MainNavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
               onClick={() => close()}
               className="absolute top-5 right-5 w-8 h-8 flex items-center justify-center"
             >
-              <IoMdClose className="icon-primary-light hover:icon-primary-medium dark:icon-primary-lighter dark:hover:icon-primary-bright" />
+              <PublicJSONIcon
+                collection="io"
+                iconId="io-md-close"
+                className="icon-primary-light hover:icon-primary-medium dark:icon-primary-lighter dark:hover:icon-primary-bright"
+              />
             </Button>
             <ul className="mt-6">
               <ul>

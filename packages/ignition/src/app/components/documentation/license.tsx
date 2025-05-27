@@ -1,13 +1,16 @@
-import { License as LicenseType } from "rocketicons/data";
 import DocLink from "./doc-link";
 import Badge from "./badge";
 
-const shortForm: Record<LicenseType, string> = {
+// License type as string for this component
+type LicenseType = string;
+
+const shortForm: Record<string, string> = {
   MIT: "MIT",
   "MPL-2.0 license": "MPL",
   "CC BY 4.0 License": "CC BY",
   "CC BY 4.0": "CC BY",
   "Apache License Version 2.0": "ALv2",
+  "Apache 2.0": "ALv2",
   "CC BY-SA 3.0": "CC BY-SA",
   "CC BY 3.0": "CC3.0",
   ISC: "ISC",
@@ -20,7 +23,7 @@ type LicenseTagProps = {
 };
 
 const LicenseTag = ({ license }: LicenseTagProps) => (
-  <Badge className="lg:hidden">{shortForm[license]}</Badge>
+  <Badge className="lg:hidden">{shortForm[license] || license}</Badge>
 );
 
 type LicenseProps = {

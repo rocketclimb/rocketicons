@@ -6,7 +6,9 @@
     "prebuild": "npm run prebuild:cc && npm run prebuild:gs",
     "prebuild:cc": "test -z $SKIP_GENERATE_CONTENT_COLLECTIONS && npm run generate-content-collections || echo '[IGNITION] skip content collections generate'",
     "prebuild:gs": "test -z $SKIP_GENERATE_IGNITION_STATICS && npm run generate-statics || echo '[IGNITION] skip statics generate'",
-    "build": "test -z $SKIP_IGNITION_BUILD && next build || echo '[IGNITION] skip build'",
+    "build": "test -z $SKIP_IGNITION_BUILD && GENERATE_ALL_ICONS=$GENERATE_ALL_ICONS GENERATE_SAMPLE_ICONS=$GENERATE_SAMPLE_ICONS next build || echo '[IGNITION] skip build'",
+    "build:static-full": "GENERATE_ALL_ICONS=true npm run build",
+    "build:static-sample": "GENERATE_SAMPLE_ICONS=true npm run build",
     "predev": "npm run generate-content-collections && npm run generate-statics",
     "dev": "next dev",
     "predev:all-icons": "npm run generate-content-collections && npm run generate-statics:all-icons",
@@ -18,7 +20,11 @@
     "lint": "next lint",
     "format": "prettier --check src/* --write --ignore-path ../../.gitignore",
     "rebuild": "rm -fR .content-collections && next build",
-    "start": "next start"
+    "start": "next start",
+    "analyze-bundle": "npx ts-node scripts/bundle-analyzer.ts",
+    "build-analyze": "ANALYZE=true npm run build",
+    "size-check": "npm run analyze-bundle",
+    "copy-json-icons": "npx ts-node scripts/copy-json-icons.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.0.1",
@@ -32,6 +38,8 @@
     "@vercel/edge-config": "^1.1.0",
     "algoliasearch": "^4.23.3",
     "change-case": "^5.4.4",
+    "critters": "^0.0.23",
+    "glob": "^11.0.2",
     "next": "^14.2",
     "react": "~18.2",
     "react-dom": "~18.2",
