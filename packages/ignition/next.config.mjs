@@ -6,6 +6,12 @@ import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import { shikiColorToClassTransform } from "@rocketclimb/code-block/shiki-transform";
 import { IconsManifest } from "rocketicons/data";
+import bundleAnalyzer from "@next/bundle-analyzer";
+
+// Bundle analyzer
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true"
+});
 
 const theme = createCssVariablesTheme({
   name: "css-variables",
@@ -60,4 +66,4 @@ const nextConfig = {
   }
 };
 
-export default withMDX(nextConfig);
+export default withBundleAnalyzer(withMDX(nextConfig));
