@@ -35,10 +35,10 @@ fi
 
 echo "✅ Found package.json in $(pwd)"
 
-# Configure npm for GitHub packages
+# Configure npm for GitHub packages using npmrc file approach
 echo "🔧 Configuring npm for GitHub packages..."
-npm config set @rocketclimb:registry https://npm.pkg.github.com
-npm config set //npm.pkg.github.com/:_authToken $GITHUB_TOKEN
+echo "@rocketclimb:registry=https://npm.pkg.github.com" > .npmrc
+echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc
 
 echo "✅ npm configuration complete"
 
@@ -46,6 +46,8 @@ echo "✅ npm configuration complete"
 if [ -f "../../package.json" ]; then
     echo "📦 Installing root dependencies..."
     cd ../..
+    # Copy npmrc to root for monorepo installation
+    cp "$IGNITION_DIR/.npmrc" .npmrc
     npm ci
     cd "$IGNITION_DIR"
     echo "✅ Root dependencies installed"
@@ -64,5 +66,10 @@ if npm list @rocketclimb/icons > /dev/null 2>&1; then
 else
     echo "⚠️  Warning: @rocketclimb/icons package not found"
 fi
+
+# Clean up npmrc files for security
+echo "🧹 Cleaning up authentication files..."
+rm -f .npmrc
+rm -f ../../.npmrc
 
 echo "🎉 Dependencies installed with authentication successfully!" 
