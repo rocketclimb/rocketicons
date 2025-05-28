@@ -18,6 +18,11 @@
     "optimization:record": "node scripts/bundle-optimization-tracker.mjs record",
     "optimization:history": "node scripts/bundle-optimization-tracker.mjs history",
     "optimization:suggest": "node scripts/bundle-optimization-tracker.mjs suggest",
+    "install:auth": "npm config set @rocketclimb:registry https://npm.pkg.github.com && npm config set //npm.pkg.github.com/:_authToken $GITHUB_TOKEN && npm ci",
+    "build:with-auth": "npm run install:auth && npm run build",
+    "build:size-check:auth": "npm run install:auth && npm run build && npm run size-check",
+    "install:with-auth": "./scripts/install-with-auth.sh",
+    "build:with-bundle-check": "./scripts/build-with-bundle-check.sh",
     "predev": "npm run generate-content-collections && npm run generate-statics",
     "dev": "next dev",
     "predev:all-icons": "npm run generate-content-collections && npm run generate-statics:all-icons",
@@ -29,7 +34,9 @@
     "lint": "next lint",
     "format": "prettier --check src/* --write --ignore-path ../../.gitignore",
     "rebuild": "rm -fR .content-collections && next build",
-    "start": "next start"
+    "start": "next start",
+    "deploy:install": "./scripts/install-with-auth.sh",
+    "deploy:build": "./scripts/build-with-bundle-check.sh"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.0.1",
