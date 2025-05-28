@@ -19,8 +19,6 @@ type PageProps = PropsWithLangParams & {
   };
 };
 
-export const generateStaticParams = () => [{ iconid: "collection-index.ri" }];
-
 const getIconFromParam = (iconParam: string): string | false =>
   iconParam !== "collection-index.ri" && iconParam;
 
