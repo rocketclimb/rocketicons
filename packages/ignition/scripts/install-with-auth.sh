@@ -16,6 +16,25 @@ fi
 
 echo "✅ GITHUB_TOKEN found"
 
+# Determine the correct directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+IGNITION_DIR="$(dirname "$SCRIPT_DIR")"
+
+echo "🔍 Script directory: $SCRIPT_DIR"
+echo "🔍 Ignition directory: $IGNITION_DIR"
+
+# Navigate to ignition directory
+cd "$IGNITION_DIR"
+
+# Verify we're in the right place
+if [ ! -f "package.json" ]; then
+    echo "❌ Error: package.json not found in $IGNITION_DIR"
+    echo "Make sure this script is run from the correct location"
+    exit 1
+fi
+
+echo "✅ Found package.json in $(pwd)"
+
 # Configure npm for GitHub packages
 echo "🔧 Configuring npm for GitHub packages..."
 npm config set @rocketclimb:registry https://npm.pkg.github.com
@@ -28,7 +47,7 @@ if [ -f "../../package.json" ]; then
     echo "📦 Installing root dependencies..."
     cd ../..
     npm ci
-    cd packages/ignition
+    cd "$IGNITION_DIR"
     echo "✅ Root dependencies installed"
 fi
 
