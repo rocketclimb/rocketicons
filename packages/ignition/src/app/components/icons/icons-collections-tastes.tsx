@@ -97,7 +97,7 @@ type ItemsProps = {
 const Items = ({ id, lang, manifest, collection }: ItemsProps) => {
   return (
     <>
-      {Object.values(manifest.icons)
+      {(manifest.icons ? Object.values(manifest.icons) : [])
         .slice(0, MAX_ITEMS)
         .map(({ id: iconId, name, compName }) => {
           const Icon = collection[compName];

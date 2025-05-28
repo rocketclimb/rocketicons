@@ -12,7 +12,7 @@ import { CollectionID } from "rocketicons/data";
 const tastes: Record<CollectionID, IconType[]> = {{1}
 };
 
-const TasteLoader = (id: CollectionID): IconType[] => tastes[id];
+const TasteLoader = (id: CollectionID): IconType[] => tastes[id] || [];
 
 export default TasteLoader;
 `;
@@ -26,7 +26,7 @@ import { CollectionID } from "rocketicons/data";
 const tastes: Partial<Record<CollectionID, IconType[]>> = {{1}
 };
 
-const TasteLoader = (id: CollectionID): IconType[] => tastes[id]!;
+const TasteLoader = (id: CollectionID): IconType[] => tastes[id] || [];
 
 export default TasteLoader;
 `;
