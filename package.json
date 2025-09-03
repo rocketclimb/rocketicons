@@ -21,6 +21,7 @@
   "author": "amorimjj",
   "main": "dist/index.js",
   "workspaces": [
+    "packages/utils",
     "packages/core",
     "packages/tailwind",
     "packages/generator",

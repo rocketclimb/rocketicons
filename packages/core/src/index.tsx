@@ -1,7 +1,5 @@
-import { tree2Element, handleClassName } from "./utils";
+import { tree2Element, handleClassName, IconTree, Variants } from "@rocketicons/utils";
 import {
-  IconTree,
-  Variants,
   IconType,
   IconBaseProps,
   IconsManifestType,
@@ -13,10 +11,16 @@ import {
 export const IconGenerator =
   (
     data: IconTree,
-    variant: Variants
+    variant: Variants,
+    name: string
   ): IconType => // eslint-disable-next-line react/display-name
   ({ className, ...props }: IconBaseProps) => (
-    <svg {...data.attr} {...props} className={handleClassName(variant, className ?? "")}>
+    <svg
+      {...data.attr}
+      {...props}
+      className={handleClassName(variant, className ?? "")}
+      data-icon-name={name}
+    >
       {tree2Element(data.child)}
     </svg>
   );
