@@ -10,7 +10,7 @@ import { BiCollection } from "rocketicons/bi";
 import { TbIcons } from "rocketicons/tb";
 import { BsCollection } from "rocketicons/bs";
 import React from "react";
-import { tree2Element } from "rocketicons/core/utils";
+import { tree2Element } from "@rocketicons/utils";
 
 const numberFormatter = (lang: Languages, number: number) =>
   new Intl.NumberFormat(lang).format(number);

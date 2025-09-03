@@ -7,9 +7,10 @@ import {
   nativeHandleClassName,
   mergeStyles,
   IconTree,
-  Variants
+  Variants,
+  IconType,
+  IconBaseProps
 } from "@rocketicons/utils";
-import { IconType, IconBaseProps } from "@/types";
 
 type NativeIconProps = {
   style?: Record<string, string>[];

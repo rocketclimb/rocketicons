@@ -1,12 +1,15 @@
-import { tree2Element, handleClassName, IconTree, Variants } from "@rocketicons/utils";
 import {
+  tree2Element,
+  handleClassName,
+  IconTree,
+  Variants,
   IconType,
   IconBaseProps,
   IconsManifestType,
   IconsInfoManifest,
   IconInfo,
   CollectionDataInfo
-} from "@/types";
+} from "@rocketicons/utils";
 
 export const IconGenerator = (data: IconTree, variant: Variants, name: string): IconType =>
   function Icon({ className, ...props }: IconBaseProps) {
