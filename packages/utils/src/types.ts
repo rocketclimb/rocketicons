@@ -18,6 +18,7 @@ export interface IconInfo {
   name: string;
   compName: string;
   variant: string;
+  data?: IconTree;
 }
 
 interface BaseIconsManifestType<ID extends string, Licence extends string> {
