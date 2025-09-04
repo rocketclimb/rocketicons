@@ -209,6 +209,7 @@ export const writePackageJson = async (override: Overrrides, { DIST }: TaskConte
   const packageJsonStr = await fs.readFile(path.resolve(DIST, "package.json"), "utf-8");
   let packageJson = JSON.parse(packageJsonStr);
   packageJson.main = "./index.js";
+  packageJson.bin = "./bin/index.js";
 
   packageJson = {
     ...packageJson,

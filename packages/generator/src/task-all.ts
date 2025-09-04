@@ -143,7 +143,8 @@ export const writeIconModuleAndSvgs = async (
         id: `${icon?.compPrefix ?? icon.id}-${manifestName}`,
         name: manifestName.replace(/-/g, " "),
         compName: name,
-        variant
+        variant,
+        data: iconData
       };
       exists.add(file);
     }

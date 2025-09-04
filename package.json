@@ -26,6 +26,7 @@
     "packages/tailwind",
     "packages/generator",
     "packages/icons",
+    "packages/cli",
     "packages/ignition"
   ],
   "scripts": {
