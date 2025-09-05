@@ -13,7 +13,9 @@ export function ${compName}(props: IconProps) {
     "${variant}",
     "${id}"
   )(props);
-}`.trim();
+}
+  
+export default ${compName};`.trim();
 
 const add = async (iconName: string) => {
   const { name, icon } = parsePackageName(iconName);
@@ -25,12 +27,9 @@ const add = async (iconName: string) => {
 
     const { id, compName, data, variant } = manifest.icons[icon];
 
-    const iconFile = `${config.basePath}/icons/${id}.tsx`;
+    const iconFile = `${config.riPath}/icons/${id}.tsx`;
 
-    await writeFileSync(
-      iconFile,
-      JSON.stringify(preparaContent(compName, data, variant, id), null, 2)
-    );
+    await writeFileSync(iconFile, preparaContent(compName, data, variant, id));
   } catch (error) {
     console.error(error);
     process.exit(1);

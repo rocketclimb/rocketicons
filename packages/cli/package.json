@@ -16,7 +16,7 @@
     "format": "prettier --check . --write --ignore-path ../../.gitignore",
     "lint": "eslint src/**/*",
     "rebuild": "npm run clean && npm run build",
-    "test": "jest ./src",
+    "test": "jest --passWithNoTests ./src",
     "typecheck": "tsc --noEmit"
   }
 }
