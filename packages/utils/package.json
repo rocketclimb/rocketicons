@@ -1,6 +1,6 @@
 {
   "name": "@rocketicons/utils",
-  "version": "0.2.5",
+  "version": "0.2.7",
   "license": "MIT",
   "main": "./dist/index.js",
   "files": [
@@ -16,5 +16,9 @@
     "rebuild": "npm run clean && npm run build",
     "test": "jest ./src",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "camelcase": "^6.2.0",
+    "cheerio": "^1.0.0-rc.12"
   }
 }
