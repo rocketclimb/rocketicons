@@ -1,4 +1,5 @@
-import { IconsManifest } from "rocketicons/data";
+import { IconsManifestType } from "@rocketicons/utils";
+import { IconsManifest, CollectionID, License } from "rocketicons/data";
 
 export const showList = () => {
   for (const { id, name } of IconsManifest) {
@@ -6,7 +7,7 @@ export const showList = () => {
   }
 };
 
-export const getManifest = (packageName: string) => {
+export const getManifest = (packageName: string): IconsManifestType<CollectionID, License> => {
   if (!packageName.startsWith("@")) {
     console.error(`Package ${packageName} must start with '@'`);
     process.exit(1);
