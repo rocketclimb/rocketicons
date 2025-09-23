@@ -21,11 +21,18 @@ const add = async (iconName: string) => {
   const { name, icon } = parsePackageName(iconName);
   try {
     const moduleName = `../${name}/manifest`;
+    const svgModuleName = `../${name}/svg-data`;
+
     const {
       default: { manifest }
     } = await import(moduleName);
 
-    const { id, compName, data, variant } = manifest.icons[icon];
+    const {
+      default: { svgData }
+    } = await import(svgModuleName);
+
+    const { id, compName, variant } = manifest.icons[icon];
+    const data = svgData[icon];
 
     const iconFile = `${config.riPath}/icons/${id}.tsx`;
 

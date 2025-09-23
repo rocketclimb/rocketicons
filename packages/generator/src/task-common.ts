@@ -60,17 +60,31 @@ export const writeIconsManifest = async (
     "utf8"
   );
 
-  for (const [key, info] of Object.entries(iconInfoManifest)) {
+  for (const [key, { data, ...info }] of Object.entries(iconInfoManifest)) {
     const dataInfo = JSON.stringify(info, null, 2);
+    const svgs = JSON.stringify(data, null, 2);
 
     await fs.writeFile(
       path.resolve(DIST, key, "manifest.js"),
       `module.exports.manifest = ${dataInfo}`,
       "utf8"
     );
+
     await fs.writeFile(
       path.resolve(DIST, key, "manifest.mjs"),
       `export var manifest = ${dataInfo}`,
+      "utf8"
+    );
+
+    await fs.writeFile(
+      path.resolve(DIST, key, "svg-data.js"),
+      `module.exports.data = ${svgs}`,
+      "utf8"
+    );
+
+    await fs.writeFile(
+      path.resolve(DIST, key, "svg-data.mjs"),
+      `export var data = ${svgs}`,
       "utf8"
     );
 

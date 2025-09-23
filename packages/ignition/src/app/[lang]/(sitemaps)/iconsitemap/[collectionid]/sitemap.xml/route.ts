@@ -2,21 +2,22 @@ import * as changeCase from "change-case";
 
 import { Languages } from "@/types";
 import { NextRequest } from "next/server";
-import { IconsManifest } from "@/data-helpers/icons/manifest";
 import { SitemapRow } from "@/types/sitemap-types";
 import { generateSitemapEntry, sitemapToXml } from "@/app/utils/sitemap-utils";
+import { collectionAsJson, svgsAsJson } from "@/utils/svg-as-json";
+import { CollectionID } from "rocketicons/data";
 
 type Sitemap = Array<SitemapRow>;
 
-const pagesForSitemap = (lang: Languages, collectionId: string): Sitemap => {
+const pagesForSitemap = async (lang: Languages, collectionId: string): Promise<Sitemap> => {
   const urls: Sitemap = [];
 
-  const collection = IconsManifest.find((collection: any) => collection.id === collectionId);
+  const collection = await collectionAsJson(collectionId as CollectionID);
+  const icons = await svgsAsJson(collection.id, collection.totalIcons);
 
   if (collection) {
-    collection.icons.forEach((icon: string) => {
-      const iconFilename = changeCase.kebabCase(icon);
-      const iconUrl = generateSitemapEntry(lang, `/icons/${collection.id}/${iconFilename}`);
+    icons.forEach(({ iconId }) => {
+      const iconUrl = generateSitemapEntry(lang, `/icons/${collection.id}/${iconId}`);
       urls.push(iconUrl);
     });
   }
@@ -27,7 +28,7 @@ export const GET = async (request: NextRequest) => {
   const [, langFromPath, , param1] = request.nextUrl.pathname.split("/");
   const lang = langFromPath as Languages;
 
-  const sitemap = pagesForSitemap(lang, param1);
+  const sitemap = await pagesForSitemap(lang, param1);
 
   const sitemapXml = sitemapToXml(sitemap);
 

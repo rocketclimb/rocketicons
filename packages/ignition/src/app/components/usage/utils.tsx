@@ -1,26 +1,79 @@
-import { getCollectionsInfo } from "@/components/icons/get-icons-data";
-import IconLoader from "@/components/icons/icon-loader";
 import { CollectionID } from "rocketicons/data";
 import { RcRocketIcon } from "rocketicons/rc";
 import { IconProps } from "rocketicons";
 
-export const getCurrentIconData = (query?: string) => {
-  const defaultCollection: CollectionID = "rc";
-  const defaultIcon = "RcRocketIcon";
+import { svgInfoByCompNameAsJson } from "@/utils/svg-as-json";
+import { IconFromData } from "@rocketicons/core";
 
+const defaultCollection: CollectionID = "rc";
+const defaultIcon = "RcRocketIcon";
+const defaultIconTree = {
+  tag: "svg",
+  attr: {
+    version: "1.1",
+    viewBox: "0 0 30.737 30.737",
+    fill: "currentColor",
+    stroke: "currentColor"
+  },
+  child: [
+    {
+      tag: "g",
+      attr: { transform: "translate(-1.7694 -42.492)", id: "g3" },
+      child: [
+        {
+          tag: "g",
+          attr: { transform: "translate(-1.6328 -1.1335)", id: "g2" },
+          child: [
+            {
+              tag: "path",
+              attr: {
+                d: "m9.5094 64.652c-1.0194 0.47732-1.4178 1.2853-1.1953 2.424 0.1436-0.68868 0.50008-1.0886 1.0694-1.1999 0.32481-0.06354 0.63149 0.05026 0.97087 0.17597 0.55289 0.20494 1.1929 0.44212 2.1403-0.0013 1.0194-0.47732 1.4178-1.2853 1.1953-2.424-0.1436 0.68868-0.50007 1.0886-1.0694 1.1999-0.32481 0.06354-0.63149-0.05026-0.97088-0.17597-0.55289-0.20494-1.1929-0.44212-2.1403 0.0013zm-0.83734 3.1885c-1.0194 0.47732-1.4178 1.2853-1.1953 2.424 0.1436-0.68867 0.50007-1.0886 1.0694-1.1999 0.32488-0.06339 0.63149 0.05029 0.97088 0.17596 0.55289 0.20494 1.1929 0.44212 2.1403-0.0017 1.0194-0.47732 1.4178-1.2853 1.1953-2.424-0.1436 0.68868-0.50008 1.0886-1.0694 1.1999-0.32481 0.06354-0.63149-0.05026-0.97087-0.17597-0.55289-0.20494-1.1929-0.44212-2.1403 0.0013z",
+                clipRule: "evenodd",
+                stroke: "none",
+                fillRule: "evenodd"
+              },
+              child: []
+            },
+            {
+              tag: "path",
+              attr: {
+                d: "m29.422 48.54c-0.01797-0.08669-0.08456-0.15511-0.17074-0.1754-2.8136-0.68814-9.3132 1.7638-12.838 5.2863-0.62824 0.62308-1.2011 1.2996-1.7121 2.022-1.0865-0.09831-2.1731-0.01551-3.0982 0.38805-2.6124 1.1486-3.3724 4.1485-3.5846 5.4363 6.3007-1.3519 9.8163 1.7603 8.25 8.251 1.2883-0.20696 4.2944-0.96702 5.4363-3.5789 0.40357-0.92615 0.48636-2.007 0.39322-3.0884 0.7245-0.51051 1.403-1.0834 2.0277-1.7121 3.538-3.5183 5.9744-9.8751 5.2966-12.829zm-8.4414 8.2712c-1.3921-1.3918-0.40626-3.7716 1.562-3.7716 1.9683 0 2.9542 2.3798 1.562 3.7716-0.86215 0.86398-2.2619 0.86398-3.1241 0z",
+                fill: "none",
+                strokeLinecap: "round",
+                strokeLinejoin: "round"
+              },
+              child: []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+const defaultVariant = "full";
+
+export const getCurrentIconData = async (query?: string) => {
   const [collection, icon] = (query ?? "").split(".") as [CollectionID, string];
 
-  if (!collection || !icon || !getCollectionsInfo(collection).exists(icon)) {
+  const info = collection && icon && (await svgInfoByCompNameAsJson(collection, icon));
+
+  if (!collection || !icon || !info) {
     return {
       Icon: (props: IconProps) => <RcRocketIcon {...props} />,
       icon: defaultIcon,
-      collection: defaultCollection
+      collection: defaultCollection,
+      iconTree: defaultIconTree,
+      variant: defaultVariant
     };
   }
 
   return {
-    Icon: (props: IconProps) => <IconLoader collectionId={collection} icon={icon} {...props} />,
+    Icon: (props: IconProps) => (
+      <IconFromData iconTree={info.data.iconTree} variant={info.data.variant} {...props} />
+    ),
     icon,
-    collection
+    collection,
+    iconTree: info.data.iconTree,
+    variant: info.data.variant
   };
 };

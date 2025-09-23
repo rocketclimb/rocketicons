@@ -8,9 +8,9 @@ import { CodeSample } from "@rocketclimb/code-block";
 import Wrapper from "@/components/documentation/wrapper";
 import SampleBox from "@/components/documentation/sample-box";
 
-const DarkMode = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
+const DarkMode = async ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
   const locale = withLocale(lang);
-  const { icon, Icon } = getCurrentIconData(queryIcon);
+  const { icon, Icon } = await getCurrentIconData(queryIcon);
 
   const { "dark-mode": darModeLabel, "light-mode": ligthModeLabel } = locale.config(
     "dark-mode",

@@ -51,12 +51,16 @@ const generator = async () => {
     imports.push(
       templateBuilder(
         ImportTemplate,
-        selected.map((icon) => `${icon} as ${icon}_${id}`).join(", "),
+        selected.map((icon: any) => `${icon} as ${icon}_${id}`).join(", "),
         id
       )
     );
     conditionals.push(
-      templateBuilder(ConditionalTemplate, selected.map((icon) => `${icon}_${id}`).join(", "), id)
+      templateBuilder(
+        ConditionalTemplate,
+        selected.map((icon: any) => `${icon}_${id}`).join(", "),
+        id
+      )
     );
   });
 

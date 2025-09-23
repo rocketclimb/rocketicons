@@ -4,7 +4,7 @@ import Link from "next/link";
 import { withLocale } from "@/locales";
 import { PropsWithLang } from "@/types";
 import { SiAlgolia } from "rocketicons/si";
-import IconLoader from "@/components/icons/icon-loader";
+// import IconLoader from "@/components/icons/icon-loader";
 import { BiHash, BiLoaderAlt } from "rocketicons/bi";
 import WithCopy from "@/components/documentation/with-copy";
 import { PropsWithChildren } from "react";
@@ -27,12 +27,12 @@ const IconHit = ({ hit, lang }: IconHitProps) => {
         className="grow py-3 pl-4 capitalize"
         href={`/${lang}/icons/${hit.group}/${hit.objectID}`}
       >
-        <IconLoader
+        {/* <IconLoader
           collectionId={hit.group}
           icon={hit.text}
           className="icon-secondary-xl group-hover/result:icon-white-xl mr-3"
           Loading={Loader}
-        />
+        /> */}
         {hit.title}
       </Link>
       <WithCopy

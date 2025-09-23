@@ -18,7 +18,6 @@ export interface IconInfo {
   name: string;
   compName: string;
   variant: string;
-  data?: IconTree;
 }
 
 interface BaseIconsManifestType<ID extends string, Licence extends string> {
@@ -39,6 +38,7 @@ export interface IconsManifestType<ID extends string, Licence extends string>
 export interface CollectionDataInfo<ID extends string, Licence extends string>
   extends BaseIconsManifestType<ID, Licence> {
   icons: Record<string, IconInfo>;
+  data: Record<string, IconTree>;
 }
 
 export type IconsInfoManifest<ID extends string, Licence extends string> = Record<

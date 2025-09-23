@@ -6,8 +6,8 @@ import GridContainer from "@/components/documentation/grid-container";
 import { CodeSample } from "@rocketclimb/code-block";
 import Wrapper from "@/components/documentation/wrapper";
 
-const Shortcuts = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
-  const { icon, Icon } = getCurrentIconData(queryIcon);
+const Shortcuts = async ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
+  const { icon, Icon } = await getCurrentIconData(queryIcon);
 
   return (
     <>

@@ -25,6 +25,15 @@ export const IconGenerator = (data: IconTree, variant: Variants, name: string): 
     );
   };
 
+export const IconFromData = ({
+  iconTree,
+  variant,
+  ...props
+}: { iconTree: IconTree; variant: Variants } & IconBaseProps) => {
+  const Icon = IconGenerator(iconTree, variant, "");
+  return <Icon {...props} />;
+};
+
 export {
   IconTree,
   Variants,

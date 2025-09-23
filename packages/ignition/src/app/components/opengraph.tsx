@@ -4,13 +4,13 @@ import { ImageResponse } from "next/og";
 import { Languages } from "@/types";
 import { withLocale } from "@/locales";
 import { CollectionID } from "rocketicons/data";
-import { collectionsCounts, total } from "@/data-helpers/icons/manifest";
 import { IconTree, Variants } from "rocketicons";
 import { BiCollection } from "rocketicons/bi";
 import { TbIcons } from "rocketicons/tb";
 import { BsCollection } from "rocketicons/bs";
 import React from "react";
 import { tree2Element } from "@rocketicons/utils";
+import { totalCollections, totalIcons } from "@/data-helpers/icons/manifest";
 
 const numberFormatter = (lang: Languages, number: number) =>
   new Intl.NumberFormat(lang).format(number);
@@ -61,7 +61,8 @@ const OpenGraph = async ({
     { encoding: "base64" }
   );
 
-  const totalIconsCount = total;
+  const collectionsCounts = totalCollections;
+  const totalIconsCount = totalIcons;
 
   const brand = withLocale(lang).config("brand");
 
@@ -175,7 +176,7 @@ const OpenGraph = async ({
           <div tw="flex flex-row grow">
             <BiCollection style={smallIconStyle} />
             <div tw="flex flex-col ml-3">
-              <span>{numberFormatter(lang, collectionsCounts.size)}</span>
+              <span>{numberFormatter(lang, collectionsCounts)}</span>
               <span>{opengraph["collections"]}</span>
             </div>
           </div>

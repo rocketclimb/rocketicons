@@ -9,12 +9,12 @@ import { CodeSample } from "@rocketclimb/code-block";
 import StylingAnimation from "./styling-animation";
 import Wrapper from "@/components/documentation/wrapper";
 
-const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
-  const { icon, collection, Icon } = getCurrentIconData(queryIcon);
+const StateManagement = async ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
+  const { icon, Icon, iconTree, variant } = await getCurrentIconData(queryIcon);
   return (
     <>
       <MdxPartial lang={lang} slug={"styling"} path="docs" />
-      <StylingAnimation icon={icon} collection={collection} />
+      <StylingAnimation icon={icon} iconTree={iconTree} variant={variant} />
       <Wrapper>
         <MdxPartial lang={lang} slug={"styling/styling-bg"} path="docs" />
         <GridContainer>

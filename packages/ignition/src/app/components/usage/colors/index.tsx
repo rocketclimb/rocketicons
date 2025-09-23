@@ -53,12 +53,12 @@ const ColorViewer = ({ color, Icon }: ColorViewerProps) => (
 );
 
 const Colors = async ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
-  const { icon, collection, Icon } = getCurrentIconData(queryIcon);
+  const { icon, collection, Icon, iconTree, variant } = await getCurrentIconData(queryIcon);
 
   return (
     <>
       <MdxPartial lang={lang} slug={"colors"} path="docs" />
-      <ColorsAnimation icon={icon} collection={collection} colors={forAnimation} />
+      <ColorsAnimation icon={icon} colors={forAnimation} iconTree={iconTree} variant={variant} />
       <div className="md:px-5">
         <Table lang={lang} hasAdditional collapse>
           {colorsTable.map(([utility, color], i) => (
