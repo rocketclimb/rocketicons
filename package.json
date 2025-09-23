@@ -66,5 +66,8 @@
     "*.+(json|css|md)": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "@rocketclimb/tw-utils": "^0.0.2"
   }
 }
