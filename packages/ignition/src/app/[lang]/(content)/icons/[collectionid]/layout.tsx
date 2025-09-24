@@ -4,7 +4,7 @@ import CollectionTitleBox from "@/components/icons/icons-collection/collection-t
 
 import { IconFromData } from "@rocketicons/core";
 
-import { PropsWithChildrenAndLangParams } from "@/types";
+import { PropsWithChildrenAndLangParams, AvailableLanguages } from "@/types";
 import { collectionAsJson, collectionsAsJson, svgsAsJson } from "@/utils/svg-as-json";
 import IconSelector from "@/components/icons/icons-collection/icon-selector";
 
@@ -14,8 +14,12 @@ type LayoutProps = PropsWithChildrenAndLangParams & {
   };
 };
 
-export const generateStaticParams = async () =>
-  (await collectionsAsJson()).map(({ id }) => ({ collectionid: id }));
+export const generateStaticParams = async () => {
+  const collections = await collectionsAsJson();
+  return AvailableLanguages.flatMap((lang) =>
+    collections.map(({ id }) => ({ lang, collectionid: id }))
+  );
+};
 
 const Layout = async ({ children, params: { lang, collectionid } }: LayoutProps) => {
   const info = await collectionAsJson(collectionid);

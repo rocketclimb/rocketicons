@@ -17,16 +17,11 @@ type PageProps = PropsWithLangParams & {
   };
 };
 
-export const generateStaticParams = () => [{ iconid: "collection-index.ri" }];
-
-const getIconFromParam = (iconParam: string): string | false =>
-  iconParam !== "collection-index.ri" && iconParam;
-
 export const generateMetadata = async ({
   params: { lang, collectionid: id, iconid }
 }: PageProps): Promise<Metadata> => {
   const info = await collectionAsJson(id);
-  const icon = getIconFromParam(iconid);
+  const icon = iconid;
 
   const { component } = withLocale(lang);
   const { title, description } = component("icons-collection");
@@ -48,7 +43,7 @@ export const generateMetadata = async ({
 
 const Page = async ({ params: { lang, collectionid, iconid } }: PageProps) => {
   const info = await collectionAsJson(collectionid);
-  const iconId = getIconFromParam(iconid);
+  const iconId = iconid;
 
   if (!info || (iconId && !(await svgAsJson(collectionid, iconId)))) {
     return notFound();

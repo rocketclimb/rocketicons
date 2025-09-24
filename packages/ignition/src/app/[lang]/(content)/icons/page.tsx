@@ -19,9 +19,9 @@ export const generateMetadata = async ({
 
   const total = await totalIcons();
 
-  let descriptionWithNumber = `${description} | ${total} ${icons}`;
+  const descriptionWithNumber = `${description} | ${total} ${icons}`;
 
-  let titleWithNumber = `${title} | ${total} ${icons}`;
+  const titleWithNumber = `${title} | ${total} ${icons}`;
 
   return customMetadata(lang, "page", `icons`, titleWithNumber, descriptionWithNumber);
 };

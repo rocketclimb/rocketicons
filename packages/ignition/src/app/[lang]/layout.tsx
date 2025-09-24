@@ -3,10 +3,13 @@ import ThemeControl from "@/components/theme/theme-control";
 import Header from "@/components/header";
 import ContentKindMarker from "@/components/content-kind-marker";
 
-import { PropsWithChildrenAndLangParams } from "@/types";
+import { PropsWithChildrenAndLangParams, AvailableLanguages } from "@/types";
 
-export function generateStaticParams() {
-  return [{ lang: "en" }, { lang: "pt-br" }];
+export function getStaticPaths() {
+  return {
+    paths: AvailableLanguages.map((lang) => ({ params: { lang } })),
+    fallback: false
+  };
 }
 
 const Layout = ({ children, params: { lang } }: PropsWithChildrenAndLangParams) => (
