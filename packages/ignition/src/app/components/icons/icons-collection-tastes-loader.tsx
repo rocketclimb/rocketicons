@@ -52,3 +52,5 @@ export const IconsExpandedCollectionTastesLoader = async ({ id, maxItems, lang }
     </>
   );
 };
+
+export default IconsExpandedCollectionTastesLoader;
