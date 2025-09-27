@@ -22,7 +22,7 @@ import IconsTasteSelected from "./icons-taste-selected";
 
 import IconsTasteSelector from "./icons-taste-selector";
 
-const MAX_ITEMS = 200;
+const MAX_ITEMS = 50;
 
 const UlContainer = ({ className, children }: PropsWithChildrenAndClassName) => (
   <ul className={`flex gap-1 overflow-hidden transition duration-700 ${className ?? ""}`}>
