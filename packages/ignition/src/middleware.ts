@@ -8,6 +8,10 @@ const getLocaleFromUrl = ({ nextUrl: { pathname } }: NextRequest): Languages | u
 };
 
 export const middleware = (request: NextRequest) => {
+  if (request.nextUrl.pathname.startsWith("/svgs")) {
+    return NextResponse.next();
+  }
+
   const localeFromUrl = getLocaleFromUrl(request);
 
   if (localeFromUrl) {

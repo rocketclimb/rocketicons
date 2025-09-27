@@ -55,6 +55,7 @@ export const svgsAsJson = async (id: string, limit: number = 10) => {
     `${id}%`,
     limit
   );
+
   return svgs.map(({ id, name, compName, svg }: any) => ({
     id,
     iconId: id.split("/").pop().replace(".json", ""),
@@ -97,4 +98,22 @@ export const collectionAsJson = async (id: CollectionID) => {
   const db = await open({ filename: DATA_DB, driver: sqlite3.cached.Database });
   const collection = await db.get("SELECT * FROM collections WHERE id = ?", id);
   return collection as CollectionAsJson;
+};
+
+export const allSvgsAsJson = async () => {
+  const db = await open({ filename: DATA_DB, driver: sqlite3.cached.Database });
+  const svgs = await db.all("SELECT id, name, compName, svg FROM svgs");
+  return svgs.map(({ id, name, compName, svg }: any) => {
+    const { iconTree, variant } = JSON.parse(svg);
+    const [collectionId, rawId] = id.split("/");
+    return {
+      id,
+      collectionId,
+      iconId: rawId.replace(".json", ""),
+      name,
+      compName,
+      iconTree,
+      categories: [variant]
+    };
+  });
 };
