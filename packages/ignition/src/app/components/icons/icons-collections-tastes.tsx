@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import { Fragment } from "react";
 import { IconsManifestType } from "rocketicons/core";
 import { CollectionID, License } from "rocketicons/data";
@@ -14,21 +13,16 @@ import { PropsWithChildrenAndClassName, PropsWithLang } from "@/types";
 
 import NumberFormatter from "@/components/number-formatter";
 
-import { IconsCollapsedCollectionTastesLoader } from "./icons-collection-tastes-loader";
+import {
+  IconsCollapsedCollectionTastesLoader,
+  IconsExpandedCollectionTastesLoader
+} from "./icons-collection-tastes-loader";
 
 import IconsTasteSelected from "./icons-taste-selected";
 
 import IconsTasteSelector from "./icons-taste-selector";
 
 const MAX_ITEMS = 200;
-
-const DynamicIconsExpandedCollectionTastesLoader = dynamic(
-  () => import("./icons-collection-tastes-loader"),
-  {
-    loading: () => <p>Loading...</p>, // Optional: A fallback UI while loading
-    ssr: false // Optional: Disable server-side rendering for this component
-  }
-);
 
 const UlContainer = ({ className, children }: PropsWithChildrenAndClassName) => (
   <ul className={`flex gap-1 overflow-hidden transition duration-700 ${className ?? ""}`}>
@@ -68,11 +62,7 @@ const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
               </IconsTasteSelector>
               <IconsTasteSelected id={id} name={name}>
                 <UlContainer className="opacity-0 has-[a]:opacity-100 min-h-32 justify-between px-0.5 gap-y-5 flex-wrap mt-4">
-                  <DynamicIconsExpandedCollectionTastesLoader
-                    id={id}
-                    maxItems={MAX_ITEMS}
-                    lang={lang}
-                  />
+                  <IconsExpandedCollectionTastesLoader id={id} maxItems={MAX_ITEMS} lang={lang} />
                 </UlContainer>
                 {totalIcons > MAX_ITEMS && (
                   <div className="absolute inset-x-0 h-40 mx-0.5 bottom-1 bg-surface dark:bg-surface-dark">
