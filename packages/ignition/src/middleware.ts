@@ -8,6 +8,10 @@ const getLocaleFromUrl = ({ nextUrl: { pathname } }: NextRequest): Languages | u
 };
 
 export const middleware = (request: NextRequest) => {
+  if (request.nextUrl.pathname.startsWith("/svgs")) {
+    return NextResponse.next();
+  }
+
   const localeFromUrl = getLocaleFromUrl(request);
 
   if (localeFromUrl) {
@@ -23,6 +27,6 @@ export const middleware = (request: NextRequest) => {
 
 export const config = {
   matcher: [
-    "/((?!_next|_vercel|examples|img|favicon|icon-rocketicons|logo|android|apple-touch|mstile|safari-pinned|sitemap|fonts|api|icons|.well-known|site.webmanifest|robots).*)"
+    "/((?!_next|_vercel|examples|img|favicon|icon-rocketicons|logo|android|apple-touch|mstile|safari-pinned|sitemap|fonts|api|.well-known|site.webmanifest|robots).*)"
   ]
 };

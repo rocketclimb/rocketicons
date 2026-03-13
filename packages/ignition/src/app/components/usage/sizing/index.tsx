@@ -9,12 +9,12 @@ import { getCurrentIconData } from "@/components/usage/utils";
 import { sizes, sizesUtilities, hwUtilities } from "./utils";
 import SizingAnimation from "./sizing-animation";
 
-const Sizing = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
-  const { icon, collection, Icon } = getCurrentIconData(queryIcon);
+const Sizing = async ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
+  const { icon, collection, Icon, iconTree, variant } = await getCurrentIconData(queryIcon);
   return (
     <>
       <MdxPartial lang={lang} slug={"sizing-icons"} path="docs" />
-      <SizingAnimation collection={collection} icon={icon} />
+      <SizingAnimation icon={icon} iconTree={iconTree} variant={variant} />
       <div className="md:px-5">
         <Table lang={lang}>
           {Object.entries(sizes).map(([attr, value], i) => (

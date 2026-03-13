@@ -1,27 +1,37 @@
-import { getCollectionsInfo } from "@/components/icons/get-icons-data";
-import IconLoader from "@/components/icons/icon-loader";
-import { CollectionID, IconProps } from "@/app/components/icons/types";
-import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
+import { CollectionID } from "rocketicons/data";
+import { RcRocketIcon } from "rocketicons/rc";
+import { IconProps } from "rocketicons";
 
-export const getCurrentIconData = (query?: string) => {
-  const defaultCollection: CollectionID = "rc";
-  const defaultIcon = "RcRocketIcon";
+import { svgInfoByCompNameAsJson } from "@/utils/svg-as-json";
+import { IconFromData } from "@rocketicons/core";
 
+import { defaultIconTree, defaultVariant } from "@/config";
+
+const defaultCollection: CollectionID = "rc";
+const defaultIcon = "RcRocketIcon";
+
+export const getCurrentIconData = async (query?: string) => {
   const [collection, icon] = (query ?? "").split(".") as [CollectionID, string];
 
-  if (!collection || !icon || !getCollectionsInfo(collection).exists(icon)) {
+  const info = collection && icon && (await svgInfoByCompNameAsJson(collection, icon));
+
+  if (!collection || !icon || !info) {
     return {
-      Icon: (props: IconProps) => (
-        <PublicJSONIcon collection="rc" iconId="rc-rocket-icon" {...props} />
-      ),
+      Icon: (props: IconProps) => <RcRocketIcon {...props} />,
       icon: defaultIcon,
-      collection: defaultCollection
+      collection: defaultCollection,
+      iconTree: defaultIconTree,
+      variant: defaultVariant
     };
   }
 
   return {
-    Icon: (props: IconProps) => <IconLoader collectionId={collection} icon={icon} {...props} />,
+    Icon: (props: IconProps) => (
+      <IconFromData iconTree={info.data.iconTree} variant={info.data.variant} {...props} />
+    ),
     icon,
-    collection
+    collection,
+    iconTree: info.data.iconTree,
+    variant: info.data.variant
   };
 };

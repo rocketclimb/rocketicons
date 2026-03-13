@@ -1,8 +1,8 @@
 import { serverEnv } from "@/env/server";
 import { AvailableLanguages, Languages } from "@/types";
-import { IconsManifest } from "@/data-helpers/icons/manifest-from-public";
 import { SitemapIndexRow } from "@/types/sitemap-types";
 import { sitemapToXmlString } from "@/app/utils/sitemap-utils";
+import { collectionsAsJson } from "@/utils/svg-as-json";
 
 type Sitemap = Array<SitemapIndexRow>;
 
@@ -27,17 +27,19 @@ const generateCollectionSitemapIndexEntry = (
   };
 };
 
-const pagesForSitemap = (): Sitemap => {
+const pagesForSitemap = async (): Promise<Sitemap> => {
   const urls: Sitemap = [];
   const collectionsUrls: Sitemap = [];
+
+  const collections = await collectionsAsJson();
 
   AvailableLanguages.forEach((lang) => {
     urls.push(generateSitemapIndexEntry(lang));
   });
 
-  IconsManifest.forEach((collection) => {
+  collections.forEach(({ id }) => {
     AvailableLanguages.forEach((lang) => {
-      const url = generateCollectionSitemapIndexEntry(lang, collection.id);
+      const url = generateCollectionSitemapIndexEntry(lang, id);
 
       collectionsUrls.push(url);
     });
@@ -47,7 +49,7 @@ const pagesForSitemap = (): Sitemap => {
 };
 
 export const GET = async () => {
-  const sitemap = pagesForSitemap();
+  const sitemap = await pagesForSitemap();
 
   const sitemapXml = sitemapToXmlString(sitemap);
 

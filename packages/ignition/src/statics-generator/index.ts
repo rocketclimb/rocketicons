@@ -1,8 +1,7 @@
-import "./collection-loader";
+// import "./collection-loader";
 import "./docs-static-params";
 import "./collections-static-params";
-import "./manifest-loader";
+// import "./manifest-loader";
 import "./menu-control";
-import "./svg-files";
-import "./tastes-loader";
-import "./json-icons-generator";
+import "./collections-database";
+// import "./tastes-loader";

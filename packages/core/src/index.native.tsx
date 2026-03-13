@@ -5,9 +5,12 @@ import {
   styleToString,
   tree2String,
   nativeHandleClassName,
-  mergeStyles
-} from "./utils";
-import { IconTree, Variants, IconType, IconBaseProps } from "@/types";
+  mergeStyles,
+  IconTree,
+  Variants,
+  IconType,
+  IconBaseProps
+} from "@rocketicons/utils";
 
 type NativeIconProps = {
   style?: Record<string, string>[];

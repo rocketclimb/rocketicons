@@ -1,14 +1,24 @@
 "use client";
 import { AnimatedCodeBlock, ScriptAction, Script } from "@rocketclimb/code-block";
-import IconLoader, { IconHandlerProps } from "@/components/icons/icon-loader";
+
+import { IconFromData, IconTree, Variants } from "@rocketicons/core";
 
 import { sizes } from "./utils";
 import { useEffect, useState } from "react";
-import { CollectionID } from "rocketicons/data";
 
-const Animation = ({ Icon, iconName }: IconHandlerProps & { iconName: string }) => {
+const Animation = ({
+  iconTree,
+  variant,
+  iconName
+}: {
+  iconName: string;
+  iconTree: IconTree;
+  variant: Variants;
+}) => {
   const [state, setState] = useState<string>("icon-base");
   const [script, setScript] = useState<Script>([]);
+
+  const Icon = (props: any) => <IconFromData iconTree={iconTree} variant={variant} {...props} />;
 
   useEffect(() => {
     const { script } = [...Object.keys(sizes)].reduce(
@@ -80,12 +90,13 @@ const Animation = ({ Icon, iconName }: IconHandlerProps & { iconName: string }) 
 
 type SizingAnimationProsp = {
   icon: string;
-  collection: CollectionID;
+  iconTree: IconTree;
+  variant: Variants;
 };
 
-const SizingAnimation = ({ collection, icon }: SizingAnimationProsp) => (
+const SizingAnimation = ({ icon, iconTree, variant }: SizingAnimationProsp) => (
   <div className="flex h-48 flex-col sm:flex-row xs:my-12 items-center justify-center gap-4">
-    <IconLoader collectionId={collection} icon={icon} iconName={icon} Handler={Animation} />
+    <Animation iconTree={iconTree} variant={variant} iconName={icon} />
   </div>
 );
 

@@ -3,43 +3,12 @@
 import * as changeCase from "change-case";
 import { withLocale } from "@/app/locales";
 import OpenGraph from "@/components/opengraph";
-import { Languages, AvailableLanguages } from "@/types";
+import { Languages } from "@/types";
 import { NextRequest } from "next/server";
-import { IconsManifest } from "@/data-helpers/icons/manifest-from-public";
-import { CollectionID } from "@/app/components/icons/types";
+import { Variants, IconTree } from "rocketicons";
+import { CollectionID } from "rocketicons/data";
 
-import { svgAsJson } from "@/utils/svg-as-json";
-
-// Local types to avoid bundling rocketicons
-type Variants = "filled" | "outlined" | "full";
-interface IconTree {
-  tag: string;
-  attr: Record<string, any>;
-  child: IconTree[];
-}
-
-export const generateStaticParams = () => {
-  // OPTIMIZATION: Only generate essential OpenGraph images statically
-  // Individual icon OpenGraph images will be generated dynamically
-  const params = [];
-
-  // Generate params for each language - only essential pages
-  for (const lang of AvailableLanguages) {
-    // Basic page params (SEO critical)
-    params.push({ lang, params: ["page"] });
-    params.push({ lang, params: ["doc"] });
-
-    // Collection params only (not individual icons)
-    for (const collection of IconsManifest) {
-      params.push({ lang, params: ["collection", collection.id] });
-    }
-  }
-
-  console.log(
-    `📦 OpenGraph static generation: ${params.length} essential pages (dynamic icon images for better performance)`
-  );
-  return params;
-};
+import { collectionAsJson, svgAsJson, svgsAsJson } from "@/utils/svg-as-json";
 
 export const GET = async (request: NextRequest) => {
   const [, lang, , type, param1, param2] = request.nextUrl.pathname.split("/");
@@ -48,14 +17,14 @@ export const GET = async (request: NextRequest) => {
 
   try {
     if (type === "icon" || type === "collection") {
-      const collection = IconsManifest.find(({ id }: { id: string }) => id === param1)!;
+      const collection = await collectionAsJson(param1 as CollectionID);
 
       const { iconName, iconJson } = await selectIcon(param1, param2, language);
 
       return await OpenGraph({
         lang: lang as Languages,
         iconCollectionId: param1 as CollectionID,
-        iconCollectionCount: Object.keys(collection.iconsManifest).length,
+        iconCollectionCount: collection.totalIcons,
         iconCollectionName: collection.name,
         iconName,
         iconJson
@@ -146,7 +115,7 @@ const selectIcon = async (
   let iconFilename: string | undefined;
 
   if (hasCollection) {
-    const collection = IconsManifest.find(({ id }: { id: string }) => id === iconCollectionId);
+    const collection = await collectionAsJson(iconCollectionId as CollectionID);
 
     selectedIconCollectionId = iconCollectionId as CollectionID;
     if (collection) {
@@ -154,9 +123,9 @@ const selectIcon = async (
         iconName = iconId && changeCase.pascalCase(iconId);
         iconFilename = iconId;
       } else {
-        // Get the first icon from iconsManifest
-        const firstIconData = Object.values(collection?.iconsManifest ?? {})[0];
-        iconFilename = firstIconData?.id;
+        const icons = await svgsAsJson(iconCollectionId as CollectionID, 1);
+        const [icon] = icons ?? [];
+        iconFilename = icon.iconId;
       }
     }
   } else {

@@ -3,48 +3,42 @@ import { useInstantSearch } from "react-instantsearch";
 import Link from "next/link";
 import { withLocale } from "@/locales";
 import { PropsWithLang } from "@/types";
-
-import IconLoader from "@/components/icons/icon-loader";
-
+import { SiAlgolia } from "rocketicons/si";
+import { BiHash } from "rocketicons/bi";
 import WithCopy from "@/components/documentation/with-copy";
 import { PropsWithChildren } from "react";
+import { GoBook } from "rocketicons/go";
 
-import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
+import SvgHit from "./svg-hit";
+
 const borderClass = "border-surface-lighter dark:border-surface-medium";
-
-const Loader = () => (
-  <PublicJSONIcon
-    collection="bi"
-    iconId="bi-loader-alt"
-    className="animate-spin duration-1000 icon-secondary-xl mr-3"
-  />
-);
 
 type IconHitProps = {
   hit: any;
 } & PropsWithLang;
 
-const IconHit = ({ hit, lang }: IconHitProps) => {
+const IconHit = ({
+  hit: {
+    group,
+    objectID,
+    title,
+    text,
+    categories: [variant]
+  },
+  lang
+}: IconHitProps) => {
   return (
     <>
-      <Link
-        className="grow py-3 pl-4 capitalize"
-        href={`/${lang}/icons/${hit.group}/${hit.objectID}`}
-      >
-        <IconLoader
-          collectionId={hit.group}
-          icon={hit.text}
-          className="icon-secondary-xl group-hover/result:icon-white-xl mr-3"
-          Loading={Loader}
-        />
-        {hit.title}
+      <Link className="grow py-3 pl-4 capitalize" href={`/${lang}/icons/${group}/${objectID}`}>
+        <SvgHit src={`/svgs/${group}/${objectID}`} variant={variant} />
+        {title}
       </Link>
       <WithCopy
         lang={lang}
-        clipboardText={`<${hit.text} />`}
+        clipboardText={`<${text} />`}
         className="text-left text-[0.6rem]/normal group-hover/result:xs:text-[0.7rem]/normal group-hover/result:md:text-sm md:text-sm  pr-4 !absolute md:!relative italic md:not-italic font-extralight opacity-40 md:opacity-100 group-hover/result:opacity-90 group-hover/result:md:opacity-100 right-0 bottom-0 after:hidden after:text-xs after:font-light after:-right-3 after:-top-3"
       >
-        <span className="font-monospace font-light">{`<${hit.text} />`}</span>
+        <span className="font-monospace font-light">{`<${text} />`}</span>
       </WithCopy>
     </>
   );
@@ -68,17 +62,9 @@ const Hit = ({ hit, lang }: PropsHit) => {
     >
       <span className="grow">{hit.title}</span>
       {hit.isFragment ? (
-        <PublicJSONIcon
-          collection="bi"
-          iconId="bi-hash"
-          className="icon-primary-bright dark:icon-primary-lighter align-center mr-3"
-        />
+        <BiHash className="icon-primary-bright dark:icon-primary-lighter align-center mr-3" />
       ) : (
-        <PublicJSONIcon
-          collection="go"
-          iconId="go-book"
-          className="icon-primary-bright dark:icon-primary-lighter align-center mr-3"
-        />
+        <GoBook className="icon-primary-bright dark:icon-primary-lighter align-center mr-3" />
       )}
     </Link>
   );
@@ -229,7 +215,7 @@ const SearchHits = ({ lang }: PropsWithLang) => {
       </div>
       <div className={`p-4 text-right h-14 border-t ${borderClass}`}>
         <Link href={"https://www.algolia.com"} target="_blank">
-          <PublicJSONIcon collection="si" iconId="si-algolia" />
+          <SiAlgolia />
         </Link>
       </div>
     </>

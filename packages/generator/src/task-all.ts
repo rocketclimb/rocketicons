@@ -108,7 +108,8 @@ export const writeIconModuleAndSvgs = async (
       projectUrl: icon.projectUrl,
       licenseUrl: icon.licenseUrl,
       ...(icon?.compPrefix && { comPrefix: icon?.compPrefix }),
-      icons: {}
+      icons: {},
+      data: {}
     };
 
     for (const file of files) {
@@ -145,6 +146,9 @@ export const writeIconModuleAndSvgs = async (
         compName: name,
         variant
       };
+
+      iconInfoManifest[icon.id].data[name] = iconData;
+
       exists.add(file);
     }
   }

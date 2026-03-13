@@ -1,6 +1,6 @@
 {
   "name": "@rocketicons/tailwind",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "license": "MIT",
   "main": "./dist/index.js",
   "scripts": {
@@ -16,5 +16,8 @@
   },
   "files": [
     "dist/"
-  ]
+  ],
+  "dependencies": {
+    "@rocketclimb/tw-utils": "*"
+  }
 }

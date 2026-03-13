@@ -1,18 +1,12 @@
-import { IconsManifest } from "@/data-helpers/icons/manifest-from-public";
-import { Languages, AvailableLanguages } from "@/types";
+import { Languages } from "@/types";
 import { NextRequest } from "next/server";
 import { SitemapRow } from "@/types/sitemap-types";
 import { generateSitemapEntry, sitemapToXml } from "@/app/utils/sitemap-utils";
+import { collectionsAsJson } from "@/utils/svg-as-json";
 
 type Sitemap = Array<SitemapRow>;
 
-export const generateStaticParams = () => {
-  return AvailableLanguages.map((lang) => ({
-    lang
-  }));
-};
-
-const pagesForSitemap = (lang: Languages): Sitemap => {
+const pagesForSitemap = async (lang: Languages): Promise<Sitemap> => {
   const urls = [];
 
   urls.push(generateSitemapEntry(lang));
@@ -31,8 +25,10 @@ const pagesForSitemap = (lang: Languages): Sitemap => {
 
   urls.push(generateSitemapEntry(lang, "/icons"));
 
-  IconsManifest.forEach((collection) => {
-    const url = generateSitemapEntry(lang, `/icons/${collection.id}`);
+  const collections = await collectionsAsJson();
+
+  collections.forEach(({ id }) => {
+    const url = generateSitemapEntry(lang, `/icons/${id}`);
 
     urls.push(url);
   });
@@ -44,7 +40,7 @@ export const GET = async (request: NextRequest) => {
   const [, langFromPath] = request.nextUrl.pathname.split("/");
   const lang = langFromPath as Languages;
 
-  const sitemap = pagesForSitemap(lang);
+  const sitemap = await pagesForSitemap(lang);
 
   const sitemapXml = sitemapToXml(sitemap);
 

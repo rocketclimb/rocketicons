@@ -1,42 +1,23 @@
 import * as changeCase from "change-case";
 
-import { Languages, AvailableLanguages } from "@/types";
+import { Languages } from "@/types";
 import { NextRequest } from "next/server";
-import { IconsManifest } from "@/data-helpers/icons/manifest-from-public";
 import { SitemapRow } from "@/types/sitemap-types";
 import { generateSitemapEntry, sitemapToXml } from "@/app/utils/sitemap-utils";
+import { collectionAsJson, svgsAsJson } from "@/utils/svg-as-json";
+import { CollectionID } from "rocketicons/data";
 
 type Sitemap = Array<SitemapRow>;
 
-// OPTIMIZATION: Generate minimal static params for export compatibility
-// Only generate collection sitemaps, not individual icon sitemaps
-export const generateStaticParams = () => {
-  const params = [];
-
-  for (const lang of AvailableLanguages) {
-    for (const collection of IconsManifest) {
-      params.push({
-        lang,
-        collectionid: collection.id
-      });
-    }
-  }
-
-  console.log(
-    `📦 Sitemap static generation: ${params.length} collection sitemaps (reduced from individual icon sitemaps)`
-  );
-  return params;
-};
-
-const pagesForSitemap = (lang: Languages, collectionId: string): Sitemap => {
+const pagesForSitemap = async (lang: Languages, collectionId: string): Promise<Sitemap> => {
   const urls: Sitemap = [];
 
-  const collection = IconsManifest.find((collection: any) => collection.id === collectionId);
+  const collection = await collectionAsJson(collectionId as CollectionID);
+  const icons = await svgsAsJson(collection.id, collection.totalIcons);
 
   if (collection) {
-    // Use iconsManifest to get kebab-case IDs directly
-    Object.values(collection.iconsManifest).forEach((iconData: any) => {
-      const iconUrl = generateSitemapEntry(lang, `/icons/${collection.id}/${iconData.id}`);
+    icons.forEach(({ iconId }) => {
+      const iconUrl = generateSitemapEntry(lang, `/icons/${collection.id}/${iconId}`);
       urls.push(iconUrl);
     });
   }
@@ -47,7 +28,7 @@ export const GET = async (request: NextRequest) => {
   const [, langFromPath, , param1] = request.nextUrl.pathname.split("/");
   const lang = langFromPath as Languages;
 
-  const sitemap = pagesForSitemap(lang, param1);
+  const sitemap = await pagesForSitemap(lang, param1);
 
   const sitemapXml = sitemapToXml(sitemap);
 
