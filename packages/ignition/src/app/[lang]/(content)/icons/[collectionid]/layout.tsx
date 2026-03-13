@@ -14,8 +14,6 @@ type LayoutProps = PropsWithChildrenAndLangParams & {
   };
 };
 
-export const generateStaticParams = () => collections;
-
 const Layout = ({ children, params: { lang, collectionid } }: LayoutProps) => {
   const info = IconsManifest.find(({ id: search }) => search === collectionid);
   return (
