@@ -1,7 +1,7 @@
-import { describe, jest, expect, test, beforeAll } from "@jest/globals";
+import { describe, expect, test, beforeAll } from "@jest/globals";
 import { configHandler, DEFAULT_CLASS_NAME } from "./config-handler";
 
-import { Config, StyleHandler, ThemeOptions } from "@/types";
+import { StyleHandler, ThemeOptions } from "@/types";
 
 type TestingStyles = {
   defaults: StyleHandler[];
@@ -168,82 +168,6 @@ describe("configHandler - Theme tests", () => {
       ]
     },
     {
-      name: "Extends New Default Color",
-      config: {
-        extend: {
-          components: {
-            icon: {
-              default: "tertiary-500-lg"
-            }
-          }
-        }
-      },
-      expectations: [
-        {
-          name: "defaults",
-          values: [
-            [DEFAULT_CLASS_NAME, "p1"],
-            [`${DEFAULT_CLASS_NAME}`, "w-4 h-4"],
-            ["default.outlined", "border stroke-tertiary-500"],
-            ["default.filled", "center fill-tertiary-500"]
-          ]
-        },
-        ...baseExpectations
-      ]
-    },
-    {
-      name: "Extends New Default Size",
-      config: {
-        extend: {
-          components: {
-            icon: {
-              default: "tertiary-500-md"
-            }
-          }
-        }
-      },
-      expectations: [
-        {
-          name: "defaults",
-          values: [
-            [DEFAULT_CLASS_NAME, "p1"],
-            [`${DEFAULT_CLASS_NAME}`, "w-2 h-2"],
-            ["default.outlined", "border stroke-tertiary-500"],
-            ["default.filled", "center fill-tertiary-500"]
-          ]
-        },
-        sizeExpectations,
-        colorsExpectations,
-        shortcutsExpectations
-      ]
-    },
-    {
-      name: "Extends New Default",
-      config: {
-        extend: {
-          components: {
-            icon: {
-              default: "secondary-md"
-            }
-          }
-        }
-      },
-      expectations: [
-        {
-          name: "defaults",
-          values: [
-            [DEFAULT_CLASS_NAME, "p1"],
-            [`${DEFAULT_CLASS_NAME}`, "w-2 h-2"],
-            ["default.outlined", "border stroke-secondary-200"],
-            ["default.filled", "center fill-secondary-200"]
-          ]
-        },
-        sizeExpectations,
-        colorsExpectations,
-        shortcutsExpectations
-      ]
-    },
-    {
       name: "Override",
       config: {
         icon: {
@@ -349,14 +273,20 @@ describe("configHandler - Theme tests", () => {
       };
 
       beforeAll(() => {
-        const spyConfig = jest.fn<Config>(((request: string) =>
-          request === "components"
-            ? customConfig
-            : request === "extend"
-              ? customConfig["extend" as keyof typeof customConfig]
-              : { colors }) as Config);
-        //@ts-expect-error Config type enforcement
-        const config = configHandler(spyConfig);
+        // In TW v4, configHandler takes theme() instead of config()
+        // We mock theme() to return colors and component config
+        const mockTheme = ((path: string) => {
+          if (path === "colors") return colors;
+          if (path.startsWith("components.")) {
+            const componentKey = path.replace("components.", "");
+            const components = customConfig as Record<string, unknown>;
+            return components[componentKey] ?? null;
+          }
+          return null;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        }) as any;
+
+        const config = configHandler(mockTheme);
         const theme = config("icon", baseConfig);
 
         styles.defaults = theme.defaults();

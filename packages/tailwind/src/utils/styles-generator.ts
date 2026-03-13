@@ -1,6 +1,7 @@
 import { Style, StyleHandler } from "@/types";
 import { DEFAULT_CLASS_NAME, ROOT_CLASS_NAME, CLASS_NAME_SEPARATOR } from "./config-handler";
-import { sanitize } from "@rocketclimb/tw-utils";
+
+const sanitize = (str: string): string => str.replace(/\s+/g, " ").trim();
 
 import { SpecialStyleProps, SpecialProps } from "./types";
 
