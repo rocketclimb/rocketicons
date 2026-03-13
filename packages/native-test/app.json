@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "rocketicons-native-test",
+    "slug": "rocketicons-native-test",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "platforms": ["ios"],
+    "ios": {
+      "supportsTablet": true
+    }
+  }
+}
