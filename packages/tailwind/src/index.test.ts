@@ -60,4 +60,12 @@ describe("plugin", () => {
       expect(result.css).toContain(".icon-ri");
     });
   });
+
+  // Note on TW v4 prefix support:
+  // TW v4 automatically handles prefix for addComponents() output.
+  // Users configure prefix via: @import "tailwindcss" prefix(xp);
+  // The plugin's generated selectors (.icon-default etc.) are automatically
+  // prefixed by TW v4's engine (e.g., .xp\:icon-default).
+  // No manual prefix handling is needed in the plugin JS code.
+  // @apply inside plugins resolves unprefixed utility names correctly.
 });
