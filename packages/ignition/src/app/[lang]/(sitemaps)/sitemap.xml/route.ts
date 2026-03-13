@@ -1,10 +1,16 @@
-import { IconsManifest } from "@/data-helpers/icons/manifest";
-import { Languages } from "@/types";
+import { IconsManifest } from "@/data-helpers/icons/manifest-from-public";
+import { Languages, AvailableLanguages } from "@/types";
 import { NextRequest } from "next/server";
 import { SitemapRow } from "@/types/sitemap-types";
 import { generateSitemapEntry, sitemapToXml } from "@/app/utils/sitemap-utils";
 
 type Sitemap = Array<SitemapRow>;
+
+export const generateStaticParams = () => {
+  return AvailableLanguages.map((lang) => ({
+    lang
+  }));
+};
 
 const pagesForSitemap = (lang: Languages): Sitemap => {
   const urls = [];

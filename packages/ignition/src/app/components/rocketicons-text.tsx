@@ -1,4 +1,4 @@
-import { RcRocketIcon } from "rocketicons/rc";
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
 import { PropsWithChildrenAndClassName } from "@/types";
 
 const Text = () => (
@@ -16,7 +16,13 @@ const RocketIconsText = ({ showIcon, className }: RocketIconsTextProps) => (
   <>
     {(className && (
       <span className="whitespace-nowrap">
-        {!!showIcon && <RcRocketIcon className={`-mt-1 icon-primary dark:icon-primary-dark`} />}
+        {!!showIcon && (
+          <PublicJSONIcon
+            collection="rc"
+            name="RcRocketIcon"
+            className={`-mt-1 icon-primary dark:icon-primary-dark`}
+          />
+        )}
         <span className={className}>
           <Text />
         </span>

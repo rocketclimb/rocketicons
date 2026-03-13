@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { IconsManifest } from "rocketicons/data";
+import { IconsManifest } from "@/app/data-helpers/icons/manifest-from-public";
 import { siteConfig } from "@/config/site";
 
 const DATA_APP = "./src/app/";

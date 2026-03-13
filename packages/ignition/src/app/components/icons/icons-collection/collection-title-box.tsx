@@ -1,5 +1,5 @@
-import { IconsManifestType } from "rocketicons";
-import { CollectionID, License } from "rocketicons/data";
+import { CollectionID, License } from "@/app/components/icons/types";
+import { CollectionInfo } from "@/app/data-helpers/icons/manifest-from-public";
 
 import { withLocale } from "@/locales";
 import { Languages, PropsWithLang } from "@/types";
@@ -26,7 +26,7 @@ const IconCountBadge = ({ lang, count }: PropsWithLang & { count: number }) => {
 };
 
 type TitleBoxProps = {
-  info: IconsManifestType<CollectionID, License>;
+  info: CollectionInfo;
 } & PropsWithLang;
 
 const CollectionTitleBox = ({ lang, info }: TitleBoxProps) => (
@@ -42,10 +42,10 @@ const CollectionTitleBox = ({ lang, info }: TitleBoxProps) => (
         <DocLink href={getProjectUrl(lang, info)} />
       </p>
       <p>
-        <LicenseBox url={info.licenseUrl} license={info.license} />
+        <LicenseBox url={info.license.url} license={info.license.type as any} />
       </p>
       <div className="ml-3 md:ml-0 lg:my-3">
-        <IconCountBadge lang={lang} count={info.icons.length} />
+        <IconCountBadge lang={lang} count={Object.keys(info.iconsManifest).length} />
       </div>
     </div>
   </FloatBlock>
@@ -53,7 +53,7 @@ const CollectionTitleBox = ({ lang, info }: TitleBoxProps) => (
 
 export default CollectionTitleBox;
 
-function getProjectUrl(lang: Languages, info: IconsManifestType<CollectionID, License>): string {
+function getProjectUrl(lang: Languages, info: CollectionInfo): string {
   if (info.projectUrl.indexOf(siteConfig.url) === 0) {
     const newUrl = new URL(lang, info.projectUrl);
     return newUrl.toString();

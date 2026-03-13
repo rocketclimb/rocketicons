@@ -3,17 +3,21 @@ import { useInstantSearch } from "react-instantsearch";
 import Link from "next/link";
 import { withLocale } from "@/locales";
 import { PropsWithLang } from "@/types";
-import { SiAlgolia } from "rocketicons/si";
+
 import IconLoader from "@/components/icons/icon-loader";
-import { BiHash, BiLoaderAlt } from "rocketicons/bi";
+
 import WithCopy from "@/components/documentation/with-copy";
 import { PropsWithChildren } from "react";
-import { GoBook } from "rocketicons/go";
 
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
 const borderClass = "border-surface-lighter dark:border-surface-medium";
 
 const Loader = () => (
-  <BiLoaderAlt className="animate-spin duration-1000 icon-secondary-xl mr-3" />
+  <PublicJSONIcon
+    collection="bi"
+    iconId="bi-loader-alt"
+    className="animate-spin duration-1000 icon-secondary-xl mr-3"
+  />
 );
 
 type IconHitProps = {
@@ -64,9 +68,17 @@ const Hit = ({ hit, lang }: PropsHit) => {
     >
       <span className="grow">{hit.title}</span>
       {hit.isFragment ? (
-        <BiHash className="icon-primary-bright dark:icon-primary-lighter align-center mr-3" />
+        <PublicJSONIcon
+          collection="bi"
+          iconId="bi-hash"
+          className="icon-primary-bright dark:icon-primary-lighter align-center mr-3"
+        />
       ) : (
-        <GoBook className="icon-primary-bright dark:icon-primary-lighter align-center mr-3" />
+        <PublicJSONIcon
+          collection="go"
+          iconId="go-book"
+          className="icon-primary-bright dark:icon-primary-lighter align-center mr-3"
+        />
       )}
     </Link>
   );
@@ -217,7 +229,7 @@ const SearchHits = ({ lang }: PropsWithLang) => {
       </div>
       <div className={`p-4 text-right h-14 border-t ${borderClass}`}>
         <Link href={"https://www.algolia.com"} target="_blank">
-          <SiAlgolia />
+          <PublicJSONIcon collection="si" iconId="si-algolia" />
         </Link>
       </div>
     </>

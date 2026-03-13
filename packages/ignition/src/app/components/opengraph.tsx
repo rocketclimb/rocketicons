@@ -3,15 +3,21 @@ import { resolve } from "path";
 import { ImageResponse } from "next/og";
 import { Languages } from "@/types";
 import { withLocale } from "@/locales";
-import { CollectionID } from "rocketicons/data";
-import { collectionsCounts, total } from "@/data-helpers/icons/manifest";
-import { IconTree, Variants } from "rocketicons";
-import { BiCollection } from "rocketicons/bi";
-import { TbIcons } from "rocketicons/tb";
-import { BsCollection } from "rocketicons/bs";
-import React from "react";
-import { tree2Element } from "rocketicons/core/utils";
+import { CollectionID } from "@/app/components/icons/types";
+import { collectionsCounts, total } from "@/data-helpers/icons/manifest-from-public";
 
+import React from "react";
+import { tree2Element } from "@/app/components/icons/utils/tree-to-element";
+
+// Local types to avoid bundling rocketicons
+type Variants = "filled" | "outlined" | "full";
+interface IconTree {
+  tag: string;
+  attr: Record<string, any>;
+  child: IconTree[];
+}
+
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
 const numberFormatter = (lang: Languages, number: number) =>
   new Intl.NumberFormat(lang).format(number);
 
@@ -165,7 +171,9 @@ const OpenGraph = async ({
         <div tw="w-full flex flex-row text-2xl">
           {iconCollectionCount && (
             <div tw="flex flex-row grow">
-              <BsCollection style={smallIconStyle} />
+              <PublicJSONIcon collection="bs" iconId="bs-collection" style={smallIconStyle}>
+                5013
+              </PublicJSONIcon>
               <div tw="flex flex-col ml-3">
                 <span>{numberFormatter(lang, iconCollectionCount)}</span>
                 <span>{opengraph["int-this-collection"]}</span>
@@ -173,14 +181,18 @@ const OpenGraph = async ({
             </div>
           )}
           <div tw="flex flex-row grow">
-            <BiCollection style={smallIconStyle} />
+            <PublicJSONIcon collection="bi" iconId="bi-collection" style={smallIconStyle}>
+              5340
+            </PublicJSONIcon>
             <div tw="flex flex-col ml-3">
               <span>{numberFormatter(lang, collectionsCounts.size)}</span>
               <span>{opengraph["collections"]}</span>
             </div>
           </div>
           <div tw="flex flex-row grow">
-            <TbIcons style={smallIconStyle} />
+            <PublicJSONIcon collection="tb" iconId="tb-icons" style={smallIconStyle}>
+              5743
+            </PublicJSONIcon>
             <div tw="flex flex-col ml-3">
               <span>{numberFormatter(lang, totalIconsCount)}</span>
               <span>{opengraph["icons"]}</span>

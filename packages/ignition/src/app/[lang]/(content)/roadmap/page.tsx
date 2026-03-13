@@ -1,12 +1,11 @@
 import { PropsWithLangParams } from "@/types";
 import { withLocale } from "@/locales";
-import { LuCheck } from "rocketicons/lu";
-import { IoCaretUp } from "rocketicons/io5";
-import { BiQuestionMark } from "rocketicons/bi";
+
 import { customMetadata } from "@/components/metadata-custom";
 import { Metadata } from "next";
 import roadmapFile from "@/locales/roadmap.json";
 
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
 export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
   const { config, component } = withLocale(lang);
   const { roadmap } = config("nav");
@@ -37,8 +36,14 @@ const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
                     released ? "bg-green-500" : "bg-sky-600"
                   }`}
                 >
-                  {(released && <LuCheck className="icon-white" />) || (
-                    <BiQuestionMark className="icon-white" />
+                  {(released && (
+                    <PublicJSONIcon collection="lu" iconId="lu-check" className="icon-white" />
+                  )) || (
+                    <PublicJSONIcon
+                      collection="bi"
+                      iconId="bi-question-mark"
+                      className="icon-white"
+                    />
                   )}
                 </div>
               </div>
@@ -96,7 +101,11 @@ const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
       <h1 className="text-3xl font-extrabold text-primary dark:text-primary-dark">
         {nav.roadmap}
       </h1>
-      <IoCaretUp className="icon-gray-300-xl -mb-12 ml-1.5" />
+      <PublicJSONIcon
+        collection="io5"
+        iconId="io-caret-up"
+        className="icon-gray-300-xl -mb-12 ml-1.5"
+      />
       <div className="flow-root">
         <ul className="">{itemList}</ul>
       </div>

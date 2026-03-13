@@ -1,12 +1,16 @@
 import IconsCollectionsTastes from "@/app/components/icons/icons-collections-tastes";
-import { IconsManifest, total } from "@/data-helpers/icons/manifest";
+import { IconsManifest, total } from "@/data-helpers/icons/manifest-from-public";
 import { MdxComponent } from "@/components/mdx";
 import { Metadata } from "next";
-import { PropsWithLangParams } from "@/types";
+import { AvailableLanguages, PropsWithLangParams } from "@/types";
 
 import { withLocale } from "@/locales";
 import { customMetadata } from "@/components/metadata-custom";
 import NumberFormatter from "@/components/number-formatter";
+
+export function generateStaticParams() {
+  return AvailableLanguages.map((lang) => ({ lang }));
+}
 
 export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
   const { component, config } = withLocale(lang);

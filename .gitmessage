@@ -1,0 +1,12 @@
+# Icon Package Update
+#
+# Use this template when updating the icons package:
+#
+# feat: update icons package with latest collections
+#
+# - Updated X collections with Y new icons
+# - Bundle size: XXX MB
+# - Collections updated: fa, md, bi, etc.
+#
+# Generated with: npm run generate-icons-force
+# Analysis: npm run size-check

@@ -5,11 +5,11 @@ import { getCurrentIconData } from "@/components/usage/utils";
 import GridContainer from "@/components/documentation/grid-container";
 import UpdateAlert from "@/components/documentation/update-alert";
 import { RocketIconsTextDefault } from "@/components/rocketicons-text";
-import { TbCheckbox, TbUserQuestion, TbUserStar, TbUser } from "rocketicons/tb";
 
 import { CodeSample } from "@rocketclimb/code-block";
 import Wrapper from "@/components/documentation/wrapper";
 
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
 const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
   const { icon, Icon } = getCurrentIconData(queryIcon);
   return (
@@ -149,7 +149,11 @@ const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: stri
                 type="radio"
                 name="permission"
               />
-              <TbCheckbox className="transition-opacity duration-200 pointer-events-none ml-2 opacity-40 -mt-0.5 icon-primary-lighter peer-hover/admin:opacity-100 peer-checked/admin:opacity-90 peer-checked/admin:icon-sky-500" />
+              <PublicJSONIcon
+                collection="tb"
+                name="TbCheckbox"
+                className="transition-opacity duration-200 pointer-events-none ml-2 opacity-40 -mt-0.5 icon-primary-lighter peer-hover/admin:opacity-100 peer-checked/admin:opacity-90 peer-checked/admin:icon-sky-500"
+              />
               <label htmlFor="admin" className="ml-2 peer-checked/admin:text-sky-500">
                 Admin
               </label>
@@ -160,13 +164,29 @@ const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: stri
                 type="radio"
                 name="permission"
               />
-              <TbCheckbox className="transition duration-200 pointer-events-none opacity-40 -mt-0.5 icon-primary-lighter peer-hover/user:opacity-100 peer-checked/user:opacity-90 peer-checked/user:icon-sky-500" />
+              <PublicJSONIcon
+                collection="tb"
+                name="TbCheckbox"
+                className="transition duration-200 pointer-events-none opacity-40 -mt-0.5 icon-primary-lighter peer-hover/user:opacity-100 peer-checked/user:opacity-90 peer-checked/user:icon-sky-500"
+              />
               <label htmlFor="user" className="ml-2 peer-checked/user:text-sky-500">
                 User
               </label>
-              <TbUserQuestion className="transition duration-500 opacity-100 absolute block size-20 right-0 top-2 peer-checked/admin:opacity-0 peer-checked/user:opacity-0" />
-              <TbUserStar className="transition duration-500 opacity-0 absolute block size-20 right-0 top-2 peer-checked/admin:opacity-100" />
-              <TbUser className="transition duration-500 opacity-0 absolute block size-20 right-0 top-2 peer-checked/user:opacity-100" />
+              <PublicJSONIcon
+                collection="tb"
+                name="TbUserQuestion"
+                className="transition duration-500 opacity-100 absolute block size-20 right-0 top-2 peer-checked/admin:opacity-0 peer-checked/user:opacity-0"
+              />
+              <PublicJSONIcon
+                collection="tb"
+                name="TbUserStar"
+                className="transition duration-500 opacity-0 absolute block size-20 right-0 top-2 peer-checked/admin:opacity-100"
+              />
+              <PublicJSONIcon
+                collection="tb"
+                name="TbUser"
+                className="transition duration-500 opacity-0 absolute block size-20 right-0 top-2 peer-checked/user:opacity-100"
+              />
             </fieldset>
           </div>
         </GridContainer>

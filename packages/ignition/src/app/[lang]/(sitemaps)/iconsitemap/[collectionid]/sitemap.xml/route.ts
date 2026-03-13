@@ -1,12 +1,32 @@
 import * as changeCase from "change-case";
 
-import { Languages } from "@/types";
+import { Languages, AvailableLanguages } from "@/types";
 import { NextRequest } from "next/server";
-import { IconsManifest } from "@/data-helpers/icons/manifest";
+import { IconsManifest } from "@/data-helpers/icons/manifest-from-public";
 import { SitemapRow } from "@/types/sitemap-types";
 import { generateSitemapEntry, sitemapToXml } from "@/app/utils/sitemap-utils";
 
 type Sitemap = Array<SitemapRow>;
+
+// OPTIMIZATION: Generate minimal static params for export compatibility
+// Only generate collection sitemaps, not individual icon sitemaps
+export const generateStaticParams = () => {
+  const params = [];
+
+  for (const lang of AvailableLanguages) {
+    for (const collection of IconsManifest) {
+      params.push({
+        lang,
+        collectionid: collection.id
+      });
+    }
+  }
+
+  console.log(
+    `📦 Sitemap static generation: ${params.length} collection sitemaps (reduced from individual icon sitemaps)`
+  );
+  return params;
+};
 
 const pagesForSitemap = (lang: Languages, collectionId: string): Sitemap => {
   const urls: Sitemap = [];
@@ -14,9 +34,9 @@ const pagesForSitemap = (lang: Languages, collectionId: string): Sitemap => {
   const collection = IconsManifest.find((collection: any) => collection.id === collectionId);
 
   if (collection) {
-    collection.icons.forEach((icon: string) => {
-      const iconFilename = changeCase.kebabCase(icon);
-      const iconUrl = generateSitemapEntry(lang, `/icons/${collection.id}/${iconFilename}`);
+    // Use iconsManifest to get kebab-case IDs directly
+    Object.values(collection.iconsManifest).forEach((iconData: any) => {
+      const iconUrl = generateSitemapEntry(lang, `/icons/${collection.id}/${iconData.id}`);
       urls.push(iconUrl);
     });
   }

@@ -1,8 +1,9 @@
 import { useSearchBox } from "react-instantsearch";
-import { LuSearch } from "rocketicons/lu";
+
 import useWaitToExecute from "@/hooks/use-wait-to-execute";
 import { useEffect, useState } from "react";
 
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
 const MIN_SEARCH_LENGH = 3;
 
 type SearchBoxProps = {
@@ -26,7 +27,11 @@ const SearchBox = ({ label }: SearchBoxProps) => {
   return (
     <form className="flex items-center h-14 w-full">
       <label htmlFor="search-input" id="search-label">
-        <LuSearch className="icon-slate-500 dark:icon-slate-400 stroke-2" />
+        <PublicJSONIcon
+          collection="lu"
+          iconId="lu-search"
+          className="icon-slate-500 dark:icon-slate-400 stroke-2"
+        />
       </label>
       <input
         type="search"

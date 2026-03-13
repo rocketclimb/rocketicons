@@ -1,6 +1,6 @@
 import { CollectionID } from "rocketicons/data";
 
-import { IconsManifest } from "@/data-helpers/icons/manifest";
+import { IconsManifest } from "@/data-helpers/icons/manifest-from-public";
 import collections from "@/data-helpers/params/collections.json";
 
 import CollectionTitleBox from "@/components/icons/icons-collection/collection-title-box";

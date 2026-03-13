@@ -5,3 +5,4 @@ import "./manifest-loader";
 import "./menu-control";
 import "./svg-files";
 import "./tastes-loader";
+import "./json-icons-generator";

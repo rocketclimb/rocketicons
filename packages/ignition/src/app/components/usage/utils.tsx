@@ -1,8 +1,7 @@
 import { getCollectionsInfo } from "@/components/icons/get-icons-data";
 import IconLoader from "@/components/icons/icon-loader";
-import { CollectionID } from "rocketicons/data";
-import { RcRocketIcon } from "rocketicons/rc";
-import { IconProps } from "rocketicons";
+import { CollectionID, IconProps } from "@/app/components/icons/types";
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
 
 export const getCurrentIconData = (query?: string) => {
   const defaultCollection: CollectionID = "rc";
@@ -12,7 +11,9 @@ export const getCurrentIconData = (query?: string) => {
 
   if (!collection || !icon || !getCollectionsInfo(collection).exists(icon)) {
     return {
-      Icon: (props: IconProps) => <RcRocketIcon {...props} />,
+      Icon: (props: IconProps) => (
+        <PublicJSONIcon collection="rc" iconId="rc-rocket-icon" {...props} />
+      ),
       icon: defaultIcon,
       collection: defaultCollection
     };

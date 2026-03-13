@@ -1,11 +1,10 @@
 import * as changeCase from "change-case";
-import { IconsManifestType } from "rocketicons";
-import { CollectionID, License } from "rocketicons/data";
-import { IconsManifest } from "@/app/data-helpers/icons/manifest";
+import { CollectionID } from "@/app/components/icons/types";
+import { IconsManifest, CollectionInfo } from "@/app/data-helpers/icons/manifest-from-public";
 
-type IconsManifest = Map<CollectionID, IconsManifestType<CollectionID, License>>;
+type IconsManifestMap = Map<CollectionID, CollectionInfo>;
 
-let iconsManifest: IconsManifest;
+let iconsManifest: IconsManifestMap;
 
 export const asCompName = (icon: string) =>
   !icon.includes("-") ? icon : changeCase.pascalCase(icon, { mergeAmbiguousCharacters: true });
@@ -21,8 +20,19 @@ export const getCollectionsInfo = (id: CollectionID) => {
   }
 
   return {
-    exists: (icon?: string) =>
-      iconsManifest.has(id) && (!icon || iconsManifest.get(id)?.icons.includes(asCompName(icon))),
+    exists: (icon?: string) => {
+      if (!iconsManifest.has(id)) return false;
+      if (!icon) return true;
+
+      const collection = iconsManifest.get(id);
+      if (!collection?.iconsManifest) return false;
+
+      // Check if the component name exists in the iconsManifest
+      const componentName = asCompName(icon);
+      return Object.values(collection.iconsManifest).some(
+        (iconData) => iconData.compName === componentName
+      );
+    },
     get: () => iconsManifest.get(id)
   };
 };

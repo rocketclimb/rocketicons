@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
-import { IoMdClose } from "rocketicons/io";
+
 import { CodeStyler, CodeImportBlock, CodeElementBlock } from "@rocketclimb/code-block";
-import { CollectionID } from "rocketicons/data";
+import { CollectionID } from "@/app/components/icons/types";
 import LinkButton from "@/components/link-button";
 
 import Title3 from "@/components/documentation/title3";
@@ -26,6 +26,8 @@ import CombinedSectionContent from "./interactive/combined-section-content";
 import DarkModeSectionContent from "./interactive/dark-mode-section-content";
 import StatesSectionContent from "./interactive/states-section-content";
 import AnimationsSectionContent from "./interactive/animations-section-content";
+
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
 
 const InfoHandler = ({
   lang,
@@ -74,7 +76,11 @@ const InfoHandler = ({
         href={`/${lang}/icons/${collectionId}`}
         className="absolute top-1 right-1 flex items-center justify-center"
       >
-        <IoMdClose className="icon-slate-500 icon-lg hover:icon-slate-600 dark:icon-slate-400 dark:hover:icon-slate-300" />
+        <PublicJSONIcon
+          collection="io"
+          iconId="io-md-close"
+          className="icon-slate-500 icon-lg hover:icon-slate-600 dark:icon-slate-400 dark:hover:icon-slate-300"
+        />
       </LinkButton>
       <Title3 className="absolute top-1 left-1 md:left-2 icon-info-title content-box capitalize col-span-8 justify-start">
         {info.name}
