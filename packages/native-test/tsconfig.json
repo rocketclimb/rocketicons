@@ -8,5 +8,5 @@
     "module": "esnext",
     "skipLibCheck": true
   },
-  "include": ["**/*.tsx", "**/*.ts"]
+  "include": ["**/*.tsx", "**/*.ts", "nativewind-env.d.ts"]
 }
