@@ -147,4 +147,108 @@ describe("stylesGenerator", () => {
       });
     });
   });
+
+  describe("Edge cases", () => {
+    test("Should handle chaining multiple add calls", () => {
+      const generator = stylesGenerator("icon");
+      const result = generator
+        .add(asStyles("default", "w-5 h-5"))
+        .add(asStyles("xs", "w-2 h-2"))
+        .add(asStyles("sm", "w-4 h-4"))
+        .add(asStyles("lg", "w-6 h-6"))
+        .styles();
+
+      expect(result).toHaveProperty([".icon-default"]);
+      expect(result).toHaveProperty([".icon-xs"]);
+      expect(result).toHaveProperty([".icon-sm"]);
+      expect(result).toHaveProperty([".icon-lg"]);
+    });
+
+    test("Should handle adding multiple styles to the same class", () => {
+      const generator = stylesGenerator("icon");
+      const result = generator
+        .add(asStyles("default", "w-5 h-5"))
+        .add(asStyles("default", "stroke-primary", "outlined"))
+        .add(asStyles("default", "fill-primary", "filled"))
+        .styles();
+
+      const defaultClass = result[".icon-default"];
+      expect(defaultClass).toHaveProperty(["@apply w-5 h-5"]);
+      expect(defaultClass).toHaveProperty(["&.icon-outlined"]);
+      expect(defaultClass).toHaveProperty(["&.icon-filled"]);
+    });
+
+    test("Should preserve class name order across add calls", () => {
+      const generator = stylesGenerator("icon");
+      const result = generator
+        .add(asStyles("default", "p-0"))
+        .add(asStyles("sm", "h-4"))
+        .add(asStyles("lg", "h-6"))
+        .styles();
+
+      const keys = Object.keys(result);
+      expect(keys).toEqual([".icon-default", ".icon-sm", ".icon-lg"]);
+    });
+
+    test("Should use custom class prefix", () => {
+      const generator = stylesGenerator("ri");
+      const result = generator.add(asStyles("default", "w-5 h-5")).styles();
+
+      expect(result).toHaveProperty([".ri-default"]);
+      expect(result).not.toHaveProperty([".icon-default"]);
+    });
+
+    test("Should handle single style with no variants", () => {
+      const generator = stylesGenerator("icon");
+      const result = generator.add(asStyles("xl", "w-7 h-7")).styles();
+
+      expect(result).toStrictEqual({
+        ".icon-xl": {
+          "&.icon-ri": { "@apply w-7 h-7": {} }
+        }
+      });
+    });
+  });
+
+  describe("Native edge cases", () => {
+    test("Should merge special props (w, h, stroke, fill) correctly in native mode", () => {
+      const generator = stylesGenerator("icon", true);
+      const result = generator
+        .add(asStyles("default", "w-5 h-5"))
+        .add(asStyles("default", "stroke-primary", "outlined"))
+        .add(asStyles("default", "fill-primary", "filled"))
+        .styles();
+
+      // Native mode merges all styles into a single @apply
+      const defaultStyles = result[".icon-default"];
+      const applyKey = Object.keys(defaultStyles)[0];
+      expect(applyKey).toContain("w-5");
+      expect(applyKey).toContain("h-5");
+      expect(applyKey).toContain("stroke-primary");
+      expect(applyKey).toContain("fill-primary");
+    });
+
+    test("Should always include .icon-outlined and .icon-filled base classes in native mode", () => {
+      const generator = stylesGenerator("icon", true);
+      const result = generator.add(asStyles("default", "w-5 h-5")).styles();
+
+      expect(result).toHaveProperty([".icon-outlined"]);
+      expect(result).toHaveProperty([".icon-filled"]);
+
+      // Verify the overrides are correct
+      expect(result[".icon-outlined"]).toStrictEqual({ "@apply fill-none !important": {} });
+      expect(result[".icon-filled"]).toStrictEqual({ "@apply stroke-none !important": {} });
+    });
+
+    test("Should skip 'default' variant suffixes in native mode", () => {
+      const generator = stylesGenerator("icon", true);
+      const result = generator.add([asStyle("default", "w-5 h-5", "default")]).styles();
+
+      // The 'default' variant should be skipped, so only base classes exist
+      const keys = Object.keys(result);
+      expect(keys).toContain(".icon-outlined");
+      expect(keys).toContain(".icon-filled");
+      expect(keys).not.toContain(".icon-default-default");
+    });
+  });
 });

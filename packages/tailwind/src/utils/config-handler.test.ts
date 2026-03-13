@@ -302,3 +302,210 @@ describe("configHandler - Theme tests", () => {
     }
   );
 });
+
+describe("configHandler - Edge cases", () => {
+  const resolve = (styles: StyleHandler[]) =>
+    styles.map(({ name, styles }) => ({
+      name: name(),
+      styles: styles()
+    }));
+
+  const createMockTheme = (colors: object, componentOverride?: object) =>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ((path: string) => {
+      if (path === "colors") return colors;
+      if (path.startsWith("components.")) {
+        return componentOverride ?? null;
+      }
+      return null;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    }) as any;
+
+  describe("Empty colors", () => {
+    test("Should handle empty colors object gracefully", () => {
+      const handler = configHandler(createMockTheme({}));
+      const theme = handler("icon", {
+        default: "blue-500-base",
+        baseStyle: "p-0 inline-block",
+        sizes: { base: "h-5 w-5" }
+      });
+
+      expect(theme.colors()).toEqual([]);
+      expect(theme.shortcuts()).toEqual([]);
+      expect(theme.sizes().length).toBe(1);
+      expect(theme.defaults().length).toBe(4); // default + size + outlined + filled
+    });
+  });
+
+  describe("Null colors from theme lookup", () => {
+    test("Should handle null colors without crashing", () => {
+      const handler = configHandler(createMockTheme(null as unknown as object));
+      const theme = handler("icon", {
+        default: "primary-base",
+        sizes: { base: "h-5 w-5" }
+      });
+
+      expect(theme.colors()).toEqual([]);
+      expect(theme.shortcuts()).toEqual([]);
+    });
+  });
+
+  describe("Single string color (no variants)", () => {
+    test("Should handle string colors without shade variants", () => {
+      const handler = configHandler(
+        createMockTheme({
+          inherit: "inherit",
+          current: "currentColor",
+          transparent: "transparent"
+        })
+      );
+      const theme = handler("icon", {
+        default: "inherit-base",
+        sizes: { base: "h-5 w-5" }
+      });
+
+      const colors = resolve(theme.colors());
+
+      // String colors should map directly (no -500 suffix)
+      expect(colors).toContainEqual({ name: "inherit.outlined", styles: "stroke-inherit" });
+      expect(colors).toContainEqual({ name: "inherit.filled", styles: "fill-inherit" });
+      expect(colors).toContainEqual({ name: "current.outlined", styles: "stroke-current" });
+      expect(colors).toContainEqual({ name: "transparent.filled", styles: "fill-transparent" });
+    });
+  });
+
+  describe("Colors with DEFAULT value", () => {
+    test("Should use color name without suffix when DEFAULT exists", () => {
+      const handler = configHandler(
+        createMockTheme({
+          brand: {
+            DEFAULT: "#ff0000",
+            "100": "#ffe0e0",
+            "900": "#330000"
+          }
+        })
+      );
+      const theme = handler("icon", {
+        default: "brand-base",
+        sizes: { base: "h-5 w-5" }
+      });
+
+      const colors = resolve(theme.colors());
+
+      // DEFAULT means the base color name maps to itself (no -500)
+      expect(colors).toContainEqual({ name: "brand.outlined", styles: "stroke-brand" });
+      expect(colors).toContainEqual({ name: "brand.filled", styles: "fill-brand" });
+      // Variant shades should still be expanded
+      expect(colors).toContainEqual({ name: "brand-100.outlined", styles: "stroke-brand-100" });
+      expect(colors).toContainEqual({ name: "brand-900.filled", styles: "fill-brand-900" });
+    });
+  });
+
+  describe("Theme with no baseStyle", () => {
+    test("Should generate empty baseStyle for defaults", () => {
+      const handler = configHandler(createMockTheme({ primary: "#000" }));
+      const theme = handler("icon", {
+        default: "primary-sm",
+        sizes: { sm: "h-4", md: "h-6" }
+      });
+
+      const defaults = resolve(theme.defaults());
+
+      // First default entry should have empty style when baseStyle is undefined
+      expect(defaults[0]).toEqual({ name: "default", styles: "" });
+    });
+  });
+
+  describe("Theme with no variants", () => {
+    test("Should generate variant defaults using empty variant styles", () => {
+      const handler = configHandler(createMockTheme({ primary: "#000" }));
+      const theme = handler("icon", {
+        default: "primary-base",
+        sizes: { base: "h-5 w-5" }
+      });
+
+      const defaults = resolve(theme.defaults());
+      const outlinedDefault = defaults.find((d) => d.name === "default.outlined");
+      const filledDefault = defaults.find((d) => d.name === "default.filled");
+
+      // Without variants config, just the stroke/fill class with no extra styles
+      expect(outlinedDefault?.styles).toBe("stroke-primary");
+      expect(filledDefault?.styles).toBe("fill-primary");
+    });
+  });
+
+  describe("Colors with 500 shade (auto-default)", () => {
+    test("Should auto-select 500 shade as the default color mapping", () => {
+      const handler = configHandler(
+        createMockTheme({
+          blue: { "100": "#dbeafe", "500": "#3b82f6", "900": "#1e3a8a" }
+        })
+      );
+      const theme = handler("icon", {
+        default: "blue-base",
+        sizes: { base: "h-5 w-5" }
+      });
+
+      const colors = resolve(theme.colors());
+
+      // blue should auto-map to blue-500
+      expect(colors).toContainEqual({ name: "blue.outlined", styles: "stroke-blue-500" });
+      expect(colors).toContainEqual({ name: "blue.filled", styles: "fill-blue-500" });
+    });
+  });
+
+  describe("Colors without 500 shade (first shade fallback)", () => {
+    test("Should fall back to first shade when 500 is not available", () => {
+      const handler = configHandler(
+        createMockTheme({
+          custom: { "50": "#fafafa", "700": "#3f3f46" }
+        })
+      );
+      const theme = handler("icon", {
+        default: "custom-base",
+        sizes: { base: "h-5 w-5" }
+      });
+
+      const colors = resolve(theme.colors());
+
+      // Should fall back to first key (50)
+      expect(colors).toContainEqual({ name: "custom.outlined", styles: "stroke-custom-50" });
+      expect(colors).toContainEqual({ name: "custom.filled", styles: "fill-custom-50" });
+    });
+  });
+
+  describe("Multiple sizes with sanitization", () => {
+    test("Should sanitize extra whitespace in size values", () => {
+      const handler = configHandler(createMockTheme({ red: "#f00" }));
+      const theme = handler("icon", {
+        default: "red-base",
+        sizes: { base: "  h-5   w-5  " }
+      });
+
+      const sizes = resolve(theme.sizes());
+      expect(sizes[0].styles).toBe("h-5 w-5");
+    });
+  });
+
+  describe("Compound default color-size", () => {
+    test("Should correctly split compound default like sky-500-base", () => {
+      const handler = configHandler(
+        createMockTheme({
+          sky: { "500": "#0ea5e9" }
+        })
+      );
+      const theme = handler("icon", {
+        default: "sky-500-base",
+        baseStyle: "p-0 inline-block",
+        sizes: { base: "h-5 w-5", lg: "h-6 w-6" }
+      });
+
+      const defaults = resolve(theme.defaults());
+      const outlinedDefault = defaults.find((d) => d.name === "default.outlined");
+
+      // sky-500 is the color, base is the size
+      expect(outlinedDefault?.styles).toBe("stroke-sky-500");
+      expect(defaults[1]).toEqual({ name: "default", styles: "h-5 w-5" });
+    });
+  });
+});
