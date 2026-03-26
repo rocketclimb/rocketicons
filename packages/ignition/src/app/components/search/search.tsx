@@ -1,6 +1,6 @@
 "use client";
 import { ButtonHTMLAttributes } from "react";
-
+import { LuSearch } from "rocketicons/lu";
 import { withLocale } from "@/locales";
 import { PropsWithLang } from "@/types";
 import { useDisclosure } from "@/components/modal-context";
@@ -8,8 +8,6 @@ import SearchAlgolia from "@/components/search/search-algolia";
 import Button from "@/components/button";
 
 import useKeyboardShortcut from "@/hooks/use-keyboard-shortcut";
-
-import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
 type SearchButtonProps = {
   asInput?: boolean;
 } & PropsWithLang;
@@ -35,11 +33,7 @@ const SearchAsButton = ({ placeholder, ...props }: SearchAsButtonProps) => (
     className="hidden lg:flex items-center w-72 docked:w-full docked:text-sm docked:py-1.5 docked:px-3 docked:ml-1 text-left space-x-3 px-4 h-12 docked:h-auto bg-background ring-1 ring-primary/10 hover:ring-primary-bright focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-lg docked:rounded-md text-primary-lighter dark:bg-surface-dark dark:ring-0 dark:text-primary-bright docked:dark:text-primary-lighter dark:highlight-background/5 dark:hover:bg-surface-medium"
     {...props}
   >
-    <PublicJSONIcon
-      collection="lu"
-      iconId="lu-search"
-      className="icon-primary-bright dark:icon-primary-lighter docked:icon-primary-bright-sm docked:dark:icon-primary-lighter-sm docked:mr-1.5"
-    />
+    <LuSearch className="icon-primary-bright dark:icon-primary-lighter docked:icon-primary-bright-sm docked:dark:icon-primary-lighter-sm docked:mr-1.5" />
     <span className="flex-auto">{`${placeholder}...`}</span>
     <Kbd />
   </Button>
@@ -55,7 +49,7 @@ const SearchAsInput = ({ placeholder, ...props }: SearchAsButtonProps) => (
       <Kbd />
     </div>
 
-    <PublicJSONIcon collection="lu" iconId="lu-search" className="icon-primary-lighter" />
+    <LuSearch className="icon-primary-lighter" />
   </Button>
 );
 

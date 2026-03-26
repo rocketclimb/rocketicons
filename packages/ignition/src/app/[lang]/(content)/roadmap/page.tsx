@@ -6,7 +6,8 @@ import { Metadata } from "next";
 import roadmapFile from "@/locales/roadmap.json";
 
 import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
-export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
+export const generateMetadata = async (props: PropsWithLangParams): Promise<Metadata> => {
+  const { lang } = (await props.params) as { lang: import("@/types").Languages };
   const { config, component } = withLocale(lang);
   const { roadmap } = config("nav");
   const { description } = component("home");
@@ -14,7 +15,9 @@ export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Met
   return customMetadata(lang, "page", "roadmap", roadmap, description);
 };
 
-const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
+const Roadmap = async (props: PropsWithLangParams) => {
+  const { lang } = (await props.params) as { lang: import("@/types").Languages };
+
   const { nav, roadmap } = withLocale(lang).config("nav", "roadmap");
 
   const itemList = roadmapFile?.items.map((item: any, i: number) => {

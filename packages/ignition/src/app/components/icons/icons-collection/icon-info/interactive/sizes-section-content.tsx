@@ -24,9 +24,11 @@ const SizesSectionContent = ({
 }: SizesSectionContentProps) => {
   const router = useRouter();
   const { size: selectedSize, setSize, sizeBox, sections } = useBoxContext();
-  const { copy, copied, more } = withLocale(lang).config("code-block");
+  const { copy, copied, more } = withLocale(lang as import("@/types").Languages).config(
+    "code-block"
+  );
   const ref = useRef<HTMLDivElement>(null);
-  sections.set("sizes", ref);
+  sections.set("sizes", ref as any);
   return (
     <Section ref={ref}>
       {children}

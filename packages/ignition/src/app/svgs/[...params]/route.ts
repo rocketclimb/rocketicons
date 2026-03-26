@@ -7,9 +7,10 @@ import { attrToString, tree2String } from "@rocketicons/utils";
 
 export async function GET(
   _: NextRequest,
-  { params: { params } }: { params: { params: string[] } }
+  { params: paramsPromise }: { params: Promise<{ params: string[] }> }
 ) {
   try {
+    const { params } = await paramsPromise;
     const [collectionId, iconId] = params;
 
     const {

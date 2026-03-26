@@ -39,29 +39,36 @@ describe("stylesGenerator", () => {
             .styles()
         ).toStrictEqual({
           ".icon-default": {
-            "@apply border w-1 h-1": {},
-            "&.icon-outlined": { "@apply stroke-primary": {} },
-            "&.icon-filled": { "@apply fill-primary": {} }
+            width: "calc(var(--spacing) * 1)",
+            height: "calc(var(--spacing) * 1)",
+            "&.icon-outlined": { stroke: "var(--color-primary)" },
+            "&.icon-filled": { fill: "var(--color-primary)" }
           },
           ".icon-primary": {
-            "&.icon-ri.icon-outlined": { "@apply stroke-primary": {} },
-            "&.icon-ri.icon-filled": { "@apply fill-primary": {} }
+            "&.icon-ri.icon-outlined": { stroke: "var(--color-primary)" },
+            "&.icon-ri.icon-filled": { fill: "var(--color-primary)" }
           },
           ".icon-sm": {
-            "&.icon-ri": { "@apply w-1 h-1": {} }
+            "&.icon-ri": { width: "calc(var(--spacing) * 1)", height: "calc(var(--spacing) * 1)" }
           },
           ".icon-md": {
-            "&.icon-ri": { "@apply w-2 h-2": {} }
+            "&.icon-ri": { width: "calc(var(--spacing) * 2)", height: "calc(var(--spacing) * 2)" }
           },
           ".icon-primary-sm": {
-            "&.icon-ri": { "@apply w-1 h-1": {} },
-            "&.icon-ri.icon-outlined": { "@apply stroke-primary": {} },
-            "&.icon-ri.icon-filled": { "@apply fill-primary": {} }
+            "&.icon-ri": {
+              width: "calc(var(--spacing) * 1)",
+              height: "calc(var(--spacing) * 1)"
+            },
+            "&.icon-ri.icon-outlined": { stroke: "var(--color-primary)" },
+            "&.icon-ri.icon-filled": { fill: "var(--color-primary)" }
           },
           ".icon-secondary-200-md": {
-            "&.icon-ri": { "@apply w-2 h-2": {} },
-            "&.icon-ri.icon-outlined": { "@apply stroke-secondary-200": {} },
-            "&.icon-ri.icon-filled": { "@apply fill-secondary-200": {} }
+            "&.icon-ri": {
+              width: "calc(var(--spacing) * 2)",
+              height: "calc(var(--spacing) * 2)"
+            },
+            "&.icon-ri.icon-outlined": { stroke: "var(--color-secondary-200)" },
+            "&.icon-ri.icon-filled": { fill: "var(--color-secondary-200)" }
           }
         });
       });
@@ -71,7 +78,8 @@ describe("stylesGenerator", () => {
           generator.add(asStyles("default", "")).add(asStyles(`default`, "w-1 h-1")).styles()
         ).toStrictEqual({
           ".icon-default": {
-            "@apply w-1 h-1": {}
+            width: "calc(var(--spacing) * 1)",
+            height: "calc(var(--spacing) * 1)"
           }
         });
       });
@@ -173,7 +181,8 @@ describe("stylesGenerator", () => {
         .styles();
 
       const defaultClass = result[".icon-default"];
-      expect(defaultClass).toHaveProperty(["@apply w-5 h-5"]);
+      expect(defaultClass).toHaveProperty("width");
+      expect(defaultClass).toHaveProperty("height");
       expect(defaultClass).toHaveProperty(["&.icon-outlined"]);
       expect(defaultClass).toHaveProperty(["&.icon-filled"]);
     });
@@ -204,7 +213,7 @@ describe("stylesGenerator", () => {
 
       expect(result).toStrictEqual({
         ".icon-xl": {
-          "&.icon-ri": { "@apply w-7 h-7": {} }
+          "&.icon-ri": { width: "calc(var(--spacing) * 7)", height: "calc(var(--spacing) * 7)" }
         }
       });
     });

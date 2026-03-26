@@ -49,12 +49,48 @@ class WebStyleGenerator extends StyleGenerator {
     const selector =
       main === this.defaultClassName ? "" : `${this.classPrefix}-${this.rootClassName}`;
     const style = (this.parsed[className] ?? {}) as Style;
+
+    // Convert Tailwind utility strings (like 'w-5', 'fill-current') to native CSS manually
+    // This avoids the OOM loop seen in Webpack + Tailwind CSS v4 when injecting 8,000+ @apply rules.
+    const cssProps: Record<string, string> = {};
+    const tokens = styles.split(" ").filter(Boolean);
+    for (const token of tokens) {
+      if (token.startsWith("w-")) {
+        const val = token.replace("w-", "");
+        cssProps.width =
+          val.includes("px") || val.includes("rem") || val.includes("em") || val.includes("%")
+            ? val.replace(/[[\]]/g, "") // remove arbitrary bracket notation e.g. [20px] -> 20px
+            : `calc(var(--spacing) * ${val})`;
+      } else if (token.startsWith("h-")) {
+        const val = token.replace("h-", "");
+        cssProps.height =
+          val.includes("px") || val.includes("rem") || val.includes("em") || val.includes("%")
+            ? val.replace(/[[\]]/g, "")
+            : `calc(var(--spacing) * ${val})`;
+      } else if (token.startsWith("fill-")) {
+        const val = token.replace("fill-", "");
+        cssProps.fill =
+          val === "current" ? "currentColor" : val === "none" ? "none" : `var(--color-${val})`;
+      } else if (token.startsWith("stroke-")) {
+        const val = token.replace("stroke-", "");
+        cssProps.stroke =
+          val === "current" ? "currentColor" : val === "none" ? "none" : `var(--color-${val})`;
+      } else if (token === "inline-block") {
+        cssProps.display = "inline-block";
+      } else if (token === "align-middle") {
+        cssProps["vertical-align"] = "middle";
+      } else if (token === "p-0") {
+        cssProps.padding = "0px";
+      }
+    }
+
+    const cssPropsCasted = cssProps as unknown as Record<string, object>;
     if (secondary) {
-      style[`&${selector}${secondary}`] = { [`@apply ${styles}`]: {} };
+      style[`&${selector}${secondary}`] = cssPropsCasted;
     } else if (selector) {
-      style[`&${selector}`] = { [`@apply ${styles}`]: {} };
+      style[`&${selector}`] = cssPropsCasted;
     } else {
-      style[`@apply ${styles}`] = {};
+      Object.assign(style, cssProps);
     }
     this.parsed[className] = style;
   }

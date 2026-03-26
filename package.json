@@ -27,6 +27,7 @@
     "packages/generator",
     "packages/icons",
     "packages/cli",
+    "packages/native-test",
     "packages/ignition"
   ],
   "scripts": {

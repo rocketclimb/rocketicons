@@ -86,12 +86,13 @@ const nextConfig = {
     return config;
   },
 
+  outputFileTracingIncludes: {
+    "/[lang]/icons/[collectionid]/[iconid]": ["./src/app/data-helpers/svgs/svgs.db"]
+  },
+
   experimental: {
     // Disable optimizeCss in development to avoid critters dependency issues
-    optimizeCss: process.env.NODE_ENV === "production",
-    outputFileTracingIncludes: {
-      "/[lang]/icons/[collectionid]/[iconid]": ["./src/app/data-helpers/svgs/svgs.db"]
-    }
+    optimizeCss: process.env.NODE_ENV === "production"
   },
 
   compiler: {

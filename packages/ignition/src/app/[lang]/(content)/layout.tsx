@@ -4,7 +4,11 @@ import { PropsWithChildrenAndLangParams } from "@/types";
 import RocketIconsText from "@/components/rocketicons-text";
 import { collectionsAsJson } from "@/utils/svg-as-json";
 
-const Layout = async ({ children, params: { lang } }: PropsWithChildrenAndLangParams) => {
+const Layout = async (props: PropsWithChildrenAndLangParams) => {
+  const { lang } = (await props.params) as { lang: import("@/types").Languages };
+
+  const { children } = props;
+
   const collections = await collectionsAsJson();
   return (
     <>

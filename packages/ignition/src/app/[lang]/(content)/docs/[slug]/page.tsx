@@ -26,7 +26,11 @@ export const generateStaticParams = () => {
   return docs;
 };
 
-export const generateMetadata = ({ params: { lang, slug } }: PageProps): Metadata => {
+export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
+  const { lang, slug } = (await props.params) as {
+    lang: import("@/types").Languages;
+    slug: string;
+  };
   const selectedDoc = getDoc(lang, slug);
 
   if (slug != selectedDoc.slug) {
@@ -84,7 +88,12 @@ const getDoc = (lang: Languages, slug: string): Doc => {
   return doc(slug);
 };
 
-const Page = ({ params: { lang, slug } }: PageProps) => {
+const Page = async (props: PageProps) => {
+  const { lang, slug } = (await props.params) as {
+    lang: import("@/types").Languages;
+    slug: string;
+  };
+
   const { enSlug } = withLocale(lang);
   const { organization, software } = withStructuredData(lang);
   const enSlugFromIndex = enSlug(slug);
