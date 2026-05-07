@@ -31,6 +31,8 @@
     "packages/ignition"
   ],
   "scripts": {
+    "dev": "npm run dev -w ignition",
+    "dev:all-icons": "npm run dev:all-icons -w ignition",
     "build-all": "test -z $SKIP_BUILD_ALL && npm run build --workspaces --if-present || echo '[ROCKETCLIMB-ICONS] skip build-all'",
     "clean-all": "npm run clean --workspaces --if-present",
     "prepare": "husky && npm run clean-all && npm run build-all",
