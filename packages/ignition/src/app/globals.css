@@ -135,93 +135,99 @@
   --scrollbar-track-thumb: var(--color-slate-700);
 }
 
-html,
-body {
-  width: 100%;
-  max-width: 100%;
-  background-color: var(--color-white);
-}
+/* Base layer — Tailwind v4 sorts unlayered rules ABOVE @layer utilities,
+   which would silently beat utility classes like `bg-background`. Wrapping
+   these rules in @layer base puts them BELOW utilities so `bg-background`
+   on <body> can take effect (and dark-mode `dark:bg-background-dark` etc.). */
+@layer base {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    background-color: var(--color-white);
+  }
 
-html:has(.theme-selector.dark),
-html.dark {
-  background-color: var(--color-slate-900);
-}
+  html:has(.theme-selector.dark),
+  html.dark {
+    background-color: var(--color-slate-900);
+  }
 
-* {
-  scrollbar-gutter: stable;
-  scrollbar-color: var(--scrollbar-track-thumb) var(--scrollbar-track-bg);
-  scrollbar-width: thin;
-}
+  * {
+    scrollbar-gutter: stable;
+    scrollbar-color: var(--scrollbar-track-thumb) var(--scrollbar-track-bg);
+    scrollbar-width: thin;
+  }
 
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
 
-::-webkit-scrollbar-track {
-  background: var(--scrollbar-track-bg);
-  border-radius: 5px;
-}
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-bg);
+    border-radius: 5px;
+  }
 
-::-webkit-scrollbar-thumb {
-  opacity: 0.8;
-  background: var(--scrollbar-track-thumb);
-  border-radius: 5px;
-}
+  ::-webkit-scrollbar-thumb {
+    opacity: 0.8;
+    background: var(--scrollbar-track-thumb);
+    border-radius: 5px;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  opacity: 1;
-}
+  ::-webkit-scrollbar-thumb:hover {
+    opacity: 1;
+  }
 
-.thin-scroll::-webkit-scrollbar {
-  width: 1px;
-  height: 1px;
-}
-.thin-scroll::-webkit-scrollbar-track {
-  border-radius: 1px;
-}
+  .thin-scroll::-webkit-scrollbar {
+    width: 1px;
+    height: 1px;
+  }
+  .thin-scroll::-webkit-scrollbar-track {
+    border-radius: 1px;
+  }
 
-.thin-scroll::-webkit-scrollbar-thumb {
-  border-radius: 1px;
-}
+  .thin-scroll::-webkit-scrollbar-thumb {
+    border-radius: 1px;
+  }
 
-.dark ::-webkit-scrollbar-track {
-  background: var(--dark-scrollbar-track-bg);
-}
+  .dark ::-webkit-scrollbar-track {
+    background: var(--dark-scrollbar-track-bg);
+  }
 
-.dark ::-webkit-scrollbar-thumb {
-  background: var(--dark-scrollbar-track-thumb);
-}
+  .dark ::-webkit-scrollbar-thumb {
+    background: var(--dark-scrollbar-track-thumb);
+  }
 
-.dark * {
-  scrollbar-color: var(--dark-scrollbar-track-thumb) var(--dark-scrollbar-track-bg);
-}
+  .dark * {
+    scrollbar-color: var(--dark-scrollbar-track-thumb) var(--dark-scrollbar-track-bg);
+  }
 
-html:has(.theme-selector.dark),
-html.dark,
-body:has(.theme-selector.dark) {
-  scrollbar-color: var(--dark-scrollbar-track-thumb) var(--dark-scrollbar-track-bg);
-}
+  html:has(.theme-selector.dark),
+  html.dark,
+  body:has(.theme-selector.dark) {
+    scrollbar-color: var(--dark-scrollbar-track-thumb) var(--dark-scrollbar-track-bg);
+  }
 
-html:has(.theme-selector.dark)::-webkit-scrollbar-thumb,
-html.dark::-webkit-scrollbar-thumb,
-body:has(.theme-selector.dark)::-webkit-scrollbar-thumb {
-  background: var(--dark-scrollbar-track-thumb);
-}
+  html:has(.theme-selector.dark)::-webkit-scrollbar-thumb,
+  html.dark::-webkit-scrollbar-thumb,
+  body:has(.theme-selector.dark)::-webkit-scrollbar-thumb {
+    background: var(--dark-scrollbar-track-thumb);
+  }
 
-html:has(.theme-selector.dark)::-webkit-scrollbar-track,
-html.dark::-webkit-scrollbar-track,
-body:has(.theme-selector.dark)::-webkit-scrollbar-track {
-  background: var(--dark-scrollbar-track-bg);
-}
+  html:has(.theme-selector.dark)::-webkit-scrollbar-track,
+  html.dark::-webkit-scrollbar-track,
+  body:has(.theme-selector.dark)::-webkit-scrollbar-track {
+    background: var(--dark-scrollbar-track-bg);
+  }
 
-[data-previewer="true"] {
-  position: relative;
+  [data-previewer="true"] {
+    position: relative;
+  }
 }
 
 @layer components {
   article {
-    min-height: calc(100dvh - var(--spacing-48));
+    min-height: calc(100dvh - calc(var(--spacing) * 48));
   }
 
   .modal-context {
@@ -233,6 +239,17 @@ body:has(.theme-selector.dark)::-webkit-scrollbar-track {
     min-height: 100vh;
     /* mobile viewport bug fix */
     min-height: -webkit-fill-available;
+  }
+
+  /* On desktop, cap the modal-context at viewport height so inner
+     `overflow-y-auto` containers (home page wrapper, content-area)
+     actually scroll internally instead of growing the page — keeps
+     the lg:static header anchored at the top. */
+  @media (min-width: 1024px) {
+    .modal-context {
+      height: 100vh;
+      min-height: 0;
+    }
   }
 
   input[type="search"]::-webkit-search-cancel-button {
@@ -528,208 +545,23 @@ body:has(.theme-selector.dark)::-webkit-scrollbar-track {
   }
 }
 
-@media (max-width: 1024px) {
-  .icon-info-area {
-    height: calc(100dvh);
+@layer components {
+  @media (max-width: 1024px) {
+    .icon-info-area {
+      height: calc(100dvh);
+    }
   }
-}
 
-@media (min-width: 1024px) {
-  .content-area {
-    height: calc(100vh - var(--spacing-16));
-    overflow: hidden;
+  @media (min-width: 1024px) {
+    .content-area {
+      height: calc(100vh - calc(var(--spacing) * 16));
+      overflow: hidden;
+    }
   }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
-  }
-}
-
-/* =================================================================
-   Component styles migrated from tailwind.config.ts addComponents
-   (Tailwind v4 @plugin doesn't support complex selectors)
-   ================================================================= */
-
-.hero h1 {
-  @apply text-slate-900 font-extrabold text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight text-center dark:text-white;
-}
-
-.active-content {
-  @apply border-secondary;
-}
-
-.active-content span {
-  @apply text-secondary;
-}
-
-.content-box {
-  @apply px-2 pt-1;
-}
-
-.default-text-color {
-  @apply text-primary dark:text-primary-dark;
-}
-
-.sub-title {
-  @apply whitespace-pre-wrap font-semibold;
-}
-
-p + .sub-title {
-  @apply mt-2;
-}
-
-.sub-section {
-  @apply mb-4 lg:-ml-2 lg:pl-2 text-primary dark:text-primary-dark;
-}
-
-.collapse-table[data-collapse="true"] {
-  & > div:first-child {
-    @apply lg:overflow-hidden;
-  }
-  &:hover > div:first-child {
-    @apply lg:overflow-auto;
-  }
-  &:not(:has(:checked)) {
-    & > div:first-child {
-      @apply h-96 max-lg:overflow-hidden;
-    }
-    & .showing-fewer {
-      @apply hidden;
-    }
-    & .showing-all {
-      @apply inline;
-    }
-  }
-  &:has(:checked) {
-    & .showing-fewer {
-      @apply inline;
-    }
-    & .showing-all {
-      @apply hidden;
-    }
-  }
-}
-
-[data-section] code {
-  @apply lg:text-[.9rem]/normal;
-}
-
-.dark-mask-image {
-  mask-image: linear-gradient(transparent, black);
-}
-
-.light-mask-image {
-  mask-image: linear-gradient(to bottom, transparent, black);
-}
-
-/* =================================================================
-   Code-block language styling (from @rocketclimb/code-block/tailwind)
-   ================================================================= */
-
-.code-styler code {
-  @apply font-normal;
-}
-
-.language-html {
-  & span {
-    @apply text-[0.65rem] xs:text-xs;
-  }
-  & .rc-cb-token-function {
-    @apply text-slate-100;
-  }
-  & .rc-cb-token-keyword {
-    @apply text-pink-400;
-  }
-  & .rc-cb-token-constant {
-    @apply text-slate-300;
-  }
-  & .rc-cb-token-parameter {
-    @apply text-sky-300;
-  }
-  & .rc-cb-token-string {
-    @apply text-slate-100;
-  }
-}
-
-.language-bash {
-  & .line:has(span) {
-    @apply before:content-['>'] before:text-pink-400 before:font-medium before:mr-3 last:before:hidden;
-  }
-  & .rc-cb-token-function {
-    @apply text-slate-50;
-  }
-  & .rc-cb-token-keyword {
-    @apply text-pink-400;
-  }
-  & .rc-cb-token-constant {
-    @apply text-slate-300;
-  }
-  & .rc-cb-token-parameter {
-    @apply text-sky-300;
-  }
-  & .rc-cb-token-string {
-    @apply text-slate-50;
-  }
-}
-
-.language-js {
-  @apply text-[0.65rem] xs:text-xs;
-  & .line span {
-    @apply tracking-tighter;
-  }
-  & .rc-cb-token-function {
-    @apply text-slate-50;
-  }
-  & .rc-cb-token-comment {
-    @apply text-slate-300 font-light italic;
-  }
-  & .rc-cb-foreground,
-  & .rc-cb-token-parameter {
-    @apply text-sky-300;
-  }
-  & .rc-cb-token-keyword:only-child {
-    @apply text-slate-300;
-  }
-  & .rc-cb-token-keyword {
-    @apply text-pink-400;
-  }
-  & .rc-cb-token-string-expression {
-    @apply text-sky-300;
-  }
-  & .rc-cb-token-constant {
-    @apply text-slate-300;
-  }
-  & .rc-cb-token-punctuation {
-    @apply text-slate-300;
-  }
-  & .rc-cb-token-string {
-    @apply text-slate-50;
-  }
-}
-
-.language-json {
-  & .line span {
-    @apply tracking-tighter;
-  }
-  & .rc-cb-token-function {
-    @apply text-slate-50;
-  }
-  & .rc-cb-foreground,
-  & .rc-cb-token-keyword {
-    @apply text-slate-400 first:text-sky-300;
-  }
-  & .rc-cb-token-string-expression {
-    @apply text-sky-300;
-  }
-  & .rc-cb-token-constant {
-    @apply text-slate-300;
-  }
-  & .rc-cb-token-punctuation {
-    @apply text-slate-300;
-  }
-  & .rc-cb-token-string {
-    @apply text-slate-50;
   }
 }
