@@ -211,7 +211,15 @@ jobs:
           path: packages/data-helpers.tar
           compression-level: 9
 
+  # Ignition preview deploys to Vercel are temporarily disabled. The
+  # rocketicons.io project is being migrated off Vercel (AWS Amplify
+  # config exists in amplify.yml; final deploy target TBD), and the
+  # VERCEL_TOKEN org secret hasn't been rotated since May 2024 — leaving
+  # this enabled fails every release PR after the (otherwise successful)
+  # Prepare Artifacts job. Re-enable (or replace with the new deploy
+  # target) once the docs-site hosting decision lands.
   publish-ignition:
+    if: false
     needs: prepare-artifacts
     uses: ./.github/workflows/publish-ignition.yml
     with:
