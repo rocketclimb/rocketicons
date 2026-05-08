@@ -1,12 +1,12 @@
 {
-  "rocketclimb-icons": "0.5.0",
-  "core": "0.3.0",
-  "generator": "0.3.0",
-  "icons": "0.3.0",
-  "ignition": "0.5.0",
-  "tailwind": "0.3.0",
-  "utils": "0.3.0",
-  "cli": "0.3.0",
-  "native-test": "0.2.0",
-  "hash": "66512ca03cebc267ae2ce96282025a3c"
+  "rocketclimb-icons": "0.6.0",
+  "core": "0.4.0",
+  "generator": "0.4.0",
+  "icons": "0.4.0",
+  "ignition": "0.6.0",
+  "tailwind": "0.4.0",
+  "utils": "0.4.0",
+  "cli": "0.4.0",
+  "native-test": "0.3.0",
+  "hash": "2ac4d0b29673bf2ef3d695b9ee3a537d"
 }
