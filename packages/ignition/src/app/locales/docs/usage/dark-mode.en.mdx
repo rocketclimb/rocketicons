@@ -13,4 +13,22 @@ import RocketIconsText, { RocketIconsTextDefault } from "@/components/rocketicon
 
 Using <RocketIconsText /> to style icons on dark mode.
 
-You can style icons differently when dark mode is enabled.
+You can style icons differently when dark mode is enabled. Tailwind CSS v4 ships with `prefers-color-scheme` dark mode out of the box, but if you want to *toggle* dark mode (the typical pattern when the user picks light/dark/system from a theme switcher), declare a custom `dark` variant in your global stylesheet:
+
+```css
+/* @tabContent(globals.css) */
+@import "tailwindcss";
+@plugin "rocketicons/tailwind";
+
+/* Match `.dark` on any ancestor — the toggleable pattern. */
+@custom-variant dark (&:where(.dark, .dark *));
+/* @endTabContent */
+```
+
+Then add or remove the `dark` class on `<html>` (or any wrapper element) when the user toggles theme. Every `dark:*` utility on every <RocketIconsTextDefault /> icon — including the colors that come from `--color-*` — will follow the toggle automatically because the plugin emits its colors as `var(--color-*)` and your `.dark { --color-foo: ... }` overrides cascade through.
+
+```jsx
+<RcIcon className="icon-base icon-slate-700 dark:icon-slate-300" />
+```
+
+The same dark variants you'd write for any Tailwind utility work on icon classes too.

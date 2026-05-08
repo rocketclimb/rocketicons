@@ -20,30 +20,40 @@ Again, always using the <SiTailwindcss className="-mt-1" /> **Tailwind** classes
 
 ### Global customization
 
-You can define a global customization for all icons in two ways:
+In Tailwind CSS v4 the configuration lives in CSS, so customizing icons is just a matter of declaring values in your global stylesheet.
 
-#### 1. By redefining the default theme
+#### 1. Adding your own colors
 
-- Add a components element under the theme section of your **_tailwind.config.js_** and a icon element
-  under the components element.
+Define a CSS variable in a `@theme` block — the plugin emits an `icon-<name>-<size>` class for it automatically, and the `fill`/`stroke` always resolve through `var(--color-<name>)` so dark mode and runtime theming "just work":
 
-Like this:
+```css
+/* @tabContent(globals.css) */
+@import "tailwindcss";
+@plugin "rocketicons/tailwind";
 
-```json filename=tailwind.config.js
-{
-    components: {
-        icon: {
-            ... contents
-        },
-    },
-},
+@theme {
+  --color-brand: oklch(0.6 0.2 30);
+  --color-brand-light: oklch(0.8 0.15 30);
+}
+
+/* Now you can use:
+   <RcIcon className="icon-brand-base" />
+   <RcIcon className="icon-brand-light-lg.icon-filled" />
+*/
+/* @endTabContent */
 ```
 
-- Inside the icon property, you must set all of the properties of our default theme as you want.
+This is new in v4. The previous (v3) version of the plugin baked color values at plugin-init time, so user overrides of Tailwind's default palette were ignored. With v4 every color resolves through `var(--color-*)` — overriding `--color-sky-500` (or any other default) automatically updates every `icon-sky-*` class in your output.
 
-```json filename=tailwind.config.js
-{
-  ... existing tailwind configs
+#### 2. Redefining the icon theme
+
+If you need to change the plugin's defaults — base size, base style, the available size scale — pass a `components.icon` block as plugin options when registering it:
+
+```css
+/* @tabContent(globals.css) */
+@import "tailwindcss";
+
+@plugin "rocketicons/tailwind" {
   components: {
     icon: {
       default: "sky-500-base",
@@ -57,15 +67,15 @@ Like this:
       },
     },
   },
-},
+}
+/* @endTabContent */
 ```
 
-> Remember, when using this method, you must define all properties and make sure the default size matches
-> an available one, like shown above.
+> When fully redefining the theme, make sure every property is set and that `default` references a size you actually defined.
 
-This is what our default theme looks like:
+This is what the default theme looks like:
 
-```json filename=tailwind/theme.js
+```js filename=tailwind/theme.js
 {
   default: "sky-500-base",
   baseStyle: "p-0 inline-block",
@@ -86,55 +96,14 @@ This is what our default theme looks like:
     "6xl": "size-12",
     "7xl": "size-14",
   },
-},
+}
 ```
 
-#### 2. By extending the default theme
+You can override:
 
-If the default theme is fine and you just want to tweak some properties or add new variants or sizes,
-you can just extend the default theme.
+- `default` — the default class (color + size)
+- `baseStyle` — utilities applied to every icon
+- `variants` — additional rules for `filled` / `outlined`
+- `sizes` — the size scale used to generate `icon-xs`, `icon-sm`, …
 
-Here is how you change the base size, for example:
-
-```json filename=tailwind.config.js
-{
-  ... existing tailwind configs
-  extend: {
-    components: {
-      icon: {
-        sizes: {
-          base: "size-6",
-        },
-      },
-    },
-  },
-},
-```
-
-And here is how you create a brand new size:
-
-```json filename=tailwind.config.js
-{
-  ... existing tailwind configs
-  extend: {
-    components: {
-      icon: {
-        sizes: {
-          myNewCoolGiantSize: "size-56",
-        },
-      },
-    },
-  },
-},
-```
-
-Cool, huh?
-
-And you can do that to:
-
-- default
-- baseStyle
-- variants
-- sizes
-
-You can't extend colors since they are not defined in the default theme and we just use the ones proved by **_Tailwind_**, which are [A LOT](https://tailwindcss.com/docs/customizing-colors).
+Colors are not part of the plugin's theme — they come straight from your `@theme { --color-* }` declarations and from Tailwind's default palette. Any `--color-*` that exists in your generated CSS works as `icon-<name>-<size>`.
