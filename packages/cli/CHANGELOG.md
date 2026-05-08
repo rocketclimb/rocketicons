@@ -1,3 +1,15 @@
+## [0.3.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-05-08)
+
+### Features
+
+- **ignition** use svg with rocketicons ([dcbdd79c](https://github.com/rocketclimb/rocketicons/commit/dcbdd79cd004698b92f4045c07596d893d8fe5ae))
+- **cli** fix typo on icon path ([1f32f162](https://github.com/rocketclimb/rocketicons/commit/1f32f16231e8d1c99ff8a5bcbbf5b8b6d98b2962))
+- **cli** add cli commands ([71c21b5d](https://github.com/rocketclimb/rocketicons/commit/71c21b5db465afc42fa748da6903959f651af586))
+
+### Bug Fixes
+
+- **cli** fix type issues ([db449631](https://github.com/rocketclimb/rocketicons/commit/db4496316e7fa0dfc010c8c5ba9c2ddae7125c84))
+
 ## [0.2.5](https://github.com/rocketclimb/rocketicons/compare/v0.3.3...v0.3.4) (2024-05-25)
 
 ### Bug Fixes
