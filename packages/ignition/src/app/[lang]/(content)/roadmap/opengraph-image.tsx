@@ -9,7 +9,8 @@ export const size = {
 };
 export const contentType = "image/png";
 
-const OpengraphImage = async ({ params: { lang } }: PropsWithLangParams) => {
+const OpengraphImage = async (props: PropsWithLangParams) => {
+  const { lang } = (await props.params) as { lang: import("@/types").Languages };
   return await OpenGraph({
     lang,
     subheading: "roadmap"

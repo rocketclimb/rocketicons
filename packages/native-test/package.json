@@ -1,0 +1,27 @@
+{
+  "name": "@rocketicons/native-test",
+  "version": "0.1.0",
+  "private": true,
+  "main": "App.tsx",
+  "scripts": {
+    "start": "expo start",
+    "ios": "expo start --ios",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint App.tsx --ext .tsx"
+  },
+  "dependencies": {
+    "expo": "~52.0.0",
+    "react": "18.3.1",
+    "react-native": "0.76.7",
+    "react-native-svg": "^15.11.2",
+    "react-native-css-interop": "0.2.2",
+    "nativewind": "4.2.2",
+    "tailwindcss": "^4.2.1",
+    "@tailwindcss/postcss": "^4.2.1",
+    "rocketicons": "file:../icons"
+  },
+  "devDependencies": {
+    "@types/react": "~18.3.0",
+    "typescript": "~5.4.0"
+  }
+}

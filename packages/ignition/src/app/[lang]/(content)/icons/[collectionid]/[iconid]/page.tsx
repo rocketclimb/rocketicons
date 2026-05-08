@@ -10,16 +10,16 @@ import { PropsWithLangParams } from "@/types";
 import { customMetadata } from "@/app/components/metadata-custom";
 import { collectionAsJson, svgAsJson } from "@/utils/svg-as-json";
 
-type PageProps = PropsWithLangParams & {
-  params: {
+type PageProps = {
+  params: Promise<{
+    lang: import("@/types").Languages;
     collectionid: CollectionID;
     iconid: string;
-  };
+  }>;
 };
 
-export const generateMetadata = async ({
-  params: { lang, collectionid: id, iconid }
-}: PageProps): Promise<Metadata> => {
+export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
+  const { lang, collectionid: id, iconid } = await props.params;
   const info = await collectionAsJson(id);
   const icon = iconid;
 
@@ -41,7 +41,11 @@ export const generateMetadata = async ({
   );
 };
 
-const Page = async ({ params: { lang, collectionid, iconid } }: PageProps) => {
+const Page = async (props: PageProps) => {
+  const params = await props.params;
+
+  const { lang, collectionid, iconid } = params;
+
   const info = await collectionAsJson(collectionid);
   const iconId = iconid;
 

@@ -33,11 +33,11 @@
     "react": "*"
   },
   "optionalDependencies": {
-    "nativewind": ">=2",
+    "nativewind": ">=4",
     "react-native-svg": ">=15"
   },
   "devDependencies": {
-    "tailwindcss": ">=3"
+    "tailwindcss": ">=4"
   },
   "exports": {
     ".": {
@@ -266,8 +266,6 @@
       "default": "./package.json"
     }
   },
-  "dependencies": {
-    "@rocketclimb/tw-utils": "^0.0.2"
-  },
+  "dependencies": {},
   "bin": "./bin/index.js"
 }

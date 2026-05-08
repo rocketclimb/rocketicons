@@ -1,4 +1,12 @@
-import { PluginAPI } from "tailwindcss/types/config";
+import plugin from "tailwindcss/plugin";
+
+// TW v4's plugin module defines PluginAPI internally but doesn't export it directly.
+// We infer PluginAPI from the createPlugin function's handler parameter.
+type PluginCreator = typeof plugin;
+type PluginHandler = Parameters<PluginCreator>[0];
+export type PluginAPI = Parameters<PluginHandler>[0];
+
+export type CssInJs = Record<string, Record<string, object> | string>;
 
 export type Style = Record<string, Record<string, object>>;
 
@@ -27,7 +35,7 @@ export type Defaults = {
   defaultSize: string;
 };
 
-export type Config = PluginAPI["config"];
+export type ThemeLookup = PluginAPI["theme"];
 export type ConfigProp = string | Record<string, string | string[]>;
 
 export type StyleHandler = {

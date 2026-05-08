@@ -28,10 +28,10 @@ const CodeContainer = ({
 }: CodeProps) => {
   children = (!!clipboardText && (
     <WithCopy clipboardText={Buffer.from(clipboardText, "base64").toString()}>
-      {children}
+      {children as any}
     </WithCopy>
   )) || <>{children}</>;
-  return (!!name && <TabContent tabName={name}>{children}</TabContent>) || <>{children}</>;
+  return (!!name && <TabContent tabName={name}>{children as any}</TabContent>) || <>{children}</>;
 };
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
@@ -39,17 +39,17 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
   const titleClasses = `text-primary dark:primary-dark font-semibold ${allComponentClasses}`;
 
   return {
-    h1: ({ children, ...props }) => <Title {...props}>{children as ReactNode}</Title>,
-    h2: ({ children, ...props }) => <Title2 {...props}>{children as ReactNode}</Title2>,
-    h3: ({ children, ...props }) => <Title3 {...props}>{children as ReactNode}</Title3>,
-    h4: ({ children, ...props }) => <Title4 {...props}>{children as ReactNode}</Title4>,
-    h5: ({ children, ...props }) => <Title5 {...props}>{children as ReactNode}</Title5>,
+    h1: ({ children, ...props }: any) => <Title {...props}>{children as ReactNode}</Title>,
+    h2: ({ children, ...props }: any) => <Title2 {...props}>{children as ReactNode}</Title2>,
+    h3: ({ children, ...props }: any) => <Title3 {...props}>{children as ReactNode}</Title3>,
+    h4: ({ children, ...props }: any) => <Title4 {...props}>{children as ReactNode}</Title4>,
+    h5: ({ children, ...props }: any) => <Title5 {...props}>{children as ReactNode}</Title5>,
     h6: ({ id, className, children }) => (
       <h6 id={id} className={`${className || ""} ${titleClasses}`}>
         {children}
       </h6>
     ),
-    p: ({ children, ...props }) => <Paragraph {...props}>{children as ReactNode}</Paragraph>,
+    p: ({ children, ...props }: any) => <Paragraph {...props}>{children as ReactNode}</Paragraph>,
     pre: (({
       className,
       children,
@@ -67,13 +67,13 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
           tabs={tabs?.split(" ") as string[]}
           variant="minimalist"
         >
-          {children}
+          {children as any}
         </CodeStyler>
       </div>
     )) as any,
     code: (({ children, ...props }: CodeProps) => (
       <CodeContainer {...props}>
-        <Block>{children}</Block>
+        <Block>{children as any}</Block>
       </CodeContainer>
     )) as any,
     ul: ({ className, children }) => (
@@ -94,17 +94,17 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </ol>
     ),
-    li: ({ children, ...props }) => (
+    li: ({ children, ...props }: any) => (
       <li {...props} className="text-sm lg:text-base">
         {children}
       </li>
     ),
-    a: ({ href, children, ...props }) => (
-      <DocLink external={href?.startsWith("http")} href={href ?? "#"} {...props}>
+    a: ({ href, children, ...props }: any) => (
+      <DocLink external={href?.startsWith("http")} href={href ?? "#"} {...(props as any)}>
         {children as ReactNode}
       </DocLink>
     ),
-    blockquote: ({ children, ...props }) => <blockquote {...props}>{children}</blockquote>,
+    blockquote: ({ children, ...props }: any) => <blockquote {...props}>{children}</blockquote>,
     ...components
   };
 }

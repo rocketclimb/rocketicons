@@ -46,7 +46,8 @@ const generator = async () => {
   const imports: string[] = [];
   const conditionals: string[] = [];
 
-  getManifest().forEach(({ id, icons }) => {
+  getManifest().forEach(({ id, iconsManifest }) => {
+    const icons = Object.values(iconsManifest || {}).map((icon: any) => icon.compName || icon);
     const selected = icons.slice(0, 10);
     imports.push(
       templateBuilder(

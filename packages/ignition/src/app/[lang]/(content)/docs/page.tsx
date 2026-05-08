@@ -3,7 +3,9 @@ import { PropsWithLangSlugParams } from "@/app/types/props-with-lang-and-slug-pa
 
 import { redirect } from "next/navigation";
 
-const Page = ({ params: { lang } }: PropsWithLangSlugParams) => {
+const Page = async (props: PropsWithLangSlugParams) => {
+  const { lang } = (await props.params) as { lang: import("@/types").Languages; slug: string };
+
   const slug = "getting-started";
   const doc = withLocale(lang).doc(slug);
 

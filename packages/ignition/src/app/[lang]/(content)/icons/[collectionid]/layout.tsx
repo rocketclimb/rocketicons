@@ -8,10 +8,12 @@ import { PropsWithChildrenAndLangParams, AvailableLanguages } from "@/types";
 import { collectionAsJson, collectionsAsJson, svgsAsJson } from "@/utils/svg-as-json";
 import IconSelector from "@/components/icons/icons-collection/icon-selector";
 
-type LayoutProps = PropsWithChildrenAndLangParams & {
-  params: {
-    collectionid: CollectionID;
-  };
+type LayoutProps = {
+  children: React.ReactNode;
+  params: Promise<{
+    lang: string;
+    collectionid: string;
+  }>;
 };
 
 export const generateStaticParams = async () => {
@@ -21,7 +23,14 @@ export const generateStaticParams = async () => {
   );
 };
 
-const Layout = async ({ children, params: { lang, collectionid } }: LayoutProps) => {
+const Layout = async (props: LayoutProps) => {
+  const { lang, collectionid } = (await props.params) as {
+    lang: import("@/types").Languages;
+    collectionid: CollectionID;
+  };
+
+  const { children } = props;
+
   const info = await collectionAsJson(collectionid);
   const icons = await svgsAsJson(collectionid, info?.totalIcons);
   return (
