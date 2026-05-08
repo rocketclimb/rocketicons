@@ -9,36 +9,42 @@ import RocketIconsText, { RocketIconsTextDefault } from "@/components/rocketicon
 
 ### Configuração
 
-Para usar <RocketIconsTextDefault /> em seus projetos, você precisa ter uma configuração mínima.  
-Você precisa ter o tailwind em seu projeto e, é claro, o arquivo `tailwind.config.js`.
+O Tailwind CSS v4 adota uma configuração baseada em CSS. Não existe mais o `tailwind.config.js` — você registra o plugin do <RocketIconsTextDefault /> diretamente na sua folha de estilos global, usando a diretiva `@plugin`.
 
-Nesse arquivo, importe o plugin e adicione-o ao array `plugins` assim:
+No arquivo CSS importado na raiz do seu app (normalmente `globals.css` ou `app.css`):
+
+```css
+/* @tabContent(globals.css) */
+@import "tailwindcss";
+@plugin "rocketicons/tailwind";
+/* @endTabContent */
+```
+
+Pronto — o Tailwind v4 resolve o plugin a partir do `node_modules` e emite os utilitários de ícones automaticamente.
+
+#### Configuração do PostCSS
+
+Se seu projeto ainda não tem o PostCSS configurado para o Tailwind v4, adicione:
 
 ```js
-// @tabContent(tailwind.config.ts)
-import icons from "rocketicons/tailwind";
-...
-plugins: [
-  icons
-],
-...
+// @tabContent(postcss.config.js)
+module.exports = {
+  plugins: {
+    "@tailwindcss/postcss": {}
+  }
+};
 // @endTabContent
-// @tabContent(tailwind.config.mjs)
-import icons from "rocketicons/tailwind";
-...
-plugins: [
-  icons
-],
-...
-// @endTabContent
-// @tabContent(tailwind.config.js)
-const icons = require("rocketicons/tailwind");
-...
-plugins: [
-  icons
-],
-...
+// @tabContent(postcss.config.mjs)
+export default {
+  plugins: {
+    "@tailwindcss/postcss": {}
+  }
+};
 // @endTabContent
 ```
+
+#### Migrando do v3
+
+Se você está atualizando um projeto que já usava `rocketicons` com Tailwind CSS v3, o padrão antigo `tailwind.config.{js,mjs,ts}` com `plugins: [icons]` não é mais necessário — pode remover. Mova qualquer `theme.extend.colors`, `theme.extend.spacing`, etc. para um bloco `@theme { ... }` no seu CSS e o plugin vai consumir automaticamente (mais detalhes em [Customização](./customization)).
 
 Depois disso, você pode usar <RocketIconsTextDefault /> em seu projeto.

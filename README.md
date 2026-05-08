@@ -11,6 +11,28 @@ Welcome to the definitive React Icons tool!
 This component provides a collection of icons for use in your **React** web and **React Native** projects.
 **rocketicons** utilizes **Tailwind CSS** classes for styling, making it easy to customize and integrate into your applications.
 
+> **Requires Tailwind CSS v4+ and Node.js 20+ (since `rocketicons@0.3.0`).** The plugin uses Tailwind v4's CSS-first configuration (`@plugin`, `@theme`, `@custom-variant`) and resolves all icon colors through `var(--color-*)`, so your `@theme` overrides and dark-mode CSS variable swaps are honored automatically. If you're still on Tailwind CSS v3, pin `rocketicons@<0.3.0` until you migrate.
+
+## Quick start
+
+```bash
+npm install rocketicons tailwindcss @tailwindcss/postcss
+```
+
+```css
+/* globals.css */
+@import "tailwindcss";
+@plugin "rocketicons/tailwind";
+```
+
+```jsx
+import { RcRocketIcon } from "rocketicons/rc";
+
+<RcRocketIcon className="icon-base icon-sky-700 dark:icon-sky-300" />;
+```
+
+See the [docs](https://rocketicons.io/en/docs/getting-started) for the full configuration, customization, and dark-mode patterns.
+
 ## Why it was created?
 
 **rocketicons** was created to provide a simple and
