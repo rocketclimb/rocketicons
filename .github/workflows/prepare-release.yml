@@ -183,6 +183,13 @@ jobs:
         with:
           name: tag-artifact
           path: .tagrc
+          # `.tagrc` is a dotfile; actions/upload-artifact@v4 skips
+          # hidden files by default (silently — only a warning, the step
+          # still reports success). Without this, the tag-artifact never
+          # lands, and release.yml's "Download tag artifact" step fails
+          # the entire npm publish flow on merge to main. See
+          # https://github.com/actions/upload-artifact/blob/main/README.md#hidden-files
+          include-hidden-files: true
 
       - name: Upload deployable artifacts to release job
         if: contains(steps.prepare-release.outputs.TAG_NAME, 'release')
