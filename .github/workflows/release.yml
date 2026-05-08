@@ -131,9 +131,15 @@ jobs:
         id: get-dependency-hash
         run: echo "DEPENDENCY_HASH=$(npx --yes @rocketclimb/sh extract-dependencies)" >> $GITHUB_OUTPUT
 
+  # Ignition production deploys to Vercel are temporarily disabled —
+  # see prepare-release.yml for the full reason (Vercel migration in
+  # flight, stale VERCEL_TOKEN). The npm publish above is independent
+  # and still ships the rocketicons package on every -release tag.
+  # Re-enable (or swap in the new deploy target) once the docs-site
+  # hosting decision lands.
   publish-ignition:
     name: Publish Ignition without rocketicons release
-    if: needs.create-tag.outputs.is-release == 'false'
+    if: false
     needs:
       - create-tag
       - get-dependency-token
@@ -149,7 +155,7 @@ jobs:
 
   publish-ignition-for-release:
     name: Publish Ignition with rocketicons release
-    if: needs.create-tag.outputs.is-release == 'true'
+    if: false
     needs:
       - create-tag
       - create-release

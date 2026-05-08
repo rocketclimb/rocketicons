@@ -7,6 +7,7 @@ packages/icons/*
 !packages/icons/package.json
 *.tgz
 release-notes.md
+release-output.log
 .DS_Store
 .vercel
 .env
