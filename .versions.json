@@ -4,6 +4,9 @@
   "generator": "0.2.4",
   "icons": "0.2.8",
   "ignition": "0.4.4",
-  "tailwind": "0.2.5",
+  "tailwind": "0.2.6",
+  "utils": "0.2.7",
+  "cli": "0.2.5",
+  "native-test": "0.1.0",
   "hash": "6c6f1b11d84399ac88e636b36c1d08c8"
 }
