@@ -72,10 +72,17 @@ jobs:
 
       - name: Install packages
         if: steps.npm-cache.outputs.cache-hit != 'true'
+        # `npm ci` (vs `npm install`) wipes node_modules and reinstalls
+        # strictly from the lockfile. Required for Tailwind v4 because
+        # `@tailwindcss/oxide` ships per-platform native binaries via
+        # optionalDependencies; on partial cache restores from
+        # `restore-keys`, plain `npm install` doesn't add the missing
+        # platform variant (npm/cli#4828) and the integration tests
+        # in @rocketicons/tailwind fail with "Cannot find native binding".
         run: |
           npm config set @rocketclimb:registry https://npm.pkg.github.com
           npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
-          SKIP_BUILD_ALL=true npm install
+          SKIP_BUILD_ALL=true npm ci
 
       - name: Icons Fetch
         if: steps.icons-cache.outputs.cache-hit != 'true'
