@@ -17,6 +17,9 @@
     "test": "jest ./src",
     "typecheck": "tsc --noEmit"
   },
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "camelcase": "^6.2.0",
     "cheerio": "^1.0.0-rc.12"

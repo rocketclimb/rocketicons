@@ -20,7 +20,7 @@ on:
       node-version:
         required: false
         type: string
-        default: "18.x"
+        default: "22.x"
 
       run-id:
         required: false

@@ -8,7 +8,7 @@ on:
 permissions: write-all
 
 env:
-  NODE_VERSION: "18.x"
+  NODE_VERSION: "22.x"
   # Removed GH_TOKEN since we use GITHUB_TOKEN directly
   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
