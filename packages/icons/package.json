@@ -27,6 +27,7 @@
     "url": "https://github.com/rocketclimb/rocketicons/issues"
   },
   "engines": {
+    "node": ">=20",
     "npm": ">=6.0.0"
   },
   "peerDependencies": {

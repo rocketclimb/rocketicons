@@ -17,6 +17,12 @@
   "files": [
     "dist/"
   ],
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "tailwindcss": ">=4"
+  },
   "dependencies": {},
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.1",
