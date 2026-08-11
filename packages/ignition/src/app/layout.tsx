@@ -3,7 +3,6 @@ import "./globals.css";
 import { Inter, Quicksand, Fira_Code } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
-import { Analytics } from "@vercel/analytics/react";
 import { serverEnv } from "@/env/server";
 import ThemeColor from "@/components/theme-color";
 
@@ -47,8 +46,9 @@ export default function RootLayout({
         className={`${inter.variable} ${quicksand.variable} ${monospace.variable} font-inter bg-background has-[.theme-selector.dark]:bg-background-dark`}
       >
         {children}
-        <Analytics />
-        <GoogleAnalytics gaId={serverEnv.GOOGLE_ANALYTICS_ID} />
+        {serverEnv.GOOGLE_ANALYTICS_ID && (
+          <GoogleAnalytics gaId={serverEnv.GOOGLE_ANALYTICS_ID} />
+        )}
       </body>
     </html>
   );

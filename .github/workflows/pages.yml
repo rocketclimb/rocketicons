@@ -1,0 +1,111 @@
+name: GitHub Pages
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Test and export static site
+    runs-on: ubuntu-latest
+    environment: github-pages
+    env:
+      SITE_ORIGIN: ${{ vars.SITE_ORIGIN }}
+      RI_GENERATE_ALL_ICONS: "true"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Require root SITE_ORIGIN
+        run: |
+          test -n "$SITE_ORIGIN"
+          node -e 'const value = new URL(process.env.SITE_ORIGIN); if (!/^https?:$/.test(value.protocol) || value.pathname !== "/" || value.search || value.hash || value.username || value.password) process.exit(1)'
+
+      - name: Configure GitHub Packages
+        run: |
+          npm config set @rocketclimb:registry https://npm.pkg.github.com
+          npm config set //npm.pkg.github.com/:_authToken ${{ github.token }}
+
+      - name: Cache generated icons
+        uses: actions/cache@v4
+        with:
+          path: |
+            packages/generator/icons
+            packages/generator/svgs
+          key: ${{ runner.os }}-node-22-icons-${{ hashFiles('packages/generator/src/**', 'packages/generator/package.json', 'package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-22-icons-
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Build packages and icons
+        env:
+          SKIP_IGNITION_BUILD: "true"
+        run: npm run build-all
+
+      - name: Test workspace
+        run: npm run test-all
+
+      - name: Generate content collections
+        run: npm run generate-content-collections --workspace=packages/ignition
+
+      - name: Generate complete static catalog
+        run: npm run generate-statics:all-icons --workspace=packages/ignition
+
+      - name: Export Next.js site
+        env:
+          SKIP_GENERATE_CONTENT_COLLECTIONS: "true"
+          SKIP_GENERATE_IGNITION_STATICS: "true"
+        run: npm run build --workspace=packages/ignition
+
+      - name: Verify export
+        run: |
+          test -f packages/ignition/out/index.html
+          test -f packages/ignition/out/en/index.html
+          test -f packages/ignition/out/pt-br/index.html
+          test -f packages/ignition/out/ai/v1/catalog.json
+          size_kib=$(du -sk packages/ignition/out | cut -f1)
+          test "$size_kib" -le 921600
+          echo "Export size: $size_kib KiB"
+
+      - name: Configure Pages
+        if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: packages/ignition/out
+
+  deploy:
+    name: Deploy GitHub Pages
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

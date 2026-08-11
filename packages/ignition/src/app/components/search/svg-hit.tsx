@@ -1,36 +1,33 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { useEffect, useState } from "react";
 import { IconFromData } from "@rocketicons/core";
-import { fromSvg, Variants } from "@rocketicons/utils";
 import { BiLoaderAlt } from "rocketicons/bi";
 
-const SvgHit = ({ src, variant }: { src: string; variant: Variants }) => {
-  const [svgContent, setSvgContent] = useState<string>("");
+import { loadIcon } from "@/catalog/client";
+import type { StaticIconRecord } from "@/catalog/types";
 
-  const fetchSvg = async () => {
-    try {
-      const response = await fetch(src);
-      const text = await response.text();
-      setSvgContent(text);
-    } catch (error) {
-      console.error("Error fetching SVG:", error);
-    }
-  };
+const SvgHit = ({ collectionId, iconId }: { collectionId: string; iconId: string }) => {
+  const [icon, setIcon] = useState<StaticIconRecord>();
 
   useEffect(() => {
-    fetchSvg();
-  }, [src]);
+    let active = true;
+    loadIcon(collectionId, iconId)
+      .then((loaded) => active && setIcon(loaded))
+      .catch((error) => console.error("Error loading icon preview:", error));
+    return () => {
+      active = false;
+    };
+  }, [collectionId, iconId]);
 
-  return (
-    <>
-      {(svgContent && (
-        <IconFromData
-          className="icon-secondary-xl group-hover/result:icon-white-xl mr-3"
-          iconTree={fromSvg(svgContent)}
-          variant={variant}
-        />
-      )) || <BiLoaderAlt className="animate-spin duration-1000 icon-secondary-xl mr-3" />}
-    </>
+  return icon ? (
+    <IconFromData
+      className="icon-secondary-xl group-hover/result:icon-white-xl mr-3"
+      iconTree={icon.iconTree}
+      variant={icon.variant}
+    />
+  ) : (
+    <BiLoaderAlt className="animate-spin duration-1000 icon-secondary-xl mr-3" />
   );
 };
 

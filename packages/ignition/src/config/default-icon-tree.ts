@@ -1,4 +1,6 @@
-export const defaultIconTree = {
+import type { IconTree, Variants } from "rocketicons";
+
+export const defaultIconTree: IconTree = {
   tag: "svg",
   attr: {
     version: "1.1",
@@ -41,4 +43,4 @@ export const defaultIconTree = {
     }
   ]
 };
-export const defaultVariant = "full";
+export const defaultVariant: Variants = "full";

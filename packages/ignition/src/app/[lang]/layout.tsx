@@ -2,18 +2,17 @@ import ModalContext from "@/components/modal-context";
 import ThemeControl from "@/components/theme/theme-control";
 import Header from "@/components/header";
 import ContentKindMarker from "@/components/content-kind-marker";
+import LocalePreference from "@/components/locale-preference";
 
 import { PropsWithChildrenAndLangParams, AvailableLanguages } from "@/types";
 
-export function getStaticPaths() {
-  return {
-    paths: AvailableLanguages.map((lang) => ({ params: { lang } })),
-    fallback: false
-  };
-}
+export const dynamicParams = false;
+
+export const generateStaticParams = () => AvailableLanguages.map((lang) => ({ lang }));
 
 const Layout = ({ children, params: { lang } }: PropsWithChildrenAndLangParams) => (
   <>
+    <LocalePreference lang={lang} />
     <ContentKindMarker />
     <ThemeControl>
       <ModalContext>

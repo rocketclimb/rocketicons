@@ -3,7 +3,7 @@ import algoliasearch from "algoliasearch";
 import { allDocs } from "content-collections";
 import { siteConfig } from "@/config/site";
 import { serverEnv } from "@/env/server";
-import { allSvgsAsJson, collectionsAsJson } from "@/utils/svg-as-json";
+import { getCollectionIcons, getCollections } from "@/catalog/server";
 import consoleColors from "./console-colors.json";
 
 type AlgoliaIndexRecord = {
@@ -37,12 +37,25 @@ const indexer = async () => {
       serverEnv.ALGOLIA_ADMIN_KEY
     );
     const availableLocales = siteConfig.locales;
-    const collections: Record<string, string> = (await collectionsAsJson()).reduce(
+    const catalogCollections = await getCollections();
+    const collections: Record<string, string> = catalogCollections.reduce(
       (reduced, { id, name }) => ({ ...reduced, [id]: name }),
       {}
     );
     // flatten the iconmanifest.icons into a single array where the group is collection.id
-    const allIcons = await allSvgsAsJson();
+    const allIcons = (
+      await Promise.all(
+        catalogCollections.map(async ({ id: collectionId }) =>
+          (await getCollectionIcons(collectionId)).map((icon) => ({
+            collectionId,
+            iconId: icon.id,
+            name: icon.name,
+            compName: icon.component,
+            categories: [icon.variant]
+          }))
+        )
+      )
+    ).flat();
 
     const transformedIcons: AlgoliaIndexRecord[] = await Promise.all(
       allIcons.map(

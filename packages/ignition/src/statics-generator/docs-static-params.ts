@@ -5,7 +5,7 @@ const OUTPUT_FILE = "params/docs.json";
 const LOCALES_FOLDER = "locales/docs/";
 const LOCALES_EXT = ".mdx";
 
-const generator = async () => {
+export const generateDocsStaticParams = async () => {
   const params = listFiles(LOCALES_FOLDER)
     .filter(
       (filename) =>
@@ -21,5 +21,3 @@ const generator = async () => {
 
   await write(OUTPUT_FILE, JSON.stringify(params));
 };
-
-generator();

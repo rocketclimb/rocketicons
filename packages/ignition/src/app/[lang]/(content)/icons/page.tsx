@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { collectionsAsJson, totalIcons } from "@/utils/svg-as-json";
+import { getCatalogTotals, getCollections } from "@/catalog/server";
 
 import { MdxComponent } from "@/components/mdx";
 
@@ -17,7 +17,7 @@ export const generateMetadata = async ({
   const { icons } = config("opengraph");
   const { title, description } = component("icons-hero");
 
-  const total = await totalIcons();
+  const { totalIcons: total } = await getCatalogTotals();
 
   const descriptionWithNumber = `${description} | ${total} ${icons}`;
 
@@ -30,7 +30,7 @@ const Page = async ({ params: { lang } }: PropsWithLangParams) => {
   const { config } = withLocale(lang);
   const { "total-icon-count-text": totalIconCountText } = config("brand");
 
-  const collections = await collectionsAsJson();
+  const collections = await getCollections();
   const total = collections.reduce((acc, { totalIcons }) => acc + totalIcons, 0);
 
   return (

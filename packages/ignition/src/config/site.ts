@@ -1,11 +1,6 @@
-import { serverEnv } from "@/env/server";
 import { AvailableLanguages } from "@/app/types";
 
-const baseUrl = serverEnv.NEXT_PUBLIC_APP_URL ?? "https://rocketicons.io";
-const playgroundUrl = serverEnv.NEXT_PUBLIC_PLAYGROUND_URL ?? "https://playcode.io/1870276";
-const env =
-  (process.env.NEXT_PUBLIC_VERCEL_ENV as "production" | "preview" | "development" | "local") ||
-  "local";
+const playgroundUrl = process.env.NEXT_PUBLIC_PLAYGROUND_URL ?? "https://playcode.io/1870276";
 
 export const siteConfig = {
   name: "rocketicons",
@@ -14,7 +9,6 @@ export const siteConfig = {
   companyFounders: ["Daniel Gomes", "Jeferson Amorim"],
   companyUrl: "https://rocketclimb.com",
   companyEmail: "contact@rocketclimb.io",
-  url: baseUrl,
   links: {
     twitter: "https://twitter.com/therocketclimb",
     github: "https://github.com/rocketclimb"
@@ -24,8 +18,6 @@ export const siteConfig = {
   menuConfig: {
     componentGroups: ["getting-started"]
   },
-  isLocal: env === "local",
-  env,
   playgroundUrl
 };
 

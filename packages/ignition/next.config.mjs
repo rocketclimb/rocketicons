@@ -32,6 +32,8 @@ const packagesToOptimize = IconsManifest.map(({ id }) => `rocketicons/${id}`);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "export",
+  trailingSlash: true,
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
 
   webpack: (config) => {
@@ -40,23 +42,7 @@ const nextConfig = {
   },
 
   experimental: {
-    optimizePackageImports: packagesToOptimize,
-    outputFileTracingIncludes: {
-      "/[lang]/icons/[collectionid]/[iconid]": ["./src/app/data-helpers/svgs/svgs.db"]
-    }
-  },
-  async headers() {
-    return [
-      {
-        source: "/(.*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=0, s-maxage=31536000, must-revalidate"
-          }
-        ]
-      }
-    ];
+    optimizePackageImports: packagesToOptimize
   }
 };
 
