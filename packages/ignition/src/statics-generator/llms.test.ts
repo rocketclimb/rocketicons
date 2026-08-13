@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, test } from "@jest/globals";
+import { afterEach, beforeEach, describe, expect, test } from "@jest/globals";
 import catalog from "../../public/ai/v1/catalog.json";
 import { CANONICAL_PRODUCT_MESSAGE } from "@/config/product-content";
 import type { StaticCatalog } from "@/catalog/types";
@@ -8,6 +8,10 @@ const staticCatalog = catalog as StaticCatalog;
 
 describe("LLM discovery files", () => {
   const previousOrigin = process.env.SITE_ORIGIN;
+
+  beforeEach(() => {
+    process.env.SITE_ORIGIN = "https://rocket.example";
+  });
 
   afterEach(() => {
     if (previousOrigin === undefined) delete process.env.SITE_ORIGIN;

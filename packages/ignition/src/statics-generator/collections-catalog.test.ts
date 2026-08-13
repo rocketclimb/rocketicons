@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, test } from "@jest/globals";
+import { afterEach, beforeEach, describe, expect, test } from "@jest/globals";
 import type { IconTree } from "rocketicons";
 
 import { STATIC_CATALOG_CHUNK_SIZE } from "../catalog/types";
@@ -28,6 +28,10 @@ const source = (ids: string[]) => ids.map((id) => ({ id, iconTree, variant: "ful
 
 describe("static catalog generation", () => {
   const previousOrigin = process.env.SITE_ORIGIN;
+
+  beforeEach(() => {
+    process.env.SITE_ORIGIN = "https://rocket.example";
+  });
 
   afterEach(() => {
     if (previousOrigin === undefined) delete process.env.SITE_ORIGIN;
