@@ -12,7 +12,7 @@ const Importer = ({ lang }: PropsWithLang) => {
       copied={copied}
       className="flex"
       component="RcRocketIcon"
-      module="rocketicons/rc"
+      module="@/ri/icons/rc-rocket-icon"
     />
   );
 };

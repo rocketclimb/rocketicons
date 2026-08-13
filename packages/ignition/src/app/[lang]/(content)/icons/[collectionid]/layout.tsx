@@ -25,8 +25,6 @@ export const generateStaticParams = async () => {
   );
 };
 
-export const dynamicParams = false;
-
 export const generateMetadata = async ({
   params: { lang, collectionid }
 }: LayoutProps): Promise<Metadata> => {
@@ -51,7 +49,7 @@ const Layout = async ({ children, params: { lang, collectionid } }: LayoutProps)
       {children}
       <Suspense fallback={null}>
         <ul className="transition-all duration-200 ml-0 mt-10 peer-data-[open=true]/info:min-h-[655px] flex justify-between gap-x-2 gap-y-4 flex-wrap">
-        {icons.map(({ id, name, iconTree, variant }) => {
+          {icons.map(({ id, name, iconTree, variant }) => {
             return (
               <li key={id}>
                 <IconSelector lang={lang} collectionId={collectionid} id={id} name={name}>

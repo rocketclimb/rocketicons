@@ -14,7 +14,7 @@ export const MdxDoc = ({ lang, slug }: PropsWithLang & { slug: string }) => {
 
   return (
     <div className="flex flex-row">
-      <div className="flex-grow">{selectedDoc && <DynamicMarkDownComponent />}</div>
+      <div className="min-w-0 flex-grow">{selectedDoc && <DynamicMarkDownComponent />}</div>
     </div>
   );
 };

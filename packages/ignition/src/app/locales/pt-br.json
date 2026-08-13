@@ -1,9 +1,9 @@
 {
   "brand": {
-    "motto": "Ícones do seu jeito e como você precisa. Na Web ou no Mobile.",
-    "description": "A biblioteca de ícones que você estava procurando. Funciona em React e em React Native, sem mudanças. Apenas um código, que roda onde você precisa. E com todo o poder que você já conheçe do Tailwind.",
+    "motto": "Milhares para explorar. Só os seus para publicar.",
+    "description": "Encontre o ícone certo e adicione o componente React ou React Native ao seu código, com estilização compatível com Tailwind.",
     "total-icon-count-text": "Nossa contagem atual de ícones é:",
-    "title-suffix": "Um plugin não official do Tailwind"
+    "title-suffix": "Adicione apenas o que usa"
   },
   "opengraph": {
     "collections": "Coleções",

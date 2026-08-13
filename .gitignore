@@ -5,6 +5,7 @@ tsconfig*.tsbuildinfo
 packages/icons/*
 !packages/icons/CHANGELOG.md
 !packages/icons/package.json
+!packages/icons/README.md
 *.tgz
 release-notes.md
 .DS_Store

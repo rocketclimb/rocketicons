@@ -1,25 +1,28 @@
 ---
 title: Adicionando Ícones
-description: Adicionando ícones à sua aplicação
+description: Encontre, adicione, importe e confira componentes locais do Rocketicons
 slug: adicionando-icones
 order: 1
 ---
 
-import RocketIconsText, { RocketIconsTextDefault } from "@/components/rocketicons-text";
+## Como usar
 
-## Usando
+# Adicione exatamente o que precisa
 
-# Como Adicionar Ícones
+Já executou `npx @rocketicons/cli init`? Ótimo. Escolha o ID exato no [explorador de ícones](../../icons) e adicione apenas esse componente:
 
-Adicionando e usando ícones do <RocketIconsText /> em sua aplicação.
+```bash
+npx @rocketicons/cli add @rc/rc-rocket-icon
+```
 
-_Se você é novo aqui ou ainda não tem o <RocketIconsText /> instalado, talvez você queira dar uma olhada nos [Primeiros Passos](./primeiros-passos) antes de começar._
+O comando atual aceita um ícone por vez. Para instalar um pequeno conjunto, deixe cada passo explícito e repita:
 
-<br />
-Usando nossa [biblioteca de ícones](../icons), encontre o ícone que você precisa. Um ícone nada mais
-é do que um componente React, então sabendo o nome do componente e do sub pacote onde ele se encontra,
-você só precisa importá-lo.
-<br />
-Vamos usar como exemplo o componente `RcRocketIcon` que se encontra no sub pacote chamado `rc`. Você
-pode importá-lo da seguinte forma:
-<br />
+```bash
+npx @rocketicons/cli add @rc/rc-rocket-icon
+npx @rocketicons/cli add @lu/lu-search
+npx @rocketicons/cli add @lu/lu-circle-check
+```
+
+Cada comando cria um arquivo TSX em `src/ri/icons`. Esse é o ponto importante: sua aplicação passa a ser dona do componente selecionado, em vez de importar um pacote cheio de ícones.
+
+### Importe o componente gerado

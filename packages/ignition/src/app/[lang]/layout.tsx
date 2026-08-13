@@ -4,11 +4,12 @@ import Header from "@/components/header";
 import ContentKindMarker from "@/components/content-kind-marker";
 import LocalePreference from "@/components/locale-preference";
 
-import { PropsWithChildrenAndLangParams, AvailableLanguages } from "@/types";
+import { PropsWithChildrenAndLangParams } from "@/types";
+import { localePageParams } from "@/statics-generator/route-static-params";
 
-export const dynamicParams = false;
-
-export const generateStaticParams = () => AvailableLanguages.map((lang) => ({ lang }));
+export function generateStaticParams() {
+  return localePageParams();
+}
 
 const Layout = ({ children, params: { lang } }: PropsWithChildrenAndLangParams) => (
   <>

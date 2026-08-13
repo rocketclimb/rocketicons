@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import { AvailableLanguages, Languages } from "@/types";
 import { getSiteOrigin } from "@/config/site-origin";
 import type { StaticCatalog } from "@/catalog/types";
+import { renderLlms, renderLlmsFull } from "./llms";
 
 const PUBLIC_ROOT = resolve("./public");
 const DATA_ROOT = resolve("./src/app/data-helpers");
@@ -51,9 +52,7 @@ export const generateStaticSiteAssets = async () => {
         .filter((doc) => doc.lang === lang)
         .map((doc) => `${origin}/${lang}/docs/${doc.slug}/`)
     ];
-    const collections = catalog.collections.map(
-      ({ id }) => `${origin}/${lang}/icons/${id}/`
-    );
+    const collections = catalog.collections.map(({ id }) => `${origin}/${lang}/icons/${id}/`);
     await writePublicFile(`${lang}/sitemap.xml`, urlSet(pages));
     await writePublicFile(`${lang}/collections-sitemap.xml`, urlSet(collections));
     sitemapUrls.push(
@@ -67,4 +66,8 @@ export const generateStaticSiteAssets = async () => {
     "robots.txt",
     `User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap_index.xml\n`
   );
+  await Promise.all([
+    writePublicFile("llms.txt", renderLlms(catalog)),
+    writePublicFile("llms-full.txt", renderLlmsFull(catalog))
+  ]);
 };
