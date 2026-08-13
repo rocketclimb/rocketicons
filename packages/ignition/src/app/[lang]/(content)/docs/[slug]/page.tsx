@@ -24,9 +24,9 @@ export const generateStaticParams = () => {
   return docs;
 };
 
-export const generateMetadata = ({
-  params: { lang, slug }
-}: PageProps): Metadata => {
+export const generateMetadata = async ({ params }: PageProps): Promise<Metadata> => {
+  const { lang: rawLang, slug } = await params;
+  const lang = rawLang as Languages;
   const selectedDoc = getDoc(lang, slug);
 
   return customMetadata(lang, "doc", slug, selectedDoc.title, selectedDoc.description);
@@ -75,7 +75,9 @@ const getDoc = (lang: Languages, slug: string): Doc => {
   return doc(slug);
 };
 
-const Page = ({ params: { lang, slug } }: PageProps) => {
+const Page = async ({ params }: PageProps) => {
+  const { lang: rawLang, slug } = await params;
+  const lang = rawLang as Languages;
   const { enSlug } = withLocale(lang);
   const { organization, software } = withStructuredData(lang);
   const enSlugFromIndex = enSlug(slug);

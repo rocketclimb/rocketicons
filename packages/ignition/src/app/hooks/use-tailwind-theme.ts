@@ -1,7 +1,9 @@
-import { useMemo } from "react";
-import { DefaultColors } from "tailwindcss/types/generated/colors";
-import resolveConfig from "tailwindcss/resolveConfig";
-import tailwindConfig from "@/tailwind-conf";
+"use client";
+
+/**
+ * Resolves TW v4 theme colors from CSS custom properties.
+ * Replaces the TW v3 `resolveConfig()` approach which was removed in v4.
+ */
 
 type CustomColors = {
   primary: string;
@@ -27,9 +29,43 @@ type CustomColors = {
   "background-dark": string;
 };
 
+const COLOR_KEYS: (keyof CustomColors)[] = [
+  "primary",
+  "primary-bright",
+  "primary-lighter",
+  "primary-light",
+  "primary-medium",
+  "primary-dark",
+  "on-primary",
+  "surface",
+  "surface-border",
+  "surface-border-light",
+  "surface-medium",
+  "surface-border-medium",
+  "surface-dark",
+  "on-surface",
+  "on-surface-dark",
+  "secondary",
+  "secondary-light",
+  "secondary-medium",
+  "secondary-dark",
+  "background",
+  "background-dark"
+];
+
 const useTailwindTheme = () => {
-  const { theme } = useMemo(() => resolveConfig(tailwindConfig), [tailwindConfig]);
-  return theme as typeof theme & { colors: DefaultColors & CustomColors };
+  const colors = COLOR_KEYS.reduce((acc, key) => {
+    if (typeof window !== "undefined") {
+      acc[key] =
+        getComputedStyle(document.documentElement).getPropertyValue(`--color-${key}`).trim() ||
+        "";
+    } else {
+      acc[key] = "";
+    }
+    return acc;
+  }, {} as CustomColors);
+
+  return { colors };
 };
 
 export default useTailwindTheme;

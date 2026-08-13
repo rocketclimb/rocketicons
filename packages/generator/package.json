@@ -1,21 +1,22 @@
 {
   "name": "@rocketicons/generator",
-  "version": "0.2.4",
+  "version": "0.4.0",
   "license": "MIT",
   "main": "./dist/index.js",
   "files": [
     "dist/"
   ],
   "scripts": {
-    "build": "npx ts-node ./src/build.ts",
+    "build": "test -z $SKIP_GENERATOR_BUILD && npx ts-node ./src/build.ts || echo '[GENERATOR] skip icon generation - using pre-built icons'",
+    "build-force": "npx ts-node ./src/build.ts",
     "clean": "rocketclimb-sh rm -fR dist core *.tsbuildinfo",
-    "prebuild": "npm run fetch",
-    "postbuild": "npm run copy-files",
+    "prebuild": "test -z $SKIP_GENERATOR_BUILD && npm run fetch || echo '[GENERATOR] skip fetch'",
+    "postbuild": "test -z $SKIP_GENERATOR_BUILD && npm run copy-files || echo '[GENERATOR] skip copy-files'",
     "copy-files": "rocketclimb-sh cp -fR ../core/dist/* ../icons/core/ && rocketclimb-sh cp -fR ../tailwind/dist/* ../icons/tailwind/",
     "fetch": "npx ts-node ./src/fetcher.ts",
     "format": "prettier --check src/* --write --ignore-path ../../.gitignore",
     "lint": "eslint src/**/*",
-    "rebuild": "npm run clean && npm run build",
+    "rebuild": "npm run clean && npm run build-force",
     "refetch": "npx ts-node ./src/fetcher.ts --force",
     "test": "jest ./src --passWithNoTests",
     "typecheck": "tsc --noEmit"

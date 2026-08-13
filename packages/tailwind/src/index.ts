@@ -1,28 +1,28 @@
 import plugin from "tailwindcss/plugin";
-import { CSSRuleObject, PluginAPI } from "tailwindcss/types/config";
 
+import type { CssInJs, PluginAPI } from "@/types";
 import getDefaultTheme from "./theme";
 import { stylesGenerator } from "./utils/styles-generator";
 import { configHandler } from "./utils/config-handler";
 
 const pluginFactory = (isNative: boolean = false) => {
   return plugin(
-    ({ addComponents, config }: PluginAPI) => {
-      const prefix = (config("prefix") as string) ?? "";
-      const handler = configHandler(config, prefix);
+    ({ addComponents, theme }: PluginAPI) => {
+      const handler = configHandler(theme);
 
-      const theme = handler("icon", getDefaultTheme(prefix));
+      const themeConfig = handler("icon", getDefaultTheme());
 
       const generator = stylesGenerator("icon", isNative);
 
       const styles = generator
-        .add(theme.defaults())
-        .add(theme.sizes())
-        .add(theme.colors())
-        .add(theme.shortcuts())
-        .styles() as CSSRuleObject;
+        .add(themeConfig.defaults())
+        .add(themeConfig.sizes())
+        .add(themeConfig.colors())
+        .add(themeConfig.shortcuts())
+        .styles() as CssInJs;
 
-      addComponents(styles);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      addComponents(styles as any);
     },
     {
       safelist: isNative ? ["icon-default", "icon-filled", "icon-outlined"] : ["icon-default"]

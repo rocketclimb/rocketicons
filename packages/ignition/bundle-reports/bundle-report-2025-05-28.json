@@ -1,0 +1,3681 @@
+{
+  "timestamp": "2025-05-28T14:06:52.141Z",
+  "summary": {
+    "totalSize": 33200434,
+    "totalSizeMB": "31.66",
+    "totalFiles": 58,
+    "compressionSavings": 5491625
+  },
+  "breakdown": {
+    "javascript": {
+      "count": 39,
+      "totalSize": 6295878,
+      "totalGzipSize": 1426568,
+      "files": [
+        {
+          "file": "chunks/398-7e1e2c8d42d33669.js",
+          "path": ".next/static/chunks/398-7e1e2c8d42d33669.js",
+          "size": 2054107,
+          "gzipSize": 361494,
+          "modified": "2025-05-28T14:04:20.801Z",
+          "compressionRatio": "82.4"
+        },
+        {
+          "file": "chunks/602-6b050a878db01498.js",
+          "path": ".next/static/chunks/602-6b050a878db01498.js",
+          "size": 1043902,
+          "gzipSize": 247961,
+          "modified": "2025-05-28T14:04:20.801Z",
+          "compressionRatio": "76.2"
+        },
+        {
+          "file": "chunks/101-a4a917e8ad56c576.js",
+          "path": ".next/static/chunks/101-a4a917e8ad56c576.js",
+          "size": 785465,
+          "gzipSize": 189005,
+          "modified": "2025-05-28T14:04:20.803Z",
+          "compressionRatio": "75.9"
+        },
+        {
+          "file": "chunks/372-32562c963ea0ed5d.js",
+          "path": ".next/static/chunks/372-32562c963ea0ed5d.js",
+          "size": 773963,
+          "gzipSize": 185220,
+          "modified": "2025-05-28T14:04:20.801Z",
+          "compressionRatio": "76.1"
+        },
+        {
+          "file": "chunks/80-c7b05816531970cc.js",
+          "path": ".next/static/chunks/80-c7b05816531970cc.js",
+          "size": 522564,
+          "gzipSize": 115400,
+          "modified": "2025-05-28T14:04:20.801Z",
+          "compressionRatio": "77.9"
+        },
+        {
+          "file": "chunks/1dd3208c-202adfc5ae29daed.js",
+          "path": ".next/static/chunks/1dd3208c-202adfc5ae29daed.js",
+          "size": 172829,
+          "gzipSize": 53739,
+          "modified": "2025-05-28T14:04:20.802Z",
+          "compressionRatio": "68.9"
+        },
+        {
+          "file": "chunks/902-7a9a5559170eb3eb.js",
+          "path": ".next/static/chunks/902-7a9a5559170eb3eb.js",
+          "size": 164674,
+          "gzipSize": 38486,
+          "modified": "2025-05-28T14:04:20.802Z",
+          "compressionRatio": "76.6"
+        },
+        {
+          "file": "chunks/framework-9e68550641db712d.js",
+          "path": ".next/static/chunks/framework-9e68550641db712d.js",
+          "size": 140986,
+          "gzipSize": 45308,
+          "modified": "2025-05-28T14:04:20.801Z",
+          "compressionRatio": "67.9"
+        },
+        {
+          "file": "chunks/286-9dc5ffde0ddc10dd.js",
+          "path": ".next/static/chunks/286-9dc5ffde0ddc10dd.js",
+          "size": 123181,
+          "gzipSize": 31553,
+          "modified": "2025-05-28T14:04:20.802Z",
+          "compressionRatio": "74.4"
+        },
+        {
+          "file": "chunks/main-5592454b4c738adf.js",
+          "path": ".next/static/chunks/main-5592454b4c738adf.js",
+          "size": 110391,
+          "gzipSize": 32324,
+          "modified": "2025-05-28T14:04:20.800Z",
+          "compressionRatio": "70.7"
+        },
+        {
+          "file": "chunks/polyfills-78c92fac7aa8fdd8.js",
+          "path": ".next/static/chunks/polyfills-78c92fac7aa8fdd8.js",
+          "size": 91381,
+          "gzipSize": 31177,
+          "modified": "2025-05-28T14:04:20.803Z",
+          "compressionRatio": "65.9"
+        },
+        {
+          "file": "chunks/333-7d60d8ec5404e4e7.js",
+          "path": ".next/static/chunks/333-7d60d8ec5404e4e7.js",
+          "size": 79690,
+          "gzipSize": 24757,
+          "modified": "2025-05-28T14:04:20.802Z",
+          "compressionRatio": "68.9"
+        },
+        {
+          "file": "chunks/757-d02758a0ba67b92d.js",
+          "path": ".next/static/chunks/757-d02758a0ba67b92d.js",
+          "size": 78121,
+          "gzipSize": 16885,
+          "modified": "2025-05-28T14:04:20.802Z",
+          "compressionRatio": "78.4"
+        },
+        {
+          "file": "chunks/580-49a024c811105156.js",
+          "path": ".next/static/chunks/580-49a024c811105156.js",
+          "size": 21469,
+          "gzipSize": 7089,
+          "modified": "2025-05-28T14:04:20.802Z",
+          "compressionRatio": "67.0"
+        },
+        {
+          "file": "chunks/388-4eab47c1e199d8a0.js",
+          "path": ".next/static/chunks/388-4eab47c1e199d8a0.js",
+          "size": 18974,
+          "gzipSize": 5608,
+          "modified": "2025-05-28T14:04:20.802Z",
+          "compressionRatio": "70.4"
+        },
+        {
+          "file": "chunks/app/[lang]/(content)/icons/page-0c6263c9ba82a3c2.js",
+          "path": ".next/static/chunks/app/[lang]/(content)/icons/page-0c6263c9ba82a3c2.js",
+          "size": 16325,
+          "gzipSize": 5291,
+          "modified": "2025-05-28T14:04:20.801Z",
+          "compressionRatio": "67.6"
+        },
+        {
+          "file": "chunks/572-b6555ca3e854bbb8.js",
+          "path": ".next/static/chunks/572-b6555ca3e854bbb8.js",
+          "size": 14953,
+          "gzipSize": 5448,
+          "modified": "2025-05-28T14:04:20.802Z",
+          "compressionRatio": "63.6"
+        },
+        {
+          "file": "chunks/app/error-c0c3bfa3ddb7499c.js",
+          "path": ".next/static/chunks/app/error-c0c3bfa3ddb7499c.js",
+          "size": 14379,
+          "gzipSize": 4957,
+          "modified": "2025-05-28T14:04:20.800Z",
+          "compressionRatio": "65.5"
+        },
+        {
+          "file": "chunks/app/[lang]/(content)/icons/[collectionid]/[iconid]/page-2ded7c149797a778.js",
+          "path": ".next/static/chunks/app/[lang]/(content)/icons/[collectionid]/[iconid]/page-2ded7c149797a778.js",
+          "size": 13499,
+          "gzipSize": 3899,
+          "modified": "2025-05-28T14:04:20.802Z",
+          "compressionRatio": "71.1"
+        },
+        {
+          "file": "chunks/app/layout-ab0caa9103ccfc1b.js",
+          "path": ".next/static/chunks/app/layout-ab0caa9103ccfc1b.js",
+          "size": 11197,
+          "gzipSize": 4092,
+          "modified": "2025-05-28T14:04:20.800Z",
+          "compressionRatio": "63.5"
+        },
+        {
+          "file": "chunks/app/[lang]/(content)/docs/[slug]/page-8e8c06896285d739.js",
+          "path": ".next/static/chunks/app/[lang]/(content)/docs/[slug]/page-8e8c06896285d739.js",
+          "size": 10104,
+          "gzipSize": 2752,
+          "modified": "2025-05-28T14:04:20.801Z",
+          "compressionRatio": "72.8"
+        },
+        {
+          "file": "chunks/984-8e04effaac6aac64.js",
+          "path": ".next/static/chunks/984-8e04effaac6aac64.js",
+          "size": 8026,
+          "gzipSize": 2998,
+          "modified": "2025-05-28T14:04:20.802Z",
+          "compressionRatio": "62.6"
+        },
+        {
+          "file": "chunks/704-327171dd248845ba.js",
+          "path": ".next/static/chunks/704-327171dd248845ba.js",
+          "size": 7313,
+          "gzipSize": 2637,
+          "modified": "2025-05-28T14:04:20.803Z",
+          "compressionRatio": "63.9"
+        },
+        {
+          "file": "chunks/app/[lang]/layout-b4e8bdbfd1b2be91.js",
+          "path": ".next/static/chunks/app/[lang]/layout-b4e8bdbfd1b2be91.js",
+          "size": 6747,
+          "gzipSize": 2436,
+          "modified": "2025-05-28T14:04:20.800Z",
+          "compressionRatio": "63.9"
+        },
+        {
+          "file": "chunks/webpack-ea9fd851b2a45191.js",
+          "path": ".next/static/chunks/webpack-ea9fd851b2a45191.js",
+          "size": 3875,
+          "gzipSize": 1856,
+          "modified": "2025-05-28T14:04:20.801Z",
+          "compressionRatio": "52.1"
+        },
+        {
+          "file": "chunks/app/[lang]/(content)/icons/[collectionid]/layout-74a99e682e00ee29.js",
+          "path": ".next/static/chunks/app/[lang]/(content)/icons/[collectionid]/layout-74a99e682e00ee29.js",
+          "size": 2630,
+          "gzipSize": 1159,
+          "modified": "2025-05-28T14:04:20.801Z",
+          "compressionRatio": "55.9"
+        },
+        {
+          "file": "chunks/354-e90392c1d0031e3d.js",
+          "path": ".next/static/chunks/354-e90392c1d0031e3d.js",
+          "size": 1424,
+          "gzipSize": 714,
+          "modified": "2025-05-28T14:04:20.803Z",
+          "compressionRatio": "49.9"
+        },
+        {
+          "file": "chunks/app/[lang]/(content)/layout-4b0d1241f093c429.js",
+          "path": ".next/static/chunks/app/[lang]/(content)/layout-4b0d1241f093c429.js",
+          "size": 670,
+          "gzipSize": 420,
+          "modified": "2025-05-28T14:04:20.800Z",
+          "compressionRatio": "37.3"
+        },
+        {
+          "file": "chunks/app/[lang]/page-5e5cea8ac5d4fb58.js",
+          "path": ".next/static/chunks/app/[lang]/page-5e5cea8ac5d4fb58.js",
+          "size": 624,
+          "gzipSize": 241,
+          "modified": "2025-05-28T14:04:20.800Z",
+          "compressionRatio": "61.4"
+        },
+        {
+          "file": "chunks/main-app-407fd2a1a2a61597.js",
+          "path": ".next/static/chunks/main-app-407fd2a1a2a61597.js",
+          "size": 463,
+          "gzipSize": 221,
+          "modified": "2025-05-28T14:04:20.800Z",
+          "compressionRatio": "52.3"
+        },
+        {
+          "file": "chunks/app/not-found-df0e0be9206d10d5.js",
+          "path": ".next/static/chunks/app/not-found-df0e0be9206d10d5.js",
+          "size": 439,
+          "gzipSize": 228,
+          "modified": "2025-05-28T14:04:20.800Z",
+          "compressionRatio": "48.1"
+        },
+        {
+          "file": "chunks/pages/_app-dea0b6b1c42677ea.js",
+          "path": ".next/static/chunks/pages/_app-dea0b6b1c42677ea.js",
+          "size": 280,
+          "gzipSize": 194,
+          "modified": "2025-05-28T14:04:20.800Z",
+          "compressionRatio": "30.7"
+        },
+        {
+          "file": "chunks/pages/_error-e327c3d2707a2378.js",
+          "path": ".next/static/chunks/pages/_error-e327c3d2707a2378.js",
+          "size": 245,
+          "gzipSize": 180,
+          "modified": "2025-05-28T14:04:20.800Z",
+          "compressionRatio": "26.5"
+        },
+        {
+          "file": "CP5NskKO_0JLHToOubjut/_buildManifest.js",
+          "path": ".next/static/CP5NskKO_0JLHToOubjut/_buildManifest.js",
+          "size": 224,
+          "gzipSize": 179,
+          "modified": "2025-05-28T14:04:20.803Z",
+          "compressionRatio": "20.1"
+        },
+        {
+          "file": "chunks/app/_not-found/page-3d8e4a531c857f71.js",
+          "path": ".next/static/chunks/app/_not-found/page-3d8e4a531c857f71.js",
+          "size": 171,
+          "gzipSize": 149,
+          "modified": "2025-05-28T14:04:20.800Z",
+          "compressionRatio": "12.9"
+        },
+        {
+          "file": "chunks/app/examples/responsive/page-264cf7436dbed079.js",
+          "path": ".next/static/chunks/app/examples/responsive/page-264cf7436dbed079.js",
+          "size": 171,
+          "gzipSize": 149,
+          "modified": "2025-05-28T14:04:20.800Z",
+          "compressionRatio": "12.9"
+        },
+        {
+          "file": "chunks/app/[lang]/(content)/docs/page-7086a8a04f8f546b.js",
+          "path": ".next/static/chunks/app/[lang]/(content)/docs/page-7086a8a04f8f546b.js",
+          "size": 171,
+          "gzipSize": 149,
+          "modified": "2025-05-28T14:04:20.800Z",
+          "compressionRatio": "12.9"
+        },
+        {
+          "file": "chunks/app/[lang]/(content)/roadmap/page-b158a8b7ce4c8688.js",
+          "path": ".next/static/chunks/app/[lang]/(content)/roadmap/page-b158a8b7ce4c8688.js",
+          "size": 171,
+          "gzipSize": 149,
+          "modified": "2025-05-28T14:04:20.801Z",
+          "compressionRatio": "12.9"
+        },
+        {
+          "file": "CP5NskKO_0JLHToOubjut/_ssgManifest.js",
+          "path": ".next/static/CP5NskKO_0JLHToOubjut/_ssgManifest.js",
+          "size": 80,
+          "gzipSize": 64,
+          "modified": "2025-05-28T14:04:26.094Z",
+          "compressionRatio": "20.0"
+        }
+      ]
+    },
+    "css": {
+      "count": 2,
+      "totalSize": 678857,
+      "totalGzipSize": 56114,
+      "files": [
+        {
+          "file": "css/a64b1bd1f2ccd014.css",
+          "path": ".next/static/css/a64b1bd1f2ccd014.css",
+          "size": 672082,
+          "gzipSize": 55063,
+          "modified": "2025-05-28T14:04:20.804Z",
+          "compressionRatio": "91.8"
+        },
+        {
+          "file": "css/ffc53d23fc49e4ad.css",
+          "path": ".next/static/css/ffc53d23fc49e4ad.css",
+          "size": 6775,
+          "gzipSize": 1051,
+          "modified": "2025-05-28T14:04:20.804Z",
+          "compressionRatio": "84.5"
+        }
+      ]
+    },
+    "media": {
+      "count": 0,
+      "totalSize": 0,
+      "files": []
+    },
+    "other": {
+      "count": 17,
+      "totalSize": 382044,
+      "files": [
+        {
+          "file": "media/6d93bde91c0c2823-s.woff2",
+          "path": ".next/static/media/6d93bde91c0c2823-s.woff2",
+          "size": 74316,
+          "gzipSize": 74346,
+          "modified": "2025-05-28T14:04:20.800Z",
+          "compressionRatio": "-0.0"
+        },
+        {
+          "file": "media/a34f9d1faa5f3315-s.p.woff2",
+          "path": ".next/static/media/a34f9d1faa5f3315-s.p.woff2",
+          "size": 48556,
+          "gzipSize": 48571,
+          "modified": "2025-05-28T14:04:20.800Z",
+          "compressionRatio": "-0.0"
+        },
+        {
+          "file": "media/c97d4358b5ad6f1f-s.p.woff2",
+          "path": ".next/static/media/c97d4358b5ad6f1f-s.p.woff2",
+          "size": 36280,
+          "gzipSize": 36313,
+          "modified": "2025-05-28T14:04:20.799Z",
+          "compressionRatio": "-0.1"
+        },
+        {
+          "file": "media/c9d2740a66c9a4f1-s.p.woff2",
+          "path": ".next/static/media/c9d2740a66c9a4f1-s.p.woff2",
+          "size": 28396,
+          "gzipSize": 28424,
+          "modified": "2025-05-28T14:04:20.799Z",
+          "compressionRatio": "-0.1"
+        },
+        {
+          "file": "media/1fa61d2b53a053f3-s.woff2",
+          "path": ".next/static/media/1fa61d2b53a053f3-s.woff2",
+          "size": 26572,
+          "gzipSize": 26600,
+          "modified": "2025-05-28T14:04:20.799Z",
+          "compressionRatio": "-0.1"
+        },
+        {
+          "file": "media/55c55f0601d81cf3-s.woff2",
+          "path": ".next/static/media/55c55f0601d81cf3-s.woff2",
+          "size": 25908,
+          "gzipSize": 25936,
+          "modified": "2025-05-28T14:04:20.799Z",
+          "compressionRatio": "-0.1"
+        },
+        {
+          "file": "media/999e639cd9d85971-s.woff2",
+          "path": ".next/static/media/999e639cd9d85971-s.woff2",
+          "size": 22056,
+          "gzipSize": 22084,
+          "modified": "2025-05-28T14:04:20.799Z",
+          "compressionRatio": "-0.1"
+        },
+        {
+          "file": "media/581909926a08bbc8-s.woff2",
+          "path": ".next/static/media/581909926a08bbc8-s.woff2",
+          "size": 19072,
+          "gzipSize": 19100,
+          "modified": "2025-05-28T14:04:20.799Z",
+          "compressionRatio": "-0.1"
+        },
+        {
+          "file": "media/26a46d62cd723877-s.woff2",
+          "path": ".next/static/media/26a46d62cd723877-s.woff2",
+          "size": 18820,
+          "gzipSize": 18848,
+          "modified": "2025-05-28T14:04:20.799Z",
+          "compressionRatio": "-0.1"
+        },
+        {
+          "file": "media/6aacc40b7795b725-s.woff2",
+          "path": ".next/static/media/6aacc40b7795b725-s.woff2",
+          "size": 13780,
+          "gzipSize": 13803,
+          "modified": "2025-05-28T14:04:20.799Z",
+          "compressionRatio": "-0.2"
+        },
+        {
+          "file": "media/046b90749014f852-s.woff2",
+          "path": ".next/static/media/046b90749014f852-s.woff2",
+          "size": 13232,
+          "gzipSize": 13255,
+          "modified": "2025-05-28T14:04:20.799Z",
+          "compressionRatio": "-0.2"
+        },
+        {
+          "file": "media/848b99572ad207f3-s.woff2",
+          "path": ".next/static/media/848b99572ad207f3-s.woff2",
+          "size": 11956,
+          "gzipSize": 11979,
+          "modified": "2025-05-28T14:04:20.799Z",
+          "compressionRatio": "-0.2"
+        },
+        {
+          "file": "media/97e0cb1ae144a2a9-s.woff2",
+          "path": ".next/static/media/97e0cb1ae144a2a9-s.woff2",
+          "size": 11220,
+          "gzipSize": 11243,
+          "modified": "2025-05-28T14:04:20.799Z",
+          "compressionRatio": "-0.2"
+        },
+        {
+          "file": "media/df0a9ae256c0569c-s.woff2",
+          "path": ".next/static/media/df0a9ae256c0569c-s.woff2",
+          "size": 10280,
+          "gzipSize": 10303,
+          "modified": "2025-05-28T14:04:20.799Z",
+          "compressionRatio": "-0.2"
+        },
+        {
+          "file": "media/d426c6df177f02c4-s.woff2",
+          "path": ".next/static/media/d426c6df177f02c4-s.woff2",
+          "size": 8812,
+          "gzipSize": 8835,
+          "modified": "2025-05-28T14:04:20.799Z",
+          "compressionRatio": "-0.3"
+        },
+        {
+          "file": "media/e6b5cfd5a74e1cae-s.woff2",
+          "path": ".next/static/media/e6b5cfd5a74e1cae-s.woff2",
+          "size": 8580,
+          "gzipSize": 8601,
+          "modified": "2025-05-28T14:04:20.799Z",
+          "compressionRatio": "-0.2"
+        },
+        {
+          "file": "media/67110d8fe39c5e84-s.woff2",
+          "path": ".next/static/media/67110d8fe39c5e84-s.woff2",
+          "size": 4208,
+          "gzipSize": 4231,
+          "modified": "2025-05-28T14:04:20.799Z",
+          "compressionRatio": "-0.5"
+        }
+      ]
+    }
+  },
+  "nextjs": {
+    "pages": [
+      {
+        "file": "pages/500.html",
+        "size": 1995,
+        "gzipSize": 925,
+        "type": "HTML"
+      },
+      {
+        "file": "pages/_app.js",
+        "size": 3305,
+        "gzipSize": 1461,
+        "type": "JavaScript"
+      },
+      {
+        "file": "pages/_document.js",
+        "size": 385,
+        "gzipSize": 250,
+        "type": "JavaScript"
+      },
+      {
+        "file": "pages/_error.js",
+        "size": 8665,
+        "gzipSize": 3250,
+        "type": "JavaScript"
+      }
+    ],
+    "chunks": [
+      {
+        "file": "edge-runtime-webpack.js",
+        "size": 1800,
+        "gzipSize": 961
+      },
+      {
+        "file": "interception-route-rewrite-manifest.js",
+        "size": 48,
+        "gzipSize": 68
+      },
+      {
+        "file": "middleware-build-manifest.js",
+        "size": 823,
+        "gzipSize": 366
+      },
+      {
+        "file": "middleware-react-loadable-manifest.js",
+        "size": 604,
+        "gzipSize": 254
+      },
+      {
+        "file": "next-font-manifest.js",
+        "size": 312,
+        "gzipSize": 237
+      },
+      {
+        "file": "server-reference-manifest.js",
+        "size": 121,
+        "gzipSize": 132
+      },
+      {
+        "file": "webpack-runtime.js",
+        "size": 1486,
+        "gzipSize": 815
+      },
+      {
+        "file": "chunks/1026.js",
+        "size": 493,
+        "gzipSize": 318
+      },
+      {
+        "file": "chunks/1116.js",
+        "size": 721,
+        "gzipSize": 428
+      },
+      {
+        "file": "chunks/1121.js",
+        "size": 631,
+        "gzipSize": 398
+      },
+      {
+        "file": "chunks/1171.js",
+        "size": 817,
+        "gzipSize": 473
+      },
+      {
+        "file": "chunks/1249.js",
+        "size": 707,
+        "gzipSize": 434
+      },
+      {
+        "file": "chunks/1294.js",
+        "size": 655,
+        "gzipSize": 401
+      },
+      {
+        "file": "chunks/1300.js",
+        "size": 495,
+        "gzipSize": 314
+      },
+      {
+        "file": "chunks/1301.js",
+        "size": 825,
+        "gzipSize": 463
+      },
+      {
+        "file": "chunks/1408.js",
+        "size": 999,
+        "gzipSize": 561
+      },
+      {
+        "file": "chunks/1415.js",
+        "size": 2013335,
+        "gzipSize": 360712
+      },
+      {
+        "file": "chunks/1512.js",
+        "size": 12693,
+        "gzipSize": 2513
+      },
+      {
+        "file": "chunks/1542.js",
+        "size": 762097,
+        "gzipSize": 184901
+      },
+      {
+        "file": "chunks/1543.js",
+        "size": 672,
+        "gzipSize": 411
+      },
+      {
+        "file": "chunks/1709.js",
+        "size": 16247,
+        "gzipSize": 5665
+      },
+      {
+        "file": "chunks/1738.js",
+        "size": 678,
+        "gzipSize": 427
+      },
+      {
+        "file": "chunks/183.js",
+        "size": 814,
+        "gzipSize": 475
+      },
+      {
+        "file": "chunks/1842.js",
+        "size": 810,
+        "gzipSize": 470
+      },
+      {
+        "file": "chunks/1876.js",
+        "size": 1450,
+        "gzipSize": 684
+      },
+      {
+        "file": "chunks/1905.js",
+        "size": 13093,
+        "gzipSize": 2644
+      },
+      {
+        "file": "chunks/2342.js",
+        "size": 1019360,
+        "gzipSize": 247153
+      },
+      {
+        "file": "chunks/2458.js",
+        "size": 776965,
+        "gzipSize": 185923
+      },
+      {
+        "file": "chunks/2595.js",
+        "size": 905,
+        "gzipSize": 529
+      },
+      {
+        "file": "chunks/2629.js",
+        "size": 1582,
+        "gzipSize": 740
+      },
+      {
+        "file": "chunks/2677.js",
+        "size": 708,
+        "gzipSize": 410
+      },
+      {
+        "file": "chunks/2722.js",
+        "size": 682,
+        "gzipSize": 424
+      },
+      {
+        "file": "chunks/2742.js",
+        "size": 1000,
+        "gzipSize": 569
+      },
+      {
+        "file": "chunks/2918.js",
+        "size": 1323,
+        "gzipSize": 664
+      },
+      {
+        "file": "chunks/3048.js",
+        "size": 866,
+        "gzipSize": 491
+      },
+      {
+        "file": "chunks/3055.js",
+        "size": 1063,
+        "gzipSize": 619
+      },
+      {
+        "file": "chunks/3105.js",
+        "size": 1511,
+        "gzipSize": 698
+      },
+      {
+        "file": "chunks/3109.js",
+        "size": 1397,
+        "gzipSize": 826
+      },
+      {
+        "file": "chunks/3135.js",
+        "size": 33852,
+        "gzipSize": 10656
+      },
+      {
+        "file": "chunks/3194.js",
+        "size": 1242,
+        "gzipSize": 630
+      },
+      {
+        "file": "chunks/3298.js",
+        "size": 511973,
+        "gzipSize": 114859
+      },
+      {
+        "file": "chunks/3308.js",
+        "size": 3180,
+        "gzipSize": 766
+      },
+      {
+        "file": "chunks/3338.js",
+        "size": 701,
+        "gzipSize": 425
+      },
+      {
+        "file": "chunks/3341.js",
+        "size": 964,
+        "gzipSize": 504
+      },
+      {
+        "file": "chunks/350.js",
+        "size": 793,
+        "gzipSize": 450
+      },
+      {
+        "file": "chunks/3585.js",
+        "size": 2362,
+        "gzipSize": 1200
+      },
+      {
+        "file": "chunks/3645.js",
+        "size": 673,
+        "gzipSize": 427
+      },
+      {
+        "file": "chunks/3709.js",
+        "size": 701,
+        "gzipSize": 445
+      },
+      {
+        "file": "chunks/373.js",
+        "size": 1052,
+        "gzipSize": 578
+      },
+      {
+        "file": "chunks/3750.js",
+        "size": 476,
+        "gzipSize": 307
+      },
+      {
+        "file": "chunks/3885.js",
+        "size": 1492,
+        "gzipSize": 757
+      },
+      {
+        "file": "chunks/3935.js",
+        "size": 748,
+        "gzipSize": 449
+      },
+      {
+        "file": "chunks/4070.js",
+        "size": 762,
+        "gzipSize": 436
+      },
+      {
+        "file": "chunks/4089.js",
+        "size": 872,
+        "gzipSize": 523
+      },
+      {
+        "file": "chunks/4330.js",
+        "size": 828,
+        "gzipSize": 501
+      },
+      {
+        "file": "chunks/4372.js",
+        "size": 724,
+        "gzipSize": 447
+      },
+      {
+        "file": "chunks/4466.js",
+        "size": 1517,
+        "gzipSize": 718
+      },
+      {
+        "file": "chunks/4522.js",
+        "size": 55212,
+        "gzipSize": 15831
+      },
+      {
+        "file": "chunks/4527.js",
+        "size": 963,
+        "gzipSize": 528
+      },
+      {
+        "file": "chunks/459.js",
+        "size": 22378,
+        "gzipSize": 2585
+      },
+      {
+        "file": "chunks/4688.js",
+        "size": 917,
+        "gzipSize": 522
+      },
+      {
+        "file": "chunks/4744.js",
+        "size": 837,
+        "gzipSize": 470
+      },
+      {
+        "file": "chunks/478.js",
+        "size": 875,
+        "gzipSize": 477
+      },
+      {
+        "file": "chunks/4856.js",
+        "size": 762097,
+        "gzipSize": 184900
+      },
+      {
+        "file": "chunks/4900.js",
+        "size": 1000,
+        "gzipSize": 559
+      },
+      {
+        "file": "chunks/4965.js",
+        "size": 693,
+        "gzipSize": 421
+      },
+      {
+        "file": "chunks/5016.js",
+        "size": 804,
+        "gzipSize": 445
+      },
+      {
+        "file": "chunks/5032.js",
+        "size": 6021,
+        "gzipSize": 2023
+      },
+      {
+        "file": "chunks/5093.js",
+        "size": 3216,
+        "gzipSize": 786
+      },
+      {
+        "file": "chunks/5191.js",
+        "size": 3618,
+        "gzipSize": 862
+      },
+      {
+        "file": "chunks/5208.js",
+        "size": 786,
+        "gzipSize": 470
+      },
+      {
+        "file": "chunks/5213.js",
+        "size": 515,
+        "gzipSize": 314
+      },
+      {
+        "file": "chunks/5245.js",
+        "size": 5580,
+        "gzipSize": 1105
+      },
+      {
+        "file": "chunks/5287.js",
+        "size": 467,
+        "gzipSize": 305
+      },
+      {
+        "file": "chunks/532.js",
+        "size": 80977,
+        "gzipSize": 17878
+      },
+      {
+        "file": "chunks/5346.js",
+        "size": 793,
+        "gzipSize": 490
+      },
+      {
+        "file": "chunks/5398.js",
+        "size": 627,
+        "gzipSize": 386
+      },
+      {
+        "file": "chunks/5403.js",
+        "size": 1225,
+        "gzipSize": 612
+      },
+      {
+        "file": "chunks/5416.js",
+        "size": 865,
+        "gzipSize": 492
+      },
+      {
+        "file": "chunks/5423.js",
+        "size": 1210,
+        "gzipSize": 575
+      },
+      {
+        "file": "chunks/5530.js",
+        "size": 680,
+        "gzipSize": 414
+      },
+      {
+        "file": "chunks/5543.js",
+        "size": 4278,
+        "gzipSize": 1920
+      },
+      {
+        "file": "chunks/567.js",
+        "size": 663,
+        "gzipSize": 405
+      },
+      {
+        "file": "chunks/5761.js",
+        "size": 879,
+        "gzipSize": 498
+      },
+      {
+        "file": "chunks/5783.js",
+        "size": 14432,
+        "gzipSize": 4342
+      },
+      {
+        "file": "chunks/5787.js",
+        "size": 735,
+        "gzipSize": 448
+      },
+      {
+        "file": "chunks/5902.js",
+        "size": 745,
+        "gzipSize": 421
+      },
+      {
+        "file": "chunks/591.js",
+        "size": 5482,
+        "gzipSize": 1072
+      },
+      {
+        "file": "chunks/5933.js",
+        "size": 877,
+        "gzipSize": 500
+      },
+      {
+        "file": "chunks/6056.js",
+        "size": 1442,
+        "gzipSize": 732
+      },
+      {
+        "file": "chunks/6304.js",
+        "size": 1086,
+        "gzipSize": 607
+      },
+      {
+        "file": "chunks/6327.js",
+        "size": 980,
+        "gzipSize": 551
+      },
+      {
+        "file": "chunks/6352.js",
+        "size": 1038,
+        "gzipSize": 554
+      },
+      {
+        "file": "chunks/6448.js",
+        "size": 704,
+        "gzipSize": 439
+      },
+      {
+        "file": "chunks/647.js",
+        "size": 1136,
+        "gzipSize": 641
+      },
+      {
+        "file": "chunks/6481.js",
+        "size": 789,
+        "gzipSize": 438
+      },
+      {
+        "file": "chunks/6557.js",
+        "size": 1742,
+        "gzipSize": 806
+      },
+      {
+        "file": "chunks/6568.js",
+        "size": 792,
+        "gzipSize": 456
+      },
+      {
+        "file": "chunks/6789.js",
+        "size": 789,
+        "gzipSize": 435
+      },
+      {
+        "file": "chunks/6925.js",
+        "size": 6507,
+        "gzipSize": 2608
+      },
+      {
+        "file": "chunks/6988.js",
+        "size": 928,
+        "gzipSize": 486
+      },
+      {
+        "file": "chunks/702.js",
+        "size": 2249,
+        "gzipSize": 1091
+      },
+      {
+        "file": "chunks/7047.js",
+        "size": 1063,
+        "gzipSize": 562
+      },
+      {
+        "file": "chunks/7179.js",
+        "size": 830,
+        "gzipSize": 483
+      },
+      {
+        "file": "chunks/7206.js",
+        "size": 750,
+        "gzipSize": 431
+      },
+      {
+        "file": "chunks/7277.js",
+        "size": 958,
+        "gzipSize": 519
+      },
+      {
+        "file": "chunks/7399.js",
+        "size": 892,
+        "gzipSize": 480
+      },
+      {
+        "file": "chunks/7401.js",
+        "size": 643,
+        "gzipSize": 394
+      },
+      {
+        "file": "chunks/7417.js",
+        "size": 1604,
+        "gzipSize": 750
+      },
+      {
+        "file": "chunks/7571.js",
+        "size": 511972,
+        "gzipSize": 114858
+      },
+      {
+        "file": "chunks/7671.js",
+        "size": 680,
+        "gzipSize": 419
+      },
+      {
+        "file": "chunks/7720.js",
+        "size": 510,
+        "gzipSize": 309
+      },
+      {
+        "file": "chunks/7724.js",
+        "size": 728,
+        "gzipSize": 413
+      },
+      {
+        "file": "chunks/7764.js",
+        "size": 1150,
+        "gzipSize": 632
+      },
+      {
+        "file": "chunks/7768.js",
+        "size": 1107,
+        "gzipSize": 594
+      },
+      {
+        "file": "chunks/8054.js",
+        "size": 908,
+        "gzipSize": 509
+      },
+      {
+        "file": "chunks/8088.js",
+        "size": 824,
+        "gzipSize": 479
+      },
+      {
+        "file": "chunks/8109.js",
+        "size": 745,
+        "gzipSize": 432
+      },
+      {
+        "file": "chunks/8221.js",
+        "size": 743,
+        "gzipSize": 424
+      },
+      {
+        "file": "chunks/8334.js",
+        "size": 3960635,
+        "gzipSize": 835631
+      },
+      {
+        "file": "chunks/8381.js",
+        "size": 936,
+        "gzipSize": 461
+      },
+      {
+        "file": "chunks/8387.js",
+        "size": 699,
+        "gzipSize": 437
+      },
+      {
+        "file": "chunks/8479.js",
+        "size": 808,
+        "gzipSize": 469
+      },
+      {
+        "file": "chunks/8533.js",
+        "size": 1327,
+        "gzipSize": 614
+      },
+      {
+        "file": "chunks/8590.js",
+        "size": 997,
+        "gzipSize": 558
+      },
+      {
+        "file": "chunks/8696.js",
+        "size": 790,
+        "gzipSize": 464
+      },
+      {
+        "file": "chunks/8724.js",
+        "size": 2573,
+        "gzipSize": 1232
+      },
+      {
+        "file": "chunks/8725.js",
+        "size": 724,
+        "gzipSize": 415
+      },
+      {
+        "file": "chunks/8787.js",
+        "size": 955,
+        "gzipSize": 544
+      },
+      {
+        "file": "chunks/8831.js",
+        "size": 953,
+        "gzipSize": 530
+      },
+      {
+        "file": "chunks/9035.js",
+        "size": 750,
+        "gzipSize": 427
+      },
+      {
+        "file": "chunks/9111.js",
+        "size": 21944,
+        "gzipSize": 2447
+      },
+      {
+        "file": "chunks/9186.js",
+        "size": 958,
+        "gzipSize": 479
+      },
+      {
+        "file": "chunks/9280.js",
+        "size": 758,
+        "gzipSize": 429
+      },
+      {
+        "file": "chunks/9372.js",
+        "size": 1176,
+        "gzipSize": 635
+      },
+      {
+        "file": "chunks/9386.js",
+        "size": 12572,
+        "gzipSize": 3777
+      },
+      {
+        "file": "chunks/9548.js",
+        "size": 856,
+        "gzipSize": 482
+      },
+      {
+        "file": "chunks/9577.js",
+        "size": 1694,
+        "gzipSize": 784
+      },
+      {
+        "file": "chunks/9579.js",
+        "size": 974,
+        "gzipSize": 514
+      },
+      {
+        "file": "chunks/9707.js",
+        "size": 354564,
+        "gzipSize": 86197
+      },
+      {
+        "file": "chunks/9711.js",
+        "size": 900,
+        "gzipSize": 505
+      },
+      {
+        "file": "chunks/990.js",
+        "size": 675,
+        "gzipSize": 400
+      },
+      {
+        "file": "src/middleware.js",
+        "size": 81079,
+        "gzipSize": 26571
+      },
+      {
+        "file": "app/[lang]/page.js",
+        "size": 34475,
+        "gzipSize": 8263
+      },
+      {
+        "file": "app/[lang]/page_client-reference-manifest.js",
+        "size": 26308,
+        "gzipSize": 2460
+      },
+      {
+        "file": "app/_not-found/page.js",
+        "size": 5543,
+        "gzipSize": 2200
+      },
+      {
+        "file": "app/_not-found/page_client-reference-manifest.js",
+        "size": 20944,
+        "gzipSize": 2317
+      },
+      {
+        "file": "app/robots.txt/route.js",
+        "size": 42048,
+        "gzipSize": 15236
+      },
+      {
+        "file": "app/site.webmanifest/route.js",
+        "size": 2964,
+        "gzipSize": 1399
+      },
+      {
+        "file": "app/sitemap_index.xml/route.js",
+        "size": 3111,
+        "gzipSize": 1414
+      },
+      {
+        "file": "app/examples/responsive/page.js",
+        "size": 8253,
+        "gzipSize": 3188
+      },
+      {
+        "file": "app/examples/responsive/page_client-reference-manifest.js",
+        "size": 20962,
+        "gzipSize": 2325
+      },
+      {
+        "file": "app/[lang]/(content)/docs/page.js",
+        "size": 7523,
+        "gzipSize": 2164
+      },
+      {
+        "file": "app/[lang]/(content)/docs/page_client-reference-manifest.js",
+        "size": 26426,
+        "gzipSize": 2477
+      },
+      {
+        "file": "app/[lang]/(content)/icons/page.js",
+        "size": 30997,
+        "gzipSize": 7671
+      },
+      {
+        "file": "app/[lang]/(content)/icons/page_client-reference-manifest.js",
+        "size": 27531,
+        "gzipSize": 2518
+      },
+      {
+        "file": "app/[lang]/(content)/roadmap/page.js",
+        "size": 41594,
+        "gzipSize": 14235
+      },
+      {
+        "file": "app/[lang]/(content)/roadmap/page_client-reference-manifest.js",
+        "size": 26432,
+        "gzipSize": 2479
+      },
+      {
+        "file": "app/[lang]/(sitemaps)/sitemap.xml/route.js",
+        "size": 3395,
+        "gzipSize": 1464
+      },
+      {
+        "file": "app/[lang]/(content)/docs/[slug]/page.js",
+        "size": 77385,
+        "gzipSize": 15209
+      },
+      {
+        "file": "app/[lang]/(content)/docs/[slug]/page_client-reference-manifest.js",
+        "size": 27190,
+        "gzipSize": 2524
+      },
+      {
+        "file": "app/[lang]/(content)/opengraph/[...params]/route.js",
+        "size": 8389,
+        "gzipSize": 3655
+      },
+      {
+        "file": "app/[lang]/(content)/roadmap/opengraph-image-v0oxb0/route.js",
+        "size": 1538016,
+        "gzipSize": 408220
+      },
+      {
+        "file": "app/[lang]/(content)/icons/[collectionid]/[iconid]/page.js",
+        "size": 55367,
+        "gzipSize": 12091
+      },
+      {
+        "file": "app/[lang]/(content)/icons/[collectionid]/[iconid]/page_client-reference-manifest.js",
+        "size": 28753,
+        "gzipSize": 2601
+      },
+      {
+        "file": "app/[lang]/(sitemaps)/iconsitemap/[collectionid]/sitemap.xml/route.js",
+        "size": 4531,
+        "gzipSize": 2049
+      }
+    ],
+    "buildManifest": {
+      "polyfillFiles": ["static/chunks/polyfills-78c92fac7aa8fdd8.js"],
+      "devFiles": [],
+      "ampDevFiles": [],
+      "lowPriorityFiles": [
+        "static/CP5NskKO_0JLHToOubjut/_buildManifest.js",
+        "static/CP5NskKO_0JLHToOubjut/_ssgManifest.js"
+      ],
+      "rootMainFiles": [
+        "static/chunks/webpack-ea9fd851b2a45191.js",
+        "static/chunks/1dd3208c-202adfc5ae29daed.js",
+        "static/chunks/286-9dc5ffde0ddc10dd.js",
+        "static/chunks/main-app-407fd2a1a2a61597.js"
+      ],
+      "pages": {
+        "/_app": [
+          "static/chunks/webpack-ea9fd851b2a45191.js",
+          "static/chunks/framework-9e68550641db712d.js",
+          "static/chunks/main-5592454b4c738adf.js",
+          "static/chunks/pages/_app-dea0b6b1c42677ea.js"
+        ],
+        "/_error": [
+          "static/chunks/webpack-ea9fd851b2a45191.js",
+          "static/chunks/framework-9e68550641db712d.js",
+          "static/chunks/main-5592454b4c738adf.js",
+          "static/chunks/pages/_error-e327c3d2707a2378.js"
+        ]
+      },
+      "ampFirstPages": []
+    },
+    "preloadManifest": null
+  },
+  "directoryStructure": {
+    "totalSize": 33200434,
+    "files": [
+      {
+        "name": "BUILD_ID",
+        "path": "BUILD_ID",
+        "size": 21,
+        "modified": "2025-05-28T14:04:24.194Z"
+      },
+      {
+        "name": "app-build-manifest.json",
+        "path": "app-build-manifest.json",
+        "size": 7149,
+        "modified": "2025-05-28T14:04:20.803Z"
+      },
+      {
+        "name": "app-path-routes-manifest.json",
+        "path": "app-path-routes-manifest.json",
+        "size": 889,
+        "modified": "2025-05-28T14:04:23.761Z"
+      },
+      {
+        "name": "build-manifest.json",
+        "path": "build-manifest.json",
+        "size": 968,
+        "modified": "2025-05-28T14:04:20.803Z"
+      },
+      {
+        "name": "export-marker.json",
+        "path": "export-marker.json",
+        "size": 94,
+        "modified": "2025-05-28T14:04:26.118Z"
+      },
+      {
+        "name": "images-manifest.json",
+        "path": "images-manifest.json",
+        "size": 511,
+        "modified": "2025-05-28T14:04:26.104Z"
+      },
+      {
+        "name": "next-minimal-server.js.nft.json",
+        "path": "next-minimal-server.js.nft.json",
+        "size": 5027,
+        "modified": "2025-05-28T14:04:29.277Z"
+      },
+      {
+        "name": "next-server.js.nft.json",
+        "path": "next-server.js.nft.json",
+        "size": 32961,
+        "modified": "2025-05-28T14:04:29.277Z"
+      },
+      {
+        "name": "package.json",
+        "path": "package.json",
+        "size": 20,
+        "modified": "2025-05-28T14:03:51.570Z"
+      },
+      {
+        "name": "prerender-manifest.js",
+        "path": "prerender-manifest.js",
+        "size": 1717,
+        "modified": "2025-05-28T14:04:26.085Z"
+      },
+      {
+        "name": "prerender-manifest.json",
+        "path": "prerender-manifest.json",
+        "size": 1574,
+        "modified": "2025-05-28T14:04:26.072Z"
+      },
+      {
+        "name": "react-loadable-manifest.json",
+        "path": "react-loadable-manifest.json",
+        "size": 714,
+        "modified": "2025-05-28T14:04:20.803Z"
+      },
+      {
+        "name": "required-server-files.json",
+        "path": "required-server-files.json",
+        "size": 5229,
+        "modified": "2025-05-28T14:04:24.201Z"
+      },
+      {
+        "name": "routes-manifest.json",
+        "path": "routes-manifest.json",
+        "size": 3257,
+        "modified": "2025-05-28T14:03:51.570Z"
+      }
+    ],
+    "directories": {
+      "server": {
+        "totalSize": 25711810,
+        "files": [
+          {
+            "name": "app-paths-manifest.json",
+            "path": "server/app-paths-manifest.json",
+            "size": 1214,
+            "modified": "2025-05-28T14:04:07.178Z"
+          },
+          {
+            "name": "edge-runtime-webpack.js",
+            "path": "server/edge-runtime-webpack.js",
+            "size": 1800,
+            "modified": "2025-05-28T14:04:09.629Z"
+          },
+          {
+            "name": "edge-runtime-webpack.js.map",
+            "path": "server/edge-runtime-webpack.js.map",
+            "size": 10066,
+            "modified": "2025-05-28T14:04:09.631Z"
+          },
+          {
+            "name": "font-manifest.json",
+            "path": "server/font-manifest.json",
+            "size": 2,
+            "modified": "2025-05-28T14:04:02.643Z"
+          },
+          {
+            "name": "functions-config-manifest.json",
+            "path": "server/functions-config-manifest.json",
+            "size": 351,
+            "modified": "2025-05-28T14:04:24.189Z"
+          },
+          {
+            "name": "interception-route-rewrite-manifest.js",
+            "path": "server/interception-route-rewrite-manifest.js",
+            "size": 48,
+            "modified": "2025-05-28T14:04:09.629Z"
+          },
+          {
+            "name": "middleware-build-manifest.js",
+            "path": "server/middleware-build-manifest.js",
+            "size": 823,
+            "modified": "2025-05-28T14:04:20.803Z"
+          },
+          {
+            "name": "middleware-manifest.json",
+            "path": "server/middleware-manifest.json",
+            "size": 2813,
+            "modified": "2025-05-28T14:04:09.629Z"
+          },
+          {
+            "name": "middleware-react-loadable-manifest.js",
+            "path": "server/middleware-react-loadable-manifest.js",
+            "size": 604,
+            "modified": "2025-05-28T14:04:20.803Z"
+          },
+          {
+            "name": "next-font-manifest.js",
+            "path": "server/next-font-manifest.js",
+            "size": 312,
+            "modified": "2025-05-28T14:04:20.803Z"
+          },
+          {
+            "name": "next-font-manifest.json",
+            "path": "server/next-font-manifest.json",
+            "size": 283,
+            "modified": "2025-05-28T14:04:20.803Z"
+          },
+          {
+            "name": "pages-manifest.json",
+            "path": "server/pages-manifest.json",
+            "size": 87,
+            "modified": "2025-05-28T14:04:26.060Z"
+          },
+          {
+            "name": "server-reference-manifest.js",
+            "path": "server/server-reference-manifest.js",
+            "size": 121,
+            "modified": "2025-05-28T14:04:02.644Z"
+          },
+          {
+            "name": "server-reference-manifest.json",
+            "path": "server/server-reference-manifest.json",
+            "size": 84,
+            "modified": "2025-05-28T14:04:02.645Z"
+          },
+          {
+            "name": "webpack-runtime.js",
+            "path": "server/webpack-runtime.js",
+            "size": 1486,
+            "modified": "2025-05-28T14:04:02.628Z"
+          }
+        ],
+        "directories": {
+          "app": {
+            "totalSize": 12733458,
+            "files": [
+              {
+                "name": "robots.txt.body",
+                "path": "server/app/robots.txt.body",
+                "size": 89,
+                "modified": "2025-05-28T14:04:24.297Z"
+              },
+              {
+                "name": "robots.txt.meta",
+                "path": "server/app/robots.txt.meta",
+                "size": 206,
+                "modified": "2025-05-28T14:04:24.312Z"
+              },
+              {
+                "name": "site.webmanifest.body",
+                "path": "server/app/site.webmanifest.body",
+                "size": 497,
+                "modified": "2025-05-28T14:04:24.306Z"
+              },
+              {
+                "name": "site.webmanifest.meta",
+                "path": "server/app/site.webmanifest.meta",
+                "size": 177,
+                "modified": "2025-05-28T14:04:24.327Z"
+              },
+              {
+                "name": "sitemap_index.xml.body",
+                "path": "server/app/sitemap_index.xml.body",
+                "size": 10358,
+                "modified": "2025-05-28T14:04:24.293Z"
+              },
+              {
+                "name": "sitemap_index.xml.meta",
+                "path": "server/app/sitemap_index.xml.meta",
+                "size": 194,
+                "modified": "2025-05-28T14:04:24.313Z"
+              }
+            ],
+            "directories": {
+              "[lang]": {
+                "totalSize": 12606392,
+                "files": [
+                  {
+                    "name": "page.js",
+                    "path": "server/app/[lang]/page.js",
+                    "size": 34475,
+                    "modified": "2025-05-28T14:04:02.627Z"
+                  },
+                  {
+                    "name": "page.js.nft.json",
+                    "path": "server/app/[lang]/page.js.nft.json",
+                    "size": 6612,
+                    "modified": "2025-05-28T14:04:29.246Z"
+                  },
+                  {
+                    "name": "page_client-reference-manifest.js",
+                    "path": "server/app/[lang]/page_client-reference-manifest.js",
+                    "size": 26308,
+                    "modified": "2025-05-28T14:04:20.803Z"
+                  }
+                ],
+                "directories": {
+                  "(content)": {
+                    "totalSize": 12527972,
+                    "files": [],
+                    "directories": {
+                      "docs": {
+                        "totalSize": 151631,
+                        "files": [
+                          {
+                            "name": "page.js",
+                            "path": "server/app/[lang]/(content)/docs/page.js",
+                            "size": 7523,
+                            "modified": "2025-05-28T14:04:02.628Z"
+                          },
+                          {
+                            "name": "page.js.nft.json",
+                            "path": "server/app/[lang]/(content)/docs/page.js.nft.json",
+                            "size": 4354,
+                            "modified": "2025-05-28T14:04:29.250Z"
+                          },
+                          {
+                            "name": "page_client-reference-manifest.js",
+                            "path": "server/app/[lang]/(content)/docs/page_client-reference-manifest.js",
+                            "size": 26426,
+                            "modified": "2025-05-28T14:04:20.803Z"
+                          }
+                        ],
+                        "directories": {
+                          "[slug]": {
+                            "totalSize": 113328,
+                            "files": [
+                              {
+                                "name": "page.js",
+                                "path": "server/app/[lang]/(content)/docs/[slug]/page.js",
+                                "size": 77385,
+                                "modified": "2025-05-28T14:04:02.628Z"
+                              },
+                              {
+                                "name": "page.js.nft.json",
+                                "path": "server/app/[lang]/(content)/docs/[slug]/page.js.nft.json",
+                                "size": 8753,
+                                "modified": "2025-05-28T14:04:29.250Z"
+                              },
+                              {
+                                "name": "page_client-reference-manifest.js",
+                                "path": "server/app/[lang]/(content)/docs/[slug]/page_client-reference-manifest.js",
+                                "size": 27190,
+                                "modified": "2025-05-28T14:04:20.804Z"
+                              }
+                            ],
+                            "directories": {}
+                          }
+                        }
+                      },
+                      "icons": {
+                        "totalSize": 160352,
+                        "files": [
+                          {
+                            "name": "page.js",
+                            "path": "server/app/[lang]/(content)/icons/page.js",
+                            "size": 30997,
+                            "modified": "2025-05-28T14:04:02.628Z"
+                          },
+                          {
+                            "name": "page.js.nft.json",
+                            "path": "server/app/[lang]/(content)/icons/page.js.nft.json",
+                            "size": 7709,
+                            "modified": "2025-05-28T14:04:29.249Z"
+                          },
+                          {
+                            "name": "page_client-reference-manifest.js",
+                            "path": "server/app/[lang]/(content)/icons/page_client-reference-manifest.js",
+                            "size": 27531,
+                            "modified": "2025-05-28T14:04:20.803Z"
+                          }
+                        ],
+                        "directories": {
+                          "[collectionid]": {
+                            "totalSize": 94115,
+                            "files": [],
+                            "directories": {
+                              "[iconid]": {
+                                "totalSize": 94115,
+                                "files": [
+                                  {
+                                    "name": "page.js",
+                                    "path": "server/app/[lang]/(content)/icons/[collectionid]/[iconid]/page.js",
+                                    "size": 55367,
+                                    "modified": "2025-05-28T14:04:02.629Z"
+                                  },
+                                  {
+                                    "name": "page.js.nft.json",
+                                    "path": "server/app/[lang]/(content)/icons/[collectionid]/[iconid]/page.js.nft.json",
+                                    "size": 9995,
+                                    "modified": "2025-05-28T14:04:29.278Z"
+                                  },
+                                  {
+                                    "name": "page_client-reference-manifest.js",
+                                    "path": "server/app/[lang]/(content)/icons/[collectionid]/[iconid]/page_client-reference-manifest.js",
+                                    "size": 28753,
+                                    "modified": "2025-05-28T14:04:20.804Z"
+                                  }
+                                ],
+                                "directories": {}
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "opengraph": {
+                        "totalSize": 11908,
+                        "files": [],
+                        "directories": {
+                          "[...params]": {
+                            "totalSize": 11908,
+                            "files": [
+                              {
+                                "name": "route.js",
+                                "path": "server/app/[lang]/(content)/opengraph/[...params]/route.js",
+                                "size": 8389,
+                                "modified": "2025-05-28T14:04:02.629Z"
+                              },
+                              {
+                                "name": "route.js.nft.json",
+                                "path": "server/app/[lang]/(content)/opengraph/[...params]/route.js.nft.json",
+                                "size": 3519,
+                                "modified": "2025-05-28T14:04:29.250Z"
+                              }
+                            ],
+                            "directories": {}
+                          }
+                        }
+                      },
+                      "roadmap": {
+                        "totalSize": 12204081,
+                        "files": [
+                          {
+                            "name": "page.js",
+                            "path": "server/app/[lang]/(content)/roadmap/page.js",
+                            "size": 41594,
+                            "modified": "2025-05-28T14:04:02.628Z"
+                          },
+                          {
+                            "name": "page.js.nft.json",
+                            "path": "server/app/[lang]/(content)/roadmap/page.js.nft.json",
+                            "size": 4943,
+                            "modified": "2025-05-28T14:04:29.249Z"
+                          },
+                          {
+                            "name": "page_client-reference-manifest.js",
+                            "path": "server/app/[lang]/(content)/roadmap/page_client-reference-manifest.js",
+                            "size": 26432,
+                            "modified": "2025-05-28T14:04:20.803Z"
+                          }
+                        ],
+                        "directories": {
+                          "opengraph-image-v0oxb0": {
+                            "totalSize": 12131112,
+                            "files": [
+                              {
+                                "name": "route.js",
+                                "path": "server/app/[lang]/(content)/roadmap/opengraph-image-v0oxb0/route.js",
+                                "size": 1538016,
+                                "modified": "2025-05-28T14:04:09.633Z"
+                              },
+                              {
+                                "name": "route.js.map",
+                                "path": "server/app/[lang]/(content)/roadmap/opengraph-image-v0oxb0/route.js.map",
+                                "size": 10593096,
+                                "modified": "2025-05-28T14:04:09.632Z"
+                              }
+                            ],
+                            "directories": {}
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "(sitemaps)": {
+                    "totalSize": 11025,
+                    "files": [],
+                    "directories": {
+                      "iconsitemap": {
+                        "totalSize": 6160,
+                        "files": [],
+                        "directories": {
+                          "[collectionid]": {
+                            "totalSize": 6160,
+                            "files": [],
+                            "directories": {
+                              "sitemap.xml": {
+                                "totalSize": 6160,
+                                "files": [
+                                  {
+                                    "name": "route.js",
+                                    "path": "server/app/[lang]/(sitemaps)/iconsitemap/[collectionid]/sitemap.xml/route.js",
+                                    "size": 4531,
+                                    "modified": "2025-05-28T14:04:02.629Z"
+                                  },
+                                  {
+                                    "name": "route.js.nft.json",
+                                    "path": "server/app/[lang]/(sitemaps)/iconsitemap/[collectionid]/sitemap.xml/route.js.nft.json",
+                                    "size": 1629,
+                                    "modified": "2025-05-28T14:04:29.246Z"
+                                  }
+                                ],
+                                "directories": {}
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "sitemap.xml": {
+                        "totalSize": 4865,
+                        "files": [
+                          {
+                            "name": "route.js",
+                            "path": "server/app/[lang]/(sitemaps)/sitemap.xml/route.js",
+                            "size": 3395,
+                            "modified": "2025-05-28T14:04:02.628Z"
+                          },
+                          {
+                            "name": "route.js.nft.json",
+                            "path": "server/app/[lang]/(sitemaps)/sitemap.xml/route.js.nft.json",
+                            "size": 1470,
+                            "modified": "2025-05-28T14:04:29.246Z"
+                          }
+                        ],
+                        "directories": {}
+                      }
+                    }
+                  }
+                }
+              },
+              "_not-found": {
+                "totalSize": 30394,
+                "files": [
+                  {
+                    "name": "page.js",
+                    "path": "server/app/_not-found/page.js",
+                    "size": 5543,
+                    "modified": "2025-05-28T14:04:02.627Z"
+                  },
+                  {
+                    "name": "page.js.nft.json",
+                    "path": "server/app/_not-found/page.js.nft.json",
+                    "size": 3907,
+                    "modified": "2025-05-28T14:04:29.245Z"
+                  },
+                  {
+                    "name": "page_client-reference-manifest.js",
+                    "path": "server/app/_not-found/page_client-reference-manifest.js",
+                    "size": 20944,
+                    "modified": "2025-05-28T14:04:20.803Z"
+                  }
+                ],
+                "directories": {}
+              },
+              "en": {
+                "totalSize": 0,
+                "files": [],
+                "directories": {
+                  "docs": {
+                    "totalSize": 0,
+                    "files": [],
+                    "directories": {}
+                  },
+                  "icons": {
+                    "totalSize": 0,
+                    "files": [],
+                    "directories": {
+                      "ai": {
+                        "totalSize": 0,
+                        "files": [],
+                        "directories": {}
+                      },
+                      "bi": {
+                        "totalSize": 0,
+                        "files": [],
+                        "directories": {}
+                      },
+                      "bs": {
+                        "totalSize": 0,
+                        "files": [],
+                        "directories": {}
+                      },
+                      "cg": {
+                        "totalSize": 0,
+                        "files": [],
+                        "directories": {}
+                      },
+                      "rc": {
+                        "totalSize": 0,
+                        "files": [],
+                        "directories": {}
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "totalSize": 33006,
+                "files": [],
+                "directories": {
+                  "responsive": {
+                    "totalSize": 33006,
+                    "files": [
+                      {
+                        "name": "page.js",
+                        "path": "server/app/examples/responsive/page.js",
+                        "size": 8253,
+                        "modified": "2025-05-28T14:04:02.628Z"
+                      },
+                      {
+                        "name": "page.js.nft.json",
+                        "path": "server/app/examples/responsive/page.js.nft.json",
+                        "size": 3791,
+                        "modified": "2025-05-28T14:04:29.245Z"
+                      },
+                      {
+                        "name": "page_client-reference-manifest.js",
+                        "path": "server/app/examples/responsive/page_client-reference-manifest.js",
+                        "size": 20962,
+                        "modified": "2025-05-28T14:04:20.803Z"
+                      }
+                    ],
+                    "directories": {}
+                  }
+                }
+              },
+              "pt-br": {
+                "totalSize": 0,
+                "files": [],
+                "directories": {
+                  "docs": {
+                    "totalSize": 0,
+                    "files": [],
+                    "directories": {}
+                  },
+                  "icons": {
+                    "totalSize": 0,
+                    "files": [],
+                    "directories": {
+                      "ai": {
+                        "totalSize": 0,
+                        "files": [],
+                        "directories": {}
+                      },
+                      "bi": {
+                        "totalSize": 0,
+                        "files": [],
+                        "directories": {}
+                      },
+                      "bs": {
+                        "totalSize": 0,
+                        "files": [],
+                        "directories": {}
+                      },
+                      "cg": {
+                        "totalSize": 0,
+                        "files": [],
+                        "directories": {}
+                      },
+                      "rc": {
+                        "totalSize": 0,
+                        "files": [],
+                        "directories": {}
+                      }
+                    }
+                  }
+                }
+              },
+              "robots.txt": {
+                "totalSize": 43381,
+                "files": [
+                  {
+                    "name": "route.js",
+                    "path": "server/app/robots.txt/route.js",
+                    "size": 42048,
+                    "modified": "2025-05-28T14:04:02.627Z"
+                  },
+                  {
+                    "name": "route.js.nft.json",
+                    "path": "server/app/robots.txt/route.js.nft.json",
+                    "size": 1333,
+                    "modified": "2025-05-28T14:04:29.245Z"
+                  }
+                ],
+                "directories": {}
+              },
+              "site.webmanifest": {
+                "totalSize": 4297,
+                "files": [
+                  {
+                    "name": "route.js",
+                    "path": "server/app/site.webmanifest/route.js",
+                    "size": 2964,
+                    "modified": "2025-05-28T14:04:02.627Z"
+                  },
+                  {
+                    "name": "route.js.nft.json",
+                    "path": "server/app/site.webmanifest/route.js.nft.json",
+                    "size": 1333,
+                    "modified": "2025-05-28T14:04:29.245Z"
+                  }
+                ],
+                "directories": {}
+              },
+              "sitemap_index.xml": {
+                "totalSize": 4467,
+                "files": [
+                  {
+                    "name": "route.js",
+                    "path": "server/app/sitemap_index.xml/route.js",
+                    "size": 3111,
+                    "modified": "2025-05-28T14:04:02.627Z"
+                  },
+                  {
+                    "name": "route.js.nft.json",
+                    "path": "server/app/sitemap_index.xml/route.js.nft.json",
+                    "size": 1356,
+                    "modified": "2025-05-28T14:04:29.245Z"
+                  }
+                ],
+                "directories": {}
+              }
+            }
+          },
+          "chunks": {
+            "totalSize": 11096462,
+            "files": [
+              {
+                "name": "1026.js",
+                "path": "server/chunks/1026.js",
+                "size": 493,
+                "modified": "2025-05-28T14:04:02.629Z"
+              },
+              {
+                "name": "1116.js",
+                "path": "server/chunks/1116.js",
+                "size": 721,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "1121.js",
+                "path": "server/chunks/1121.js",
+                "size": 631,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "1171.js",
+                "path": "server/chunks/1171.js",
+                "size": 817,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "1249.js",
+                "path": "server/chunks/1249.js",
+                "size": 707,
+                "modified": "2025-05-28T14:04:02.629Z"
+              },
+              {
+                "name": "1294.js",
+                "path": "server/chunks/1294.js",
+                "size": 655,
+                "modified": "2025-05-28T14:04:02.630Z"
+              },
+              {
+                "name": "1300.js",
+                "path": "server/chunks/1300.js",
+                "size": 495,
+                "modified": "2025-05-28T14:04:02.629Z"
+              },
+              {
+                "name": "1301.js",
+                "path": "server/chunks/1301.js",
+                "size": 825,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "1408.js",
+                "path": "server/chunks/1408.js",
+                "size": 999,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "1415.js",
+                "path": "server/chunks/1415.js",
+                "size": 2013335,
+                "modified": "2025-05-28T14:04:02.636Z"
+              },
+              {
+                "name": "1512.js",
+                "path": "server/chunks/1512.js",
+                "size": 12693,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "1542.js",
+                "path": "server/chunks/1542.js",
+                "size": 762097,
+                "modified": "2025-05-28T14:04:02.628Z"
+              },
+              {
+                "name": "1543.js",
+                "path": "server/chunks/1543.js",
+                "size": 672,
+                "modified": "2025-05-28T14:04:02.629Z"
+              },
+              {
+                "name": "1709.js",
+                "path": "server/chunks/1709.js",
+                "size": 16247,
+                "modified": "2025-05-28T14:04:02.642Z"
+              },
+              {
+                "name": "1738.js",
+                "path": "server/chunks/1738.js",
+                "size": 678,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "183.js",
+                "path": "server/chunks/183.js",
+                "size": 814,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "1842.js",
+                "path": "server/chunks/1842.js",
+                "size": 810,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "1876.js",
+                "path": "server/chunks/1876.js",
+                "size": 1450,
+                "modified": "2025-05-28T14:04:02.633Z"
+              },
+              {
+                "name": "1905.js",
+                "path": "server/chunks/1905.js",
+                "size": 13093,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "2342.js",
+                "path": "server/chunks/2342.js",
+                "size": 1019360,
+                "modified": "2025-05-28T14:04:02.636Z"
+              },
+              {
+                "name": "2458.js",
+                "path": "server/chunks/2458.js",
+                "size": 776965,
+                "modified": "2025-05-28T14:04:02.642Z"
+              },
+              {
+                "name": "2595.js",
+                "path": "server/chunks/2595.js",
+                "size": 905,
+                "modified": "2025-05-28T14:04:02.629Z"
+              },
+              {
+                "name": "2629.js",
+                "path": "server/chunks/2629.js",
+                "size": 1582,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "2677.js",
+                "path": "server/chunks/2677.js",
+                "size": 708,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "2722.js",
+                "path": "server/chunks/2722.js",
+                "size": 682,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "2742.js",
+                "path": "server/chunks/2742.js",
+                "size": 1000,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "2918.js",
+                "path": "server/chunks/2918.js",
+                "size": 1323,
+                "modified": "2025-05-28T14:04:02.633Z"
+              },
+              {
+                "name": "3048.js",
+                "path": "server/chunks/3048.js",
+                "size": 866,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "3055.js",
+                "path": "server/chunks/3055.js",
+                "size": 1063,
+                "modified": "2025-05-28T14:04:02.628Z"
+              },
+              {
+                "name": "3105.js",
+                "path": "server/chunks/3105.js",
+                "size": 1511,
+                "modified": "2025-05-28T14:04:02.630Z"
+              },
+              {
+                "name": "3109.js",
+                "path": "server/chunks/3109.js",
+                "size": 1397,
+                "modified": "2025-05-28T14:04:02.636Z"
+              },
+              {
+                "name": "3135.js",
+                "path": "server/chunks/3135.js",
+                "size": 33852,
+                "modified": "2025-05-28T14:04:02.637Z"
+              },
+              {
+                "name": "3194.js",
+                "path": "server/chunks/3194.js",
+                "size": 1242,
+                "modified": "2025-05-28T14:04:02.633Z"
+              },
+              {
+                "name": "3298.js",
+                "path": "server/chunks/3298.js",
+                "size": 511973,
+                "modified": "2025-05-28T14:04:02.636Z"
+              },
+              {
+                "name": "3308.js",
+                "path": "server/chunks/3308.js",
+                "size": 3180,
+                "modified": "2025-05-28T14:04:02.630Z"
+              },
+              {
+                "name": "3338.js",
+                "path": "server/chunks/3338.js",
+                "size": 701,
+                "modified": "2025-05-28T14:04:02.629Z"
+              },
+              {
+                "name": "3341.js",
+                "path": "server/chunks/3341.js",
+                "size": 964,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "350.js",
+                "path": "server/chunks/350.js",
+                "size": 793,
+                "modified": "2025-05-28T14:04:02.633Z"
+              },
+              {
+                "name": "3585.js",
+                "path": "server/chunks/3585.js",
+                "size": 2362,
+                "modified": "2025-05-28T14:04:02.635Z"
+              },
+              {
+                "name": "3645.js",
+                "path": "server/chunks/3645.js",
+                "size": 673,
+                "modified": "2025-05-28T14:04:02.629Z"
+              },
+              {
+                "name": "3709.js",
+                "path": "server/chunks/3709.js",
+                "size": 701,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "373.js",
+                "path": "server/chunks/373.js",
+                "size": 1052,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "3750.js",
+                "path": "server/chunks/3750.js",
+                "size": 476,
+                "modified": "2025-05-28T14:04:02.630Z"
+              },
+              {
+                "name": "3885.js",
+                "path": "server/chunks/3885.js",
+                "size": 1492,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "3935.js",
+                "path": "server/chunks/3935.js",
+                "size": 748,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "4070.js",
+                "path": "server/chunks/4070.js",
+                "size": 762,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "4089.js",
+                "path": "server/chunks/4089.js",
+                "size": 872,
+                "modified": "2025-05-28T14:04:02.629Z"
+              },
+              {
+                "name": "4330.js",
+                "path": "server/chunks/4330.js",
+                "size": 828,
+                "modified": "2025-05-28T14:04:02.630Z"
+              },
+              {
+                "name": "4372.js",
+                "path": "server/chunks/4372.js",
+                "size": 724,
+                "modified": "2025-05-28T14:04:02.629Z"
+              },
+              {
+                "name": "4466.js",
+                "path": "server/chunks/4466.js",
+                "size": 1517,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "4522.js",
+                "path": "server/chunks/4522.js",
+                "size": 55212,
+                "modified": "2025-05-28T14:04:02.637Z"
+              },
+              {
+                "name": "4527.js",
+                "path": "server/chunks/4527.js",
+                "size": 963,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "459.js",
+                "path": "server/chunks/459.js",
+                "size": 22378,
+                "modified": "2025-05-28T14:04:02.630Z"
+              },
+              {
+                "name": "4688.js",
+                "path": "server/chunks/4688.js",
+                "size": 917,
+                "modified": "2025-05-28T14:04:02.633Z"
+              },
+              {
+                "name": "4744.js",
+                "path": "server/chunks/4744.js",
+                "size": 837,
+                "modified": "2025-05-28T14:04:02.629Z"
+              },
+              {
+                "name": "478.js",
+                "path": "server/chunks/478.js",
+                "size": 875,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "4856.js",
+                "path": "server/chunks/4856.js",
+                "size": 762097,
+                "modified": "2025-05-28T14:04:02.635Z"
+              },
+              {
+                "name": "4900.js",
+                "path": "server/chunks/4900.js",
+                "size": 1000,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "4965.js",
+                "path": "server/chunks/4965.js",
+                "size": 693,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "5016.js",
+                "path": "server/chunks/5016.js",
+                "size": 804,
+                "modified": "2025-05-28T14:04:02.628Z"
+              },
+              {
+                "name": "5032.js",
+                "path": "server/chunks/5032.js",
+                "size": 6021,
+                "modified": "2025-05-28T14:04:02.642Z"
+              },
+              {
+                "name": "5093.js",
+                "path": "server/chunks/5093.js",
+                "size": 3216,
+                "modified": "2025-05-28T14:04:02.630Z"
+              },
+              {
+                "name": "5191.js",
+                "path": "server/chunks/5191.js",
+                "size": 3618,
+                "modified": "2025-05-28T14:04:02.643Z"
+              },
+              {
+                "name": "5208.js",
+                "path": "server/chunks/5208.js",
+                "size": 786,
+                "modified": "2025-05-28T14:04:02.629Z"
+              },
+              {
+                "name": "5213.js",
+                "path": "server/chunks/5213.js",
+                "size": 515,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "5245.js",
+                "path": "server/chunks/5245.js",
+                "size": 5580,
+                "modified": "2025-05-28T14:04:02.630Z"
+              },
+              {
+                "name": "5287.js",
+                "path": "server/chunks/5287.js",
+                "size": 467,
+                "modified": "2025-05-28T14:04:02.630Z"
+              },
+              {
+                "name": "532.js",
+                "path": "server/chunks/532.js",
+                "size": 80977,
+                "modified": "2025-05-28T14:04:02.642Z"
+              },
+              {
+                "name": "5346.js",
+                "path": "server/chunks/5346.js",
+                "size": 793,
+                "modified": "2025-05-28T14:04:02.630Z"
+              },
+              {
+                "name": "5398.js",
+                "path": "server/chunks/5398.js",
+                "size": 627,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "5403.js",
+                "path": "server/chunks/5403.js",
+                "size": 1225,
+                "modified": "2025-05-28T14:04:02.633Z"
+              },
+              {
+                "name": "5416.js",
+                "path": "server/chunks/5416.js",
+                "size": 865,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "5423.js",
+                "path": "server/chunks/5423.js",
+                "size": 1210,
+                "modified": "2025-05-28T14:04:02.630Z"
+              },
+              {
+                "name": "5530.js",
+                "path": "server/chunks/5530.js",
+                "size": 680,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "5543.js",
+                "path": "server/chunks/5543.js",
+                "size": 4278,
+                "modified": "2025-05-28T14:04:02.642Z"
+              },
+              {
+                "name": "567.js",
+                "path": "server/chunks/567.js",
+                "size": 663,
+                "modified": "2025-05-28T14:04:02.633Z"
+              },
+              {
+                "name": "5761.js",
+                "path": "server/chunks/5761.js",
+                "size": 879,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "5783.js",
+                "path": "server/chunks/5783.js",
+                "size": 14432,
+                "modified": "2025-05-28T14:04:02.637Z"
+              },
+              {
+                "name": "5787.js",
+                "path": "server/chunks/5787.js",
+                "size": 735,
+                "modified": "2025-05-28T14:04:02.630Z"
+              },
+              {
+                "name": "5902.js",
+                "path": "server/chunks/5902.js",
+                "size": 745,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "591.js",
+                "path": "server/chunks/591.js",
+                "size": 5482,
+                "modified": "2025-05-28T14:04:02.630Z"
+              },
+              {
+                "name": "5933.js",
+                "path": "server/chunks/5933.js",
+                "size": 877,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "6056.js",
+                "path": "server/chunks/6056.js",
+                "size": 1442,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "6304.js",
+                "path": "server/chunks/6304.js",
+                "size": 1086,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "6327.js",
+                "path": "server/chunks/6327.js",
+                "size": 980,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "6352.js",
+                "path": "server/chunks/6352.js",
+                "size": 1038,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "6448.js",
+                "path": "server/chunks/6448.js",
+                "size": 704,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "647.js",
+                "path": "server/chunks/647.js",
+                "size": 1136,
+                "modified": "2025-05-28T14:04:02.628Z"
+              },
+              {
+                "name": "6481.js",
+                "path": "server/chunks/6481.js",
+                "size": 789,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "6557.js",
+                "path": "server/chunks/6557.js",
+                "size": 1742,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "6568.js",
+                "path": "server/chunks/6568.js",
+                "size": 792,
+                "modified": "2025-05-28T14:04:02.633Z"
+              },
+              {
+                "name": "6789.js",
+                "path": "server/chunks/6789.js",
+                "size": 789,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "6925.js",
+                "path": "server/chunks/6925.js",
+                "size": 6507,
+                "modified": "2025-05-28T14:04:02.643Z"
+              },
+              {
+                "name": "6988.js",
+                "path": "server/chunks/6988.js",
+                "size": 928,
+                "modified": "2025-05-28T14:04:02.629Z"
+              },
+              {
+                "name": "702.js",
+                "path": "server/chunks/702.js",
+                "size": 2249,
+                "modified": "2025-05-28T14:04:02.642Z"
+              },
+              {
+                "name": "7047.js",
+                "path": "server/chunks/7047.js",
+                "size": 1063,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "7179.js",
+                "path": "server/chunks/7179.js",
+                "size": 830,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "7206.js",
+                "path": "server/chunks/7206.js",
+                "size": 750,
+                "modified": "2025-05-28T14:04:02.633Z"
+              },
+              {
+                "name": "7277.js",
+                "path": "server/chunks/7277.js",
+                "size": 958,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "7399.js",
+                "path": "server/chunks/7399.js",
+                "size": 892,
+                "modified": "2025-05-28T14:04:02.633Z"
+              },
+              {
+                "name": "7401.js",
+                "path": "server/chunks/7401.js",
+                "size": 643,
+                "modified": "2025-05-28T14:04:02.629Z"
+              },
+              {
+                "name": "7417.js",
+                "path": "server/chunks/7417.js",
+                "size": 1604,
+                "modified": "2025-05-28T14:04:02.630Z"
+              },
+              {
+                "name": "7571.js",
+                "path": "server/chunks/7571.js",
+                "size": 511972,
+                "modified": "2025-05-28T14:04:02.628Z"
+              },
+              {
+                "name": "7671.js",
+                "path": "server/chunks/7671.js",
+                "size": 680,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "7720.js",
+                "path": "server/chunks/7720.js",
+                "size": 510,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "7724.js",
+                "path": "server/chunks/7724.js",
+                "size": 728,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "7764.js",
+                "path": "server/chunks/7764.js",
+                "size": 1150,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "7768.js",
+                "path": "server/chunks/7768.js",
+                "size": 1107,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "8054.js",
+                "path": "server/chunks/8054.js",
+                "size": 908,
+                "modified": "2025-05-28T14:04:02.633Z"
+              },
+              {
+                "name": "8088.js",
+                "path": "server/chunks/8088.js",
+                "size": 824,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "8109.js",
+                "path": "server/chunks/8109.js",
+                "size": 745,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "8221.js",
+                "path": "server/chunks/8221.js",
+                "size": 743,
+                "modified": "2025-05-28T14:04:02.633Z"
+              },
+              {
+                "name": "8334.js",
+                "path": "server/chunks/8334.js",
+                "size": 3960635,
+                "modified": "2025-05-28T14:04:02.642Z"
+              },
+              {
+                "name": "8381.js",
+                "path": "server/chunks/8381.js",
+                "size": 936,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "8387.js",
+                "path": "server/chunks/8387.js",
+                "size": 699,
+                "modified": "2025-05-28T14:04:02.629Z"
+              },
+              {
+                "name": "8479.js",
+                "path": "server/chunks/8479.js",
+                "size": 808,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "8533.js",
+                "path": "server/chunks/8533.js",
+                "size": 1327,
+                "modified": "2025-05-28T14:04:02.630Z"
+              },
+              {
+                "name": "8590.js",
+                "path": "server/chunks/8590.js",
+                "size": 997,
+                "modified": "2025-05-28T14:04:02.633Z"
+              },
+              {
+                "name": "8696.js",
+                "path": "server/chunks/8696.js",
+                "size": 790,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "8724.js",
+                "path": "server/chunks/8724.js",
+                "size": 2573,
+                "modified": "2025-05-28T14:04:02.635Z"
+              },
+              {
+                "name": "8725.js",
+                "path": "server/chunks/8725.js",
+                "size": 724,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "8787.js",
+                "path": "server/chunks/8787.js",
+                "size": 955,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "8831.js",
+                "path": "server/chunks/8831.js",
+                "size": 953,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "9035.js",
+                "path": "server/chunks/9035.js",
+                "size": 750,
+                "modified": "2025-05-28T14:04:02.633Z"
+              },
+              {
+                "name": "9111.js",
+                "path": "server/chunks/9111.js",
+                "size": 21944,
+                "modified": "2025-05-28T14:04:02.630Z"
+              },
+              {
+                "name": "9186.js",
+                "path": "server/chunks/9186.js",
+                "size": 958,
+                "modified": "2025-05-28T14:04:02.634Z"
+              },
+              {
+                "name": "9280.js",
+                "path": "server/chunks/9280.js",
+                "size": 758,
+                "modified": "2025-05-28T14:04:02.633Z"
+              },
+              {
+                "name": "9372.js",
+                "path": "server/chunks/9372.js",
+                "size": 1176,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "9386.js",
+                "path": "server/chunks/9386.js",
+                "size": 12572,
+                "modified": "2025-05-28T14:04:02.642Z"
+              },
+              {
+                "name": "9548.js",
+                "path": "server/chunks/9548.js",
+                "size": 856,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "9577.js",
+                "path": "server/chunks/9577.js",
+                "size": 1694,
+                "modified": "2025-05-28T14:04:02.631Z"
+              },
+              {
+                "name": "9579.js",
+                "path": "server/chunks/9579.js",
+                "size": 974,
+                "modified": "2025-05-28T14:04:02.629Z"
+              },
+              {
+                "name": "9707.js",
+                "path": "server/chunks/9707.js",
+                "size": 354564,
+                "modified": "2025-05-28T14:04:02.637Z"
+              },
+              {
+                "name": "9711.js",
+                "path": "server/chunks/9711.js",
+                "size": 900,
+                "modified": "2025-05-28T14:04:02.632Z"
+              },
+              {
+                "name": "990.js",
+                "path": "server/chunks/990.js",
+                "size": 675,
+                "modified": "2025-05-28T14:04:02.633Z"
+              },
+              {
+                "name": "font-manifest.json",
+                "path": "server/chunks/font-manifest.json",
+                "size": 2,
+                "modified": "2025-05-28T14:04:02.627Z"
+              }
+            ],
+            "directories": {}
+          },
+          "edge-chunks": {
+            "totalSize": 1494763,
+            "files": [
+              {
+                "name": "asset_noto-sans-v27-latin-regular.5dda3fca77107598.ttf",
+                "path": "server/edge-chunks/asset_noto-sans-v27-latin-regular.5dda3fca77107598.ttf",
+                "size": 27748,
+                "modified": "2025-05-28T14:04:09.633Z"
+              },
+              {
+                "name": "wasm_77d9faebf7af9e421806970ce10a58e9d83116d7.wasm",
+                "path": "server/edge-chunks/wasm_77d9faebf7af9e421806970ce10a58e9d83116d7.wasm",
+                "size": 1378357,
+                "modified": "2025-05-28T14:04:09.633Z"
+              },
+              {
+                "name": "wasm_ef4866ecae192fd87727067cf2c0c0cf9fb8b020.wasm",
+                "path": "server/edge-chunks/wasm_ef4866ecae192fd87727067cf2c0c0cf9fb8b020.wasm",
+                "size": 88658,
+                "modified": "2025-05-28T14:04:09.631Z"
+              }
+            ],
+            "directories": {}
+          },
+          "pages": {
+            "totalSize": 19070,
+            "files": [
+              {
+                "name": "500.html",
+                "path": "server/pages/500.html",
+                "size": 1995,
+                "modified": "2025-05-28T14:04:24.453Z"
+              },
+              {
+                "name": "_app.js",
+                "path": "server/pages/_app.js",
+                "size": 3305,
+                "modified": "2025-05-28T14:04:02.627Z"
+              },
+              {
+                "name": "_app.js.nft.json",
+                "path": "server/pages/_app.js.nft.json",
+                "size": 571,
+                "modified": "2025-05-28T14:04:29.242Z"
+              },
+              {
+                "name": "_document.js",
+                "path": "server/pages/_document.js",
+                "size": 385,
+                "modified": "2025-05-28T14:04:02.627Z"
+              },
+              {
+                "name": "_document.js.nft.json",
+                "path": "server/pages/_document.js.nft.json",
+                "size": 2119,
+                "modified": "2025-05-28T14:04:29.246Z"
+              },
+              {
+                "name": "_error.js",
+                "path": "server/pages/_error.js",
+                "size": 8665,
+                "modified": "2025-05-28T14:04:02.627Z"
+              },
+              {
+                "name": "_error.js.nft.json",
+                "path": "server/pages/_error.js.nft.json",
+                "size": 2030,
+                "modified": "2025-05-28T14:04:29.242Z"
+              }
+            ],
+            "directories": {}
+          },
+          "src": {
+            "totalSize": 347963,
+            "files": [
+              {
+                "name": "middleware.js",
+                "path": "server/src/middleware.js",
+                "size": 81079,
+                "modified": "2025-05-28T14:04:09.633Z"
+              },
+              {
+                "name": "middleware.js.map",
+                "path": "server/src/middleware.js.map",
+                "size": 266884,
+                "modified": "2025-05-28T14:04:09.633Z"
+              }
+            ],
+            "directories": {}
+          }
+        }
+      },
+      "static": {
+        "totalSize": 7356779,
+        "files": [],
+        "directories": {
+          "CP5NskKO_0JLHToOubjut": {
+            "totalSize": 304,
+            "files": [
+              {
+                "name": "_buildManifest.js",
+                "path": "static/CP5NskKO_0JLHToOubjut/_buildManifest.js",
+                "size": 224,
+                "modified": "2025-05-28T14:04:20.803Z"
+              },
+              {
+                "name": "_ssgManifest.js",
+                "path": "static/CP5NskKO_0JLHToOubjut/_ssgManifest.js",
+                "size": 80,
+                "modified": "2025-05-28T14:04:26.094Z"
+              }
+            ],
+            "directories": {}
+          },
+          "chunks": {
+            "totalSize": 6295574,
+            "files": [
+              {
+                "name": "101-a4a917e8ad56c576.js",
+                "path": "static/chunks/101-a4a917e8ad56c576.js",
+                "size": 785465,
+                "modified": "2025-05-28T14:04:20.803Z"
+              },
+              {
+                "name": "1dd3208c-202adfc5ae29daed.js",
+                "path": "static/chunks/1dd3208c-202adfc5ae29daed.js",
+                "size": 172829,
+                "modified": "2025-05-28T14:04:20.802Z"
+              },
+              {
+                "name": "286-9dc5ffde0ddc10dd.js",
+                "path": "static/chunks/286-9dc5ffde0ddc10dd.js",
+                "size": 123181,
+                "modified": "2025-05-28T14:04:20.802Z"
+              },
+              {
+                "name": "333-7d60d8ec5404e4e7.js",
+                "path": "static/chunks/333-7d60d8ec5404e4e7.js",
+                "size": 79690,
+                "modified": "2025-05-28T14:04:20.802Z"
+              },
+              {
+                "name": "354-e90392c1d0031e3d.js",
+                "path": "static/chunks/354-e90392c1d0031e3d.js",
+                "size": 1424,
+                "modified": "2025-05-28T14:04:20.803Z"
+              },
+              {
+                "name": "372-32562c963ea0ed5d.js",
+                "path": "static/chunks/372-32562c963ea0ed5d.js",
+                "size": 773963,
+                "modified": "2025-05-28T14:04:20.801Z"
+              },
+              {
+                "name": "388-4eab47c1e199d8a0.js",
+                "path": "static/chunks/388-4eab47c1e199d8a0.js",
+                "size": 18974,
+                "modified": "2025-05-28T14:04:20.802Z"
+              },
+              {
+                "name": "398-7e1e2c8d42d33669.js",
+                "path": "static/chunks/398-7e1e2c8d42d33669.js",
+                "size": 2054107,
+                "modified": "2025-05-28T14:04:20.801Z"
+              },
+              {
+                "name": "572-b6555ca3e854bbb8.js",
+                "path": "static/chunks/572-b6555ca3e854bbb8.js",
+                "size": 14953,
+                "modified": "2025-05-28T14:04:20.802Z"
+              },
+              {
+                "name": "580-49a024c811105156.js",
+                "path": "static/chunks/580-49a024c811105156.js",
+                "size": 21469,
+                "modified": "2025-05-28T14:04:20.802Z"
+              },
+              {
+                "name": "602-6b050a878db01498.js",
+                "path": "static/chunks/602-6b050a878db01498.js",
+                "size": 1043902,
+                "modified": "2025-05-28T14:04:20.801Z"
+              },
+              {
+                "name": "704-327171dd248845ba.js",
+                "path": "static/chunks/704-327171dd248845ba.js",
+                "size": 7313,
+                "modified": "2025-05-28T14:04:20.803Z"
+              },
+              {
+                "name": "757-d02758a0ba67b92d.js",
+                "path": "static/chunks/757-d02758a0ba67b92d.js",
+                "size": 78121,
+                "modified": "2025-05-28T14:04:20.802Z"
+              },
+              {
+                "name": "80-c7b05816531970cc.js",
+                "path": "static/chunks/80-c7b05816531970cc.js",
+                "size": 522564,
+                "modified": "2025-05-28T14:04:20.801Z"
+              },
+              {
+                "name": "902-7a9a5559170eb3eb.js",
+                "path": "static/chunks/902-7a9a5559170eb3eb.js",
+                "size": 164674,
+                "modified": "2025-05-28T14:04:20.802Z"
+              },
+              {
+                "name": "984-8e04effaac6aac64.js",
+                "path": "static/chunks/984-8e04effaac6aac64.js",
+                "size": 8026,
+                "modified": "2025-05-28T14:04:20.802Z"
+              },
+              {
+                "name": "framework-9e68550641db712d.js",
+                "path": "static/chunks/framework-9e68550641db712d.js",
+                "size": 140986,
+                "modified": "2025-05-28T14:04:20.801Z"
+              },
+              {
+                "name": "main-5592454b4c738adf.js",
+                "path": "static/chunks/main-5592454b4c738adf.js",
+                "size": 110391,
+                "modified": "2025-05-28T14:04:20.800Z"
+              },
+              {
+                "name": "main-app-407fd2a1a2a61597.js",
+                "path": "static/chunks/main-app-407fd2a1a2a61597.js",
+                "size": 463,
+                "modified": "2025-05-28T14:04:20.800Z"
+              },
+              {
+                "name": "polyfills-78c92fac7aa8fdd8.js",
+                "path": "static/chunks/polyfills-78c92fac7aa8fdd8.js",
+                "size": 91381,
+                "modified": "2025-05-28T14:04:20.803Z"
+              },
+              {
+                "name": "webpack-ea9fd851b2a45191.js",
+                "path": "static/chunks/webpack-ea9fd851b2a45191.js",
+                "size": 3875,
+                "modified": "2025-05-28T14:04:20.801Z"
+              }
+            ],
+            "directories": {
+              "app": {
+                "totalSize": 77298,
+                "files": [
+                  {
+                    "name": "error-c0c3bfa3ddb7499c.js",
+                    "path": "static/chunks/app/error-c0c3bfa3ddb7499c.js",
+                    "size": 14379,
+                    "modified": "2025-05-28T14:04:20.800Z"
+                  },
+                  {
+                    "name": "layout-ab0caa9103ccfc1b.js",
+                    "path": "static/chunks/app/layout-ab0caa9103ccfc1b.js",
+                    "size": 11197,
+                    "modified": "2025-05-28T14:04:20.800Z"
+                  },
+                  {
+                    "name": "not-found-df0e0be9206d10d5.js",
+                    "path": "static/chunks/app/not-found-df0e0be9206d10d5.js",
+                    "size": 439,
+                    "modified": "2025-05-28T14:04:20.800Z"
+                  }
+                ],
+                "directories": {
+                  "[lang]": {
+                    "totalSize": 50941,
+                    "files": [
+                      {
+                        "name": "layout-b4e8bdbfd1b2be91.js",
+                        "path": "static/chunks/app/[lang]/layout-b4e8bdbfd1b2be91.js",
+                        "size": 6747,
+                        "modified": "2025-05-28T14:04:20.800Z"
+                      },
+                      {
+                        "name": "page-5e5cea8ac5d4fb58.js",
+                        "path": "static/chunks/app/[lang]/page-5e5cea8ac5d4fb58.js",
+                        "size": 624,
+                        "modified": "2025-05-28T14:04:20.800Z"
+                      }
+                    ],
+                    "directories": {
+                      "(content)": {
+                        "totalSize": 43570,
+                        "files": [
+                          {
+                            "name": "layout-4b0d1241f093c429.js",
+                            "path": "static/chunks/app/[lang]/(content)/layout-4b0d1241f093c429.js",
+                            "size": 670,
+                            "modified": "2025-05-28T14:04:20.800Z"
+                          }
+                        ],
+                        "directories": {
+                          "docs": {
+                            "totalSize": 10275,
+                            "files": [
+                              {
+                                "name": "page-7086a8a04f8f546b.js",
+                                "path": "static/chunks/app/[lang]/(content)/docs/page-7086a8a04f8f546b.js",
+                                "size": 171,
+                                "modified": "2025-05-28T14:04:20.800Z"
+                              }
+                            ],
+                            "directories": {
+                              "[slug]": {
+                                "totalSize": 10104,
+                                "files": [
+                                  {
+                                    "name": "page-8e8c06896285d739.js",
+                                    "path": "static/chunks/app/[lang]/(content)/docs/[slug]/page-8e8c06896285d739.js",
+                                    "size": 10104,
+                                    "modified": "2025-05-28T14:04:20.801Z"
+                                  }
+                                ],
+                                "directories": {}
+                              }
+                            }
+                          },
+                          "icons": {
+                            "totalSize": 32454,
+                            "files": [
+                              {
+                                "name": "page-0c6263c9ba82a3c2.js",
+                                "path": "static/chunks/app/[lang]/(content)/icons/page-0c6263c9ba82a3c2.js",
+                                "size": 16325,
+                                "modified": "2025-05-28T14:04:20.801Z"
+                              }
+                            ],
+                            "directories": {
+                              "[collectionid]": {
+                                "totalSize": 16129,
+                                "files": [
+                                  {
+                                    "name": "layout-74a99e682e00ee29.js",
+                                    "path": "static/chunks/app/[lang]/(content)/icons/[collectionid]/layout-74a99e682e00ee29.js",
+                                    "size": 2630,
+                                    "modified": "2025-05-28T14:04:20.801Z"
+                                  }
+                                ],
+                                "directories": {
+                                  "[iconid]": {
+                                    "totalSize": 13499,
+                                    "files": [
+                                      {
+                                        "name": "page-2ded7c149797a778.js",
+                                        "path": "static/chunks/app/[lang]/(content)/icons/[collectionid]/[iconid]/page-2ded7c149797a778.js",
+                                        "size": 13499,
+                                        "modified": "2025-05-28T14:04:20.802Z"
+                                      }
+                                    ],
+                                    "directories": {}
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "roadmap": {
+                            "totalSize": 171,
+                            "files": [
+                              {
+                                "name": "page-b158a8b7ce4c8688.js",
+                                "path": "static/chunks/app/[lang]/(content)/roadmap/page-b158a8b7ce4c8688.js",
+                                "size": 171,
+                                "modified": "2025-05-28T14:04:20.801Z"
+                              }
+                            ],
+                            "directories": {}
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "_not-found": {
+                    "totalSize": 171,
+                    "files": [
+                      {
+                        "name": "page-3d8e4a531c857f71.js",
+                        "path": "static/chunks/app/_not-found/page-3d8e4a531c857f71.js",
+                        "size": 171,
+                        "modified": "2025-05-28T14:04:20.800Z"
+                      }
+                    ],
+                    "directories": {}
+                  },
+                  "examples": {
+                    "totalSize": 171,
+                    "files": [],
+                    "directories": {
+                      "responsive": {
+                        "totalSize": 171,
+                        "files": [
+                          {
+                            "name": "page-264cf7436dbed079.js",
+                            "path": "static/chunks/app/examples/responsive/page-264cf7436dbed079.js",
+                            "size": 171,
+                            "modified": "2025-05-28T14:04:20.800Z"
+                          }
+                        ],
+                        "directories": {}
+                      }
+                    }
+                  }
+                }
+              },
+              "pages": {
+                "totalSize": 525,
+                "files": [
+                  {
+                    "name": "_app-dea0b6b1c42677ea.js",
+                    "path": "static/chunks/pages/_app-dea0b6b1c42677ea.js",
+                    "size": 280,
+                    "modified": "2025-05-28T14:04:20.800Z"
+                  },
+                  {
+                    "name": "_error-e327c3d2707a2378.js",
+                    "path": "static/chunks/pages/_error-e327c3d2707a2378.js",
+                    "size": 245,
+                    "modified": "2025-05-28T14:04:20.800Z"
+                  }
+                ],
+                "directories": {}
+              }
+            }
+          },
+          "css": {
+            "totalSize": 678857,
+            "files": [
+              {
+                "name": "a64b1bd1f2ccd014.css",
+                "path": "static/css/a64b1bd1f2ccd014.css",
+                "size": 672082,
+                "modified": "2025-05-28T14:04:20.804Z"
+              },
+              {
+                "name": "ffc53d23fc49e4ad.css",
+                "path": "static/css/ffc53d23fc49e4ad.css",
+                "size": 6775,
+                "modified": "2025-05-28T14:04:20.804Z"
+              }
+            ],
+            "directories": {}
+          },
+          "media": {
+            "totalSize": 382044,
+            "files": [
+              {
+                "name": "046b90749014f852-s.woff2",
+                "path": "static/media/046b90749014f852-s.woff2",
+                "size": 13232,
+                "modified": "2025-05-28T14:04:20.799Z"
+              },
+              {
+                "name": "1fa61d2b53a053f3-s.woff2",
+                "path": "static/media/1fa61d2b53a053f3-s.woff2",
+                "size": 26572,
+                "modified": "2025-05-28T14:04:20.799Z"
+              },
+              {
+                "name": "26a46d62cd723877-s.woff2",
+                "path": "static/media/26a46d62cd723877-s.woff2",
+                "size": 18820,
+                "modified": "2025-05-28T14:04:20.799Z"
+              },
+              {
+                "name": "55c55f0601d81cf3-s.woff2",
+                "path": "static/media/55c55f0601d81cf3-s.woff2",
+                "size": 25908,
+                "modified": "2025-05-28T14:04:20.799Z"
+              },
+              {
+                "name": "581909926a08bbc8-s.woff2",
+                "path": "static/media/581909926a08bbc8-s.woff2",
+                "size": 19072,
+                "modified": "2025-05-28T14:04:20.799Z"
+              },
+              {
+                "name": "67110d8fe39c5e84-s.woff2",
+                "path": "static/media/67110d8fe39c5e84-s.woff2",
+                "size": 4208,
+                "modified": "2025-05-28T14:04:20.799Z"
+              },
+              {
+                "name": "6aacc40b7795b725-s.woff2",
+                "path": "static/media/6aacc40b7795b725-s.woff2",
+                "size": 13780,
+                "modified": "2025-05-28T14:04:20.799Z"
+              },
+              {
+                "name": "6d93bde91c0c2823-s.woff2",
+                "path": "static/media/6d93bde91c0c2823-s.woff2",
+                "size": 74316,
+                "modified": "2025-05-28T14:04:20.800Z"
+              },
+              {
+                "name": "848b99572ad207f3-s.woff2",
+                "path": "static/media/848b99572ad207f3-s.woff2",
+                "size": 11956,
+                "modified": "2025-05-28T14:04:20.799Z"
+              },
+              {
+                "name": "97e0cb1ae144a2a9-s.woff2",
+                "path": "static/media/97e0cb1ae144a2a9-s.woff2",
+                "size": 11220,
+                "modified": "2025-05-28T14:04:20.799Z"
+              },
+              {
+                "name": "999e639cd9d85971-s.woff2",
+                "path": "static/media/999e639cd9d85971-s.woff2",
+                "size": 22056,
+                "modified": "2025-05-28T14:04:20.799Z"
+              },
+              {
+                "name": "a34f9d1faa5f3315-s.p.woff2",
+                "path": "static/media/a34f9d1faa5f3315-s.p.woff2",
+                "size": 48556,
+                "modified": "2025-05-28T14:04:20.800Z"
+              },
+              {
+                "name": "c97d4358b5ad6f1f-s.p.woff2",
+                "path": "static/media/c97d4358b5ad6f1f-s.p.woff2",
+                "size": 36280,
+                "modified": "2025-05-28T14:04:20.799Z"
+              },
+              {
+                "name": "c9d2740a66c9a4f1-s.p.woff2",
+                "path": "static/media/c9d2740a66c9a4f1-s.p.woff2",
+                "size": 28396,
+                "modified": "2025-05-28T14:04:20.799Z"
+              },
+              {
+                "name": "d426c6df177f02c4-s.woff2",
+                "path": "static/media/d426c6df177f02c4-s.woff2",
+                "size": 8812,
+                "modified": "2025-05-28T14:04:20.799Z"
+              },
+              {
+                "name": "df0a9ae256c0569c-s.woff2",
+                "path": "static/media/df0a9ae256c0569c-s.woff2",
+                "size": 10280,
+                "modified": "2025-05-28T14:04:20.799Z"
+              },
+              {
+                "name": "e6b5cfd5a74e1cae-s.woff2",
+                "path": "static/media/e6b5cfd5a74e1cae-s.woff2",
+                "size": 8580,
+                "modified": "2025-05-28T14:04:20.799Z"
+              }
+            ],
+            "directories": {}
+          }
+        }
+      },
+      "types": {
+        "totalSize": 71714,
+        "files": [
+          {
+            "name": "package.json",
+            "path": "types/package.json",
+            "size": 18,
+            "modified": "2025-05-28T14:04:02.644Z"
+          }
+        ],
+        "directories": {
+          "app": {
+            "totalSize": 71696,
+            "files": [],
+            "directories": {
+              "[lang]": {
+                "totalSize": 51087,
+                "files": [
+                  {
+                    "name": "page.ts",
+                    "path": "types/app/[lang]/page.ts",
+                    "size": 3533,
+                    "modified": "2025-05-28T14:04:02.644Z"
+                  }
+                ],
+                "directories": {
+                  "(content)": {
+                    "totalSize": 30331,
+                    "files": [],
+                    "directories": {
+                      "docs": {
+                        "totalSize": 7207,
+                        "files": [
+                          {
+                            "name": "page.ts",
+                            "path": "types/app/[lang]/(content)/docs/page.ts",
+                            "size": 3590,
+                            "modified": "2025-05-28T14:04:02.644Z"
+                          }
+                        ],
+                        "directories": {
+                          "[slug]": {
+                            "totalSize": 3617,
+                            "files": [
+                              {
+                                "name": "page.ts",
+                                "path": "types/app/[lang]/(content)/docs/[slug]/page.ts",
+                                "size": 3617,
+                                "modified": "2025-05-28T14:04:02.645Z"
+                              }
+                            ],
+                            "directories": {}
+                          }
+                        }
+                      },
+                      "icons": {
+                        "totalSize": 10926,
+                        "files": [
+                          {
+                            "name": "page.ts",
+                            "path": "types/app/[lang]/(content)/icons/page.ts",
+                            "size": 3593,
+                            "modified": "2025-05-28T14:04:02.645Z"
+                          }
+                        ],
+                        "directories": {
+                          "[collectionid]": {
+                            "totalSize": 7333,
+                            "files": [
+                              {
+                                "name": "layout.ts",
+                                "path": "types/app/[lang]/(content)/icons/[collectionid]/layout.ts",
+                                "size": 3656,
+                                "modified": "2025-05-28T14:04:02.645Z"
+                              }
+                            ],
+                            "directories": {
+                              "[iconid]": {
+                                "totalSize": 3677,
+                                "files": [
+                                  {
+                                    "name": "page.ts",
+                                    "path": "types/app/[lang]/(content)/icons/[collectionid]/[iconid]/page.ts",
+                                    "size": 3677,
+                                    "modified": "2025-05-28T14:04:02.645Z"
+                                  }
+                                ],
+                                "directories": {}
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "opengraph": {
+                        "totalSize": 8599,
+                        "files": [],
+                        "directories": {
+                          "[...params]": {
+                            "totalSize": 8599,
+                            "files": [
+                              {
+                                "name": "route.ts",
+                                "path": "types/app/[lang]/(content)/opengraph/[...params]/route.ts",
+                                "size": 8599,
+                                "modified": "2025-05-28T14:04:02.645Z"
+                              }
+                            ],
+                            "directories": {}
+                          }
+                        }
+                      },
+                      "roadmap": {
+                        "totalSize": 3599,
+                        "files": [
+                          {
+                            "name": "page.ts",
+                            "path": "types/app/[lang]/(content)/roadmap/page.ts",
+                            "size": 3599,
+                            "modified": "2025-05-28T14:04:02.645Z"
+                          }
+                        ],
+                        "directories": {}
+                      }
+                    }
+                  },
+                  "(sitemaps)": {
+                    "totalSize": 17223,
+                    "files": [],
+                    "directories": {
+                      "iconsitemap": {
+                        "totalSize": 8658,
+                        "files": [],
+                        "directories": {
+                          "[collectionid]": {
+                            "totalSize": 8658,
+                            "files": [],
+                            "directories": {
+                              "sitemap.xml": {
+                                "totalSize": 8658,
+                                "files": [
+                                  {
+                                    "name": "route.ts",
+                                    "path": "types/app/[lang]/(sitemaps)/iconsitemap/[collectionid]/sitemap.xml/route.ts",
+                                    "size": 8658,
+                                    "modified": "2025-05-28T14:04:02.645Z"
+                                  }
+                                ],
+                                "directories": {}
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "sitemap.xml": {
+                        "totalSize": 8565,
+                        "files": [
+                          {
+                            "name": "route.ts",
+                            "path": "types/app/[lang]/(sitemaps)/sitemap.xml/route.ts",
+                            "size": 8565,
+                            "modified": "2025-05-28T14:04:02.645Z"
+                          }
+                        ],
+                        "directories": {}
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "totalSize": 3578,
+                "files": [],
+                "directories": {
+                  "responsive": {
+                    "totalSize": 3578,
+                    "files": [
+                      {
+                        "name": "page.ts",
+                        "path": "types/app/examples/responsive/page.ts",
+                        "size": 3578,
+                        "modified": "2025-05-28T14:04:02.645Z"
+                      }
+                    ],
+                    "directories": {}
+                  }
+                }
+              },
+              "site.webmanifest": {
+                "totalSize": 8514,
+                "files": [
+                  {
+                    "name": "route.ts",
+                    "path": "types/app/site.webmanifest/route.ts",
+                    "size": 8514,
+                    "modified": "2025-05-28T14:04:02.644Z"
+                  }
+                ],
+                "directories": {}
+              },
+              "sitemap_index.xml": {
+                "totalSize": 8517,
+                "files": [
+                  {
+                    "name": "route.ts",
+                    "path": "types/app/sitemap_index.xml/route.ts",
+                    "size": 8517,
+                    "modified": "2025-05-28T14:04:02.644Z"
+                  }
+                ],
+                "directories": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "insights": [
+    {
+      "type": "warning",
+      "title": "Large Files Detected",
+      "description": "Found 1 files larger than 1MB",
+      "files": [
+        {
+          "name": "chunks/398-7e1e2c8d42d33669.js",
+          "size": "2.05 MB"
+        }
+      ]
+    }
+  ],
+  "recommendations": [
+    "Use Next.js Image component for image optimization",
+    "Implement dynamic imports for large components",
+    "Enable gzip compression on your server",
+    "Consider using a CDN for static assets",
+    "Analyze and remove unused dependencies",
+    "Use tree shaking to eliminate dead code"
+  ]
+}

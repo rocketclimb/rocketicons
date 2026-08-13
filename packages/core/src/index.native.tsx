@@ -1,5 +1,5 @@
 import { SvgCss } from "react-native-svg/css";
-import { styled } from "nativewind";
+import { cssInterop } from "nativewind";
 import {
   attrToString,
   styleToString,
@@ -14,6 +14,7 @@ import {
 
 type NativeIconProps = {
   style?: Record<string, string>[];
+  className?: string;
   name: string;
   variant: Variants;
   data: IconTree;
@@ -33,12 +34,13 @@ const NativeIcon = ({ style, name, variant, data }: NativeIconProps) => {
   return <SvgCss xml={xml} width={width} height={height} />;
 };
 
-const StyledNativeIcon = styled(NativeIcon);
+// NativeWind v4: cssInterop maps className prop to style array
+cssInterop(NativeIcon, { className: "style" });
 
 const NativeGenIcon = (data: IconTree, variant: Variants, name: string): IconType =>
   function NativeGenIcon({ className }: IconBaseProps) {
     return (
-      <StyledNativeIcon
+      <NativeIcon
         data={data}
         name={name}
         variant={variant}

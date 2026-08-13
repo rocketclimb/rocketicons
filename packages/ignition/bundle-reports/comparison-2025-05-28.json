@@ -1,0 +1,37 @@
+{
+  "timestamp": "2025-05-28T14:07:14.528Z",
+  "current": {
+    "date": "2025-05-28T14:06:52.141Z",
+    "size": 33200434,
+    "sizeMB": "31.66"
+  },
+  "previous": {
+    "date": "2025-05-28T14:06:52.141Z",
+    "size": 33200434,
+    "sizeMB": "31.66"
+  },
+  "changes": {
+    "totalSize": 0,
+    "totalSizePercent": "0.00",
+    "javascript": {
+      "current": 6295878,
+      "previous": 6295878,
+      "change": 0
+    },
+    "css": {
+      "current": 678857,
+      "previous": 678857,
+      "change": 0
+    },
+    "media": {
+      "current": 0,
+      "previous": 0,
+      "change": 0
+    }
+  },
+  "fileChanges": {
+    "added": [],
+    "removed": [],
+    "modified": []
+  }
+}

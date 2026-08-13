@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -41,10 +41,31 @@ export default function RootLayout({
         <meta name="application-name" content="rocketicons" />
         <link rel="alternate" type="text/plain" href="/llms.txt" title="Rocketicons for LLMs" />
 
+        {/* Inline script to prevent FOUC — sets dark class on <html> before React hydrates.
+            Uses the same localStorage key ("theme-prefs") as useThemeHandler hook.
+            Default: dark (matching production failBack). System pref respected when pref is "system". */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var raw = localStorage.getItem('theme-prefs');
+                  var pref = raw ? JSON.parse(raw) : null;
+                  var sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  var isDark = pref === 'light' ? false : (pref === 'system' ? sysDark : true);
+                  if (isDark) document.documentElement.classList.add('dark');
+                } catch(e) {
+                  document.documentElement.classList.add('dark');
+                }
+              })();
+            `
+          }}
+        />
+
         <ThemeColor />
       </head>
       <body
-        className={`${inter.variable} ${quicksand.variable} ${monospace.variable} font-inter bg-background has-[.theme-selector.dark]:bg-background-dark`}
+        className={`${inter.variable} ${quicksand.variable} ${monospace.variable} font-inter bg-background dark:bg-background-dark`}
       >
         {children}
         {serverEnv.GOOGLE_ANALYTICS_ID && (

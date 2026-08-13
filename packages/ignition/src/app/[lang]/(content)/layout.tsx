@@ -3,8 +3,11 @@ import Footer from "@/components/footer";
 import { PropsWithChildrenAndLangParams } from "@/types";
 import RocketIconsText from "@/components/rocketicons-text";
 import { getCollections } from "@/catalog/server";
+import type { Languages } from "@/types";
 
-const Layout = async ({ children, params: { lang } }: PropsWithChildrenAndLangParams) => {
+const Layout = async ({ children, params }: PropsWithChildrenAndLangParams) => {
+  const { lang: rawLang } = await params;
+  const lang = rawLang as Languages;
   const collections = await getCollections();
   return (
     <>

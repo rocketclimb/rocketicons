@@ -8,7 +8,6 @@ import SearchAlgolia from "@/components/search/search-algolia";
 import Button from "@/components/button";
 
 import useKeyboardShortcut from "@/hooks/use-keyboard-shortcut";
-
 type SearchButtonProps = {
   asInput?: boolean;
 } & PropsWithLang;

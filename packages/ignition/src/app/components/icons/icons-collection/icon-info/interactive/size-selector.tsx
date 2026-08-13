@@ -9,7 +9,7 @@ type SizeSelectorProps = {
 const SizeSelector = ({ size, children }: SizeSelectorProps) => {
   const { size: selectedSize, setSize, sizeBox, sections } = useBoxContext();
   const ref = useRef<HTMLButtonElement>(null);
-  sizeBox.set(size, ref);
+  sizeBox.set(size, ref as any);
   return (
     <button
       ref={ref}

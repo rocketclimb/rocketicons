@@ -8,6 +8,7 @@ packages/icons/*
 !packages/icons/README.md
 *.tgz
 release-notes.md
+release-output.log
 .DS_Store
 .vercel
 .env

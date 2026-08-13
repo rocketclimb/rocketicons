@@ -4,13 +4,18 @@ import { customMetadata } from "@/components/metadata-custom";
 import docs from "@/data-helpers/params/docs.json";
 import { withLocale } from "@/locales";
 import type { PropsWithLangParams } from "@/types";
+import type { Languages } from "@/types";
 
-export const generateMetadata = ({ params: { lang } }: PropsWithLangParams) => {
+export const generateMetadata = async ({ params }: PropsWithLangParams) => {
+  const { lang: rawLang } = await params;
+  const lang = rawLang as Languages;
   const label = withLocale(lang).config("nav").docs;
   return customMetadata(lang, "page", "docs", label);
 };
 
-const DocsIndex = ({ params: { lang } }: PropsWithLangParams) => {
+const DocsIndex = async ({ params }: PropsWithLangParams) => {
+  const { lang: rawLang } = await params;
+  const lang = rawLang as Languages;
   const locale = withLocale(lang);
   const localizedDocs = docs.filter((doc) => doc.lang === lang);
   return (

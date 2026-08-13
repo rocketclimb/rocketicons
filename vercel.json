@@ -1,0 +1,10 @@
+{
+  "buildCommand": "npm run vercel-build-static",
+  "outputDirectory": "packages/ignition/.next",
+  "framework": "nextjs",
+  "installCommand": "npm install",
+  "env": {
+    "SKIP_GENERATOR_BUILD": "true",
+    "GENERATE_ALL_ICONS": "true"
+  }
+}

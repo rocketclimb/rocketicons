@@ -10,9 +10,8 @@ import NumberFormatter from "@/components/number-formatter";
 import { withLocale } from "@/locales";
 import { PropsWithLangParams } from "@/types";
 
-export const generateMetadata = async ({
-  params: { lang }
-}: PropsWithLangParams): Promise<Metadata> => {
+export const generateMetadata = async (props: PropsWithLangParams): Promise<Metadata> => {
+  const { lang } = (await props.params) as { lang: import("@/types").Languages };
   const { component, config } = withLocale(lang);
   const { icons } = config("opengraph");
   const { title, description } = component("icons-hero");
@@ -26,7 +25,9 @@ export const generateMetadata = async ({
   return customMetadata(lang, "page", `icons`, titleWithNumber, descriptionWithNumber);
 };
 
-const Page = async ({ params: { lang } }: PropsWithLangParams) => {
+const Page = async (props: PropsWithLangParams) => {
+  const { lang } = (await props.params) as { lang: import("@/types").Languages };
+
   const { config } = withLocale(lang);
   const { "total-icon-count-text": totalIconCountText } = config("brand");
 

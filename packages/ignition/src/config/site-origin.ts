@@ -2,7 +2,7 @@ const DEVELOPMENT_ORIGIN = "http://localhost:3000";
 
 export const normalizeSiteOrigin = (value: string): string => {
   const parsed = new URL(value);
-  if (!['http:', 'https:'].includes(parsed.protocol)) {
+  if (!["http:", "https:"].includes(parsed.protocol)) {
     throw new Error("SITE_ORIGIN must use http or https");
   }
   if (

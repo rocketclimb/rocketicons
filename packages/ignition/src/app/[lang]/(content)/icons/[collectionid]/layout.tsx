@@ -4,7 +4,9 @@ import CollectionTitleBox from "@/components/icons/icons-collection/collection-t
 
 import { IconFromData } from "@rocketicons/core";
 
-import { PropsWithChildrenAndLangParams, AvailableLanguages } from "@/types";
+import { AvailableLanguages } from "@/types";
+import type { Languages } from "@/types";
+import type { ReactNode } from "react";
 import { getCollection, getCollectionIcons, getCollections } from "@/catalog/server";
 import IconSelector from "@/components/icons/icons-collection/icon-selector";
 import IconInfoProvider from "@/components/icons/icons-collection/icon-info/provider";
@@ -12,10 +14,12 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { customMetadata } from "@/components/metadata-custom";
 
-type LayoutProps = PropsWithChildrenAndLangParams & {
-  params: {
-    collectionid: CollectionID;
-  };
+type LayoutProps = {
+  children: ReactNode;
+  params: Promise<{
+    lang: string;
+    collectionid: string;
+  }>;
 };
 
 export const generateStaticParams = async () => {
@@ -25,9 +29,10 @@ export const generateStaticParams = async () => {
   );
 };
 
-export const generateMetadata = async ({
-  params: { lang, collectionid }
-}: LayoutProps): Promise<Metadata> => {
+export const generateMetadata = async ({ params }: LayoutProps): Promise<Metadata> => {
+  const { lang: rawLang, collectionid: rawCollectionId } = await params;
+  const lang = rawLang as Languages;
+  const collectionid = rawCollectionId as CollectionID;
   const collection = await getCollection(collectionid);
   return customMetadata(
     lang,
@@ -39,7 +44,10 @@ export const generateMetadata = async ({
   );
 };
 
-const Layout = async ({ children, params: { lang, collectionid } }: LayoutProps) => {
+const Layout = async ({ children, params }: LayoutProps) => {
+  const { lang: rawLang, collectionid: rawCollectionId } = await params;
+  const lang = rawLang as Languages;
+  const collectionid = rawCollectionId as CollectionID;
   const info = await getCollection(collectionid);
   const icons = await getCollectionIcons(collectionid);
   return (

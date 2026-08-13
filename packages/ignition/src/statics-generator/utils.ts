@@ -23,7 +23,7 @@ export const write = async (
 
 export const getManifest = () => {
   const manifest = [...IconsManifest];
-  return process.env.RI_GENERATE_ALL_ICONS === "true"
+  return process.env.RI_GENERATE_ALL_ICONS === "true" || process.env.GENERATE_ALL_ICONS === "true"
     ? manifest
     : manifest.slice(0, MANIFEST_LENGTH);
 };

@@ -15,6 +15,7 @@ export const siteConfig = {
   },
   locales: AvailableLanguages,
   defaultLocale: "en",
+  isLocal: process.env.NODE_ENV !== "production",
   menuConfig: {
     componentGroups: ["getting-started"]
   },

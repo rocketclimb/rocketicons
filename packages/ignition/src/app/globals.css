@@ -1,102 +1,233 @@
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@30,300,0,0");
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* Source scanning for external packages containing Tailwind classes */
+@source "../../../../node_modules/@rocketclimb/code-block/dist";
+
+/* Dark mode — class-based, matching .dark ancestor (official TW v4 pattern) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Plugins */
+@plugin "rocketicons/tailwind";
+@plugin "../../ignition-plugin.js";
+
+/* Theme — migrated from tailwind.config.ts theme.extend */
+@theme {
+  /* Colors */
+  --color-background: var(--color-white);
+  --color-background-dark: var(--color-slate-900);
+  --color-primary: var(--color-slate-900);
+  --color-primary-bright: var(--color-slate-300);
+  --color-primary-lighter: var(--color-slate-400);
+  --color-primary-light: var(--color-slate-500);
+  --color-primary-medium: var(--color-slate-600);
+  --color-primary-dark: var(--color-slate-200);
+  --color-primary-darken: var(--color-slate-700);
+  --color-on-primary: var(--color-white);
+  --color-surface: var(--color-white);
+  --color-surface-lighter: var(--color-slate-50);
+  --color-surface-border: var(--color-slate-200);
+  --color-surface-border-lighter: var(--color-slate-400);
+  --color-surface-light: var(--color-slate-600);
+  --color-surface-border-light: var(--color-gray-200);
+  --color-surface-medium: var(--color-slate-700);
+  --color-surface-border-medium: var(--color-sky-900);
+  --color-surface-dark: var(--color-slate-800);
+  --color-surface-border-dark: var(--color-slate-900);
+  --color-on-surface: var(--color-slate-700);
+  --color-on-surface-dark: var(--color-slate-400);
+  --color-secondary: var(--color-sky-500);
+  --color-secondary-lighter: var(--color-sky-400);
+  --color-secondary-light: var(--color-sky-800);
+  --color-secondary-medium: var(--color-sky-900);
+  --color-secondary-dark: var(--color-sky-950);
+  --color-on-secondary: var(--color-white);
+  --color-on-secondary-lighter: var(--color-sky-600);
+
+  /* Fonts */
+  --font-inter: var(--font-inter);
+  --font-quicksand: var(--font-quicksand);
+  --font-monospace: var(--font-monospace);
+  --font-icons: "Material Symbols Outlined";
+
+  /* Screens */
+  --breakpoint-xs: 375px;
+
+  /* Background images */
+  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
+  --background-image-gradient-conic: conic-gradient(
+    from 180deg at 50% 50%,
+    var(--tw-gradient-stops)
+  );
+  --background-image-hero-dark: url("/img/hero-dark.jpg");
+  --background-image-hero-light: url("/img/hero-light.jpg");
+  --background-image-grid: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(148 163 184 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+
+  /* Animations */
+  --animate-delayed-appearing: delayed-appearing 300ms ease-in-out forwards;
+  --animate-delayed-hidden: delayed-hidden 300ms ease-in-out forwards;
+  --animate-flash-it: flash 300ms ease-in-out forwards;
+}
+
+@keyframes delayed-appearing {
+  0%,
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes delayed-hidden {
+  0%,
+  40% {
+    visibility: visible;
+  }
+  100% {
+    visibility: hidden;
+  }
+}
+
+@keyframes flash {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
   --icons-fade: linear-gradient(90deg, #fff 65%, transparent);
-  --scrollbar-track-bg: theme("colors.slate.100");
-  --scrollbar-track-thumb: theme("colors.slate.300");
-  --dark-scrollbar-track-bg: theme("colors.slate.900");
-  --dark-scrollbar-track-thumb: theme("colors.slate.700");
+  --scrollbar-track-bg: var(--color-slate-100);
+  --scrollbar-track-thumb: var(--color-slate-300);
+  --dark-scrollbar-track-bg: var(--color-slate-900);
+  --dark-scrollbar-track-thumb: var(--color-slate-700);
 }
 
-html,
-body {
-  width: 100%;
-  max-width: 100%;
-  background-color: theme("colors.white");
+/* =========================================================================
+   Dark mode CSS custom property overrides (Tailwind v4 pattern)
+   Instead of needing dark:bg-background-dark on every element,
+   this overrides the semantic variables so bg-background automatically
+   resolves to the dark value when .dark is on <html>.
+   ========================================================================= */
+.dark {
+  --color-background: var(--color-slate-900);
+  --color-primary: var(--color-slate-200);
+  --color-on-primary: var(--color-slate-900);
+  --color-surface: var(--color-slate-800);
+  --color-surface-lighter: var(--color-slate-700);
+  --color-on-surface: var(--color-slate-400);
+  --color-surface-border: var(--color-slate-700);
+  --color-surface-border-light: var(--color-slate-700);
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 15, 23, 42;
+  --background-end-rgb: 15, 23, 42;
+  --icons-fade: linear-gradient(90deg, var(--color-slate-900) 65%, transparent);
+  --scrollbar-track-bg: var(--color-slate-900);
+  --scrollbar-track-thumb: var(--color-slate-700);
 }
 
-html:has(.theme-selector.dark) {
-  background-color: theme("colors.slate.900");
+/* Base layer — Tailwind v4 sorts unlayered rules ABOVE @layer utilities,
+   which would silently beat utility classes like `bg-background`. Wrapping
+   these rules in @layer base puts them BELOW utilities so `bg-background`
+   on <body> can take effect (and dark-mode `dark:bg-background-dark` etc.). */
+@layer base {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    background-color: var(--color-white);
+  }
+
+  html:has(.theme-selector.dark),
+  html.dark {
+    background-color: var(--color-slate-900);
+  }
+
+  * {
+    scrollbar-gutter: stable;
+    scrollbar-color: var(--scrollbar-track-thumb) var(--scrollbar-track-bg);
+    scrollbar-width: thin;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-bg);
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    opacity: 0.8;
+    background: var(--scrollbar-track-thumb);
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    opacity: 1;
+  }
+
+  .thin-scroll::-webkit-scrollbar {
+    width: 1px;
+    height: 1px;
+  }
+  .thin-scroll::-webkit-scrollbar-track {
+    border-radius: 1px;
+  }
+
+  .thin-scroll::-webkit-scrollbar-thumb {
+    border-radius: 1px;
+  }
+
+  .dark ::-webkit-scrollbar-track {
+    background: var(--dark-scrollbar-track-bg);
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: var(--dark-scrollbar-track-thumb);
+  }
+
+  .dark * {
+    scrollbar-color: var(--dark-scrollbar-track-thumb) var(--dark-scrollbar-track-bg);
+  }
+
+  html:has(.theme-selector.dark),
+  html.dark,
+  body:has(.theme-selector.dark) {
+    scrollbar-color: var(--dark-scrollbar-track-thumb) var(--dark-scrollbar-track-bg);
+  }
+
+  html:has(.theme-selector.dark)::-webkit-scrollbar-thumb,
+  html.dark::-webkit-scrollbar-thumb,
+  body:has(.theme-selector.dark)::-webkit-scrollbar-thumb {
+    background: var(--dark-scrollbar-track-thumb);
+  }
+
+  html:has(.theme-selector.dark)::-webkit-scrollbar-track,
+  html.dark::-webkit-scrollbar-track,
+  body:has(.theme-selector.dark)::-webkit-scrollbar-track {
+    background: var(--dark-scrollbar-track-bg);
+  }
+
+  [data-previewer="true"] {
+    position: relative;
+  }
 }
 
-* {
-  scrollbar-gutter: stable;
-  scrollbar-color: var(--scrollbar-track-thumb) var(--scrollbar-track-bg);
-  scrollbar-width: thin;
-}
-
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--scrollbar-track-bg);
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-  opacity: 0.8;
-  background: var(--scrollbar-track-thumb);
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  opacity: 1;
-}
-
-.thin-scroll::-webkit-scrollbar {
-  width: 1px;
-  height: 1px;
-}
-.thin-scroll::-webkit-scrollbar-track {
-  border-radius: 1px;
-}
-
-.thin-scroll::-webkit-scrollbar-thumb {
-  border-radius: 1px;
-}
-
-.dark ::-webkit-scrollbar-track {
-  background: var(--dark-scrollbar-track-bg);
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: var(--dark-scrollbar-track-thumb);
-}
-
-.dark * {
-  scrollbar-color: var(--dark-scrollbar-track-thumb) var(--dark-scrollbar-track-bg);
-}
-
-html:has(.theme-selector.dark),
-body:has(.theme-selector.dark) {
-  scrollbar-color: var(--dark-scrollbar-track-thumb) var(--dark-scrollbar-track-bg);
-}
-
-html:has(.theme-selector.dark)::-webkit-scrollbar-thumb,
-body:has(.theme-selector.dark)::-webkit-scrollbar-thumb {
-  background: var(--dark-scrollbar-track-thumb);
-}
-
-html:has(.theme-selector.dark)::-webkit-scrollbar-track,
-body:has(.theme-selector.dark)::-webkit-scrollbar-track {
-  background: var(--dark-scrollbar-track-bg);
-}
-
-[data-previewer="true"] {
-  position: relative;
-}
-
-@layer componenets {
+@layer components {
   article {
-    min-height: calc(100dvh - theme(height.48));
+    min-height: calc(100dvh - calc(var(--spacing) * 48));
   }
 
   .modal-context {
@@ -108,6 +239,17 @@ body:has(.theme-selector.dark)::-webkit-scrollbar-track {
     min-height: 100vh;
     /* mobile viewport bug fix */
     min-height: -webkit-fill-available;
+  }
+
+  /* On desktop, cap the modal-context at viewport height so inner
+     `overflow-y-auto` containers (home page wrapper, content-area)
+     actually scroll internally instead of growing the page — keeps
+     the lg:static header anchored at the top. */
+  @media (min-width: 1024px) {
+    .modal-context {
+      height: 100vh;
+      min-height: 0;
+    }
   }
 
   input[type="search"]::-webkit-search-cancel-button {
@@ -142,7 +284,7 @@ body:has(.theme-selector.dark)::-webkit-scrollbar-track {
   }
 
   .dark p strong {
-    color: theme("colors.slate.300");
+    color: var(--color-slate-300);
   }
 
   svg.rocket-404 g path:first-child {
@@ -183,7 +325,227 @@ body:has(.theme-selector.dark)::-webkit-scrollbar-track {
       opacity: 1;
     }
   }
+}
 
+@layer components {
+  .hero h1 {
+    @apply text-slate-900 font-extrabold text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight text-center dark:text-white;
+  }
+  .active-content {
+    @apply border-secondary;
+  }
+  .active-content span {
+    @apply text-secondary;
+  }
+  .content-box {
+    @apply px-2 pt-1;
+  }
+  .default-text-color {
+    @apply text-primary dark:text-primary-dark;
+  }
+  .sub-title {
+    @apply whitespace-pre-wrap font-semibold;
+  }
+  p + .sub-title {
+    @apply mt-2;
+  }
+  .sub-section {
+    @apply mb-4 lg:-ml-2 lg:pl-2 text-primary dark:text-primary-dark;
+  }
+  .collapse-table {
+    &[data-collapse="true"] {
+      & > div:first-child {
+        @apply lg:overflow-hidden;
+      }
+      &:hover > div:first-child {
+        @apply lg:overflow-auto;
+      }
+      &:not(:has(:checked)) {
+        & > div:first-child {
+          @apply h-96 max-lg:overflow-hidden;
+        }
+        & .showing-fewer {
+          @apply hidden;
+        }
+        & .showing-all {
+          @apply inline;
+        }
+      }
+      &:has(:checked) {
+        & .showing-fewer {
+          @apply inline;
+        }
+        & .showing-all {
+          @apply hidden;
+        }
+      }
+    }
+  }
+  [data-section] {
+    code {
+      @apply lg:text-[.9rem]/normal;
+    }
+  }
+  .dark-mask-image {
+    mask-image: linear-gradient(transparent, black);
+  }
+  .light-mask-image {
+    mask-image: linear-gradient(to bottom, transparent, black);
+  }
+
+  /* Extracted from @rocketclimb/code-block/tailwind */
+  .code-styler code {
+    @apply font-normal;
+  }
+
+  .language-html {
+    & span {
+      @apply text-[0.65rem] xs:text-xs;
+    }
+    & .rc-cb-token-function {
+      @apply text-slate-100;
+    }
+    & .rc-cb-token-keyword {
+      @apply text-pink-400;
+    }
+    & .rc-cb-token-constant {
+      @apply text-slate-300;
+    }
+    & .rc-cb-token-parameter {
+      @apply text-sky-300;
+    }
+    & .rc-cb-token-string {
+      @apply text-slate-100;
+    }
+  }
+
+  .language-bash {
+    & .line:has(span) {
+      @apply before:content-['>'] before:text-pink-400 before:font-medium before:mr-3 last:before:hidden;
+    }
+    & .rc-cb-token-function {
+      @apply text-slate-50;
+    }
+    & .rc-cb-token-keyword {
+      @apply text-pink-400;
+    }
+    & .rc-cb-token-constant {
+      @apply text-slate-300;
+    }
+    & .rc-cb-token-parameter {
+      @apply text-sky-300;
+    }
+    & .rc-cb-token-string {
+      @apply text-slate-50;
+    }
+  }
+
+  .language-js {
+    @apply text-[0.65rem] xs:text-xs;
+    & .line span {
+      @apply tracking-tighter;
+    }
+    & .rc-cb-token-function {
+      @apply text-slate-50;
+    }
+    & .rc-cb-token-comment {
+      @apply text-slate-300 font-light italic;
+    }
+    & .rc-cb-foreground,
+    & .rc-cb-token-parameter {
+      @apply text-sky-300;
+    }
+    & .rc-cb-token-keyword:only-child {
+      @apply text-slate-300;
+    }
+    & .rc-cb-token-keyword {
+      @apply text-pink-400;
+    }
+    & .rc-cb-token-string-expression {
+      @apply text-sky-300;
+    }
+    & .rc-cb-token-constant {
+      @apply text-slate-300;
+    }
+    & .rc-cb-token-punctuation {
+      @apply text-slate-300;
+    }
+    & .rc-cb-token-string {
+      @apply text-slate-50;
+    }
+  }
+
+  .language-json {
+    & .line span {
+      @apply tracking-tighter;
+    }
+    & .rc-cb-token-function {
+      @apply text-slate-50;
+    }
+    & .rc-cb-foreground,
+    & .rc-cb-token-keyword {
+      @apply text-slate-400 first:text-sky-300;
+    }
+    & .rc-cb-token-string-expression {
+      @apply text-sky-300;
+    }
+    & .rc-cb-token-constant {
+      @apply text-slate-300;
+    }
+    & .rc-cb-token-punctuation {
+      @apply text-slate-300;
+    }
+    & .rc-cb-token-string {
+      @apply text-slate-50;
+    }
+  }
+}
+
+@layer utilities {
+  .deep-\[4\] .with-lines {
+    counter-reset: list-number;
+    & .count {
+      display: flex;
+      &::before {
+        width: 0;
+        overflow: hidden;
+        margin-left: -0.5rem;
+        flex-grow: 0;
+        flex-shrink: 0;
+        font-family: var(--font-monospace, monospace);
+        font-size: 0.875rem;
+        line-height: 1.5rem;
+        white-space: normal;
+        color: var(--color-slate-600);
+        text-align: right;
+        user-select: none;
+        height: 100%;
+        counter-increment: list-number;
+        content: counter(list-number);
+        @media (min-width: 768px) {
+          margin-left: 0;
+          width: 1.75rem;
+          padding-left: 0.5rem;
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+  .deep-\[4\] .with-lines .deep .count::before {
+    margin-right: 10px !important;
+  }
+  .deep-\[4\] .with-lines .deep .deep .count::before {
+    margin-right: 20px !important;
+  }
+  .deep-\[4\] .with-lines .deep .deep .deep .count::before {
+    margin-right: 30px !important;
+  }
+  .deep-\[4\] .with-lines .deep .deep .deep .deep .count::before {
+    margin-right: 40px !important;
+  }
+}
+
+@layer components {
   @media (max-width: 1024px) {
     .icon-info-area {
       height: calc(100dvh);
@@ -192,7 +554,7 @@ body:has(.theme-selector.dark)::-webkit-scrollbar-track {
 
   @media (min-width: 1024px) {
     .content-area {
-      height: calc(100vh - theme(height.16));
+      height: calc(100vh - calc(var(--spacing) * 16));
       overflow: hidden;
     }
   }
