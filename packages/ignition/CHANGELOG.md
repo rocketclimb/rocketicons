@@ -1,3 +1,85 @@
+## [0.8.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
+
+### Features
+
+- migrate ignition to Tailwind CSS v4 + Next.js 15 async params ([02e23999](https://github.com/rocketclimb/rocketicons/commit/02e23999ebb54ef215f91197974daa203fab0635))
+- **ignition** use svg with rocketicons ([dcbdd79c](https://github.com/rocketclimb/rocketicons/commit/dcbdd79cd004698b92f4045c07596d893d8fe5ae))
+- move core types into utils ([3e8627b9](https://github.com/rocketclimb/rocketicons/commit/3e8627b99d9514485c6f5a111768eaa2bb6876e7))
+- **optimization** introduce bundle optimization and static generation strategies ([a7e40ad3](https://github.com/rocketclimb/rocketicons/commit/a7e40ad342105d9d2ea4201eea55c1471970167e))
+
+### Bug Fixes
+
+- **ignition** restore TW v4 dark mode and sticky header ([fa186c78](https://github.com/rocketclimb/rocketicons/commit/fa186c784a68d5af66125324671abb100c8cb7ac))
+- **ignition** improve load performance ([d1e9c5d7](https://github.com/rocketclimb/rocketicons/commit/d1e9c5d7e93f468ab855a641cef1041f755c43ae))
+- **ignition** improve load performance ([b24f641e](https://github.com/rocketclimb/rocketicons/commit/b24f641e4a5f7537a31b792e1739881d8dd1a15a))
+- **ignition** fix icons on search ([383bb09a](https://github.com/rocketclimb/rocketicons/commit/383bb09a82db5d8746845193b4b93b61e33a70ff))
+- **ignition** fix static page generation ([0b53e5ff](https://github.com/rocketclimb/rocketicons/commit/0b53e5ffa385fb8f36eedc8d88c4a7b606f7ae07))
+- **cli** skip algolia build ([ae8d4fc6](https://github.com/rocketclimb/rocketicons/commit/ae8d4fc67b4267c0e4fce9ecf22f9fd610f50a91))
+- **deployment** use .npmrc file instead of npm config to avoid workspace conflicts ([04d3af1c](https://github.com/rocketclimb/rocketicons/commit/04d3af1c5da0bef68230c06004ddc871130cc8c8))
+
+### Refactoring
+
+- **icons** remove unused generateStaticParams function from icon page ([85961bce](https://github.com/rocketclimb/rocketicons/commit/85961bceda1a8d298f90b36e0038e40cbd44f440))
+- **layout** remove unused generateStaticParams function ([92c1257c](https://github.com/rocketclimb/rocketicons/commit/92c1257c5179efb7b7cce54cf38c9d0fe89c635e))
+
+### Miscellaneous
+
+- **test** fix tests ([366b5ec0](https://github.com/rocketclimb/rocketicons/commit/366b5ec0cfecfec8e60fd2b0e937612815801bed))
+- **ignition** allow using site as subfolder ([db7a3bd0](https://github.com/rocketclimb/rocketicons/commit/db7a3bd052bffe133cd8f8174b1a36e674041b17))
+- **agent** improve llm agent access ([1e6e6acd](https://github.com/rocketclimb/rocketicons/commit/1e6e6acd24fe7cdedd7f078f712b153abf5ba585))
+- **deployment** update Coolify configuration ([07d8dfcf](https://github.com/rocketclimb/rocketicons/commit/07d8dfcfd1d86e49059651083ce8c6e09e5cf3ae))
+- **scripts** add authentication and build scripts to package.json ([ebd3d100](https://github.com/rocketclimb/rocketicons/commit/ebd3d1000e36b49990863239ed606e5d80226d08))
+- **deps** add @next/bundle-analyzer ([0466c00b](https://github.com/rocketclimb/rocketicons/commit/0466c00bf617b113f7f51927c98ec634bc8129ee))
+- **deps** update caniuse-lite version and add license; fix taste loader to handle undefined cases ([d3f0e7d0](https://github.com/rocketclimb/rocketicons/commit/d3f0e7d0d32703ba9867f0773485a437a1189d9e))
+- **next.config** set output to standalone ([4d24a6ff](https://github.com/rocketclimb/rocketicons/commit/4d24a6ff5013aa9329560b8e6bef09481669a2b1))
+
+### Other
+
+-  ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
+-  ([9ff38335](https://github.com/rocketclimb/rocketicons/commit/9ff383353071368bfe246c506419c1716c850bd3))
+-  ([1e9ae3b7](https://github.com/rocketclimb/rocketicons/commit/1e9ae3b722133259bbc7cbe8c9b4192b05d87b7e))
+
+## [0.7.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
+
+### Features
+
+- migrate ignition to Tailwind CSS v4 + Next.js 15 async params ([02e23999](https://github.com/rocketclimb/rocketicons/commit/02e23999ebb54ef215f91197974daa203fab0635))
+- **ignition** use svg with rocketicons ([dcbdd79c](https://github.com/rocketclimb/rocketicons/commit/dcbdd79cd004698b92f4045c07596d893d8fe5ae))
+- move core types into utils ([3e8627b9](https://github.com/rocketclimb/rocketicons/commit/3e8627b99d9514485c6f5a111768eaa2bb6876e7))
+- **optimization** introduce bundle optimization and static generation strategies ([a7e40ad3](https://github.com/rocketclimb/rocketicons/commit/a7e40ad342105d9d2ea4201eea55c1471970167e))
+
+### Bug Fixes
+
+- **ignition** restore TW v4 dark mode and sticky header ([fa186c78](https://github.com/rocketclimb/rocketicons/commit/fa186c784a68d5af66125324671abb100c8cb7ac))
+- **ignition** improve load performance ([d1e9c5d7](https://github.com/rocketclimb/rocketicons/commit/d1e9c5d7e93f468ab855a641cef1041f755c43ae))
+- **ignition** improve load performance ([b24f641e](https://github.com/rocketclimb/rocketicons/commit/b24f641e4a5f7537a31b792e1739881d8dd1a15a))
+- **ignition** fix icons on search ([383bb09a](https://github.com/rocketclimb/rocketicons/commit/383bb09a82db5d8746845193b4b93b61e33a70ff))
+- **ignition** fix static page generation ([0b53e5ff](https://github.com/rocketclimb/rocketicons/commit/0b53e5ffa385fb8f36eedc8d88c4a7b606f7ae07))
+- **cli** skip algolia build ([ae8d4fc6](https://github.com/rocketclimb/rocketicons/commit/ae8d4fc67b4267c0e4fce9ecf22f9fd610f50a91))
+- **deployment** use .npmrc file instead of npm config to avoid workspace conflicts ([04d3af1c](https://github.com/rocketclimb/rocketicons/commit/04d3af1c5da0bef68230c06004ddc871130cc8c8))
+
+### Refactoring
+
+- **icons** remove unused generateStaticParams function from icon page ([85961bce](https://github.com/rocketclimb/rocketicons/commit/85961bceda1a8d298f90b36e0038e40cbd44f440))
+- **layout** remove unused generateStaticParams function ([92c1257c](https://github.com/rocketclimb/rocketicons/commit/92c1257c5179efb7b7cce54cf38c9d0fe89c635e))
+
+### Miscellaneous
+
+- **test** fix tests ([366b5ec0](https://github.com/rocketclimb/rocketicons/commit/366b5ec0cfecfec8e60fd2b0e937612815801bed))
+- **ignition** allow using site as subfolder ([db7a3bd0](https://github.com/rocketclimb/rocketicons/commit/db7a3bd052bffe133cd8f8174b1a36e674041b17))
+- **agent** improve llm agent access ([1e6e6acd](https://github.com/rocketclimb/rocketicons/commit/1e6e6acd24fe7cdedd7f078f712b153abf5ba585))
+- **deployment** update Coolify configuration ([07d8dfcf](https://github.com/rocketclimb/rocketicons/commit/07d8dfcfd1d86e49059651083ce8c6e09e5cf3ae))
+- **scripts** add authentication and build scripts to package.json ([ebd3d100](https://github.com/rocketclimb/rocketicons/commit/ebd3d1000e36b49990863239ed606e5d80226d08))
+- **deps** add @next/bundle-analyzer ([0466c00b](https://github.com/rocketclimb/rocketicons/commit/0466c00bf617b113f7f51927c98ec634bc8129ee))
+- **deps** update caniuse-lite version and add license; fix taste loader to handle undefined cases ([d3f0e7d0](https://github.com/rocketclimb/rocketicons/commit/d3f0e7d0d32703ba9867f0773485a437a1189d9e))
+- **next.config** set output to standalone ([4d24a6ff](https://github.com/rocketclimb/rocketicons/commit/4d24a6ff5013aa9329560b8e6bef09481669a2b1))
+
+### Other
+
+-  ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
+-  ([9ff38335](https://github.com/rocketclimb/rocketicons/commit/9ff383353071368bfe246c506419c1716c850bd3))
+-  ([1e9ae3b7](https://github.com/rocketclimb/rocketicons/commit/1e9ae3b722133259bbc7cbe8c9b4192b05d87b7e))
+
 ## [0.6.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-05-08)
 
 ### Features
