@@ -8,7 +8,7 @@ on:
 permissions: write-all
 
 env:
-  NODE_VERSION: "18.x"
+  NODE_VERSION: "22.x"
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   PRE_RELEASE_TAG: ${{ vars.PRE_RELEASE_TAG }}

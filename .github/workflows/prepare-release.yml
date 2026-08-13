@@ -7,7 +7,7 @@ on:
       - main
 
 env:
-  NODE_VERSION: "18.x"
+  NODE_VERSION: "22.x"
 
 permissions: write-all
 
@@ -35,25 +35,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: npm
 
       - name: Set NPM config
         run: |
           npm config set @rocketclimb:registry https://npm.pkg.github.com
           npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract Dependencies
-        id: extract-dependencies
-        run: echo "DEPENDENCY_HASH=$(npx --yes @rocketclimb/sh extract-dependencies)" >> $GITHUB_OUTPUT
-
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        id: npm-cache
-        with:
-          path: |
-            **/node_modules
-          key: ${{ runner.os }}-node-${{ steps.extract-dependencies.outputs.DEPENDENCY_HASH }}
-          restore-keys: |
-            ${{ runner.os }}-node-
 
       - name: Cache icons
         uses: actions/cache@v4
@@ -66,11 +53,10 @@ jobs:
             ${{ runner.os }}-icons-
 
       - name: Install packages
-        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: |
           npm config set @rocketclimb:registry https://npm.pkg.github.com
           npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
-          SKIP_BUILD_ALL=true npm install
+          SKIP_BUILD_ALL=true npm ci
 
       - name: Icons Fetch
         if: steps.icons-cache.outputs.cache-hit != 'true'
