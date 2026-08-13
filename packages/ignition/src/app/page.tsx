@@ -17,7 +17,8 @@ const getPreferredLocale = () => {
 
 const RootPage = () => {
   useEffect(() => {
-    window.location.replace(`/${getPreferredLocale()}/`);
+    const basePath = process.env.NEXT_PUBLIC_SITE_BASE_PATH ?? "";
+    window.location.replace(`${basePath}/${getPreferredLocale()}/`);
   }, []);
 
   return (

@@ -15,6 +15,7 @@ import type {
   StaticIconShard
 } from "../catalog/types";
 import { getManifest, templateBuilder, write } from "./utils";
+import { withSiteBasePath } from "../config/site-origin";
 
 const SOURCE_SVGS = resolve("../generator/svgs");
 const SOURCE_MANIFESTS = resolve("../icons");
@@ -52,8 +53,7 @@ const chunks = <T>(items: T[], size: number): T[][] => {
   return output;
 };
 
-const compareIds = (left: string, right: string) =>
-  left < right ? -1 : left > right ? 1 : 0;
+const compareIds = (left: string, right: string) => (left < right ? -1 : left > right ? 1 : 0);
 
 export const buildCollectionArtifacts = (
   packageVersion: string,
@@ -94,12 +94,10 @@ export const buildCollectionArtifacts = (
     name: manifest.name,
     license: manifest.license,
     projectUrl:
-      manifest.id === "rc"
-        ? "https://github.com/rocketclimb/rocketicons"
-        : manifest.projectUrl,
+      manifest.id === "rc" ? "https://github.com/rocketclimb/rocketicons" : manifest.projectUrl,
     licenseUrl: manifest.licenseUrl,
     totalIcons: icons.length,
-    indexUrl: `/ai/v1/collections/${manifest.id}/index.json`
+    indexUrl: withSiteBasePath(`/ai/v1/collections/${manifest.id}/index.json`)
   };
   const shards: StaticIconShard[] = chunks(icons, STATIC_CATALOG_CHUNK_SIZE).map(
     (shardIcons, chunk) => ({
@@ -128,7 +126,8 @@ const loadManifest = async (collectionId: CollectionID): Promise<GeneratedManife
 
 const loadSourceIcons = (collectionId: CollectionID) => {
   const collectionPath = join(SOURCE_SVGS, collectionId);
-  if (!existsSync(collectionPath)) throw new Error(`Missing icon source directory: ${collectionId}`);
+  if (!existsSync(collectionPath))
+    throw new Error(`Missing icon source directory: ${collectionId}`);
   return readdirSync(collectionPath)
     .filter((filename) => filename.endsWith(".json"))
     .sort()

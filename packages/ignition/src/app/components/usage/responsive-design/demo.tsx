@@ -6,6 +6,7 @@ import UpdateAlert from "@/components/documentation/update-alert";
 
 const Demo = ({ lang }: PropsWithLang) => {
   const [showTip, setShowTip] = useState<boolean>(false);
+  const basePath = process.env.NEXT_PUBLIC_SITE_BASE_PATH ?? "";
   return (
     <>
       <GridContainer showResizableTip={showTip} resizable="x">
@@ -13,7 +14,7 @@ const Demo = ({ lang }: PropsWithLang) => {
           <iframe
             title="responsive demo"
             className="w-full h-96 pointer-events-none"
-            src="/examples/responsive"
+            src={`${basePath}/examples/responsive`}
           ></iframe>
         </div>
       </GridContainer>

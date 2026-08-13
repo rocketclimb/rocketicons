@@ -1,11 +1,8 @@
-import { describe, expect, test } from "@jest/globals";
+import { afterEach, describe, expect, test } from "@jest/globals";
 import type { IconTree } from "rocketicons";
 
 import { STATIC_CATALOG_CHUNK_SIZE } from "../catalog/types";
-import {
-  buildCollectionArtifacts,
-  type GeneratedManifest
-} from "./collections-catalog";
+import { buildCollectionArtifacts, type GeneratedManifest } from "./collections-catalog";
 
 const iconTree: IconTree = {
   tag: "svg",
@@ -27,13 +24,20 @@ const makeManifest = (ids: string[]): GeneratedManifest => ({
   )
 });
 
-const source = (ids: string[]) =>
-  ids.map((id) => ({ id, iconTree, variant: "full" as const }));
+const source = (ids: string[]) => ids.map((id) => ({ id, iconTree, variant: "full" as const }));
 
 describe("static catalog generation", () => {
+  const previousOrigin = process.env.SITE_ORIGIN;
+
+  afterEach(() => {
+    if (previousOrigin === undefined) delete process.env.SITE_ORIGIN;
+    else process.env.SITE_ORIGIN = previousOrigin;
+  });
+
   test("sorts deterministically and shards at 500 icons", () => {
-    const ids = Array.from({ length: STATIC_CATALOG_CHUNK_SIZE + 1 }, (_, index) =>
-      `icon-${String(STATIC_CATALOG_CHUNK_SIZE - index).padStart(3, "0")}`
+    const ids = Array.from(
+      { length: STATIC_CATALOG_CHUNK_SIZE + 1 },
+      (_, index) => `icon-${String(STATIC_CATALOG_CHUNK_SIZE - index).padStart(3, "0")}`
     );
     const result = buildCollectionArtifacts("1.2.3", makeManifest(ids), source(ids));
 
@@ -44,6 +48,13 @@ describe("static catalog generation", () => {
     expect(result.index.icons.at(-1)?.chunk).toBe(1);
     expect(result.collection.totalIcons).toBe(ids.length);
     expect(result.collection.indexUrl).toBe("/ai/v1/collections/ai/index.json");
+  });
+
+  test("prefixes catalog URLs for a path-based deployment", () => {
+    process.env.SITE_ORIGIN = "https://rocketclimb.github.io/rocketicons";
+    const result = buildCollectionArtifacts("1.2.3", makeManifest(["one"]), source(["one"]));
+
+    expect(result.collection.indexUrl).toBe("/rocketicons/ai/v1/collections/ai/index.json");
   });
 
   test("rejects duplicate source IDs", () => {

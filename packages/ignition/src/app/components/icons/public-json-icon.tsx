@@ -83,7 +83,8 @@ const loadJSONFromPublic = async (
       const fileName = `${iconId}.json`;
 
       // Load JSON from public folder: /public/icons/ai/ai-fill-account-book.json
-      const response = await fetch(`/icons/${collection}/${fileName}`);
+      const basePath = process.env.NEXT_PUBLIC_SITE_BASE_PATH ?? "";
+      const response = await fetch(`${basePath}/icons/${collection}/${fileName}`);
       if (!response.ok) {
         throw new Error(`Icon JSON not found: /icons/${collection}/${fileName}`);
       }

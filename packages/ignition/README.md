@@ -22,7 +22,14 @@ npm run lint
 npm run build
 ```
 
-Use `SITE_ORIGIN` for deployment-specific absolute URLs. Functional catalog and documentation references must remain root-relative so the static export works on any hostname.
+Use `SITE_ORIGIN` for the complete public deployment URL. Both root and path-based deployments are supported:
+
+```bash
+SITE_ORIGIN=https://rocketicons.io npm run build
+SITE_ORIGIN=https://rocketclimb.github.io/rocketicons npm run build
+```
+
+The configured pathname becomes the Next.js base path and is added to generated catalog, discovery, sitemap, and browser-fetch URLs.
 
 ## Content principles
 

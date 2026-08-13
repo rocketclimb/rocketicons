@@ -5,16 +5,11 @@ export const normalizeSiteOrigin = (value: string): string => {
   if (!["http:", "https:"].includes(parsed.protocol)) {
     throw new Error("SITE_ORIGIN must use http or https");
   }
-  if (
-    parsed.username ||
-    parsed.password ||
-    parsed.pathname !== "/" ||
-    parsed.search ||
-    parsed.hash
-  ) {
-    throw new Error("SITE_ORIGIN must be an origin without credentials, path, query, or hash");
+  if (parsed.username || parsed.password || parsed.search || parsed.hash) {
+    throw new Error("SITE_ORIGIN must not contain credentials, a query, or a hash");
   }
-  return parsed.origin;
+  const basePath = parsed.pathname.replace(/\/+$/, "");
+  return `${parsed.origin}${basePath}`;
 };
 
 export const getSiteOrigin = (): string => {
@@ -26,4 +21,15 @@ export const getSiteOrigin = (): string => {
   return DEVELOPMENT_ORIGIN;
 };
 
-export const absoluteSiteUrl = (path = "/") => new URL(path, `${getSiteOrigin()}/`);
+export const getSiteBasePath = (): string =>
+  new URL(getSiteOrigin()).pathname.replace(/\/+$/, "");
+
+export const withSiteBasePath = (path = "/"): string => {
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${getSiteBasePath()}${normalizedPath}`;
+};
+
+export const absoluteSiteUrl = (path = "/") => {
+  const site = new URL(getSiteOrigin());
+  return new URL(withSiteBasePath(path), site.origin);
+};

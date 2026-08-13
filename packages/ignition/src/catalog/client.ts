@@ -1,13 +1,10 @@
 "use client";
 
-import type {
-  StaticCollectionIndex,
-  StaticIconRecord,
-  StaticIconShard
-} from "./types";
+import type { StaticCollectionIndex, StaticIconRecord, StaticIconShard } from "./types";
 
 const indexCache = new Map<string, Promise<StaticCollectionIndex>>();
 const shardCache = new Map<string, Promise<StaticIconShard>>();
+const basePath = process.env.NEXT_PUBLIC_SITE_BASE_PATH ?? "";
 
 const fetchJson = async <T>(url: string): Promise<T> => {
   const response = await fetch(url);
@@ -19,7 +16,7 @@ export const loadCollectionIndex = (collectionId: string) => {
   const existing = indexCache.get(collectionId);
   if (existing) return existing;
   const request = fetchJson<StaticCollectionIndex>(
-    `/ai/v1/collections/${collectionId}/index.json`
+    `${basePath}/ai/v1/collections/${collectionId}/index.json`
   );
   indexCache.set(collectionId, request);
   return request;
@@ -30,7 +27,7 @@ export const loadCollectionShard = (collectionId: string, chunk: number) => {
   const existing = shardCache.get(key);
   if (existing) return existing;
   const request = fetchJson<StaticIconShard>(
-    `/ai/v1/collections/${collectionId}/${chunk}.json`
+    `${basePath}/ai/v1/collections/${collectionId}/${chunk}.json`
   );
   shardCache.set(key, request);
   return request;

@@ -1,5 +1,8 @@
 import type { StaticCatalog } from "@/catalog/types";
 import { CANONICAL_PRODUCT_MESSAGE, DOCUMENTATION_UPDATED_AT } from "@/config/product-content";
+import { withSiteBasePath } from "@/config/site-origin";
+
+const sitePath = (path: string) => withSiteBasePath(path);
 
 const commonHeader = (catalog: StaticCatalog) => `# Rocketicons
 
@@ -7,9 +10,9 @@ ${CANONICAL_PRODUCT_MESSAGE}
 
 - Catalog/package version: ${catalog.packageVersion}
 - Documentation updated: ${DOCUMENTATION_UPDATED_AT}
-- Static catalog: /ai/v1/catalog.json
-- English documentation: /en/docs/getting-started/
-- Brazilian Portuguese documentation: /pt-br/docs/primeiros-passos/
+- Static catalog: ${sitePath("/ai/v1/catalog.json")}
+- English documentation: ${sitePath("/en/docs/getting-started/")}
+- Brazilian Portuguese documentation: ${sitePath("/pt-br/docs/primeiros-passos/")}
 `;
 
 export const renderLlms = (catalog: StaticCatalog) => `${commonHeader(catalog)}
@@ -26,16 +29,16 @@ The current CLI generates TSX, uses the fixed \`src/ri\` output directory and \`
 
 ## Catalog and licensing
 
-Start with /ai/v1/catalog.json. Each collection entry links to a compact index, and each icon index entry identifies its shard. Catalog URLs are root-relative. Collection records include their upstream project, license, and license URL. Review the selected collection's terms and preserve any required attribution.
+Start with ${sitePath("/ai/v1/catalog.json")}. Each collection entry links to a compact index, and each icon index entry identifies its shard. Catalog URLs include the configured deployment base path. Collection records include their upstream project, license, and license URL. Review the selected collection's terms and preserve any required attribution.
 
 ## More guidance
 
-- Framework quick starts: /en/docs/framework-quick-starts/
-- Generated files: /en/docs/generated-files/
-- Migration: /en/docs/migrating-to-rocketicons/
-- Agent workflow: /en/docs/agent-workflows/
-- Comparison: /en/docs/comparison/
-- Expanded machine-readable guide: /llms-full.txt
+- Framework quick starts: ${sitePath("/en/docs/framework-quick-starts/")}
+- Generated files: ${sitePath("/en/docs/generated-files/")}
+- Migration: ${sitePath("/en/docs/migrating-to-rocketicons/")}
+- Agent workflow: ${sitePath("/en/docs/agent-workflows/")}
+- Comparison: ${sitePath("/en/docs/comparison/")}
+- Expanded machine-readable guide: ${sitePath("/llms-full.txt")}
 `;
 
 export const renderLlmsFull = (catalog: StaticCatalog) => `${commonHeader(catalog)}
@@ -77,11 +80,11 @@ Choose the matching Rocketicons icon, initialize once, add it by exact ID, repla
 
 ## Static catalog
 
-Fetch /ai/v1/catalog.json first. Follow a collection's \`indexUrl\` to list icon IDs, names, components, variants, and shard numbers. Load only the referenced shard when SVG tree data is needed. Do not guess dynamic API routes: Rocketicons publishes static files.
+Fetch ${sitePath("/ai/v1/catalog.json")} first. Follow a collection's \`indexUrl\` to list icon IDs, names, components, variants, and shard numbers. Load only the referenced shard when SVG tree data is needed. Do not guess dynamic API routes: Rocketicons publishes static files.
 
 ## Licensing
 
-Rocketicons itself is MIT licensed, while included collections retain their upstream licenses. Collection entries in /ai/v1/catalog.json provide project and license URLs. Check attribution requirements for every collection used.
+Rocketicons itself is MIT licensed, while included collections retain their upstream licenses. Collection entries in ${sitePath("/ai/v1/catalog.json")} provide project and license URLs. Check attribution requirements for every collection used.
 
 ## Agent prompt
 

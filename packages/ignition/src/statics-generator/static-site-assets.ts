@@ -2,7 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 import { AvailableLanguages, Languages } from "@/types";
-import { getSiteOrigin } from "@/config/site-origin";
+import { getSiteBasePath, getSiteOrigin } from "@/config/site-origin";
 import type { StaticCatalog } from "@/catalog/types";
 import { renderLlms, renderLlmsFull } from "./llms";
 
@@ -34,6 +34,7 @@ ${urls.map((url) => `  <sitemap><loc>${escapeXml(url)}</loc></sitemap>`).join("\
 
 export const generateStaticSiteAssets = async () => {
   const origin = getSiteOrigin();
+  const basePath = getSiteBasePath();
   const docs = JSON.parse(
     await readFile(resolve(DATA_ROOT, "params/docs.json"), "utf8")
   ) as DocParam[];
@@ -64,7 +65,7 @@ export const generateStaticSiteAssets = async () => {
   await writePublicFile("sitemap_index.xml", sitemapIndex(sitemapUrls));
   await writePublicFile(
     "robots.txt",
-    `User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap_index.xml\n`
+    `User-agent: *\nAllow: ${basePath || "/"}\nSitemap: ${origin}/sitemap_index.xml\n`
   );
   await Promise.all([
     writePublicFile("llms.txt", renderLlms(catalog)),

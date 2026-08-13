@@ -5,17 +5,22 @@ type DocLinkProps = {
   href: string;
 } & DocElementProps;
 
-const DocLink = ({ href, className, external, children }: DocLinkProps) => (
-  <AnchorDocElement
-    Tag="a"
-    href={href}
-    className={`hover:text-primary-darken hover:dark:text-primary-bright group-[.paragraph]/p:font-semibold group-[.paragraph]/p:dark:text-primary-dark group-[.paragraph]/p:border-b group-[.paragraph]/p:border-secondary group-[.paragraph]/p:hover:border-b-2  ${
-      className || ""
-    }`}
-    {...((external && { target: "_blank" }) || {})}
-  >
-    {children || href}
-  </AnchorDocElement>
-);
+const DocLink = ({ href, className, external, children }: DocLinkProps) => {
+  const basePath = process.env.NEXT_PUBLIC_SITE_BASE_PATH ?? "";
+  const resolvedHref = !external && href.startsWith("/") ? `${basePath}${href}` : href;
+
+  return (
+    <AnchorDocElement
+      Tag="a"
+      href={resolvedHref}
+      className={`hover:text-primary-darken hover:dark:text-primary-bright group-[.paragraph]/p:font-semibold group-[.paragraph]/p:dark:text-primary-dark group-[.paragraph]/p:border-b group-[.paragraph]/p:border-secondary group-[.paragraph]/p:hover:border-b-2  ${
+        className || ""
+      }`}
+      {...((external && { target: "_blank" }) || {})}
+    >
+      {children || href}
+    </AnchorDocElement>
+  );
+};
 
 export default DocLink;

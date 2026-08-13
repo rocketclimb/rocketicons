@@ -1,5 +1,11 @@
 import { afterEach, describe, expect, test } from "@jest/globals";
-import { absoluteSiteUrl, getSiteOrigin, normalizeSiteOrigin } from "./site-origin";
+import {
+  absoluteSiteUrl,
+  getSiteBasePath,
+  getSiteOrigin,
+  normalizeSiteOrigin,
+  withSiteBasePath
+} from "./site-origin";
 
 describe("SITE_ORIGIN", () => {
   const previousOrigin = process.env.SITE_ORIGIN;
@@ -14,24 +20,26 @@ describe("SITE_ORIGIN", () => {
   test.each([
     ["https://rocket.example", "https://rocket.example"],
     ["https://icons.example/", "https://icons.example"],
+    ["https://rocketclimb.github.io/rocketicons", "https://rocketclimb.github.io/rocketicons"],
+    ["https://rocketclimb.github.io/rocketicons/", "https://rocketclimb.github.io/rocketicons"],
     ["http://preview.example:8080", "http://preview.example:8080"]
   ])("normalizes %s", (input, expected) => {
     expect(normalizeSiteOrigin(input)).toBe(expected);
   });
 
-  test.each([
-    "https://example.com/subpath",
-    "https://example.com/?preview=1",
-    "https://user@example.com",
-    "ftp://example.com"
-  ])("rejects a non-root origin: %s", (origin) => {
-    expect(() => normalizeSiteOrigin(origin)).toThrow();
-  });
+  test.each(["https://example.com/?preview=1", "https://user@example.com", "ftp://example.com"])(
+    "rejects a non-root origin: %s",
+    (origin) => {
+      expect(() => normalizeSiteOrigin(origin)).toThrow();
+    }
+  );
 
   test("builds absolute URLs without coupling application state to a hostname", () => {
-    process.env.SITE_ORIGIN = "https://icons.example/";
+    process.env.SITE_ORIGIN = "https://icons.example/rocketicons";
+    expect(getSiteBasePath()).toBe("/rocketicons");
+    expect(withSiteBasePath("/ai/v1/catalog.json")).toBe("/rocketicons/ai/v1/catalog.json");
     expect(absoluteSiteUrl("/en/icons/ai/").toString()).toBe(
-      "https://icons.example/en/icons/ai/"
+      "https://icons.example/rocketicons/en/icons/ai/"
     );
   });
 

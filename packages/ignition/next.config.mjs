@@ -34,10 +34,13 @@ const withMDX = createMDX({
 });
 
 const packagesToOptimize = IconsManifest.map(({ id }) => `rocketicons/${id}`);
+const siteUrl = process.env.SITE_ORIGIN ? new URL(process.env.SITE_ORIGIN) : undefined;
+const siteBasePath = siteUrl?.pathname.replace(/\/+$/, "") ?? "";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "export",
+  basePath: siteBasePath,
   trailingSlash: true,
   images: {
     unoptimized: true
@@ -61,6 +64,10 @@ const nextConfig = {
 
   compiler: {
     removeConsole: process.env.NODE_ENV === "production"
+  },
+
+  env: {
+    NEXT_PUBLIC_SITE_BASE_PATH: siteBasePath
   }
 };
 

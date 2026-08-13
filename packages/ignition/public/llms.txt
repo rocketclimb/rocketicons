@@ -21,7 +21,7 @@ The current CLI generates TSX, uses the fixed `src/ri` output directory and `@/r
 
 ## Catalog and licensing
 
-Start with /ai/v1/catalog.json. Each collection entry links to a compact index, and each icon index entry identifies its shard. Catalog URLs are root-relative. Collection records include their upstream project, license, and license URL. Review the selected collection's terms and preserve any required attribution.
+Start with /ai/v1/catalog.json. Each collection entry links to a compact index, and each icon index entry identifies its shard. Catalog URLs include the configured deployment base path. Collection records include their upstream project, license, and license URL. Review the selected collection's terms and preserve any required attribution.
 
 ## More guidance
 

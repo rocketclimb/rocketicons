@@ -34,10 +34,10 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Require root SITE_ORIGIN
+      - name: Validate SITE_ORIGIN
         run: |
           test -n "$SITE_ORIGIN"
-          node -e 'const value = new URL(process.env.SITE_ORIGIN); if (!/^https?:$/.test(value.protocol) || value.pathname !== "/" || value.search || value.hash || value.username || value.password) process.exit(1)'
+          node -e 'const value = new URL(process.env.SITE_ORIGIN); if (!/^https?:$/.test(value.protocol) || value.search || value.hash || value.username || value.password) process.exit(1)'
 
       - name: Configure GitHub Packages
         run: |
