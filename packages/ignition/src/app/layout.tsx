@@ -1,28 +1,34 @@
 import "./globals.css";
 
-import { Inter, Quicksand, Fira_Code } from "next/font/google";
+import localFont from "next/font/local";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 import { serverEnv } from "@/env/server";
 import ThemeColor from "@/components/theme-color";
 import { withSiteBasePath } from "@/config/site-origin";
 
-const monospace = Fira_Code({
-  style: ["normal"],
+const monospace = localFont({
+  src: "../../public/fonts/FiraCode-Regular.ttf",
+  weight: "400",
+  style: "normal",
   variable: "--font-monospace",
-  subsets: ["latin"]
+  display: "swap"
 });
 
-const quicksand = Quicksand({
-  weight: ["400", "600"],
-  style: ["normal"],
+const quicksand = localFont({
+  src: "../../public/fonts/Quicksand-Regular.ttf",
+  weight: "400",
+  style: "normal",
   variable: "--font-quicksand",
-  subsets: ["latin"]
+  display: "swap"
 });
 
-const inter = Inter({
+const inter = localFont({
+  src: "../../public/fonts/Inter-Medium.ttf",
+  weight: "500",
+  style: "normal",
   variable: "--font-inter",
-  subsets: ["latin"]
+  display: "swap"
 });
 
 export default function RootLayout({
