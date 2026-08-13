@@ -4,43 +4,44 @@ import Link from "next/link";
 import { withLocale } from "@/locales";
 import { PropsWithLang } from "@/types";
 import { SiAlgolia } from "rocketicons/si";
-import IconLoader from "@/components/icons/icon-loader";
-import { BiHash, BiLoaderAlt } from "rocketicons/bi";
+import { BiHash } from "rocketicons/bi";
 import WithCopy from "@/components/documentation/with-copy";
 import { PropsWithChildren } from "react";
 import { GoBook } from "rocketicons/go";
 
-const borderClass = "border-surface-lighter dark:border-surface-medium";
+import SvgHit from "./svg-hit";
 
-const Loader = () => (
-  <BiLoaderAlt className="animate-spin duration-1000 icon-secondary-xl mr-3" />
-);
+const borderClass = "border-surface-lighter dark:border-surface-medium";
 
 type IconHitProps = {
   hit: any;
 } & PropsWithLang;
 
-const IconHit = ({ hit, lang }: IconHitProps) => {
+const IconHit = ({
+  hit: {
+    group,
+    objectID,
+    title,
+    text,
+    categories: [_variant]
+  },
+  lang
+}: IconHitProps) => {
   return (
     <>
       <Link
         className="grow py-3 pl-4 capitalize"
-        href={`/${lang}/icons/${hit.group}/${hit.objectID}`}
+        href={`/${lang}/icons/${group}/?icon=${encodeURIComponent(objectID)}`}
       >
-        <IconLoader
-          collectionId={hit.group}
-          icon={hit.text}
-          className="icon-secondary-xl group-hover/result:icon-white-xl mr-3"
-          Loading={Loader}
-        />
-        {hit.title}
+        <SvgHit collectionId={group} iconId={objectID} />
+        {title}
       </Link>
       <WithCopy
         lang={lang}
-        clipboardText={`<${hit.text} />`}
+        clipboardText={`<${text} />`}
         className="text-left text-[0.6rem]/normal group-hover/result:xs:text-[0.7rem]/normal group-hover/result:md:text-sm md:text-sm  pr-4 !absolute md:!relative italic md:not-italic font-extralight opacity-40 md:opacity-100 group-hover/result:opacity-90 group-hover/result:md:opacity-100 right-0 bottom-0 after:hidden after:text-xs after:font-light after:-right-3 after:-top-3"
       >
-        <span className="font-monospace font-light">{`<${hit.text} />`}</span>
+        <span className="font-monospace font-light">{`<${text} />`}</span>
       </WithCopy>
     </>
   );

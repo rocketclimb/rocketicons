@@ -1,6 +1,6 @@
 {
   "name": "@rocketicons/core",
-  "version": "0.2.5",
+  "version": "0.6.0",
   "license": "MIT",
   "main": "./dist/index.js",
   "files": [
@@ -14,7 +14,7 @@
     "format": "prettier --check . --write --ignore-path ../../.gitignore",
     "lint": "eslint src/**/*",
     "rebuild": "npm run clean && npm run build",
-    "test": "jest ./src",
+    "test": "jest --passWithNoTests ./src",
     "typecheck": "tsc --noEmit"
   }
 }

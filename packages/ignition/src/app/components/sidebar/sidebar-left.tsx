@@ -2,9 +2,7 @@ import "@/utils";
 
 import Link from "next/link";
 import { PropsWithChildren } from "react";
-import { Languages, PropsWithLang } from "@/types";
-import { IconsManifest } from "@/data-helpers/icons/manifest";
-import RocketIconsText from "@/components/rocketicons-text";
+import { Languages, PropsWithChildrenAndLang, PropsWithLang } from "@/types";
 import { siteConfig } from "@/config/site";
 import { MainComponent, Slug, Component, ComponentsAsList, DocsAsList } from "@/locales/types";
 import { withLocale } from "@/locales/with-locale";
@@ -43,7 +41,7 @@ const SubMenu = ({ children }: PropsWithChildren) => (
   </ul>
 );
 
-const MenuItem = ({
+export const MenuItem = ({
   href,
   children
 }: PropsWithChildren & {
@@ -88,19 +86,6 @@ const SubMenuItems = ({
     );
   });
 
-const IconList = ({ lang }: PropsWithLang) => (
-  <>
-    {IconsManifest.map(({ id, name }) => (
-      <li key={`${id}-${name}`}>
-        <MenuItem href={`/${lang}/icons/${id}`}>
-          {(name === "rocketclimb" && <RocketIconsText className="hover:text-secondary" />) ||
-            name}
-        </MenuItem>
-      </li>
-    ))}
-  </>
-);
-
 const DocList = ({ lang }: PropsWithLang) => {
   const { docs: getDocs } = withLocale(lang);
   const docs = Object.entries(getDocs() || {});
@@ -141,7 +126,7 @@ const DocList = ({ lang }: PropsWithLang) => {
   );
 };
 
-export const SidebarLeft = ({ lang }: PropsWithLang) => (
+export const SidebarLeft = ({ lang, children }: PropsWithChildrenAndLang) => (
   <Nav>
     <ul className={`hidden relative z-40 lg:w-56 lg:block group-data-[open=true]:block`}>
       <div className="mt-3">
@@ -150,9 +135,7 @@ export const SidebarLeft = ({ lang }: PropsWithLang) => (
       <Playground />
       <DocList lang={lang} />
       <MenuBlock text="Icons" href={`/${lang}/icons`} exactMatch>
-        <SubMenu>
-          <IconList lang={lang} />
-        </SubMenu>
+        <SubMenu>{children}</SubMenu>
       </MenuBlock>
       <MenuBlock text="Roadmap" href={`/${lang}/roadmap`} exactMatch />
     </ul>

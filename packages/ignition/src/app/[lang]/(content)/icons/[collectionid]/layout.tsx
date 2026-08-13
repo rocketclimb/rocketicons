@@ -1,28 +1,79 @@
 import { CollectionID } from "rocketicons/data";
 
-import { IconsManifest } from "@/data-helpers/icons/manifest";
-import collections from "@/data-helpers/params/collections.json";
-
 import CollectionTitleBox from "@/components/icons/icons-collection/collection-title-box";
-import IconsCollection from "@/components/icons/icons-collection";
 
-import { PropsWithChildrenAndLangParams } from "@/types";
+import { IconFromData } from "@rocketicons/core";
 
-type LayoutProps = PropsWithChildrenAndLangParams & {
-  params: {
-    collectionid: CollectionID;
-  };
+import { AvailableLanguages } from "@/types";
+import type { Languages } from "@/types";
+import type { ReactNode } from "react";
+import { getCollection, getCollectionIcons, getCollections } from "@/catalog/server";
+import IconSelector from "@/components/icons/icons-collection/icon-selector";
+import IconInfoProvider from "@/components/icons/icons-collection/icon-info/provider";
+import { Suspense } from "react";
+import type { Metadata } from "next";
+import { customMetadata } from "@/components/metadata-custom";
+
+type LayoutProps = {
+  children: ReactNode;
+  params: Promise<{
+    lang: string;
+    collectionid: string;
+  }>;
 };
 
-export const generateStaticParams = () => collections;
+export const generateStaticParams = async () => {
+  const collections = await getCollections();
+  return AvailableLanguages.flatMap((lang) =>
+    collections.map(({ id }) => ({ lang, collectionid: id }))
+  );
+};
 
-const Layout = ({ children, params: { lang, collectionid } }: LayoutProps) => {
-  const info = IconsManifest.find(({ id: search }) => search === collectionid);
+export const generateMetadata = async ({ params }: LayoutProps): Promise<Metadata> => {
+  const { lang: rawLang, collectionid: rawCollectionId } = await params;
+  const lang = rawLang as Languages;
+  const collectionid = rawCollectionId as CollectionID;
+  const collection = await getCollection(collectionid);
+  return customMetadata(
+    lang,
+    "collection",
+    "",
+    collection.name,
+    `${collection.name}: ${collection.totalIcons} Rocketicons components for React and React Native.`,
+    collectionid
+  );
+};
+
+const Layout = async ({ children, params }: LayoutProps) => {
+  const { lang: rawLang, collectionid: rawCollectionId } = await params;
+  const lang = rawLang as Languages;
+  const collectionid = rawCollectionId as CollectionID;
+  const info = await getCollection(collectionid);
+  const icons = await getCollectionIcons(collectionid);
   return (
     <div className="collection-page">
       {info && <CollectionTitleBox lang={lang} info={info} />}
+      <IconInfoProvider lang={lang} collectionId={collectionid} />
       {children}
-      <IconsCollection lang={lang} id={collectionid} />
+      <Suspense fallback={null}>
+        <ul className="transition-all duration-200 ml-0 mt-10 peer-data-[open=true]/info:min-h-[655px] flex justify-between gap-x-2 gap-y-4 flex-wrap">
+          {icons.map(({ id, name, iconTree, variant }) => {
+            return (
+              <li key={id}>
+                <IconSelector lang={lang} collectionId={collectionid} id={id} name={name}>
+                  <IconFromData
+                    className={
+                      "transition-all duration-200 transform-gpu icon-secondary-medium-3xl group-hover/button:icon-secondary-medium-4xl dark:icon-secondary-3xl group-hover/button:dark:icon-secondary-4xl xs:icon-secondary-medium-4xl group-hover/button:xs:icon-secondary-medium-5xl dark:xs:icon-secondary-4xl group-hover/button:dark:xs:icon-secondary-5xl"
+                    }
+                    iconTree={iconTree}
+                    variant={variant}
+                  />
+                </IconSelector>
+              </li>
+            );
+          })}
+        </ul>
+      </Suspense>
     </div>
   );
 };

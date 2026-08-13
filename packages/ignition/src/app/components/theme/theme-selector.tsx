@@ -11,7 +11,6 @@ import { withLocale } from "@/locales/with-locale";
 import { PropsWithClassName, PropsWithLang } from "@/types";
 
 import Button from "@/components/button";
-
 type SelectorsProps = {
   selectors: Selector[];
 };

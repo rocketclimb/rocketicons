@@ -1,0 +1,42 @@
+---
+title: Migrating to Rocketicons
+description: Replace package icon imports with selected local components, one safe step at a time
+slug: migrating-to-rocketicons
+order: 4
+group: guides
+---
+
+## Guides
+
+# Bring your icons home
+
+You do not need a big-bang migration. Move one icon—or one feature—at a time.
+
+### 1. Find the visual match
+
+Search the [icon explorer](../../icons), compare variants, and note the exact `@collection/icon` ID. Similar names do not always mean identical shapes.
+
+### 2. Initialize once and add the match
+
+```bash
+npx @rocketicons/cli init
+npx @rocketicons/cli add @lu/lu-search
+```
+
+### 3. Replace the package import
+
+```tsx
+// Before
+import { LuSearch } from "react-icons/lu";
+
+// After
+import LuSearch from "@/ri/icons/lu-search";
+```
+
+Update styling and accessibility labels as needed, then compare the rendered result at every size and state your UI uses.
+
+### 4. Remove the old dependency last
+
+Search the repository for remaining imports. Remove the previous icon package only when none remain, and verify your normal web or native production build.
+
+Rocketicons keeps shared utilities installed, but the selected icon components live in your source tree. The benefit is structural: your application never imports thousands of unused icon exports and does not rely on tree-shaking to discard them.

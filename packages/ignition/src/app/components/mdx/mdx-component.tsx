@@ -12,7 +12,7 @@ export const MdxComponent = async ({ lang, slug }: PropsWithLang & { slug: strin
 
   return (
     <div className="flex flex-row">
-      <div className="flex-grow">{selectedDoc && <DynamicMarkDownComponent />}</div>
+      <div className="min-w-0 flex-grow">{selectedDoc && <DynamicMarkDownComponent />}</div>
     </div>
   );
 };

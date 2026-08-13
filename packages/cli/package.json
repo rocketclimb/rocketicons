@@ -1,0 +1,22 @@
+{
+  "name": "@rocketicons/cli",
+  "version": "0.6.0",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "files": [
+    "dist/"
+  ],
+  "bin": "dist/index.js",
+  "scripts": {
+    "build": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json && tsconfig-replace-paths",
+    "postbuild": "rocketclimb-sh cp \"dist-esm/**/*.js\" \"dist/**/*.mjs\" && rocketclimb-sh fix-esm ./dist && npm run postbuild:icons-bin",
+    "postbuild:icons-bin": "rocketclimb-sh mkdir -p ../icons/bin && rocketclimb-sh cp \"dist/**/*\" ../icons/bin/ && rocketclimb-sh cp ../core/src/*.tsx ../icons/bin/",
+    "clean": "rocketclimb-sh rm -fR dist dist-esm && rocketclimb-sh rm -fR *.tsbuildinfo",
+    "clean:o": "rocketclimb-sh rm -fR node_modules",
+    "format": "prettier --check . --write --ignore-path ../../.gitignore",
+    "lint": "eslint src/**/*",
+    "rebuild": "npm run clean && npm run build",
+    "test": "jest --passWithNoTests ./src",
+    "typecheck": "tsc --noEmit"
+  }
+}

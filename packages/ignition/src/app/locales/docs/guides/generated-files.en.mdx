@@ -1,0 +1,43 @@
+---
+title: Generated Files
+description: Understand, review, and commit the icon components Rocketicons adds to your project
+slug: generated-files
+order: 3
+group: guides
+---
+
+## Guides
+
+# Your icons, in your source tree
+
+Rocketicons does not hide selected icons inside a giant runtime package. After initialization and one addition, your project looks like this:
+
+```text
+src/ri/
+├── core/
+│   ├── index.tsx
+│   └── index.native.tsx
+└── icons/
+    └── rc-rocket-icon.tsx
+```
+
+The core files provide shared React and React Native rendering behavior. Every file under `icons` represents an icon you explicitly selected.
+
+### Commit them
+
+Treat `src/ri` as application source: review it and commit it. That keeps local development, CI, collaborators, deployments, and offline builds on the same icon code.
+
+### Edit with care
+
+You own the files, but the current `add` command overwrites the target icon. If you customize generated code, preserve or review those changes before adding the same icon again.
+
+### Verify an automated change
+
+After an agent or script runs Rocketicons, check:
+
+```bash
+git status --short src/ri tsconfig.json package.json package-lock.json
+```
+
+Expect initialization to touch configuration and dependencies. Expect each `add` command to create or replace exactly one file in `src/ri/icons`.
+

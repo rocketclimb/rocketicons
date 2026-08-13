@@ -1,26 +1,17 @@
-import { getCollectionsInfo } from "@/components/icons/get-icons-data";
-import IconLoader from "@/components/icons/icon-loader";
 import { CollectionID } from "rocketicons/data";
-import { RcRocketIcon } from "rocketicons/rc";
-import { IconProps } from "rocketicons";
+import QuerySelectedIcon from "@/components/documentation/query-selected-icon";
 
-export const getCurrentIconData = (query?: string) => {
-  const defaultCollection: CollectionID = "rc";
-  const defaultIcon = "RcRocketIcon";
+import { defaultIconTree, defaultVariant } from "@/config";
 
-  const [collection, icon] = (query ?? "").split(".") as [CollectionID, string];
+const defaultCollection: CollectionID = "rc";
+const defaultIcon = "RcRocketIcon";
 
-  if (!collection || !icon || !getCollectionsInfo(collection).exists(icon)) {
-    return {
-      Icon: (props: IconProps) => <RcRocketIcon {...props} />,
-      icon: defaultIcon,
-      collection: defaultCollection
-    };
-  }
-
+export const getCurrentIconData = async (_query?: string) => {
   return {
-    Icon: (props: IconProps) => <IconLoader collectionId={collection} icon={icon} {...props} />,
-    icon,
-    collection
+    Icon: QuerySelectedIcon,
+    icon: defaultIcon,
+    collection: defaultCollection,
+    iconTree: defaultIconTree,
+    variant: defaultVariant
   };
 };

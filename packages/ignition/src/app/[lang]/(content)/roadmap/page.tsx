@@ -1,13 +1,13 @@
 import { PropsWithLangParams } from "@/types";
 import { withLocale } from "@/locales";
-import { LuCheck } from "rocketicons/lu";
-import { IoCaretUp } from "rocketicons/io5";
-import { BiQuestionMark } from "rocketicons/bi";
+
 import { customMetadata } from "@/components/metadata-custom";
 import { Metadata } from "next";
 import roadmapFile from "@/locales/roadmap.json";
 
-export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
+export const generateMetadata = async (props: PropsWithLangParams): Promise<Metadata> => {
+  const { lang } = (await props.params) as { lang: import("@/types").Languages };
   const { config, component } = withLocale(lang);
   const { roadmap } = config("nav");
   const { description } = component("home");
@@ -15,7 +15,9 @@ export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Met
   return customMetadata(lang, "page", "roadmap", roadmap, description);
 };
 
-const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
+const Roadmap = async (props: PropsWithLangParams) => {
+  const { lang } = (await props.params) as { lang: import("@/types").Languages };
+
   const { nav, roadmap } = withLocale(lang).config("nav", "roadmap");
 
   const itemList = roadmapFile?.items.map((item: any, i: number) => {
@@ -37,8 +39,14 @@ const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
                     released ? "bg-green-500" : "bg-sky-600"
                   }`}
                 >
-                  {(released && <LuCheck className="icon-white" />) || (
-                    <BiQuestionMark className="icon-white" />
+                  {(released && (
+                    <PublicJSONIcon collection="lu" iconId="lu-check" className="icon-white" />
+                  )) || (
+                    <PublicJSONIcon
+                      collection="bi"
+                      iconId="bi-question-mark"
+                      className="icon-white"
+                    />
                   )}
                 </div>
               </div>
@@ -96,7 +104,11 @@ const Roadmap = async ({ params: { lang } }: PropsWithLangParams) => {
       <h1 className="text-3xl font-extrabold text-primary dark:text-primary-dark">
         {nav.roadmap}
       </h1>
-      <IoCaretUp className="icon-gray-300-xl -mb-12 ml-1.5" />
+      <PublicJSONIcon
+        collection="io5"
+        iconId="io-caret-up"
+        className="icon-gray-300-xl -mb-12 ml-1.5"
+      />
       <div className="flow-root">
         <ul className="">{itemList}</ul>
       </div>

@@ -10,8 +10,8 @@ import { TbCheckbox, TbUserQuestion, TbUserStar, TbUser } from "rocketicons/tb";
 import { CodeSample } from "@rocketclimb/code-block";
 import Wrapper from "@/components/documentation/wrapper";
 
-const StateManagement = ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
-  const { icon, Icon } = getCurrentIconData(queryIcon);
+const StateManagement = async ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
+  const { icon, Icon } = await getCurrentIconData(queryIcon);
   return (
     <>
       <MdxPartial lang={lang} slug={"state-management"} path="docs" />

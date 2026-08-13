@@ -11,7 +11,8 @@ import FloatBlock from "@/components/icons/float-block";
 import Title from "@/components/documentation/title";
 import DocLink from "@/components/documentation/doc-link";
 import LicenseBox from "@/components/documentation/license";
-import { siteConfig } from "@/config/site";
+
+type Manifest = Omit<IconsManifestType<CollectionID, License>, "icons"> & { totalIcons: number };
 
 const IconCountBadge = ({ lang, count }: PropsWithLang & { count: number }) => {
   const { config } = withLocale(lang);
@@ -26,7 +27,7 @@ const IconCountBadge = ({ lang, count }: PropsWithLang & { count: number }) => {
 };
 
 type TitleBoxProps = {
-  info: IconsManifestType<CollectionID, License>;
+  info: Manifest;
 } & PropsWithLang;
 
 const CollectionTitleBox = ({ lang, info }: TitleBoxProps) => (
@@ -45,7 +46,7 @@ const CollectionTitleBox = ({ lang, info }: TitleBoxProps) => (
         <LicenseBox url={info.licenseUrl} license={info.license} />
       </p>
       <div className="ml-3 md:ml-0 lg:my-3">
-        <IconCountBadge lang={lang} count={info.icons.length} />
+        <IconCountBadge lang={lang} count={info.totalIcons} />
       </div>
     </div>
   </FloatBlock>
@@ -53,8 +54,8 @@ const CollectionTitleBox = ({ lang, info }: TitleBoxProps) => (
 
 export default CollectionTitleBox;
 
-function getProjectUrl(lang: Languages, info: IconsManifestType<CollectionID, License>): string {
-  if (info.projectUrl.indexOf(siteConfig.url) === 0) {
+function getProjectUrl(lang: Languages, info: Manifest): string {
+  if (info.id === "rc") {
     const newUrl = new URL(lang, info.projectUrl);
     return newUrl.toString();
   }

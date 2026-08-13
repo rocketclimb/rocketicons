@@ -1,51 +1,77 @@
 ---
 title: Getting Started
-description: Start using rocketicons right away! It is super easy!
+description: Add your first Rocketicons component to a TypeScript project
 slug: getting-started
 order: 0
 ---
 
-import RocketIconsText, { RocketIconsTextDefault } from "@/components/rocketicons-text";
-import Installation from "./components/installation.en.mdx";
-import Configuration from "./components/configuration.en.mdx";
-import Customization from "./components/customization.en.mdx";
-import Contributing from "./components/contributing.en.mdx";
-import { SiReact, SiTailwindcss, SiExpo } from "rocketicons/si";
+import BuildInfo from "@/components/documentation/build-info";
 
-## Introduction
+## Start here
 
-# Getting Started
+# Add your first icon
 
-Welcome to the documentation for <RocketIconsTextDefault />!
-This component provides a collection of icons for use in your <SiReact className="-mt-1 icon-sky-800" /> **React** web and **React Native** projects.
+Rocketicons lets you search thousands of open-source icons and add only the components your project uses. The CLI writes them into your source tree, so your app never imports a full icon collection and does not need tree-shaking to make unused icons disappear.
 
-<RocketIconsTextDefault /> utilizes <SiTailwindcss className="-mt-1" /> **Tailwind CSS** classes
-for styling, making it easy to customize and integrate into your applications.
+### Before you launch
 
-### Why it was created?
+The current CLI expects an existing **TypeScript** React or React Native project with a `tsconfig.json` file. Run commands from that project's root.
 
-<RocketIconsTextDefault /> was created to provide a simple and easy-to-use icon library for
-developers who wish to write a single code that can work both in **React** web and **React
-Native**. 
+### 1. Initialize Rocketicons
 
-We were motivated by the existence of great
-tools such as <SiTailwindcss className="-mt-1" /> [Tailwind CSS](https://tailwindcss.com/),
-<SiExpo className="-mt-1" /> [Expo](https://expo.dev/),
-<SiReact className="-mt-1 icon-sky-500" /> [NativeWind](https://nativewind.dev) and
-<SiReact className="-mt-1 icon-red-800" /> [React Icons](https://react-icons.github.io/react-icons/). 
+```bash
+npx @rocketicons/cli init
+```
 
-These tools are great and we love them but we wanted to create an even easier experience for developers
-working with multiple platforms with the same codebase.
+Initialization creates:
 
-The icons are designed to be easily customizable and can be used in both web
-and mobile applications.
+```text
+src/ri/
+├── core/
+│   ├── index.tsx
+│   └── index.native.tsx
+└── icons/
+```
 
-**Write once, use everywhere!**
+It also adds the `@/ri/*` alias to `tsconfig.json` and installs `@rocketicons/utils` and `@rocketicons/tailwind` through npm. Those are small shared dependencies used by the generated components and Tailwind integration.
 
-<Installation />
+### 2. Connect the Tailwind plugin
 
-<Configuration />
+Installation makes the plugin available, but your project still needs to register it. Add `@rocketicons/tailwind` to the `plugins` array in `tailwind.config.*`:
 
-<Customization />
+```ts
+import rocketicons from "@rocketicons/tailwind";
 
-<Contributing />
+export default {
+  // Keep your existing Tailwind configuration.
+  plugins: [rocketicons]
+};
+```
+
+For CommonJS configuration files, use `const rocketicons = require("@rocketicons/tailwind")` and add the same value to `plugins`.
+
+### 3. Find an icon
+
+Use the [icon explorer](../../icons) to choose a collection and exact icon ID. For example, Rocketicons' own rocket is `@rc/rc-rocket-icon`.
+
+### 4. Add it
+
+```bash
+npx @rocketicons/cli add @rc/rc-rocket-icon
+```
+
+The CLI writes `src/ri/icons/rc-rocket-icon.tsx`. Import the component from your own source tree:
+
+```tsx
+import RcRocketIcon from "@/ri/icons/rc-rocket-icon";
+
+export function LaunchButton() {
+  return <RcRocketIcon className="icon-sky-500-lg" />;
+}
+```
+
+That is the whole flight plan: find, add, import. Continue with [Adding Icons](./adding-icons) for repeated additions and verification, or open the [framework quick starts](./framework-quick-starts) for setup notes.
+
+> Today the CLI generates TSX in the fixed `src/ri` directory, adds one icon per command, and uses npm during initialization. JavaScript output and configurable paths belong to a later CLI milestone.
+
+<BuildInfo lang="en" />

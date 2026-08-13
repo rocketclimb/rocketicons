@@ -1,3 +1,59 @@
+## [0.6.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
+
+### Features
+
+- migrate ignition to Tailwind CSS v4 + Next.js 15 async params ([02e23999](https://github.com/rocketclimb/rocketicons/commit/02e23999ebb54ef215f91197974daa203fab0635))
+- **ignition** use svg with rocketicons ([dcbdd79c](https://github.com/rocketclimb/rocketicons/commit/dcbdd79cd004698b92f4045c07596d893d8fe5ae))
+- **cli** fix typo on icon path ([1f32f162](https://github.com/rocketclimb/rocketicons/commit/1f32f16231e8d1c99ff8a5bcbbf5b8b6d98b2962))
+- move core types into utils ([3e8627b9](https://github.com/rocketclimb/rocketicons/commit/3e8627b99d9514485c6f5a111768eaa2bb6876e7))
+- move utils into a package ([63cfe9e4](https://github.com/rocketclimb/rocketicons/commit/63cfe9e4e826fd77060450857de8a8e03de96b1a))
+
+### Bug Fixes
+
+- **core** fix lint issues ([61d5be8f](https://github.com/rocketclimb/rocketicons/commit/61d5be8fac28424afed525045d46735801373dd1))
+
+## [0.5.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
+
+### Features
+
+- migrate ignition to Tailwind CSS v4 + Next.js 15 async params ([02e23999](https://github.com/rocketclimb/rocketicons/commit/02e23999ebb54ef215f91197974daa203fab0635))
+- **ignition** use svg with rocketicons ([dcbdd79c](https://github.com/rocketclimb/rocketicons/commit/dcbdd79cd004698b92f4045c07596d893d8fe5ae))
+- **cli** fix typo on icon path ([1f32f162](https://github.com/rocketclimb/rocketicons/commit/1f32f16231e8d1c99ff8a5bcbbf5b8b6d98b2962))
+- move core types into utils ([3e8627b9](https://github.com/rocketclimb/rocketicons/commit/3e8627b99d9514485c6f5a111768eaa2bb6876e7))
+- move utils into a package ([63cfe9e4](https://github.com/rocketclimb/rocketicons/commit/63cfe9e4e826fd77060450857de8a8e03de96b1a))
+
+### Bug Fixes
+
+- **core** fix lint issues ([61d5be8f](https://github.com/rocketclimb/rocketicons/commit/61d5be8fac28424afed525045d46735801373dd1))
+
+## [0.4.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-05-08)
+
+### Features
+
+- migrate ignition to Tailwind CSS v4 + Next.js 15 async params ([02e23999](https://github.com/rocketclimb/rocketicons/commit/02e23999ebb54ef215f91197974daa203fab0635))
+- **ignition** use svg with rocketicons ([dcbdd79c](https://github.com/rocketclimb/rocketicons/commit/dcbdd79cd004698b92f4045c07596d893d8fe5ae))
+- **cli** fix typo on icon path ([1f32f162](https://github.com/rocketclimb/rocketicons/commit/1f32f16231e8d1c99ff8a5bcbbf5b8b6d98b2962))
+- move core types into utils ([3e8627b9](https://github.com/rocketclimb/rocketicons/commit/3e8627b99d9514485c6f5a111768eaa2bb6876e7))
+- move utils into a package ([63cfe9e4](https://github.com/rocketclimb/rocketicons/commit/63cfe9e4e826fd77060450857de8a8e03de96b1a))
+
+### Bug Fixes
+
+- **core** fix lint issues ([61d5be8f](https://github.com/rocketclimb/rocketicons/commit/61d5be8fac28424afed525045d46735801373dd1))
+
+## [0.3.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-05-08)
+
+### Features
+
+- migrate ignition to Tailwind CSS v4 + Next.js 15 async params ([02e23999](https://github.com/rocketclimb/rocketicons/commit/02e23999ebb54ef215f91197974daa203fab0635))
+- **ignition** use svg with rocketicons ([dcbdd79c](https://github.com/rocketclimb/rocketicons/commit/dcbdd79cd004698b92f4045c07596d893d8fe5ae))
+- **cli** fix typo on icon path ([1f32f162](https://github.com/rocketclimb/rocketicons/commit/1f32f16231e8d1c99ff8a5bcbbf5b8b6d98b2962))
+- move core types into utils ([3e8627b9](https://github.com/rocketclimb/rocketicons/commit/3e8627b99d9514485c6f5a111768eaa2bb6876e7))
+- move utils into a package ([63cfe9e4](https://github.com/rocketclimb/rocketicons/commit/63cfe9e4e826fd77060450857de8a8e03de96b1a))
+
+### Bug Fixes
+
+- **core** fix lint issues ([61d5be8f](https://github.com/rocketclimb/rocketicons/commit/61d5be8fac28424afed525045d46735801373dd1))
+
 ## [0.2.5](https://github.com/rocketclimb/rocketicons/compare/v0.3.3...v0.3.4) (2024-05-25)
 
 ### Bug Fixes

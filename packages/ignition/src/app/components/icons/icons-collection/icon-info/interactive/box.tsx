@@ -66,6 +66,7 @@ const Box = ({ children }: PropsWithChildren) => {
       }}
     >
       <div
+        data-size={size}
         data-color={color.replace("icon-", "")}
         data-stroke={stroke}
         data-animation={animation}

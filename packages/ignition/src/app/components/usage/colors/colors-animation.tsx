@@ -2,14 +2,20 @@
 import { AnimatedCodeBlock, ScriptAction, Script } from "@rocketclimb/code-block";
 
 import { useEffect, useState } from "react";
-import { CollectionID } from "rocketicons/data";
-import IconLoader, { IconHandlerProps } from "@/components/icons/icon-loader";
+
+import { IconFromData, IconTree, Variants } from "@rocketicons/core";
 
 const Animation = ({
-  Icon,
   colors,
-  iconInfo: { compName: iconName }
-}: IconHandlerProps & { colors: string[] }) => {
+  iconName,
+  iconTree,
+  variant
+}: {
+  colors: string[];
+  iconName: string;
+  iconTree: IconTree;
+  variant: Variants;
+}) => {
   const [first] = colors;
   const final = `icon-${[...colors].pop()!}`;
   const initial = `icon-${first}`;
@@ -43,6 +49,8 @@ const Animation = ({
     setScript(script);
   }, [colors]);
 
+  const Icon = (props: any) => <IconFromData iconTree={iconTree} variant={variant} {...props} />;
+
   return (
     <>
       <div className="size-20 xs:size-32 lg:size-48 order-last sm:order-none flex items-center justify-center border rounded-lg border-slate-200 dark:border-slate-800">
@@ -70,14 +78,15 @@ const Animation = ({
 };
 
 type ColorsAnimationProsp = {
-  icon: string;
-  collection: CollectionID;
   colors: string[];
+  icon: string;
+  iconTree: IconTree;
+  variant: Variants;
 };
 
-const ColorsAnimation = ({ collection, icon, colors }: ColorsAnimationProsp) => (
+const ColorsAnimation = ({ icon, colors, iconTree, variant }: ColorsAnimationProsp) => (
   <div className="flex h-52 sm:h-48 flex-col sm:flex-row my-3 xs:my-12 items-center justify-center gap-4">
-    <IconLoader collectionId={collection} icon={icon} Handler={Animation} colors={colors} />
+    <Animation iconTree={iconTree} colors={colors} variant={variant} iconName={icon} />
   </div>
 );
 

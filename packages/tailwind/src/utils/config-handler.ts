@@ -1,5 +1,5 @@
 import {
-  Config,
+  ThemeLookup,
   ThemeOptions,
   ThemeHandler,
   ThemeProperties,
@@ -8,7 +8,6 @@ import {
   ConfigProp,
   ParsedColors
 } from "@/types";
-import { configResolver, sanitize } from "@rocketclimb/tw-utils";
 
 const AVAILABLE_VARIANTS = ["outlined", "filled"] as const;
 type Variant = (typeof AVAILABLE_VARIANTS)[number];
@@ -22,15 +21,17 @@ export const ROOT_CLASS_NAME = "ri";
 export const DEFAULT_CLASS_NAME = "default";
 export const CLASS_NAME_SEPARATOR = ".";
 
-const toColorsStyles = (parsedColors: ParsedColors, variant: Variant, prefix?: string) =>
+const sanitize = (str: string): string => str.replace(/\s+/g, " ").trim();
+
+const toColorsStyles = (parsedColors: ParsedColors, variant: Variant) =>
   ([] as StyleHandler[]).concat(
     ...Object.entries(parsedColors).map(([name, color]) => ({
       name: () => `${name}${CLASS_NAME_SEPARATOR}${variant}`,
-      styles: () => `${prefix}${VARIANT_CLASSES[variant]}-${color}`
+      styles: () => `${VARIANT_CLASSES[variant]}-${color}`
     }))
   );
 
-const toShortCutStyles = (theme: ThemeOptions, name: string, color: string, prefix?: string) =>
+const toShortCutStyles = (theme: ThemeOptions, name: string, color: string) =>
   ([] as StyleHandler[]).concat(
     ...Object.keys(theme.sizes).map((size) =>
       ([] as StyleHandler[]).concat([
@@ -40,22 +41,18 @@ const toShortCutStyles = (theme: ThemeOptions, name: string, color: string, pref
         },
         ...AVAILABLE_VARIANTS.map((variant) => ({
           name: () => `${name}-${size}${CLASS_NAME_SEPARATOR}${variant}`,
-          styles: () => `${prefix}${VARIANT_CLASSES[variant]}-${color}`
+          styles: () => `${VARIANT_CLASSES[variant]}-${color}`
         }))
       ])
     )
   );
 
-const generateConfig = <T extends ThemeOptions>(
-  theme: T,
-  parsedColors: ParsedColors,
-  prefix: string = ""
-) => {
+const generateConfig = <T extends ThemeOptions>(theme: T, parsedColors: ParsedColors) => {
   const getDefaults = (): Defaults => {
     const pieces = theme.default!.split("-");
     const defaultSize = pieces.pop()!;
 
-    const defaultColor = pieces.join("-").replace(prefix, "");
+    const defaultColor = pieces.join("-");
 
     return { defaultColor, defaultSize };
   };
@@ -64,7 +61,7 @@ const generateConfig = <T extends ThemeOptions>(
 
   const colors = () =>
     ([] as StyleHandler[]).concat(
-      ...AVAILABLE_VARIANTS.map((variant) => toColorsStyles(parsedColors, variant, prefix))
+      ...AVAILABLE_VARIANTS.map((variant) => toColorsStyles(parsedColors, variant))
     );
 
   const sizes = () =>
@@ -91,16 +88,14 @@ const generateConfig = <T extends ThemeOptions>(
       name: () => `${DEFAULT_CLASS_NAME}${CLASS_NAME_SEPARATOR}${variant}`,
       styles: () =>
         sanitize(
-          `${theme.variants?.[variant] ?? ""} ${prefix}${VARIANT_CLASSES[variant]}-${parsedColors[defaultColor]}`
+          `${theme.variants?.[variant] ?? ""} ${VARIANT_CLASSES[variant]}-${parsedColors[defaultColor]}`
         )
     }))
   ];
 
   const shortcuts = () =>
     ([] as StyleHandler[]).concat(
-      ...Object.entries(parsedColors).map(([name, color]) =>
-        toShortCutStyles(theme, name, color, prefix)
-      )
+      ...Object.entries(parsedColors).map(([name, color]) => toShortCutStyles(theme, name, color))
     );
 
   return {
@@ -111,11 +106,8 @@ const generateConfig = <T extends ThemeOptions>(
   };
 };
 
-export const configHandler = <T extends ThemeOptions>(
-  config: Config,
-  prefix?: string
-): ThemeHandler<T> => {
-  const themeColors: ConfigProp = config("theme").colors;
+export const configHandler = <T extends ThemeOptions>(theme: ThemeLookup): ThemeHandler<T> => {
+  const themeColors: ConfigProp = theme("colors") ?? {};
 
   const getColorDefaults = (color: string, variants: ConfigProp) => {
     if (typeof variants === "string" || variants.DEFAULT) {
@@ -148,10 +140,12 @@ export const configHandler = <T extends ThemeOptions>(
   );
 
   return (property: ThemeProperties<T>, defaultTheme: ThemeOptions) => {
-    const theme = configResolver<ThemeOptions>(property, config, {
-      rootPath: "components",
-      defaultConfig: defaultTheme
-    });
-    return generateConfig(theme, parsedColors, prefix);
+    const override = theme(`components.${String(property)}`) ?? null;
+    // If a full override is provided, it replaces the default theme entirely.
+    // Only the default theme's properties that are NOT in the override are kept.
+    const resolvedTheme = override
+      ? { ...override, sizes: override.sizes ?? defaultTheme.sizes }
+      : defaultTheme;
+    return generateConfig(resolvedTheme as ThemeOptions, parsedColors);
   };
 };

@@ -1,6 +1,6 @@
 {
   "name": "rocketclimb-icons",
-  "version": "0.4.5",
+  "version": "0.8.0",
   "description": "React / React Native powered by tailwind",
   "keywords": [
     "icons",
@@ -21,13 +21,18 @@
   "author": "amorimjj",
   "main": "dist/index.js",
   "workspaces": [
+    "packages/utils",
     "packages/core",
     "packages/tailwind",
     "packages/generator",
     "packages/icons",
+    "packages/cli",
+    "packages/native-test",
     "packages/ignition"
   ],
   "scripts": {
+    "dev": "npm run dev -w ignition",
+    "dev:all-icons": "npm run dev:all-icons -w ignition",
     "build-all": "test -z $SKIP_BUILD_ALL && npm run build --workspaces --if-present || echo '[ROCKETCLIMB-ICONS] skip build-all'",
     "clean-all": "npm run clean --workspaces --if-present",
     "prepare": "husky && npm run clean-all && npm run build-all",
@@ -47,7 +52,7 @@
     "husky": "^9.0.11",
     "jest": "^29.7.0",
     "lint-staged": "^15.2.2",
-    "nativewind": "2.0.11",
+    "nativewind": "4.2.2",
     "prettier": "^3.2.5",
     "tailwindcss": "3.4.1",
     "ts-jest": "^29.1.2",
@@ -64,5 +69,9 @@
     "*.+(json|css|md)": [
       "prettier --write"
     ]
+  },
+  "dependencies": {},
+  "overrides": {
+    "react-native-reanimated": "~3.16.1"
   }
 }

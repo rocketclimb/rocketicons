@@ -1,0 +1,24 @@
+version: 1
+frontend:
+  # appRoot: packages/ignition
+  phases:
+    preBuild:
+      commands:
+        - npm config set @rocketclimb:registry https://npm.pkg.github.com
+        - npm config set //npm.pkg.github.com/:_authToken $GITHUB_TOKEN # temp comment..
+        - npm install --cache .npm --prefer-offline
+    build:
+      commands:
+        - npm run build-all
+    postBuild:
+      commands:
+        - rm -rf node_modules/@swc
+        - rm -rf node_modules/@esbuild
+  artifacts:
+    baseDirectory: packages/ignition/.next
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - packages/ignition/.next/cache/**/*
+      - .npm/**/*

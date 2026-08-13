@@ -1,0 +1,27 @@
+{
+  "name": "@rocketicons/utils",
+  "version": "0.6.0",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json && tsconfig-replace-paths",
+    "postbuild": "rocketclimb-sh cp \"dist-esm/**/*.js\" \"dist/**/*.mjs\" && rocketclimb-sh fix-esm ./dist",
+    "clean": "rocketclimb-sh rm -fR dist dist-esm && rocketclimb-sh rm -fR *.tsbuildinfo",
+    "clean:o": "rocketclimb-sh rm -fR node_modules",
+    "format": "prettier --check . --write --ignore-path ../../.gitignore",
+    "lint": "eslint src/**/*",
+    "rebuild": "npm run clean && npm run build",
+    "test": "jest ./src",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "camelcase": "^6.2.0",
+    "cheerio": "^1.0.0-rc.12"
+  }
+}

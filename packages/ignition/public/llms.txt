@@ -1,0 +1,33 @@
+# Rocketicons
+
+Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.
+
+- Catalog/package version: 0.5.0
+- Documentation updated: 2026-08-12
+- Static catalog: /ai/v1/catalog.json
+- English documentation: /en/docs/getting-started/
+- Brazilian Portuguese documentation: /pt-br/docs/primeiros-passos/
+
+## Recommended workflow
+
+1. Start in an existing TypeScript project with a tsconfig.json file.
+2. Run `npx @rocketicons/cli init` from the project root.
+3. Search the website or static catalog for an exact icon ID.
+4. Run `npx @rocketicons/cli add @collection/icon` once for each icon.
+5. Import the generated component from `@/ri/icons/<icon-id>`.
+6. Verify and commit the generated files under `src/ri`.
+
+The current CLI generates TSX, uses the fixed `src/ri` output directory and `@/ri/*` alias, installs shared utilities through npm during init, and adds one icon per command. MCP support is planned and is not currently available.
+
+## Catalog and licensing
+
+Start with /ai/v1/catalog.json. Each collection entry links to a compact index, and each icon index entry identifies its shard. Catalog URLs include the configured deployment base path. Collection records include their upstream project, license, and license URL. Review the selected collection's terms and preserve any required attribution.
+
+## More guidance
+
+- Framework quick starts: /en/docs/framework-quick-starts/
+- Generated files: /en/docs/generated-files/
+- Migration: /en/docs/migrating-to-rocketicons/
+- Agent workflow: /en/docs/agent-workflows/
+- Comparison: /en/docs/comparison/
+- Expanded machine-readable guide: /llms-full.txt

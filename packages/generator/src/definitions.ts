@@ -13,7 +13,7 @@ export const icons: IconDefinition[] = [
         formatter: (name) => `Rc${name}`
       }
     ],
-    projectUrl: "https://rocketicons.io/",
+    projectUrl: "https://github.com/rocketclimb/rocketicons",
     license: "MIT",
     licenseUrl: "https://github.com/rocketclimb/rocketicons/blob/master/LICENSE"
   },
@@ -230,7 +230,7 @@ export const icons: IconDefinition[] = [
     name: "Lucide",
     contents: [
       {
-        files: path.resolve(path.dirname(require.resolve("lucide-static")), "../icons/*.svg"),
+        files: path.resolve(path.dirname(require.resolve("lucide-static")), "../../icons/*.svg"),
         formatter: (name) => `Lu${name}`
       }
     ],

@@ -1,50 +1,77 @@
 ---
 title: Primeiros Passos
-description: Começe já a usar rocketicons. É super fácil!
+description: Adicione seu primeiro componente Rocketicons a um projeto TypeScript
 slug: primeiros-passos
 order: 0
 ---
 
-import RocketIconsText, { RocketIconsTextDefault } from "@/components/rocketicons-text";
-import Instalacao from "./components/installation.pt-br.mdx";
-import Configuracao from "./components/configuration.pt-br.mdx";
-import Personalizacao from "./components/customization.pt-br.mdx";
-import Contribuicao from "./components/contributing.pt-br.mdx";
-import { SiReact, SiTailwindcss, SiExpo } from "rocketicons/si";
+import BuildInfo from "@/components/documentation/build-info";
 
-## Introdução
+## Comece por aqui
 
-# Primeiros Passos
+# Adicione seu primeiro ícone
 
-Bem-vindo à documentação para <RocketIconsTextDefault />!
-Este componente fornece uma coleção de ícones para uso em seus projetos <SiReact className="-mt-1 icon-sky-800" /> **React** web e **React Native**.
+Com Rocketicons, você procura entre milhares de ícones open source e adiciona apenas os componentes que seu projeto usa. A CLI grava esses arquivos no seu código: sua aplicação não importa uma coleção inteira nem depende de tree-shaking para fazer os ícones não usados sumirem.
 
-<RocketIconsTextDefault /> utiliza classes do **Tailwind CSS** para estilização, tornando fácil a
-personalização e integração em suas aplicações.
+### Antes de decolar
 
-### Por que foi criado?
+A CLI atual espera um projeto **TypeScript** existente, em React ou React Native, com um arquivo `tsconfig.json`. Execute os comandos na raiz desse projeto.
 
-<RocketIconsTextDefault /> foi criado para fornecer uma biblioteca de ícones simples e fácil de
-usar para desenvolvedores que desejam escrever um único código que possa funcionar tanto em
-**React** web quanto em **React Native**. 
+### 1. Inicialize o Rocketicons
 
-Fomos motivados pela existência de ótimas ferramentas como <SiTailwindcss className="-mt-1" /> [Tailwind CSS](https://tailwindcss.com/),
-<SiExpo className="-mt-1" /> [Expo](https://expo.dev/),
-<SiReact className="-mt-1 icon-sky-500" /> [NativeWind](https://nativewind.dev) e
-<SiReact className="-mt-1 icon-red-800" /> [React Icons](https://react-icons.github.io/react-icons/). 
+```bash
+npx @rocketicons/cli init
+```
 
-Essas ferramentas são ótimas e nós as amamos, mas queríamos criar uma experiência ainda mais fácil
-para os desenvolvedores que trabalham com múltiplas plataformas com o mesmo código base.
+A inicialização cria:
 
-Os ícones são projetados para serem facilmente personalizáveis e podem ser usados tanto em aplicações web
-quanto móveis.
+```text
+src/ri/
+├── core/
+│   ├── index.tsx
+│   └── index.native.tsx
+└── icons/
+```
 
-**Escreva uma vez, use em todos os lugares!**
+Ela também adiciona o alias `@/ri/*` ao `tsconfig.json` e instala `@rocketicons/utils` e `@rocketicons/tailwind` pelo npm. Essas são pequenas dependências compartilhadas usadas pelos componentes gerados e pela integração com Tailwind.
 
-<Instalacao />
+### 2. Conecte o plugin do Tailwind
 
-<Configuracao />
+A instalação deixa o plugin disponível, mas seu projeto ainda precisa registrá-lo. Adicione `@rocketicons/tailwind` ao array `plugins` em `tailwind.config.*`:
 
-<Personalizacao />
+```ts
+import rocketicons from "@rocketicons/tailwind";
 
-<Contribuicao />
+export default {
+  // Mantenha o restante da sua configuração do Tailwind.
+  plugins: [rocketicons]
+};
+```
+
+Em arquivos de configuração CommonJS, use `const rocketicons = require("@rocketicons/tailwind")` e adicione o mesmo valor em `plugins`.
+
+### 3. Encontre um ícone
+
+Use o [explorador de ícones](../../icons) para escolher uma coleção e o ID exato. Por exemplo, o foguete do próprio Rocketicons é `@rc/rc-rocket-icon`.
+
+### 4. Adicione ao projeto
+
+```bash
+npx @rocketicons/cli add @rc/rc-rocket-icon
+```
+
+A CLI grava `src/ri/icons/rc-rocket-icon.tsx`. Importe o componente do seu próprio código:
+
+```tsx
+import RcRocketIcon from "@/ri/icons/rc-rocket-icon";
+
+export function BotaoDeLancamento() {
+  return <RcRocketIcon className="icon-sky-500-lg" />;
+}
+```
+
+Esse é o plano de voo completo: encontre, adicione e importe. Continue em [Adicionando Ícones](./adicionando-icones) para ver instalações repetidas e verificação, ou abra os [guias rápidos por framework](./guias-rapidos-frameworks).
+
+> Hoje a CLI gera TSX no diretório fixo `src/ri`, adiciona um ícone por comando e usa npm durante a inicialização. Saída JavaScript e caminhos configuráveis ficam para uma futura evolução da CLI.
+
+<BuildInfo lang="pt-br" />

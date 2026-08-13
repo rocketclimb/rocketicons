@@ -1,5 +1,5 @@
+import { getSiteOrigin } from "@/config/site-origin";
 import { siteConfig } from "@/config/site";
-import { serverEnv } from "@/env/server";
 import { withLocale } from "@/locales";
 import { AvailableLanguages, Languages } from "@/types";
 import type { Metadata } from "next";
@@ -15,101 +15,65 @@ export const customMetadata = (
   collectionId?: string,
   iconId?: string
 ): Metadata => {
-  const { name, url, defaultLocale } = siteConfig;
+  const { name, defaultLocale } = siteConfig;
+  const origin = getSiteOrigin();
   const brand = withLocale(lang).config("brand");
-
   const pageTitle =
     `${title ?? name}` +
     (title?.endsWith(siteConfig.name) ? "" : ` | ${name} | ${brand["title-suffix"]}`);
   const pageDescription = description ?? brand.description;
-
-  const finalOpenGraphImageUrl = getOpenGraphImage(lang, type, path, collectionId, iconId);
-
-  const ogImagesArray = [
+  const imageUrl = getOpenGraphImage();
+  const images = [
     {
-      url: finalOpenGraphImageUrl.toString(),
-      type: "image/png",
+      url: imageUrl.toString(),
+      type: "image/jpeg",
       width: 1200,
       height: 630,
       alt: pageTitle
     }
   ];
 
-  let canonicalUrl;
-
-  let languagesObj;
-
-  if (type === "doc") {
-    const basePath = "docs";
-    canonicalUrl = new URL(`${lang}/${basePath}/${path}`, url);
-
-    languagesObj = AvailableLanguages.reduce((reduced, language) => {
+  const localizedUrl = (language: Languages) => {
+    if (type === "doc") {
       const doc = withLocale(language).doc(path);
-
-      return {
-        ...reduced,
-        [language]: new URL(`${url}/${language}/${basePath}/${doc.slug}`).toString()
-      };
-    }, {});
-  } else if (type === "collection" || type === "icon") {
-    const basePath = "icons";
-
-    canonicalUrl = new URL(`${lang}/${basePath}/${collectionId}`, url);
-
-    if (iconId) {
-      canonicalUrl = new URL(`${lang}/${collectionId}/${iconId}`, url);
+      return new URL(`/${language}/docs/${doc.slug}/`, origin);
     }
+    if (type === "collection" || type === "icon") {
+      const url = new URL(`/${language}/icons/${collectionId}/`, origin);
+      if (iconId) url.searchParams.set("icon", iconId);
+      return url;
+    }
+    return new URL(`/${language}/${path ? `${path}/` : ""}`, origin);
+  };
 
-    languagesObj = AvailableLanguages.reduce((reduced, language) => {
-      let localeUrl = new URL(`${url}/${language}/${basePath}/${collectionId}`);
+  const canonicalUrl = localizedUrl(lang);
+  const languages = AvailableLanguages.reduce<Record<string, string>>(
+    (items, language) => ({ ...items, [language]: localizedUrl(language).toString() }),
+    {}
+  );
 
-      if (iconId) {
-        localeUrl = new URL(`${collectionId}/${iconId}`, localeUrl);
-      }
-
-      return {
-        ...reduced,
-        [language]: localeUrl.toString()
-      };
-    }, {});
-  } else {
-    canonicalUrl = new URL(`${lang}/${path}`, url);
-
-    languagesObj = AvailableLanguages.reduce((reduced, language) => {
-      return {
-        ...reduced,
-        [language]: new URL(`${url}/${language}/${path}`).toString()
-      };
-    }, {});
-  }
-
-  const metadataObj: Metadata = {
+  return {
     title: pageTitle,
     description: pageDescription,
     keywords: ["React", "React Native", "Tailwind", "rocketicons", "icons"],
-    authors: [
-      {
-        name: name,
-        url: url
-      }
-    ],
+    authors: [{ name, url: origin }],
     creator: siteConfig.companyName,
     openGraph: {
       type: "website",
       locale: lang || defaultLocale,
-      url: `${serverEnv.NEXT_PUBLIC_APP_URL}`,
+      url: canonicalUrl.toString(),
       title: pageTitle,
       description: pageDescription,
       siteName: name,
-      images: ogImagesArray
+      images
     },
     twitter: {
       card: "summary_large_image",
       title: pageTitle,
       site: name,
-      description,
+      description: pageDescription,
       creator: "@therocketclimb",
-      images: ogImagesArray
+      images
     },
     icons: {
       icon: "/favicon.ico",
@@ -117,35 +81,11 @@ export const customMetadata = (
     },
     alternates: {
       canonical: canonicalUrl.toString(),
-      languages: languagesObj
+      languages
     },
-    metadataBase: new URL(url)
+    metadataBase: new URL(origin)
   };
-
-  return metadataObj;
 };
 
-export const getOpenGraphImage = (
-  lang: string,
-  type: string,
-  path: string,
-  collectionId?: string | undefined,
-  iconId?: string | undefined
-) => {
-  let openGraphImagePath = `${lang}/opengraph/${type}`;
-
-  if (collectionId) {
-    openGraphImagePath = openGraphImagePath.concat(`/${collectionId}`);
-
-    if (iconId) {
-      openGraphImagePath = openGraphImagePath.concat(`/${iconId}`);
-    }
-  }
-
-  const finalOpenGraphImageUrl = new URL(openGraphImagePath, `${serverEnv.NEXT_PUBLIC_APP_URL}`);
-
-  if (path) {
-    finalOpenGraphImageUrl.searchParams.append("slug", path);
-  }
-  return finalOpenGraphImageUrl;
-};
+export const getOpenGraphImage = () =>
+  new URL("/img/og-hero-light.jpg", getSiteOrigin());

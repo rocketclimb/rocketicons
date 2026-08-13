@@ -41,4 +41,16 @@ next-env.d.ts
 
 src/app/data-helpers
 
+# Generated icon JSON files (generated during build)
+/public/icons
+
+.env
+/public/ai
+/public/robots.txt
+/public/sitemap_index.xml
+/public/en/sitemap.xml
+/public/en/collections-sitemap.xml
+/public/pt-br/sitemap.xml
+/public/pt-br/collections-sitemap.xml
+
 .env

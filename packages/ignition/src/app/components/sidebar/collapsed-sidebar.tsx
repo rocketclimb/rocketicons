@@ -1,10 +1,11 @@
 "use client";
-import { IoMenuOutline } from "rocketicons/io5";
+
 import { useDisclosure } from "@/components/modal-context";
 import Button from "@/components/button";
 import { PropsWithLang } from "@/types";
 import { SidebarLeft } from "./sidebar-left";
 
+import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
 export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
   const { isOpen, open, Modal } = useDisclosure();
 
@@ -16,7 +17,11 @@ export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
       >
         <div className="flex flex-col justify-between">
           <Button className="flex items-center" type="button" onClick={() => open()}>
-            <IoMenuOutline className="icon-slate-500-xl dark:icon-slate-400-xl" />
+            <PublicJSONIcon
+              collection="io5"
+              iconId="io-menu-outline"
+              className="icon-slate-500-xl dark:icon-slate-400-xl"
+            />
           </Button>
         </div>
         <Modal>

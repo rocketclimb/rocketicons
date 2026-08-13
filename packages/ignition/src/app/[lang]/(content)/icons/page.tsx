@@ -1,28 +1,39 @@
-import IconsCollectionsTastes from "@/app/components/icons/icons-collections-tastes";
-import { IconsManifest, total } from "@/data-helpers/icons/manifest";
-import { MdxComponent } from "@/components/mdx";
 import { Metadata } from "next";
-import { PropsWithLangParams } from "@/types";
+import { getCatalogTotals, getCollections } from "@/catalog/server";
 
-import { withLocale } from "@/locales";
+import { MdxComponent } from "@/components/mdx";
+
+import IconsCollectionsTastes from "@/components/icons/icons-collections-tastes";
 import { customMetadata } from "@/components/metadata-custom";
 import NumberFormatter from "@/components/number-formatter";
 
-export const generateMetadata = ({ params: { lang } }: PropsWithLangParams): Metadata => {
+import { withLocale } from "@/locales";
+import { PropsWithLangParams } from "@/types";
+
+export const generateMetadata = async (props: PropsWithLangParams): Promise<Metadata> => {
+  const { lang } = (await props.params) as { lang: import("@/types").Languages };
   const { component, config } = withLocale(lang);
   const { icons } = config("opengraph");
   const { title, description } = component("icons-hero");
 
-  let descriptionWithNumber = `${description} | ${total} ${icons}`;
+  const { totalIcons: total } = await getCatalogTotals();
 
-  let titleWithNumber = `${title} | ${total} ${icons}`;
+  const descriptionWithNumber = `${description} | ${total} ${icons}`;
+
+  const titleWithNumber = `${title} | ${total} ${icons}`;
 
   return customMetadata(lang, "page", `icons`, titleWithNumber, descriptionWithNumber);
 };
 
-const Page = ({ params: { lang } }: PropsWithLangParams) => {
+const Page = async (props: PropsWithLangParams) => {
+  const { lang } = (await props.params) as { lang: import("@/types").Languages };
+
   const { config } = withLocale(lang);
   const { "total-icon-count-text": totalIconCountText } = config("brand");
+
+  const collections = await getCollections();
+  const total = collections.reduce((acc, { totalIcons }) => acc + totalIcons, 0);
+
   return (
     <div className="icons-hero flex flex-col">
       <MdxComponent lang={lang} slug="icons-hero" />
@@ -33,7 +44,7 @@ const Page = ({ params: { lang } }: PropsWithLangParams) => {
           <NumberFormatter lang={lang} number={total} />
         </span>
       </p>
-      <IconsCollectionsTastes manifests={IconsManifest} lang={lang} />
+      <IconsCollectionsTastes manifests={collections} lang={lang} />
     </div>
   );
 };

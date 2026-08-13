@@ -40,7 +40,7 @@ const mapper =
       ? componetsMapper(language, slug, components)
       : generateClassMatcher(`/${language}/docs/${slug}`);
 
-const generator = async () => {
+export const generateMenuControl = async () => {
   const classes: string[] = AvailableLanguages.map((language) =>
     OTHER_PAGES.map((page) => generateExactClassMatcher(`/${language}/${page}`)).join(`\n`)
   );
@@ -57,5 +57,3 @@ const generator = async () => {
 
   await write(OUTPUT_FILE, templateBuilder(Template, classes.join("\n")));
 };
-
-generator();
