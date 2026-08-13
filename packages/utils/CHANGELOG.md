@@ -1,3 +1,17 @@
+## [0.5.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
+
+### Features
+
+- **ignition** use svg with rocketicons ([dcbdd79c](https://github.com/rocketclimb/rocketicons/commit/dcbdd79cd004698b92f4045c07596d893d8fe5ae))
+- **utils** move element to tree into utils ([e74712c9](https://github.com/rocketclimb/rocketicons/commit/e74712c9fb88f66833ae166be2d8f1e56a61c101))
+- **icons** fix package type exposing data for IconTree ([f4e9eeb9](https://github.com/rocketclimb/rocketicons/commit/f4e9eeb9b919095f4bc20f9730ce04ce108d17fa))
+- move core types into utils ([3e8627b9](https://github.com/rocketclimb/rocketicons/commit/3e8627b99d9514485c6f5a111768eaa2bb6876e7))
+- move utils into a package ([63cfe9e4](https://github.com/rocketclimb/rocketicons/commit/63cfe9e4e826fd77060450857de8a8e03de96b1a))
+
+### Bug Fixes
+
+- **cicd** bump stack to Node 22 (TW v4 / @tailwindcss/oxide need >=20) ([b2c32883](https://github.com/rocketclimb/rocketicons/commit/b2c3288314a1bda60e96b007c99d571d5b86ec5c))
+
 ## [0.4.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-05-08)
 
 ### Features
