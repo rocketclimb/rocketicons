@@ -1,3 +1,24 @@
+## [0.6.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
+
+### Features
+
+- migrate ignition to Tailwind CSS v4 + Next.js 15 async params ([02e23999](https://github.com/rocketclimb/rocketicons/commit/02e23999ebb54ef215f91197974daa203fab0635))
+- **tailwind** upgrade @rocketicons/tailwind plugin to Tailwind CSS v4 ([47d225f3](https://github.com/rocketclimb/rocketicons/commit/47d225f30b2e6ad0b75b289296f663b5a018bdf2))
+- **cli**  Add missing dependency ([14140d55](https://github.com/rocketclimb/rocketicons/commit/14140d555f695f71c00864aa692d4c7878bf80f3))
+
+### Bug Fixes
+
+- **cicd** bump stack to Node 22 (TW v4 / @tailwindcss/oxide need >=20) ([b2c32883](https://github.com/rocketclimb/rocketicons/commit/b2c3288314a1bda60e96b007c99d571d5b86ec5c))
+- **icons** correct handling of tailwind prefix ([c383d05b](https://github.com/rocketclimb/rocketicons/commit/c383d05b0777eac03de994cb8a17d10057dac81c))
+
+### Documentation
+
+- **tailwind** add TW v4 prefix support documentation ([dd202465](https://github.com/rocketclimb/rocketicons/commit/dd20246504617fbaf8c4f88adb500252f532f14c))
+
+### Test
+
+- **tailwind** add comprehensive test coverage for TW v4 plugin ([5bcd2ee3](https://github.com/rocketclimb/rocketicons/commit/5bcd2ee30ad2d524f2edd18c09e9b70842a94743))
+
 ## [0.5.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
 
 ### Features
