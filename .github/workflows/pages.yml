@@ -1,4 +1,4 @@
-name: GitHub Pages
+name: Cloudflare Pages
 
 on:
   pull_request:
@@ -10,11 +10,10 @@ on:
 permissions:
   contents: read
   packages: read
-  pages: write
-  id-token: write
+  deployments: write
 
 concurrency:
-  group: pages-${{ github.ref }}
+  group: cloudflare-pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -88,25 +87,11 @@ jobs:
           test "$size_kib" -le 921600
           echo "Export size: $size_kib KiB"
 
-      - name: Configure Pages
-        if: github.event_name != 'pull_request'
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages artifact
-        if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to Cloudflare Pages
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: cloudflare/wrangler-action@v3
         with:
-          path: packages/ignition/out
-
-  deploy:
-    name: Deploy GitHub Pages
-    if: github.event_name != 'pull_request'
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy
-        id: deployment
-        uses: actions/deploy-pages@v4
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy packages/ignition/out --project-name=rocketicons --branch=main
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
