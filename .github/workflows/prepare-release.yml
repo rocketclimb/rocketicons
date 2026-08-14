@@ -76,7 +76,33 @@ jobs:
       - name: Prepare tag or release
         id: prepare-release
         run: |
-          echo "TAG_NAME=$(npm run release | grep v)" >> $GITHUB_OUTPUT
+          PUBLISHED_VERSION="$(npm view rocketicons version)"
+          CURRENT_VERSION="$(node -p "require('./packages/icons/package.json').version")"
+
+          if [ "$CURRENT_VERSION" = "$PUBLISHED_VERSION" ]; then
+            TAG_NAME="$(npm run release | grep v)"
+          else
+            node -e '
+              const current = process.argv[1];
+              const published = process.argv[2];
+              const [major, minor, patch] = published.split(".").map(Number);
+              const allowed = new Set([
+                `${major}.${minor}.${patch + 1}`,
+                `${major}.${minor + 1}.0`,
+                `${major + 1}.0.0`,
+              ]);
+              if (!allowed.has(current)) {
+                console.error(`Refusing to release ${current} over published ${published}; expected one SemVer increment`);
+                process.exit(1);
+              }
+            ' "$CURRENT_VERSION" "$PUBLISHED_VERSION"
+
+            npm pack --silent -w packages/icons
+            TAG_NAME="v$(node -p "require('./package.json').version")-release"
+            printf '## rocketicons %s\n\nIncludes the CLI and agent-friendly catalog access without importing the full icon library.\n' "$CURRENT_VERSION" > release-notes.md
+          fi
+
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
 
       - name: Set output as environment variable
         run: echo "TAG_NAME=${{ steps.prepare-release.outputs.TAG_NAME }}" >> $GITHUB_ENV
@@ -88,6 +114,7 @@ jobs:
       - name: Generate artifact for tag ${{ steps.prepare-release.outputs.TAG_NAME }}
         run: |
           echo "${{ steps.prepare-release.outputs.TAG_NAME }}" >> .tagrc
+          node -e 'const fs = require("node:fs"); const { name, version } = require("./packages/icons/package.json"); fs.writeFileSync("release-metadata.json", JSON.stringify({ name, version }, null, 2) + "\n")'
 
       - name: Upload tag artifact to release job
         uses: actions/upload-artifact@v4
@@ -104,6 +131,7 @@ jobs:
           name: deployable-artifacts
           path: |
             release-notes.md
+            release-metadata.json
             ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
 
       - name: Upload rocketicons tgz as artifact
