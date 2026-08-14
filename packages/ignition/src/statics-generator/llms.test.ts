@@ -48,9 +48,10 @@ describe("LLM discovery files", () => {
   test("full guide uses exact catalog icon IDs", () => {
     const content = renderLlmsFull(staticCatalog);
 
-    expect(content).toContain("npx @rocketicons/cli add @lu/lu-rocket");
-    expect(content).toContain("npx @rocketicons/cli add @lu/lu-search");
-    expect(content).not.toContain("npx @rocketicons/cli add @lu/rocket");
-    expect(content).not.toContain("npx @rocketicons/cli add @lu/search");
+    expect(content).toContain("npx rocketicons add @lu/lu-rocket");
+    expect(content).toContain("npx rocketicons add @lu/lu-search");
+    expect(content).not.toContain("npx @rocketicons/cli");
+    expect(content).not.toContain("npx rocketicons add @lu/rocket");
+    expect(content).not.toContain("npx rocketicons add @lu/search");
   });
 });

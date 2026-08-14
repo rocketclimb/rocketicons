@@ -19,7 +19,7 @@ Agents work best when discovery is small, commands are exact, and every mutation
 1. Inspect `/ai/v1/catalog.json` or use the website to select a collection.
 2. Follow the collection's `indexUrl` and identify an exact icon ID.
 3. Reuse an existing file under `src/ri/icons` when it already fits.
-4. Otherwise run one command: `npx @rocketicons/cli add @collection/icon`.
+4. Otherwise run one command: `npx rocketicons add @collection/icon`.
 5. Import the generated component and verify its file exists.
 
 ### Add a small set
@@ -27,9 +27,9 @@ Agents work best when discovery is small, commands are exact, and every mutation
 The current CLI accepts one icon per command. Keep the change auditable:
 
 ```bash
-npx @rocketicons/cli add @rc/rc-rocket-icon
-npx @rocketicons/cli add @lu/lu-search
-npx @rocketicons/cli add @lu/lu-circle-check
+npx rocketicons add @rc/rc-rocket-icon
+npx rocketicons add @lu/lu-search
+npx rocketicons add @lu/lu-circle-check
 ```
 
 Do not assume batch arguments, JSON output, dry-run flags, configurable paths, or MCP tools yet. They are planned for later milestones.

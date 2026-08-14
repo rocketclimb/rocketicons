@@ -1,3 +1,12 @@
+## [0.9.1](https://github.com/rocketclimb/rocketicons/compare/v0.9.0-release...v0.9.1) (2026-08-14)
+
+### Miscellaneous
+
+- **ci** fix build ([19677ede](https://github.com/rocketclimb/rocketicons/commit/19677eded633281c42ac3874ebc63b28c02d1351))
+- **docs** fix documentation for npx commands [[cli](./packages/cli/CHANGELOG.md), [icons](./packages/icons/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([a7433086](https://github.com/rocketclimb/rocketicons/commit/a7433086bef3128ca2c670a582db545a34abaa8d))
+- **site** publish to CF ([4d689645](https://github.com/rocketclimb/rocketicons/commit/4d689645a8d2d898e090d9b67df9b324c331091a))
+- **site** fix domain [[cli](./packages/cli/CHANGELOG.md), [icons](./packages/icons/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([c97f08ea](https://github.com/rocketclimb/rocketicons/commit/c97f08ea4c5a035b49c62cff2f482c92879f12c2))
+
 ## [0.9.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-14)
 
 ### Features

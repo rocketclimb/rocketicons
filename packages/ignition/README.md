@@ -25,7 +25,7 @@ npm run build
 Use `SITE_ORIGIN` for the complete public deployment URL. Both root and path-based deployments are supported:
 
 ```bash
-SITE_ORIGIN=https://rocketicons.io npm run build
+SITE_ORIGIN=https://rocketicons.com npm run build
 SITE_ORIGIN=https://rocketclimb.github.io/rocketicons npm run build
 ```
 

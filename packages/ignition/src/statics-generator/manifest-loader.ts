@@ -75,7 +75,7 @@ const collectionMetadata: Record<
   },
   rc: {
     name: "RocketClimb",
-    projectUrl: "https://rocketicons.io",
+    projectUrl: "https://rocketicons.com",
     license: { type: "MIT", url: "https://opensource.org/licenses/MIT" }
   },
   cg: {

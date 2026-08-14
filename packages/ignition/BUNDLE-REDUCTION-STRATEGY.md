@@ -83,12 +83,12 @@ Split the application into micro-bundles by collection:
 ```typescript
 // Each collection becomes a separate micro-app
 // Main app: Navigation + Search
-// Collection apps: fa.rocketicons.io, md.rocketicons.io, etc.
+// Collection apps: fa.rocketicons.com, md.rocketicons.com, etc.
 ```
 
 ### Implementation
 
-1. **Subdomain Routing**: collection.rocketicons.io
+1. **Subdomain Routing**: collection.rocketicons.com
 2. **Shared Components**: Common UI components
 3. **Cross-Collection Search**: Federated search API
 
