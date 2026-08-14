@@ -39,4 +39,4 @@ The current release:
 
 Review and commit generated files. Adding an existing icon again overwrites its target file, so preserve local customizations first.
 
-See the [Rocketicons documentation](https://rocketicons.io/en/docs/getting-started/) and [machine-readable guide](https://rocketicons.io/llms.txt).
+See the [Rocketicons documentation](https://rocketicons.com/en/docs/getting-started/) and [machine-readable guide](https://rocketicons.com/llms.txt).

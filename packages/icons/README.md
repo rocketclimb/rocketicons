@@ -44,10 +44,10 @@ Commit `src/ri` with your application so collaborators, CI, deployments, and off
 
 ## Documentation and machine discovery
 
-- Website and icon explorer: [rocketicons.io](https://rocketicons.io)
-- Getting Started: [rocketicons.io/en/docs/getting-started](https://rocketicons.io/en/docs/getting-started/)
-- Machine-readable project guide: [rocketicons.io/llms.txt](https://rocketicons.io/llms.txt)
-- Static catalog: [rocketicons.io/ai/v1/catalog.json](https://rocketicons.io/ai/v1/catalog.json)
+- Website and icon explorer: [rocketicons.com](https://rocketicons.com)
+- Getting Started: [rocketicons.com/en/docs/getting-started](https://rocketicons.com/en/docs/getting-started/)
+- Machine-readable project guide: [rocketicons.com/llms.txt](https://rocketicons.com/llms.txt)
+- Static catalog: [rocketicons.com/ai/v1/catalog.json](https://rocketicons.com/ai/v1/catalog.json)
 
 MCP support and agent-oriented CLI flags are planned roadmap work; they are not part of the current CLI.
 
