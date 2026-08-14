@@ -19,9 +19,9 @@ export const renderLlms = (catalog: StaticCatalog) => `${commonHeader(catalog)}
 ## Recommended workflow
 
 1. Start in an existing TypeScript project with a tsconfig.json file.
-2. Run \`npx @rocketicons/cli init\` from the project root.
+2. Run \`npx rocketicons init\` from the project root.
 3. Search the website or static catalog for an exact icon ID.
-4. Run \`npx @rocketicons/cli add @collection/icon\` once for each icon.
+4. Run \`npx rocketicons add @collection/icon\` once for each icon.
 5. Import the generated component from \`@/ri/icons/<icon-id>\`.
 6. Verify and commit the generated files under \`src/ri\`.
 
@@ -48,13 +48,13 @@ Rocketicons copies only selected icon components into the application's source t
 
 ## Current CLI contract
 
-\`npx @rocketicons/cli init\` expects a TypeScript project with \`tsconfig.json\`. It creates \`src/ri/core/index.tsx\`, \`src/ri/core/index.native.tsx\`, and \`src/ri/icons\`; configures the \`@/ri/*\` alias; and installs the shared utilities through npm.
+\`npx rocketicons init\` expects a TypeScript project with \`tsconfig.json\`. It creates \`src/ri/core/index.tsx\`, \`src/ri/core/index.native.tsx\`, and \`src/ri/icons\`; configures the \`@/ri/*\` alias; and installs the shared utilities through npm.
 
-\`npx @rocketicons/cli add @collection/icon\` writes one TSX component to \`src/ri/icons/<icon-id>.tsx\`. Run the command separately for every icon:
+\`npx rocketicons add @collection/icon\` writes one TSX component to \`src/ri/icons/<icon-id>.tsx\`. Run the command separately for every icon:
 
 \`\`\`bash
-npx @rocketicons/cli add @lu/lu-rocket
-npx @rocketicons/cli add @lu/lu-search
+npx rocketicons add @lu/lu-rocket
+npx rocketicons add @lu/lu-search
 \`\`\`
 
 Import a generated icon with \`import LuRocket from "@/ri/icons/lu-rocket";\` and render it as a React component. The same generated API works in React Native when the project is configured with React Native SVG and NativeWind.

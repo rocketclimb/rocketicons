@@ -24,8 +24,8 @@ Initialization still installs the shared `@rocketicons/utils` and `@rocketicons/
 The current CLI requires an existing TypeScript project with `tsconfig.json` and uses npm during initialization.
 
 ```bash
-npx @rocketicons/cli init
-npx @rocketicons/cli add @rc/rc-rocket-icon
+npx rocketicons init
+npx rocketicons add @rc/rc-rocket-icon
 ```
 
 Then import the generated component:
