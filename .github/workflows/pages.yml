@@ -20,9 +20,8 @@ jobs:
   build:
     name: Test and export static site
     runs-on: ubuntu-latest
-    environment: github-pages
     env:
-      SITE_ORIGIN: ${{ vars.SITE_ORIGIN }}
+      SITE_ORIGIN: ${{ vars.SITE_ORIGIN || 'https://rocketicons.io' }}
       RI_GENERATE_ALL_ICONS: "true"
     steps:
       - name: Checkout
