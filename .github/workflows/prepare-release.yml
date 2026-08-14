@@ -94,6 +94,8 @@ jobs:
         with:
           name: tag-artifact
           path: .tagrc
+          include-hidden-files: true
+          if-no-files-found: error
 
       - name: Upload deployable artifacts to release job
         if: contains(steps.prepare-release.outputs.TAG_NAME, 'release')
