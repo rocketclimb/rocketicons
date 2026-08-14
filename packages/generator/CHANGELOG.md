@@ -1,3 +1,18 @@
+## [0.7.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-14)
+
+### Features
+
+- **ignition** use svg with rocketicons ([dcbdd79c](https://github.com/rocketclimb/rocketicons/commit/dcbdd79cd004698b92f4045c07596d893d8fe5ae))
+- **icons** update lucide icons ([9642225d](https://github.com/rocketclimb/rocketicons/commit/9642225d95a7516d3962a3d8673824eacdc162cd))
+- **utils** move element to tree into utils ([e74712c9](https://github.com/rocketclimb/rocketicons/commit/e74712c9fb88f66833ae166be2d8f1e56a61c101))
+- **cli** add cli commands ([71c21b5d](https://github.com/rocketclimb/rocketicons/commit/71c21b5db465afc42fa748da6903959f651af586))
+- **optimization** introduce bundle optimization and static generation strategies ([a7e40ad3](https://github.com/rocketclimb/rocketicons/commit/a7e40ad342105d9d2ea4201eea55c1471970167e))
+
+### Other
+
+-  ([c4dcbeca](https://github.com/rocketclimb/rocketicons/commit/c4dcbeca70280efeab696c005928b5afd304ad40))
+-  ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
+
 ## [0.6.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
 
 ### Features
