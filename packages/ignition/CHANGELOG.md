@@ -1,3 +1,10 @@
+## [0.9.1](https://github.com/rocketclimb/rocketicons/compare/v0.9.0-release...v0.9.1) (2026-08-14)
+
+### Miscellaneous
+
+- **docs** fix documentation for npx commands ([a7433086](https://github.com/rocketclimb/rocketicons/commit/a7433086bef3128ca2c670a582db545a34abaa8d))
+- **site** fix domain ([c97f08ea](https://github.com/rocketclimb/rocketicons/commit/c97f08ea4c5a035b49c62cff2f482c92879f12c2))
+
 ## [0.9.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-14)
 
 ### Features
