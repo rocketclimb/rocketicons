@@ -45,14 +45,16 @@ const ColorsSectionContent = ({
 }: ColorsSectionContentProps) => {
   const router = useRouter();
   const { color: selectedColor, setColor } = useBoxContext();
-  const { copy, copied, more } = withLocale(lang).config("code-block");
+  const locale = withLocale(lang);
+  const { copy, copied, more } = locale.config("code-block");
   return (
     <Section>
       {children}
       <CodeElementOptionsStyler
         onTabChange={(_i, tab) => {
           if ((tab as Tab)?.id === CodeElementTabs.MORE) {
-            router.push(`/docs/colors?i=${collectionId}.${compName}`);
+            const selectedIcon = encodeURIComponent(`${collectionId}.${compName}`);
+            router.push(`${locale.docHref("colors")}?i=${selectedIcon}`);
             return;
           }
           setColor(tab === CodeElementTabs.DEFAULT ? "" : (tab as string));
