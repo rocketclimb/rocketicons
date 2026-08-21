@@ -37,14 +37,16 @@ const CombinedSectionContent = ({
 }: CombinedSectionContentProps) => {
   const router = useRouter();
   const { setColor, setSize } = useBoxContext();
-  const { copy, copied, more } = withLocale(lang).config("code-block");
+  const locale = withLocale(lang);
+  const { copy, copied, more } = locale.config("code-block");
   return (
     <Section>
       {children}
       <CodeElementOptionsStyler
         onTabChange={(_i, tab) => {
           if ((tab as Tab)?.id === CodeElementTabs.MORE) {
-            router.push(`/docs/styling?i=${collectionId}.${compName}`);
+            const selectedIcon = encodeURIComponent(`${collectionId}.${compName}`);
+            router.push(`${locale.docHref("shortcuts")}?i=${selectedIcon}`);
             return;
           }
           const { color, size } = data[tab as CombinedId] || { color: "", size: "" };

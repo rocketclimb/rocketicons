@@ -24,9 +24,8 @@ const SizesSectionContent = ({
 }: SizesSectionContentProps) => {
   const router = useRouter();
   const { size: selectedSize, setSize, sizeBox, sections } = useBoxContext();
-  const { copy, copied, more } = withLocale(lang as import("@/types").Languages).config(
-    "code-block"
-  );
+  const locale = withLocale(lang);
+  const { copy, copied, more } = locale.config("code-block");
   const ref = useRef<HTMLDivElement>(null);
   sections.set("sizes", ref as any);
   return (
@@ -35,7 +34,8 @@ const SizesSectionContent = ({
       <CodeElementOptionsStyler
         onTabChange={(_i, tab) => {
           if ((tab as Tab)?.id === CodeElementTabs.MORE) {
-            router.push(`/docs/sizing-icons?i=${collectionId}.${compName}`);
+            const selectedIcon = encodeURIComponent(`${collectionId}.${compName}`);
+            router.push(`${locale.docHref("sizing-icons")}?i=${selectedIcon}`);
             return;
           }
           sizeBox

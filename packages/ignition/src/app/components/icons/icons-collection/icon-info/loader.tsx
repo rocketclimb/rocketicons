@@ -106,10 +106,18 @@ const IconInfoLoader = ({ lang, collectionId, content }: IconInfoProps) => {
     compName: icon.component
   };
 
+  const locale = withLocale(lang);
   const {
     "learn-more": learnMore,
     "code-block": { copy, copied }
-  } = withLocale(lang).config("learn-more", "code-block");
+  } = locale.config("learn-more", "code-block");
+  const selectedIcon = encodeURIComponent(`${collectionId}.${info.compName}`);
+  const learnMoreHref = (slug: string, hash = "") =>
+    `${locale.docHref(slug)}?i=${selectedIcon}${hash}`;
+  const stylingAnchors =
+    lang === "pt-br"
+      ? { animations: "#animacoes", strokeWidth: "#largura-de-linha" }
+      : { animations: "#animations", strokeWidth: "#stroke-width" };
   const allSizes = Object.keys(iconsSizes)
     .reverse()
     .map((size) => `icon-${size}`);
@@ -216,7 +224,7 @@ const IconInfoLoader = ({ lang, collectionId, content }: IconInfoProps) => {
               {content.sizing}
               <LearnMore
                 label={learnMore}
-                href={`/${lang}/docs/sizing-icons?i=${collectionId}.${info.compName}`}
+                href={learnMoreHref("sizing-icons")}
               />
             </Description>
           </SizesSectionContent>
@@ -225,7 +233,7 @@ const IconInfoLoader = ({ lang, collectionId, content }: IconInfoProps) => {
               {content.colors}
               <LearnMore
                 label={learnMore}
-                href={`/${lang}/docs/sizing-colors?i=${collectionId}.${info.compName}`}
+                href={learnMoreHref("colors")}
               />
             </Description>
           </ColorsSectionContent>
@@ -239,7 +247,7 @@ const IconInfoLoader = ({ lang, collectionId, content }: IconInfoProps) => {
               {content.stroke}
               <LearnMore
                 label={learnMore}
-                href={`/${lang}/docs/styling?i=${collectionId}.${info.compName}#stroke-width`}
+                href={learnMoreHref("styling", stylingAnchors.strokeWidth)}
               />
             </Description>
           </StrokeSectionContent>
@@ -252,7 +260,7 @@ const IconInfoLoader = ({ lang, collectionId, content }: IconInfoProps) => {
               {content.combining}
               <LearnMore
                 label={learnMore}
-                href={`/${lang}/docs/shortcuts?i=${collectionId}.${info.compName}`}
+                href={learnMoreHref("shortcuts")}
               />
             </Description>
           </CombinedSectionContent>
@@ -265,7 +273,7 @@ const IconInfoLoader = ({ lang, collectionId, content }: IconInfoProps) => {
               {content.dark}
               <LearnMore
                 label={learnMore}
-                href={`/${lang}/docs/dark-mode?i=${collectionId}.${info.compName}`}
+                href={learnMoreHref("dark-mode")}
               />
             </Description>
           </DarkModeSectionContent>
@@ -274,7 +282,7 @@ const IconInfoLoader = ({ lang, collectionId, content }: IconInfoProps) => {
               {content.states}
               <LearnMore
                 label={learnMore}
-                href={`/${lang}/docs/state-management?i=${collectionId}.${info.compName}`}
+                href={learnMoreHref("state-management")}
               />
             </Description>
           </StatesSectionContent>
@@ -287,14 +295,14 @@ const IconInfoLoader = ({ lang, collectionId, content }: IconInfoProps) => {
               {content.animations}
               <LearnMore
                 label={learnMore}
-                href={`/${lang}/docs/styling?i=${collectionId}.${info.compName}#animations`}
+                href={learnMoreHref("styling", stylingAnchors.animations)}
               />
             </Description>
           </AnimationsSectionContent>
           <Section>
             <Description>
               {content.styling}
-              <LearnMore label={learnMore} href={`/${lang}/docs/adding-icons`} />
+              <LearnMore label={learnMore} href={learnMoreHref("adding-icons")} />
             </Description>
           </Section>
           <Section>
