@@ -3,19 +3,9 @@ import { AnimatedCodeBlock, ScriptAction, Script } from "@rocketclimb/code-block
 
 import { useEffect, useState } from "react";
 
-import { IconFromData, IconTree, Variants } from "@rocketicons/core";
+import QuerySelectedIcon from "@/components/documentation/query-selected-icon";
 
-const Animation = ({
-  colors,
-  iconName,
-  iconTree,
-  variant
-}: {
-  colors: string[];
-  iconName: string;
-  iconTree: IconTree;
-  variant: Variants;
-}) => {
+const Animation = ({ colors, iconName }: { colors: string[]; iconName: string }) => {
   const [first] = colors;
   const final = `icon-${[...colors].pop()!}`;
   const initial = `icon-${first}`;
@@ -49,12 +39,12 @@ const Animation = ({
     setScript(script);
   }, [colors]);
 
-  const Icon = (props: any) => <IconFromData iconTree={iconTree} variant={variant} {...props} />;
-
   return (
     <>
       <div className="size-20 xs:size-32 lg:size-48 order-last sm:order-none flex items-center justify-center border rounded-lg border-slate-200 dark:border-slate-800">
-        <Icon className={`transition duration-500 ${state} size-20 xs:size-32 lg:size-48`} />
+        <QuerySelectedIcon
+          className={`transition duration-500 ${state} size-20 xs:size-32 lg:size-48`}
+        />
       </div>
       <AnimatedCodeBlock
         className="w-[298px] xs:w-[365px] md:w-[480px]"
@@ -70,7 +60,7 @@ const Animation = ({
         ]}
       >
         <div>
-          <Icon data-cb-tag={iconName} className={initial} />
+          <QuerySelectedIcon data-cb-tag={iconName} className={initial} />
         </div>
       </AnimatedCodeBlock>
     </>
@@ -80,13 +70,11 @@ const Animation = ({
 type ColorsAnimationProsp = {
   colors: string[];
   icon: string;
-  iconTree: IconTree;
-  variant: Variants;
 };
 
-const ColorsAnimation = ({ icon, colors, iconTree, variant }: ColorsAnimationProsp) => (
+const ColorsAnimation = ({ icon, colors }: ColorsAnimationProsp) => (
   <div className="flex h-52 sm:h-48 flex-col sm:flex-row my-3 xs:my-12 items-center justify-center gap-4">
-    <Animation iconTree={iconTree} colors={colors} variant={variant} iconName={icon} />
+    <Animation colors={colors} iconName={icon} />
   </div>
 );
 
