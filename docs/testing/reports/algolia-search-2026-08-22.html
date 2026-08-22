@@ -147,6 +147,7 @@
     <ul>
       <li><span class="status pending">PENDING</span> — create and merge the pull request. The main workflow will synchronize the index again and deploy the corrected client to the Rocket Climb Cloudflare Pages project.</li>
       <li><span class="status pending">PENDING</span> — perform one post-deploy smoke test at <code>https://rocketicons.com/en/</code>.</li>
+      <li><strong>Non-blocking observation:</strong> the local static-server run logged an existing 404 for <code>/icons/io5/io-menu-outline.json</code>. It did not affect the Algolia flows verified here and is outside this change's search scope.</li>
     </ul>
   </section>
 </main>
