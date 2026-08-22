@@ -27,7 +27,7 @@ jobs:
     name: Test and export static site
     runs-on: ubuntu-latest
     env:
-      SITE_ORIGIN: ${{ vars.SITE_ORIGIN || 'https://rocketicons.io' }}
+      SITE_ORIGIN: ${{ vars.SITE_ORIGIN || 'https://rocketicons.com' }}
       RI_GENERATE_ALL_ICONS: "true"
       NEXT_PUBLIC_ALGOLIA_APPLICATION_ID: ${{ vars.ALGOLIA_APPLICATION_ID }}
       NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY: ${{ vars.ALGOLIA_SEARCH_ONLY_API_KEY }}
