@@ -20,7 +20,7 @@ type IconHitProps = {
 const IconHit = ({
   hit: {
     group,
-    objectID,
+    iconId,
     title,
     text,
     categories: [_variant]
@@ -31,9 +31,9 @@ const IconHit = ({
     <>
       <Link
         className="grow py-3 pl-4 capitalize"
-        href={`/${lang}/icons/${group}/?icon=${encodeURIComponent(objectID)}`}
+        href={`/${lang}/icons/${group}/?icon=${encodeURIComponent(iconId)}`}
       >
-        <SvgHit collectionId={group} iconId={objectID} />
+        <SvgHit collectionId={group} iconId={iconId} />
         {title}
       </Link>
       <WithCopy
@@ -59,8 +59,8 @@ const Hit = ({ hit, lang }: PropsHit) => {
       className="flex grow py-3 pl-4"
       href={
         hit.isFragment
-          ? `/${hit.locale}/docs/${groupSlug}#${hit.objectID}`
-          : `/${hit.locale}/docs/${hit.objectID}`
+          ? `/${hit.locale}/docs/${groupSlug}#${hit.slug}`
+          : `/${hit.locale}/docs/${hit.slug}`
       }
     >
       <span className="grow">{hit.title}</span>
@@ -145,7 +145,7 @@ const IconResult = ({ id, group, hits, lang }: IconResultProps) => {
 const HitResult = ({ group, hits, lang }: HitResultProps) => {
   const groupTitle = hits[0]?.groupName ?? group;
 
-  const hitsWithNoParent = hits.filter((hit: any) => hit.group !== hit.objectID);
+  const hitsWithNoParent = hits.filter((hit: any) => hit.group !== hit.documentId);
 
   return (
     <div className="m-2">
@@ -182,6 +182,7 @@ const GroupedHits = ({ lang, groupedHits }: GroupedHitsProps) =>
 const SearchHits = ({ lang }: PropsWithLang) => {
   const { "no-results": noResults } = withLocale(lang).config("search");
   const { results } = useInstantSearch();
+  const hasQuery = (results.query ?? "").trim().length >= 3;
 
   const groupedHits = results.hits.reduce(
     (groups: any, hit: any) => {
@@ -204,7 +205,7 @@ const SearchHits = ({ lang }: PropsWithLang) => {
   return (
     <>
       <div className="px-1">
-        {results.nbHits === 0 && <div className="py-3 px-6">{noResults}</div>}
+        {hasQuery && results.nbHits === 0 && <div className="py-3 px-6">{noResults}</div>}
         <div
           className={`px-2 h-full min-h-40 max-h-80 xs:max-h-[80dvh] lg:max-h-[65vh] overflow-auto thin-scroll ${borderClass}`}
         >

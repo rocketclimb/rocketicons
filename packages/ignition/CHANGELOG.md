@@ -1,3 +1,9 @@
+## [0.9.2](https://github.com/rocketclimb/rocketicons/compare/v0.9.1-release...v0.9.2) (2026-08-22)
+
+### Bug Fixes
+
+- **ignition** restore Algolia search ([51e98c1e](https://github.com/rocketclimb/rocketicons/commit/51e98c1ec8e75f3fc1e6d5b184031b092a0620a5))
+
 ## [0.9.1](https://github.com/rocketclimb/rocketicons/compare/v0.9.0-release...v0.9.1) (2026-08-14)
 
 ### Miscellaneous

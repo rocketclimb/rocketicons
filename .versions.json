@@ -1,9 +1,9 @@
 {
-  "rocketclimb-icons": "0.9.1",
+  "rocketclimb-icons": "0.9.2",
   "core": "0.7.0",
   "generator": "0.7.0",
   "icons": "0.3.1",
-  "ignition": "0.9.1",
+  "ignition": "0.9.2",
   "tailwind": "0.7.0",
   "utils": "0.7.0",
   "cli": "0.7.1",

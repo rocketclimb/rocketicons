@@ -1,9 +1,8 @@
 import { useSearchBox } from "react-instantsearch";
 import { LuSearch } from "rocketicons/lu";
-import useWaitToExecute from "@/hooks/use-wait-to-execute";
 import { useEffect, useState } from "react";
 
-const MIN_SEARCH_LENGH = 3;
+const MIN_SEARCH_LENGTH = 3;
 
 type SearchBoxProps = {
   label: string;
@@ -12,16 +11,14 @@ type SearchBoxProps = {
 const SearchBox = ({ label }: SearchBoxProps) => {
   const { refine } = useSearchBox();
   const [searching, setSearching] = useState<string>("");
-  const [execute, cancel] = useWaitToExecute(500);
 
   useEffect(() => {
-    execute(() => {
-      if (searching.length >= MIN_SEARCH_LENGH) {
-        refine(searching);
-      }
-    });
-    return () => cancel();
-  }, [searching]);
+    const timeoutId = setTimeout(
+      () => refine(searching.length >= MIN_SEARCH_LENGTH ? searching : ""),
+      500
+    );
+    return () => clearTimeout(timeoutId);
+  }, [refine, searching]);
 
   return (
     <form className="flex items-center h-14 w-full">
