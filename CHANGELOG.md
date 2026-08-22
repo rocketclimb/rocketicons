@@ -1,3 +1,14 @@
+## [0.9.2](https://github.com/rocketclimb/rocketicons/compare/v0.9.1-release...v0.9.2) (2026-08-22)
+
+### Bug Fixes
+
+- **ignition** restore Algolia search [[ignition](./packages/ignition/CHANGELOG.md)] ([51e98c1e](https://github.com/rocketclimb/rocketicons/commit/51e98c1ec8e75f3fc1e6d5b184031b092a0620a5))
+
+### Documentation
+
+- **testing** note static asset observation ([5367b075](https://github.com/rocketclimb/rocketicons/commit/5367b075d5217ce0212e6c8a66efb4cb79a95e48))
+- **testing** add Algolia restoration report ([932e4acb](https://github.com/rocketclimb/rocketicons/commit/932e4acbcf604bd20cc292fea200f3edec12c67c))
+
 ## [0.9.1](https://github.com/rocketclimb/rocketicons/compare/v0.9.0-release...v0.9.1) (2026-08-14)
 
 ### Miscellaneous

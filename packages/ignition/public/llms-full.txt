@@ -2,7 +2,7 @@
 
 Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.
 
-- Catalog/package version: 0.3.0
+- Catalog/package version: 0.3.1
 - Documentation updated: 2026-08-12
 - Static catalog: /ai/v1/catalog.json
 - English documentation: /en/docs/getting-started/
