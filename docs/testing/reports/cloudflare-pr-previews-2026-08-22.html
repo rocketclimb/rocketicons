@@ -74,7 +74,7 @@
     <p class="lede">Internal pull requests now publish a stable Cloudflare Pages preview after the existing test and static-export gates pass.</p>
     <div class="metrics">
       <div class="metric"><strong>Implemented</strong><span>workflow status</span></div>
-      <div class="metric"><strong>6 checks</strong><span>local verification ledger</span></div>
+      <div class="metric"><strong>7 checks</strong><span>local verification ledger</span></div>
       <div class="metric"><strong>None</strong><span>external provider writes</span></div>
     </div>
   </header>
@@ -117,6 +117,7 @@
     <table>
       <thead><tr><th>Gate</th><th>Status</th><th>Evidence</th></tr></thead>
       <tbody>
+        <tr><td>Workspace test suite</td><td class="status pass">PASS · 101 tests</td><td><code>npm run test-all</code> completed through the repository pre-push hook: 11 suites passed.</td></tr>
         <tr><td>Workflow formatting</td><td class="status pass">PASS</td><td><code>npx --no-install prettier --check .github/workflows/pages.yml</code></td></tr>
         <tr><td>YAML structure</td><td class="status pass">PASS</td><td>The workflow parsed with the installed <code>yaml</code> package and contains the <code>deploy-preview</code> step.</td></tr>
         <tr><td>Eligibility truth table</td><td class="status pass">PASS · 4/4</td><td>Internal PR, fork PR, Dependabot PR, and push cases matched their expected outcomes.</td></tr>
@@ -125,7 +126,7 @@
         <tr><td>Report structure and references</td><td class="status pass">PASS</td><td>Local HTML parser validation; no external assets or screenshot references.</td></tr>
       </tbody>
     </table>
-    <p class="scope">These are configuration-focused checks. Application tests were not repeated because application source and build behavior were not changed.</p>
+    <p class="scope">The change is configuration-only, but the repository’s pre-push hook also completed the full workspace test command.</p>
   </section>
 
   <section>
