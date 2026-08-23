@@ -88,9 +88,31 @@ jobs:
 
       - name: Deploy to Cloudflare Pages
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy packages/ignition/out --project-name=rocketicons --branch=main
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy Cloudflare Pages preview
+        id: deploy-preview
+        if: >-
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.head.repo.full_name == github.repository &&
+          github.actor != 'dependabot[bot]'
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy packages/ignition/out --project-name=rocketicons --branch=pr-${{ github.event.pull_request.number }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add preview URL to workflow summary
+        if: steps.deploy-preview.outcome == 'success'
+        env:
+          PREVIEW_URL: ${{ steps.deploy-preview.outputs.pages-deployment-alias-url }}
+        run: |
+          test -n "$PREVIEW_URL"
+          echo "### Cloudflare Pages preview" >> "$GITHUB_STEP_SUMMARY"
+          echo "[$PREVIEW_URL]($PREVIEW_URL)" >> "$GITHUB_STEP_SUMMARY"

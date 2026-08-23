@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cloudflare PR previews — implementation and QA</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17211d;
+      --muted: #617069;
+      --line: #d8e0dc;
+      --paper: #ffffff;
+      --wash: #f3f7f5;
+      --accent: #147a58;
+      --accent-dark: #163d32;
+      --info: #126f9c;
+      --warning: #a55d00;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #edf2ef;
+      color: var(--ink);
+      font: 15px/1.55 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    main { width: min(1180px, calc(100% - 40px)); margin: 32px auto 72px; }
+    header, section { margin-bottom: 18px; padding: 28px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); }
+    header { color: white; background: linear-gradient(135deg, #142d26, var(--accent-dark)); }
+    h1 { margin: 4px 0 8px; font-size: clamp(30px, 5vw, 42px); line-height: 1.08; letter-spacing: -.03em; }
+    h2 { margin: 0 0 14px; font-size: 22px; letter-spacing: -.015em; }
+    h3 { margin: 0 0 8px; font-size: 17px; }
+    p { margin: 8px 0 14px; }
+    code { padding: 2px 5px; border-radius: 5px; background: var(--wash); font-size: .92em; overflow-wrap: anywhere; }
+    ul { padding-left: 21px; }
+    li { margin: 6px 0; }
+    .eyebrow { color: #bdd8ce; font-size: 12px; text-transform: uppercase; letter-spacing: .09em; }
+    .lede { max-width: 900px; color: #dcebe5; font-size: 17px; }
+    .metrics, .grid { display: grid; gap: 14px; }
+    .metrics { grid-template-columns: repeat(3, 1fr); margin-top: 22px; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .metric, .card { padding: 16px; border-radius: 12px; }
+    .metric { border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.08); }
+    .metric strong { display: block; font-size: 21px; }
+    .metric span { color: #c9ded6; font-size: 13px; }
+    .card { border: 1px solid var(--line); background: var(--wash); }
+    .callout { padding: 14px 16px; border-left: 4px solid var(--accent); border-radius: 0 10px 10px 0; background: #ecf8f3; }
+    .callout.warning { border-left-color: var(--warning); background: #fff6e8; }
+    table { width: 100%; margin: 12px 0; border-collapse: collapse; }
+    th, td { padding: 11px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+    .status { font-weight: 750; }
+    .pass { color: var(--accent); }
+    .not-run { color: var(--warning); }
+    .icon { display: inline-grid; width: 1.5em; height: 1.5em; margin-right: .35em; place-items: center; border-radius: 6px; background: #e3f2eb; color: var(--accent); }
+    .scope { color: var(--muted); font-size: 13px; }
+    @media (max-width: 800px) {
+      main { width: min(100% - 20px, 1180px); }
+      header, section { padding: 20px; }
+      .metrics, .grid { grid-template-columns: 1fr; }
+    }
+    @media print {
+      body { background: white; }
+      main { width: 100%; margin: 0; }
+      header, section { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">RocketIcons · August 22, 2026</div>
+    <h1>Cloudflare PR previews</h1>
+    <p class="lede">Internal pull requests now publish a stable Cloudflare Pages preview after the existing test and static-export gates pass.</p>
+    <div class="metrics">
+      <div class="metric"><strong>Implemented</strong><span>workflow status</span></div>
+      <div class="metric"><strong>6 checks</strong><span>local verification ledger</span></div>
+      <div class="metric"><strong>None</strong><span>external provider writes</span></div>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="icon">✓</span>Outcome</h2>
+    <p>The existing GitHub Actions build remains the single build pipeline. After a qualifying pull request passes export verification, Wrangler uploads <code>packages/ignition/out</code> to the existing <code>rocketicons</code> Pages project with the branch alias <code>pr-&lt;number&gt;</code>.</p>
+    <div class="callout">A pull request such as #162 receives the stable alias <code>https://pr-162.rocketicons.pages.dev</code>. Production continues to deploy only from <code>main</code>.</div>
+  </section>
+
+  <section>
+    <h2><span class="icon">↔</span>What changed</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Before</h3>
+        <p>Pull requests built, tested, and exported the static site, but the only Pages upload was guarded for non-PR runs on <code>main</code>.</p>
+      </div>
+      <div class="card">
+        <h3>After</h3>
+        <p>Same-repository, non-Dependabot pull requests upload the verified export as a preview. The branch alias is added to the Actions job summary, and both Pages deployments use <code>cloudflare/wrangler-action@v4</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="icon">●</span>Eligibility and safety</h2>
+    <table>
+      <thead><tr><th>Event</th><th>Preview result</th><th>Reason</th></tr></thead>
+      <tbody>
+        <tr><td>Internal human PR</td><td class="status pass">Deploy</td><td>Repository secrets are available and the alias is derived from the numeric PR identifier.</td></tr>
+        <tr><td>Fork PR</td><td class="status not-run">Skip</td><td>Cloudflare credentials are unavailable to fork workflows; untrusted code is not given a privileged deployment path.</td></tr>
+        <tr><td>Dependabot PR</td><td class="status not-run">Skip</td><td>Normal Actions secrets are unavailable to Dependabot workflows.</td></tr>
+        <tr><td>Push to main</td><td class="status pass">Production only</td><td>The original production condition remains unchanged.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="icon">✓</span>Verification ledger</h2>
+    <table>
+      <thead><tr><th>Gate</th><th>Status</th><th>Evidence</th></tr></thead>
+      <tbody>
+        <tr><td>Workflow formatting</td><td class="status pass">PASS</td><td><code>npx --no-install prettier --check .github/workflows/pages.yml</code></td></tr>
+        <tr><td>YAML structure</td><td class="status pass">PASS</td><td>The workflow parsed with the installed <code>yaml</code> package and contains the <code>deploy-preview</code> step.</td></tr>
+        <tr><td>Eligibility truth table</td><td class="status pass">PASS · 4/4</td><td>Internal PR, fork PR, Dependabot PR, and push cases matched their expected outcomes.</td></tr>
+        <tr><td>Wrangler CLI contract</td><td class="status pass">PASS</td><td>Installed Wrangler 4.33.1 exposes <code>pages deploy</code>, <code>--project-name</code>, and <code>--branch</code>.</td></tr>
+        <tr><td>Whitespace validation</td><td class="status pass">PASS</td><td><code>git diff --check</code></td></tr>
+        <tr><td>Report structure and references</td><td class="status pass">PASS</td><td>Local HTML parser validation; no external assets or screenshot references.</td></tr>
+      </tbody>
+    </table>
+    <p class="scope">These are configuration-focused checks. Application tests were not repeated because application source and build behavior were not changed.</p>
+  </section>
+
+  <section>
+    <h2><span class="icon">□</span>Provider and data scope</h2>
+    <ul>
+      <li>No Cloudflare deployment was triggered during implementation.</li>
+      <li>No GitHub secrets, repository settings, PR comments, or deployment records were changed.</li>
+      <li>No database, search index, DNS, custom domain, or production content was written.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="icon">!</span>Remaining production gate</h2>
+    <div class="callout warning">The first qualifying pull-request run must confirm that the repository’s existing Cloudflare token accepts Wrangler Action v4 and that GitHub surfaces the generated deployment URL.</div>
+    <ul>
+      <li>Expected alias format: <code>https://pr-&lt;number&gt;.rocketicons.pages.dev</code>.</li>
+      <li>The current workflow intentionally does not preview fork or Dependabot pull requests.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
