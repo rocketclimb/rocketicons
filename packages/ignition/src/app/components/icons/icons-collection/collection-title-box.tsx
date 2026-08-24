@@ -11,7 +11,6 @@ import FloatBlock from "@/components/icons/float-block";
 import Title from "@/components/documentation/title";
 import DocLink from "@/components/documentation/doc-link";
 import LicenseBox from "@/components/documentation/license";
-import { siteConfig } from "@/config/site";
 
 type Manifest = Omit<IconsManifestType<CollectionID, License>, "icons"> & { totalIcons: number };
 
@@ -56,7 +55,7 @@ const CollectionTitleBox = ({ lang, info }: TitleBoxProps) => (
 export default CollectionTitleBox;
 
 function getProjectUrl(lang: Languages, info: Manifest): string {
-  if (info.projectUrl.indexOf(siteConfig.url) === 0) {
+  if (info.id === "rc") {
     const newUrl = new URL(lang, info.projectUrl);
     return newUrl.toString();
   }

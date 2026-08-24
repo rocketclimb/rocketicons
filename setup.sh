@@ -18,4 +18,4 @@ echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> ~/.npmrc
 echo "Verifying configuration..."
 npm config list | grep -i github
 
-echo "Setup complete. Proceeding with installation..." 
+echo "Setup complete. Proceeding with installation..."

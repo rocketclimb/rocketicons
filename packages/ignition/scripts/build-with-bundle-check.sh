@@ -58,4 +58,4 @@ else
 fi
 
 echo ""
-echo "✅ Ready for deployment!" 
+echo "✅ Ready for deployment!"

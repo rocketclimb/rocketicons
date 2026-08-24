@@ -26,14 +26,14 @@ function generateAnalyzerHTML() {
     <title>Bundle Analyzer - Ignition</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
+        body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #f5f5f5;
             color: #333;
             line-height: 1.6;
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .header { 
+        .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 40px 0;
@@ -41,7 +41,7 @@ function generateAnalyzerHTML() {
             margin-bottom: 30px;
             border-radius: 10px;
         }
-        .card { 
+        .card {
             background: white;
             border-radius: 10px;
             padding: 20px;
@@ -54,15 +54,15 @@ function generateAnalyzerHTML() {
         .metric-label { color: #666; margin-top: 5px; }
         .chart-container { height: 300px; margin: 20px 0; }
         .file-list { max-height: 400px; overflow-y: auto; }
-        .file-item { 
-            display: flex; 
-            justify-content: space-between; 
-            padding: 10px; 
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
             border-bottom: 1px solid #eee;
         }
         .file-item:hover { background: #f9f9f9; }
-        .size-bar { 
-            height: 20px; 
+        .size-bar {
+            height: 20px;
             background: linear-gradient(90deg, #667eea, #764ba2);
             border-radius: 10px;
             margin: 5px 0;
@@ -71,11 +71,11 @@ function generateAnalyzerHTML() {
         .error { background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; padding: 15px; color: #721c24; }
         .success { background: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px; padding: 15px; color: #155724; }
         .nav { display: flex; gap: 10px; margin-bottom: 20px; }
-        .nav-item { 
-            padding: 10px 20px; 
-            background: white; 
-            border: none; 
-            border-radius: 5px; 
+        .nav-item {
+            padding: 10px 20px;
+            background: white;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
@@ -124,7 +124,7 @@ function generateAnalyzerHTML() {
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
             });
-            
+
             // Show selected tab
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
@@ -179,13 +179,13 @@ function generateOverviewTab(report) {
                 <span>${((report.breakdown.javascript.totalSize / report.summary.totalSize) * 100).toFixed(1)}%</span>
             </div>
             <div class="size-bar" style="width: ${(report.breakdown.javascript.totalSize / report.summary.totalSize) * 100}%"></div>
-            
+
             <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                 <span>CSS: ${formatBytes(report.breakdown.css.totalSize)}</span>
                 <span>${((report.breakdown.css.totalSize / report.summary.totalSize) * 100).toFixed(1)}%</span>
             </div>
             <div class="size-bar" style="width: ${(report.breakdown.css.totalSize / report.summary.totalSize) * 100}%"></div>
-            
+
             <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                 <span>Media: ${formatBytes(report.breakdown.media.totalSize)}</span>
                 <span>${((report.breakdown.media.totalSize / report.summary.totalSize) * 100).toFixed(1)}%</span>

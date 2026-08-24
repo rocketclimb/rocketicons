@@ -74,7 +74,7 @@ const IconsCollectionsTastes = ({ lang, manifests }: IconsCollectionsProps) => {
                     </UlContainer>
                     <div className="absolute h-full w-full flex justify-center items-center bottom-0 rounded-xl bg-gradient-to-t from-background dark:from-background-dark">
                       <Link
-                        href={`/${lang}/icons/${id}`}
+                        href={`/${lang}/icons/${id}/`}
                         className="transition duration-300 rounded-lg px-3 py-1 text-base text-on-surface dark:text-on-surface-dark border border-surface-border ring-1 ring-inset ring-surface/10 hover:ring-secondary-dark/95 hover:scale-105 dark:border-secondary-dark bg-surface dark:bg-surface-dark"
                       >
                         {showAllLabel}

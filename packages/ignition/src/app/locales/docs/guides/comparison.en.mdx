@@ -1,0 +1,37 @@
+---
+title: Why Choose Rocketicons
+description: Compare Rocketicons with full icon packages using clear architectural facts
+slug: comparison
+order: 6
+group: guides
+---
+
+## Guides
+
+# Choose the model that fits your project
+
+Rocketicons and full icon packages can both put a good icon on screen. The important difference is how that icon reaches your application.
+
+| | Rocketicons | Full icon package |
+| --- | --- | --- |
+| Icon source | Selected components are written into your source tree | Collections remain in an installed dependency |
+| Unused icons | Never imported into the application | Usually removed by package exports and bundler tree-shaking |
+| Shared code | Installs Rocketicons utilities and Tailwind integration | Uses the package's runtime and peer dependencies |
+| Platforms | Generated core targets React and React Native | Depends on the library; many target web React only |
+| Styling | Tailwind-compatible classes, including NativeWind setups | Varies by package and often uses props or CSS |
+| Source ownership | Your project can review and version generated components | Upstream package owns icon implementation |
+| Offline use | Committed generated files build offline with installed dependencies | Works offline after the complete dependency is installed |
+| Updates | Explicitly add or replace selected files | Dependency updates may change many exported icons |
+
+### Where Rocketicons shines
+
+Choose Rocketicons when you want the selected icon source to be explicit, reviewable, portable between React and React Native, and minimal by construction rather than by bundler optimization.
+
+### When a package may be simpler
+
+A conventional package can be a good fit when you want zero generated source, need broad dynamic access at runtime, or already rely on a web-only library and its API.
+
+### About size claims
+
+Architecture tells us what is included, but exact installed and bundled bytes depend on framework, bundler, imports, and configuration. Rocketicons will publish reproducible measurements in the CLI performance milestone; this page does not invent a universal number.
+

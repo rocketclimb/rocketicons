@@ -1,0 +1,58 @@
+---
+title: Fluxos para Agentes
+description: Ofereça aos agentes de código um fluxo determinístico do Rocketicons, fácil de conferir
+slug: fluxos-para-agentes
+order: 5
+group: guides
+---
+
+import BuildInfo from "@/components/documentation/build-info";
+
+## Guias
+
+# Um plano de voo claro para agentes de código
+
+Agentes trabalham melhor quando a descoberta é enxuta, os comandos são exatos e toda alteração tem um resultado observável. Rocketicons oferece um catálogo estático versionado e uma CLI que grava os componentes selecionados no projeto.
+
+### Encontre e adicione um ícone
+
+1. Consulte `/ai/v1/catalog.json` ou use o site para escolher uma coleção.
+2. Siga o `indexUrl` da coleção e identifique o ID exato do ícone.
+3. Reutilize um arquivo em `src/ri/icons` quando ele já resolver a necessidade.
+4. Caso contrário, execute um comando: `npx @rocketicons/cli add @colecao/icone`.
+5. Importe o componente gerado e confirme que o arquivo existe.
+
+### Adicione um pequeno conjunto
+
+A CLI atual aceita um ícone por comando. Mantenha a alteração fácil de auditar:
+
+```bash
+npx @rocketicons/cli add @rc/rc-rocket-icon
+npx @rocketicons/cli add @lu/lu-search
+npx @rocketicons/cli add @lu/lu-circle-check
+```
+
+Não presuma argumentos em lote, saída JSON, dry run, caminhos configuráveis ou ferramentas MCP. Esses recursos pertencem a etapas futuras do roadmap.
+
+### Declare os estados no estilo
+
+```tsx
+<RcRocketIcon className="icon-sky-500-lg dark:icon-white-lg hover:icon-sky-600-lg" />
+```
+
+### Confira a alteração
+
+```bash
+git status --short src/ri tsconfig.json package.json package-lock.json
+```
+
+Relate cada arquivo alterado. Execute a checagem de tipos e o build web ou nativo relevante do próprio projeto antes de concluir a tarefa.
+
+### Prompt para reutilizar
+
+> Use Rocketicons para os ícones deste projeto. Reutilize um componente adequado em `src/ri/icons` quando possível. Caso contrário, identifique um ID exato `@colecao/icone`, execute um comando Rocketicons para adicioná-lo, importe o componente gerado por `@/ri` e informe cada arquivo criado ou alterado. Não instale nem importe uma coleção completa de ícones.
+
+Para uma referência compacta e legível por máquinas, indique [`/llms.txt`](/llms.txt) ao agente.
+
+<BuildInfo lang="pt-br" />
+

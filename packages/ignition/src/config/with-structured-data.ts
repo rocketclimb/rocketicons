@@ -2,7 +2,7 @@ import { SoftwareApplication, Offer, Organization } from "@/app/structured-data"
 import { Languages } from "@/app/types";
 import { siteConfig } from ".";
 import { withLocale } from "@/app/locales";
-import { serverEnv } from "@/env/server";
+import { getSiteOrigin } from "@/config/site-origin";
 
 export type StructuredData = {
   organization: Organization;
@@ -19,7 +19,7 @@ export const withStructuredData = (lang: Languages): StructuredData => {
     .setSameAs([siteConfig.links.twitter, siteConfig.links.github])
     .setEmail(siteConfig.companyEmail)
     .setFounders(siteConfig.companyFounders)
-    .setLogo(`${serverEnv.NEXT_PUBLIC_APP_URL}/img/rocketclimb-logo.png`);
+    .setLogo(`${getSiteOrigin()}/img/rocketclimb-logo.png`);
 
   const softwareApplicationJsonLd = new SoftwareApplication(siteConfig.name, description)
     .setApplicationCategory(["DeveloperApplication", "UtilitiesApplication"])

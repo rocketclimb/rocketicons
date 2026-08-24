@@ -9,9 +9,8 @@ permissions: write-all
 
 env:
   NODE_VERSION: "22.x"
-  # Removed GH_TOKEN since we use GITHUB_TOKEN directly
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL }}
   PRE_RELEASE_TAG: ${{ vars.PRE_RELEASE_TAG }}
   AUTOMATION_USER_NAME: ${{ vars.AUTOMATION_USER_NAME }}
   AUTOMATION_USER_EMAIL: ${{ vars.AUTOMATION_USER_EMAIL }}
@@ -38,14 +37,14 @@ jobs:
       - name: Getting Latest Workflow Run ID
         id: get-latest-workflow-run
         run: |
-          echo "LATEST_WORKFLOW_RUN_ID=$(curl -L -H 'Accept: application/vnd.github+json' -H 'Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' -H 'X-GitHub-Api-Version: 2022-11-28' '${{ github.api_url }}/repos/${{ github.repository }}/actions/workflows/prepare-release.yml/runs?status=success&per_page=1' | jq '.workflow_runs[0].id')" >> $GITHUB_OUTPUT
+          echo "LATEST_WORKFLOW_RUN_ID=$(curl -L -H 'Accept: application/vnd.github+json' -H 'Authorization: Bearer ${{ env.GH_TOKEN }}' -H 'X-GitHub-Api-Version: 2022-11-28' '${{ github.api_url }}/repos/${{ github.repository }}/actions/workflows/prepare-release.yml/runs?status=success&per_page=1' | jq '.workflow_runs[0].id')" >> $GITHUB_OUTPUT
 
       - name: Download tag artifact
         id: download-tag-artifact
         uses: actions/download-artifact@v4
         with:
           name: tag-artifact
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ env.GH_TOKEN }}
           run-id: ${{ steps.get-latest-workflow-run.outputs.LATEST_WORKFLOW_RUN_ID }}
 
       - name: Set tag as environment variable
@@ -87,7 +86,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: deployable-artifacts
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ env.GH_TOKEN }}
           run-id: ${{ needs.create-tag.outputs.latest-workflow-run-id }}
 
       - name: Publish package
@@ -104,68 +103,6 @@ jobs:
         with:
           tag_name: ${{ needs.create-tag.outputs.pending-tag  }}
           body_path: ${{ github.workspace }}/release-notes.md
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ env.GH_TOKEN }}
           files: |
             ${{ steps.get-package-name.outputs.PKG_NAME }}
-
-  get-dependency-token:
-    name: Get Dependency Token
-    runs-on: ubuntu-latest
-    outputs:
-      dependency-hash: ${{ steps.get-dependency-hash.outputs.DEPENDENCY_HASH }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Set NPM config
-        run: |
-          npm config set @rocketclimb:registry https://npm.pkg.github.com
-          npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Get Dependency Hash
-        id: get-dependency-hash
-        run: echo "DEPENDENCY_HASH=$(npx --yes @rocketclimb/sh extract-dependencies)" >> $GITHUB_OUTPUT
-
-  # Ignition production deploys to Vercel are temporarily disabled —
-  # see prepare-release.yml for the full reason (Vercel migration in
-  # flight, stale VERCEL_TOKEN). The npm publish above is independent
-  # and still ships the rocketicons package on every -release tag.
-  # Re-enable (or swap in the new deploy target) once the docs-site
-  # hosting decision lands.
-  publish-ignition:
-    name: Publish Ignition without rocketicons release
-    if: false
-    needs:
-      - create-tag
-      - get-dependency-token
-
-    uses: ./.github/workflows/publish-ignition.yml
-    secrets:
-      token: ${{ secrets.VERCEL_TOKEN }}
-    with:
-      dependencies-hash: ${{ needs.get-dependency-token.outputs.dependency-hash }}
-      run-id: ${{ needs.create-tag.outputs.latest-workflow-run-id }}
-      env: "production"
-      branch: "main"
-
-  publish-ignition-for-release:
-    name: Publish Ignition with rocketicons release
-    if: false
-    needs:
-      - create-tag
-      - create-release
-      - get-dependency-token
-
-    uses: ./.github/workflows/publish-ignition.yml
-    secrets:
-      token: ${{ secrets.VERCEL_TOKEN }}
-    with:
-      dependencies-hash: ${{ needs.get-dependency-token.outputs.dependency-hash }}
-      run-id: ${{ needs.create-tag.outputs.latest-workflow-run-id }}
-      env: "production"
-      branch: "main"

@@ -99,14 +99,16 @@ const HomeCodePreview = () => (
           <RocketIconsText data-cb-tag="RocketIconsText" />
         </div>
         <div className="mr-2 text-sm xs:text-base">
-          Styling in a way
+          Add it. Make it
           <RcRocketIcon
             data-cb-tag="RcRocketIcon"
             className="icon-slate-900-base dark:icon-red-500-base"
           />
-          you&apos;ve never seen before.
+          unmistakably yours.
         </div>
-        <div className="mt-0.5 text-xs leading-4 xs:leading-6">A funny way handling icons</div>
+        <div className="mt-0.5 text-xs leading-4 xs:leading-6">
+          One local component. No full collection.
+        </div>
       </div>
     </div>
   </AnimatedCodeBlock>

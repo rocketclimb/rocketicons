@@ -1,0 +1,43 @@
+---
+title: Arquivos Gerados
+description: Entenda, revise e versione os componentes que Rocketicons adiciona ao projeto
+slug: arquivos-gerados
+order: 3
+group: guides
+---
+
+## Guias
+
+# Seus ícones, dentro do seu código
+
+Rocketicons não esconde os ícones escolhidos dentro de um pacote gigante em runtime. Depois da inicialização e da primeira adição, seu projeto fica assim:
+
+```text
+src/ri/
+├── core/
+│   ├── index.tsx
+│   └── index.native.tsx
+└── icons/
+    └── rc-rocket-icon.tsx
+```
+
+Os arquivos em `core` oferecem o comportamento compartilhado para React e React Native. Cada arquivo em `icons` representa um ícone que você escolheu de propósito.
+
+### Faça commit
+
+Trate `src/ri` como código da aplicação: revise e faça commit. Assim, desenvolvimento local, CI, colegas, deploys e builds offline usam exatamente os mesmos ícones.
+
+### Edite com cuidado
+
+Os arquivos são seus, mas o comando `add` atual sobrescreve o ícone de destino. Se você personalizar o código gerado, preserve ou revise essas mudanças antes de adicionar o mesmo ícone novamente.
+
+### Confira uma alteração automatizada
+
+Depois que um agente ou script executar Rocketicons, confira:
+
+```bash
+git status --short src/ri tsconfig.json package.json package-lock.json
+```
+
+Na inicialização, espere alterações em configurações e dependências. Em cada comando `add`, espere a criação ou substituição de exatamente um arquivo em `src/ri/icons`.
+

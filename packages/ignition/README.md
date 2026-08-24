@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Rocketicons website (Ignition)
 
-## Getting Started
+Ignition is the statically exported Rocketicons website. It publishes localized English and Brazilian Portuguese pages, the versioned catalog under `/ai/v1/`, sitemaps, and the generated `/llms.txt` discovery files.
 
-First, run the development server:
+## Local development
+
+From `packages/ignition`:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The pre-development step generates content collections and static assets. Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Useful commands:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npm run generate-content-collections
+npm run generate-statics
+npm test
+npm run lint
+npm run build
+```
 
-## Learn More
+Use `SITE_ORIGIN` for the complete public deployment URL. Both root and path-based deployments are supported:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+SITE_ORIGIN=https://rocketicons.io npm run build
+SITE_ORIGIN=https://rocketclimb.github.io/rocketicons npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The configured pathname becomes the Next.js base path and is added to generated catalog, discovery, sitemap, and browser-fetch URLs.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Content principles
 
-## Deploy on Vercel
+Preserve the existing UI and write copy that is upbeat, concise, and technically exact. The recommended product message is “add only what you use”: the CLI writes selected icon components into the application's source tree. Do not present full-package imports, unsupported CLI flags, or future MCP tools as current behavior.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+See [CONTENT_STYLE.md](CONTENT_STYLE.md) before editing public copy.

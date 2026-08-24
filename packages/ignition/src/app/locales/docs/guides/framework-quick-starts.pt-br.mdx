@@ -1,0 +1,59 @@
+---
+title: Guias Rápidos por Framework
+description: Use componentes locais do Rocketicons com React, Next.js, Vite, Expo e React Native
+slug: guias-rapidos-frameworks
+order: 2
+group: guides
+---
+
+## Guias
+
+# Escolha sua plataforma de lançamento
+
+Todo setup começa do mesmo jeito: use um projeto TypeScript existente, inicialize o Rocketicons na raiz e adicione o ID exato de um ícone.
+
+```bash
+npx @rocketicons/cli init
+npx @rocketicons/cli add @rc/rc-rocket-icon
+```
+
+### React
+
+Importe o componente gerado pelo alias adicionado ao `tsconfig.json`:
+
+```tsx
+import RcRocketIcon from "@/ri/icons/rc-rocket-icon";
+
+export function App() {
+  return <RcRocketIcon className="icon-sky-500-lg" />;
+}
+```
+
+Sua ferramenta de build precisa entender o alias `@`. Se ela não ler os paths do TypeScript automaticamente, repita esse alias na configuração dela.
+
+### Next.js
+
+Execute os comandos no diretório com `next.config.*` e `tsconfig.json`. O Next.js lê aliases do TypeScript, então você pode usar o import gerado em Server ou Client Components, conforme o contexto do componente.
+
+### Vite
+
+Execute os comandos ao lado de `vite.config.*`. Mantenha o path `@/ri/*` no TypeScript e configure o alias `@` no Vite caso seu template ainda não faça isso.
+
+### Expo
+
+Comece com um projeto Expo em TypeScript. Configure `react-native-svg`, NativeWind e a integração Tailwind do Rocketicons; depois inicialize e importe o mesmo componente local. O Metro também precisa resolver o alias `@`.
+
+### React Native
+
+Rocketicons usa o core nativo gerado com `react-native-svg`. Configure React Native SVG, NativeWind, os caminhos de conteúdo do Tailwind e a resolução do alias antes de renderizar:
+
+```tsx
+import RcRocketIcon from "@/ri/icons/rc-rocket-icon";
+
+export function MarcaDeLancamento() {
+  return <RcRocketIcon className="icon-sky-500-lg" accessibilityLabel="Lançar" />;
+}
+```
+
+> A CLI atual gera apenas TypeScript/TSX. Ela não configura bundlers, Metro, NativeWind ou React Native SVG para você.
+

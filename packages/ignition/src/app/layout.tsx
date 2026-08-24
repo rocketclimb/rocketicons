@@ -1,28 +1,34 @@
 import "./globals.css";
 
-import { Inter, Quicksand, Fira_Code } from "next/font/google";
+import localFont from "next/font/local";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
-import { Analytics } from "@vercel/analytics/react";
 import { serverEnv } from "@/env/server";
 import ThemeColor from "@/components/theme-color";
+import { withSiteBasePath } from "@/config/site-origin";
 
-const monospace = Fira_Code({
-  style: ["normal"],
+const monospace = localFont({
+  src: "../../public/fonts/FiraCode-Regular.ttf",
+  weight: "400",
+  style: "normal",
   variable: "--font-monospace",
-  subsets: ["latin"]
+  display: "swap"
 });
 
-const quicksand = Quicksand({
-  weight: ["400", "600"],
-  style: ["normal"],
+const quicksand = localFont({
+  src: "../../public/fonts/Quicksand-Regular.ttf",
+  weight: "400",
+  style: "normal",
   variable: "--font-quicksand",
-  subsets: ["latin"]
+  display: "swap"
 });
 
-const inter = Inter({
+const inter = localFont({
+  src: "../../public/fonts/Inter-Medium.ttf",
+  weight: "500",
+  style: "normal",
   variable: "--font-inter",
-  subsets: ["latin"]
+  display: "swap"
 });
 
 export default function RootLayout({
@@ -33,13 +39,33 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="manifest" href="/site.webmanifest" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href={withSiteBasePath("/apple-touch-icon.png")}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href={withSiteBasePath("/favicon-32x32.png")}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href={withSiteBasePath("/favicon-16x16.png")}
+        />
+        <link rel="manifest" href={withSiteBasePath("/site.webmanifest")} />
+        <link rel="mask-icon" href={withSiteBasePath("/safari-pinned-tab.svg")} color="#5bbad5" />
         <meta name="apple-mobile-web-app-title" content="rocketicons" />
         <meta name="application-name" content="rocketicons" />
+        <link
+          rel="alternate"
+          type="text/plain"
+          href={withSiteBasePath("/llms.txt")}
+          title="Rocketicons for LLMs"
+        />
 
         {/* Inline script to prevent FOUC — sets dark class on <html> before React hydrates.
             Uses the same localStorage key ("theme-prefs") as useThemeHandler hook.
@@ -68,8 +94,9 @@ export default function RootLayout({
         className={`${inter.variable} ${quicksand.variable} ${monospace.variable} font-inter bg-background dark:bg-background-dark`}
       >
         {children}
-        <Analytics />
-        <GoogleAnalytics gaId={serverEnv.GOOGLE_ANALYTICS_ID} />
+        {serverEnv.GOOGLE_ANALYTICS_ID && (
+          <GoogleAnalytics gaId={serverEnv.GOOGLE_ANALYTICS_ID} />
+        )}
       </body>
     </html>
   );

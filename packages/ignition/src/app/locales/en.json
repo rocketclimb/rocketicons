@@ -1,9 +1,9 @@
 {
   "brand": {
-    "motto": "Icons your way and as you need them. On the Web or Mobile.",
-    "description": "The icon library you've been looking for. Works in React and React Native without any changes. Just one code that runs wherever you need it. And with all the power you already know from Tailwind",
+    "motto": "Thousands to explore. Only yours to ship.",
+    "description": "Find the right icon and add its React or React Native component to your source tree, with Tailwind-compatible styling.",
     "total-icon-count-text": "Our current total count of icons is:",
-    "title-suffix": "A non official Tailwind plugin"
+    "title-suffix": "Add only what you use"
   },
   "opengraph": {
     "collections": "Collections",

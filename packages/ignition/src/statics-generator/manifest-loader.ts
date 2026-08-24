@@ -299,7 +299,8 @@ export const loadPublicManifest = async (): Promise<{
   generated: string;
 }> => {
   try {
-    const response = await fetch("/icons/manifest.json");
+    const basePath = process.env.NEXT_PUBLIC_SITE_BASE_PATH ?? "";
+    const response = await fetch(\`\${basePath}/icons/manifest.json\`);
     if (!response.ok) {
       throw new Error("Failed to load public manifest");
     }

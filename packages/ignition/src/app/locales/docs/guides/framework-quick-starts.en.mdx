@@ -1,0 +1,59 @@
+---
+title: Framework Quick Starts
+description: Use locally generated Rocketicons components with React, Next.js, Vite, Expo, and React Native
+slug: framework-quick-starts
+order: 2
+group: guides
+---
+
+## Guides
+
+# Pick your launchpad
+
+Every setup starts the same way: use an existing TypeScript project, initialize Rocketicons at its root, then add one exact icon ID.
+
+```bash
+npx @rocketicons/cli init
+npx @rocketicons/cli add @rc/rc-rocket-icon
+```
+
+### React
+
+Import the generated component through the alias added to `tsconfig.json`:
+
+```tsx
+import RcRocketIcon from "@/ri/icons/rc-rocket-icon";
+
+export function App() {
+  return <RcRocketIcon className="icon-sky-500-lg" />;
+}
+```
+
+Your build tool must understand the `@` alias. If it does not read TypeScript paths automatically, mirror that alias in its configuration.
+
+### Next.js
+
+Run the commands from the directory containing `next.config.*` and `tsconfig.json`. Next.js reads TypeScript path aliases, so the generated import can be used in a Server or Client Component wherever its surrounding code allows.
+
+### Vite
+
+Run the commands beside `vite.config.*`. Keep the generated `@/ri/*` TypeScript path and configure Vite's `@` alias if your starter does not already provide it.
+
+### Expo
+
+Start with an Expo TypeScript project. Configure `react-native-svg`, NativeWind, and the Rocketicons Tailwind integration, then initialize and import the same local component. Metro must resolve your `@` alias.
+
+### React Native
+
+Rocketicons uses its generated native core with `react-native-svg`. Configure React Native SVG, NativeWind, Tailwind content paths, and alias resolution before rendering:
+
+```tsx
+import RcRocketIcon from "@/ri/icons/rc-rocket-icon";
+
+export function LaunchMark() {
+  return <RcRocketIcon className="icon-sky-500-lg" accessibilityLabel="Launch" />;
+}
+```
+
+> The CLI currently generates TypeScript/TSX only. It does not configure framework bundlers, Metro, NativeWind, or React Native SVG for you.
+

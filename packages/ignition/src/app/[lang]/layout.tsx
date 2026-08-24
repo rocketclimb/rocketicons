@@ -2,18 +2,22 @@ import ModalContext from "@/components/modal-context";
 import ThemeControl from "@/components/theme/theme-control";
 import Header from "@/components/header";
 import ContentKindMarker from "@/components/content-kind-marker";
+import LocalePreference from "@/components/locale-preference";
 
-import { PropsWithChildrenAndLangParams, AvailableLanguages } from "@/types";
+import { PropsWithChildrenAndLangParams } from "@/types";
+import type { Languages } from "@/types";
+import { localePageParams } from "@/statics-generator/route-static-params";
 
 export function generateStaticParams() {
-  return AvailableLanguages.map((lang) => ({ lang }));
+  return localePageParams();
 }
 
-const Layout = async (props: PropsWithChildrenAndLangParams) => {
-  const { lang } = (await props.params) as { lang: import("@/types").Languages };
-  const { children } = props;
+const Layout = async ({ children, params }: PropsWithChildrenAndLangParams) => {
+  const { lang: rawLang } = await params;
+  const lang = rawLang as Languages;
   return (
     <>
+      <LocalePreference lang={lang} />
       <ContentKindMarker />
       <ThemeControl>
         <ModalContext>

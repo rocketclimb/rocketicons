@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { IconFromData } from "@rocketicons/core";
-import { svgsAsJson } from "@/utils/svg-as-json";
+import { getCollectionIcons } from "@/catalog/server";
 import { CollectionID } from "rocketicons/data";
 import { PropsWithLang } from "@/types";
 
@@ -11,10 +11,10 @@ export const IconsCollapsedCollectionTastesLoader = async ({
   id: string;
   className: string;
 }) => {
-  const svgs = await svgsAsJson(id);
+  const svgs = await getCollectionIcons(id, 10);
   return (
     <>
-      {svgs.map(({ id, data: { iconTree, variant } }: any) => (
+      {svgs.map(({ id, iconTree, variant }) => (
         <li key={id}>
           <IconFromData className={className} iconTree={iconTree} variant={variant} />
         </li>
@@ -29,13 +29,13 @@ type ItemsProps = {
 } & PropsWithLang;
 
 export const IconsExpandedCollectionTastesLoader = async ({ id, maxItems, lang }: ItemsProps) => {
-  const svgs = await svgsAsJson(id, maxItems);
+  const svgs = await getCollectionIcons(id, maxItems);
   return (
     <>
-      {svgs.map(({ iconId, name, data: { iconTree, variant } }: any) => (
+      {svgs.map(({ id: iconId, name, iconTree, variant }) => (
         <li key={iconId}>
           <Link
-            href={`/${lang}/icons/${id}/${iconId}`}
+            href={`/${lang}/icons/${id}/?icon=${encodeURIComponent(iconId)}`}
             className="group/button transition-all duration-200 flex flex-col flex-shrink-0 items-center justify-center overflow-auto size-20 xs:size-28 lg:size-36 mb-2 rounded border border-transparent hover:border-surface-border-medium dark:hover:bg-surface-medium"
           >
             <IconFromData

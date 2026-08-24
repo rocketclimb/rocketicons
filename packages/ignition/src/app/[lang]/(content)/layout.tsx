@@ -2,21 +2,20 @@ import { SidebarLeft, MenuItem } from "@/components/sidebar/sidebar-left";
 import Footer from "@/components/footer";
 import { PropsWithChildrenAndLangParams } from "@/types";
 import RocketIconsText from "@/components/rocketicons-text";
-import { collectionsAsJson } from "@/utils/svg-as-json";
+import { getCollections } from "@/catalog/server";
+import type { Languages } from "@/types";
 
-const Layout = async (props: PropsWithChildrenAndLangParams) => {
-  const { lang } = (await props.params) as { lang: import("@/types").Languages };
-
-  const { children } = props;
-
-  const collections = await collectionsAsJson();
+const Layout = async ({ children, params }: PropsWithChildrenAndLangParams) => {
+  const { lang: rawLang } = await params;
+  const lang = rawLang as Languages;
+  const collections = await getCollections();
   return (
     <>
       <div className="hidden lg:block group shrink-0 content-area pb-10 md:pr-7 lg:hover:overflow-y-auto">
         <SidebarLeft lang={lang}>
           {collections.map(({ id, name }) => (
             <li key={`${id}-${name}`}>
-              <MenuItem href={`/${lang}/icons/${id}`}>
+              <MenuItem href={`/${lang}/icons/${id}/`}>
                 {(name === "rocketclimb" && (
                   <RocketIconsText className="hover:text-secondary" />
                 )) ||

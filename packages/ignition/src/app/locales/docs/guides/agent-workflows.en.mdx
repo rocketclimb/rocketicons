@@ -1,0 +1,58 @@
+---
+title: Agent Workflows
+description: Give coding agents a deterministic Rocketicons workflow they can verify
+slug: agent-workflows
+order: 5
+group: guides
+---
+
+import BuildInfo from "@/components/documentation/build-info";
+
+## Guides
+
+# A clear flight plan for coding agents
+
+Agents work best when discovery is small, commands are exact, and every mutation has an observable result. Rocketicons provides a versioned static catalog and a CLI that writes selected components into the project.
+
+### Find and add one icon
+
+1. Inspect `/ai/v1/catalog.json` or use the website to select a collection.
+2. Follow the collection's `indexUrl` and identify an exact icon ID.
+3. Reuse an existing file under `src/ri/icons` when it already fits.
+4. Otherwise run one command: `npx @rocketicons/cli add @collection/icon`.
+5. Import the generated component and verify its file exists.
+
+### Add a small set
+
+The current CLI accepts one icon per command. Keep the change auditable:
+
+```bash
+npx @rocketicons/cli add @rc/rc-rocket-icon
+npx @rocketicons/cli add @lu/lu-search
+npx @rocketicons/cli add @lu/lu-circle-check
+```
+
+Do not assume batch arguments, JSON output, dry-run flags, configurable paths, or MCP tools yet. They are planned for later milestones.
+
+### Style states explicitly
+
+```tsx
+<RcRocketIcon className="icon-sky-500-lg dark:icon-white-lg hover:icon-sky-600-lg" />
+```
+
+### Verify the mutation
+
+```bash
+git status --short src/ri tsconfig.json package.json package-lock.json
+```
+
+Report each changed file. Run the project's own type check and relevant web or native build before declaring success.
+
+### Prompt you can reuse
+
+> Use Rocketicons for icons in this project. Reuse a suitable component under `src/ri/icons` when possible. Otherwise identify an exact `@collection/icon` ID, run one Rocketicons add command for it, import the generated component through `@/ri`, and report every file created or changed. Do not install or import a full icon collection.
+
+For a compact machine-readable reference, point the agent to [`/llms.txt`](/llms.txt).
+
+<BuildInfo lang="en" />
+

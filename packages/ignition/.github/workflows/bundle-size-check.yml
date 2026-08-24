@@ -68,16 +68,16 @@ jobs:
                 .filter(f => f.startsWith('bundle-report-'))
                 .sort()
                 .pop();
-                
+
               if (latestReport) {
                 const reportPath = path.join(reportDir, latestReport);
                 const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
-                
+
                 const totalSizeMB = (report.summary.totalSize / (1024 * 1024)).toFixed(2);
                 const limitMB = 220;
                 const usagePercent = ((report.summary.totalSize / (220 * 1024 * 1024)) * 100).toFixed(1);
                 const status = parseFloat(usagePercent) > 100 ? '❌ EXCEEDS LIMIT' : '✅ WITHIN LIMIT';
-                
+
                 let comment = `## 📊 Bundle Size Report\n\n`;
                 comment += `**Status**: ${status}\n`;
                 comment += `**Total Size**: ${totalSizeMB} MB (${usagePercent}% of ${limitMB} MB limit)\n\n`;
@@ -88,7 +88,7 @@ jobs:
                 comment += `- **Other**: ${(report.breakdown.other.totalSize / (1024 * 1024)).toFixed(2)} MB\n\n`;
                 comment += `### Files: ${report.summary.totalFiles}\n`;
                 comment += `### Compression Savings: ${(report.summary.compressionSavings / (1024 * 1024)).toFixed(2)} MB\n\n`;
-                
+
                 if (report.insights.length > 0) {
                   comment += `### 💡 Insights:\n`;
                   report.insights.forEach(insight => {
@@ -97,7 +97,7 @@ jobs:
                   });
                   comment += `\n`;
                 }
-                
+
                 comment += `---\n*Bundle analysis generated automatically*`;
 
                 github.rest.issues.createComment({

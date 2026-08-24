@@ -2,24 +2,31 @@ import Link from "next/link";
 import { MdxComponent } from "@/components/mdx";
 import { Metadata } from "next";
 import { PropsWithLangParams } from "@/types";
+import type { Languages } from "@/types";
 import SearchButton from "@/app/components/search/search";
+import HomeCodePreview from "@/components/animated-code-block-client";
 import { withLocale } from "@/locales/with-locale";
 import Footer from "@/components/footer";
 import { customMetadata } from "@/components/metadata-custom";
 import { withStructuredData } from "@/config";
-import HomeCodePreview from "@/components/animated-code-block-client";
+import { localePageParams } from "@/statics-generator/route-static-params";
 
-export const generateMetadata = async (props: PropsWithLangParams): Promise<Metadata> => {
-  const { lang } = (await props.params) as { lang: import("@/types").Languages };
+export function generateStaticParams() {
+  return localePageParams();
+}
+
+export const generateMetadata = async ({ params }: PropsWithLangParams): Promise<Metadata> => {
+  const { lang: rawLang } = await params;
+  const lang = rawLang as Languages;
   const { component } = withLocale(lang);
   const { title, description } = component("home");
 
   return customMetadata(lang, "page", "", title, description);
 };
 
-const Home = async (props: PropsWithLangParams) => {
-  const { lang } = (await props.params) as { lang: import("@/types").Languages };
-
+const Home = async ({ params }: PropsWithLangParams) => {
+  const { lang: rawLang } = await params;
+  const lang = rawLang as Languages;
   const { config } = withLocale(lang);
   const { "getting-started-slug": gettingStartedSlug, "getting-started": gettingStarted } =
     config("nav");

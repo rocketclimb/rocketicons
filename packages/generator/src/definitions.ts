@@ -13,7 +13,7 @@ export const icons: IconDefinition[] = [
         formatter: (name) => `Rc${name}`
       }
     ],
-    projectUrl: "https://rocketicons.io/",
+    projectUrl: "https://github.com/rocketclimb/rocketicons",
     license: "MIT",
     licenseUrl: "https://github.com/rocketclimb/rocketicons/blob/master/LICENSE"
   },

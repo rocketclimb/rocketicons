@@ -4,7 +4,7 @@ import { serverEnv } from "@/env/server";
 
 const OUTPUT_FILE = "params/collections.json";
 
-const generator = async () => {
+export const generateCollectionsStaticParams = async () => {
   const params = serverEnv.SKIP_BUILD_STATIC_GENERATION
     ? []
     : ([] as { collectionid: CollectionID }[]).concat(
@@ -13,5 +13,3 @@ const generator = async () => {
 
   await write(OUTPUT_FILE, JSON.stringify(params));
 };
-
-generator();

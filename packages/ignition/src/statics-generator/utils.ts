@@ -1,7 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { IconsManifest } from "@/app/data-helpers/icons/manifest-from-public";
-import { siteConfig } from "@/config/site";
+import { IconsManifest } from "rocketicons/data";
 
 const DATA_APP = "./src/app/";
 const DATA_DIR = `${DATA_APP}data-helpers/`;
@@ -24,7 +23,9 @@ export const write = async (
 
 export const getManifest = () => {
   const manifest = [...IconsManifest];
-  return siteConfig.isLocal ? manifest.slice(0, MANIFEST_LENGTH) : manifest;
+  return process.env.RI_GENERATE_ALL_ICONS === "true" || process.env.GENERATE_ALL_ICONS === "true"
+    ? manifest
+    : manifest.slice(0, MANIFEST_LENGTH);
 };
 
 export const listFiles = (path: string) =>

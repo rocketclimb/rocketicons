@@ -1,0 +1,37 @@
+---
+title: Por que Escolher Rocketicons
+description: Compare Rocketicons com pacotes completos de ícones usando fatos arquiteturais claros
+slug: comparacao
+order: 6
+group: guides
+---
+
+## Guias
+
+# Escolha o modelo que combina com seu projeto
+
+Rocketicons e pacotes completos conseguem colocar um bom ícone na tela. A diferença importante está no caminho que esse ícone percorre até a aplicação.
+
+| | Rocketicons | Pacote completo de ícones |
+| --- | --- | --- |
+| Código do ícone | Os componentes selecionados são gravados no seu código | As coleções permanecem em uma dependência instalada |
+| Ícones não usados | Nunca são importados pela aplicação | Normalmente são removidos pelos exports do pacote e pelo tree-shaking do bundler |
+| Código compartilhado | Instala utilitários do Rocketicons e a integração Tailwind | Usa o runtime e as peer dependencies do pacote |
+| Plataformas | O core gerado atende React e React Native | Depende da biblioteca; muitas atendem apenas React web |
+| Estilização | Classes compatíveis com Tailwind, incluindo setups com NativeWind | Varia por pacote e costuma usar props ou CSS |
+| Propriedade do código | Seu projeto revisa e versiona os componentes gerados | O pacote upstream mantém a implementação |
+| Uso offline | Arquivos gerados em commit funcionam offline com as dependências instaladas | Funciona offline depois que a dependência completa é instalada |
+| Atualizações | Você adiciona ou substitui arquivos escolhidos explicitamente | Uma atualização pode alterar muitos ícones exportados |
+
+### Onde Rocketicons brilha
+
+Escolha Rocketicons quando quiser código explícito, revisável, portátil entre React e React Native e mínimo por construção — não por uma otimização do bundler.
+
+### Quando um pacote pode ser mais simples
+
+Um pacote convencional pode ser uma boa escolha quando você não quer código gerado, precisa acessar muitos ícones dinamicamente em runtime ou já depende da API de uma biblioteca exclusiva para web.
+
+### Sobre números de tamanho
+
+A arquitetura mostra o que é incluído, mas os bytes exatos de instalação e bundle dependem do framework, bundler, imports e configuração. Rocketicons publicará medições reproduzíveis no marco de performance da CLI; esta página não inventa um número universal.
+

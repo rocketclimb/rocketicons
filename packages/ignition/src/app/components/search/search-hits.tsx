@@ -23,14 +23,17 @@ const IconHit = ({
     objectID,
     title,
     text,
-    categories: [variant]
+    categories: [_variant]
   },
   lang
 }: IconHitProps) => {
   return (
     <>
-      <Link className="grow py-3 pl-4 capitalize" href={`/${lang}/icons/${group}/${objectID}`}>
-        <SvgHit src={`/svgs/${group}/${objectID}`} variant={variant} />
+      <Link
+        className="grow py-3 pl-4 capitalize"
+        href={`/${lang}/icons/${group}/?icon=${encodeURIComponent(objectID)}`}
+      >
+        <SvgHit collectionId={group} iconId={objectID} />
         {title}
       </Link>
       <WithCopy

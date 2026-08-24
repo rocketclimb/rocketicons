@@ -1,3 +1,7 @@
+"use client";
+
+import { ReactNode, useEffect, useMemo, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import { CollectionID } from "rocketicons/data";
 import { PropsWithLang } from "@/types";
 
@@ -6,13 +10,13 @@ import { CodeStyler, CodeImportBlock, CodeElementBlock } from "@rocketclimb/code
 import LinkButton from "@/components/link-button";
 
 import Title3 from "@/components/documentation/title3";
-import { MdxClientPartial } from "@/components/mdx";
 import { withLocale } from "@/locales";
 import iconsSizes from "@/components/usage/sizing/sizes.json";
 
 import Title5 from "@/components/documentation/title5";
 
 import Box from "./interactive/box";
+import IconInfoPanel from "./panel";
 import Section from "./interactive/section";
 import Description from "./interactive/description";
 import Reset from "./interactive/reset";
@@ -26,19 +30,81 @@ import DarkModeSectionContent from "./interactive/dark-mode-section-content";
 import StatesSectionContent from "./interactive/states-section-content";
 import AnimationsSectionContent from "./interactive/animations-section-content";
 import SvgBox from "./interactive/svg-box";
-import { svgInfoAsJson } from "@/utils/svg-as-json";
 import { IconFromData } from "@rocketicons/core";
+import { loadIcon } from "@/catalog/client";
+import type { StaticIconRecord } from "@/catalog/types";
 
 type IconInfoProps = {
-  iconId: string;
   collectionId: CollectionID;
+  content: {
+    import: ReactNode;
+    usage: ReactNode;
+    sizing: ReactNode;
+    colors: ReactNode;
+    stroke: ReactNode;
+    combining: ReactNode;
+    dark: ReactNode;
+    states: ReactNode;
+    animations: ReactNode;
+    styling: ReactNode;
+  };
 } & PropsWithLang;
 
-const IconInfoLoader = async ({ lang, collectionId, iconId }: IconInfoProps) => {
-  const {
-    data: { iconTree, variant },
-    ...info
-  } = await svgInfoAsJson(collectionId, iconId);
+const IconInfoLoader = ({ lang, collectionId, content }: IconInfoProps) => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const iconId = searchParams.get("icon");
+  const [icon, setIcon] = useState<StaticIconRecord | null>();
+
+  useEffect(() => {
+    let active = true;
+    if (!iconId) {
+      setIcon(undefined);
+      return;
+    }
+    setIcon(undefined);
+    loadIcon(collectionId, iconId)
+      .then((loaded) => active && setIcon(loaded ?? null))
+      .catch(() => active && setIcon(null));
+    return () => {
+      active = false;
+    };
+  }, [collectionId, iconId]);
+
+  const closeHref = useMemo(() => {
+    const remaining = new URLSearchParams(searchParams.toString());
+    remaining.delete("icon");
+    const query = remaining.toString();
+    return `${pathname}${query ? `?${query}` : ""}`;
+  }, [pathname, searchParams]);
+
+  if (!iconId) return <IconInfoPanel selected={false} />;
+
+  if (!icon) {
+    return (
+      <IconInfoPanel selected>
+        <Box>
+          <LinkButton
+            href={closeHref}
+            aria-label="Close icon information"
+            className="absolute top-1 right-1 flex items-center justify-center"
+          >
+            <IoMdClose className="icon-slate-500 icon-lg" />
+          </LinkButton>
+          <div className="h-full flex items-center justify-center px-8 text-center">
+            {icon === null ? `Icon “${iconId}” was not found.` : "Loading icon…"}
+          </div>
+        </Box>
+      </IconInfoPanel>
+    );
+  }
+
+  const { iconTree, variant } = icon;
+  const info = {
+    id: `${collectionId}/${icon.id}.json`,
+    name: icon.name,
+    compName: icon.component
+  };
 
   const {
     "learn-more": learnMore,
@@ -83,9 +149,10 @@ const IconInfoLoader = async ({ lang, collectionId, iconId }: IconInfoProps) => 
     `;
 
   return (
-    <Box>
+    <IconInfoPanel selected>
+      <Box>
       <LinkButton
-        href={`/${lang}/icons/${collectionId}`}
+        href={closeHref}
         className="absolute top-1 right-1 flex items-center justify-center"
       >
         <IoMdClose className="icon-slate-500 icon-lg hover:icon-slate-600 dark:icon-slate-400 dark:hover:icon-slate-300" />
@@ -119,7 +186,7 @@ const IconInfoLoader = async ({ lang, collectionId, iconId }: IconInfoProps) => 
         </div>
         <div className="thin-scroll overflow-y-auto md:overflow-y-hidden md:flex md:overflow-x-auto">
           <Section>
-            <MdxClientPartial path="components" lang={lang} slug="icon-info-import" />
+            {content.import}
             <CodeImportBlock
               lang="js"
               copy={copy}
@@ -128,7 +195,7 @@ const IconInfoLoader = async ({ lang, collectionId, iconId }: IconInfoProps) => 
               component={info.compName}
               module={`rocketicons/${collectionId}`}
             />
-            <MdxClientPartial path="components" lang={lang} slug="icon-info-usage" />
+            {content.usage}
             <CodeStyler variant="compact">
               <CodeElementBlock
                 copy={copy}
@@ -146,7 +213,7 @@ const IconInfoLoader = async ({ lang, collectionId, iconId }: IconInfoProps) => 
             sizes={allSizes}
           >
             <Description>
-              <MdxClientPartial path="components" lang={lang} slug="icon-info-sizing" />
+              {content.sizing}
               <LearnMore
                 label={learnMore}
                 href={`/${lang}/docs/sizing-icons?i=${collectionId}.${info.compName}`}
@@ -155,7 +222,7 @@ const IconInfoLoader = async ({ lang, collectionId, iconId }: IconInfoProps) => 
           </SizesSectionContent>
           <ColorsSectionContent lang={lang} collectionId={collectionId} compName={info?.compName}>
             <Description>
-              <MdxClientPartial path="components" lang={lang} slug="icon-info-colors" />
+              {content.colors}
               <LearnMore
                 label={learnMore}
                 href={`/${lang}/docs/sizing-colors?i=${collectionId}.${info.compName}`}
@@ -169,7 +236,7 @@ const IconInfoLoader = async ({ lang, collectionId, iconId }: IconInfoProps) => 
             compName={info?.compName}
           >
             <Description>
-              <MdxClientPartial path="components" lang={lang} slug="icon-info-stroke" />
+              {content.stroke}
               <LearnMore
                 label={learnMore}
                 href={`/${lang}/docs/styling?i=${collectionId}.${info.compName}#stroke-width`}
@@ -182,7 +249,7 @@ const IconInfoLoader = async ({ lang, collectionId, iconId }: IconInfoProps) => 
             compName={info?.compName}
           >
             <Description>
-              <MdxClientPartial path="components" lang={lang} slug="icon-info-combining" />
+              {content.combining}
               <LearnMore
                 label={learnMore}
                 href={`/${lang}/docs/shortcuts?i=${collectionId}.${info.compName}`}
@@ -195,7 +262,7 @@ const IconInfoLoader = async ({ lang, collectionId, iconId }: IconInfoProps) => 
             compName={info?.compName}
           >
             <Description>
-              <MdxClientPartial path="components" lang={lang} slug="icon-info-dark" />
+              {content.dark}
               <LearnMore
                 label={learnMore}
                 href={`/${lang}/docs/dark-mode?i=${collectionId}.${info.compName}`}
@@ -204,7 +271,7 @@ const IconInfoLoader = async ({ lang, collectionId, iconId }: IconInfoProps) => 
           </DarkModeSectionContent>
           <StatesSectionContent lang={lang} collectionId={collectionId} compName={info?.compName}>
             <Description>
-              <MdxClientPartial path="components" lang={lang} slug="icon-info-states" />
+              {content.states}
               <LearnMore
                 label={learnMore}
                 href={`/${lang}/docs/state-management?i=${collectionId}.${info.compName}`}
@@ -217,7 +284,7 @@ const IconInfoLoader = async ({ lang, collectionId, iconId }: IconInfoProps) => 
             compName={info?.compName}
           >
             <Description>
-              <MdxClientPartial path="components" lang={lang} slug="icon-info-animations" />
+              {content.animations}
               <LearnMore
                 label={learnMore}
                 href={`/${lang}/docs/styling?i=${collectionId}.${info.compName}#animations`}
@@ -226,7 +293,7 @@ const IconInfoLoader = async ({ lang, collectionId, iconId }: IconInfoProps) => 
           </AnimationsSectionContent>
           <Section>
             <Description>
-              <MdxClientPartial path="components" lang={lang} slug="icon-info-styling" />
+              {content.styling}
               <LearnMore label={learnMore} href={`/${lang}/docs/adding-icons`} />
             </Description>
           </Section>
@@ -238,7 +305,8 @@ const IconInfoLoader = async ({ lang, collectionId, iconId }: IconInfoProps) => 
           </Section>
         </div>
       </div>
-    </Box>
+      </Box>
+    </IconInfoPanel>
   );
 };
 

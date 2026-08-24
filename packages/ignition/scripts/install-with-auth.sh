@@ -72,4 +72,4 @@ echo "🧹 Cleaning up authentication files..."
 rm -f .npmrc
 rm -f ../../.npmrc
 
-echo "🎉 Dependencies installed with authentication successfully!" 
+echo "🎉 Dependencies installed with authentication successfully!"

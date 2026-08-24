@@ -5,7 +5,7 @@ import rehypeSlug from "rehype-slug-custom-id";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import { shikiColorToClassTransform } from "@rocketclimb/code-block/shiki-transform";
-
+import { IconsManifest } from "rocketicons/data";
 import bundleAnalyzer from "@next/bundle-analyzer";
 
 const withBundleAnalyzer = bundleAnalyzer({
@@ -23,7 +23,6 @@ const shikiOptions = {
   theme,
   transformers: [shikiColorToClassTransform()]
 };
-
 const withMDX = createMDX({
   options: {
     remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
@@ -34,9 +33,14 @@ const withMDX = createMDX({
   }
 });
 
+const packagesToOptimize = IconsManifest.map(({ id }) => `rocketicons/${id}`);
+const siteUrl = process.env.SITE_ORIGIN ? new URL(process.env.SITE_ORIGIN) : undefined;
+const siteBasePath = siteUrl?.pathname.replace(/\/+$/, "") ?? "";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: "export", // Temporarily disabled for development
+  output: "export",
+  basePath: siteBasePath,
   trailingSlash: true,
   images: {
     unoptimized: true
@@ -46,71 +50,24 @@ const nextConfig = {
   webpack: (config, { isServer, dev }) => {
     config.resolve.fallback = { fs: false, path: false };
 
-    // Only apply optimizations in production builds
     if (!dev && !isServer) {
-      // Aggressive code splitting for client bundles
-      config.optimization.splitChunks = {
-        chunks: "all",
-        maxSize: 200000, // Reduced to 200KB chunks
-        minSize: 20000, // Minimum 20KB chunks
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: "vendors",
-            chunks: "all",
-            priority: 10,
-            maxSize: 200000,
-            enforce: true
-          },
-          common: {
-            name: "common",
-            minChunks: 2,
-            chunks: "all",
-            maxSize: 200000,
-            priority: 5
-          },
-          default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true,
-            maxSize: 200000
-          }
-        }
-      };
-
-      // Only set these in production to avoid conflicts with dev server
       config.optimization.usedExports = true;
       config.optimization.sideEffects = false;
     }
-
     return config;
   },
 
-  outputFileTracingIncludes: {
-    "/[lang]/icons/[collectionid]/[iconid]": ["./src/app/data-helpers/svgs/svgs.db"]
-  },
-
   experimental: {
-    // Disable optimizeCss in development to avoid critters dependency issues
-    optimizeCss: process.env.NODE_ENV === "production"
+    optimizeCss: process.env.NODE_ENV === "production",
+    optimizePackageImports: packagesToOptimize
   },
 
   compiler: {
     removeConsole: process.env.NODE_ENV === "production"
   },
 
-  async headers() {
-    return [
-      {
-        source: "/(.*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=0, s-maxage=31536000, must-revalidate"
-          }
-        ]
-      }
-    ];
+  env: {
+    NEXT_PUBLIC_SITE_BASE_PATH: siteBasePath
   }
 };
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 import Logo from "./logo";
 import MainNav from "./main-nav";
 import { PropsWithLang } from "@/types/props-with-lang";
-import { pkgVersion } from "@/data-helpers/icons/manifest-from-public";
+import { pkgVersion } from "@/data-helpers/icons/manifest";
 import { CollapsedSidebar } from "@/components/sidebar/collapsed-sidebar";
 
 const LogoLink = ({ lang }: PropsWithLang) => {

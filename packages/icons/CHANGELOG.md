@@ -1,3 +1,73 @@
+## [0.7.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-14)
+
+### Features
+
+- upgrade NativeWind v2→v4.2.2 + add native test Expo app ([45e78a0d](https://github.com/rocketclimb/rocketicons/commit/45e78a0df2342e188e95c21c4e45350c8bfae243))
+- **icons** update package version ([7e3e04d6](https://github.com/rocketclimb/rocketicons/commit/7e3e04d611473da59da6f0a9f6f263f542b5a177))
+- **icons** update lucide icons ([9642225d](https://github.com/rocketclimb/rocketicons/commit/9642225d95a7516d3962a3d8673824eacdc162cd))
+- **icons** fix package type exposing data for IconTree ([f4e9eeb9](https://github.com/rocketclimb/rocketicons/commit/f4e9eeb9b919095f4bc20f9730ce04ce108d17fa))
+
+### Bug Fixes
+
+- **cicd** bump stack to Node 22 (TW v4 / @tailwindcss/oxide need >=20) ([b2c32883](https://github.com/rocketclimb/rocketicons/commit/b2c3288314a1bda60e96b007c99d571d5b86ec5c))
+- **icons** correct handling of tailwind prefix ([c383d05b](https://github.com/rocketclimb/rocketicons/commit/c383d05b0777eac03de994cb8a17d10057dac81c))
+
+### Refactoring
+
+- **icons** remove unused generateStaticParams function from icon page ([85961bce](https://github.com/rocketclimb/rocketicons/commit/85961bceda1a8d298f90b36e0038e40cbd44f440))
+
+### Miscellaneous
+
+- **agent** improve llm agent access ([1e6e6acd](https://github.com/rocketclimb/rocketicons/commit/1e6e6acd24fe7cdedd7f078f712b153abf5ba585))
+
+### Other
+
+-  ([c4dcbeca](https://github.com/rocketclimb/rocketicons/commit/c4dcbeca70280efeab696c005928b5afd304ad40))
+
+## [0.6.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
+
+### Features
+
+- upgrade NativeWind v2→v4.2.2 + add native test Expo app ([45e78a0d](https://github.com/rocketclimb/rocketicons/commit/45e78a0df2342e188e95c21c4e45350c8bfae243))
+- **icons** update package version ([7e3e04d6](https://github.com/rocketclimb/rocketicons/commit/7e3e04d611473da59da6f0a9f6f263f542b5a177))
+- **icons** update lucide icons ([9642225d](https://github.com/rocketclimb/rocketicons/commit/9642225d95a7516d3962a3d8673824eacdc162cd))
+- **icons** fix package type exposing data for IconTree ([f4e9eeb9](https://github.com/rocketclimb/rocketicons/commit/f4e9eeb9b919095f4bc20f9730ce04ce108d17fa))
+
+### Bug Fixes
+
+- **cicd** bump stack to Node 22 (TW v4 / @tailwindcss/oxide need >=20) ([b2c32883](https://github.com/rocketclimb/rocketicons/commit/b2c3288314a1bda60e96b007c99d571d5b86ec5c))
+- **icons** correct handling of tailwind prefix ([c383d05b](https://github.com/rocketclimb/rocketicons/commit/c383d05b0777eac03de994cb8a17d10057dac81c))
+
+### Refactoring
+
+- **icons** remove unused generateStaticParams function from icon page ([85961bce](https://github.com/rocketclimb/rocketicons/commit/85961bceda1a8d298f90b36e0038e40cbd44f440))
+
+### Miscellaneous
+
+- **agent** improve llm agent access ([1e6e6acd](https://github.com/rocketclimb/rocketicons/commit/1e6e6acd24fe7cdedd7f078f712b153abf5ba585))
+
+## [0.5.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
+
+### Features
+
+- upgrade NativeWind v2→v4.2.2 + add native test Expo app ([45e78a0d](https://github.com/rocketclimb/rocketicons/commit/45e78a0df2342e188e95c21c4e45350c8bfae243))
+- **icons** update package version ([7e3e04d6](https://github.com/rocketclimb/rocketicons/commit/7e3e04d611473da59da6f0a9f6f263f542b5a177))
+- **icons** update lucide icons ([9642225d](https://github.com/rocketclimb/rocketicons/commit/9642225d95a7516d3962a3d8673824eacdc162cd))
+- **icons** fix package type exposing data for IconTree ([f4e9eeb9](https://github.com/rocketclimb/rocketicons/commit/f4e9eeb9b919095f4bc20f9730ce04ce108d17fa))
+
+### Bug Fixes
+
+- **cicd** bump stack to Node 22 (TW v4 / @tailwindcss/oxide need >=20) ([b2c32883](https://github.com/rocketclimb/rocketicons/commit/b2c3288314a1bda60e96b007c99d571d5b86ec5c))
+- **icons** correct handling of tailwind prefix ([c383d05b](https://github.com/rocketclimb/rocketicons/commit/c383d05b0777eac03de994cb8a17d10057dac81c))
+
+### Refactoring
+
+- **icons** remove unused generateStaticParams function from icon page ([85961bce](https://github.com/rocketclimb/rocketicons/commit/85961bceda1a8d298f90b36e0038e40cbd44f440))
+
+### Miscellaneous
+
+- **agent** improve llm agent access ([1e6e6acd](https://github.com/rocketclimb/rocketicons/commit/1e6e6acd24fe7cdedd7f078f712b153abf5ba585))
+
 ## [0.4.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-05-08)
 
 ### Features
