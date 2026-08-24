@@ -9,6 +9,7 @@ permissions:
   actions: read
   contents: write
   id-token: write
+  pull-requests: read
 
 env:
   NODE_VERSION: "24.x"
@@ -23,9 +24,11 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      latest-workflow-run-id: ${{ steps.get-latest-workflow-run.outputs.LATEST_WORKFLOW_RUN_ID }}
+      prepare-run-id: ${{ steps.resolve-prepare-run.outputs.PREPARE_RUN_ID }}
+      source-pr-number: ${{ steps.resolve-prepare-run.outputs.SOURCE_PR_NUMBER }}
       pending-tag: ${{ steps.set-tag.outputs.PENDING_TAG }}
       is-release: ${{ contains(steps.set-tag.outputs.PENDING_TAG, 'release') }}
+      publish-package: ${{ steps.validate-release.outputs.PUBLISH_PACKAGE }}
 
     steps:
       - name: Checkout
@@ -36,10 +39,32 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Getting Latest Workflow Run ID
-        id: get-latest-workflow-run
+      - name: Resolve merged PR prepare run
+        id: resolve-prepare-run
         run: |
-          echo "LATEST_WORKFLOW_RUN_ID=$(curl -L -H 'Accept: application/vnd.github+json' -H 'Authorization: Bearer ${{ env.GH_TOKEN }}' -H 'X-GitHub-Api-Version: 2022-11-28' '${{ github.api_url }}/repos/${{ github.repository }}/actions/workflows/prepare-release.yml/runs?status=success&per_page=1' | jq '.workflow_runs[0].id')" >> $GITHUB_OUTPUT
+          PULL_REQUESTS="$(gh api --method GET "repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}/pulls")"
+          MERGED_PULL_REQUEST="$(
+            printf '%s' "$PULL_REQUESTS" |
+              jq -cer --arg base "$GITHUB_REF_NAME" \
+                '[.[] | select(.merged_at != null and .base.ref == $base)] | first'
+          )"
+          SOURCE_PR_NUMBER="$(printf '%s' "$MERGED_PULL_REQUEST" | jq -er '.number')"
+          SOURCE_HEAD_BRANCH="$(printf '%s' "$MERGED_PULL_REQUEST" | jq -er '.head.ref')"
+          PREPARE_RUNS="$(
+            gh api --method GET \
+              "repos/${GITHUB_REPOSITORY}/actions/workflows/prepare-release.yml/runs" \
+              -f event=pull_request \
+              -f status=success \
+              -f branch="$SOURCE_HEAD_BRANCH" \
+              -f per_page=100
+          )"
+          PREPARE_RUN_ID="$(
+            printf '%s' "$PREPARE_RUNS" |
+              node .github/scripts/release-guard.mjs select-run "$SOURCE_HEAD_BRANCH"
+          )"
+
+          echo "SOURCE_PR_NUMBER=$SOURCE_PR_NUMBER" >> $GITHUB_OUTPUT
+          echo "PREPARE_RUN_ID=$PREPARE_RUN_ID" >> $GITHUB_OUTPUT
 
       - name: Download tag artifact
         id: download-tag-artifact
@@ -47,12 +72,49 @@ jobs:
         with:
           name: tag-artifact
           github-token: ${{ env.GH_TOKEN }}
-          run-id: ${{ steps.get-latest-workflow-run.outputs.LATEST_WORKFLOW_RUN_ID }}
+          run-id: ${{ steps.resolve-prepare-run.outputs.PREPARE_RUN_ID }}
 
       - name: Set tag as environment variable
         id: set-tag
         run: |
           echo "PENDING_TAG=$(cat .tagrc)" >> $GITHUB_OUTPUT
+
+      - name: Download release metadata
+        if: contains(steps.set-tag.outputs.PENDING_TAG, 'release')
+        uses: actions/download-artifact@v4
+        with:
+          name: deployable-artifacts
+          path: prepared-release
+          github-token: ${{ env.GH_TOKEN }}
+          run-id: ${{ steps.resolve-prepare-run.outputs.PREPARE_RUN_ID }}
+
+      - name: Validate release metadata and package version
+        id: validate-release
+        if: contains(steps.set-tag.outputs.PENDING_TAG, 'release')
+        env:
+          PENDING_TAG: ${{ steps.set-tag.outputs.PENDING_TAG }}
+          SOURCE_PR_NUMBER: ${{ steps.resolve-prepare-run.outputs.SOURCE_PR_NUMBER }}
+        run: |
+          ROOT_VERSION="$(node -p "require('./package.json').version")"
+          PACKAGE_NAME="$(node -p "require('./packages/icons/package.json').name")"
+          PACKAGE_VERSION="$(node -p "require('./packages/icons/package.json').version")"
+          PUBLISHED_VERSION="$(npm view "$PACKAGE_NAME" version)"
+          PUBLISH_PACKAGE="$(
+            node .github/scripts/release-guard.mjs package-state \
+              "$PACKAGE_VERSION" \
+              "$PUBLISHED_VERSION"
+          )"
+
+          node .github/scripts/release-guard.mjs validate-metadata \
+            prepared-release/release-metadata.json \
+            "$PENDING_TAG" \
+            "$SOURCE_PR_NUMBER" \
+            "$ROOT_VERSION" \
+            "$PACKAGE_NAME" \
+            "$PACKAGE_VERSION" \
+            "$PUBLISH_PACKAGE"
+
+          echo "PUBLISH_PACKAGE=$PUBLISH_PACKAGE" >> $GITHUB_OUTPUT
 
       - name: Setup git user
         run: |
@@ -61,8 +123,16 @@ jobs:
 
       - name: Creating Tag ${{ steps.set-tag.outputs.PENDING_TAG }}
         if: steps.set-tag.outputs.PENDING_TAG != ''
+        env:
+          PENDING_TAG: ${{ steps.set-tag.outputs.PENDING_TAG }}
         run: |
-          git tag --force -a ${{ steps.set-tag.outputs.PENDING_TAG }} -m "${{ steps.set-tag.outputs.PENDING_TAG }}" && git push origin ${{ steps.set-tag.outputs.PENDING_TAG }}  --no-verify
+          if git ls-remote --exit-code --tags origin "refs/tags/$PENDING_TAG" >/dev/null; then
+            echo "Tag $PENDING_TAG already exists; refusing to overwrite it" >&2
+            exit 1
+          fi
+
+          git tag -a "$PENDING_TAG" -m "$PENDING_TAG"
+          git push origin "refs/tags/$PENDING_TAG" --no-verify
 
       - name: Warning about no Pending tag
         if: steps.set-tag.outputs.PENDING_TAG == ''
@@ -73,8 +143,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: create-tag
     if: needs.create-tag.outputs.is-release == 'true'
-    outputs:
-      package-name: ${{ steps.get-package-name.outputs.PKG_NAME }}
     steps:
       - run: echo "Generating the Release for  '${{ needs.create-tag.outputs.pending-tag }}'"
       - name: Setup Node
@@ -85,6 +153,7 @@ jobs:
           always-auth: true
 
       - name: Setup npm with trusted publishing support
+        if: needs.create-tag.outputs.publish-package == 'true'
         run: npm install --global npm@11.19.0
 
       - name: Download deployable artifacts
@@ -92,9 +161,10 @@ jobs:
         with:
           name: deployable-artifacts
           github-token: ${{ env.GH_TOKEN }}
-          run-id: ${{ needs.create-tag.outputs.latest-workflow-run-id }}
+          run-id: ${{ needs.create-tag.outputs.prepare-run-id }}
 
       - name: Publish package
+        if: needs.create-tag.outputs.publish-package == 'true'
         run: |
           tar zxf *.tgz
           node -e 'const pkg = require("./package/package.json"); const expected = require("./release-metadata.json"); if (pkg.name !== expected.name || pkg.version !== expected.version) { console.error(`Refusing to publish ${pkg.name}@${pkg.version}; expected ${expected.name}@${expected.version}`); process.exit(1) }'
@@ -103,10 +173,12 @@ jobs:
 
       - name: Get package name
         id: get-package-name
+        if: needs.create-tag.outputs.publish-package == 'true'
         run: |
           echo "PKG_NAME=$(ls *.tgz)" >> $GITHUB_OUTPUT
 
-      - name: Release ${{ needs.create-tag.outputs.pending-tag }}
+      - name: Release ${{ needs.create-tag.outputs.pending-tag }} with package
+        if: needs.create-tag.outputs.publish-package == 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.create-tag.outputs.pending-tag  }}
@@ -114,3 +186,11 @@ jobs:
           token: ${{ env.GH_TOKEN }}
           files: |
             ${{ steps.get-package-name.outputs.PKG_NAME }}
+
+      - name: Release ${{ needs.create-tag.outputs.pending-tag }} without package
+        if: needs.create-tag.outputs.publish-package != 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.create-tag.outputs.pending-tag }}
+          body_path: ${{ github.workspace }}/release-notes.md
+          token: ${{ env.GH_TOKEN }}

@@ -23,6 +23,7 @@ jobs:
 
     outputs:
       tag-name: ${{ steps.prepare-release.outputs.TAG_NAME }}
+      publish-package: ${{ steps.prepare-release.outputs.PUBLISH_PACKAGE }}
 
     steps:
       - name: Checkout
@@ -82,39 +83,65 @@ jobs:
           if [ "$CURRENT_VERSION" = "$PUBLISHED_VERSION" ]; then
             TAG_NAME="$(npm run release | grep v)"
           else
-            node -e '
-              const current = process.argv[1];
-              const published = process.argv[2];
-              const [major, minor, patch] = published.split(".").map(Number);
-              const allowed = new Set([
-                `${major}.${minor}.${patch + 1}`,
-                `${major}.${minor + 1}.0`,
-                `${major + 1}.0.0`,
-              ]);
-              if (!allowed.has(current)) {
-                console.error(`Refusing to release ${current} over published ${published}; expected one SemVer increment`);
-                process.exit(1);
-              }
-            ' "$CURRENT_VERSION" "$PUBLISHED_VERSION"
-
-            npm pack --silent -w packages/icons
             TAG_NAME="v$(node -p "require('./package.json').version")-release"
-            printf '## rocketicons %s\n\nIncludes the CLI and agent-friendly catalog access without importing the full icon library.\n' "$CURRENT_VERSION" > release-notes.md
+          fi
+
+          CURRENT_VERSION="$(node -p "require('./packages/icons/package.json').version")"
+          PUBLISH_PACKAGE=false
+
+          if [[ "$TAG_NAME" == *release* ]]; then
+            PUBLISH_PACKAGE="$(node .github/scripts/release-guard.mjs package-state "$CURRENT_VERSION" "$PUBLISHED_VERSION")"
+
+            if [ "$PUBLISH_PACKAGE" = "true" ]; then
+              npm pack --silent -w packages/icons
+            fi
+
+            if [ ! -f release-notes.md ]; then
+              printf '## rocketicons %s\n\nIncludes the CLI and agent-friendly catalog access without importing the full icon library.\n' "$CURRENT_VERSION" > release-notes.md
+            fi
           fi
 
           echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "PUBLISH_PACKAGE=$PUBLISH_PACKAGE" >> $GITHUB_OUTPUT
 
       - name: Set output as environment variable
         run: echo "TAG_NAME=${{ steps.prepare-release.outputs.TAG_NAME }}" >> $GITHUB_ENV
 
-      - name: Get genereated package name
+      - name: Get generated package name
         id: generated-pkg-name
-        run: echo "PKG_FILE=$(ls -1 -t *.tgz | head -1)" >> $GITHUB_OUTPUT
+        env:
+          TAG_NAME: ${{ steps.prepare-release.outputs.TAG_NAME }}
+          PUBLISH_PACKAGE: ${{ steps.prepare-release.outputs.PUBLISH_PACKAGE }}
+        run: |
+          if [ "$PUBLISH_PACKAGE" = "true" ] || [[ "$TAG_NAME" != *release* ]]; then
+            echo "PKG_FILE=$(ls -1 -t *.tgz | head -1)" >> $GITHUB_OUTPUT
+          else
+            echo "PKG_FILE=" >> $GITHUB_OUTPUT
+          fi
 
       - name: Generate artifact for tag ${{ steps.prepare-release.outputs.TAG_NAME }}
+        env:
+          TAG_NAME: ${{ steps.prepare-release.outputs.TAG_NAME }}
+          PUBLISH_PACKAGE: ${{ steps.prepare-release.outputs.PUBLISH_PACKAGE }}
+          SOURCE_PR_NUMBER: ${{ github.event.pull_request.number }}
+          SOURCE_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          echo "${{ steps.prepare-release.outputs.TAG_NAME }}" >> .tagrc
-          node -e 'const fs = require("node:fs"); const { name, version } = require("./packages/icons/package.json"); fs.writeFileSync("release-metadata.json", JSON.stringify({ name, version }, null, 2) + "\n")'
+          echo "$TAG_NAME" >> .tagrc
+          node -e '
+            const fs = require("node:fs");
+            const root = require("./package.json");
+            const { name, version } = require("./packages/icons/package.json");
+            const metadata = {
+              tagName: process.env.TAG_NAME,
+              sourcePullRequestNumber: Number(process.env.SOURCE_PR_NUMBER),
+              sourceHeadSha: process.env.SOURCE_HEAD_SHA,
+              rootVersion: root.version,
+              name,
+              version,
+              publishPackage: process.env.PUBLISH_PACKAGE === "true"
+            };
+            fs.writeFileSync("release-metadata.json", JSON.stringify(metadata, null, 2) + "\n");
+          '
 
       - name: Upload tag artifact to release job
         uses: actions/upload-artifact@v4
@@ -124,8 +151,10 @@ jobs:
           include-hidden-files: true
           if-no-files-found: error
 
-      - name: Upload deployable artifacts to release job
-        if: contains(steps.prepare-release.outputs.TAG_NAME, 'release')
+      - name: Upload deployable artifacts with package
+        if: >-
+          contains(steps.prepare-release.outputs.TAG_NAME, 'release') &&
+          steps.prepare-release.outputs.PUBLISH_PACKAGE == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: deployable-artifacts
@@ -133,6 +162,19 @@ jobs:
             release-notes.md
             release-metadata.json
             ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
+          if-no-files-found: error
+
+      - name: Upload deployable artifacts without package
+        if: >-
+          contains(steps.prepare-release.outputs.TAG_NAME, 'release') &&
+          steps.prepare-release.outputs.PUBLISH_PACKAGE != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployable-artifacts
+          path: |
+            release-notes.md
+            release-metadata.json
+          if-no-files-found: error
 
       - name: Upload rocketicons tgz as artifact
         if: contains(steps.prepare-release.outputs.TAG_NAME, 'release') == false
@@ -140,3 +182,4 @@ jobs:
         with:
           name: rocketicons-pkg
           path: ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
+          if-no-files-found: error
