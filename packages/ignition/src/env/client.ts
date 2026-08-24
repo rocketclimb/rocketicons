@@ -1,0 +1,10 @@
+type ClientSchema = {
+  NEXT_PUBLIC_ALGOLIA_APPLICATION_ID: string;
+  NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY: string;
+};
+
+export const clientEnv = {
+  NEXT_PUBLIC_ALGOLIA_APPLICATION_ID: process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID ?? "",
+  NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY:
+    process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY ?? ""
+} satisfies ClientSchema;

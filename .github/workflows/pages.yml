@@ -6,6 +6,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      synchronize_algolia:
+        description: Synchronize the production Algolia index from this revision
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: read
@@ -13,7 +19,11 @@ permissions:
   deployments: write
 
 concurrency:
-  group: cloudflare-pages-${{ github.ref }}
+  group: >-
+    ${{
+      (github.event_name != 'pull_request' && github.ref == 'refs/heads/main') &&
+      'rocketicons-production' || format('cloudflare-pages-{0}', github.ref)
+    }}
   cancel-in-progress: true
 
 jobs:
@@ -21,8 +31,10 @@ jobs:
     name: Test and export static site
     runs-on: ubuntu-latest
     env:
-      SITE_ORIGIN: ${{ vars.SITE_ORIGIN || 'https://rocketicons.io' }}
+      SITE_ORIGIN: ${{ vars.SITE_ORIGIN || 'https://rocketicons.com' }}
       RI_GENERATE_ALL_ICONS: "true"
+      NEXT_PUBLIC_ALGOLIA_APPLICATION_ID: ${{ vars.ALGOLIA_APPLICATION_ID }}
+      NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY: ${{ vars.ALGOLIA_SEARCH_ONLY_API_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,9 +45,11 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Validate SITE_ORIGIN
+      - name: Validate deployment configuration
         run: |
           test -n "$SITE_ORIGIN"
+          test -n "$NEXT_PUBLIC_ALGOLIA_APPLICATION_ID"
+          test -n "$NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY"
           node -e 'const value = new URL(process.env.SITE_ORIGIN); if (!/^https?:$/.test(value.protocol) || value.search || value.hash || value.username || value.password) process.exit(1)'
 
       - name: Configure GitHub Packages
@@ -94,3 +108,13 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy packages/ignition/out --project-name=rocketicons --branch=main
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Synchronize Algolia index
+        if: >-
+          (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+          (github.event_name == 'workflow_dispatch' && inputs.synchronize_algolia && github.ref == 'refs/heads/main')
+        env:
+          ALGOLIA_INDEXING_API_KEY: ${{ secrets.ALGOLIA_INDEXING_API_KEY }}
+        run: |
+          test -n "$ALGOLIA_INDEXING_API_KEY"
+          npm run indexer --workspace=packages/ignition

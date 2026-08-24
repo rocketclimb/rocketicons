@@ -159,160 +159,153 @@ const IconInfoLoader = ({ lang, collectionId, content }: IconInfoProps) => {
   return (
     <IconInfoPanel selected>
       <Box>
-      <LinkButton
-        href={closeHref}
-        className="absolute top-1 right-1 flex items-center justify-center"
-      >
-        <IoMdClose className="icon-slate-500 icon-lg hover:icon-slate-600 dark:icon-slate-400 dark:hover:icon-slate-300" />
-      </LinkButton>
-      <Title3 className="absolute top-1 left-1 md:left-2 icon-info-title content-box capitalize col-span-8 justify-start">
-        {info.name}
-      </Title3>
-      <div className="mt-8 flex flex-col h-full md:flex-row">
-        <div className="grid grid-cols-8 h-40 md:h-56 md:mt-2.5 border-b md:border-b-0 md:border-r border-surface-border dark:border-surface-dark mb-1 md:mb-0 md:mr-1 md:w-80 md:flex-shrink-0">
-          <div className="col-span-5 w-full rounded-md flex relative items-center justify-center">
-            <IconFromData
-              className={`size-36 icon-secondary-medium dark:icon-secondary ${iconSizeClass} ${iconColorsClass} ${iconStrokeClass} ${iconAnimationClass}`}
-              iconTree={iconTree}
-              variant={variant}
-            />
-            <Reset />
-          </div>
-          <div className="col-span-3 py-1 thin-scroll overflow-y-auto">
-            <div className="flex flex-col items-center">
-              {allSizes.map((size) => (
-                <SizeSelector key={`size-box-${size}`} size={size}>
-                  <IconFromData
-                    className={`${size} icon-secondary-medium dark:icon-secondary ${iconColorsClass} ${iconStrokeClass} ${iconAnimationClass}`}
-                    iconTree={iconTree}
-                    variant={variant}
-                  />
-                </SizeSelector>
-              ))}
+        <LinkButton
+          href={closeHref}
+          className="absolute top-1 right-1 flex items-center justify-center"
+        >
+          <IoMdClose className="icon-slate-500 icon-lg hover:icon-slate-600 dark:icon-slate-400 dark:hover:icon-slate-300" />
+        </LinkButton>
+        <Title3 className="absolute top-1 left-1 md:left-2 icon-info-title content-box capitalize col-span-8 justify-start">
+          {info.name}
+        </Title3>
+        <div className="mt-8 flex flex-col h-full md:flex-row">
+          <div className="grid grid-cols-8 h-40 md:h-56 md:mt-2.5 border-b md:border-b-0 md:border-r border-surface-border dark:border-surface-dark mb-1 md:mb-0 md:mr-1 md:w-80 md:flex-shrink-0">
+            <div className="col-span-5 w-full rounded-md flex relative items-center justify-center">
+              <IconFromData
+                className={`size-36 icon-secondary-medium dark:icon-secondary ${iconSizeClass} ${iconColorsClass} ${iconStrokeClass} ${iconAnimationClass}`}
+                iconTree={iconTree}
+                variant={variant}
+              />
+              <Reset />
+            </div>
+            <div className="col-span-3 py-1 thin-scroll overflow-y-auto">
+              <div className="flex flex-col items-center">
+                {allSizes.map((size) => (
+                  <SizeSelector key={`size-box-${size}`} size={size}>
+                    <IconFromData
+                      className={`${size} icon-secondary-medium dark:icon-secondary ${iconColorsClass} ${iconStrokeClass} ${iconAnimationClass}`}
+                      iconTree={iconTree}
+                      variant={variant}
+                    />
+                  </SizeSelector>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-        <div className="thin-scroll overflow-y-auto md:overflow-y-hidden md:flex md:overflow-x-auto">
-          <Section>
-            {content.import}
-            <CodeImportBlock
-              lang="js"
-              copy={copy}
-              copied={copied}
-              className="flex"
-              component={info.compName}
-              module={`rocketicons/${collectionId}`}
-            />
-            {content.usage}
-            <CodeStyler variant="compact">
-              <CodeElementBlock
+          <div className="thin-scroll overflow-y-auto md:overflow-y-hidden md:flex md:overflow-x-auto">
+            <Section>
+              {content.import}
+              <CodeImportBlock
+                lang="js"
                 copy={copy}
                 copied={copied}
-                className="text-xs"
+                className="flex"
                 component={info.compName}
+                module={`rocketicons/${collectionId}`}
               />
-            </CodeStyler>
-            <SvgBox copiedLabel={copied} iconTree={iconTree} iconId={info.id} />
-          </Section>
-          <SizesSectionContent
-            lang={lang}
-            collectionId={collectionId}
-            compName={info?.compName}
-            sizes={allSizes}
-          >
-            <Description>
-              {content.sizing}
-              <LearnMore
-                label={learnMore}
-                href={learnMoreHref("sizing-icons")}
-              />
-            </Description>
-          </SizesSectionContent>
-          <ColorsSectionContent lang={lang} collectionId={collectionId} compName={info?.compName}>
-            <Description>
-              {content.colors}
-              <LearnMore
-                label={learnMore}
-                href={learnMoreHref("colors")}
-              />
-            </Description>
-          </ColorsSectionContent>
-          <StrokeSectionContent
-            isOutlined={variant === "outlined" || variant === "full"}
-            lang={lang}
-            collectionId={collectionId}
-            compName={info?.compName}
-          >
-            <Description>
-              {content.stroke}
-              <LearnMore
-                label={learnMore}
-                href={learnMoreHref("styling", stylingAnchors.strokeWidth)}
-              />
-            </Description>
-          </StrokeSectionContent>
-          <CombinedSectionContent
-            lang={lang}
-            collectionId={collectionId}
-            compName={info?.compName}
-          >
-            <Description>
-              {content.combining}
-              <LearnMore
-                label={learnMore}
-                href={learnMoreHref("shortcuts")}
-              />
-            </Description>
-          </CombinedSectionContent>
-          <DarkModeSectionContent
-            lang={lang}
-            collectionId={collectionId}
-            compName={info?.compName}
-          >
-            <Description>
-              {content.dark}
-              <LearnMore
-                label={learnMore}
-                href={learnMoreHref("dark-mode")}
-              />
-            </Description>
-          </DarkModeSectionContent>
-          <StatesSectionContent lang={lang} collectionId={collectionId} compName={info?.compName}>
-            <Description>
-              {content.states}
-              <LearnMore
-                label={learnMore}
-                href={learnMoreHref("state-management")}
-              />
-            </Description>
-          </StatesSectionContent>
-          <AnimationsSectionContent
-            lang={lang}
-            collectionId={collectionId}
-            compName={info?.compName}
-          >
-            <Description>
-              {content.animations}
-              <LearnMore
-                label={learnMore}
-                href={learnMoreHref("styling", stylingAnchors.animations)}
-              />
-            </Description>
-          </AnimationsSectionContent>
-          <Section>
-            <Description>
-              {content.styling}
-              <LearnMore label={learnMore} href={learnMoreHref("adding-icons")} />
-            </Description>
-          </Section>
-          <Section>
-            <Title5>Tags</Title5>
-            <div className="px-2 py-px border border-sky-100 bg-sky-50 rounded-full inline-block text-xs text-on-secondary-lighter">
-              {variant}
-            </div>
-          </Section>
+              {content.usage}
+              <CodeStyler variant="compact">
+                <CodeElementBlock
+                  copy={copy}
+                  copied={copied}
+                  className="text-xs"
+                  component={info.compName}
+                />
+              </CodeStyler>
+              <SvgBox copiedLabel={copied} iconTree={iconTree} iconId={info.id} />
+            </Section>
+            <SizesSectionContent
+              lang={lang}
+              collectionId={collectionId}
+              compName={info?.compName}
+              sizes={allSizes}
+            >
+              <Description>
+                {content.sizing}
+                <LearnMore label={learnMore} href={learnMoreHref("sizing-icons")} />
+              </Description>
+            </SizesSectionContent>
+            <ColorsSectionContent
+              lang={lang}
+              collectionId={collectionId}
+              compName={info?.compName}
+            >
+              <Description>
+                {content.colors}
+                <LearnMore label={learnMore} href={learnMoreHref("colors")} />
+              </Description>
+            </ColorsSectionContent>
+            <StrokeSectionContent
+              isOutlined={variant === "outlined" || variant === "full"}
+              lang={lang}
+              collectionId={collectionId}
+              compName={info?.compName}
+            >
+              <Description>
+                {content.stroke}
+                <LearnMore
+                  label={learnMore}
+                  href={learnMoreHref("styling", stylingAnchors.strokeWidth)}
+                />
+              </Description>
+            </StrokeSectionContent>
+            <CombinedSectionContent
+              lang={lang}
+              collectionId={collectionId}
+              compName={info?.compName}
+            >
+              <Description>
+                {content.combining}
+                <LearnMore label={learnMore} href={learnMoreHref("shortcuts")} />
+              </Description>
+            </CombinedSectionContent>
+            <DarkModeSectionContent
+              lang={lang}
+              collectionId={collectionId}
+              compName={info?.compName}
+            >
+              <Description>
+                {content.dark}
+                <LearnMore label={learnMore} href={learnMoreHref("dark-mode")} />
+              </Description>
+            </DarkModeSectionContent>
+            <StatesSectionContent
+              lang={lang}
+              collectionId={collectionId}
+              compName={info?.compName}
+            >
+              <Description>
+                {content.states}
+                <LearnMore label={learnMore} href={learnMoreHref("state-management")} />
+              </Description>
+            </StatesSectionContent>
+            <AnimationsSectionContent
+              lang={lang}
+              collectionId={collectionId}
+              compName={info?.compName}
+            >
+              <Description>
+                {content.animations}
+                <LearnMore
+                  label={learnMore}
+                  href={learnMoreHref("styling", stylingAnchors.animations)}
+                />
+              </Description>
+            </AnimationsSectionContent>
+            <Section>
+              <Description>
+                {content.styling}
+                <LearnMore label={learnMore} href={learnMoreHref("adding-icons")} />
+              </Description>
+            </Section>
+            <Section>
+              <Title5>Tags</Title5>
+              <div className="px-2 py-px border border-sky-100 bg-sky-50 rounded-full inline-block text-xs text-on-secondary-lighter">
+                {variant}
+              </div>
+            </Section>
+          </div>
         </div>
-      </div>
       </Box>
     </IconInfoPanel>
   );

@@ -33,8 +33,7 @@ export const withLocale = (lang: Languages) => {
     enSlug: (slug: string) => enSlugFromIndex(slug, docIndex),
     docs: (): Docs => docIndex["docs"],
     doc: (slug: string) => getContentFromIndex(slug, docIndex),
-    docHref: (slug: string) =>
-      `/${lang}/docs/${getContentFromIndex(slug, docIndex).slug}`,
+    docHref: (slug: string) => `/${lang}/docs/${getContentFromIndex(slug, docIndex).slug}`,
     component: (slug: string) => getContentFromIndex(slug, pageComponentIndex),
     config
   };
