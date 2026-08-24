@@ -1,7 +1,8 @@
-## [0.9.2](https://github.com/rocketclimb/rocketicons/compare/v0.9.1-release...v0.9.2) (2026-08-21)
+## [0.9.2](https://github.com/rocketclimb/rocketicons/compare/v0.9.1-release...v0.9.2) (2026-08-24)
 
 ### Bug Fixes
 
+- **ignition** use the right icon ([be9dea35](https://github.com/rocketclimb/rocketicons/commit/be9dea350fe23f3d8fcbceb9b4abfc0fe09c8930))
 - **ignition** icon selection issues ([ffdc6d3e](https://github.com/rocketclimb/rocketicons/commit/ffdc6d3ea818566f1d3b1d97f6a1613003b98912))
 - **deps** remove sqlite ([5c8a8268](https://github.com/rocketclimb/rocketicons/commit/5c8a8268316accbe3761125f5c91a93beae35dcc))
 - **ignition** fix links ([73c7e157](https://github.com/rocketclimb/rocketicons/commit/73c7e1573d7203ad73e781bfd258eea157027565))
