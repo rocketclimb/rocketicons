@@ -10,6 +10,13 @@ import {
   buildIconRecords,
   validateAlgoliaRecords
 } from "@/algolia/records";
+import {
+  ALGOLIA_INDEX_VERSION_KEY,
+  AlgoliaIndexSettings,
+  algoliaIndexSettingsMatch,
+  buildAlgoliaIndexVersion,
+  currentAlgoliaIndexVersion
+} from "@/algolia/index-version";
 import { getCollectionIcons, getCollections } from "@/catalog/server";
 import { siteConfig } from "@/config/site";
 
@@ -24,22 +31,48 @@ export const synchronizeAlgolia = async () => {
   const indexingApiKey = requiredEnvironmentVariable("ALGOLIA_INDEXING_API_KEY");
   const { records, iconCount, documentCount } = await buildAlgoliaRecords();
   const index = algoliasearch(applicationId, indexingApiKey).initIndex(siteConfig.name);
+  const settings: AlgoliaIndexSettings = {
+    searchableAttributes: [
+      "unordered(title)",
+      "unordered(groupName)",
+      "unordered(group)",
+      "unordered(text)",
+      "unordered(categories)"
+    ],
+    attributesForFaceting: ["filterOnly(recordType)", "filterOnly(locale)"],
+    hitsPerPage: 60
+  };
+  const indexVersion = buildAlgoliaIndexVersion(records, settings);
+  const currentSettings = (await index.exists()) ? await index.getSettings() : undefined;
+
+  if (
+    currentSettings &&
+    currentAlgoliaIndexVersion(currentSettings.userData) === indexVersion &&
+    algoliaIndexSettingsMatch(currentSettings, settings)
+  ) {
+    console.info(
+      `Algolia index ${siteConfig.name} already matches ${records.length} records; synchronization skipped`
+    );
+    return;
+  }
+
+  const { objectIDs } = await index.replaceAllObjects(records, { safe: true });
+  const existingUserData =
+    currentSettings?.userData &&
+    typeof currentSettings.userData === "object" &&
+    !Array.isArray(currentSettings.userData)
+      ? currentSettings.userData
+      : {};
 
   await index
     .setSettings({
-      searchableAttributes: [
-        "unordered(title)",
-        "unordered(groupName)",
-        "unordered(group)",
-        "unordered(text)",
-        "unordered(categories)"
-      ],
-      attributesForFaceting: ["filterOnly(recordType)", "filterOnly(locale)"],
-      hitsPerPage: 60
+      ...settings,
+      userData: {
+        ...existingUserData,
+        [ALGOLIA_INDEX_VERSION_KEY]: indexVersion
+      }
     })
     .wait();
-
-  const { objectIDs } = await index.replaceAllObjects(records, { safe: true });
   console.info(
     `Synchronized ${objectIDs.length} records (${iconCount} icons and ${documentCount} documents) to ${siteConfig.name}`
   );

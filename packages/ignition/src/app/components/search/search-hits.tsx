@@ -10,6 +10,7 @@ import { PropsWithChildren } from "react";
 import { GoBook } from "rocketicons/go";
 
 import SvgHit from "./svg-hit";
+import { searchResultsMatchInput } from "./search-query";
 
 const borderClass = "border-surface-lighter dark:border-surface-medium";
 
@@ -179,12 +180,16 @@ const GroupedHits = ({ lang, groupedHits }: GroupedHitsProps) =>
       return <HitResult key={group} group={group} lang={lang} hits={hits} />;
     });
 
-const SearchHits = ({ lang }: PropsWithLang) => {
+type SearchHitsProps = PropsWithLang & {
+  query: string;
+};
+
+const SearchHits = ({ lang, query }: SearchHitsProps) => {
   const { "no-results": noResults } = withLocale(lang).config("search");
   const { results } = useInstantSearch();
-  const hasQuery = (results.query ?? "").trim().length >= 3;
+  const hasCurrentQuery = searchResultsMatchInput(query, results.query ?? "");
 
-  const groupedHits = results.hits.reduce(
+  const groupedHits = (hasCurrentQuery ? results.hits : []).reduce(
     (groups: any, hit: any) => {
       if (hit.group) {
         const key = hit.groupName || hit.group;
@@ -205,16 +210,18 @@ const SearchHits = ({ lang }: PropsWithLang) => {
   return (
     <>
       <div className="px-1">
-        {hasQuery && results.nbHits === 0 && <div className="py-3 px-6">{noResults}</div>}
+        {hasCurrentQuery && results.nbHits === 0 && <div className="py-3 px-6">{noResults}</div>}
         <div
           className={`px-2 h-full min-h-40 max-h-80 xs:max-h-[80dvh] lg:max-h-[65vh] overflow-auto thin-scroll ${borderClass}`}
         >
-          {results.nbHits > 0 && Object.keys(groupedHits.icons).length > 0 && (
+          {hasCurrentQuery && results.nbHits > 0 && Object.keys(groupedHits.icons).length > 0 && (
             <IconsGroupedHits groupedHits={groupedHits.icons} lang={lang} />
           )}
-          {results.nbHits > 0 && Object.keys(groupedHits.documents).length > 0 && (
-            <GroupedHits groupedHits={groupedHits.documents} lang={lang} />
-          )}
+          {hasCurrentQuery &&
+            results.nbHits > 0 &&
+            Object.keys(groupedHits.documents).length > 0 && (
+              <GroupedHits groupedHits={groupedHits.documents} lang={lang} />
+            )}
         </div>
       </div>
       <div className={`p-4 text-right h-14 border-t ${borderClass}`}>

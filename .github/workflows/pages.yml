@@ -19,7 +19,11 @@ permissions:
   deployments: write
 
 concurrency:
-  group: cloudflare-pages-${{ github.ref }}
+  group: >-
+    ${{
+      (github.event_name != 'pull_request' && github.ref == 'refs/heads/main') &&
+      'rocketicons-production' || format('cloudflare-pages-{0}', github.ref)
+    }}
   cancel-in-progress: true
 
 jobs:
@@ -96,16 +100,6 @@ jobs:
           test "$size_kib" -le 921600
           echo "Export size: $size_kib KiB"
 
-      - name: Synchronize Algolia index
-        if: >-
-          (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-          (github.event_name == 'workflow_dispatch' && inputs.synchronize_algolia)
-        env:
-          ALGOLIA_INDEXING_API_KEY: ${{ secrets.ALGOLIA_INDEXING_API_KEY }}
-        run: |
-          test -n "$ALGOLIA_INDEXING_API_KEY"
-          npm run indexer --workspace=packages/ignition
-
       - name: Deploy to Cloudflare Pages
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: cloudflare/wrangler-action@v3
@@ -114,3 +108,13 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy packages/ignition/out --project-name=rocketicons --branch=main
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Synchronize Algolia index
+        if: >-
+          (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+          (github.event_name == 'workflow_dispatch' && inputs.synchronize_algolia && github.ref == 'refs/heads/main')
+        env:
+          ALGOLIA_INDEXING_API_KEY: ${{ secrets.ALGOLIA_INDEXING_API_KEY }}
+        run: |
+          test -n "$ALGOLIA_INDEXING_API_KEY"
+          npm run indexer --workspace=packages/ignition
