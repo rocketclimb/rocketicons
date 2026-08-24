@@ -2,7 +2,7 @@ name: Cloudflare Pages
 
 on:
   pull_request:
-    branches: [main]
+    branches: [develop, main]
   push:
     branches: [main]
   workflow_dispatch:

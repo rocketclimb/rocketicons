@@ -24,32 +24,82 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
+      release-source: ${{ steps.resolve-source.outputs.IS_RELEASE_SOURCE }}
       prepare-run-id: ${{ steps.resolve-prepare-run.outputs.PREPARE_RUN_ID }}
-      source-pr-number: ${{ steps.resolve-prepare-run.outputs.SOURCE_PR_NUMBER }}
+      prepare-head-sha: ${{ steps.resolve-prepare-run.outputs.PREPARE_HEAD_SHA }}
+      source-pr-number: ${{ steps.resolve-source.outputs.SOURCE_PR_NUMBER }}
+      source-head-branch: ${{ steps.resolve-source.outputs.SOURCE_HEAD_BRANCH }}
+      source-head-sha: ${{ steps.resolve-source.outputs.SOURCE_HEAD_SHA }}
       pending-tag: ${{ steps.set-tag.outputs.PENDING_TAG }}
-      is-release: ${{ contains(steps.set-tag.outputs.PENDING_TAG, 'release') }}
+      is-release: >-
+        ${{
+          steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true' &&
+          contains(steps.set-tag.outputs.PENDING_TAG, 'release')
+        }}
       publish-package: ${{ steps.validate-release.outputs.PUBLISH_PACKAGE }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Resolve merged release pull request
+        id: resolve-source
+        run: |
+          PULL_REQUESTS="$(gh api --method GET "repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}/pulls")"
+
+          if ! MERGED_PULL_REQUEST="$(
+            printf '%s' "$PULL_REQUESTS" |
+              jq -cer --arg base "$GITHUB_REF_NAME" \
+                '[.[] | select(.merged_at != null and .base.ref == $base)] | first'
+          )"; then
+            echo "IS_RELEASE_SOURCE=false" >> $GITHUB_OUTPUT
+            echo "::notice::Skipping package release because this main update is not associated with a merged pull request."
+            exit 0
+          fi
+
+          SOURCE_PR_NUMBER="$(printf '%s' "$MERGED_PULL_REQUEST" | jq -er '.number')"
+          SOURCE_HEAD_BRANCH="$(printf '%s' "$MERGED_PULL_REQUEST" | jq -er '.head.ref')"
+          SOURCE_HEAD_SHA="$(printf '%s' "$MERGED_PULL_REQUEST" | jq -er '.head.sha')"
+
+          echo "SOURCE_PR_NUMBER=$SOURCE_PR_NUMBER" >> $GITHUB_OUTPUT
+          echo "SOURCE_HEAD_BRANCH=$SOURCE_HEAD_BRANCH" >> $GITHUB_OUTPUT
+          echo "SOURCE_HEAD_SHA=$SOURCE_HEAD_SHA" >> $GITHUB_OUTPUT
+
+          if [ "$SOURCE_HEAD_BRANCH" != "develop" ]; then
+            echo "IS_RELEASE_SOURCE=false" >> $GITHUB_OUTPUT
+            echo "::notice::Skipping package release because PR #$SOURCE_PR_NUMBER came from $SOURCE_HEAD_BRANCH instead of develop."
+            exit 0
+          fi
+
+          echo "IS_RELEASE_SOURCE=true" >> $GITHUB_OUTPUT
+
       - name: Setup Node
+        if: steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true'
         uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Resolve merged PR prepare run
         id: resolve-prepare-run
+        if: steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true'
+        env:
+          SOURCE_PR_NUMBER: ${{ steps.resolve-source.outputs.SOURCE_PR_NUMBER }}
+          SOURCE_HEAD_BRANCH: ${{ steps.resolve-source.outputs.SOURCE_HEAD_BRANCH }}
+          SOURCE_HEAD_SHA: ${{ steps.resolve-source.outputs.SOURCE_HEAD_SHA }}
         run: |
-          PULL_REQUESTS="$(gh api --method GET "repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}/pulls")"
-          MERGED_PULL_REQUEST="$(
-            printf '%s' "$PULL_REQUESTS" |
-              jq -cer --arg base "$GITHUB_REF_NAME" \
-                '[.[] | select(.merged_at != null and .base.ref == $base)] | first'
+          node .github/scripts/release-guard.mjs validate-source "$SOURCE_HEAD_BRANCH"
+
+          PULL_REQUEST_COMMITS="$(
+            gh api --method GET --paginate --slurp \
+              "repos/${GITHUB_REPOSITORY}/pulls/${SOURCE_PR_NUMBER}/commits" \
+              -f per_page=100
           )"
-          SOURCE_PR_NUMBER="$(printf '%s' "$MERGED_PULL_REQUEST" | jq -er '.number')"
-          SOURCE_HEAD_BRANCH="$(printf '%s' "$MERGED_PULL_REQUEST" | jq -er '.head.ref')"
+          PULL_REQUEST_HEAD_SHAS="$(
+            printf '%s' "$PULL_REQUEST_COMMITS" |
+              node .github/scripts/release-guard.mjs eligible-head-shas \
+                "$SOURCE_HEAD_SHA" \
+                "$SOURCE_HEAD_BRANCH"
+          )"
           PREPARE_RUNS="$(
             gh api --method GET \
               "repos/${GITHUB_REPOSITORY}/actions/workflows/prepare-release.yml/runs" \
@@ -60,14 +110,23 @@ jobs:
           )"
           PREPARE_RUN_ID="$(
             printf '%s' "$PREPARE_RUNS" |
-              node .github/scripts/release-guard.mjs select-run "$SOURCE_HEAD_BRANCH"
+              node .github/scripts/release-guard.mjs select-run \
+                "$SOURCE_HEAD_BRANCH" \
+                "$SOURCE_PR_NUMBER" \
+                "$PULL_REQUEST_HEAD_SHAS"
+          )"
+          PREPARE_HEAD_SHA="$(
+            printf '%s' "$PREPARE_RUNS" |
+              jq -er --argjson run_id "$PREPARE_RUN_ID" \
+                '.workflow_runs[] | select(.id == $run_id) | .head_sha'
           )"
 
-          echo "SOURCE_PR_NUMBER=$SOURCE_PR_NUMBER" >> $GITHUB_OUTPUT
           echo "PREPARE_RUN_ID=$PREPARE_RUN_ID" >> $GITHUB_OUTPUT
+          echo "PREPARE_HEAD_SHA=$PREPARE_HEAD_SHA" >> $GITHUB_OUTPUT
 
       - name: Download tag artifact
         id: download-tag-artifact
+        if: steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true'
         uses: actions/download-artifact@v4
         with:
           name: tag-artifact
@@ -76,11 +135,14 @@ jobs:
 
       - name: Set tag as environment variable
         id: set-tag
+        if: steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true'
         run: |
           echo "PENDING_TAG=$(cat .tagrc)" >> $GITHUB_OUTPUT
 
       - name: Download release metadata
-        if: contains(steps.set-tag.outputs.PENDING_TAG, 'release')
+        if: >-
+          steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true' &&
+          contains(steps.set-tag.outputs.PENDING_TAG, 'release')
         uses: actions/download-artifact@v4
         with:
           name: deployable-artifacts
@@ -90,10 +152,14 @@ jobs:
 
       - name: Validate release metadata and package version
         id: validate-release
-        if: contains(steps.set-tag.outputs.PENDING_TAG, 'release')
+        if: >-
+          steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true' &&
+          contains(steps.set-tag.outputs.PENDING_TAG, 'release')
         env:
           PENDING_TAG: ${{ steps.set-tag.outputs.PENDING_TAG }}
-          SOURCE_PR_NUMBER: ${{ steps.resolve-prepare-run.outputs.SOURCE_PR_NUMBER }}
+          SOURCE_PR_NUMBER: ${{ steps.resolve-source.outputs.SOURCE_PR_NUMBER }}
+          SOURCE_HEAD_BRANCH: ${{ steps.resolve-source.outputs.SOURCE_HEAD_BRANCH }}
+          SOURCE_HEAD_SHA: ${{ steps.resolve-prepare-run.outputs.PREPARE_HEAD_SHA }}
         run: |
           ROOT_VERSION="$(node -p "require('./package.json').version")"
           PACKAGE_NAME="$(node -p "require('./packages/icons/package.json').name")"
@@ -109,6 +175,8 @@ jobs:
             prepared-release/release-metadata.json \
             "$PENDING_TAG" \
             "$SOURCE_PR_NUMBER" \
+            "$SOURCE_HEAD_BRANCH" \
+            "$SOURCE_HEAD_SHA" \
             "$ROOT_VERSION" \
             "$PACKAGE_NAME" \
             "$PACKAGE_VERSION" \
@@ -117,12 +185,15 @@ jobs:
           echo "PUBLISH_PACKAGE=$PUBLISH_PACKAGE" >> $GITHUB_OUTPUT
 
       - name: Setup git user
+        if: steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true'
         run: |
-          git config user.name ${{ env.AUTOMATION_USER_NAME }}
-          git config user.email ${{ env.AUTOMATION_USER_EMAIL }}
+          git config user.name "${{ env.AUTOMATION_USER_NAME }}"
+          git config user.email "${{ env.AUTOMATION_USER_EMAIL }}"
 
       - name: Creating Tag ${{ steps.set-tag.outputs.PENDING_TAG }}
-        if: steps.set-tag.outputs.PENDING_TAG != ''
+        if: >-
+          steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true' &&
+          steps.set-tag.outputs.PENDING_TAG != ''
         env:
           PENDING_TAG: ${{ steps.set-tag.outputs.PENDING_TAG }}
         run: |
@@ -135,8 +206,14 @@ jobs:
           git push origin "refs/tags/$PENDING_TAG" --no-verify
 
       - name: Warning about no Pending tag
-        if: steps.set-tag.outputs.PENDING_TAG == ''
+        if: >-
+          steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true' &&
+          steps.set-tag.outputs.PENDING_TAG == ''
         run: echo "No pending tag found. Proceeding with Ignition publishing..."
+
+      - name: Report non-release main update
+        if: steps.resolve-source.outputs.IS_RELEASE_SOURCE != 'true'
+        run: echo "Package release skipped; releases are cut only from develop to main."
 
   create-release:
     name: Create rocketicons release

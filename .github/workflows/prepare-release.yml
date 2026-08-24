@@ -11,9 +11,14 @@ env:
 
 permissions: write-all
 
+concurrency:
+  group: prepare-release-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   prepare-artifacts:
     name: Prepare Artifacts
+    if: github.head_ref == 'develop'
     runs-on: ubuntu-latest
     env:
       PRE_RELEASE_TAG: ${{ vars.PRE_RELEASE_TAG }}
@@ -31,6 +36,11 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
+
+      - name: Validate release source branch
+        env:
+          SOURCE_HEAD_BRANCH: ${{ github.head_ref }}
+        run: node .github/scripts/release-guard.mjs validate-source "$SOURCE_HEAD_BRANCH"
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -124,6 +134,7 @@ jobs:
           TAG_NAME: ${{ steps.prepare-release.outputs.TAG_NAME }}
           PUBLISH_PACKAGE: ${{ steps.prepare-release.outputs.PUBLISH_PACKAGE }}
           SOURCE_PR_NUMBER: ${{ github.event.pull_request.number }}
+          SOURCE_HEAD_BRANCH: ${{ github.head_ref }}
           SOURCE_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           echo "$TAG_NAME" >> .tagrc
@@ -134,6 +145,7 @@ jobs:
             const metadata = {
               tagName: process.env.TAG_NAME,
               sourcePullRequestNumber: Number(process.env.SOURCE_PR_NUMBER),
+              sourceHeadBranch: process.env.SOURCE_HEAD_BRANCH,
               sourceHeadSha: process.env.SOURCE_HEAD_SHA,
               rootVersion: root.version,
               name,

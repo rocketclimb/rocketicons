@@ -1,9 +1,3 @@
-## [0.9.4](https://github.com/rocketclimb/rocketicons/compare/v0.9.3-release...v0.9.4) (2026-08-24)
-
-### Bug Fixes
-
-- **ci** harden release artifact versioning ([0206fb4a](https://github.com/rocketclimb/rocketicons/commit/0206fb4af107e6fa6e63be2a1685a5f040b71b26))
-
 ## [0.9.3](https://github.com/rocketclimb/rocketicons/compare/v0.9.2-release...v0.9.3) (2026-08-24)
 
 ### Bug Fixes
