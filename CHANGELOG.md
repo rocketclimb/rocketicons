@@ -1,3 +1,13 @@
+## [0.9.2](https://github.com/rocketclimb/rocketicons/compare/v0.9.1-release...v0.9.2) (2026-08-24)
+
+### Documentation
+
+- **testing** record preview workflow verification ([fb3e3a7f](https://github.com/rocketclimb/rocketicons/commit/fb3e3a7f15764417a0cde552f7ef05165f6a2eaf))
+
+### Continuous integration
+
+- deploy Cloudflare previews for pull requests ([388e0616](https://github.com/rocketclimb/rocketicons/commit/388e0616e76b1359ef2163f7fa4938346befa4a9))
+
 ## [0.9.1](https://github.com/rocketclimb/rocketicons/compare/v0.9.0-release...v0.9.1) (2026-08-14)
 
 ### Miscellaneous
