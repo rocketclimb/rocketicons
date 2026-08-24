@@ -28,10 +28,16 @@ const QuerySelectedIcon = (props: IconProps) => {
     };
   }, [selected]);
 
+  const codeBlockTag = (props as IconProps & { "data-cb-tag"?: string })["data-cb-tag"];
+  const resolvedProps = {
+    ...props,
+    "data-cb-tag": icon?.component ?? codeBlockTag
+  };
+
   return icon ? (
-    <IconFromData iconTree={icon.iconTree} variant={icon.variant} {...props} />
+    <IconFromData iconTree={icon.iconTree} variant={icon.variant} {...resolvedProps} />
   ) : (
-    <RcRocketIcon {...props} />
+    <RcRocketIcon {...resolvedProps} />
   );
 };
 
