@@ -13,3 +13,4 @@ release-output.log
 .vercel
 .env
 .vscode
+docs/testing/reports/

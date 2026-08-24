@@ -47,14 +47,17 @@ const StrokeSectionContent = ({
 }: StrokeSectionContentProps) => {
   const router = useRouter();
   const { stroke: selectedStroke, setStroke } = useBoxContext();
-  const { copy, copied, more } = withLocale(lang).config("code-block");
+  const locale = withLocale(lang);
+  const { copy, copied, more } = locale.config("code-block");
   return (
     <Section data-outlined={isOutlined} className="data-[outlined=false]:hidden">
       {children}
       <CodeElementOptionsStyler
         onTabChange={(_i, tab) => {
           if ((tab as Tab)?.id === CodeElementTabs.MORE) {
-            router.push(`/docs/colors?i=${collectionId}.${compName}`);
+            const selectedIcon = encodeURIComponent(`${collectionId}.${compName}`);
+            const anchor = lang === "pt-br" ? "#largura-de-linha" : "#stroke-width";
+            router.push(`${locale.docHref("styling")}?i=${selectedIcon}${anchor}`);
             return;
           }
           setStroke(tab === CodeElementTabs.DEFAULT ? "" : strokesId[tab as StrokesId]);

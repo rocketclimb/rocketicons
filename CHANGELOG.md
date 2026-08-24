@@ -1,12 +1,32 @@
-## [0.9.2](https://github.com/rocketclimb/rocketicons/compare/v0.9.1-release...v0.9.2) (2026-08-24)
+## [0.9.3](https://github.com/rocketclimb/rocketicons/compare/v0.9.2-release...v0.9.3) (2026-08-24)
+
+### Bug Fixes
+
+- **ignition** address Algolia review feedback [[ignition](./packages/ignition/CHANGELOG.md)] ([78f94e6c](https://github.com/rocketclimb/rocketicons/commit/78f94e6cea8220f524d60fd662fa25a0c0e0cbdc))
+- **ignition** restore Algolia search [[ignition](./packages/ignition/CHANGELOG.md)] ([51e98c1e](https://github.com/rocketclimb/rocketicons/commit/51e98c1ec8e75f3fc1e6d5b184031b092a0620a5))
 
 ### Documentation
 
-- **testing** record preview workflow verification ([fb3e3a7f](https://github.com/rocketclimb/rocketicons/commit/fb3e3a7f15764417a0cde552f7ef05165f6a2eaf))
+- **testing** note static asset observation ([5367b075](https://github.com/rocketclimb/rocketicons/commit/5367b075d5217ce0212e6c8a66efb4cb79a95e48))
+- **testing** add Algolia restoration report ([932e4acb](https://github.com/rocketclimb/rocketicons/commit/932e4acbcf604bd20cc292fea200f3edec12c67c))
 
-### Continuous integration
+## [0.9.2](https://github.com/rocketclimb/rocketicons/compare/v0.9.1-release...v0.9.2) (2026-08-24)
 
-- deploy Cloudflare previews for pull requests ([388e0616](https://github.com/rocketclimb/rocketicons/commit/388e0616e76b1359ef2163f7fa4938346befa4a9))
+### Bug Fixes
+
+- **ignition** address Algolia review feedback [[ignition](./packages/ignition/CHANGELOG.md)] ([78f94e6c](https://github.com/rocketclimb/rocketicons/commit/78f94e6cea8220f524d60fd662fa25a0c0e0cbdc))
+- **ignition** restore Algolia search [[ignition](./packages/ignition/CHANGELOG.md)] ([51e98c1e](https://github.com/rocketclimb/rocketicons/commit/51e98c1ec8e75f3fc1e6d5b184031b092a0620a5))
+- **ignition** use the right icon [[ignition](./packages/ignition/CHANGELOG.md)] ([be9dea35](https://github.com/rocketclimb/rocketicons/commit/be9dea350fe23f3d8fcbceb9b4abfc0fe09c8930))
+- **ignition** icon selection issues [[ignition](./packages/ignition/CHANGELOG.md)] ([ffdc6d3e](https://github.com/rocketclimb/rocketicons/commit/ffdc6d3ea818566f1d3b1d97f6a1613003b98912))
+- **deps** remove sqlite [[ignition](./packages/ignition/CHANGELOG.md)] ([5c8a8268](https://github.com/rocketclimb/rocketicons/commit/5c8a8268316accbe3761125f5c91a93beae35dcc))
+- **ignition** fix links [[ignition](./packages/ignition/CHANGELOG.md)] ([73c7e157](https://github.com/rocketclimb/rocketicons/commit/73c7e1573d7203ad73e781bfd258eea157027565))
+- **responsive** restore responsive page ([c6e1b79e](https://github.com/rocketclimb/rocketicons/commit/c6e1b79e3223f67477e7fb2f8b588e93db48863e))
+- **style** fix style issues [[ignition](./packages/ignition/CHANGELOG.md)] ([ac604176](https://github.com/rocketclimb/rocketicons/commit/ac6041760159ec18eb4291561cec9332579662be))
+
+### Documentation
+
+- **testing** note static asset observation ([5367b075](https://github.com/rocketclimb/rocketicons/commit/5367b075d5217ce0212e6c8a66efb4cb79a95e48))
+- **testing** add Algolia restoration report ([932e4acb](https://github.com/rocketclimb/rocketicons/commit/932e4acbcf604bd20cc292fea200f3edec12c67c))
 
 ## [0.9.1](https://github.com/rocketclimb/rocketicons/compare/v0.9.0-release...v0.9.1) (2026-08-14)
 
@@ -28,7 +48,7 @@
 - **icons** update package version ([7e3e04d6](https://github.com/rocketclimb/rocketicons/commit/7e3e04d611473da59da6f0a9f6f263f542b5a177))
 - **icons** update lucide icons [[generator](./packages/generator/CHANGELOG.md), [icons](./packages/icons/CHANGELOG.md)] ([9642225d](https://github.com/rocketclimb/rocketicons/commit/9642225d95a7516d3962a3d8673824eacdc162cd))
 - **cli** fix typo on icon path [[cli](./packages/cli/CHANGELOG.md), [core](./packages/core/CHANGELOG.md)] ([1f32f162](https://github.com/rocketclimb/rocketicons/commit/1f32f16231e8d1c99ff8a5bcbbf5b8b6d98b2962))
-- **cli**  Add missing dependency ([14140d55](https://github.com/rocketclimb/rocketicons/commit/14140d555f695f71c00864aa692d4c7878bf80f3))
+- **cli** Add missing dependency ([14140d55](https://github.com/rocketclimb/rocketicons/commit/14140d555f695f71c00864aa692d4c7878bf80f3))
 - **utils** move element to tree into utils [[generator](./packages/generator/CHANGELOG.md), [utils](./packages/utils/CHANGELOG.md)] ([e74712c9](https://github.com/rocketclimb/rocketicons/commit/e74712c9fb88f66833ae166be2d8f1e56a61c101))
 - **cli** add cli commands [[cli](./packages/cli/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md)] ([71c21b5d](https://github.com/rocketclimb/rocketicons/commit/71c21b5db465afc42fa748da6903959f651af586))
 - **icons** fix package type exposing data for IconTree ([f4e9eeb9](https://github.com/rocketclimb/rocketicons/commit/f4e9eeb9b919095f4bc20f9730ce04ce108d17fa))
@@ -104,10 +124,10 @@
 
 ### Other
 
--  [[cli](./packages/cli/CHANGELOG.md), [core](./packages/core/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [icons](./packages/icons/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md), [native-test](./packages/native-test/CHANGELOG.md), [tailwind](./packages/tailwind/CHANGELOG.md), [utils](./packages/utils/CHANGELOG.md)] ([c4dcbeca](https://github.com/rocketclimb/rocketicons/commit/c4dcbeca70280efeab696c005928b5afd304ad40))
--  [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
--  ([9ff38335](https://github.com/rocketclimb/rocketicons/commit/9ff383353071368bfe246c506419c1716c850bd3))
--  [[ignition](./packages/ignition/CHANGELOG.md)] ([1e9ae3b7](https://github.com/rocketclimb/rocketicons/commit/1e9ae3b722133259bbc7cbe8c9b4192b05d87b7e))
+- [[cli](./packages/cli/CHANGELOG.md), [core](./packages/core/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [icons](./packages/icons/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md), [native-test](./packages/native-test/CHANGELOG.md), [tailwind](./packages/tailwind/CHANGELOG.md), [utils](./packages/utils/CHANGELOG.md)] ([c4dcbeca](https://github.com/rocketclimb/rocketicons/commit/c4dcbeca70280efeab696c005928b5afd304ad40))
+- [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
+- ([9ff38335](https://github.com/rocketclimb/rocketicons/commit/9ff383353071368bfe246c506419c1716c850bd3))
+- [[ignition](./packages/ignition/CHANGELOG.md)] ([1e9ae3b7](https://github.com/rocketclimb/rocketicons/commit/1e9ae3b722133259bbc7cbe8c9b4192b05d87b7e))
 
 ## [0.8.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
 
@@ -120,7 +140,7 @@
 - **icons** update package version ([7e3e04d6](https://github.com/rocketclimb/rocketicons/commit/7e3e04d611473da59da6f0a9f6f263f542b5a177))
 - **icons** update lucide icons [[generator](./packages/generator/CHANGELOG.md), [icons](./packages/icons/CHANGELOG.md)] ([9642225d](https://github.com/rocketclimb/rocketicons/commit/9642225d95a7516d3962a3d8673824eacdc162cd))
 - **cli** fix typo on icon path [[cli](./packages/cli/CHANGELOG.md), [core](./packages/core/CHANGELOG.md)] ([1f32f162](https://github.com/rocketclimb/rocketicons/commit/1f32f16231e8d1c99ff8a5bcbbf5b8b6d98b2962))
-- **cli**  Add missing dependency ([14140d55](https://github.com/rocketclimb/rocketicons/commit/14140d555f695f71c00864aa692d4c7878bf80f3))
+- **cli** Add missing dependency ([14140d55](https://github.com/rocketclimb/rocketicons/commit/14140d555f695f71c00864aa692d4c7878bf80f3))
 - **utils** move element to tree into utils [[generator](./packages/generator/CHANGELOG.md), [utils](./packages/utils/CHANGELOG.md)] ([e74712c9](https://github.com/rocketclimb/rocketicons/commit/e74712c9fb88f66833ae166be2d8f1e56a61c101))
 - **cli** add cli commands [[cli](./packages/cli/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md)] ([71c21b5d](https://github.com/rocketclimb/rocketicons/commit/71c21b5db465afc42fa748da6903959f651af586))
 - **icons** fix package type exposing data for IconTree ([f4e9eeb9](https://github.com/rocketclimb/rocketicons/commit/f4e9eeb9b919095f4bc20f9730ce04ce108d17fa))
@@ -194,9 +214,9 @@
 
 ### Other
 
--  [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
--  ([9ff38335](https://github.com/rocketclimb/rocketicons/commit/9ff383353071368bfe246c506419c1716c850bd3))
--  [[ignition](./packages/ignition/CHANGELOG.md)] ([1e9ae3b7](https://github.com/rocketclimb/rocketicons/commit/1e9ae3b722133259bbc7cbe8c9b4192b05d87b7e))
+- [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
+- ([9ff38335](https://github.com/rocketclimb/rocketicons/commit/9ff383353071368bfe246c506419c1716c850bd3))
+- [[ignition](./packages/ignition/CHANGELOG.md)] ([1e9ae3b7](https://github.com/rocketclimb/rocketicons/commit/1e9ae3b722133259bbc7cbe8c9b4192b05d87b7e))
 
 ## [0.7.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
 
@@ -209,7 +229,7 @@
 - **icons** update package version ([7e3e04d6](https://github.com/rocketclimb/rocketicons/commit/7e3e04d611473da59da6f0a9f6f263f542b5a177))
 - **icons** update lucide icons [[generator](./packages/generator/CHANGELOG.md), [icons](./packages/icons/CHANGELOG.md)] ([9642225d](https://github.com/rocketclimb/rocketicons/commit/9642225d95a7516d3962a3d8673824eacdc162cd))
 - **cli** fix typo on icon path [[cli](./packages/cli/CHANGELOG.md), [core](./packages/core/CHANGELOG.md)] ([1f32f162](https://github.com/rocketclimb/rocketicons/commit/1f32f16231e8d1c99ff8a5bcbbf5b8b6d98b2962))
-- **cli**  Add missing dependency ([14140d55](https://github.com/rocketclimb/rocketicons/commit/14140d555f695f71c00864aa692d4c7878bf80f3))
+- **cli** Add missing dependency ([14140d55](https://github.com/rocketclimb/rocketicons/commit/14140d555f695f71c00864aa692d4c7878bf80f3))
 - **utils** move element to tree into utils [[generator](./packages/generator/CHANGELOG.md), [utils](./packages/utils/CHANGELOG.md)] ([e74712c9](https://github.com/rocketclimb/rocketicons/commit/e74712c9fb88f66833ae166be2d8f1e56a61c101))
 - **cli** add cli commands [[cli](./packages/cli/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md)] ([71c21b5d](https://github.com/rocketclimb/rocketicons/commit/71c21b5db465afc42fa748da6903959f651af586))
 - **icons** fix package type exposing data for IconTree ([f4e9eeb9](https://github.com/rocketclimb/rocketicons/commit/f4e9eeb9b919095f4bc20f9730ce04ce108d17fa))
@@ -283,9 +303,9 @@
 
 ### Other
 
--  [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
--  ([9ff38335](https://github.com/rocketclimb/rocketicons/commit/9ff383353071368bfe246c506419c1716c850bd3))
--  [[ignition](./packages/ignition/CHANGELOG.md)] ([1e9ae3b7](https://github.com/rocketclimb/rocketicons/commit/1e9ae3b722133259bbc7cbe8c9b4192b05d87b7e))
+- [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
+- ([9ff38335](https://github.com/rocketclimb/rocketicons/commit/9ff383353071368bfe246c506419c1716c850bd3))
+- [[ignition](./packages/ignition/CHANGELOG.md)] ([1e9ae3b7](https://github.com/rocketclimb/rocketicons/commit/1e9ae3b722133259bbc7cbe8c9b4192b05d87b7e))
 
 ## [0.7.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
 
@@ -298,7 +318,7 @@
 - **icons** update package version ([7e3e04d6](https://github.com/rocketclimb/rocketicons/commit/7e3e04d611473da59da6f0a9f6f263f542b5a177))
 - **icons** update lucide icons [[generator](./packages/generator/CHANGELOG.md), [icons](./packages/icons/CHANGELOG.md)] ([9642225d](https://github.com/rocketclimb/rocketicons/commit/9642225d95a7516d3962a3d8673824eacdc162cd))
 - **cli** fix typo on icon path [[cli](./packages/cli/CHANGELOG.md), [core](./packages/core/CHANGELOG.md)] ([1f32f162](https://github.com/rocketclimb/rocketicons/commit/1f32f16231e8d1c99ff8a5bcbbf5b8b6d98b2962))
-- **cli**  Add missing dependency ([14140d55](https://github.com/rocketclimb/rocketicons/commit/14140d555f695f71c00864aa692d4c7878bf80f3))
+- **cli** Add missing dependency ([14140d55](https://github.com/rocketclimb/rocketicons/commit/14140d555f695f71c00864aa692d4c7878bf80f3))
 - **utils** move element to tree into utils [[generator](./packages/generator/CHANGELOG.md), [utils](./packages/utils/CHANGELOG.md)] ([e74712c9](https://github.com/rocketclimb/rocketicons/commit/e74712c9fb88f66833ae166be2d8f1e56a61c101))
 - **cli** add cli commands [[cli](./packages/cli/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md)] ([71c21b5d](https://github.com/rocketclimb/rocketicons/commit/71c21b5db465afc42fa748da6903959f651af586))
 - **icons** fix package type exposing data for IconTree ([f4e9eeb9](https://github.com/rocketclimb/rocketicons/commit/f4e9eeb9b919095f4bc20f9730ce04ce108d17fa))
@@ -372,9 +392,9 @@
 
 ### Other
 
--  [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
--  ([9ff38335](https://github.com/rocketclimb/rocketicons/commit/9ff383353071368bfe246c506419c1716c850bd3))
--  [[ignition](./packages/ignition/CHANGELOG.md)] ([1e9ae3b7](https://github.com/rocketclimb/rocketicons/commit/1e9ae3b722133259bbc7cbe8c9b4192b05d87b7e))
+- [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
+- ([9ff38335](https://github.com/rocketclimb/rocketicons/commit/9ff383353071368bfe246c506419c1716c850bd3))
+- [[ignition](./packages/ignition/CHANGELOG.md)] ([1e9ae3b7](https://github.com/rocketclimb/rocketicons/commit/1e9ae3b722133259bbc7cbe8c9b4192b05d87b7e))
 
 ## [0.6.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-05-08)
 

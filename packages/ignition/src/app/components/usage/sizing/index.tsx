@@ -10,11 +10,11 @@ import { sizes, sizesUtilities, hwUtilities } from "./utils";
 import SizingAnimation from "./sizing-animation";
 
 const Sizing = async ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
-  const { icon, collection, Icon, iconTree, variant } = await getCurrentIconData(queryIcon);
+  const { icon, Icon } = await getCurrentIconData(queryIcon);
   return (
     <>
       <MdxPartial lang={lang} slug={"sizing-icons"} path="docs" />
-      <SizingAnimation icon={icon} iconTree={iconTree} variant={variant} />
+      <SizingAnimation icon={icon} />
       <div className="md:px-5">
         <Table lang={lang}>
           {Object.entries(sizes).map(([attr, value], i) => (

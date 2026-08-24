@@ -1,6 +1,6 @@
 {
   "name": "ignition",
-  "version": "0.9.1",
+  "version": "0.9.3",
   "private": true,
   "scripts": {
     "prebuild": "npm run prebuild:cc && npm run prebuild:gs",
@@ -49,9 +49,7 @@
     "rehype-slug-custom-id": "^1.1.0",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^4.0.0",
-    "rocketicons": "*",
-    "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7"
+    "rocketicons": "*"
   },
   "devDependencies": {
     "@types/adm-zip": "^0.5.5",

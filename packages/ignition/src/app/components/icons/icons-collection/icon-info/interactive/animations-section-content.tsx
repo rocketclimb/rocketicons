@@ -23,17 +23,20 @@ const AnimationsSectionContent = ({
 }: AnimationsSectionContentProps) => {
   const router = useRouter();
   const { animation: selectedAnimation, setAnimation } = useBoxContext();
+  const locale = withLocale(lang);
   const {
     "code-block": { copy, copied },
     "learn-more": learnMode
-  } = withLocale(lang).config("code-block", "learn-more");
+  } = locale.config("code-block", "learn-more");
   return (
     <Section>
       {children}
       <CodeElementOptionsStyler
         onTabChange={(_i, tab) => {
           if ((tab as Tab)?.id === CodeElementTabs.MORE) {
-            router.push(`/docs/styling?i=${collectionId}.${compName}`);
+            const selectedIcon = encodeURIComponent(`${collectionId}.${compName}`);
+            const anchor = lang === "pt-br" ? "#animacoes" : "#animations";
+            router.push(`${locale.docHref("styling")}?i=${selectedIcon}${anchor}`);
             return;
           }
           setAnimation(tab === CodeElementTabs.DEFAULT ? "" : (tab as string));

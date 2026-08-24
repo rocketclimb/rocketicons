@@ -23,7 +23,7 @@ const iconTreeToSvgString = ({ tag, attr, child }: IconTree, spacer: string = ""
   );
 };
 
-const SvgBox = async ({ copiedLabel, iconId, iconTree }: SvgBoxProps) => {
+const SvgBox = ({ copiedLabel, iconId, iconTree }: SvgBoxProps) => {
   iconTree.attr.xmlns = "http://www.w3.org/2000/svg";
   const svg = iconTreeToSvgString(iconTree);
 
