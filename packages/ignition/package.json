@@ -1,6 +1,6 @@
 {
   "name": "ignition",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "private": true,
   "scripts": {
     "prebuild": "npm run prebuild:cc && npm run prebuild:gs",

@@ -1,3 +1,5 @@
+## [0.3.3](https://github.com/rocketclimb/rocketicons/compare/v0.9.3-release...v0.9.4) (2026-08-24)
+
 ## [0.3.2](https://github.com/rocketclimb/rocketicons/compare/v0.9.2-release...v0.9.3) (2026-08-24)
 
 ## [0.3.1](https://github.com/rocketclimb/rocketicons/compare/v0.9.0-release...v0.9.1) (2026-08-14)
