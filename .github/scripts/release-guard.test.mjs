@@ -2,59 +2,45 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
-  eligiblePrepareHeadShas,
+  eligibleCutHeadShas,
   packageReleaseState,
-  selectPrepareReleaseRun,
-  validateReleaseSourceBranch,
+  releaseBranchForVersion,
+  releaseVersionFromBranch,
+  selectCutReleaseRun,
+  validateCutReleaseResult,
+  validateCutReleaseSource,
   validateReleaseMetadata
 } from "./release-guard.mjs";
 
-test("only accepts develop as the release pull request source", () => {
-  assert.equal(validateReleaseSourceBranch("develop"), "develop");
+test("only cuts releases from develop", () => {
+  assert.equal(validateCutReleaseSource("develop"), "develop");
+  assert.throws(() => validateCutReleaseSource("main"), /must be cut from develop/);
+});
+
+test("builds and parses stable release branch names", () => {
+  assert.equal(releaseBranchForVersion("0.9.4"), "release/0.9.4");
+  assert.equal(releaseVersionFromBranch("release/0.9.4"), "0.9.4");
+  assert.throws(() => releaseBranchForVersion("0.9.4-rc.1"), /stable SemVer/);
+  assert.throws(() => releaseVersionFromBranch("feature/0.9.4"), /release\/<version>/);
+});
+
+test("requires the generated root version and tag to match the requested release", () => {
+  assert.deepEqual(validateCutReleaseResult("0.9.4", "0.9.4", "v0.9.4-release"), {
+    releaseBranch: "release/0.9.4",
+    tagName: "v0.9.4-release"
+  });
   assert.throws(
-    () => validateReleaseSourceBranch("feature/direct-to-main"),
-    /must come from develop/
+    () => validateCutReleaseResult("0.9.4", "0.9.5", "v0.9.5-release"),
+    /root version mismatch/
   );
-});
-
-test("accepts the release commit parent as the prepare run revision", () => {
-  const commits = [
-    [
-      {
-        sha: "generated-release-commit",
-        commit: {
-          message: "ci(releaser): bump packages versions and update changelog for develop"
-        },
-        parents: [{ sha: "prepare-run-head" }]
-      }
-    ]
-  ];
-
-  assert.deepEqual(eligiblePrepareHeadShas(commits, "generated-release-commit", "develop"), [
-    "generated-release-commit",
-    "prepare-run-head"
-  ]);
-});
-
-test("does not fall back from an ordinary pull request head revision", () => {
-  const commits = [
-    {
-      sha: "ordinary-head",
-      commit: { message: "fix(ci): adjust workflow" },
-      parents: [{ sha: "stale-prepare-run" }]
-    }
-  ];
-
-  assert.deepEqual(eligiblePrepareHeadShas(commits, "ordinary-head", "develop"), [
-    "ordinary-head"
-  ]);
+  assert.throws(() => validateCutReleaseResult("0.9.4", "0.9.4", "v0.9.4"), /tag mismatch/);
 });
 
 test("skips npm publication when the package version is already published", () => {
   assert.deepEqual(packageReleaseState("0.3.2", "0.3.2"), { publishPackage: false });
 });
 
-test("accepts exactly one patch, minor, or major increment", () => {
+test("accepts exactly one patch, minor, or major package increment", () => {
   assert.deepEqual(packageReleaseState("0.3.3", "0.3.2"), { publishPackage: true });
   assert.deepEqual(packageReleaseState("0.4.0", "0.3.2"), { publishPackage: true });
   assert.deepEqual(packageReleaseState("1.0.0", "0.3.2"), { publishPackage: true });
@@ -66,110 +52,142 @@ test("rejects skipped, stale, and unstable package versions", () => {
   assert.throws(() => packageReleaseState("0.3.3-rc.1", "0.3.2"), /stable SemVer/);
 });
 
-test("selects the newest successful prepare run for the merged PR revision", () => {
+test("accepts the generated release commit parent as the manual cut revision", () => {
+  const commits = [
+    [
+      {
+        sha: "generated-release-commit",
+        commit: {
+          message: "ci(releaser): bump packages versions and update changelog for release/0.9.4"
+        },
+        parents: [{ sha: "manual-cut-head" }]
+      }
+    ]
+  ];
+
+  assert.deepEqual(eligibleCutHeadShas(commits, "generated-release-commit", "release/0.9.4"), [
+    "generated-release-commit",
+    "manual-cut-head"
+  ]);
+});
+
+test("does not fall back from an ordinary release branch head revision", () => {
+  const commits = [
+    {
+      sha: "ordinary-head",
+      commit: { message: "fix(ci): edit release branch" },
+      parents: [{ sha: "stale-cut-run" }]
+    }
+  ];
+
+  assert.deepEqual(eligibleCutHeadShas(commits, "ordinary-head", "release/0.9.4"), [
+    "ordinary-head"
+  ]);
+});
+
+test("selects the newest successful manual cut run for the release revision", () => {
   const payload = {
     workflow_runs: [
       {
+        id: 40,
+        event: "pull_request",
+        status: "completed",
+        conclusion: "success",
+        created_at: "2026-08-24T12:04:00Z",
+        head_branch: "develop",
+        head_sha: "manual-cut-head"
+      },
+      {
         id: 30,
+        event: "workflow_dispatch",
         status: "completed",
         conclusion: "success",
         created_at: "2026-08-24T12:03:00Z",
         head_branch: "develop",
-        head_sha: "newer-unmerged-sha"
+        head_sha: "another-cut-head"
       },
       {
         id: 20,
+        event: "workflow_dispatch",
         status: "completed",
         conclusion: "success",
         created_at: "2026-08-24T12:02:00Z",
         head_branch: "develop",
-        head_sha: "release-head-sha"
+        head_sha: "manual-cut-head"
       },
       {
         id: 10,
+        event: "workflow_dispatch",
         status: "completed",
         conclusion: "success",
         created_at: "2026-08-24T12:01:00Z",
         head_branch: "develop",
-        head_sha: "release-head-sha"
+        head_sha: "manual-cut-head"
       }
     ]
   };
 
   assert.equal(
-    selectPrepareReleaseRun(payload, {
-      headBranch: "develop",
-      pullRequestHeadShas: ["feature-commit-sha", "release-head-sha"],
+    selectCutReleaseRun(payload, {
+      runHeadBranch: "develop",
+      eligibleHeadShas: ["generated-release-commit", "manual-cut-head"],
       pullRequestNumber: 165
     }),
     20
   );
 });
 
-test("refuses to fall back to another pull request from develop", () => {
+test("refuses to use a manual cut run from another develop revision", () => {
   assert.throws(
     () =>
-      selectPrepareReleaseRun(
+      selectCutReleaseRun(
         {
           workflow_runs: [
             {
               id: 30,
+              event: "workflow_dispatch",
               status: "completed",
               conclusion: "success",
               created_at: "2026-08-24T12:03:00Z",
               head_branch: "develop",
-              head_sha: "another-head-sha"
+              head_sha: "another-cut-head"
             }
           ]
         },
         {
-          headBranch: "develop",
-          pullRequestHeadShas: ["feature-commit-sha", "release-head-sha"],
+          runHeadBranch: "develop",
+          eligibleHeadShas: ["generated-release-commit", "manual-cut-head"],
           pullRequestNumber: 165
         }
       ),
-    /No successful Prepare Release run found for PR #165/
+    /No successful Cut Release run found for PR #165/
   );
 });
 
-test("validates artifact identity against the merged PR and main versions", () => {
+test("validates artifact identity against the cut run and merged release branch", () => {
   const metadata = {
     tagName: "v0.9.4-release",
-    sourcePullRequestNumber: 164,
-    sourceHeadBranch: "develop",
-    sourceHeadSha: "abc123",
+    releaseVersion: "0.9.4",
+    sourceWorkflowRunId: 123456,
+    releaseBranch: "release/0.9.4",
+    releaseHeadSha: "release-head",
+    cutFromSha: "develop-head",
     rootVersion: "0.9.4",
     name: "rocketicons",
     version: "0.3.3",
-    publishPackage: true
+    packagePrepared: true
   };
 
-  assert.equal(
-    validateReleaseMetadata(metadata, {
-      tagName: "v0.9.4-release",
-      sourcePullRequestNumber: 164,
-      sourceHeadBranch: "develop",
-      sourceHeadSha: "abc123",
-      rootVersion: "0.9.4",
-      name: "rocketicons",
-      version: "0.3.3",
-      publishPackage: true
-    }),
-    metadata
-  );
+  const expected = { ...metadata };
+  assert.equal(validateReleaseMetadata(metadata, expected), metadata);
 
   assert.throws(
+    () => validateReleaseMetadata(metadata, { ...expected, sourceWorkflowRunId: 123457 }),
+    /sourceWorkflowRunId mismatch/
+  );
+  assert.throws(
     () =>
-      validateReleaseMetadata(metadata, {
-        tagName: "v0.9.4-release",
-        sourcePullRequestNumber: 163,
-        sourceHeadBranch: "develop",
-        sourceHeadSha: "abc123",
-        rootVersion: "0.9.4",
-        name: "rocketicons",
-        version: "0.3.3",
-        publishPackage: true
-      }),
-    /sourcePullRequestNumber mismatch/
+      validateReleaseMetadata(metadata, { ...expected, releaseHeadSha: "edited-release-head" }),
+    /releaseHeadSha mismatch/
   );
 });

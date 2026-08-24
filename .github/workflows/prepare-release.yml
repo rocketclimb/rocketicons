@@ -1,46 +1,40 @@
-name: Prepare Release
+name: Cut Release
+run-name: Cut release/${{ inputs.release_version }} from ${{ github.ref_name }}
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: Stable root version for the release branch (for example, 0.9.4)
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  packages: read
+
+concurrency:
+  group: cut-release-${{ inputs.release_version }}
+  cancel-in-progress: false
 
 env:
   NODE_VERSION: "22.x"
 
-permissions: write-all
-
-concurrency:
-  group: prepare-release-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
-
 jobs:
-  prepare-artifacts:
-    name: Prepare Artifacts
-    if: github.head_ref == 'develop'
+  cut-release:
+    name: Cut release/${{ inputs.release_version }}
     runs-on: ubuntu-latest
     env:
-      PRE_RELEASE_TAG: ${{ vars.PRE_RELEASE_TAG }}
       AUTOMATION_USER_NAME: ${{ vars.AUTOMATION_USER_NAME }}
       AUTOMATION_USER_EMAIL: ${{ vars.AUTOMATION_USER_EMAIL }}
       SKIP_IGNITION_BUILD: true
 
-    outputs:
-      tag-name: ${{ steps.prepare-release.outputs.TAG_NAME }}
-      publish-package: ${{ steps.prepare-release.outputs.PUBLISH_PACKAGE }}
-
     steps:
-      - name: Checkout
+      - name: Checkout selected source
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.head_ref }}
-
-      - name: Validate release source branch
-        env:
-          SOURCE_HEAD_BRANCH: ${{ github.head_ref }}
-        run: node .github/scripts/release-guard.mjs validate-source "$SOURCE_HEAD_BRANCH"
+          ref: ${{ github.ref_name }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -48,7 +42,33 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
 
-      - name: Set NPM config
+      - name: Validate release request
+        id: release-request
+        env:
+          RELEASE_VERSION: ${{ inputs.release_version }}
+          SOURCE_BRANCH: ${{ github.ref_name }}
+        run: |
+          RELEASE_BRANCH="$(
+            node .github/scripts/release-guard.mjs release-branch \
+              "$SOURCE_BRANCH" \
+              "$RELEASE_VERSION"
+          )"
+          TAG_NAME="v${RELEASE_VERSION}-release"
+
+          if git ls-remote --exit-code --heads origin "refs/heads/$RELEASE_BRANCH" >/dev/null; then
+            echo "Release branch $RELEASE_BRANCH already exists" >&2
+            exit 1
+          fi
+
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG_NAME" >/dev/null; then
+            echo "Release tag $TAG_NAME already exists" >&2
+            exit 1
+          fi
+
+          echo "RELEASE_BRANCH=$RELEASE_BRANCH" >> $GITHUB_OUTPUT
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
+
+      - name: Configure GitHub Packages
         run: |
           npm config set @rocketclimb:registry https://npm.pkg.github.com
           npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
@@ -64,16 +84,13 @@ jobs:
             ${{ runner.os }}-icons-
 
       - name: Install packages
-        run: |
-          npm config set @rocketclimb:registry https://npm.pkg.github.com
-          npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
-          SKIP_BUILD_ALL=true npm ci
+        run: SKIP_BUILD_ALL=true npm ci
 
-      - name: Icons Fetch
+      - name: Fetch icons
         if: steps.icons-cache.outputs.cache-hit != 'true'
         run: npm run fetch --workspace=packages/generator
 
-      - name: Build All
+      - name: Build all
         run: npm run build-all
 
       - name: Run tests
@@ -81,81 +98,112 @@ jobs:
 
       - name: Setup git user
         run: |
-          git config user.name ${{ env.AUTOMATION_USER_NAME }}
-          git config user.email ${{ env.AUTOMATION_USER_EMAIL }}
+          git config user.name "${{ env.AUTOMATION_USER_NAME }}"
+          git config user.email "${{ env.AUTOMATION_USER_EMAIL }}"
 
-      - name: Prepare tag or release
+      - name: Create local release branch
+        env:
+          RELEASE_BRANCH: ${{ steps.release-request.outputs.RELEASE_BRANCH }}
+        run: |
+          git switch --create "$RELEASE_BRANCH"
+          git config push.default nothing
+
+      - name: Bump versions and prepare package
         id: prepare-release
+        env:
+          RELEASE_BRANCH: ${{ steps.release-request.outputs.RELEASE_BRANCH }}
+          RELEASE_VERSION: ${{ inputs.release_version }}
         run: |
           PUBLISHED_VERSION="$(npm view rocketicons version)"
           CURRENT_VERSION="$(node -p "require('./packages/icons/package.json').version")"
 
-          if [ "$CURRENT_VERSION" = "$PUBLISHED_VERSION" ]; then
-            TAG_NAME="$(npm run release | grep v)"
-          else
-            TAG_NAME="v$(node -p "require('./package.json').version")-release"
+          if [ "$CURRENT_VERSION" != "$PUBLISHED_VERSION" ]; then
+            echo "Develop package version $CURRENT_VERSION must match published $PUBLISHED_VERSION before cutting a release" >&2
+            exit 1
           fi
 
-          CURRENT_VERSION="$(node -p "require('./packages/icons/package.json').version")"
-          PUBLISH_PACKAGE=false
+          TAG_NAME="$(
+            npm run release |
+              grep -Eo 'v[0-9]+\.[0-9]+\.[0-9]+-release' |
+              tail -1
+          )"
+          ROOT_VERSION="$(node -p "require('./package.json').version")"
+          PACKAGE_VERSION="$(node -p "require('./packages/icons/package.json').version")"
 
-          if [[ "$TAG_NAME" == *release* ]]; then
-            PUBLISH_PACKAGE="$(node .github/scripts/release-guard.mjs package-state "$CURRENT_VERSION" "$PUBLISHED_VERSION")"
+          node .github/scripts/release-guard.mjs validate-cut-result \
+            "$RELEASE_VERSION" \
+            "$ROOT_VERSION" \
+            "$TAG_NAME"
 
-            if [ "$PUBLISH_PACKAGE" = "true" ]; then
-              npm pack --silent -w packages/icons
-            fi
+          EXPECTED_COMMIT_SUBJECT="ci(releaser): bump packages versions and update changelog for $RELEASE_BRANCH"
+          ACTUAL_COMMIT_SUBJECT="$(git log -1 --format=%s)"
+          if [ "$ACTUAL_COMMIT_SUBJECT" != "$EXPECTED_COMMIT_SUBJECT" ]; then
+            echo "Unexpected release commit: $ACTUAL_COMMIT_SUBJECT" >&2
+            exit 1
+          fi
 
-            if [ ! -f release-notes.md ]; then
-              printf '## rocketicons %s\n\nIncludes the CLI and agent-friendly catalog access without importing the full icon library.\n' "$CURRENT_VERSION" > release-notes.md
-            fi
+          git config --unset push.default
+
+          PUBLISH_PACKAGE="$(
+            node .github/scripts/release-guard.mjs package-state \
+              "$PACKAGE_VERSION" \
+              "$PUBLISHED_VERSION"
+          )"
+
+          if [ "$PUBLISH_PACKAGE" != "true" ]; then
+            echo "Cut Release must prepare a new package version" >&2
+            exit 1
+          fi
+
+          npm pack --silent -w packages/icons
+
+          if [ ! -f release-notes.md ]; then
+            printf '## rocketicons %s\n\nIncludes the CLI and agent-friendly catalog access without importing the full icon library.\n' "$PACKAGE_VERSION" > release-notes.md
           fi
 
           echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "ROOT_VERSION=$ROOT_VERSION" >> $GITHUB_OUTPUT
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+          echo "PUBLISHED_VERSION=$PUBLISHED_VERSION" >> $GITHUB_OUTPUT
           echo "PUBLISH_PACKAGE=$PUBLISH_PACKAGE" >> $GITHUB_OUTPUT
-
-      - name: Set output as environment variable
-        run: echo "TAG_NAME=${{ steps.prepare-release.outputs.TAG_NAME }}" >> $GITHUB_ENV
+          echo "RELEASE_HEAD_SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
       - name: Get generated package name
         id: generated-pkg-name
-        env:
-          TAG_NAME: ${{ steps.prepare-release.outputs.TAG_NAME }}
-          PUBLISH_PACKAGE: ${{ steps.prepare-release.outputs.PUBLISH_PACKAGE }}
-        run: |
-          if [ "$PUBLISH_PACKAGE" = "true" ] || [[ "$TAG_NAME" != *release* ]]; then
-            echo "PKG_FILE=$(ls -1 -t *.tgz | head -1)" >> $GITHUB_OUTPUT
-          else
-            echo "PKG_FILE=" >> $GITHUB_OUTPUT
-          fi
+        run: echo "PKG_FILE=$(ls -1 -t *.tgz | head -1)" >> $GITHUB_OUTPUT
 
-      - name: Generate artifact for tag ${{ steps.prepare-release.outputs.TAG_NAME }}
+      - name: Generate release metadata
         env:
-          TAG_NAME: ${{ steps.prepare-release.outputs.TAG_NAME }}
+          CUT_FROM_SHA: ${{ github.sha }}
+          PACKAGE_VERSION: ${{ steps.prepare-release.outputs.PACKAGE_VERSION }}
           PUBLISH_PACKAGE: ${{ steps.prepare-release.outputs.PUBLISH_PACKAGE }}
-          SOURCE_PR_NUMBER: ${{ github.event.pull_request.number }}
-          SOURCE_HEAD_BRANCH: ${{ github.head_ref }}
-          SOURCE_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          RELEASE_BRANCH: ${{ steps.release-request.outputs.RELEASE_BRANCH }}
+          RELEASE_HEAD_SHA: ${{ steps.prepare-release.outputs.RELEASE_HEAD_SHA }}
+          RELEASE_VERSION: ${{ inputs.release_version }}
+          ROOT_VERSION: ${{ steps.prepare-release.outputs.ROOT_VERSION }}
+          SOURCE_WORKFLOW_RUN_ID: ${{ github.run_id }}
+          TAG_NAME: ${{ steps.prepare-release.outputs.TAG_NAME }}
         run: |
-          echo "$TAG_NAME" >> .tagrc
+          printf '%s\n' "$TAG_NAME" > .tagrc
           node -e '
             const fs = require("node:fs");
-            const root = require("./package.json");
-            const { name, version } = require("./packages/icons/package.json");
+            const { name } = require("./packages/icons/package.json");
             const metadata = {
               tagName: process.env.TAG_NAME,
-              sourcePullRequestNumber: Number(process.env.SOURCE_PR_NUMBER),
-              sourceHeadBranch: process.env.SOURCE_HEAD_BRANCH,
-              sourceHeadSha: process.env.SOURCE_HEAD_SHA,
-              rootVersion: root.version,
+              releaseVersion: process.env.RELEASE_VERSION,
+              sourceWorkflowRunId: Number(process.env.SOURCE_WORKFLOW_RUN_ID),
+              releaseBranch: process.env.RELEASE_BRANCH,
+              releaseHeadSha: process.env.RELEASE_HEAD_SHA,
+              cutFromSha: process.env.CUT_FROM_SHA,
+              rootVersion: process.env.ROOT_VERSION,
               name,
-              version,
-              publishPackage: process.env.PUBLISH_PACKAGE === "true"
+              version: process.env.PACKAGE_VERSION,
+              packagePrepared: process.env.PUBLISH_PACKAGE === "true"
             };
             fs.writeFileSync("release-metadata.json", JSON.stringify(metadata, null, 2) + "\n");
           '
 
-      - name: Upload tag artifact to release job
+      - name: Upload tag artifact
         uses: actions/upload-artifact@v4
         with:
           name: tag-artifact
@@ -163,10 +211,7 @@ jobs:
           include-hidden-files: true
           if-no-files-found: error
 
-      - name: Upload deployable artifacts with package
-        if: >-
-          contains(steps.prepare-release.outputs.TAG_NAME, 'release') &&
-          steps.prepare-release.outputs.PUBLISH_PACKAGE == 'true'
+      - name: Upload release artifacts
         uses: actions/upload-artifact@v4
         with:
           name: deployable-artifacts
@@ -176,22 +221,7 @@ jobs:
             ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
           if-no-files-found: error
 
-      - name: Upload deployable artifacts without package
-        if: >-
-          contains(steps.prepare-release.outputs.TAG_NAME, 'release') &&
-          steps.prepare-release.outputs.PUBLISH_PACKAGE != 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: deployable-artifacts
-          path: |
-            release-notes.md
-            release-metadata.json
-          if-no-files-found: error
-
-      - name: Upload rocketicons tgz as artifact
-        if: contains(steps.prepare-release.outputs.TAG_NAME, 'release') == false
-        uses: actions/upload-artifact@v4
-        with:
-          name: rocketicons-pkg
-          path: ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
-          if-no-files-found: error
+      - name: Push release branch
+        env:
+          RELEASE_BRANCH: ${{ steps.release-request.outputs.RELEASE_BRANCH }}
+        run: git push --set-upstream origin "$RELEASE_BRANCH" --no-verify

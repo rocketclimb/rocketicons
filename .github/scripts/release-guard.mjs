@@ -11,6 +11,50 @@ const parseStableVersion = (value, label) => {
   return match.slice(1).map(Number);
 };
 
+export const CUT_RELEASE_SOURCE_BRANCH = "develop";
+
+export const validateCutReleaseSource = (sourceBranch) => {
+  if (sourceBranch !== CUT_RELEASE_SOURCE_BRANCH) {
+    throw new Error(
+      `Releases must be cut from ${CUT_RELEASE_SOURCE_BRANCH}, received ${sourceBranch}`
+    );
+  }
+
+  return sourceBranch;
+};
+
+export const releaseBranchForVersion = (version) => {
+  parseStableVersion(version, "Release version");
+  return `release/${version}`;
+};
+
+export const releaseVersionFromBranch = (branch) => {
+  const match = /^release\/(.+)$/.exec(branch);
+  if (!match)
+    throw new Error(`Release branches must match release/<version>, received ${branch}`);
+
+  parseStableVersion(match[1], "Release branch version");
+  return match[1];
+};
+
+export const validateCutReleaseResult = (requestedVersion, rootVersion, tagName) => {
+  const releaseBranch = releaseBranchForVersion(requestedVersion);
+  parseStableVersion(rootVersion, "Generated root version");
+
+  if (rootVersion !== requestedVersion) {
+    throw new Error(
+      `Generated root version mismatch: expected ${requestedVersion}, received ${rootVersion}`
+    );
+  }
+
+  const expectedTagName = `v${requestedVersion}-release`;
+  if (tagName !== expectedTagName) {
+    throw new Error(`Generated tag mismatch: expected ${expectedTagName}, received ${tagName}`);
+  }
+
+  return { releaseBranch, tagName };
+};
+
 export const packageReleaseState = (currentVersion, publishedVersion) => {
   if (currentVersion === publishedVersion) return { publishPackage: false };
 
@@ -32,19 +76,7 @@ export const packageReleaseState = (currentVersion, publishedVersion) => {
   return { publishPackage: true };
 };
 
-export const RELEASE_SOURCE_BRANCH = "develop";
-
-export const validateReleaseSourceBranch = (headBranch) => {
-  if (headBranch !== RELEASE_SOURCE_BRANCH) {
-    throw new Error(
-      `Release pull requests must come from ${RELEASE_SOURCE_BRANCH}, received ${headBranch}`
-    );
-  }
-
-  return headBranch;
-};
-
-export const eligiblePrepareHeadShas = (commits, headSha, headBranch) => {
+export const eligibleCutHeadShas = (commits, headSha, headBranch) => {
   const pullRequestCommits = commits.flat();
   const headCommit = pullRequestCommits.find((commit) => commit.sha === headSha);
   if (!headCommit) {
@@ -63,18 +95,19 @@ export const eligiblePrepareHeadShas = (commits, headSha, headBranch) => {
   return eligibleHeadShas;
 };
 
-export const selectPrepareReleaseRun = (
+export const selectCutReleaseRun = (
   payload,
-  { headBranch, pullRequestHeadShas, pullRequestNumber }
+  { runHeadBranch, eligibleHeadShas, pullRequestNumber }
 ) => {
   const runs = Array.isArray(payload?.workflow_runs) ? payload.workflow_runs : [];
-  const allowedHeadShas = new Set(pullRequestHeadShas);
+  const allowedHeadShas = new Set(eligibleHeadShas);
   const matchingRuns = runs
     .filter(
       (run) =>
+        run.event === "workflow_dispatch" &&
         run.status === "completed" &&
         run.conclusion === "success" &&
-        run.head_branch === headBranch &&
+        run.head_branch === runHeadBranch &&
         allowedHeadShas.has(run.head_sha)
     )
     .sort(
@@ -84,7 +117,7 @@ export const selectPrepareReleaseRun = (
 
   if (matchingRuns.length === 0) {
     throw new Error(
-      `No successful Prepare Release run found for PR #${pullRequestNumber} on ${headBranch}`
+      `No successful Cut Release run found for PR #${pullRequestNumber} from ${runHeadBranch}`
     );
   }
 
@@ -94,13 +127,15 @@ export const selectPrepareReleaseRun = (
 export const validateReleaseMetadata = (metadata, expected) => {
   const fields = [
     ["tagName", expected.tagName],
-    ["sourcePullRequestNumber", expected.sourcePullRequestNumber],
-    ["sourceHeadBranch", expected.sourceHeadBranch],
-    ["sourceHeadSha", expected.sourceHeadSha],
+    ["releaseVersion", expected.releaseVersion],
+    ["sourceWorkflowRunId", expected.sourceWorkflowRunId],
+    ["releaseBranch", expected.releaseBranch],
+    ["releaseHeadSha", expected.releaseHeadSha],
+    ["cutFromSha", expected.cutFromSha],
     ["rootVersion", expected.rootVersion],
     ["name", expected.name],
     ["version", expected.version],
-    ["publishPackage", expected.publishPackage]
+    ["packagePrepared", expected.packagePrepared]
   ];
 
   for (const [field, value] of fields) {
@@ -121,9 +156,21 @@ const readStandardInput = async () => {
 };
 
 const runCli = async ([command, ...args]) => {
-  if (command === "validate-source") {
-    validateReleaseSourceBranch(args[0]);
-    process.stdout.write("Release source validated\n");
+  if (command === "release-branch") {
+    const [sourceBranch, version] = args;
+    validateCutReleaseSource(sourceBranch);
+    process.stdout.write(`${releaseBranchForVersion(version)}\n`);
+    return;
+  }
+
+  if (command === "release-version") {
+    process.stdout.write(`${releaseVersionFromBranch(args[0])}\n`);
+    return;
+  }
+
+  if (command === "validate-cut-result") {
+    validateCutReleaseResult(args[0], args[1], args[2]);
+    process.stdout.write("Cut release result validated\n");
     return;
   }
 
@@ -134,27 +181,27 @@ const runCli = async ([command, ...args]) => {
 
     const commits = JSON.parse(await readStandardInput());
     process.stdout.write(
-      `${JSON.stringify(eligiblePrepareHeadShas(commits, headSha, headBranch))}\n`
+      `${JSON.stringify(eligibleCutHeadShas(commits, headSha, headBranch))}\n`
     );
     return;
   }
 
   if (command === "select-run") {
-    const [headBranch, pullRequestNumber, pullRequestHeadShasJson] = args;
-    if (!headBranch) throw new Error("Missing pull request head branch");
+    const [runHeadBranch, pullRequestNumber, eligibleHeadShasJson] = args;
+    if (!runHeadBranch) throw new Error("Missing cut release run head branch");
     if (!pullRequestNumber) throw new Error("Missing pull request number");
-    if (!pullRequestHeadShasJson) throw new Error("Missing pull request commit SHAs");
+    if (!eligibleHeadShasJson) throw new Error("Missing eligible Cut Release head SHAs");
 
-    const pullRequestHeadShas = JSON.parse(pullRequestHeadShasJson);
-    if (!Array.isArray(pullRequestHeadShas) || pullRequestHeadShas.length === 0) {
-      throw new Error("Pull request commit SHAs must be a non-empty JSON array");
+    const eligibleHeadShas = JSON.parse(eligibleHeadShasJson);
+    if (!Array.isArray(eligibleHeadShas) || eligibleHeadShas.length === 0) {
+      throw new Error("Eligible Cut Release head SHAs must be a non-empty JSON array");
     }
 
     const payload = JSON.parse(await readStandardInput());
     process.stdout.write(
-      `${selectPrepareReleaseRun(payload, {
-        headBranch,
-        pullRequestHeadShas,
+      `${selectCutReleaseRun(payload, {
+        runHeadBranch,
+        eligibleHeadShas,
         pullRequestNumber: Number(pullRequestNumber)
       })}\n`
     );
@@ -171,24 +218,28 @@ const runCli = async ([command, ...args]) => {
     const [
       file,
       tagName,
-      pullRequestNumber,
-      headBranch,
-      headSha,
+      releaseVersion,
+      sourceWorkflowRunId,
+      releaseBranch,
+      releaseHeadSha,
+      cutFromSha,
       rootVersion,
       name,
       version,
-      publishPackage
+      packagePrepared
     ] = args;
     const metadata = JSON.parse(fs.readFileSync(file, "utf8"));
     validateReleaseMetadata(metadata, {
       tagName,
-      sourcePullRequestNumber: Number(pullRequestNumber),
-      sourceHeadBranch: headBranch,
-      sourceHeadSha: headSha,
+      releaseVersion,
+      sourceWorkflowRunId: Number(sourceWorkflowRunId),
+      releaseBranch,
+      releaseHeadSha,
+      cutFromSha,
       rootVersion,
       name,
       version,
-      publishPackage: publishPackage === "true"
+      packagePrepared: packagePrepared === "true"
     });
     process.stdout.write("Release metadata validated\n");
     return;
