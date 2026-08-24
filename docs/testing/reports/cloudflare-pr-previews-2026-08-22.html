@@ -74,15 +74,15 @@
     <p class="lede">Internal pull requests now publish a stable Cloudflare Pages preview after the existing test and static-export gates pass.</p>
     <div class="metrics">
       <div class="metric"><strong>Implemented</strong><span>workflow status</span></div>
-      <div class="metric"><strong>7 checks</strong><span>local verification ledger</span></div>
-      <div class="metric"><strong>None</strong><span>external provider writes</span></div>
+      <div class="metric"><strong>9 checks</strong><span>verification ledger</span></div>
+      <div class="metric"><strong>1 preview</strong><span>external provider writes</span></div>
     </div>
   </header>
 
   <section>
     <h2><span class="icon">✓</span>Outcome</h2>
     <p>The existing GitHub Actions build remains the single build pipeline. After a qualifying pull request passes export verification, Wrangler uploads <code>packages/ignition/out</code> to the existing <code>rocketicons</code> Pages project with the branch alias <code>pr-&lt;number&gt;</code>.</p>
-    <div class="callout">A pull request such as #162 receives the stable alias <code>https://pr-162.rocketicons.pages.dev</code>. Production continues to deploy only from <code>main</code>.</div>
+    <div class="callout">PR #164 received the stable alias <code>https://pr-164.rocketicons.pages.dev</code>. Production remained untouched and continues to deploy only from <code>main</code>.</div>
   </section>
 
   <section>
@@ -117,6 +117,8 @@
     <table>
       <thead><tr><th>Gate</th><th>Status</th><th>Evidence</th></tr></thead>
       <tbody>
+        <tr><td>GitHub Actions live run</td><td class="status pass">PASS</td><td>Cloudflare Pages run <code>32675193645</code> completed successfully; production was skipped and the preview and summary steps passed.</td></tr>
+        <tr><td>Published preview</td><td class="status pass">PASS · HTTP 200</td><td><code>https://pr-164.rocketicons.pages.dev/</code> returned Cloudflare Pages content with <code>x-robots-tag: noindex</code>.</td></tr>
         <tr><td>Workspace test suite</td><td class="status pass">PASS · 101 tests</td><td><code>npm run test-all</code> completed through the repository pre-push hook: 11 suites passed.</td></tr>
         <tr><td>Workflow formatting</td><td class="status pass">PASS</td><td><code>npx --no-install prettier --check .github/workflows/pages.yml</code></td></tr>
         <tr><td>YAML structure</td><td class="status pass">PASS</td><td>The workflow parsed with the installed <code>yaml</code> package and contains the <code>deploy-preview</code> step.</td></tr>
@@ -132,17 +134,17 @@
   <section>
     <h2><span class="icon">□</span>Provider and data scope</h2>
     <ul>
-      <li>No Cloudflare deployment was triggered during implementation.</li>
-      <li>No GitHub secrets, repository settings, PR comments, or deployment records were changed.</li>
+      <li>One Cloudflare Pages preview was published for PR #164 at the stable <code>pr-164</code> alias and an immutable deployment URL.</li>
+      <li>No production deployment, custom domain, DNS configuration, GitHub secret, or repository setting was changed.</li>
       <li>No database, search index, DNS, custom domain, or production content was written.</li>
     </ul>
   </section>
 
   <section>
-    <h2><span class="icon">!</span>Remaining production gate</h2>
-    <div class="callout warning">The first qualifying pull-request run must confirm that the repository’s existing Cloudflare token accepts Wrangler Action v4 and that GitHub surfaces the generated deployment URL.</div>
+    <h2><span class="icon">!</span>Remaining gates</h2>
+    <div class="callout warning">The preview mechanism is live-verified. The remaining gates are normal human review and merge approval for PR #164.</div>
     <ul>
-      <li>Expected alias format: <code>https://pr-&lt;number&gt;.rocketicons.pages.dev</code>.</li>
+      <li>Verified alias: <code>https://pr-164.rocketicons.pages.dev</code>.</li>
       <li>The current workflow intentionally does not preview fork or Dependabot pull requests.</li>
     </ul>
   </section>
