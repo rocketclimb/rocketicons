@@ -1,15 +1,15 @@
-## [0.9.2](https://github.com/rocketclimb/rocketicons/compare/v0.9.1-release...v0.9.2) (2026-08-24)
+## [0.9.3](https://github.com/rocketclimb/rocketicons/compare/v0.9.2-release...v0.9.3) (2026-08-24)
 
 ### Bug Fixes
 
 - **ignition** address Algolia review feedback ([78f94e6c](https://github.com/rocketclimb/rocketicons/commit/78f94e6cea8220f524d60fd662fa25a0c0e0cbdc))
 - **ignition** restore Algolia search ([51e98c1e](https://github.com/rocketclimb/rocketicons/commit/51e98c1ec8e75f3fc1e6d5b184031b092a0620a5))
-- **ignition** use the right icon ([be9dea35](https://github.com/rocketclimb/rocketicons/commit/be9dea350fe23f3d8fcbceb9b4abfc0fe09c8930))
-- **ignition** icon selection issues ([ffdc6d3e](https://github.com/rocketclimb/rocketicons/commit/ffdc6d3ea818566f1d3b1d97f6a1613003b98912))
-- **deps** remove sqlite ([5c8a8268](https://github.com/rocketclimb/rocketicons/commit/5c8a8268316accbe3761125f5c91a93beae35dcc))
-- **ignition** fix links ([73c7e157](https://github.com/rocketclimb/rocketicons/commit/73c7e1573d7203ad73e781bfd258eea157027565))
-- **responsive** restore responsive page ([c6e1b79e](https://github.com/rocketclimb/rocketicons/commit/c6e1b79e3223f67477e7fb2f8b588e93db48863e))
-- **style** fix style issues ([ac604176](https://github.com/rocketclimb/rocketicons/commit/ac6041760159ec18eb4291561cec9332579662be))
+
+## [0.9.2](https://github.com/rocketclimb/rocketicons/compare/v0.9.1-release...v0.9.2) (2026-08-22)
+
+### Bug Fixes
+
+- **ignition** restore Algolia search ([51e98c1e](https://github.com/rocketclimb/rocketicons/commit/51e98c1ec8e75f3fc1e6d5b184031b092a0620a5))
 
 ## [0.9.1](https://github.com/rocketclimb/rocketicons/compare/v0.9.0-release...v0.9.1) (2026-08-14)
 
@@ -56,10 +56,10 @@
 
 ### Other
 
-- ([c4dcbeca](https://github.com/rocketclimb/rocketicons/commit/c4dcbeca70280efeab696c005928b5afd304ad40))
-- ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
-- ([9ff38335](https://github.com/rocketclimb/rocketicons/commit/9ff383353071368bfe246c506419c1716c850bd3))
-- ([1e9ae3b7](https://github.com/rocketclimb/rocketicons/commit/1e9ae3b722133259bbc7cbe8c9b4192b05d87b7e))
+-  ([c4dcbeca](https://github.com/rocketclimb/rocketicons/commit/c4dcbeca70280efeab696c005928b5afd304ad40))
+-  ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
+-  ([9ff38335](https://github.com/rocketclimb/rocketicons/commit/9ff383353071368bfe246c506419c1716c850bd3))
+-  ([1e9ae3b7](https://github.com/rocketclimb/rocketicons/commit/1e9ae3b722133259bbc7cbe8c9b4192b05d87b7e))
 
 ## [0.8.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
 
@@ -98,9 +98,9 @@
 
 ### Other
 
-- ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
-- ([9ff38335](https://github.com/rocketclimb/rocketicons/commit/9ff383353071368bfe246c506419c1716c850bd3))
-- ([1e9ae3b7](https://github.com/rocketclimb/rocketicons/commit/1e9ae3b722133259bbc7cbe8c9b4192b05d87b7e))
+-  ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
+-  ([9ff38335](https://github.com/rocketclimb/rocketicons/commit/9ff383353071368bfe246c506419c1716c850bd3))
+-  ([1e9ae3b7](https://github.com/rocketclimb/rocketicons/commit/1e9ae3b722133259bbc7cbe8c9b4192b05d87b7e))
 
 ## [0.7.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
 
@@ -139,9 +139,9 @@
 
 ### Other
 
-- ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
-- ([9ff38335](https://github.com/rocketclimb/rocketicons/commit/9ff383353071368bfe246c506419c1716c850bd3))
-- ([1e9ae3b7](https://github.com/rocketclimb/rocketicons/commit/1e9ae3b722133259bbc7cbe8c9b4192b05d87b7e))
+-  ([bc1ccddf](https://github.com/rocketclimb/rocketicons/commit/bc1ccddf13cc27f9328a51ce5e273491872cde97))
+-  ([9ff38335](https://github.com/rocketclimb/rocketicons/commit/9ff383353071368bfe246c506419c1716c850bd3))
+-  ([1e9ae3b7](https://github.com/rocketclimb/rocketicons/commit/1e9ae3b722133259bbc7cbe8c9b4192b05d87b7e))
 
 ## [0.6.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-05-08)
 
