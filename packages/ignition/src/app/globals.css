@@ -4,6 +4,13 @@
 /* Source scanning for external packages containing Tailwind classes */
 @source "../../../../node_modules/@rocketclimb/code-block/dist";
 
+/* The colors documentation builds its preview classes from colors.json at runtime,
+   so Tailwind cannot discover them by scanning the TSX source. Keep those palette
+   utilities in the generated stylesheet. */
+@source inline("icon-{inherit,current,transparent,black,white}");
+@source inline("icon-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}");
+@source inline("icon-{slate,gray,zinc,neutral,stone,red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose}-{50,100,200,300,400,500,600,700,800,900,950}");
+
 /* Dark mode — class-based, matching .dark ancestor (official TW v4 pattern) */
 @custom-variant dark (&:where(.dark, .dark *));
 

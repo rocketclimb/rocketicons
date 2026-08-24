@@ -1,24 +1,13 @@
 "use client";
 import { AnimatedCodeBlock, ScriptAction, Script } from "@rocketclimb/code-block";
 
-import { IconFromData, IconTree, Variants } from "@rocketicons/core";
-
+import QuerySelectedIcon from "@/components/documentation/query-selected-icon";
 import { sizes } from "./utils";
 import { useEffect, useState } from "react";
 
-const Animation = ({
-  iconTree,
-  variant,
-  iconName
-}: {
-  iconName: string;
-  iconTree: IconTree;
-  variant: Variants;
-}) => {
+const Animation = ({ iconName }: { iconName: string }) => {
   const [state, setState] = useState<string>("icon-base");
   const [script, setScript] = useState<Script>([]);
-
-  const Icon = (props: any) => <IconFromData iconTree={iconTree} variant={variant} {...props} />;
 
   useEffect(() => {
     const { script } = [...Object.keys(sizes)].reduce(
@@ -51,7 +40,7 @@ const Animation = ({
   return (
     <>
       <div className="size-48 order-last sm:order-none flex items-center justify-center border rounded-lg border-slate-200 dark:border-slate-800">
-        <Icon className={`transition duration-500 ${state}`} />
+        <QuerySelectedIcon className={`transition duration-500 ${state}`} />
       </div>
       <AnimatedCodeBlock
         className="w-[298px] xs:w-[365px] md:w-[500px]"
@@ -81,7 +70,7 @@ const Animation = ({
         ]}
       >
         <div>
-          <Icon data-cb-tag={iconName} className="icon-base" />
+          <QuerySelectedIcon data-cb-tag={iconName} className="icon-base" />
         </div>
       </AnimatedCodeBlock>
     </>
@@ -90,13 +79,11 @@ const Animation = ({
 
 type SizingAnimationProsp = {
   icon: string;
-  iconTree: IconTree;
-  variant: Variants;
 };
 
-const SizingAnimation = ({ icon, iconTree, variant }: SizingAnimationProsp) => (
+const SizingAnimation = ({ icon }: SizingAnimationProsp) => (
   <div className="flex h-48 flex-col sm:flex-row xs:my-12 items-center justify-center gap-4">
-    <Animation iconTree={iconTree} variant={variant} iconName={icon} />
+    <Animation iconName={icon} />
   </div>
 );
 

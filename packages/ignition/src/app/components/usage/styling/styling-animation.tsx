@@ -1,27 +1,17 @@
 "use client";
 import { AnimatedCodeBlock, ScriptAction } from "@rocketclimb/code-block";
-import { IconFromData, IconTree, Variants } from "@rocketicons/core";
 
 import { useState } from "react";
+import QuerySelectedIcon from "@/components/documentation/query-selected-icon";
 
-const Animation = ({
-  iconName,
-  iconTree,
-  variant
-}: {
-  iconName: string;
-  iconTree: IconTree;
-  variant: Variants;
-}) => {
+const Animation = ({ iconName }: { iconName: string }) => {
   const initialIconColor = "icon-rose-500";
   const [state, setState] = useState<string>(initialIconColor);
-
-  const Icon = (props: any) => <IconFromData iconTree={iconTree} variant={variant} {...props} />;
 
   return (
     <>
       <div className="size-48 order-last sm:order-none flex items-center justify-center">
-        <Icon className={`transition duration-500 ${state} size-48`} />
+        <QuerySelectedIcon className={`transition duration-500 ${state} size-48`} />
       </div>
       <AnimatedCodeBlock
         className="w-96 md:w-[480px]"
@@ -92,7 +82,7 @@ const Animation = ({
         ]}
       >
         <div>
-          <Icon data-cb-tag={iconName} className={initialIconColor} />
+          <QuerySelectedIcon data-cb-tag={iconName} className={initialIconColor} />
         </div>
       </AnimatedCodeBlock>
     </>
@@ -101,13 +91,11 @@ const Animation = ({
 
 type StylingAnimationProsp = {
   icon: string;
-  iconTree: IconTree;
-  variant: Variants;
 };
 
-const StylingAnimation = ({ icon, iconTree, variant }: StylingAnimationProsp) => (
+const StylingAnimation = ({ icon }: StylingAnimationProsp) => (
   <div className="flex h-72 sm:h-48 flex-col sm:flex-row my-12 items-center justify-center gap-4">
-    <Animation iconTree={iconTree} variant={variant} iconName={icon} />
+    <Animation iconName={icon} />
   </div>
 );
 
