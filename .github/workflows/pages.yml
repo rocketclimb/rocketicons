@@ -3,6 +3,7 @@ name: Cloudflare Pages
 on:
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened, closed]
   push:
     branches: [main]
   workflow_dispatch:
@@ -13,12 +14,13 @@ permissions:
   deployments: write
 
 concurrency:
-  group: cloudflare-pages-${{ github.ref }}
+  group: cloudflare-pages-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   build:
     name: Test and export static site
+    if: github.event_name != 'pull_request' || github.event.action != 'closed'
     runs-on: ubuntu-latest
     env:
       SITE_ORIGIN: ${{ vars.SITE_ORIGIN || 'https://rocketicons.io' }}
@@ -100,7 +102,7 @@ jobs:
         if: >-
           github.event_name == 'pull_request' &&
           github.event.pull_request.head.repo.full_name == github.repository &&
-          github.actor != 'dependabot[bot]'
+          github.event.pull_request.user.login != 'dependabot[bot]'
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -116,3 +118,36 @@ jobs:
           test -n "$PREVIEW_URL"
           echo "### Cloudflare Pages preview" >> "$GITHUB_STEP_SUMMARY"
           echo "[$PREVIEW_URL]($PREVIEW_URL)" >> "$GITHUB_STEP_SUMMARY"
+
+  cleanup-preview:
+    name: Retire closed PR preview
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.action == 'closed' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.user.login != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      # Pages does not allow deletion of a branch's latest deployment. Replace
+      # the preview with a tiny redirect so the real preview can be deleted.
+      - name: Retire Cloudflare Pages preview
+        id: retire-preview
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy .github/preview-closed --project-name=rocketicons --branch=pr-${{ github.event.pull_request.number }}
+
+      - name: Delete superseded preview deployments
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_PAGES_PROJECT: rocketicons
+          PREVIEW_BRANCH: pr-${{ github.event.pull_request.number }}
+          KEEP_DEPLOYMENT_ID: ${{ steps.retire-preview.outputs.pages-deployment-id }}
+        run: node .github/scripts/cleanup-pages-preview.mjs
