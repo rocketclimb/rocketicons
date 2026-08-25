@@ -7,5 +7,15 @@ version: 2
 updates:
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
+    target-branch: "develop"
     schedule:
       interval: "weekly"
+    groups:
+      dependencies:
+        patterns:
+          - "*"
+    ignore:
+      # This dependency provides the intentionally versioned Ionicons 4 catalog.
+      - dependency-name: "ionicons"
+        update-types:
+          - "version-update:semver-major"

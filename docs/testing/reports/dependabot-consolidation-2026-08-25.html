@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dependabot consolidation · Implementation and QA</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17211d;
+      --muted: #617069;
+      --line: #d8e0dc;
+      --paper: #ffffff;
+      --wash: #f3f7f5;
+      --accent: #147a58;
+      --accent-dark: #163d32;
+      --warning: #a55d00;
+      --danger: #b42318;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #edf2ef;
+      color: var(--ink);
+      font: 15px/1.55 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    main { width: min(1120px, calc(100% - 40px)); margin: 32px auto 72px; }
+    header, section { margin-bottom: 18px; padding: 28px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); }
+    header { color: white; background: linear-gradient(135deg, #142d26, var(--accent-dark)); }
+    h1 { margin: 4px 0 8px; font-size: clamp(30px, 5vw, 42px); line-height: 1.08; letter-spacing: -.03em; }
+    h2 { margin: 0 0 14px; font-size: 22px; letter-spacing: -.015em; }
+    h3 { margin: 0 0 8px; font-size: 17px; }
+    p { margin: 8px 0 14px; }
+    code { padding: 2px 5px; border-radius: 5px; background: var(--wash); font-size: .92em; overflow-wrap: anywhere; }
+    ul { padding-left: 21px; }
+    li { margin: 6px 0; }
+    .eyebrow { color: #bdd8ce; font-size: 12px; text-transform: uppercase; letter-spacing: .09em; }
+    .lede { max-width: 900px; color: #dcebe5; font-size: 17px; }
+    .metrics, .grid { display: grid; gap: 14px; }
+    .metrics { grid-template-columns: repeat(3, 1fr); margin-top: 22px; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .metric, .card { padding: 16px; border-radius: 12px; }
+    .metric { border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.08); }
+    .metric strong { display: block; font-size: 21px; }
+    .metric span { color: #c9ded6; font-size: 13px; }
+    .card { border: 1px solid var(--line); background: var(--wash); }
+    .callout { padding: 14px 16px; border-left: 4px solid var(--accent); border-radius: 0 10px 10px 0; background: #ecf8f3; }
+    .callout.warning { border-left-color: var(--warning); background: #fff6e8; }
+    table { width: 100%; margin: 12px 0; border-collapse: collapse; }
+    th, td { padding: 11px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
+    .status { font-weight: 750; }
+    .pass { color: var(--accent); }
+    .partial { color: var(--warning); }
+    .blocked { color: var(--danger); }
+    .icon { display: inline-grid; width: 1.5em; height: 1.5em; margin-right: .35em; place-items: center; border-radius: 6px; background: #e3f2eb; color: var(--accent); }
+    @media (max-width: 800px) {
+      main { width: min(100% - 20px, 1120px); }
+      header, section { padding: 20px; }
+      .metrics, .grid { grid-template-columns: 1fr; }
+      table { display: block; overflow-x: auto; }
+    }
+    @media print {
+      body { background: white; }
+      main { width: 100%; margin: 0; }
+      header, section { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Rocketicons · 25 August 2026</div>
+    <h1>Dependabot consolidation</h1>
+    <p class="lede">Six stale PRs were replaced by one current dependency set based on <code>develop</code>, with future npm updates grouped into one PR targeting that branch.</p>
+    <div class="metrics">
+      <div class="metric"><strong>Ready for review</strong><span>implementation status</span></div>
+      <div class="metric"><strong>79 tests</strong><span>focused tests passed</span></div>
+      <div class="metric"><strong>1 opened · 6 closed</strong><span>GitHub PR write scope</span></div>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="icon">✓</span>Outcome</h2>
+    <p>The consolidated branch refreshes the package versions represented by the old Dependabot PRs, resolves their shared lockfile once, and changes Dependabot so weekly npm updates target <code>develop</code> as one group.</p>
+    <div class="callout">Ionicons remains on v4 intentionally: that dependency is the source for the public “Ionicons 4” catalog. Dependabot major updates for that package are now ignored so a future automated PR cannot silently replace the catalog with v8.</div>
+  </section>
+
+  <section>
+    <h2><span class="icon">↔</span>What changed</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Before</h3>
+        <p>Six PRs targeted <code>main</code>, carried mid-2024 versions, and overlapped a <code>develop</code> branch that had already moved Next.js, React DOM, and react-native-svg forward.</p>
+      </div>
+      <div class="card">
+        <h3>After</h3>
+        <p>Tailwind is 3.4.19 at the root; the generator uses React/React DOM 18.3.1 and react-native-svg 15.15.5; Next.js resolves to 15.5.24 in Ignition; compatible ws lines resolve through 6.2.6, 7.5.13, and 8.21.3.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="icon">●</span>Verification ledger</h2>
+    <table>
+      <thead><tr><th>Gate</th><th>Status</th><th>Evidence</th></tr></thead>
+      <tbody>
+        <tr><td>Lockfile resolution</td><td class="status pass">PASS</td><td><code>npx --yes npm@10.9.4 install --package-lock-only --ignore-scripts</code></td></tr>
+        <tr><td>Focused unit tests</td><td class="status pass">PASS</td><td>Tailwind: 57/57. Utils: 22/22.</td></tr>
+        <tr><td>TypeScript checks</td><td class="status pass">PASS</td><td>Generator and native-test workspace typechecks completed without errors.</td></tr>
+        <tr><td>Package builds</td><td class="status pass">PASS</td><td>Utils, core, Tailwind, and CLI packages built successfully with generated-icon and site builds intentionally skipped.</td></tr>
+        <tr><td>Config and diff checks</td><td class="status pass">PASS</td><td>Dependabot YAML and all changed JSON files parsed; <code>git diff --check</code> passed.</td></tr>
+        <tr><td>Clean install</td><td class="status blocked">BLOCKED</td><td><code>npm ci --ignore-scripts</code> reached GitHub Packages but the local CLI token lacks <code>read:packages</code>; the registry returned HTTP 403 for <code>@rocketclimb/sh</code>.</td></tr>
+        <tr><td>Full generated catalog/site suite</td><td class="status partial">NOT RUN</td><td>The isolated branch intentionally contains no fetched/generated icon catalog. Existing tests that require those artifacts were not counted as dependency verification.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="icon">!</span>Remaining gates and scope</h2>
+    <div class="callout warning">A reviewer or CI identity with GitHub Packages access should run <code>npm ci --ignore-scripts</code>. Current workflows listen for PRs into <code>main</code>, so a PR into <code>develop</code> will not receive those workflows automatically.</div>
+    <ul>
+      <li>GitHub writes were limited to pushing <code>codex/consolidate-dependabot</code>, opening PR #166 into <code>develop</code>, and closing stale PRs #61, #79, #110, #120, #121, and #140 with supersession comments. No remote branch was deleted.</li>
+      <li>No production service, database, deployment, or customer data was changed.</li>
+      <li>The npm audit still reports 37 issues across the broader existing tree, including two critical issues; this PR is limited to the dependencies represented by the stale Dependabot PRs.</li>
+      <li>Next.js remains on the repository’s declared v15 line; the unrelated v16 major migration is outside this consolidation.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
