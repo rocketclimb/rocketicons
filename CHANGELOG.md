@@ -1,3 +1,16 @@
+## [0.9.4](https://github.com/rocketclimb/rocketicons/compare/v0.9.3-release...v0.9.4) (2026-08-24)
+
+### Documentation
+
+- remove preview QA report ([3d7c4e01](https://github.com/rocketclimb/rocketicons/commit/3d7c4e01360f5aaca513c73403331058d1731251))
+- **testing** record live preview deployment ([e4c1a63c](https://github.com/rocketclimb/rocketicons/commit/e4c1a63c2291abba8570a0aa6d9bc337f823f078))
+- **testing** record preview workflow verification ([fb3e3a7f](https://github.com/rocketclimb/rocketicons/commit/fb3e3a7f15764417a0cde552f7ef05165f6a2eaf))
+
+### Continuous integration
+
+- clean up closed PR previews ([a7dcca3e](https://github.com/rocketclimb/rocketicons/commit/a7dcca3ec151810c7a0eb511af04b96841914185))
+- deploy Cloudflare previews for pull requests ([388e0616](https://github.com/rocketclimb/rocketicons/commit/388e0616e76b1359ef2163f7fa4938346befa4a9))
+
 ## [0.9.3](https://github.com/rocketclimb/rocketicons/compare/v0.9.2-release...v0.9.3) (2026-08-24)
 
 ### Bug Fixes
