@@ -76,7 +76,7 @@
     <div class="metrics">
       <div class="metric"><strong>Ready for review</strong><span>implementation status</span></div>
       <div class="metric"><strong>79 tests</strong><span>focused tests passed</span></div>
-      <div class="metric"><strong>GitHub PR</strong><span>external write scope</span></div>
+      <div class="metric"><strong>1 opened · 6 closed</strong><span>GitHub PR write scope</span></div>
     </div>
   </header>
 
@@ -120,6 +120,7 @@
     <h2><span class="icon">!</span>Remaining gates and scope</h2>
     <div class="callout warning">A reviewer or CI identity with GitHub Packages access should run <code>npm ci --ignore-scripts</code>. Current workflows listen for PRs into <code>main</code>, so a PR into <code>develop</code> will not receive those workflows automatically.</div>
     <ul>
+      <li>GitHub writes were limited to pushing <code>codex/consolidate-dependabot</code>, opening PR #166 into <code>develop</code>, and closing stale PRs #61, #79, #110, #120, #121, and #140 with supersession comments. No remote branch was deleted.</li>
       <li>No production service, database, deployment, or customer data was changed.</li>
       <li>The npm audit still reports 37 issues across the broader existing tree, including two critical issues; this PR is limited to the dependencies represented by the stale Dependabot PRs.</li>
       <li>Next.js remains on the repository’s declared v15 line; the unrelated v16 major migration is outside this consolidation.</li>
