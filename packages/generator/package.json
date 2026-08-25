@@ -34,9 +34,10 @@
     "ionicons": "^4.6.3",
     "ionicons-5": "npm:ionicons@5",
     "lucide-static": "^0.542.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-native-svg": "15.1.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-native": "0.76.7",
+    "react-native-svg": "15.15.5",
     "svgo": "^3.2.0"
   },
   "engines": {
