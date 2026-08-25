@@ -2,7 +2,7 @@ name: Cloudflare Pages
 
 on:
   pull_request:
-    branches: [main]
+    branches: [develop, main]
     types: [opened, synchronize, reopened, closed]
   push:
     branches: [main]
