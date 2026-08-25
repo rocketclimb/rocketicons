@@ -1,3 +1,25 @@
+## [0.9.4](https://github.com/rocketclimb/rocketicons/compare/v0.9.3-release...v0.9.4) (2026-08-24)
+
+## [0.9.3](https://github.com/rocketclimb/rocketicons/compare/v0.9.2-release...v0.9.3) (2026-08-24)
+
+### Bug Fixes
+
+- **ignition** address Algolia review feedback ([78f94e6c](https://github.com/rocketclimb/rocketicons/commit/78f94e6cea8220f524d60fd662fa25a0c0e0cbdc))
+- **ignition** restore Algolia search ([51e98c1e](https://github.com/rocketclimb/rocketicons/commit/51e98c1ec8e75f3fc1e6d5b184031b092a0620a5))
+
+## [0.9.2](https://github.com/rocketclimb/rocketicons/compare/v0.9.1-release...v0.9.2) (2026-08-22)
+
+### Bug Fixes
+
+- **ignition** restore Algolia search ([51e98c1e](https://github.com/rocketclimb/rocketicons/commit/51e98c1ec8e75f3fc1e6d5b184031b092a0620a5))
+
+## [0.9.1](https://github.com/rocketclimb/rocketicons/compare/v0.9.0-release...v0.9.1) (2026-08-14)
+
+### Miscellaneous
+
+- **docs** fix documentation for npx commands ([a7433086](https://github.com/rocketclimb/rocketicons/commit/a7433086bef3128ca2c670a582db545a34abaa8d))
+- **site** fix domain ([c97f08ea](https://github.com/rocketclimb/rocketicons/commit/c97f08ea4c5a035b49c62cff2f482c92879f12c2))
+
 ## [0.9.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-14)
 
 ### Features

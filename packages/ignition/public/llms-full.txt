@@ -2,7 +2,7 @@
 
 Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.
 
-- Catalog/package version: 0.6.0
+- Catalog/package version: 0.3.2
 - Documentation updated: 2026-08-12
 - Static catalog: /ai/v1/catalog.json
 - English documentation: /en/docs/getting-started/
@@ -14,13 +14,13 @@ Rocketicons copies only selected icon components into the application's source t
 
 ## Current CLI contract
 
-`npx @rocketicons/cli init` expects a TypeScript project with `tsconfig.json`. It creates `src/ri/core/index.tsx`, `src/ri/core/index.native.tsx`, and `src/ri/icons`; configures the `@/ri/*` alias; and installs the shared utilities through npm.
+`npx rocketicons init` expects a TypeScript project with `tsconfig.json`. It creates `src/ri/core/index.tsx`, `src/ri/core/index.native.tsx`, and `src/ri/icons`; configures the `@/ri/*` alias; and installs the shared utilities through npm.
 
-`npx @rocketicons/cli add @collection/icon` writes one TSX component to `src/ri/icons/<icon-id>.tsx`. Run the command separately for every icon:
+`npx rocketicons add @collection/icon` writes one TSX component to `src/ri/icons/<icon-id>.tsx`. Run the command separately for every icon:
 
 ```bash
-npx @rocketicons/cli add @lu/lu-rocket
-npx @rocketicons/cli add @lu/lu-search
+npx rocketicons add @lu/lu-rocket
+npx rocketicons add @lu/lu-search
 ```
 
 Import a generated icon with `import LuRocket from "@/ri/icons/lu-rocket";` and render it as a React component. The same generated API works in React Native when the project is configured with React Native SVG and NativeWind.

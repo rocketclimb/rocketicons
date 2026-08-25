@@ -19,7 +19,7 @@ Agentes trabalham melhor quando a descoberta é enxuta, os comandos são exatos 
 1. Consulte `/ai/v1/catalog.json` ou use o site para escolher uma coleção.
 2. Siga o `indexUrl` da coleção e identifique o ID exato do ícone.
 3. Reutilize um arquivo em `src/ri/icons` quando ele já resolver a necessidade.
-4. Caso contrário, execute um comando: `npx @rocketicons/cli add @colecao/icone`.
+4. Caso contrário, execute um comando: `npx rocketicons add @colecao/icone`.
 5. Importe o componente gerado e confirme que o arquivo existe.
 
 ### Adicione um pequeno conjunto
@@ -27,9 +27,9 @@ Agentes trabalham melhor quando a descoberta é enxuta, os comandos são exatos 
 A CLI atual aceita um ícone por comando. Mantenha a alteração fácil de auditar:
 
 ```bash
-npx @rocketicons/cli add @rc/rc-rocket-icon
-npx @rocketicons/cli add @lu/lu-search
-npx @rocketicons/cli add @lu/lu-circle-check
+npx rocketicons add @rc/rc-rocket-icon
+npx rocketicons add @lu/lu-search
+npx rocketicons add @lu/lu-circle-check
 ```
 
 Não presuma argumentos em lote, saída JSON, dry run, caminhos configuráveis ou ferramentas MCP. Esses recursos pertencem a etapas futuras do roadmap.

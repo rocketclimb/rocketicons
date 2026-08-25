@@ -9,18 +9,18 @@ order: 1
 
 # Adicione exatamente o que precisa
 
-Já executou `npx @rocketicons/cli init`? Ótimo. Escolha o ID exato no [explorador de ícones](../../icons) e adicione apenas esse componente:
+Já executou `npx rocketicons init`? Ótimo. Escolha o ID exato no [explorador de ícones](../../icons) e adicione apenas esse componente:
 
 ```bash
-npx @rocketicons/cli add @rc/rc-rocket-icon
+npx rocketicons add @rc/rc-rocket-icon
 ```
 
 O comando atual aceita um ícone por vez. Para instalar um pequeno conjunto, deixe cada passo explícito e repita:
 
 ```bash
-npx @rocketicons/cli add @rc/rc-rocket-icon
-npx @rocketicons/cli add @lu/lu-search
-npx @rocketicons/cli add @lu/lu-circle-check
+npx rocketicons add @rc/rc-rocket-icon
+npx rocketicons add @lu/lu-search
+npx rocketicons add @lu/lu-circle-check
 ```
 
 Cada comando cria um arquivo TSX em `src/ri/icons`. Esse é o ponto importante: sua aplicação passa a ser dona do componente selecionado, em vez de importar um pacote cheio de ícones.

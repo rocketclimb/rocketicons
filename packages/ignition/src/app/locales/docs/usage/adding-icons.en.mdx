@@ -9,18 +9,18 @@ order: 1
 
 # Add exactly what you need
 
-Already ran `npx @rocketicons/cli init`? Great. Pick an exact icon ID in the [icon explorer](../../icons), then add that one component:
+Already ran `npx rocketicons init`? Great. Pick an exact icon ID in the [icon explorer](../../icons), then add that one component:
 
 ```bash
-npx @rocketicons/cli add @rc/rc-rocket-icon
+npx rocketicons add @rc/rc-rocket-icon
 ```
 
 The current command accepts one icon at a time. For a small set, keep the steps explicit and repeat it:
 
 ```bash
-npx @rocketicons/cli add @rc/rc-rocket-icon
-npx @rocketicons/cli add @lu/lu-search
-npx @rocketicons/cli add @lu/lu-circle-check
+npx rocketicons add @rc/rc-rocket-icon
+npx rocketicons add @lu/lu-search
+npx rocketicons add @lu/lu-circle-check
 ```
 
 Each command creates one TSX file under `src/ri/icons`. That is the useful bit: your application owns the selected component instead of importing a package full of icons.

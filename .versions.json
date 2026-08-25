@@ -1,12 +1,12 @@
 {
-  "rocketclimb-icons": "0.9.0",
+  "rocketclimb-icons": "0.9.4",
   "core": "0.7.0",
   "generator": "0.7.0",
-  "icons": "0.7.0",
-  "ignition": "0.9.0",
+  "icons": "0.3.3",
+  "ignition": "0.9.4",
   "tailwind": "0.7.0",
   "utils": "0.7.0",
-  "cli": "0.7.0",
+  "cli": "0.7.1",
   "native-test": "0.6.0",
-  "hash": "944c1c70fb2ff0fd674cafb1a5a97826"
+  "hash": "9b17e54fc4c9808e23620ae1dd22219a"
 }

@@ -21,7 +21,7 @@ const ColorBox = ({ name, tone, Icon }: ColorBoxProps) => (
     className="group/color text-center px-1 py-2 rounded-lg border border-surface-border dark:border-surface-border-dark/60 data-[tone=light]:dark:bg-transparent data-[tone=dark]:dark:bg-white/70 data-[tone=light]:bg-surface-medium"
   >
     <div className="mx-auto size-14">
-      <Icon className={`icon-${name}-4xl m-2`} />
+      <Icon className={`icon-${name} icon-4xl m-2`} />
     </div>
     <span className="text-primary-light text-[0.55rem] xs:text-[0.65rem] sm:text-[0.67rem] font-mono lowercase dark:text-primary-lighter group-data-[tone=light]/color:text-primary-lighter group-data-[tone=dark]/color:dark:text-primary-light">
       {name}
@@ -53,12 +53,12 @@ const ColorViewer = ({ color, Icon }: ColorViewerProps) => (
 );
 
 const Colors = async ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
-  const { icon, collection, Icon, iconTree, variant } = await getCurrentIconData(queryIcon);
+  const { icon, Icon } = await getCurrentIconData(queryIcon);
 
   return (
     <>
       <MdxPartial lang={lang} slug={"colors"} path="docs" />
-      <ColorsAnimation icon={icon} colors={forAnimation} iconTree={iconTree} variant={variant} />
+      <ColorsAnimation icon={icon} colors={forAnimation} />
       <div className="md:px-5">
         <Table lang={lang} hasAdditional collapse>
           {colorsTable.map(([utility, color], i) => (

@@ -5,13 +5,15 @@ on:
     branches:
       - main
 
-permissions: write-all
+permissions:
+  actions: read
+  contents: write
+  id-token: write
+  pull-requests: read
 
 env:
-  NODE_VERSION: "22.x"
+  NODE_VERSION: "24.x"
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  PRE_RELEASE_TAG: ${{ vars.PRE_RELEASE_TAG }}
   AUTOMATION_USER_NAME: ${{ vars.AUTOMATION_USER_NAME }}
   AUTOMATION_USER_EMAIL: ${{ vars.AUTOMATION_USER_EMAIL }}
 
@@ -21,88 +23,248 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      latest-workflow-run-id: ${{ steps.get-latest-workflow-run.outputs.LATEST_WORKFLOW_RUN_ID }}
+      cut-run-id: ${{ steps.resolve-cut-run.outputs.CUT_RUN_ID }}
+      cut-head-sha: ${{ steps.resolve-cut-run.outputs.CUT_HEAD_SHA }}
+      source-pr-number: ${{ steps.resolve-source.outputs.SOURCE_PR_NUMBER }}
+      source-head-branch: ${{ steps.resolve-source.outputs.SOURCE_HEAD_BRANCH }}
+      source-head-sha: ${{ steps.resolve-source.outputs.SOURCE_HEAD_SHA }}
+      release-source: ${{ steps.resolve-source.outputs.IS_RELEASE_SOURCE }}
+      release-version: ${{ steps.resolve-source.outputs.RELEASE_VERSION }}
       pending-tag: ${{ steps.set-tag.outputs.PENDING_TAG }}
-      is-release: ${{ contains(steps.set-tag.outputs.PENDING_TAG, 'release') }}
+      is-release: >-
+        ${{
+          steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true' &&
+          contains(steps.set-tag.outputs.PENDING_TAG, 'release')
+        }}
+      publish-package: ${{ steps.validate-release.outputs.PUBLISH_PACKAGE }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Resolve merged release pull request
+        id: resolve-source
+        run: |
+          PULL_REQUESTS="$(gh api --method GET "repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}/pulls")"
+
+          if ! MERGED_PULL_REQUEST="$(
+            printf '%s' "$PULL_REQUESTS" |
+              jq -cer --arg base "$GITHUB_REF_NAME" \
+                '[.[] | select(.merged_at != null and .base.ref == $base)] | first'
+          )"; then
+            echo "IS_RELEASE_SOURCE=false" >> $GITHUB_OUTPUT
+            echo "::notice::Skipping package release because this main update is not associated with a merged pull request."
+            exit 0
+          fi
+
+          SOURCE_PR_NUMBER="$(printf '%s' "$MERGED_PULL_REQUEST" | jq -er '.number')"
+          SOURCE_HEAD_BRANCH="$(printf '%s' "$MERGED_PULL_REQUEST" | jq -er '.head.ref')"
+          SOURCE_HEAD_SHA="$(printf '%s' "$MERGED_PULL_REQUEST" | jq -er '.head.sha')"
+
+          echo "SOURCE_PR_NUMBER=$SOURCE_PR_NUMBER" >> $GITHUB_OUTPUT
+          echo "SOURCE_HEAD_BRANCH=$SOURCE_HEAD_BRANCH" >> $GITHUB_OUTPUT
+          echo "SOURCE_HEAD_SHA=$SOURCE_HEAD_SHA" >> $GITHUB_OUTPUT
+
+          if ! RELEASE_VERSION="$(
+            node .github/scripts/release-guard.mjs release-version "$SOURCE_HEAD_BRANCH"
+          )"; then
+            echo "IS_RELEASE_SOURCE=false" >> $GITHUB_OUTPUT
+            echo "::notice::Skipping package release because PR #$SOURCE_PR_NUMBER did not come from release/<version>."
+            exit 0
+          fi
+
+          echo "RELEASE_VERSION=$RELEASE_VERSION" >> $GITHUB_OUTPUT
+          echo "IS_RELEASE_SOURCE=true" >> $GITHUB_OUTPUT
+
       - name: Setup Node
-        uses: actions/setup-node@v4
+        if: steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true'
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Getting Latest Workflow Run ID
-        id: get-latest-workflow-run
+      - name: Resolve manual cut run
+        id: resolve-cut-run
+        if: steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true'
+        env:
+          CUT_SOURCE_BRANCH: develop
+          SOURCE_HEAD_BRANCH: ${{ steps.resolve-source.outputs.SOURCE_HEAD_BRANCH }}
+          SOURCE_HEAD_SHA: ${{ steps.resolve-source.outputs.SOURCE_HEAD_SHA }}
+          SOURCE_PR_NUMBER: ${{ steps.resolve-source.outputs.SOURCE_PR_NUMBER }}
         run: |
-          echo "LATEST_WORKFLOW_RUN_ID=$(curl -L -H 'Accept: application/vnd.github+json' -H 'Authorization: Bearer ${{ env.GH_TOKEN }}' -H 'X-GitHub-Api-Version: 2022-11-28' '${{ github.api_url }}/repos/${{ github.repository }}/actions/workflows/prepare-release.yml/runs?status=success&per_page=1' | jq '.workflow_runs[0].id')" >> $GITHUB_OUTPUT
+          PULL_REQUEST_COMMITS="$(
+            gh api --method GET --paginate --slurp \
+              "repos/${GITHUB_REPOSITORY}/pulls/${SOURCE_PR_NUMBER}/commits" \
+              -f per_page=100
+          )"
+          ELIGIBLE_CUT_HEAD_SHAS="$(
+            printf '%s' "$PULL_REQUEST_COMMITS" |
+              node .github/scripts/release-guard.mjs eligible-head-shas \
+                "$SOURCE_HEAD_SHA" \
+                "$SOURCE_HEAD_BRANCH"
+          )"
+          CUT_RUNS="$(
+            gh api --method GET \
+              "repos/${GITHUB_REPOSITORY}/actions/workflows/prepare-release.yml/runs" \
+              -f event=workflow_dispatch \
+              -f status=success \
+              -f branch="$CUT_SOURCE_BRANCH" \
+              -f per_page=100
+          )"
+          CUT_RUN_ID="$(
+            printf '%s' "$CUT_RUNS" |
+              node .github/scripts/release-guard.mjs select-run \
+                "$CUT_SOURCE_BRANCH" \
+                "$SOURCE_PR_NUMBER" \
+                "$ELIGIBLE_CUT_HEAD_SHAS"
+          )"
+          CUT_HEAD_SHA="$(
+            printf '%s' "$CUT_RUNS" |
+              jq -er --argjson run_id "$CUT_RUN_ID" \
+                '.workflow_runs[] | select(.id == $run_id) | .head_sha'
+          )"
+
+          echo "CUT_RUN_ID=$CUT_RUN_ID" >> $GITHUB_OUTPUT
+          echo "CUT_HEAD_SHA=$CUT_HEAD_SHA" >> $GITHUB_OUTPUT
 
       - name: Download tag artifact
-        id: download-tag-artifact
+        if: steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true'
         uses: actions/download-artifact@v4
         with:
           name: tag-artifact
           github-token: ${{ env.GH_TOKEN }}
-          run-id: ${{ steps.get-latest-workflow-run.outputs.LATEST_WORKFLOW_RUN_ID }}
+          run-id: ${{ steps.resolve-cut-run.outputs.CUT_RUN_ID }}
 
-      - name: Set tag as environment variable
+      - name: Set pending tag
         id: set-tag
+        if: steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true'
+        run: echo "PENDING_TAG=$(cat .tagrc)" >> $GITHUB_OUTPUT
+
+      - name: Download release metadata
+        if: steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: deployable-artifacts
+          path: prepared-release
+          github-token: ${{ env.GH_TOKEN }}
+          run-id: ${{ steps.resolve-cut-run.outputs.CUT_RUN_ID }}
+
+      - name: Validate release metadata and package version
+        id: validate-release
+        if: steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true'
+        env:
+          CUT_HEAD_SHA: ${{ steps.resolve-cut-run.outputs.CUT_HEAD_SHA }}
+          CUT_RUN_ID: ${{ steps.resolve-cut-run.outputs.CUT_RUN_ID }}
+          PENDING_TAG: ${{ steps.set-tag.outputs.PENDING_TAG }}
+          RELEASE_VERSION: ${{ steps.resolve-source.outputs.RELEASE_VERSION }}
+          SOURCE_HEAD_BRANCH: ${{ steps.resolve-source.outputs.SOURCE_HEAD_BRANCH }}
+          SOURCE_HEAD_SHA: ${{ steps.resolve-source.outputs.SOURCE_HEAD_SHA }}
         run: |
-          echo "PENDING_TAG=$(cat .tagrc)" >> $GITHUB_OUTPUT
+          ROOT_VERSION="$(node -p "require('./package.json').version")"
+          PACKAGE_NAME="$(node -p "require('./packages/icons/package.json').name")"
+          PACKAGE_VERSION="$(node -p "require('./packages/icons/package.json').version")"
+          PUBLISHED_VERSION="$(npm view "$PACKAGE_NAME" version)"
+          PUBLISH_PACKAGE="$(
+            node .github/scripts/release-guard.mjs package-state \
+              "$PACKAGE_VERSION" \
+              "$PUBLISHED_VERSION"
+          )"
+
+          node .github/scripts/release-guard.mjs validate-cut-result \
+            "$RELEASE_VERSION" \
+            "$ROOT_VERSION" \
+            "$PENDING_TAG"
+
+          node .github/scripts/release-guard.mjs validate-metadata \
+            prepared-release/release-metadata.json \
+            "$PENDING_TAG" \
+            "$RELEASE_VERSION" \
+            "$CUT_RUN_ID" \
+            "$SOURCE_HEAD_BRANCH" \
+            "$SOURCE_HEAD_SHA" \
+            "$CUT_HEAD_SHA" \
+            "$ROOT_VERSION" \
+            "$PACKAGE_NAME" \
+            "$PACKAGE_VERSION" \
+            "true"
+
+          echo "PUBLISH_PACKAGE=$PUBLISH_PACKAGE" >> $GITHUB_OUTPUT
 
       - name: Setup git user
+        if: steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true'
         run: |
-          git config user.name ${{ env.AUTOMATION_USER_NAME }}
-          git config user.email ${{ env.AUTOMATION_USER_EMAIL }}
+          git config user.name "${{ env.AUTOMATION_USER_NAME }}"
+          git config user.email "${{ env.AUTOMATION_USER_EMAIL }}"
 
-      - name: Creating Tag ${{ steps.set-tag.outputs.PENDING_TAG }}
-        if: steps.set-tag.outputs.PENDING_TAG != ''
+      - name: Create tag ${{ steps.set-tag.outputs.PENDING_TAG }}
+        if: steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true'
+        env:
+          PENDING_TAG: ${{ steps.set-tag.outputs.PENDING_TAG }}
         run: |
-          git tag --force -a ${{ steps.set-tag.outputs.PENDING_TAG }} -m "${{ steps.set-tag.outputs.PENDING_TAG }}" && git push origin ${{ steps.set-tag.outputs.PENDING_TAG }}  --no-verify
+          if git ls-remote --exit-code --tags origin "refs/tags/$PENDING_TAG" >/dev/null; then
+            echo "Tag $PENDING_TAG already exists; refusing to overwrite it" >&2
+            exit 1
+          fi
 
-      - name: Warning about no Pending tag
-        if: steps.set-tag.outputs.PENDING_TAG == ''
-        run: echo "No pending tag found. Proceeding with Ignition publishing..."
+          git tag -a "$PENDING_TAG" -m "$PENDING_TAG"
+          git push origin "refs/tags/$PENDING_TAG" --no-verify
+
+      - name: Report non-release main update
+        if: steps.resolve-source.outputs.IS_RELEASE_SOURCE != 'true'
+        run: echo "Package release skipped; releases are published only from release/<version> branches."
 
   create-release:
     name: Create rocketicons release
     runs-on: ubuntu-latest
     needs: create-tag
     if: needs.create-tag.outputs.is-release == 'true'
-    outputs:
-      package-name: ${{ steps.get-package-name.outputs.PKG_NAME }}
     steps:
-      - run: echo "Generating the Release for  '${{ needs.create-tag.outputs.pending-tag }}'"
+      - run: echo "Generating the release for '${{ needs.create-tag.outputs.pending-tag }}'"
+
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: "https://registry.npmjs.org"
           always-auth: true
+
+      - name: Setup npm with trusted publishing support
+        if: needs.create-tag.outputs.publish-package == 'true'
+        run: npm install --global npm@11.19.0
 
       - name: Download deployable artifacts
         uses: actions/download-artifact@v4
         with:
           name: deployable-artifacts
           github-token: ${{ env.GH_TOKEN }}
-          run-id: ${{ needs.create-tag.outputs.latest-workflow-run-id }}
+          run-id: ${{ needs.create-tag.outputs.cut-run-id }}
 
       - name: Publish package
+        if: needs.create-tag.outputs.publish-package == 'true'
         run: |
-          tar zxf *.tgz && (cd package && npm publish) && rm -fR package
+          tar zxf *.tgz
+          node -e 'const pkg = require("./package/package.json"); const expected = require("./release-metadata.json"); if (pkg.name !== expected.name || pkg.version !== expected.version) { console.error(`Refusing to publish ${pkg.name}@${pkg.version}; expected ${expected.name}@${expected.version}`); process.exit(1) }'
+          (cd package && npm publish --access public)
+          rm -fR package
 
       - name: Get package name
         id: get-package-name
-        run: |
-          echo "PKG_NAME=$(ls *.tgz)" >> $GITHUB_OUTPUT
+        if: needs.create-tag.outputs.publish-package == 'true'
+        run: echo "PKG_NAME=$(ls *.tgz)" >> $GITHUB_OUTPUT
 
-      - name: Release ${{ needs.create-tag.outputs.pending-tag }}
+      - name: Release ${{ needs.create-tag.outputs.pending-tag }} with package
+        if: needs.create-tag.outputs.publish-package == 'true'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ needs.create-tag.outputs.pending-tag  }}
+          tag_name: ${{ needs.create-tag.outputs.pending-tag }}
           body_path: ${{ github.workspace }}/release-notes.md
           token: ${{ env.GH_TOKEN }}
           files: |
             ${{ steps.get-package-name.outputs.PKG_NAME }}
+
+      - name: Release ${{ needs.create-tag.outputs.pending-tag }} without package
+        if: needs.create-tag.outputs.publish-package != 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.create-tag.outputs.pending-tag }}
+          body_path: ${{ github.workspace }}/release-notes.md
+          token: ${{ env.GH_TOKEN }}

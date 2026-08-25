@@ -10,11 +10,11 @@ import StylingAnimation from "./styling-animation";
 import Wrapper from "@/components/documentation/wrapper";
 
 const StateManagement = async ({ lang, queryIcon }: PropsWithLang & { queryIcon?: string }) => {
-  const { icon, Icon, iconTree, variant } = await getCurrentIconData(queryIcon);
+  const { icon, Icon } = await getCurrentIconData(queryIcon);
   return (
     <>
       <MdxPartial lang={lang} slug={"styling"} path="docs" />
-      <StylingAnimation icon={icon} iconTree={iconTree} variant={variant} />
+      <StylingAnimation icon={icon} />
       <Wrapper>
         <MdxPartial lang={lang} slug={"styling/styling-bg"} path="docs" />
         <GridContainer>
