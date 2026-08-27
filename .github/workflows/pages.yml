@@ -13,6 +13,11 @@ on:
         type: boolean
         required: false
         default: false
+      cleanup_preview_pr:
+        description: Retire a PR preview after an interrupted or failed close run
+        type: string
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -30,7 +35,9 @@ concurrency:
 jobs:
   build:
     name: Test and export static site
-    if: github.event_name != 'pull_request' || github.event.action != 'closed'
+    if: >-
+      (github.event_name != 'pull_request' || github.event.action != 'closed') &&
+      (github.event_name != 'workflow_dispatch' || inputs.cleanup_preview_pr == '')
     runs-on: ubuntu-latest
     env:
       SITE_ORIGIN: ${{ vars.SITE_ORIGIN || 'https://rocketicons.com' }}
@@ -155,18 +162,24 @@ jobs:
         run: node .github/scripts/github-pages-preview.mjs
 
   cleanup-preview:
-    name: Retire closed PR preview
+    name: Retire PR preview
     if: >-
-      github.event_name == 'pull_request' &&
-      github.event.action == 'closed' &&
-      github.event.pull_request.head.repo.full_name == github.repository &&
-      github.event.pull_request.user.login != 'dependabot[bot]'
+      (github.event_name == 'pull_request' &&
+        github.event.action == 'closed' &&
+        github.event.pull_request.head.repo.full_name == github.repository &&
+        github.event.pull_request.user.login != 'dependabot[bot]') ||
+      (github.event_name == 'workflow_dispatch' && inputs.cleanup_preview_pr != '')
     runs-on: ubuntu-latest
+    env:
+      PREVIEW_PR_NUMBER: ${{ github.event_name == 'pull_request' && github.event.pull_request.number || inputs.cleanup_preview_pr }}
     steps:
       - name: Checkout default branch
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.repository.default_branch }}
+
+      - name: Validate preview PR number
+        run: '[[ "$PREVIEW_PR_NUMBER" =~ ^[1-9][0-9]*$ ]]'
 
       # Pages does not allow deletion of a branch's latest deployment. Replace
       # the preview with a tiny redirect so the real preview can be deleted.
@@ -176,14 +189,15 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy .github/preview-closed --project-name=rocketicons --branch=pr-${{ github.event.pull_request.number }}
+          workingDirectory: .github/preview-closed
+          command: pages deploy . --project-name=rocketicons --branch=pr-${{ env.PREVIEW_PR_NUMBER }}
 
       - name: Delete superseded preview deployments
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_PAGES_PROJECT: rocketicons
-          PREVIEW_BRANCH: pr-${{ github.event.pull_request.number }}
+          PREVIEW_BRANCH: pr-${{ env.PREVIEW_PR_NUMBER }}
           KEEP_DEPLOYMENT_ID: ${{ steps.retire-preview.outputs.pages-deployment-id }}
         run: node .github/scripts/cleanup-pages-preview.mjs
 
@@ -192,5 +206,5 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
           PREVIEW_ACTION: retire
-          PREVIEW_ENVIRONMENT: pr-${{ github.event.pull_request.number }}
+          PREVIEW_ENVIRONMENT: pr-${{ env.PREVIEW_PR_NUMBER }}
         run: node .github/scripts/github-pages-preview.mjs
