@@ -143,6 +143,17 @@ jobs:
           echo "### Cloudflare Pages preview" >> "$GITHUB_STEP_SUMMARY"
           echo "[$PREVIEW_URL]($PREVIEW_URL)" >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Publish preview URL to GitHub
+        if: steps.deploy-preview.outcome == 'success'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          PREVIEW_ACTION: publish
+          PREVIEW_ENVIRONMENT: pr-${{ github.event.pull_request.number }}
+          PREVIEW_REF: ${{ github.event.pull_request.head.sha }}
+          PREVIEW_URL: ${{ steps.deploy-preview.outputs.pages-deployment-alias-url }}
+        run: node .github/scripts/github-pages-preview.mjs
+
   cleanup-preview:
     name: Retire closed PR preview
     if: >-
@@ -175,3 +186,11 @@ jobs:
           PREVIEW_BRANCH: pr-${{ github.event.pull_request.number }}
           KEEP_DEPLOYMENT_ID: ${{ steps.retire-preview.outputs.pages-deployment-id }}
         run: node .github/scripts/cleanup-pages-preview.mjs
+
+      - name: Retire GitHub preview deployment
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          PREVIEW_ACTION: retire
+          PREVIEW_ENVIRONMENT: pr-${{ github.event.pull_request.number }}
+        run: node .github/scripts/github-pages-preview.mjs
