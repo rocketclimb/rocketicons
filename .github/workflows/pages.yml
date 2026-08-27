@@ -202,6 +202,7 @@ jobs:
           command: pages deploy . --project-name=rocketicons --branch=pr-${{ env.PREVIEW_PR_NUMBER }}
 
       - name: Delete superseded preview deployments
+        id: delete-previews
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -211,6 +212,7 @@ jobs:
         run: node .github/scripts/cleanup-pages-preview.mjs
 
       - name: Retire GitHub preview deployment
+        if: always() && steps.retire-preview.outcome == 'success'
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}

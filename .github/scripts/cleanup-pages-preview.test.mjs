@@ -58,7 +58,7 @@ test("deletes superseded deployments only for the retired PR branch", async () =
     [
       {
         method: "GET",
-        url: "https://api.cloudflare.com/client/v4/accounts/account/pages/projects/rocketicons/deployments?env=preview&page=1"
+        url: "https://api.cloudflare.com/client/v4/accounts/account/pages/projects/rocketicons/deployments?env=preview&page=1&per_page=20"
       }
     ]
   );
