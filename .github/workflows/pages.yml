@@ -23,6 +23,7 @@ permissions:
   contents: read
   packages: read
   deployments: write
+  pull-requests: write
 
 concurrency:
   group: >-
@@ -157,6 +158,7 @@ jobs:
           GITHUB_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
           PREVIEW_ACTION: publish
           PREVIEW_ENVIRONMENT: pr-${{ github.event.pull_request.number }}
+          PREVIEW_PR_NUMBER: ${{ github.event.pull_request.number }}
           PREVIEW_REF: ${{ github.event.pull_request.head.sha }}
           PREVIEW_URL: ${{ steps.deploy-preview.outputs.pages-deployment-alias-url }}
         run: node .github/scripts/github-pages-preview.mjs
@@ -177,6 +179,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.repository.default_branch }}
+
+      # Wrangler Action installs Wrangler from the checkout root even when its
+      # command runs in a working directory, so its install needs package auth.
+      - name: Configure GitHub Packages
+        run: |
+          npm config set @rocketclimb:registry https://npm.pkg.github.com
+          npm config set //npm.pkg.github.com/:_authToken ${{ github.token }}
 
       - name: Validate preview PR number
         run: '[[ "$PREVIEW_PR_NUMBER" =~ ^[1-9][0-9]*$ ]]'
@@ -207,4 +216,7 @@ jobs:
           GITHUB_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
           PREVIEW_ACTION: retire
           PREVIEW_ENVIRONMENT: pr-${{ env.PREVIEW_PR_NUMBER }}
+          PREVIEW_PR_NUMBER: ${{ env.PREVIEW_PR_NUMBER }}
+          PREVIEW_REF: ${{ github.event.pull_request.head.sha }}
+          PREVIEW_URL: https://pr-${{ env.PREVIEW_PR_NUMBER }}.rocketicons.pages.dev
         run: node .github/scripts/github-pages-preview.mjs
