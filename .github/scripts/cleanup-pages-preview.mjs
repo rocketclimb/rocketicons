@@ -53,7 +53,6 @@ export async function cleanupPagesPreview({
       const url = new URL(baseUrl);
       url.searchParams.set("env", "preview");
       url.searchParams.set("page", String(page));
-      url.searchParams.set("per_page", "50");
 
       const body = await cloudflareRequest(url);
       deployments.push(...body.result);
