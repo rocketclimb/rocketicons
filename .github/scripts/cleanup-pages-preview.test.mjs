@@ -54,6 +54,15 @@ test("deletes superseded deployments only for the retired PR branch", async () =
 
   assert.deepEqual(result.deleted, ["old"]);
   assert.deepEqual(
+    requests.filter(({ method }) => method === "GET"),
+    [
+      {
+        method: "GET",
+        url: "https://api.cloudflare.com/client/v4/accounts/account/pages/projects/rocketicons/deployments?env=preview&page=1"
+      }
+    ]
+  );
+  assert.deepEqual(
     requests.filter(({ method }) => method === "DELETE"),
     [
       {
