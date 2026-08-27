@@ -175,10 +175,10 @@ jobs:
     env:
       PREVIEW_PR_NUMBER: ${{ github.event_name == 'pull_request' && github.event.pull_request.number || inputs.cleanup_preview_pr }}
     steps:
-      - name: Checkout default branch
+      - name: Checkout preview workflow branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.repository.default_branch }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || github.ref }}
 
       # Wrangler Action installs Wrangler from the checkout root even when its
       # command runs in a working directory, so its install needs package auth.
@@ -209,10 +209,10 @@ jobs:
     env:
       PREVIEW_PR_NUMBER: ${{ github.event_name == 'pull_request' && github.event.pull_request.number || inputs.cleanup_preview_pr }}
     steps:
-      - name: Checkout default branch
+      - name: Checkout preview workflow branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.repository.default_branch }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || github.ref }}
 
       - name: Validate preview PR number
         run: '[[ "$PREVIEW_PR_NUMBER" =~ ^[1-9][0-9]*$ ]]'
