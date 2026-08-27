@@ -178,6 +178,13 @@ jobs:
         with:
           ref: ${{ github.event.repository.default_branch }}
 
+      # Wrangler Action installs Wrangler from the checkout root even when its
+      # command runs in a working directory, so its install needs package auth.
+      - name: Configure GitHub Packages
+        run: |
+          npm config set @rocketclimb:registry https://npm.pkg.github.com
+          npm config set //npm.pkg.github.com/:_authToken ${{ github.token }}
+
       - name: Validate preview PR number
         run: '[[ "$PREVIEW_PR_NUMBER" =~ ^[1-9][0-9]*$ ]]'
 
