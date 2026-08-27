@@ -164,7 +164,7 @@ jobs:
         run: node .github/scripts/github-pages-preview.mjs
 
   cleanup-preview:
-    name: Retire PR preview
+    name: Retire Cloudflare PR preview
     if: >-
       (github.event_name == 'pull_request' &&
         github.event.action == 'closed' &&
@@ -200,6 +200,22 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: .github/preview-closed
           command: pages deploy . --project-name=rocketicons --branch=pr-${{ env.PREVIEW_PR_NUMBER }}
+
+  retire-github-preview:
+    name: Retire GitHub PR preview record
+    needs: cleanup-preview
+    if: always() && needs.cleanup-preview.result == 'success'
+    runs-on: ubuntu-latest
+    env:
+      PREVIEW_PR_NUMBER: ${{ github.event_name == 'pull_request' && github.event.pull_request.number || inputs.cleanup_preview_pr }}
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Validate preview PR number
+        run: '[[ "$PREVIEW_PR_NUMBER" =~ ^[1-9][0-9]*$ ]]'
 
       - name: Retire GitHub preview deployment
         env:
