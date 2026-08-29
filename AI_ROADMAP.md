@@ -21,8 +21,26 @@ Rocketicons should be equally pleasant for humans, but every important workflow 
 - [x] Publish a versioned static catalog under `/ai/v1/`.
 - [x] Publish collection indexes and icon shards with stable schemas.
 - [x] Keep catalog references root-relative.
-- [x] Add the GitHub Pages build and deployment workflow.
-- [ ] Configure the Pages custom hostname, DNS, and production `SITE_ORIGIN`, then verify the first live deployment.
+- [x] Add the static-site build and deployment workflow (currently Cloudflare Pages).
+- [x] Configure the custom hostname, DNS, and production `SITE_ORIGIN`, and verify the live deployment.
+
+## Roadmap maintenance
+
+This file is the source of truth for AI-first product progress.
+
+**Last audited against the implementation:** 2026-08-29
+
+Checkbox meaning:
+
+- `[x]` — implemented and verified.
+- `[ ]` — not complete; **Partial:** and **Deferred:** notes explain intentional intermediate states.
+
+- Update this roadmap in the same pull request or commit that completes, changes, defers, or removes a roadmap item.
+- Mark an item complete only after its implementation and proportionate verification are present in the repository or, for deployment work, verified in the target environment.
+- Keep partially completed work unchecked and add a short **Partial:** note describing what remains.
+- Add newly discovered follow-up work to the appropriate milestone instead of relying only on issues, pull-request descriptions, or chat history.
+- When implementation changes the delivery model or terminology, update the affected roadmap text rather than preserving obsolete wording.
+- During roadmap reviews, compare the checkboxes with the implementation and correct any drift.
 
 ### Existing product behavior to preserve
 
@@ -56,19 +74,19 @@ This should be completed before promoting the MCP server. An agent cannot choose
 
 #### Refresh public content
 
-- [ ] Rewrite the home page around the “add only what you use” workflow.
-- [ ] Rewrite Getting Started to lead with the CLI workflow.
-- [ ] Rewrite Adding Icons with copy-pasteable CLI examples and generated-file examples.
-- [ ] Update the root README and package READMEs.
-- [ ] Display the generated Rocketicons/catalog version and content update date where useful.
-- [ ] Remove old statements implying that users must import the complete `rocketicons` package.
-- [ ] Document the shared runtime/Tailwind dependencies installed by `init`.
-- [ ] Add React, Next.js, Vite, Expo, and React Native quick starts.
-- [ ] Document JavaScript and TypeScript output where supported.
-- [ ] Explain when users should commit generated icon files.
-- [ ] Add migration instructions from `react-icons` and similar packages.
-- [ ] Add an honest comparison page covering installed size, application bundle behavior, platform support, styling, and offline use.
-- [ ] Replace stale website and Ignition README instructions, including the old Vercel deployment text.
+- [x] Rewrite the home page around the “add only what you use” workflow.
+- [x] Rewrite Getting Started to lead with the CLI workflow.
+- [x] Rewrite Adding Icons with copy-pasteable CLI examples and generated-file examples.
+- [x] Update the root README and package READMEs.
+- [x] Display the generated Rocketicons/catalog version and content update date where useful.
+- [x] Remove old statements implying that users must import the complete `rocketicons` package.
+- [x] Document the shared runtime/Tailwind dependencies installed by `init`.
+- [x] Add React, Next.js, Vite, Expo, and React Native quick starts.
+- [x] Document JavaScript and TypeScript output where supported.
+- [x] Explain when users should commit generated icon files.
+- [x] Add migration instructions from `react-icons` and similar packages.
+- [x] Add an honest comparison page covering installed size, application bundle behavior, platform support, styling, and offline use.
+- [ ] Replace all stale website and Ignition deployment instructions, including the old Vercel deployment text. **Partial:** the website and Ignition README are current, but `packages/ignition/DEPLOYMENT.md` still describes the retired server/Vercel deployment model.
 
 #### Establish one canonical message
 
@@ -76,25 +94,27 @@ Use a consistent short explanation across the website, npm, GitHub, `llms.txt`, 
 
 > Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.
 
+**Progress:** the website, GitHub/npm READMEs, and LLM discovery files use this message. CLI help and MCP remain pending with their respective milestones.
+
 #### Publish LLM discovery files
 
 Use the established plural filename as the canonical entry point:
 
-- [ ] `/llms.txt` — concise project summary, recommended workflow, primary documentation links, catalog links, CLI commands, MCP instructions, and licensing guidance.
-- [ ] `/llms-full.txt` — optional consolidated documentation for tools that want a larger context document.
+- [x] `/llms.txt` — concise project summary, recommended workflow, primary documentation links, catalog links, CLI commands, MCP instructions, and licensing guidance.
+- [x] `/llms-full.txt` — optional consolidated documentation for tools that want a larger context document.
 - [ ] `/llm.txt` — optional compatibility copy or redirect only if real clients are found to request the singular form.
-- [ ] Reference `/llms.txt` from the HTML metadata and human documentation where appropriate.
-- [ ] Generate both language-neutral machine files from source content during the static build.
-- [ ] Keep these files concise enough to avoid wasting agent context.
+- [x] Reference `/llms.txt` from the HTML metadata and human documentation where appropriate.
+- [x] Generate both language-neutral machine files from source content during the static build.
+- [x] Keep these files concise enough to avoid wasting agent context.
 
 #### Add agent-oriented examples
 
-- [ ] “Find an icon and add it” end-to-end example.
-- [ ] Batch icon installation example.
-- [ ] React and React Native rendering examples.
-- [ ] Tailwind color, size, dark-mode, and state examples.
-- [ ] A verification example showing exactly which files should be created.
-- [ ] An example prompt that tells an agent to use Rocketicons without embedding private assumptions.
+- [x] “Find an icon and add it” end-to-end example.
+- [ ] Batch icon installation example. **Deferred:** the current CLI accepts one icon per command; the documentation shows a safe repeated-command workflow until batch add lands.
+- [x] React and React Native rendering examples.
+- [x] Tailwind color, size, dark-mode, and state examples.
+- [x] A verification example showing exactly which files should be created.
+- [x] An example prompt that tells an agent to use Rocketicons without embedding private assumptions.
 
 ### Milestone 3 — CLI vNext
 
@@ -102,9 +122,9 @@ The CLI is the most important agent interface because it performs the useful pro
 
 #### Command design
 
-- [ ] `rocketicons init`
+- [x] `rocketicons init`
 - [ ] `rocketicons search <terms>`
-- [ ] `rocketicons list [collection]`
+- [x] `rocketicons list [collection]`
 - [ ] `rocketicons info <icon>`
 - [ ] `rocketicons add <icon...>` for one or many icons
 - [ ] `rocketicons remove <icon...>`
@@ -189,15 +209,15 @@ The current catalog, collection indexes, and 500-icon shards are the correct bas
 - [ ] Publish `/ai/v1/capabilities.json` describing versions and available resources.
 - [ ] Publish a compact search index containing normalized names, aliases, tags, collection, component, and shard number.
 - [ ] Add synonyms and semantic tags without changing stable icon IDs.
-- [ ] Include license and upstream provenance at collection level.
+- [x] Include license and upstream provenance at collection level.
 - [ ] Publish checksums for catalog artifacts.
 - [ ] Document cache behavior and immutable versioned snapshots.
 - [ ] Consider `/ai/v1/versions/{packageVersion}/...` for reproducible historical access.
-- [ ] Evaluate direct per-icon JSON resources against file count and Pages artifact cost; keep sharding if direct resources provide no measurable agent benefit.
+- [ ] Evaluate direct per-icon JSON resources against file count and static-hosting artifact cost; keep sharding if direct resources provide no measurable agent benefit.
 - [ ] Provide small, valid request/response examples for every schema.
-- [ ] Keep all functional references root-relative.
+- [x] Keep all functional references root-relative.
 
-Do not add a fake query API to GitHub Pages. Search and resolution must either work from static indexes in the client or through the local CLI/MCP process.
+Do not add a fake query API to static hosting. Search and resolution must either work from static indexes in the client or through the local CLI/MCP process.
 
 ### Milestone 6 — Search quality and icon semantics
 
@@ -219,7 +239,7 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 - [ ] Provide a reusable skill/instruction package only after CLI and MCP contracts stabilize.
 - [ ] Publish typed TypeScript clients for the static catalog if they reduce integration work.
 - [ ] Publish an OpenAPI description only for real HTTP interfaces; do not describe nonexistent dynamic endpoints.
-- [ ] Add copyable policies such as “reuse an installed icon before adding another.”
+- [x] Add copyable policies such as “reuse an installed icon before adding another.”
 - [ ] Provide framework-specific verification commands.
 - [ ] Add examples of safe automated replacement from another icon library.
 
@@ -263,15 +283,13 @@ Preference should be earned through lower task cost and higher confidence:
 
 ## Immediate next actions
 
-1. Configure the custom domain and production `SITE_ORIGIN`, then verify the live Pages deployment.
-2. Approve the canonical product message and terminology.
-3. Rewrite the root README and English website Getting Started content.
-4. Define CLI vNext commands, JSON envelopes, exit codes, and `rocketicons.json` schema.
-5. Generate `/llms.txt`, `/llms-full.txt`, JSON Schemas, and `/ai/v1/capabilities.json` from version-controlled sources.
-6. Extract shared catalog/search/install logic for both CLI and MCP.
-7. Implement CLI search, batch add, `--json`, and `--dry-run` before building MCP mutations.
-8. Build the local MCP server on those shared functions.
-9. Create the first agent benchmark and run it in CI.
+1. Replace the obsolete `packages/ignition/DEPLOYMENT.md` instructions with the current Cloudflare Pages workflow.
+2. Define CLI vNext commands, JSON envelopes, exit codes, and `rocketicons.json` schema.
+3. Generate JSON Schemas and `/ai/v1/capabilities.json` from version-controlled sources.
+4. Extract shared catalog/search/install logic for both CLI and MCP.
+5. Implement CLI search, batch add, `--json`, and `--dry-run` before building MCP mutations.
+6. Build the local MCP server on those shared functions.
+7. Create the first agent benchmark and run it in CI.
 
 ## Definition of done
 
