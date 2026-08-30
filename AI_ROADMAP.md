@@ -28,7 +28,7 @@ Rocketicons should be equally pleasant for humans, but every important workflow 
 
 This file is the source of truth for AI-first product progress.
 
-**Last audited against the implementation:** 2026-08-29
+**Last audited against the implementation:** 2026-08-30
 
 Checkbox meaning:
 
@@ -86,7 +86,7 @@ This should be completed before promoting the MCP server. An agent cannot choose
 - [x] Explain when users should commit generated icon files.
 - [x] Add migration instructions from `react-icons` and similar packages.
 - [x] Add an honest comparison page covering installed size, application bundle behavior, platform support, styling, and offline use.
-- [ ] Replace all stale website and Ignition deployment instructions, including the old Vercel deployment text. **Partial:** the website and Ignition README are current, but `packages/ignition/DEPLOYMENT.md` still describes the retired server/Vercel deployment model.
+- [x] Replace all stale website and Ignition deployment instructions, including the old Vercel deployment text.
 
 #### Establish one canonical message
 
@@ -283,13 +283,12 @@ Preference should be earned through lower task cost and higher confidence:
 
 ## Immediate next actions
 
-1. Replace the obsolete `packages/ignition/DEPLOYMENT.md` instructions with the current Cloudflare Pages workflow.
-2. Define CLI vNext commands, JSON envelopes, exit codes, and `rocketicons.json` schema.
-3. Generate JSON Schemas and `/ai/v1/capabilities.json` from version-controlled sources.
-4. Extract shared catalog/search/install logic for both CLI and MCP.
-5. Implement CLI search, batch add, `--json`, and `--dry-run` before building MCP mutations.
-6. Build the local MCP server on those shared functions.
-7. Create the first agent benchmark and run it in CI.
+1. Define CLI vNext commands, JSON envelopes, exit codes, and `rocketicons.json` schema.
+2. Generate JSON Schemas and `/ai/v1/capabilities.json` from version-controlled sources.
+3. Extract shared catalog/search/install logic for both CLI and MCP.
+4. Implement CLI search, batch add, `--json`, and `--dry-run` before building MCP mutations.
+5. Build the local MCP server on those shared functions.
+6. Create the first agent benchmark and run it in CI.
 
 ## Definition of done
 
