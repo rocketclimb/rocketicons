@@ -3,7 +3,7 @@ name: Cloudflare Pages
 on:
   pull_request:
     branches: [develop, main]
-    types: [opened, synchronize, reopened, closed]
+    types: [opened, synchronize, reopened, ready_for_review, closed]
   push:
     branches: [main]
   workflow_dispatch:
