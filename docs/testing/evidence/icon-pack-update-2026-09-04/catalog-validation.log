@@ -1,0 +1,40 @@
+
+> @rocketicons/generator@0.7.0 test:catalog
+> node ./scripts/verify-catalog.cjs
+
+PASS rc: 1 exports, 1 web icons
+PASS ai: 848 exports, 848 web icons
+PASS bi: 1634 exports, 1634 web icons
+PASS bs: 2754 exports, 2754 web icons
+PASS cg: 704 exports, 704 web icons
+PASS ci: 288 exports, 288 web icons
+PASS di: 192 exports, 192 web icons
+PASS fa: 1611 exports, 1611 web icons
+PASS fa6: 2058 exports, 2058 web icons
+PASS fc: 329 exports, 329 web icons
+PASS fi: 287 exports, 287 web icons
+PASS gi: 4040 exports, 4040 web icons
+PASS go: 352 exports, 352 web icons
+PASS gr: 637 exports, 637 web icons
+PASS hi: 460 exports, 460 web icons
+Warning: React does not recognize the `dataSlot` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `dataslot` instead. If you accidentally passed it from a parent component, remove it from the DOM element.
+    at svg
+    at Icon (/private/tmp/rocketicons-icon-update/packages/icons/core/index.js:6:64)
+PASS hi2: 972 exports, 972 web icons
+PASS im: 491 exports, 491 web icons
+PASS io: 696 exports, 696 web icons
+PASS io5: 1332 exports, 1332 web icons
+PASS lia: 1544 exports, 1544 web icons
+PASS lu: 2052 exports, 2048 web icons
+PASS md: 4341 exports, 4341 web icons
+PASS pi: 9072 exports, 9072 web icons
+PASS ri: 3188 exports, 3188 web icons
+PASS rx: 332 exports, 332 web icons
+PASS si: 3458 exports, 3458 web icons
+PASS sl: 189 exports, 189 web icons
+PASS tb: 6184 exports, 6184 web icons
+PASS tfi: 352 exports, 352 web icons
+PASS ti: 336 exports, 336 web icons
+PASS vsc: 653 exports, 653 web icons
+PASS wi: 219 exports, 219 web icons
+PASS 32 packs, 51606 rendered exports, 51602 web records

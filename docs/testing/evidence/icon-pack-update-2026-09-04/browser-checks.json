@@ -1,0 +1,62 @@
+[
+  {
+    "detail": "/en/docs/sizing-icons/?i=wi.WiAlien",
+    "selected": "alien",
+    "svg": true,
+    "url": "http://localhost:3100/en/icons/wi/?icon=wi-alien"
+  },
+  {
+    "detail": "/en/docs/sizing-icons/?i=rx.RxAccessibility",
+    "selected": "accessibility",
+    "svg": true,
+    "url": "http://localhost:3100/en/icons/rx/?icon=rx-accessibility"
+  },
+  {
+    "detail": "/en/docs/sizing-icons/?i=si.Si1And1",
+    "selected": "1 and1",
+    "svg": true,
+    "url": "http://localhost:3100/en/icons/si/?icon=si-1-and1"
+  },
+  {
+    "detail": "/en/docs/sizing-icons/?i=sl.SlActionRedo",
+    "selected": "action redo",
+    "svg": true,
+    "url": "http://localhost:3100/en/icons/sl/?icon=sl-action-redo"
+  },
+  {
+    "detail": "/en/docs/sizing-icons/?i=tfi.TfiAgenda",
+    "selected": "agenda",
+    "svg": true,
+    "url": "http://localhost:3100/en/icons/tfi/?icon=tfi-agenda"
+  },
+  {
+    "detail": "/en/docs/sizing-icons/?i=ti.TiAdjustBrightness",
+    "selected": "adjust brightness",
+    "svg": true,
+    "url": "http://localhost:3100/en/icons/ti/?icon=ti-adjust-brightness"
+  },
+  {
+    "detail": "/en/docs/sizing-icons/?i=vsc.VscAccount",
+    "selected": "account",
+    "svg": true,
+    "url": "http://localhost:3100/en/icons/vsc/?icon=vsc-account"
+  },
+  {
+    "detail": "/en/docs/sizing-icons/?i=pi.PiAcorn",
+    "selected": "acorn",
+    "svg": true,
+    "url": "http://localhost:3100/en/icons/pi/?icon=pi-acorn"
+  },
+  {
+    "detail": "/en/docs/sizing-icons/?i=tb.TbAccessibleFilled",
+    "selected": "accessible filled",
+    "svg": true,
+    "url": "http://localhost:3100/en/icons/tb/?icon=tb-accessible-filled"
+  },
+  {
+    "detail": "/pt-br/docs/dimensionando-icones/?i=lu.LuAArrowDown",
+    "selected": "a arrow down",
+    "svg": true,
+    "url": "http://localhost:3100/pt-br/icons/lu/?icon=lu-a-arrow-down"
+  }
+]

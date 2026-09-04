@@ -1,0 +1,72 @@
+
+> @rocketicons/utils@0.7.0 test
+> jest ./src --watchman=false --runInBand
+
+PASS src/tree-2-string.test.ts
+PASS src/handle-class-name.test.ts
+PASS src/style-to-string.test.ts
+PASS src/handle-class-name.native.test.ts
+
+Test Suites: 4 passed, 4 total
+Tests:       22 passed, 22 total
+Snapshots:   0 total
+Time:        0.806 s, estimated 1 s
+Ran all test suites matching /.\/src/i.
+
+> @rocketicons/core@0.7.0 test
+> jest --passWithNoTests ./src --watchman=false --runInBand
+
+No tests found, exiting with code 0
+
+> @rocketicons/tailwind@0.7.0 test
+> jest ./src --watchman=false --runInBand
+
+PASS src/index.test.ts
+PASS src/utils/config-handler.test.ts
+PASS src/utils/styles-generator.test.ts
+
+Test Suites: 3 passed, 3 total
+Tests:       57 passed, 57 total
+Snapshots:   0 total
+Time:        1.19 s, estimated 2 s
+Ran all test suites matching /.\/src/i.
+
+> @rocketicons/generator@0.7.0 test
+> jest ./src --passWithNoTests --watchman=false --runInBand
+
+PASS src/task-all.test.ts
+PASS src/logics.test.ts
+PASS src/source-cache.test.ts
+
+Test Suites: 3 passed, 3 total
+Tests:       11 passed, 11 total
+Snapshots:   0 total
+Time:        0.987 s, estimated 2 s
+Ran all test suites matching /.\/src/i.
+
+> rocketicons@0.3.3 test
+> echo "Go icons!" && exit 0
+
+Go icons!
+
+> @rocketicons/cli@0.7.1 test
+> jest --passWithNoTests ./src --watchman=false --runInBand
+
+No tests found, exiting with code 0
+
+> ignition@0.9.4 test
+> jest ./src --passWithNoTests --watchman=false --runInBand
+
+PASS src/statics-generator/collections-catalog.test.ts
+PASS src/statics-generator/route-static-params.test.ts
+PASS src/statics-generator/llms.test.ts
+PASS src/config/site-origin.test.ts
+PASS src/algolia/records.test.ts
+PASS src/algolia/index-version.test.ts
+PASS src/app/components/search/search-client.test.ts
+
+Test Suites: 7 passed, 7 total
+Tests:       30 passed, 30 total
+Snapshots:   0 total
+Time:        1.965 s, estimated 2 s
+Ran all test suites matching /.\/src/i.
