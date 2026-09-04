@@ -86,6 +86,9 @@ jobs:
       - name: Generate complete static catalog
         run: npm run generate-statics:all-icons --workspace=packages/ignition
 
+      - name: Verify every generated icon and web catalog record
+        run: npm run test:catalog --workspace=packages/generator
+
       - name: Export Next.js site
         env:
           SKIP_GENERATE_CONTENT_COLLECTIONS: "true"

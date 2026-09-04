@@ -1,0 +1,71 @@
+
+> ignition@0.9.4 prebuild
+> npm run prebuild:cc && npm run prebuild:gs
+
+
+> ignition@0.9.4 prebuild:cc
+> if [ -z "$SKIP_GENERATE_CONTENT_COLLECTIONS" ]; then npm run generate-content-collections; else echo '[IGNITION] skip content collections generate'; fi
+
+[IGNITION] skip content collections generate
+
+> ignition@0.9.4 prebuild:gs
+> if [ -z "$SKIP_GENERATE_IGNITION_STATICS" ]; then npm run generate-statics; else echo '[IGNITION] skip statics generate'; fi
+
+[IGNITION] skip statics generate
+
+> ignition@0.9.4 build
+> if [ -z "$SKIP_IGNITION_BUILD" ]; then NODE_PATH=./node_modules GENERATE_ALL_ICONS=$GENERATE_ALL_ICONS GENERATE_SAMPLE_ICONS=$GENERATE_SAMPLE_ICONS next build; else echo '[IGNITION] skip build'; fi
+
+   ▲ Next.js 15.5.12
+   - Experiments (use with caution):
+     ✓ optimizeCss
+     · optimizePackageImports
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 4.7s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/109) ...
+   Generating static pages (27/109)
+   Generating static pages (54/109)
+   Generating static pages (81/109)
+ ✓ Generating static pages (109/109)
+   Finalizing page optimization ...
+   Collecting build traces ...
+   Exporting (0/2) ...
+ ✓ Exporting (2/2)
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    4.47 kB         110 kB
+├ ○ /_not-found                            131 B         102 kB
+├ ● /[lang]                                883 B         301 kB
+├   ├ /en
+├   └ /pt-br
+├ ● /[lang]/docs                           162 B         106 kB
+├   ├ /en/docs
+├   └ /pt-br/docs
+├ ● /[lang]/docs/[slug]                  5.68 kB         236 kB
+├   ├ /en/docs/getting-started
+├   ├ /pt-br/docs/primeiros-passos
+├   ├ /en/docs/agent-workflows
+├   └ [+29 more paths]
+├ ● /[lang]/icons                        3.62 kB         215 kB
+├   ├ /en/icons
+├   └ /pt-br/icons
+├ ● /[lang]/icons/[collectionid]           131 B         102 kB
+├   ├ /en/icons/rc
+├   ├ /en/icons/ai
+├   ├ /en/icons/bi
+├   └ [+61 more paths]
+├ ● /[lang]/roadmap                      1.49 kB         104 kB
+├   ├ /en/roadmap
+├   └ /pt-br/roadmap
+└ ○ /examples/responsive                   131 B         102 kB
++ First Load JS shared by all             102 kB
+  ├ chunks/255-ccde357a80b1246c.js       45.9 kB
+  ├ chunks/4bd1b696-c023c6e3521b1417.js  54.2 kB
+  └ other shared chunks (total)          1.98 kB
+
+
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)

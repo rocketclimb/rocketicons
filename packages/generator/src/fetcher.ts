@@ -7,16 +7,24 @@ import PQueue from "@esm2cjs/p-queue";
 
 import { type IconSetGitSource, Context } from "./types";
 import { icons } from "./definitions";
+import { sourceCacheKey } from "./source-cache";
 
 const CTRL_FILE_NAME = ".fetched";
 
 const execFile = util.promisify(rawExecFile);
-const force = process.argv.pop() === "--force";
+const force = process.argv.includes("--force");
 
 const main = async () => {
   const distBaseDir = path.join(__dirname, "../icons");
   const ctrlFile = path.join(distBaseDir, CTRL_FILE_NAME);
-  const fetched = fs.existsSync(ctrlFile);
+  const cacheKey = sourceCacheKey(icons);
+  const fetched =
+    fs.existsSync(ctrlFile) &&
+    fs.readFileSync(ctrlFile, "utf8") === cacheKey &&
+    icons.every(
+      ({ source }) =>
+        !source || fs.existsSync(path.join(distBaseDir, source.localName, source.remoteDir))
+    );
 
   if (fetched && !force) {
     console.log("all fetched, skipping");
@@ -42,16 +50,17 @@ const main = async () => {
   });
 
   const queue = new PQueue({ concurrency: 10 });
+  const tasks: Promise<unknown>[] = [];
   for (const icon of icons) {
     if (!icon.source) {
       continue;
     }
     const { source } = icon;
-    queue.add(() => gitCloneIcon(source, ctx));
+    tasks.push(queue.add(() => gitCloneIcon(source, ctx)));
   }
 
-  await queue.onIdle();
-  fs.writeFileSync(ctrlFile, "done");
+  await Promise.all(tasks);
+  fs.writeFileSync(ctrlFile, cacheKey);
 };
 
 const gitCloneIcon = async (source: IconSetGitSource, ctx: Context) => {

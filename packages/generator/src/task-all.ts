@@ -44,7 +44,9 @@ export const dirInit = async ({ DIST, LIB, PLUGIN, DATA, SVGS }: TaskContext) =>
   await fs.mkdir(LIB).catch(ignore);
   await fs.mkdir(PLUGIN).catch(ignore);
   await fs.mkdir(DATA).catch(ignore);
-  await fs.mkdir(SVGS).catch(ignore);
+  // Removed upstream icons must not survive in the web catalog on rebuild.
+  await fs.rm(SVGS, { recursive: true, force: true });
+  await fs.mkdir(SVGS, { recursive: true });
 
   const initFiles = ["index.d.ts", "index.mjs", "index.js"];
 
