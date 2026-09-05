@@ -1,6 +1,1 @@
-{
-  "schemaVersion": 1,
-  "collectionId": "wi",
-  "promptVersion": 1,
-  "chunks": ["0.json", "1.json", "2.json"]
-}
+{"schemaVersion":1,"collectionId":"wi","promptVersion":1,"chunks":["0.json","1.json","2.json"]}
