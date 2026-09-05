@@ -1,0 +1,2452 @@
+{
+  "schemaVersion": 1,
+  "collectionId": "wi",
+  "promptVersion": 1,
+  "generatedAt": "2026-09-03",
+  "generator": "codex-agent",
+  "families": [
+    {
+      "familyId": "alien",
+      "description": {
+        "en": "An alien symbol for science-fiction games, avatars, profiles, and space-themed interfaces.",
+        "pt-BR": "Um símbolo de alienígena para jogos de ficção científica, avatares, perfis e interfaces espaciais."
+      },
+      "aliases": {
+        "en": ["extraterrestrial", "space alien"],
+        "pt-BR": ["extraterrestre", "ser espacial"]
+      },
+      "searchTerms": {
+        "en": [
+          "alien",
+          "extraterrestrial",
+          "space creature",
+          "sci-fi",
+          "avatar",
+          "game character"
+        ],
+        "pt-BR": [
+          "alienígena",
+          "extraterrestre",
+          "criatura espacial",
+          "ficção científica",
+          "avatar",
+          "personagem de jogo"
+        ]
+      },
+      "negativeTerms": { "en": ["weather condition"], "pt-BR": ["condição climática"] },
+      "primaryCategory": "gaming",
+      "categories": ["gaming", "astronomy", "people"],
+      "uiContexts": ["gaming", "profile", "social"],
+      "roles": ["object", "decorative"],
+      "icons": [
+        {
+          "id": "wi-alien",
+          "sourceHash": "f5146f840acf2e0795c215aad4d9bad00f568c0b9aa481965c41ed1936ade36c"
+        }
+      ]
+    },
+    {
+      "familyId": "barometer",
+      "description": {
+        "en": "A barometer symbol for weather measurements, sensor readings, charts, and monitoring dashboards.",
+        "pt-BR": "Um símbolo de barômetro para medições meteorológicas, leituras de sensores, gráficos e painéis de monitoramento."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["barometer", "measurement", "sensor", "reading", "weather data", "metric"],
+        "pt-BR": ["barômetro", "medição", "sensor", "leitura", "dados meteorológicos", "métrica"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "measurement",
+      "categories": ["measurement", "weather", "data"],
+      "uiContexts": ["forecast", "dashboard", "charts", "monitoring"],
+      "roles": ["status", "object"],
+      "icons": [
+        {
+          "id": "wi-barometer",
+          "sourceHash": "c3d3b18d29bc365a285b8e41c6bbf2c17e2cb8e098fd97d3cf3edab73eeef912"
+        }
+      ]
+    },
+    {
+      "familyId": "celsius",
+      "description": {
+        "en": "A celsius symbol for weather measurements, sensor readings, charts, and monitoring dashboards.",
+        "pt-BR": "Um símbolo de Celsius para medições meteorológicas, leituras de sensores, gráficos e painéis de monitoramento."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["celsius", "measurement", "sensor", "reading", "weather data", "metric"],
+        "pt-BR": ["Celsius", "medição", "sensor", "leitura", "dados meteorológicos", "métrica"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "measurement",
+      "categories": ["measurement", "weather", "data"],
+      "uiContexts": ["forecast", "dashboard", "charts", "monitoring"],
+      "roles": ["status", "object"],
+      "icons": [
+        {
+          "id": "wi-celsius",
+          "sourceHash": "42f3305f7b98a45468b6702cb042da1e59036ebac0eaad6be6a04731b5efc1cf"
+        }
+      ]
+    },
+    {
+      "familyId": "cloud",
+      "description": {
+        "en": "A cloud symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de nuvem para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["cloud", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["nuvem", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-cloud",
+          "sourceHash": "7d22b103b2ae2faec85d3a0ad9d227fb36a3520cc84c93a6aaa868cef2283d95"
+        }
+      ]
+    },
+    {
+      "familyId": "cloud-down",
+      "description": {
+        "en": "A cloud download symbol for cloud storage, file transfer, synchronization, or refresh actions.",
+        "pt-BR": "Um símbolo de download da nuvem para armazenamento em nuvem, transferência de arquivos, sincronização ou atualização."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["cloud", "down", "cloud storage", "sync", "data transfer", "files", "download"],
+        "pt-BR": [
+          "nuvem",
+          "baixo",
+          "armazenamento em nuvem",
+          "sincronização",
+          "transferência de dados",
+          "arquivos",
+          "baixar"
+        ]
+      },
+      "negativeTerms": { "en": ["weather condition"], "pt-BR": ["condição climática"] },
+      "primaryCategory": "actions",
+      "categories": ["actions", "files", "weather"],
+      "uiContexts": ["file-manager", "developer-tools", "dashboard"],
+      "roles": ["action"],
+      "icons": [
+        {
+          "id": "wi-cloud-down",
+          "sourceHash": "46245e9dea995ca25068580f196c2fab99607fa93cc767cf64474fcc98a2477f"
+        }
+      ]
+    },
+    {
+      "familyId": "cloud-refresh",
+      "description": {
+        "en": "A cloud refresh symbol for cloud storage, file transfer, synchronization, or refresh actions.",
+        "pt-BR": "Um símbolo de atualização da nuvem para armazenamento em nuvem, transferência de arquivos, sincronização ou atualização."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["cloud", "refresh", "cloud storage", "sync", "data transfer", "files"],
+        "pt-BR": [
+          "nuvem",
+          "atualizar",
+          "armazenamento em nuvem",
+          "sincronização",
+          "transferência de dados",
+          "arquivos"
+        ]
+      },
+      "negativeTerms": { "en": ["weather condition"], "pt-BR": ["condição climática"] },
+      "primaryCategory": "actions",
+      "categories": ["actions", "files", "weather"],
+      "uiContexts": ["file-manager", "developer-tools", "dashboard"],
+      "roles": ["action"],
+      "icons": [
+        {
+          "id": "wi-cloud-refresh",
+          "sourceHash": "fcf52d1ebab06ffb57d858e77226e27b1d1b96463fe651eddd6af355b86505a8"
+        }
+      ]
+    },
+    {
+      "familyId": "cloud-up",
+      "description": {
+        "en": "A cloud upload symbol for cloud storage, file transfer, synchronization, or refresh actions.",
+        "pt-BR": "Um símbolo de upload para a nuvem para armazenamento em nuvem, transferência de arquivos, sincronização ou atualização."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["cloud", "up", "cloud storage", "sync", "data transfer", "files", "upload"],
+        "pt-BR": [
+          "nuvem",
+          "cima",
+          "armazenamento em nuvem",
+          "sincronização",
+          "transferência de dados",
+          "arquivos",
+          "enviar"
+        ]
+      },
+      "negativeTerms": { "en": ["weather condition"], "pt-BR": ["condição climática"] },
+      "primaryCategory": "actions",
+      "categories": ["actions", "files", "weather"],
+      "uiContexts": ["file-manager", "developer-tools", "dashboard"],
+      "roles": ["action"],
+      "icons": [
+        {
+          "id": "wi-cloud-up",
+          "sourceHash": "f8379a1c771db1d7b6a6939fee4d1a6eb49aa8aa795f60bc25587fa5f1bfe04b"
+        }
+      ]
+    },
+    {
+      "familyId": "cloudy",
+      "description": {
+        "en": "A cloudy symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de nublado para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["cloudy", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["nublado", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-cloudy",
+          "sourceHash": "0d1b8add25028d6a65ef85810cfaee0d045043db1a8433357883e8d731b63444"
+        }
+      ]
+    },
+    {
+      "familyId": "cloudy-gusts",
+      "description": {
+        "en": "A cloudy gusts symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de nublado rajadas para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["windy weather"], "pt-BR": ["tempo ventoso"] },
+      "searchTerms": {
+        "en": ["cloudy", "gusts", "weather", "forecast", "climate", "condition"],
+        "pt-BR": [
+          "nublado",
+          "rajadas",
+          "tempo",
+          "previsão do tempo",
+          "clima",
+          "condição climática"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-cloudy-gusts",
+          "sourceHash": "f7d7de9043f8985b4c8ab3e97e998410687abf9745f1511ef4815a02e89b4fc5"
+        }
+      ]
+    },
+    {
+      "familyId": "cloudy-windy",
+      "description": {
+        "en": "A cloudy windy symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de nublado ventoso para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["windy weather"], "pt-BR": ["tempo ventoso"] },
+      "searchTerms": {
+        "en": ["cloudy", "windy", "weather", "forecast", "climate", "condition"],
+        "pt-BR": [
+          "nublado",
+          "ventoso",
+          "tempo",
+          "previsão do tempo",
+          "clima",
+          "condição climática"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-cloudy-windy",
+          "sourceHash": "bc6347308a69dfdd7b565bb67cac9e60fc7576f15af1c8ed9ba73287b13b34e3"
+        }
+      ]
+    },
+    {
+      "familyId": "day-cloudy",
+      "description": {
+        "en": "A cloudy daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo nublado durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["cloudy", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["nublado", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-cloudy",
+          "sourceHash": "5322393576732ed979c4c0c321384f1d88e5f051f60a776d874d4acb866f56ff"
+        }
+      ]
+    },
+    {
+      "familyId": "day-cloudy-gusts",
+      "description": {
+        "en": "A cloudy gusts daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo nublado rajadas durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["windy weather"], "pt-BR": ["tempo ventoso"] },
+      "searchTerms": {
+        "en": ["cloudy", "gusts", "weather", "forecast", "climate", "condition"],
+        "pt-BR": [
+          "nublado",
+          "rajadas",
+          "tempo",
+          "previsão do tempo",
+          "clima",
+          "condição climática"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-cloudy-gusts",
+          "sourceHash": "f77b7b106e1d0c66c35746a310be6196776f6e1bb38a97b66a541056bb0417aa"
+        }
+      ]
+    },
+    {
+      "familyId": "day-cloudy-high",
+      "description": {
+        "en": "A cloudy high daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo nublado nuvens altas durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["cloudy", "high", "weather", "forecast", "climate", "condition"],
+        "pt-BR": [
+          "nublado",
+          "nuvens altas",
+          "tempo",
+          "previsão do tempo",
+          "clima",
+          "condição climática"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-cloudy-high",
+          "sourceHash": "9e7390f2065bc8ebb37604a9c57f5b5a89f0ad91c89742c4bf45aaecb61a4418"
+        }
+      ]
+    },
+    {
+      "familyId": "day-cloudy-windy",
+      "description": {
+        "en": "A cloudy windy daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo nublado ventoso durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["windy weather"], "pt-BR": ["tempo ventoso"] },
+      "searchTerms": {
+        "en": ["cloudy", "windy", "weather", "forecast", "climate", "condition"],
+        "pt-BR": [
+          "nublado",
+          "ventoso",
+          "tempo",
+          "previsão do tempo",
+          "clima",
+          "condição climática"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-cloudy-windy",
+          "sourceHash": "1c0e0cfcf7d6d7098d158da8f5b99b31221dcab1c87c4ad7f5d764b3364b11b4"
+        }
+      ]
+    },
+    {
+      "familyId": "day-fog",
+      "description": {
+        "en": "A fog daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo neblina durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["low visibility"], "pt-BR": ["baixa visibilidade"] },
+      "searchTerms": {
+        "en": ["fog", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["neblina", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-fog",
+          "sourceHash": "56e2816c3d7bd79e75febda0ab46f5f7b4973aed9e1bcdfd3a3e5f20ad196434"
+        }
+      ]
+    },
+    {
+      "familyId": "day-hail",
+      "description": {
+        "en": "A hail daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo granizo durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["hail", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["granizo", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-hail",
+          "sourceHash": "f544cbe60ad22df8e7c616ad075dfde4b2ede8967581ee596a67415998d15fef"
+        }
+      ]
+    },
+    {
+      "familyId": "day-haze",
+      "description": {
+        "en": "A haze daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo névoa seca durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["low visibility"], "pt-BR": ["baixa visibilidade"] },
+      "searchTerms": {
+        "en": ["haze", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["névoa seca", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-haze",
+          "sourceHash": "a8f9e7adc65c8ece335240d3785a5c2205ea447ae5c7df1d3c2458cd0a158d63"
+        }
+      ]
+    },
+    {
+      "familyId": "day-light-wind",
+      "description": {
+        "en": "A light wind daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo leve vento durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["windy weather"], "pt-BR": ["tempo ventoso"] },
+      "searchTerms": {
+        "en": ["light", "wind", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["leve", "vento", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-light-wind",
+          "sourceHash": "7c200699a2c9c740d53601b3ee96d7f85cfd196f44956944a445ddc904e53f1a"
+        }
+      ]
+    },
+    {
+      "familyId": "day-lightning",
+      "description": {
+        "en": "A lightning daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo raio durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["severe weather"], "pt-BR": ["tempo severo"] },
+      "searchTerms": {
+        "en": ["lightning", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["raio", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-lightning",
+          "sourceHash": "d25c2332d4a151d5c0c368ac33d4dc29829d5024b85e6e2c3242aa5eb57d35e8"
+        }
+      ]
+    },
+    {
+      "familyId": "day-rain",
+      "description": {
+        "en": "A rain daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo chuva durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["precipitation", "rainfall"], "pt-BR": ["precipitação", "chuvarada"] },
+      "searchTerms": {
+        "en": ["rain", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["chuva", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-rain",
+          "sourceHash": "501157577da904499c9236d1fe54d79e66e9111679499536d0ce6817461c2043"
+        }
+      ]
+    },
+    {
+      "familyId": "day-rain-mix",
+      "description": {
+        "en": "A rain mix daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo chuva mista durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["precipitation", "rainfall"], "pt-BR": ["precipitação", "chuvarada"] },
+      "searchTerms": {
+        "en": ["rain", "mix", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["chuva", "mista", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-rain-mix",
+          "sourceHash": "6bfc8e5576323e7a7518b00ff73761ab06bf4e26facf14b79604e968239945b1"
+        }
+      ]
+    },
+    {
+      "familyId": "day-rain-wind",
+      "description": {
+        "en": "A rain wind daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo chuva vento durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": {
+        "en": ["precipitation", "rainfall", "windy weather"],
+        "pt-BR": ["precipitação", "chuvarada", "tempo ventoso"]
+      },
+      "searchTerms": {
+        "en": ["rain", "wind", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["chuva", "vento", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-rain-wind",
+          "sourceHash": "6b2127b3cfa9cc92b5a171fcc62474af82d3a036370a2bebc240d8a444a69526"
+        }
+      ]
+    },
+    {
+      "familyId": "day-showers",
+      "description": {
+        "en": "A showers daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo pancadas de chuva durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["precipitation", "rainfall"], "pt-BR": ["precipitação", "chuvarada"] },
+      "searchTerms": {
+        "en": ["showers", "weather", "forecast", "climate", "condition"],
+        "pt-BR": [
+          "pancadas de chuva",
+          "tempo",
+          "previsão do tempo",
+          "clima",
+          "condição climática"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-showers",
+          "sourceHash": "558a01318ddcc8cdaec14ee7e583e3ca84491010c85e84c65987815946ea6cb8"
+        }
+      ]
+    },
+    {
+      "familyId": "day-sleet",
+      "description": {
+        "en": "A sleet daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo aguaneve durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["sleet", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["aguaneve", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-sleet",
+          "sourceHash": "2e9ae88edc97401f653565ecf9a165bf1530e816d06a121f6920d0ba14a41d3c"
+        }
+      ]
+    },
+    {
+      "familyId": "day-sleet-storm",
+      "description": {
+        "en": "A sleet storm daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo aguaneve tempestade durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["severe weather"], "pt-BR": ["tempo severo"] },
+      "searchTerms": {
+        "en": ["sleet", "storm", "weather", "forecast", "climate", "condition"],
+        "pt-BR": [
+          "aguaneve",
+          "tempestade",
+          "tempo",
+          "previsão do tempo",
+          "clima",
+          "condição climática"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-sleet-storm",
+          "sourceHash": "7297fae015deb0d7fb1d681eff799d6fff2dc88e4071fc0513e71335635e0f6b"
+        }
+      ]
+    },
+    {
+      "familyId": "day-snow",
+      "description": {
+        "en": "A snow daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo neve durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["snowfall", "wintry weather"], "pt-BR": ["nevasca", "tempo com neve"] },
+      "searchTerms": {
+        "en": ["snow", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["neve", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-snow",
+          "sourceHash": "d013005bee664d099ea5c16fefbc7f9f522753c9b0e7226e08bdce708943589c"
+        }
+      ]
+    },
+    {
+      "familyId": "day-snow-thunderstorm",
+      "description": {
+        "en": "A snow thunderstorm daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo neve tempestade com raios durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": {
+        "en": ["snowfall", "wintry weather", "severe weather"],
+        "pt-BR": ["nevasca", "tempo com neve", "tempo severo"]
+      },
+      "searchTerms": {
+        "en": ["snow", "thunderstorm", "weather", "forecast", "climate", "condition"],
+        "pt-BR": [
+          "neve",
+          "tempestade com raios",
+          "tempo",
+          "previsão do tempo",
+          "clima",
+          "condição climática"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-snow-thunderstorm",
+          "sourceHash": "f5556747f38070c4a061286ac45cf3943c955c155f66c137b993841bb28e61a0"
+        }
+      ]
+    },
+    {
+      "familyId": "day-snow-wind",
+      "description": {
+        "en": "A snow wind daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo neve vento durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": {
+        "en": ["snowfall", "wintry weather", "windy weather"],
+        "pt-BR": ["nevasca", "tempo com neve", "tempo ventoso"]
+      },
+      "searchTerms": {
+        "en": ["snow", "wind", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["neve", "vento", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-snow-wind",
+          "sourceHash": "08bb3aac4237addb3e0774737400e9c13698941fd44baf270778f01ab04de1b4"
+        }
+      ]
+    },
+    {
+      "familyId": "day-sprinkle",
+      "description": {
+        "en": "A sprinkle daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo garoa durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["precipitation", "rainfall"], "pt-BR": ["precipitação", "chuvarada"] },
+      "searchTerms": {
+        "en": ["sprinkle", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["garoa", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-sprinkle",
+          "sourceHash": "62c16133dbdda9b4f9f84e216713413b03ced47651c9e36c9e38926ef4d80027"
+        }
+      ]
+    },
+    {
+      "familyId": "day-storm-showers",
+      "description": {
+        "en": "A storm showers daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo tempestade pancadas de chuva durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": {
+        "en": ["precipitation", "rainfall", "severe weather"],
+        "pt-BR": ["precipitação", "chuvarada", "tempo severo"]
+      },
+      "searchTerms": {
+        "en": ["storm", "showers", "weather", "forecast", "climate", "condition"],
+        "pt-BR": [
+          "tempestade",
+          "pancadas de chuva",
+          "tempo",
+          "previsão do tempo",
+          "clima",
+          "condição climática"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-storm-showers",
+          "sourceHash": "e19d2df0f1afdffbaca74c76ddab9960a9c4cb1cb838935bf2463e91e251f880"
+        }
+      ]
+    },
+    {
+      "familyId": "day-sunny",
+      "description": {
+        "en": "A sunny daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo ensolarado durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["sunny", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["ensolarado", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-sunny",
+          "sourceHash": "f86b989970dec6c7de4005f5fb7434dca7267d67eeeaf08787670c6c1c4d50c4"
+        }
+      ]
+    },
+    {
+      "familyId": "day-sunny-overcast",
+      "description": {
+        "en": "A sunny overcast daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo ensolarado encoberto durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["sunny", "overcast", "weather", "forecast", "climate", "condition"],
+        "pt-BR": [
+          "ensolarado",
+          "encoberto",
+          "tempo",
+          "previsão do tempo",
+          "clima",
+          "condição climática"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-sunny-overcast",
+          "sourceHash": "e0f8836e13e6aa8f2f4888ae9e0e3a920deb90e8a62f07e8be1a3b289c7a1897"
+        }
+      ]
+    },
+    {
+      "familyId": "day-thunderstorm",
+      "description": {
+        "en": "A thunderstorm daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo tempestade com raios durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["severe weather"], "pt-BR": ["tempo severo"] },
+      "searchTerms": {
+        "en": ["thunderstorm", "weather", "forecast", "climate", "condition"],
+        "pt-BR": [
+          "tempestade com raios",
+          "tempo",
+          "previsão do tempo",
+          "clima",
+          "condição climática"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-thunderstorm",
+          "sourceHash": "840ee081c06089a50ebc9e9642060b52ca086b7f3f997f6abb94621043a264ca"
+        }
+      ]
+    },
+    {
+      "familyId": "day-windy",
+      "description": {
+        "en": "A windy daytime weather symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de tempo ventoso durante o dia para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["windy weather"], "pt-BR": ["tempo ventoso"] },
+      "searchTerms": {
+        "en": ["windy", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["ventoso", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-day-windy",
+          "sourceHash": "4c43412cdb5c71fbe977e9148c4368d0d0b0fd935d1d76aa066bb12fc9b3d0b8"
+        }
+      ]
+    },
+    {
+      "familyId": "degrees",
+      "description": {
+        "en": "A degrees symbol for weather measurements, sensor readings, charts, and monitoring dashboards.",
+        "pt-BR": "Um símbolo de graus para medições meteorológicas, leituras de sensores, gráficos e painéis de monitoramento."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["degrees", "measurement", "sensor", "reading", "weather data", "metric"],
+        "pt-BR": ["graus", "medição", "sensor", "leitura", "dados meteorológicos", "métrica"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "measurement",
+      "categories": ["measurement", "weather", "data"],
+      "uiContexts": ["forecast", "dashboard", "charts", "monitoring"],
+      "roles": ["status", "object"],
+      "icons": [
+        {
+          "id": "wi-degrees",
+          "sourceHash": "f7153a1e80c4e1e2e79c654b91f6fc1287634011a3f811b9f0050012b1c5777a"
+        }
+      ]
+    },
+    {
+      "familyId": "direction-down",
+      "description": {
+        "en": "A down direction arrow symbol for direction, movement, maps, navigation, and wind-bearing controls.",
+        "pt-BR": "Um símbolo de seta para baixo para direção, movimento, mapas, navegação e controles de direção do vento."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["direction", "down", "arrow", "movement", "navigation", "wind direction"],
+        "pt-BR": ["direção", "baixo", "seta", "movimento", "navegação", "direção do vento"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "navigation",
+      "categories": ["navigation", "actions", "weather"],
+      "uiContexts": ["navigation", "maps", "forecast"],
+      "roles": ["navigation", "action"],
+      "icons": [
+        {
+          "id": "wi-direction-down",
+          "sourceHash": "e487d5a7c6002aaa62c88a8ed36efa457aac5af83a08610ba7c0e93c47de12a0"
+        }
+      ]
+    },
+    {
+      "familyId": "direction-down-left",
+      "description": {
+        "en": "A down left direction arrow symbol for direction, movement, maps, navigation, and wind-bearing controls.",
+        "pt-BR": "Um símbolo de seta para baixo e à esquerda para direção, movimento, mapas, navegação e controles de direção do vento."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["direction", "down", "left", "arrow", "movement", "navigation", "wind direction"],
+        "pt-BR": [
+          "direção",
+          "baixo",
+          "esquerda",
+          "seta",
+          "movimento",
+          "navegação",
+          "direção do vento"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "navigation",
+      "categories": ["navigation", "actions", "weather"],
+      "uiContexts": ["navigation", "maps", "forecast"],
+      "roles": ["navigation", "action"],
+      "icons": [
+        {
+          "id": "wi-direction-down-left",
+          "sourceHash": "f61bc00dec380dee55792271b64c36a84c6753c744ce1f2309dd869a7f3a5153"
+        }
+      ]
+    },
+    {
+      "familyId": "direction-down-right",
+      "description": {
+        "en": "A down right direction arrow symbol for direction, movement, maps, navigation, and wind-bearing controls.",
+        "pt-BR": "Um símbolo de seta para baixo e à direita para direção, movimento, mapas, navegação e controles de direção do vento."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["direction", "down", "right", "arrow", "movement", "navigation", "wind direction"],
+        "pt-BR": [
+          "direção",
+          "baixo",
+          "direita",
+          "seta",
+          "movimento",
+          "navegação",
+          "direção do vento"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "navigation",
+      "categories": ["navigation", "actions", "weather"],
+      "uiContexts": ["navigation", "maps", "forecast"],
+      "roles": ["navigation", "action"],
+      "icons": [
+        {
+          "id": "wi-direction-down-right",
+          "sourceHash": "7be06df8163bb77920092be21bfe9da6d61cb96713678491f2b8f814e981f8a0"
+        }
+      ]
+    },
+    {
+      "familyId": "direction-left",
+      "description": {
+        "en": "A left direction arrow symbol for direction, movement, maps, navigation, and wind-bearing controls.",
+        "pt-BR": "Um símbolo de seta para esquerda para direção, movimento, mapas, navegação e controles de direção do vento."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["direction", "left", "arrow", "movement", "navigation", "wind direction"],
+        "pt-BR": ["direção", "esquerda", "seta", "movimento", "navegação", "direção do vento"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "navigation",
+      "categories": ["navigation", "actions", "weather"],
+      "uiContexts": ["navigation", "maps", "forecast"],
+      "roles": ["navigation", "action"],
+      "icons": [
+        {
+          "id": "wi-direction-left",
+          "sourceHash": "c35524491662b3a9fc6fd12142a92dca550ac5cad59eb9b2fa1ef4b5ab32bf1c"
+        }
+      ]
+    },
+    {
+      "familyId": "direction-right",
+      "description": {
+        "en": "A right direction arrow symbol for direction, movement, maps, navigation, and wind-bearing controls.",
+        "pt-BR": "Um símbolo de seta para direita para direção, movimento, mapas, navegação e controles de direção do vento."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["direction", "right", "arrow", "movement", "navigation", "wind direction"],
+        "pt-BR": ["direção", "direita", "seta", "movimento", "navegação", "direção do vento"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "navigation",
+      "categories": ["navigation", "actions", "weather"],
+      "uiContexts": ["navigation", "maps", "forecast"],
+      "roles": ["navigation", "action"],
+      "icons": [
+        {
+          "id": "wi-direction-right",
+          "sourceHash": "eabefc6090addf747a4b37f032af83142ecc85b7526f93a474aec962037a2537"
+        }
+      ]
+    },
+    {
+      "familyId": "direction-up",
+      "description": {
+        "en": "An up direction arrow symbol for direction, movement, maps, navigation, and wind-bearing controls.",
+        "pt-BR": "Um símbolo de seta para cima para direção, movimento, mapas, navegação e controles de direção do vento."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["direction", "up", "arrow", "movement", "navigation", "wind direction"],
+        "pt-BR": ["direção", "cima", "seta", "movimento", "navegação", "direção do vento"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "navigation",
+      "categories": ["navigation", "actions", "weather"],
+      "uiContexts": ["navigation", "maps", "forecast"],
+      "roles": ["navigation", "action"],
+      "icons": [
+        {
+          "id": "wi-direction-up",
+          "sourceHash": "87ab0fc859c55a71e339022d040ebc23fb58b1ce8b52c268637072e725a968cd"
+        }
+      ]
+    },
+    {
+      "familyId": "direction-up-left",
+      "description": {
+        "en": "An up left direction arrow symbol for direction, movement, maps, navigation, and wind-bearing controls.",
+        "pt-BR": "Um símbolo de seta para cima e à esquerda para direção, movimento, mapas, navegação e controles de direção do vento."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["direction", "up", "left", "arrow", "movement", "navigation", "wind direction"],
+        "pt-BR": [
+          "direção",
+          "cima",
+          "esquerda",
+          "seta",
+          "movimento",
+          "navegação",
+          "direção do vento"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "navigation",
+      "categories": ["navigation", "actions", "weather"],
+      "uiContexts": ["navigation", "maps", "forecast"],
+      "roles": ["navigation", "action"],
+      "icons": [
+        {
+          "id": "wi-direction-up-left",
+          "sourceHash": "a1cba8ba224a76bad50d42fe459dbf3609074baa4a4d7c8081587b960436ce22"
+        }
+      ]
+    },
+    {
+      "familyId": "direction-up-right",
+      "description": {
+        "en": "An up right direction arrow symbol for direction, movement, maps, navigation, and wind-bearing controls.",
+        "pt-BR": "Um símbolo de seta para cima e à direita para direção, movimento, mapas, navegação e controles de direção do vento."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["direction", "up", "right", "arrow", "movement", "navigation", "wind direction"],
+        "pt-BR": [
+          "direção",
+          "cima",
+          "direita",
+          "seta",
+          "movimento",
+          "navegação",
+          "direção do vento"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "navigation",
+      "categories": ["navigation", "actions", "weather"],
+      "uiContexts": ["navigation", "maps", "forecast"],
+      "roles": ["navigation", "action"],
+      "icons": [
+        {
+          "id": "wi-direction-up-right",
+          "sourceHash": "a341f5a5848e807e0fd25de40624581273921d7266eaae01615e01e4eca1c15a"
+        }
+      ]
+    },
+    {
+      "familyId": "dust",
+      "description": {
+        "en": "A dust symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de poeira para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["dust", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["poeira", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-dust",
+          "sourceHash": "43fa8df4bc3cf4329661cf25e3d5a4ca8f4f7ddbaad399f0147172899d609e7e"
+        }
+      ]
+    },
+    {
+      "familyId": "earthquake",
+      "description": {
+        "en": "An earthquake symbol for emergency alerts, hazard maps, safety notices, and severe-weather tracking.",
+        "pt-BR": "Um símbolo de terremoto para alertas de emergência, mapas de risco, avisos de segurança e clima severo."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "earthquake",
+          "natural disaster",
+          "emergency",
+          "hazard",
+          "warning",
+          "safety alert"
+        ],
+        "pt-BR": [
+          "terremoto",
+          "desastre natural",
+          "emergência",
+          "risco",
+          "alerta",
+          "alerta de segurança"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "disasters",
+      "categories": ["disasters", "alerts", "weather"],
+      "uiContexts": ["alerts", "notifications", "maps", "forecast", "emergency"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-earthquake",
+          "sourceHash": "06cde04d9c4a4f387a8be532cfc8c2cd283bf67ca24d9d8741291ab5ab52b7da"
+        }
+      ]
+    },
+    {
+      "familyId": "fahrenheit",
+      "description": {
+        "en": "A fahrenheit symbol for weather measurements, sensor readings, charts, and monitoring dashboards.",
+        "pt-BR": "Um símbolo de Fahrenheit para medições meteorológicas, leituras de sensores, gráficos e painéis de monitoramento."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["fahrenheit", "measurement", "sensor", "reading", "weather data", "metric"],
+        "pt-BR": ["Fahrenheit", "medição", "sensor", "leitura", "dados meteorológicos", "métrica"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "measurement",
+      "categories": ["measurement", "weather", "data"],
+      "uiContexts": ["forecast", "dashboard", "charts", "monitoring"],
+      "roles": ["status", "object"],
+      "icons": [
+        {
+          "id": "wi-fahrenheit",
+          "sourceHash": "fbf0532f02fab9d7781be84c7eb7b95337d87919c3289e766825c21fae3e747f"
+        }
+      ]
+    },
+    {
+      "familyId": "fire",
+      "description": {
+        "en": "A fire symbol for warnings, notifications, emergency status, and safety interfaces.",
+        "pt-BR": "Um símbolo de fogo para avisos, notificações, estado de emergência e interfaces de segurança."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["fire", "wildfire", "heat", "flame", "fire danger", "emergency"],
+        "pt-BR": [
+          "fogo",
+          "incêndio florestal",
+          "calor",
+          "chama",
+          "risco de incêndio",
+          "emergência"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "alerts",
+      "categories": ["alerts", "environment", "objects"],
+      "uiContexts": ["alerts", "notifications", "forecast", "emergency"],
+      "roles": ["status", "object"],
+      "icons": [
+        {
+          "id": "wi-fire",
+          "sourceHash": "33d7d0b5762237f80e85c3cb4db8266e0dfe40b396c03cd2285ab23b069f5242"
+        }
+      ]
+    },
+    {
+      "familyId": "flood",
+      "description": {
+        "en": "A flood symbol for emergency alerts, hazard maps, safety notices, and severe-weather tracking.",
+        "pt-BR": "Um símbolo de enchente para alertas de emergência, mapas de risco, avisos de segurança e clima severo."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["flood", "natural disaster", "emergency", "hazard", "warning", "safety alert"],
+        "pt-BR": [
+          "enchente",
+          "desastre natural",
+          "emergência",
+          "risco",
+          "alerta",
+          "alerta de segurança"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "disasters",
+      "categories": ["disasters", "alerts", "weather"],
+      "uiContexts": ["alerts", "notifications", "maps", "forecast", "emergency"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-flood",
+          "sourceHash": "cc094c47d1460a867b9d360d96f2fa65e40f71022d347894be2813306abf121f"
+        }
+      ]
+    },
+    {
+      "familyId": "fog",
+      "description": {
+        "en": "A fog symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de neblina para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["low visibility"], "pt-BR": ["baixa visibilidade"] },
+      "searchTerms": {
+        "en": ["fog", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["neblina", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-fog",
+          "sourceHash": "1bbd375910ede6074c99fbd828ce0796e065f17603d2e633eaba3ed402830cf9"
+        }
+      ]
+    },
+    {
+      "familyId": "gale-warning",
+      "description": {
+        "en": "A gale warning symbol for warnings, notifications, emergency status, and safety interfaces.",
+        "pt-BR": "Um símbolo de vendaval alerta para avisos, notificações, estado de emergência e interfaces de segurança."
+      },
+      "aliases": { "en": ["windy weather"], "pt-BR": ["tempo ventoso"] },
+      "searchTerms": {
+        "en": [
+          "gale",
+          "warning",
+          "advisory",
+          "danger",
+          "caution",
+          "weather",
+          "forecast",
+          "climate",
+          "condition"
+        ],
+        "pt-BR": [
+          "vendaval",
+          "alerta",
+          "aviso",
+          "perigo",
+          "cuidado",
+          "tempo",
+          "previsão do tempo",
+          "clima",
+          "condição climática"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "alerts",
+      "categories": ["alerts", "weather", "status"],
+      "uiContexts": ["alerts", "notifications", "forecast", "travel", "dashboard"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-gale-warning",
+          "sourceHash": "497bd548147858dfe062fecc3c15a39d31949a043815a237778b1a53df18f759"
+        }
+      ]
+    },
+    {
+      "familyId": "hail",
+      "description": {
+        "en": "A hail symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de granizo para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["hail", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["granizo", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-hail",
+          "sourceHash": "d1da1829c19e69bfe9a6fc31e68b849a717d170a8fce8c0e5151b8a1f874487d"
+        }
+      ]
+    },
+    {
+      "familyId": "horizon",
+      "description": {
+        "en": "A horizon symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de horizonte para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["horizon", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["horizonte", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-horizon",
+          "sourceHash": "e471ebb3db2cc05dd3a096b9499fca9cb4f518bd593e09f58619c22f720bd807"
+        },
+        {
+          "id": "wi-horizon-alt",
+          "sourceHash": "86a7c360f47282c77a86572b5201e0fd35c2a7b3f70b431924a2e186ae209ac1"
+        }
+      ]
+    },
+    {
+      "familyId": "hot",
+      "description": {
+        "en": "A hot symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de calor para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["hot", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["calor", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-hot",
+          "sourceHash": "825f1a809f4842b4480e95eb7e634478c5f2f3975e8fc5f436ebb1679a7de123"
+        }
+      ]
+    },
+    {
+      "familyId": "humidity",
+      "description": {
+        "en": "A humidity symbol for weather measurements, sensor readings, charts, and monitoring dashboards.",
+        "pt-BR": "Um símbolo de umidade para medições meteorológicas, leituras de sensores, gráficos e painéis de monitoramento."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["humidity", "measurement", "sensor", "reading", "weather data", "metric"],
+        "pt-BR": ["umidade", "medição", "sensor", "leitura", "dados meteorológicos", "métrica"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "measurement",
+      "categories": ["measurement", "weather", "data"],
+      "uiContexts": ["forecast", "dashboard", "charts", "monitoring"],
+      "roles": ["status", "object"],
+      "icons": [
+        {
+          "id": "wi-humidity",
+          "sourceHash": "781b59cafcb2af8a2bf50f5d85acd2ebd2a3fb0b63a676666162a03a47a12054"
+        }
+      ]
+    },
+    {
+      "familyId": "hurricane",
+      "description": {
+        "en": "A hurricane symbol for emergency alerts, hazard maps, safety notices, and severe-weather tracking.",
+        "pt-BR": "Um símbolo de furacão para alertas de emergência, mapas de risco, avisos de segurança e clima severo."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["hurricane", "natural disaster", "emergency", "hazard", "warning", "safety alert"],
+        "pt-BR": [
+          "furacão",
+          "desastre natural",
+          "emergência",
+          "risco",
+          "alerta",
+          "alerta de segurança"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "disasters",
+      "categories": ["disasters", "alerts", "weather"],
+      "uiContexts": ["alerts", "notifications", "maps", "forecast", "emergency"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-hurricane",
+          "sourceHash": "f578419198c70003c0c3f8883394ec857f084ad96d8c04f9b081651c77bf6ba6"
+        }
+      ]
+    },
+    {
+      "familyId": "hurricane-warning",
+      "description": {
+        "en": "A hurricane warning symbol for warnings, notifications, emergency status, and safety interfaces.",
+        "pt-BR": "Um símbolo de furacão alerta para avisos, notificações, estado de emergência e interfaces de segurança."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "hurricane",
+          "warning",
+          "advisory",
+          "danger",
+          "caution",
+          "natural disaster",
+          "emergency",
+          "hazard",
+          "safety alert"
+        ],
+        "pt-BR": [
+          "furacão",
+          "alerta",
+          "aviso",
+          "perigo",
+          "cuidado",
+          "desastre natural",
+          "emergência",
+          "risco",
+          "alerta de segurança"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "alerts",
+      "categories": ["alerts", "weather", "disasters"],
+      "uiContexts": ["alerts", "notifications", "forecast", "travel", "maps", "emergency"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-hurricane-warning",
+          "sourceHash": "e2851ae70e3f28864ec13f0f887c347d2a4c937396be36935d1badfaf4be6f80"
+        }
+      ]
+    },
+    {
+      "familyId": "lightning",
+      "description": {
+        "en": "A lightning symbol for forecasts, current conditions, travel, and weather dashboards.",
+        "pt-BR": "Um símbolo de raio para previsões, condições atuais, viagens e painéis meteorológicos."
+      },
+      "aliases": { "en": ["severe weather"], "pt-BR": ["tempo severo"] },
+      "searchTerms": {
+        "en": ["lightning", "weather", "forecast", "climate", "condition"],
+        "pt-BR": ["raio", "tempo", "previsão do tempo", "clima", "condição climática"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "weather",
+      "categories": ["weather", "status"],
+      "uiContexts": ["forecast", "dashboard", "travel"],
+      "roles": ["status"],
+      "icons": [
+        {
+          "id": "wi-lightning",
+          "sourceHash": "22a1a843b4bc8d648c153a39e204a5074e3238f6b72a06d91ebf69ee9ed3b0e5"
+        }
+      ]
+    },
+    {
+      "familyId": "lunar-eclipse",
+      "description": {
+        "en": "A lunar eclipse symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de lunar eclipse para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "lunar",
+          "eclipse",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lunar",
+          "eclipse",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-lunar-eclipse",
+          "sourceHash": "0cb9f12cffedd16e1ac815616400f261a044bc88808d18bc6070c502c9126409"
+        }
+      ]
+    },
+    {
+      "familyId": "meteor",
+      "description": {
+        "en": "A meteor symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de meteoro para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["meteor", "astronomy", "night sky", "space", "lunar calendar", "celestial"],
+        "pt-BR": ["meteoro", "astronomia", "céu noturno", "espaço", "calendário lunar", "celeste"]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-meteor",
+          "sourceHash": "36e82dd12be691fc91d057b47c674f1f7bec0b773cf9cc9c77de5f399e193f0b"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-first-quarter",
+      "description": {
+        "en": "A first quarter moon symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de lua primeiro quarto para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "first",
+          "quarter",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "primeiro",
+          "quarto",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-first-quarter",
+          "sourceHash": "be7929fda209f4750debf188bc93a40b7572021ecada468ba1cb3eb220b84a59"
+        },
+        {
+          "id": "wi-moon-first-quarter",
+          "sourceHash": "75dab2532d98ce3686275c8f09398a35d9403c6beec1e3c077d2b4ce9b8ad7a2"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-full",
+      "description": {
+        "en": "A full moon symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de lua cheia para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["moon", "full", "astronomy", "night sky", "space", "lunar calendar", "celestial"],
+        "pt-BR": [
+          "lua",
+          "cheia",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-full",
+          "sourceHash": "52524e006912c7d9dde804013f214a788074f680044942f2bf4c5c28c93a2229"
+        },
+        {
+          "id": "wi-moon-full",
+          "sourceHash": "29a5bac93fc05cc892a55f059d876e220b3c4375ab970be27c847aa72869af1d"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-new",
+      "description": {
+        "en": "A new moon symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de lua nova para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": ["moon", "new", "astronomy", "night sky", "space", "lunar calendar", "celestial"],
+        "pt-BR": [
+          "lua",
+          "nova",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-new",
+          "sourceHash": "777dd227e2b3c8b99d02f0e8730d71e7616d33f0300efe9ca1fbf97dc5a80896"
+        },
+        {
+          "id": "wi-moon-new",
+          "sourceHash": "bd17918105200e08dbd83a54b704760899874b240909d6ecd13cc76182ef1a9a"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-third-quarter",
+      "description": {
+        "en": "A third quarter moon symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de lua terceiro quarto para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "third",
+          "quarter",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "terceiro",
+          "quarto",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-third-quarter",
+          "sourceHash": "82346c79b15a81970251d9c60b3074541cdb57c2480ff07b3c6dd1b1541b127b"
+        },
+        {
+          "id": "wi-moon-third-quarter",
+          "sourceHash": "dbc7263808430679f5d0e8c0e8df5d3914e9e16c0c63367c47511344f56969bf"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-waning-crescent1",
+      "description": {
+        "en": "A waning crescent moon phase 1 symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de fase 1 da lua minguante para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "waning",
+          "crescent",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "minguante",
+          "crescente",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-waning-crescent1",
+          "sourceHash": "6fef8d160ba4132f5163bb7931d02832c40e190c42b2b8182443230ec84662cc"
+        },
+        {
+          "id": "wi-moon-waning-crescent1",
+          "sourceHash": "ecea1bc3ecb091e815703be4ed4813f26725d2bb1326ae819f6dd4bce6a5ff1c"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-waning-crescent2",
+      "description": {
+        "en": "A waning crescent moon phase 2 symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de fase 2 da lua minguante para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "waning",
+          "crescent",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "minguante",
+          "crescente",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-waning-crescent2",
+          "sourceHash": "b8c8477801d0d5ddad71fc3fa40a0ff1ab21a2759b078ac7ecc8ad7b3c3640dc"
+        },
+        {
+          "id": "wi-moon-waning-crescent2",
+          "sourceHash": "277a9c045d3f62ccb13e6954029ade2d578e392647d3d0d5b180941c70cf58bf"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-waning-crescent3",
+      "description": {
+        "en": "A waning crescent moon phase 3 symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de fase 3 da lua minguante para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "waning",
+          "crescent",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "minguante",
+          "crescente",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-waning-crescent3",
+          "sourceHash": "89bdab378aa18f97759f4032bd223739a75e7bbe70ed8f57da354066f47fe30c"
+        },
+        {
+          "id": "wi-moon-waning-crescent3",
+          "sourceHash": "3a324930fcdea46a7122e205d7f8f070372e435431634cb053b26257d9cd1f7a"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-waning-crescent4",
+      "description": {
+        "en": "A waning crescent moon phase 4 symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de fase 4 da lua minguante para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "waning",
+          "crescent",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "minguante",
+          "crescente",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-waning-crescent4",
+          "sourceHash": "923d4d6ad1c118a13b17445892ec871c0575a96c798dd2e5985dd6ad5ebe99c5"
+        },
+        {
+          "id": "wi-moon-waning-crescent4",
+          "sourceHash": "63570987d5b4d471fa125acd0ae012a535e4e001aec869092541c5132a25798e"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-waning-crescent5",
+      "description": {
+        "en": "A waning crescent moon phase 5 symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de fase 5 da lua minguante para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "waning",
+          "crescent",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "minguante",
+          "crescente",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-waning-crescent5",
+          "sourceHash": "df405e4240fa5d158bc9c26337da6ae41f4341b5a7a8d8562d6b6a7a2272b6ed"
+        },
+        {
+          "id": "wi-moon-waning-crescent5",
+          "sourceHash": "bc7150c1c370072a99027b92f82717012307888bf58be24fdc1e2507e818c76d"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-waning-crescent6",
+      "description": {
+        "en": "A waning crescent moon phase 6 symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de fase 6 da lua minguante para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "waning",
+          "crescent",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "minguante",
+          "crescente",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-waning-crescent6",
+          "sourceHash": "0d109f3555838e451682954e9a3f06a0a82dd9187c4c86ac100a11396f5b2cb1"
+        },
+        {
+          "id": "wi-moon-waning-crescent6",
+          "sourceHash": "477602da14c71cbbb2dbf198efac9c8c440478622abd1310fb00c0fa77d602e5"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-waning-gibbous1",
+      "description": {
+        "en": "A waning gibbous moon phase 1 symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de fase 1 da lua gibosa minguante para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "waning",
+          "gibbous",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "minguante",
+          "gibosa",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-waning-gibbous1",
+          "sourceHash": "44e62db609b4a83d134d25da334cf212ce87e0a75a0c3d7d92e797562b310a9b"
+        },
+        {
+          "id": "wi-moon-waning-gibbous1",
+          "sourceHash": "b04ea7afea3450372d08fb88bb59f11f1a3a2f7e42be1f93eaeb5ba5ec4f2627"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-waning-gibbous2",
+      "description": {
+        "en": "A waning gibbous moon phase 2 symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de fase 2 da lua gibosa minguante para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "waning",
+          "gibbous",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "minguante",
+          "gibosa",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-waning-gibbous2",
+          "sourceHash": "5fd00cb7a0eeb47c6919389ca9c2076cd36f9c851b5576781e984da1257ff04a"
+        },
+        {
+          "id": "wi-moon-waning-gibbous2",
+          "sourceHash": "4aa236b4409a99a6dfc508923a7aedf3c430debe6ede29c4eb2fb27b592b98d0"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-waning-gibbous3",
+      "description": {
+        "en": "A waning gibbous moon phase 3 symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de fase 3 da lua gibosa minguante para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "waning",
+          "gibbous",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "minguante",
+          "gibosa",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-waning-gibbous3",
+          "sourceHash": "bee91a19c19ce240b6d14318464ce82e853b321a2f9231bdbb9c035dcccfbbc3"
+        },
+        {
+          "id": "wi-moon-waning-gibbous3",
+          "sourceHash": "7bffae0f30f1e88443f7e92a5774564d539ab7348258c26186ae193f7ac5b78d"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-waning-gibbous4",
+      "description": {
+        "en": "A waning gibbous moon phase 4 symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de fase 4 da lua gibosa minguante para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "waning",
+          "gibbous",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "minguante",
+          "gibosa",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-waning-gibbous4",
+          "sourceHash": "9518c56b4b61e813448bb86030abec183b7837fdd6bf70f9029feb33e9eda2b7"
+        },
+        {
+          "id": "wi-moon-waning-gibbous4",
+          "sourceHash": "3325d1604482bbd779c392014d85d95de47c0ceaa83d798100db4939c8a6ba08"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-waning-gibbous5",
+      "description": {
+        "en": "A waning gibbous moon phase 5 symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de fase 5 da lua gibosa minguante para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "waning",
+          "gibbous",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "minguante",
+          "gibosa",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-waning-gibbous5",
+          "sourceHash": "2830565f52f5792f2844606758cfee9fa0d64246983c30544e503a3b1c4604f8"
+        },
+        {
+          "id": "wi-moon-waning-gibbous5",
+          "sourceHash": "adaf711550be3adfef3881b9f9203c3d8deeaa2838c1195810321334b04b2c46"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-waning-gibbous6",
+      "description": {
+        "en": "A waning gibbous moon phase 6 symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de fase 6 da lua gibosa minguante para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "waning",
+          "gibbous",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "minguante",
+          "gibosa",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-waning-gibbous6",
+          "sourceHash": "8a9936641c0d8a0793f61199ec4454b8310900e312cea0a4c9f7c62420302d08"
+        },
+        {
+          "id": "wi-moon-waning-gibbous6",
+          "sourceHash": "cf14ced5fea6229c72febad85035df8acad57f2de63e3e0cf5f13a4371f6f4b0"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-waxing-crescent1",
+      "description": {
+        "en": "A waxing crescent moon phase 1 symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de fase 1 da lua crescente para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "waxing",
+          "crescent",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "crescente",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-waxing-crescent1",
+          "sourceHash": "26dac754f0a1905406c243aa4b1cbf907a162062083e848650abfc4ec06a1fee"
+        },
+        {
+          "id": "wi-moon-waxing-crescent1",
+          "sourceHash": "be13f6aa92117022d6ee49984a3d465926f468e2ab82bba58cbd24673f7b2106"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-waxing-crescent2",
+      "description": {
+        "en": "A waxing crescent moon phase 2 symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de fase 2 da lua crescente para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "waxing",
+          "crescent",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "crescente",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-waxing-crescent2",
+          "sourceHash": "56a1ef1171b32cc8ad05b5a76bdc484671bca62650bbdbd2b665cd1947af7956"
+        },
+        {
+          "id": "wi-moon-waxing-crescent2",
+          "sourceHash": "ce212105d8dedf7ae153d659949a8f00c89da90900a77badaf3685af56ba0b2b"
+        }
+      ]
+    },
+    {
+      "familyId": "moon-waxing-crescent3",
+      "description": {
+        "en": "A waxing crescent moon phase 3 symbol for astronomy, night-sky, lunar calendar, education, or game interfaces.",
+        "pt-BR": "Um símbolo de fase 3 da lua crescente para astronomia, céu noturno, calendário lunar, educação ou jogos."
+      },
+      "aliases": { "en": [], "pt-BR": [] },
+      "searchTerms": {
+        "en": [
+          "moon",
+          "waxing",
+          "crescent",
+          "astronomy",
+          "night sky",
+          "space",
+          "lunar calendar",
+          "celestial"
+        ],
+        "pt-BR": [
+          "lua",
+          "crescente",
+          "astronomia",
+          "céu noturno",
+          "espaço",
+          "calendário lunar",
+          "celeste"
+        ]
+      },
+      "negativeTerms": { "en": [], "pt-BR": [] },
+      "primaryCategory": "astronomy",
+      "categories": ["astronomy", "weather", "objects"],
+      "uiContexts": ["forecast", "calendar", "education", "gaming"],
+      "roles": ["object", "status"],
+      "icons": [
+        {
+          "id": "wi-moon-alt-waxing-crescent3",
+          "sourceHash": "36a34d1f35347421912b67be16ad8c1bfc9589eee5d47c315eda7467ed021447"
+        },
+        {
+          "id": "wi-moon-waxing-crescent3",
+          "sourceHash": "cecf953311e93b2931921874cdf7d54b8b065cff341b000ded9ce67d7764141d"
+        }
+      ]
+    }
+  ]
+}

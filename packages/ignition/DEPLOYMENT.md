@@ -85,6 +85,27 @@ SITE_ORIGIN=https://rocketicons.com \
 
 Local Algolia search additionally needs `NEXT_PUBLIC_ALGOLIA_APPLICATION_ID` and `NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY`. Replacing the shared index requires `ALGOLIA_INDEXING_API_KEY` and should normally be left to the production workflow.
 
+## Icon context metadata
+
+Semantic icon metadata is created manually and committed as source data under `packages/ignition/icon-context`. Builds and deployments consume that reviewed data, but they never invoke an LLM or generate new semantic metadata. This keeps model usage, nondeterministic output, and review work out of CI.
+
+Use the repository-local `generate-icon-context` skill when enriching a collection. The underlying commands run from `packages/ignition`:
+
+```bash
+npm run icon-context -- status wi
+npm run icon-context -- prepare wi
+npm run icon-context -- validate wi
+npm run icon-context -- apply wi --reviewed
+```
+
+`prepare` skips icons whose source and prompt hashes are current and preserves a matching interrupted run. It generates ignored batch inputs and contact sheets under `.cache/icon-context`; the active agent reviews those inputs and writes bilingual English and PT-BR responses locally. `apply` requires the explicit `--reviewed` gate and atomically writes bounded source chunks.
+
+Forced recreation is intentionally harder because it replaces reviewed metadata. After user confirmation, pass both `--force` and `--confirm-force=<collection>` to `prepare`. Runs exceeding 500 icon families also require `--confirm-large=<collection>`.
+
+The static build publishes a context index for every collection under `/ai/v1/collections/<collection>/context/index.json`. The index explicitly reports `none`, `single`, or `chunked` storage, coverage, content hashes, and chunk URLs. Every context JSON file is limited to 64 KiB. Missing or stale entries are omitted safely and reported through coverage instead of blocking deployment.
+
+Algolia synchronization uses the same reviewed metadata to add English and PT-BR descriptions, aliases, search terms, UI contexts, categories, roles, and variants. Negative terms remain guidance in the context envelopes and are never indexed as positive search terms.
+
 Verify the static export before publishing it:
 
 ```bash

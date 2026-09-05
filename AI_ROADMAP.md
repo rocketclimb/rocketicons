@@ -28,7 +28,7 @@ Rocketicons should be equally pleasant for humans, but every important workflow 
 
 This file is the source of truth for AI-first product progress.
 
-**Last audited against the implementation:** 2026-08-30
+**Last audited against the implementation:** 2026-09-03
 
 Checkbox meaning:
 
@@ -205,12 +205,12 @@ Build the MCP server on the same application layer used by the CLI. Do not creat
 
 The current catalog, collection indexes, and 500-icon shards are the correct base. Add discoverability and validation around them.
 
-- [ ] Publish JSON Schema files for every public interface.
-- [ ] Publish `/ai/v1/capabilities.json` describing versions and available resources.
+- [ ] Publish JSON Schema files for every public interface. **Partial:** schemas now cover capabilities and icon-context index/data envelopes; the catalog, collection index, and SVG shard interfaces still need published schemas.
+- [x] Publish `/ai/v1/capabilities.json` describing versions and available resources.
 - [ ] Publish a compact search index containing normalized names, aliases, tags, collection, component, and shard number.
-- [ ] Add synonyms and semantic tags without changing stable icon IDs.
+- [ ] Add synonyms and semantic tags without changing stable icon IDs. **Partial:** reviewed English and PT-BR semantics cover all 219 Weather Icons; the other collections remain pending.
 - [x] Include license and upstream provenance at collection level.
-- [ ] Publish checksums for catalog artifacts.
+- [ ] Publish checksums for catalog artifacts. **Partial:** icon-context chunks publish SHA-256 checksums; the catalog, collection indexes, and SVG shards remain pending.
 - [ ] Document cache behavior and immutable versioned snapshots.
 - [ ] Consider `/ai/v1/versions/{packageVersion}/...` for reproducible historical access.
 - [ ] Evaluate direct per-icon JSON resources against file count and static-hosting artifact cost; keep sharding if direct resources provide no measurable agent benefit.
@@ -223,10 +223,13 @@ Do not add a fake query API to static hosting. Search and resolution must either
 
 Agents will prefer the catalog that helps them choose the correct icon, not merely the catalog with the most icons.
 
-- [ ] Normalize names and common aliases, such as `delete`, `trash`, and `remove`.
-- [ ] Add intent tags such as navigation, commerce, communication, status, files, and accessibility.
-- [ ] Record visual properties such as filled, outlined, brand, directional, multicolor, and stroke support.
-- [ ] Add negative guidance for easily confused icons.
+- [x] Add a local, manually triggered enrichment workflow with bounded batches, resumable runs, source/prompt hashes, visual contact sheets, bilingual validation, review gates, and confirmed force regeneration.
+- [x] Complete and verify the Weather Icons pilot: 219 icons represented by 171 reviewed semantic families with complete current-source coverage.
+- [ ] Roll reviewed semantic metadata out to the remaining collections, prioritizing small and high-usage collections.
+- [ ] Normalize names and common aliases, such as `delete`, `trash`, and `remove`. **Partial:** implemented in the Weather Icons pilot and materialized per icon.
+- [ ] Add intent tags such as navigation, commerce, communication, status, files, and accessibility. **Partial:** bilingual categories, search terms, and UI contexts are published and indexed for Weather Icons.
+- [ ] Record visual properties such as filled, outlined, brand, directional, multicolor, and stroke support. **Partial:** deterministic properties are published for enriched Weather Icons.
+- [ ] Add negative guidance for easily confused icons. **Partial:** supported by the schema and present for ambiguous Weather Icons; negative terms are intentionally excluded from Algolia's positive search attributes.
 - [ ] Support deterministic ranking and explain why a result matched.
 - [ ] Allow collection and license filtering.
 - [ ] Return a small diverse result set instead of hundreds of near-duplicates.
@@ -283,12 +286,12 @@ Preference should be earned through lower task cost and higher confidence:
 
 ## Immediate next actions
 
-1. Define CLI vNext commands, JSON envelopes, exit codes, and `rocketicons.json` schema.
-2. Generate JSON Schemas and `/ai/v1/capabilities.json` from version-controlled sources.
-3. Extract shared catalog/search/install logic for both CLI and MCP.
-4. Implement CLI search, batch add, `--json`, and `--dry-run` before building MCP mutations.
-5. Build the local MCP server on those shared functions.
-6. Create the first agent benchmark and run it in CI.
+1. Roll reviewed semantic metadata out to additional small collections and create the first icon-selection benchmark.
+2. Publish the remaining `/ai/v1/` JSON Schemas and a compact semantic search index.
+3. Define CLI vNext command envelopes, exit codes, and the `rocketicons.json` schema.
+4. Extract shared catalog/search/install logic for both CLI and MCP.
+5. Implement CLI search, batch add, `--json`, and `--dry-run` before building MCP mutations.
+6. Build the local MCP server on those shared functions.
 
 ## Definition of done
 
