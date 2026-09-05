@@ -17,6 +17,7 @@
     "generate-content-collections": "rocketclimb-cc",
     "generate-statics:all-icons": "RI_GENERATE_ALL_ICONS=true npm run generate-statics",
     "indexer": "npx ts-node -r tsconfig-paths/register ./src/algolia-indexer",
+    "icon-context": "npx ts-node -r tsconfig-paths/register ./src/icon-context/cli",
     "test": "jest ./src --passWithNoTests",
     "lint": "NODE_PATH=./node_modules next lint",
     "format": "prettier --check src/* --write --ignore-path ../../.gitignore",

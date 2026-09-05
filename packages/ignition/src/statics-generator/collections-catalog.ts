@@ -16,6 +16,12 @@ import type {
 } from "../catalog/types";
 import { getManifest, templateBuilder, write } from "./utils";
 import { withSiteBasePath } from "../config/site-origin";
+import { buildContextArtifacts } from "../icon-context/core";
+import {
+  capabilitiesSchema,
+  contextDataSchema,
+  contextIndexSchema
+} from "../icon-context/schemas";
 
 const SOURCE_SVGS = resolve("../generator/svgs");
 const SOURCE_MANIFESTS = resolve("../icons");
@@ -144,13 +150,29 @@ export const generateStaticCatalog = async () => {
   rmSync(OUTPUT_ROOT, { recursive: true, force: true });
   const collections: StaticCollectionSummary[] = [];
   for (const { id } of getManifest()) {
-    const artifacts = buildCollectionArtifacts(
-      version,
-      await loadManifest(id),
-      loadSourceIcons(id)
-    );
+    const sourceIcons = loadSourceIcons(id);
+    const artifacts = buildCollectionArtifacts(version, await loadManifest(id), sourceIcons);
     const collectionRoot = join(OUTPUT_ROOT, "collections", id);
+    const context = buildContextArtifacts(
+      id,
+      version,
+      artifacts.shards.flatMap(({ icons }) => icons)
+    );
+    artifacts.collection.contextIndexUrl = withSiteBasePath(
+      `/ai/v1/collections/${id}/context/index.json`
+    );
+    artifacts.collection.contextCoverage = context.index.coverage;
     await writeJson(join(collectionRoot, "index.json"), artifacts.index);
+    await writeJson(join(collectionRoot, "context", "index.json"), context.index);
+    if (context.chunks.length === 1) {
+      await writeJson(join(collectionRoot, "context", "data.json"), context.chunks[0]);
+    } else {
+      await Promise.all(
+        context.chunks.map((chunk) =>
+          writeJson(join(collectionRoot, "context", `${chunk.chunk}.json`), chunk)
+        )
+      );
+    }
     await Promise.all(
       artifacts.shards.map((shard) =>
         writeJson(join(collectionRoot, `${shard.chunk}.json`), shard)
@@ -167,6 +189,29 @@ export const generateStaticCatalog = async () => {
     collections: sortedCollections
   };
   await writeJson(join(OUTPUT_ROOT, "catalog.json"), catalog);
+  await Promise.all([
+    writeJson(join(OUTPUT_ROOT, "schemas", "icon-context-index.schema.json"), contextIndexSchema),
+    writeJson(join(OUTPUT_ROOT, "schemas", "icon-context-data.schema.json"), contextDataSchema),
+    writeJson(join(OUTPUT_ROOT, "schemas", "capabilities.schema.json"), capabilitiesSchema),
+    writeJson(join(OUTPUT_ROOT, "capabilities.json"), {
+      schemaVersion: 1,
+      packageVersion: version,
+      resources: {
+        catalog: withSiteBasePath("/ai/v1/catalog.json"),
+        iconContext: {
+          availability: sortedCollections.every(
+            ({ contextCoverage }) => contextCoverage?.complete
+          )
+            ? "complete"
+            : "partial",
+          languages: ["en", "pt-BR"],
+          maxJsonBytes: 65536,
+          indexSchema: withSiteBasePath("/ai/v1/schemas/icon-context-index.schema.json"),
+          dataSchema: withSiteBasePath("/ai/v1/schemas/icon-context-data.schema.json")
+        }
+      }
+    })
+  ]);
   const totalIcons = sortedCollections.reduce((total, item) => total + item.totalIcons, 0);
   await write(
     MANIFEST_OUTPUT_FILE,

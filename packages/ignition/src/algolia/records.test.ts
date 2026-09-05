@@ -28,6 +28,39 @@ describe("Algolia records", () => {
     ]);
   });
 
+  test("adds bilingual semantic context to icon search records", () => {
+    const [record] = buildIconRecords(
+      [
+        {
+          collectionId: "wi",
+          iconId: "umbrella",
+          name: "Umbrella",
+          component: "WiUmbrella",
+          categories: ["weather", "objects"],
+          descriptionEn: "An umbrella for forecasts and insurance interfaces.",
+          descriptionPtBr: "Um guarda-chuva para previsões e interfaces de seguros.",
+          searchTermsEn: ["rain", "coverage", "insurance"],
+          searchTermsPtBr: ["chuva", "cobertura", "seguro"],
+          uiContexts: ["forecast", "travel", "insurance"],
+          roles: ["status", "object"],
+          variant: "full"
+        }
+      ],
+      { wi: "Weather Icons" }
+    );
+
+    expect(record).toMatchObject({
+      descriptionEn: expect.stringContaining("insurance"),
+      descriptionPtBr: expect.stringContaining("seguros"),
+      searchTermsEn: expect.arrayContaining(["rain", "insurance"]),
+      searchTermsPtBr: expect.arrayContaining(["chuva", "seguro"]),
+      uiContexts: expect.arrayContaining(["forecast", "insurance"]),
+      roles: ["status", "object"],
+      variant: "full"
+    });
+    expect(() => validateAlgoliaRecords([record])).not.toThrow();
+  });
+
   test("uses the localized parent title and keeps the localized route slug", () => {
     const records = buildDocumentRecords(
       [

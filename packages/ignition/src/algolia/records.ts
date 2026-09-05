@@ -11,6 +11,13 @@ export type AlgoliaIconRecord = {
   isIcon: true;
   iconId: string;
   categories: string[];
+  descriptionEn: string;
+  descriptionPtBr: string;
+  searchTermsEn: string[];
+  searchTermsPtBr: string[];
+  uiContexts: string[];
+  roles: string[];
+  variant: string;
 };
 
 export type AlgoliaDocumentRecord = {
@@ -35,6 +42,13 @@ export type AlgoliaSourceIcon = {
   name: string;
   component: string;
   categories: string[];
+  descriptionEn?: string;
+  descriptionPtBr?: string;
+  searchTermsEn?: string[];
+  searchTermsPtBr?: string[];
+  uiContexts?: string[];
+  roles?: string[];
+  variant?: string;
 };
 
 export type AlgoliaSourceDocument = {
@@ -51,18 +65,40 @@ export const buildIconRecords = (
   icons: AlgoliaSourceIcon[],
   collectionNames: Record<string, string>
 ): AlgoliaIconRecord[] =>
-  icons.map(({ collectionId, iconId, name, component, categories }) => ({
-    objectID: `icon:${collectionId}:${iconId}`,
-    title: name,
-    group: collectionId,
-    groupName: collectionNames[collectionId] ?? collectionId,
-    locale: "all",
-    text: component,
-    recordType: "icon",
-    isIcon: true,
-    iconId,
-    categories
-  }));
+  icons.map(
+    ({
+      collectionId,
+      iconId,
+      name,
+      component,
+      categories,
+      descriptionEn = "",
+      descriptionPtBr = "",
+      searchTermsEn = [],
+      searchTermsPtBr = [],
+      uiContexts = [],
+      roles = [],
+      variant = categories[0] ?? ""
+    }) => ({
+      objectID: `icon:${collectionId}:${iconId}`,
+      title: name,
+      group: collectionId,
+      groupName: collectionNames[collectionId] ?? collectionId,
+      locale: "all",
+      text: component,
+      recordType: "icon",
+      isIcon: true,
+      iconId,
+      categories,
+      descriptionEn,
+      descriptionPtBr,
+      searchTermsEn,
+      searchTermsPtBr,
+      uiContexts,
+      roles,
+      variant
+    })
+  );
 
 export const buildDocumentRecords = (
   documents: AlgoliaSourceDocument[],
