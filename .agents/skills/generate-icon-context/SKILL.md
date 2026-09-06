@@ -16,7 +16,7 @@ Create reviewed English and PT-BR semantic metadata for one collection through t
 5. Run `npm run icon-context -- validate <collection>`. Correct every validation failure; do not weaken limits or invent missing families.
 6. Review all warnings and a deterministic cross-section of the results. Check common UI queries in both languages, ambiguous glyphs, directions, warnings, brands, and negative guidance.
 7. Show the user the validation summary and representative sample. Apply only after the user approves, using `npm run icon-context -- apply <collection> --reviewed`.
-8. Regenerate the static catalog, run the relevant tests, inspect the diff, and update `AI_ROADMAP.md` only for behavior proven complete.
+8. Regenerate the static catalog, run the relevant tests, and run `npm run indexer -- --dry-run` from `packages/ignition` to validate the complete future Algolia record set without updating the live index. Inspect the diff and update `AI_ROADMAP.md` only for behavior proven complete.
 
 ## Incremental and force behavior
 
@@ -24,4 +24,5 @@ Create reviewed English and PT-BR semantic metadata for one collection through t
 - Resume an interrupted run from existing batch responses; do not discard completed work.
 - Before forced recreation, state how many reviewed records will be replaced and obtain explicit confirmation. Then use both `--force` and `--confirm-force=<collection>`.
 - Never call an external model API or place LLM generation in CI. The active agent performs the semantic work.
+- Never run the Algolia indexer without `--dry-run` as part of this skill. Production synchronization belongs to the full deployment after a push to `main`, or an explicitly authorized manual workflow on `main`.
 - Do not index `negativeTerms` as positive search terms.
