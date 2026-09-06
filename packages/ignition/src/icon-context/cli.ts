@@ -6,6 +6,7 @@ import type { IconTree } from "rocketicons";
 
 import {
   ICON_CONTEXT_SOURCE_ROOT,
+  buildContextArtifacts,
   iconSourceHash,
   jsonBytes,
   loadContextSource,
@@ -263,7 +264,7 @@ const responseFamilies = async (collectionId: string) => {
 };
 
 const candidate = async (collectionId: string): Promise<IconContextSource> => {
-  const value: IconContextSource = {
+  const generated: IconContextSource = {
     schemaVersion: ICON_CONTEXT_SCHEMA_VERSION,
     collectionId,
     promptVersion: ICON_CONTEXT_PROMPT_VERSION,
@@ -271,7 +272,34 @@ const candidate = async (collectionId: string): Promise<IconContextSource> => {
     generator: "codex-agent",
     families: await responseFamilies(collectionId)
   };
+  const existing = loadContextSource(collectionId);
+  const replaced = new Set(
+    generated.families.flatMap((family) => family.icons.map(({ id }) => id))
+  );
+  const retained = (existing?.families ?? [])
+    .map((family) => ({ ...family, icons: family.icons.filter(({ id }) => !replaced.has(id)) }))
+    .filter((family) => family.icons.length);
+  const merged = new Map(generated.families.map((family) => [family.familyId, family]));
+  for (const family of retained) {
+    const replacement = merged.get(family.familyId);
+    if (replacement) replacement.icons.push(...family.icons);
+    else merged.set(family.familyId, family);
+  }
+  const value: IconContextSource = {
+    ...generated,
+    families: [...merged.values()].sort(({ familyId: a }, { familyId: b }) => a.localeCompare(b))
+  };
   validateContextSource(value);
+  const coverage = buildContextArtifacts(
+    collectionId,
+    "local-validation",
+    loadIcons(collectionId),
+    value
+  ).index.coverage;
+  if (!coverage.complete)
+    throw new Error(
+      `Context coverage is incomplete: ${coverage.missing} missing, ${coverage.stale} stale, ${coverage.orphaned} orphaned`
+    );
   return value;
 };
 
@@ -297,25 +325,7 @@ const validate = async (collectionId: string) => {
 const apply = async (collectionId: string) => {
   if (!process.argv.includes("--reviewed"))
     throw new Error("Applying context requires explicit --reviewed confirmation");
-  const generated = await validate(collectionId);
-  const existing = loadContextSource(collectionId);
-  const replaced = new Set(
-    generated.families.flatMap((family) => family.icons.map(({ id }) => id))
-  );
-  const retained = (existing?.families ?? [])
-    .map((family) => ({ ...family, icons: family.icons.filter(({ id }) => !replaced.has(id)) }))
-    .filter((family) => family.icons.length);
-  const merged = new Map(generated.families.map((family) => [family.familyId, family]));
-  for (const family of retained) {
-    const replacement = merged.get(family.familyId);
-    if (replacement) replacement.icons.push(...family.icons);
-    else merged.set(family.familyId, family);
-  }
-  const value = {
-    ...generated,
-    families: [...merged.values()].sort(({ familyId: a }, { familyId: b }) => a.localeCompare(b))
-  };
-  validateContextSource(value);
+  const value = await validate(collectionId);
   const chunks = splitContextSource(value);
   const target = join(ICON_CONTEXT_SOURCE_ROOT, collectionId);
   const staging = `${target}.next`;

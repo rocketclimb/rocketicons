@@ -4,10 +4,11 @@ import {
   buildContextArtifacts,
   iconSourceHash,
   jsonBytes,
+  loadContextSource,
   splitContextSource,
   validateContextSource
 } from "./core";
-import { ICON_CONTEXT_MAX_JSON_BYTES } from "./types";
+import { ICON_CONTEXT_MAX_JSON_BYTES, ICON_CONTEXT_PROMPT_VERSION } from "./types";
 import type { ContextSourceIcon, IconContextFamily, IconContextSource } from "./types";
 
 const sourceIcon = (id: string, name = id): ContextSourceIcon => ({
@@ -47,7 +48,7 @@ const contextSource = (
 ): IconContextSource => ({
   schemaVersion: 1,
   collectionId,
-  promptVersion: 1,
+  promptVersion: ICON_CONTEXT_PROMPT_VERSION,
   generatedAt: "2026-09-03",
   generator: "codex-agent",
   families
@@ -119,6 +120,99 @@ describe("icon context artifacts", () => {
     expect(result.index.storage.mode).toBe("chunked");
     expect(result.chunks.every((chunk) => jsonBytes(chunk) <= ICON_CONTEXT_MAX_JSON_BYTES)).toBe(
       true
+    );
+  });
+
+  test("rejects a one-icon public envelope that exceeds the hard byte limit", () => {
+    const icon = sourceIcon("one");
+    const makeSource = (aliasLength: number) => {
+      const oversizedFamily = family("one", [icon]);
+      oversizedFamily.aliases.en = ["x".repeat(aliasLength)];
+      return contextSource("wi", [oversizedFamily]);
+    };
+    let lower = 1;
+    let upper = ICON_CONTEXT_MAX_JSON_BYTES;
+    let source: IconContextSource | undefined;
+    while (lower <= upper) {
+      const middle = Math.floor((lower + upper) / 2);
+      const candidate = makeSource(middle);
+      const bytes = jsonBytes(candidate);
+      if (bytes === ICON_CONTEXT_MAX_JSON_BYTES) {
+        source = candidate;
+        break;
+      }
+      if (bytes < ICON_CONTEXT_MAX_JSON_BYTES) lower = middle + 1;
+      else upper = middle - 1;
+    }
+
+    expect(source).toBeDefined();
+    expect(() => validateContextSource(source!)).not.toThrow();
+    expect(() => buildContextArtifacts("wi", "1.2.3", [icon], source)).toThrow(
+      "Public context for wi/one cannot fit"
+    );
+  });
+
+  test("rejects aliases shared by semantically unrelated categories", () => {
+    const rainIcon = sourceIcon("rain");
+    const trainIcon = sourceIcon("train");
+    const rain = family("rain", [rainIcon]);
+    rain.aliases.en = ["precipitation"];
+    const train = family("train", [trainIcon]);
+    train.aliases.en = ["precipitation"];
+    train.primaryCategory = "transportation";
+    train.categories = ["transportation", "travel", "objects"];
+
+    expect(() => validateContextSource(contextSource("wi", [rain, train]))).toThrow(
+      'en alias "precipitation" is shared by unrelated families: rain, train'
+    );
+  });
+
+  test("allows related families to share aliases", () => {
+    const rainIcon = sourceIcon("rain");
+    const showersIcon = sourceIcon("showers");
+    const rain = family("rain", [rainIcon]);
+    const showers = family("showers", [showersIcon]);
+    rain.aliases.en = ["precipitation"];
+    showers.aliases.en = ["precipitation"];
+
+    expect(() => validateContextSource(contextSource("wi", [rain, showers]))).not.toThrow();
+  });
+
+  test("rejects terms used as both positive and negative guidance", () => {
+    const icon = sourceIcon("umbrella");
+    const umbrella = family("umbrella", [icon]);
+    umbrella.searchTerms.en = ["rain"];
+    umbrella.negativeTerms.en = ["RAIN"];
+
+    expect(() => validateContextSource(contextSource("wi", [umbrella]))).toThrow(
+      "umbrella has positive and negative en terms in common: RAIN"
+    );
+  });
+
+  test("validates every checked-in Weather Icons family and its semantic regressions", () => {
+    const source = loadContextSource("wi");
+
+    expect(source).toBeDefined();
+    expect(() => validateContextSource(source!)).not.toThrow();
+    expect(source!.families).toHaveLength(171);
+    expect(source!.families.flatMap(({ icons }) => icons)).toHaveLength(219);
+
+    const train = source!.families.find(({ familyId }) => familyId === "train");
+    const trainTerms = [
+      ...train!.aliases.en,
+      ...train!.aliases["pt-BR"],
+      ...train!.searchTerms.en,
+      ...train!.searchTerms["pt-BR"]
+    ];
+    expect(trainTerms).not.toEqual(
+      expect.arrayContaining([
+        "rain",
+        "rainfall",
+        "precipitation",
+        "chuva",
+        "chuvarada",
+        "precipitação"
+      ])
     );
   });
 

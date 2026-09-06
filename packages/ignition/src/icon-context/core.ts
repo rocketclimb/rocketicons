@@ -47,6 +47,56 @@ const ensureStrings = (value: unknown, label: string, max: number) => {
     throw new Error(`${label} contains duplicates`);
 };
 
+const normalizedTerms = (values: string[], locale: "en" | "pt-BR") =>
+  new Set(values.map((value) => value.normalize("NFKC").toLocaleLowerCase(locale)));
+
+const ensureTermsDoNotConflict = (family: IconContextFamily, locale: "en" | "pt-BR") => {
+  const positive = normalizedTerms(
+    [...family.aliases[locale], ...family.searchTerms[locale]],
+    locale
+  );
+  const conflicts = family.negativeTerms[locale].filter((term) =>
+    positive.has(term.normalize("NFKC").toLocaleLowerCase(locale))
+  );
+  if (conflicts.length)
+    throw new Error(
+      `${family.familyId} has positive and negative ${locale} terms in common: ${conflicts.join(", ")}`
+    );
+};
+
+const ensureAliasesStayInRelatedCategories = (source: IconContextSource) => {
+  const genericCategories = new Set(["actions", "objects", "shapes", "status"]);
+  const categoriesAreRelated = (left: IconContextFamily, right: IconContextFamily) =>
+    left.primaryCategory === right.primaryCategory ||
+    left.categories.includes(right.primaryCategory) ||
+    right.categories.includes(left.primaryCategory) ||
+    left.categories.some(
+      (category) => !genericCategories.has(category) && right.categories.includes(category)
+    );
+  for (const locale of ["en", "pt-BR"] as const) {
+    const familiesByAlias = new Map<string, IconContextFamily[]>();
+    for (const family of source.families) {
+      for (const alias of family.aliases[locale]) {
+        const normalized = alias.normalize("NFKC").toLocaleLowerCase(locale);
+        const families = familiesByAlias.get(normalized) ?? [];
+        families.push(family);
+        familiesByAlias.set(normalized, families);
+      }
+    }
+    for (const [alias, families] of familiesByAlias) {
+      const unrelated = families.some((family, index) =>
+        families.slice(index + 1).some((other) => !categoriesAreRelated(family, other))
+      );
+      if (unrelated)
+        throw new Error(
+          `${locale} alias "${alias}" is shared by unrelated families: ${families
+            .map(({ familyId }) => familyId)
+            .join(", ")}`
+        );
+    }
+  }
+};
+
 export const validateContextSource = (source: IconContextSource, requireCurrentPrompt = true) => {
   if (source.schemaVersion !== ICON_CONTEXT_SCHEMA_VERSION)
     throw new Error(`Unsupported icon context schema: ${source.schemaVersion}`);
@@ -76,6 +126,8 @@ export const validateContextSource = (source: IconContextSource, requireCurrentP
     ensureStrings(family.categories, `${family.familyId}.categories`, 6);
     ensureStrings(family.uiContexts, `${family.familyId}.uiContexts`, 12);
     ensureStrings(family.roles, `${family.familyId}.roles`, 4);
+    ensureTermsDoNotConflict(family, "en");
+    ensureTermsDoNotConflict(family, "pt-BR");
     if (!family.categories.includes(family.primaryCategory))
       throw new Error(`${family.familyId} primaryCategory must occur in categories`);
     for (const icon of family.icons) {
@@ -84,6 +136,7 @@ export const validateContextSource = (source: IconContextSource, requireCurrentP
       icons.add(icon.id);
     }
   }
+  ensureAliasesStayInRelatedCategories(source);
 };
 
 export const loadContextSource = (collectionId: string): IconContextSource | undefined => {
@@ -221,7 +274,13 @@ const splitByBytes = (collectionId: string, icons: PublicIconContext[]) => {
     } else current = candidate;
   }
   if (current.length) groups.push(current);
-  return groups.map((group, chunk) => makeEnvelope(collectionId, chunk, group));
+  const chunks = groups.map((group, chunk) => makeEnvelope(collectionId, chunk, group));
+  for (const chunk of chunks)
+    if (jsonBytes(chunk) > ICON_CONTEXT_MAX_JSON_BYTES)
+      throw new Error(
+        `Public context for ${collectionId}/${chunk.icons[0]?.id ?? "unknown"} cannot fit within ${ICON_CONTEXT_MAX_JSON_BYTES} bytes`
+      );
+  return chunks;
 };
 
 export const buildContextArtifacts = (
