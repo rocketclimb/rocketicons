@@ -28,7 +28,7 @@ Rocketicons should be equally pleasant for humans, but every important workflow 
 
 This file is the source of truth for AI-first product progress.
 
-**Last audited against the implementation:** 2026-09-03
+**Last audited against the implementation:** 2026-09-06
 
 Checkbox meaning:
 
@@ -223,7 +223,7 @@ Do not add a fake query API to static hosting. Search and resolution must either
 
 Agents will prefer the catalog that helps them choose the correct icon, not merely the catalog with the most icons.
 
-- [x] Add a local, manually triggered enrichment workflow with bounded batches, resumable runs, source/prompt hashes, visual contact sheets, bilingual validation, review gates, and confirmed force regeneration.
+- [x] Add a local, manually triggered enrichment workflow with bounded batches, resumable runs, source/prompt hashes, visual contact sheets, bilingual validation, collection-wide semantic checks, review gates, and confirmed force regeneration.
 - [x] Complete and verify the Weather Icons pilot: 219 icons represented by 171 reviewed semantic families with complete current-source coverage.
 - [ ] Roll reviewed semantic metadata out to the remaining collections, prioritizing small and high-usage collections.
 - [ ] Normalize names and common aliases, such as `delete`, `trash`, and `remove`. **Partial:** implemented in the Weather Icons pilot and materialized per icon.
@@ -233,7 +233,7 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 - [ ] Support deterministic ranking and explain why a result matched.
 - [ ] Allow collection and license filtering.
 - [ ] Return a small diverse result set instead of hundreds of near-duplicates.
-- [ ] Create a reviewed benchmark of common icon-selection requests.
+- [ ] Create a reviewed benchmark of common icon-selection requests. **Partial:** collection-wide semantic invariants and a regression for unrelated alias leakage are covered; a representative scored query corpus remains pending.
 - [ ] Measure top-1, top-5, and successful-install accuracy.
 
 ### Milestone 7 — Agent integration assets
@@ -249,7 +249,7 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 ### Milestone 8 — Reliability, trust, and governance
 
 - [ ] Define schema compatibility and deprecation policies.
-- [ ] Test duplicate IDs, missing source data, invalid SVG trees, licenses, aliases, and checksums.
+- [ ] Test duplicate IDs, missing source data, invalid SVG trees, licenses, aliases, and checksums. **Partial:** icon-context tests now cover duplicate and conflicting aliases, positive/negative term conflicts, stale and orphaned bindings, and strict source/public JSON size limits.
 - [ ] Test CLI output on macOS, Linux, and Windows.
 - [ ] Test npm, pnpm, Yarn, and Bun projects.
 - [ ] Test React DOM, Next.js, Vite, Expo, and React Native fixtures.

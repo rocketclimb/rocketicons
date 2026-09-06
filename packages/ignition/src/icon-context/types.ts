@@ -1,5 +1,5 @@
 export const ICON_CONTEXT_SCHEMA_VERSION = 1 as const;
-export const ICON_CONTEXT_PROMPT_VERSION = 1 as const;
+export const ICON_CONTEXT_PROMPT_VERSION = 2 as const;
 export const ICON_CONTEXT_MAX_JSON_BYTES = 64 * 1024;
 
 export type LocalizedTerms = {

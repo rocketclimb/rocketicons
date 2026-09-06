@@ -14,7 +14,7 @@ Create reviewed English and PT-BR semantic metadata for one collection through t
 3. Run `npm run icon-context -- prepare <collection>`. If more than 500 families are reported, summarize the estimate and obtain user confirmation before retrying with `--confirm-large=<collection>`.
 4. Read [the metadata guidance](references/metadata.md). For each batch, inspect both `batch-N.json` and `batch-N.png`, then write the matching `responses/batch-N.json`. Preserve every input `familyId` exactly and return exactly one metadata record per family.
 5. Run `npm run icon-context -- validate <collection>`. Correct every validation failure; do not weaken limits or invent missing families.
-6. Review all warnings and a deterministic cross-section of the results. Check common UI queries in both languages, ambiguous glyphs, directions, warnings, brands, and negative guidance.
+6. Review all warnings and audit every generated family in both languages. Check that each description, alias, search term, category, UI context, role, and negative term agrees with the family name and glyph. Then test a deterministic cross-section of common UI queries, ambiguous glyphs, directions, warnings, brands, and negative guidance. Do not apply a collection if the complete merged collection fails semantic validation.
 7. Show the user the validation summary and representative sample. Apply only after the user approves, using `npm run icon-context -- apply <collection> --reviewed`.
 8. Regenerate the static catalog, run the relevant tests, and run `npm run indexer -- --dry-run` from `packages/ignition` to validate the complete future Algolia record set without updating the live index. Inspect the diff and update `AI_ROADMAP.md` only for behavior proven complete.
 
@@ -24,5 +24,6 @@ Create reviewed English and PT-BR semantic metadata for one collection through t
 - Resume an interrupted run from existing batch responses; do not discard completed work.
 - Before forced recreation, state how many reviewed records will be replaced and obtain explicit confirmation. Then use both `--force` and `--confirm-force=<collection>`.
 - Never call an external model API or place LLM generation in CI. The active agent performs the semantic work.
+- Treat a metadata-guidance change as a prompt-contract change: increment `ICON_CONTEXT_PROMPT_VERSION` and regenerate or explicitly review every stale family before applying it.
 - Never run the Algolia indexer without `--dry-run` as part of this skill. Production synchronization belongs to the full deployment after a push to `main`, or an explicitly authorized manual workflow on `main`.
 - Do not index `negativeTerms` as positive search terms.
