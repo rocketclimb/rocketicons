@@ -2,9 +2,10 @@
 
 Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.
 
-- Catalog/package version: 0.3.2
+- Catalog/package version: 0.3.3
 - Documentation updated: 2026-08-12
 - Static catalog: /ai/v1/catalog.json
+- Catalog capabilities: /ai/v1/capabilities.json
 - English documentation: /en/docs/getting-started/
 - Brazilian Portuguese documentation: /pt-br/docs/primeiros-passos/
 
@@ -21,7 +22,7 @@ The current CLI generates TSX, uses the fixed `src/ri` output directory and `@/r
 
 ## Catalog and licensing
 
-Start with /ai/v1/catalog.json. Each collection entry links to a compact index, and each icon index entry identifies its shard. Catalog URLs include the configured deployment base path. Collection records include their upstream project, license, and license URL. Review the selected collection's terms and preserve any required attribution.
+Start with /ai/v1/catalog.json. Each collection entry links to a compact icon index and uses `contextIndexUrl` for its semantic context index. The context index reports coverage and explicitly selects `none`, `single`, or `chunked` storage; load only the referenced files. Available context includes English and Brazilian Portuguese descriptions, aliases, search terms, UI contexts, categories, roles, visual properties, and `negativeTerms` disambiguation guidance. Each icon index entry identifies its SVG shard. Catalog URLs include the configured deployment base path. Collection records include their upstream project, license, and license URL. Review the selected collection's terms and preserve any required attribution.
 
 ## More guidance
 

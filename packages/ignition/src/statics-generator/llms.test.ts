@@ -24,6 +24,9 @@ describe("LLM discovery files", () => {
     expect(content).toContain(CANONICAL_PRODUCT_MESSAGE);
     expect(content).toContain(`Catalog/package version: ${staticCatalog.packageVersion}`);
     expect(content).toContain("/ai/v1/catalog.json");
+    expect(content).toContain("/ai/v1/capabilities.json");
+    expect(content).toContain("contextIndexUrl");
+    expect(content).toContain("negativeTerms");
     expect(content).toMatch(/license|licensing/i);
     expect(content).not.toMatch(/https?:\/\/rocketicons\.io/);
     expect(content).not.toContain("rocketicons add @lu/rocket @lu/search");
