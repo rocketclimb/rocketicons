@@ -55,7 +55,7 @@
     "nativewind": "4.2.2",
     "prettier": "^3.2.5",
     "tailwindcss": "3.4.1",
-    "ts-jest": "^29.1.2",
+    "ts-jest": "^29.4.12",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "tsconfig-replace-paths": "^0.0.14",

@@ -9,11 +9,14 @@ import { type IconDefinitionContent, PackageExports } from "./types";
 import { glob } from "./glob";
 
 export const getIconFiles = async (content: IconDefinitionContent) => {
-  if (typeof content.files === "string") {
-    const pattern = content.files.replace(/\\/g, "/"); // convert windows path
-    return glob(pattern);
+  const files =
+    typeof content.files === "string"
+      ? await glob(content.files.replace(/\\/g, "/"))
+      : await content.files();
+  if (files.length === 0) {
+    throw new Error(`No SVG files found for icon source: ${content.files}`);
   }
-  return content.files();
+  return files.sort();
 };
 
 export const convertIconData = async (
