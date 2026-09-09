@@ -83,7 +83,7 @@ const Page = async ({ params }: PageProps) => {
   const enSlugFromIndex = enSlug(slug);
   const selectedDoc = getDoc(lang, slug);
 
-  const openGprahImageUrl = getOpenGraphImage();
+  const openGprahImageUrl = getOpenGraphImage(lang, "doc", slug);
 
   const articleLd = new Article(selectedDoc.title, selectedDoc.description)
     .setAuthor(organization)

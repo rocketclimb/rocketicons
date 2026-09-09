@@ -53,6 +53,7 @@
     "rocketicons": "*"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@types/adm-zip": "^0.5.5",
     "@types/mdx": "^2.0.13",
     "@types/node": "^20",
@@ -61,6 +62,7 @@
     "@types/react-dom": "^19",
     "eslint-config-next": "^15",
     "postcss": "^8",
+    "satori": "^0.33.4",
     "@tailwindcss/postcss": "^4.2.1",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.4.3"
