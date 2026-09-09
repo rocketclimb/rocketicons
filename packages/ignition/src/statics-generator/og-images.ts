@@ -6,6 +6,7 @@ import satori from "satori";
 import { getCatalog, getCatalogTotals, getCollectionIndex, getIcon } from "@/catalog/server";
 import { withLocale } from "@/locales";
 import { AvailableLanguages, Languages } from "@/types";
+import { pickRepresentativeIcon } from "./og-icon-picker";
 import {
   ogCollectionKey,
   ogCollectionPath,
@@ -61,9 +62,8 @@ const loadArt = async (collectionId: string, iconId: string): Promise<OgIconArt 
 };
 
 /**
- * The icon that represents a collection on its card: the first in the index, matching how the
- * original renderer picked one. Memoized because both locales draw the same collection, and
- * because resolving it touches the collection index plus one 500-icon shard.
+ * Memoized because both locales draw the same collection, and resolving it touches the
+ * collection index plus one 500-icon shard.
  */
 const collectionArt = (() => {
   const cache = new Map<string, Promise<OgIconArt | undefined>>();
@@ -73,7 +73,8 @@ const collectionArt = (() => {
 
     const pending = (async () => {
       const { icons } = await getCollectionIndex(collectionId);
-      return icons.length ? loadArt(collectionId, icons[0].id) : undefined;
+      const chosen = pickRepresentativeIcon(collectionId, icons);
+      return chosen && loadArt(collectionId, chosen.id);
     })();
     cache.set(collectionId, pending);
     return pending;
