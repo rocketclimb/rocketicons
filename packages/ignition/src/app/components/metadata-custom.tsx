@@ -1,5 +1,5 @@
 import ogManifest from "@/data-helpers/og/manifest.json";
-import { absoluteSiteUrl, getSiteOrigin } from "@/config/site-origin";
+import { absoluteOgImageUrl, getSiteOrigin } from "@/config/site-origin";
 import {
   lookupOgImage,
   ogCollectionKey,
@@ -101,8 +101,9 @@ export const customMetadata = (
  *
  * Sampled builds (RI_GENERATE_ALL_ICONS unset) only render the first five collections, so a
  * miss is expected rather than exceptional and falls back to the static hero plate. Building
- * with `absoluteSiteUrl` keeps the deployment base path, which a bare
- * `new URL("/img/...", origin)` would silently drop on a subfolder deploy.
+ * with `absoluteOgImageUrl` keeps the deployment base path, which a bare
+ * `new URL("/img/...", origin)` would silently drop on a subfolder deploy, and lets preview
+ * deployments point at their own images without moving canonical or hreflang off production.
  */
 export const getOpenGraphImage = (
   lang: Languages,
@@ -113,15 +114,15 @@ export const getOpenGraphImage = (
   const manifest = ogManifest as OgManifest;
 
   if (type === "collection" || type === "icon") {
-    return absoluteSiteUrl(
+    return absoluteOgImageUrl(
       lookupOgImage(manifest, "collections", ogCollectionKey(lang, collectionId ?? ""))
     );
   }
 
   if (type === "doc") {
     const slug = withLocale(lang).doc(path)?.slug ?? path;
-    return absoluteSiteUrl(lookupOgImage(manifest, "docs", ogDocKey(lang, slug)));
+    return absoluteOgImageUrl(lookupOgImage(manifest, "docs", ogDocKey(lang, slug)));
   }
 
-  return absoluteSiteUrl(lookupOgImage(manifest, "pages", ogPageKey(lang, path)));
+  return absoluteOgImageUrl(lookupOgImage(manifest, "pages", ogPageKey(lang, path)));
 };
