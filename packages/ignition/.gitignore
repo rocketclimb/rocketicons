@@ -32,6 +32,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# wrangler local dev state
+.wrangler
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
