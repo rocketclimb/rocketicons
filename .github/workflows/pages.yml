@@ -116,6 +116,8 @@ jobs:
           test -f packages/ignition/out/img/og/en/home.png
           test -f packages/ignition/out/img/og/en/collections/wi.png
           test -f packages/ignition/out/img/og/pt-br/collections/wi.png
+          test -f packages/ignition/out/_worker.js
+          test -f packages/ignition/out/_routes.json
           size_kib=$(du -sk packages/ignition/out | cut -f1)
           test "$size_kib" -le 921600
           echo "Export size: $size_kib KiB"
