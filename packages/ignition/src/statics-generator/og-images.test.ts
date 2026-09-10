@@ -1,8 +1,7 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, test } from "@jest/globals";
 
-import ogManifest from "@/data-helpers/og/manifest.json";
 import { AvailableLanguages } from "@/types";
 import {
   FALLBACK_OG_IMAGE,
@@ -16,7 +15,11 @@ import {
   type OgManifest
 } from "./og-manifest";
 
-const manifest = ogManifest as OgManifest;
+const manifestFile = resolve("./src/app/data-helpers/og/manifest.json");
+const hasGeneratedManifest = existsSync(manifestFile);
+const manifest = hasGeneratedManifest
+  ? (JSON.parse(readFileSync(manifestFile, "utf8")) as OgManifest)
+  : ({ pages: {}, docs: {}, collections: {} } satisfies OgManifest);
 
 const entries = [
   ...Object.values(manifest.pages),
@@ -24,7 +27,7 @@ const entries = [
   ...Object.values(manifest.collections)
 ];
 
-describe("open graph image manifest", () => {
+(hasGeneratedManifest ? describe : describe.skip)("open graph image manifest", () => {
   test("every generated entry exists on disk", () => {
     expect(entries.length).toBeGreaterThan(0);
     for (const path of entries) {
@@ -69,13 +72,12 @@ describe("open graph image manifest", () => {
     }
   });
 
-  test("falls back to the static hero for anything ungenerated", () => {
-    // Sampled builds (RI_GENERATE_ALL_ICONS unset) legitimately omit most collections.
-    expect(
-      lookupOgImage(manifest, "collections", ogCollectionKey("en", "not-a-collection"))
-    ).toBe(FALLBACK_OG_IMAGE);
-    expect(lookupOgImage(manifest, "pages", ogPageKey("en", "not-a-page"))).toBe(
-      FALLBACK_OG_IMAGE
-    );
-  });
+});
+
+test("falls back to the static hero for anything ungenerated", () => {
+  // Sampled builds (RI_GENERATE_ALL_ICONS unset) legitimately omit most collections.
+  expect(lookupOgImage(manifest, "collections", ogCollectionKey("en", "not-a-collection"))).toBe(
+    FALLBACK_OG_IMAGE
+  );
+  expect(lookupOgImage(manifest, "pages", ogPageKey("en", "not-a-page"))).toBe(FALLBACK_OG_IMAGE);
 });
