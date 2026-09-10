@@ -89,14 +89,14 @@ jobs:
           SKIP_IGNITION_BUILD: "true"
         run: npm run build-all
 
-      - name: Test workspace
-        run: npm run test-all
-
       - name: Generate content collections
         run: npm run generate-content-collections --workspace=packages/ignition
 
       - name: Generate complete static catalog
         run: npm run generate-statics:all-icons --workspace=packages/ignition
+
+      - name: Test workspace
+        run: npm run test-all
 
       - name: Verify every generated icon and web catalog record
         run: npm run test:catalog --workspace=packages/generator
