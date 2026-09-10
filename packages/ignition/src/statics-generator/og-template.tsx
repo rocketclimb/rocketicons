@@ -12,6 +12,16 @@ const SMALL_ICON_SIZE = 28;
 const OUTER_PADDING = 80;
 const INTERNAL_LEFT_MARGIN = 20;
 
+/**
+ * The original sized the logo with `tw="w-128 h-23"`. Satori reads those as Tailwind spacing
+ * units (x4px), so it rendered at 512x92 — the PNG's native width — and ignored the
+ * `width={128} height={23}` attributes beside them. Porting those attributes literally shrank
+ * the wordmark to a quarter of its size, which broke the `rocketicons/{collection}` lockup.
+ * 512x94 is the file's native aspect.
+ */
+const LOGO_WIDTH = 512;
+const LOGO_HEIGHT = 94;
+
 const PUBLIC_ROOT = resolve("./public");
 
 /** An icon ready to be drawn: the tree plus the variant that decides fill vs stroke. */
@@ -159,8 +169,8 @@ export const ogTemplate = ({
             <img
               src={`data:image/png;base64,${darkMode ? darkLogo() : lightLogo()}`}
               alt="rocketicons"
-              width={128}
-              height={23}
+              width={LOGO_WIDTH}
+              height={LOGO_HEIGHT}
             />
             {collectionId && (
               <span style={{ ...gradientText, fontSize: 72, lineHeight: 1, marginTop: 5 }}>
