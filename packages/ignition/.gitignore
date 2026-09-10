@@ -32,6 +32,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# wrangler local dev state
+.wrangler
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
@@ -44,6 +47,9 @@ src/app/data-helpers
 
 # Generated icon JSON files (generated during build)
 /public/icons
+
+# Generated open graph images (generated during build)
+/public/img/og
 
 .env
 /public/ai

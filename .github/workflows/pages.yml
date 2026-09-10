@@ -42,6 +42,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SITE_ORIGIN: ${{ vars.SITE_ORIGIN || 'https://rocketicons.com' }}
+      # Previews build with the production SITE_ORIGIN so canonical and hreflang keep pointing
+      # at production. Point open graph images at the preview alone, so a shared preview link
+      # renders its own cards instead of production paths that do not exist yet.
+      OG_IMAGE_ORIGIN: ${{ github.event_name == 'pull_request' && format('https://pr-{0}.rocketicons.pages.dev', github.event.pull_request.number) || '' }}
       RI_GENERATE_ALL_ICONS: "true"
       NEXT_PUBLIC_ALGOLIA_APPLICATION_ID: ${{ vars.ALGOLIA_APPLICATION_ID }}
       NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY: ${{ vars.ALGOLIA_SEARCH_ONLY_API_KEY }}
@@ -109,6 +113,11 @@ jobs:
           test -f packages/ignition/out/en/index.html
           test -f packages/ignition/out/pt-br/index.html
           test -f packages/ignition/out/ai/v1/catalog.json
+          test -f packages/ignition/out/img/og/en/home.png
+          test -f packages/ignition/out/img/og/en/collections/wi.png
+          test -f packages/ignition/out/img/og/pt-br/collections/wi.png
+          test -f packages/ignition/out/_worker.js
+          test -f packages/ignition/out/_routes.json
           size_kib=$(du -sk packages/ignition/out | cut -f1)
           test "$size_kib" -le 921600
           echo "Export size: $size_kib KiB"

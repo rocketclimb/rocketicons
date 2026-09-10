@@ -7,6 +7,7 @@
     "prebuild:cc": "if [ -z \"$SKIP_GENERATE_CONTENT_COLLECTIONS\" ]; then npm run generate-content-collections; else echo '[IGNITION] skip content collections generate'; fi",
     "prebuild:gs": "if [ -z \"$SKIP_GENERATE_IGNITION_STATICS\" ]; then npm run generate-statics; else echo '[IGNITION] skip statics generate'; fi",
     "build": "if [ -z \"$SKIP_IGNITION_BUILD\" ]; then NODE_PATH=./node_modules GENERATE_ALL_ICONS=$GENERATE_ALL_ICONS GENERATE_SAMPLE_ICONS=$GENERATE_SAMPLE_ICONS next build; else echo '[IGNITION] skip build'; fi",
+    "postbuild": "npx ts-node -r tsconfig-paths/register ./scripts/build-worker.ts",
     "build:static-full": "RI_GENERATE_ALL_ICONS=true npm run build",
     "build:static-sample": "npm run build",
     "predev": "npm run generate-content-collections && npm run generate-statics",
@@ -53,6 +54,7 @@
     "rocketicons": "*"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@types/adm-zip": "^0.5.5",
     "@types/mdx": "^2.0.13",
     "@types/node": "^20",
@@ -61,6 +63,7 @@
     "@types/react-dom": "^19",
     "eslint-config-next": "^15",
     "postcss": "^8",
+    "satori": "^0.33.4",
     "@tailwindcss/postcss": "^4.2.1",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.4.3"

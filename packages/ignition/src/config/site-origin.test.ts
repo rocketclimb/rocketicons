@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, test } from "@jest/globals";
 import {
+  absoluteOgImageUrl,
   absoluteSiteUrl,
   getSiteBasePath,
   getSiteOrigin,
@@ -9,11 +10,14 @@ import {
 
 describe("SITE_ORIGIN", () => {
   const previousOrigin = process.env.SITE_ORIGIN;
+  const previousOgOrigin = process.env.OG_IMAGE_ORIGIN;
   const previousNodeEnv = process.env.NODE_ENV;
 
   afterEach(() => {
     if (previousOrigin === undefined) delete process.env.SITE_ORIGIN;
     else process.env.SITE_ORIGIN = previousOrigin;
+    if (previousOgOrigin === undefined) delete process.env.OG_IMAGE_ORIGIN;
+    else process.env.OG_IMAGE_ORIGIN = previousOgOrigin;
     (process.env as Record<string, string | undefined>).NODE_ENV = previousNodeEnv;
   });
 
@@ -47,5 +51,35 @@ describe("SITE_ORIGIN", () => {
     delete process.env.SITE_ORIGIN;
     (process.env as Record<string, string | undefined>).NODE_ENV = "production";
     expect(() => getSiteOrigin()).toThrow("SITE_ORIGIN is required");
+  });
+
+  test("open graph images follow the site origin by default", () => {
+    process.env.SITE_ORIGIN = "https://icons.example/rocketicons";
+    delete process.env.OG_IMAGE_ORIGIN;
+    expect(absoluteOgImageUrl("/img/og/en/home.png").toString()).toBe(
+      "https://icons.example/rocketicons/img/og/en/home.png"
+    );
+  });
+
+  test("OG_IMAGE_ORIGIN moves images only, leaving canonical URLs on production", () => {
+    process.env.SITE_ORIGIN = "https://rocketicons.com";
+    process.env.OG_IMAGE_ORIGIN = "https://pr-192.rocketicons.pages.dev";
+
+    expect(absoluteOgImageUrl("/img/og/en/home.png").toString()).toBe(
+      "https://pr-192.rocketicons.pages.dev/img/og/en/home.png"
+    );
+    // canonical/hreflang must not follow the preview, or preview domains get indexed
+    expect(absoluteSiteUrl("/en/icons/ai/").toString()).toBe(
+      "https://rocketicons.com/en/icons/ai/"
+    );
+  });
+
+  test("an empty OG_IMAGE_ORIGIN falls back to the site origin", () => {
+    // The workflow sets this to "" on non-pull-request builds.
+    process.env.SITE_ORIGIN = "https://rocketicons.com";
+    process.env.OG_IMAGE_ORIGIN = "";
+    expect(absoluteOgImageUrl("/img/og/en/home.png").toString()).toBe(
+      "https://rocketicons.com/img/og/en/home.png"
+    );
   });
 });
