@@ -208,7 +208,7 @@ The current catalog, collection indexes, and 500-icon shards are the correct bas
 - [ ] Publish JSON Schema files for every public interface. **Partial:** schemas now cover capabilities and icon-context index/data envelopes; the catalog, collection index, and SVG shard interfaces still need published schemas.
 - [x] Publish `/ai/v1/capabilities.json` describing versions and available resources.
 - [ ] Publish a compact search index containing normalized names, aliases, tags, collection, component, and shard number.
-- [ ] Add synonyms and semantic tags without changing stable icon IDs. **Partial:** reviewed English and PT-BR semantics cover all 219 Weather Icons, 189 Simple Line Icons, 287 Feather Icons, 273 Go Icons, 192 Devicons, 318 Radix Icons, 288 Circum Icons, and 329 Flat Color Icons; the other collections remain pending.
+- [ ] Add synonyms and semantic tags without changing stable icon IDs. **Partial:** reviewed English and PT-BR semantics cover all 219 Weather Icons, 189 Simple Line Icons, 287 Feather Icons, 273 Go Icons, 192 Devicons, 318 Radix Icons, 288 Circum Icons, 329 Flat Color Icons, 1 Rocketicons icon, 336 Typicons, 352 Themify Icons, 653 VS Code Codicons, 460 Heroicons, 491 IcoMoon Free icons, 637 Grommet Icons, and 704 css.gg icons (5,729 total); the other 16 collections remain pending.
 - [x] Include license and upstream provenance at collection level.
 - [ ] Publish checksums for catalog artifacts. **Partial:** icon-context chunks publish SHA-256 checksums; the catalog, collection indexes, and SVG shards remain pending.
 - [ ] Document cache behavior and immutable versioned snapshots.
@@ -225,15 +225,16 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 
 - [x] Add a local, manually triggered enrichment workflow with bounded batches, resumable runs, source/prompt hashes, visual contact sheets, bilingual validation, collection-wide semantic checks, review gates, and confirmed force regeneration.
 - [x] Complete and verify the Weather Icons pilot: 219 icons represented by 171 reviewed semantic families with complete current-source coverage.
-- [ ] Roll reviewed semantic metadata out to the remaining collections, prioritizing small and high-usage collections. **Partial:** Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, and Flat Color Icons are complete and verified; 24 collections remain.
-- [ ] Normalize names and common aliases, such as `delete`, `trash`, and `remove`. **Partial:** implemented and materialized per icon for Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, and Flat Color Icons.
-- [ ] Add intent tags such as navigation, commerce, communication, status, files, and accessibility. **Partial:** bilingual categories, search terms, and UI contexts are published and indexed for Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, and Flat Color Icons.
-- [ ] Record visual properties such as filled, outlined, brand, directional, multicolor, and stroke support. **Partial:** deterministic properties are published for enriched Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, and Flat Color Icons.
-- [ ] Add negative guidance for easily confused icons. **Partial:** supported by the schema and present for ambiguous Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, and Flat Color Icons; negative terms are intentionally excluded from Algolia's positive search attributes.
+- [ ] Roll reviewed semantic metadata out to the remaining collections, prioritizing small and high-usage collections. **Partial:** Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, IcoMoon Free, Grommet Icons, and css.gg have reviewed metadata for 5,729 icon bindings across 16 of 32 collections. Codicons and Grommet are verified against the current pinned revisions. Clean CI revealed that the pinned Go and Radix catalogs have also advanced beyond their reviewed snapshots; refresh those before claiming 50% current-source coverage.
+- [ ] Refresh Go and Radix metadata against the current clean-build catalog (352 Go icons and 332 Radix icons, versus reviewed snapshots of 273 and 318). Preserve stale-source exclusion until re-review is complete.
+- [ ] Normalize names and common aliases, such as `delete`, `trash`, and `remove`. **Partial:** implemented and materialized per icon for Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, IcoMoon Free, Grommet Icons, and css.gg.
+- [ ] Add intent tags such as navigation, commerce, communication, status, files, and accessibility. **Partial:** bilingual categories, search terms, and UI contexts are available in the generated catalog and validated for indexing for Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, IcoMoon Free, Grommet Icons, and css.gg.
+- [ ] Record visual properties such as filled, outlined, brand, directional, multicolor, and stroke support. **Partial:** deterministic properties are generated for enriched Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, IcoMoon Free, Grommet Icons, and css.gg.
+- [ ] Add negative guidance for easily confused icons. **Partial:** supported by the schema and present for ambiguous Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, IcoMoon Free, Grommet Icons, and css.gg; negative terms are intentionally excluded from Algolia's positive search attributes.
 - [ ] Support deterministic ranking and explain why a result matched.
 - [ ] Allow collection and license filtering.
 - [ ] Return a small diverse result set instead of hundreds of near-duplicates.
-- [ ] Create a reviewed benchmark of common icon-selection requests. **Partial:** collection-wide semantic invariants and a regression for unrelated alias leakage are covered; a representative scored query corpus remains pending.
+- [ ] Create a reviewed benchmark of common icon-selection requests. **Partial:** collection-wide semantic invariants, unrelated alias leakage, and 40 bilingual intent cases across the eight collections added in this rollout are covered; a representative scored ranking corpus remains pending.
 - [ ] Measure top-1, top-5, and successful-install accuracy.
 
 ### Milestone 7 — Agent integration assets
@@ -250,6 +251,7 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 
 - [ ] Define schema compatibility and deprecation policies.
 - [ ] Test duplicate IDs, missing source data, invalid SVG trees, licenses, aliases, and checksums. **Partial:** icon-context tests now cover duplicate and conflicting aliases, positive/negative term conflicts, stale and orphaned bindings, and strict source/public JSON size limits.
+- [ ] Preserve Grommet child fill colors during SVG conversion. **Follow-up:** generated glyphs such as `gr-figma`, `gr-slack`, and `gr-zoom` lose source color or cutout details; enrichment review used the pinned upstream SVGs for these cases. Contact sheets now preserve root attributes, variant strokes, and isolated SVG definition IDs, with rendering regressions covered.
 - [ ] Test CLI output on macOS, Linux, and Windows.
 - [ ] Test npm, pnpm, Yarn, and Bun projects.
 - [ ] Test React DOM, Next.js, Vite, Expo, and React Native fixtures.

@@ -2,8 +2,8 @@ import { existsSync, readFileSync } from "node:fs";
 import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import sharp from "sharp";
-import type { IconTree } from "rocketicons";
 
+import { contactSheetGlyph, xml } from "./contact-sheet";
 import {
   ICON_CONTEXT_SOURCE_ROOT,
   buildContextArtifacts,
@@ -89,27 +89,6 @@ const groupFamilies = (icons: ContextSourceIcon[]): BatchFamily[] => {
   return [...groups.values()].sort(({ familyId: a }, { familyId: b }) => a.localeCompare(b));
 };
 
-const xml = (value: string) =>
-  value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-const attrName = (name: string) =>
-  ({
-    className: "class",
-    strokeWidth: "stroke-width",
-    fillRule: "fill-rule",
-    clipRule: "clip-rule"
-  })[name] ?? name;
-const treeXml = (node: IconTree): string => {
-  const attrs = Object.entries(node.attr ?? {})
-    .filter(([, v]) => v != null)
-    .map(([k, v]) => `${attrName(k)}="${xml(String(v))}"`)
-    .join(" ");
-  return `<${node.tag}${attrs ? ` ${attrs}` : ""}>${(node.child ?? []).map(treeXml).join("")}</${node.tag}>`;
-};
-
 const contactSheet = async (
   filename: string,
   families: BatchFamily[],
@@ -119,11 +98,10 @@ const contactSheet = async (
   const cells = families
     .map((family, index) => {
       const icon = icons.get(family.icons[0].id)!;
-      const tree = icon.iconTree as IconTree;
       const x = (index % 5) * 240;
       const y = Math.floor(index / 5) * 150;
-      const body = (tree.child ?? []).map(treeXml).join("");
-      return `<g transform="translate(${x} ${y})"><rect width="240" height="150" fill="white" stroke="#d1d5db"/><svg x="80" y="10" width="80" height="80" viewBox="${xml(String(tree.attr?.viewBox ?? "0 0 24 24"))}" fill="#111827">${body}</svg><text x="120" y="112" text-anchor="middle" font-family="sans-serif" font-size="14">${xml(family.familyId.slice(0, 30))}</text><text x="120" y="132" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#6b7280">${xml(icon.id.slice(0, 34))}</text></g>`;
+      const glyph = contactSheetGlyph(icon);
+      return `<g transform="translate(${x} ${y})"><rect width="240" height="150" fill="white" stroke="#d1d5db"/>${glyph}<text x="120" y="112" text-anchor="middle" font-family="sans-serif" font-size="14">${xml(family.familyId.slice(0, 30))}</text><text x="120" y="132" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#6b7280">${xml(icon.id.slice(0, 34))}</text></g>`;
     })
     .join("");
   const height = Math.ceil(families.length / 5) * 150;
