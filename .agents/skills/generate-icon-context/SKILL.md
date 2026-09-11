@@ -9,6 +9,8 @@ Create reviewed English and PT-BR semantic metadata for one collection through t
 
 ## Workflow
 
+Before starting enrichment, verify that the generated icons come from the current repository inputs: use lockfile-installed dependencies, compare the collection's Git checkout revision with its `source.hash` in `packages/generator/src/definitions.ts`, and rebuild the generator after correcting any mismatch. Do not treat existing manifests, SVG JSON, or an old `.fetched` marker as proof that sources are current. Metadata authored against an older checkout can pass locally while becoming stale in a clean CI build.
+
 1. Work from `packages/ignition` and run `npm run icon-context -- status <collection>`.
 2. If nothing is missing or stale, report that the collection is current and stop.
 3. Run `npm run icon-context -- prepare <collection>`. If more than 500 families are reported, summarize the estimate and obtain user confirmation before retrying with `--confirm-large=<collection>`.

@@ -9,10 +9,10 @@ const collections: Array<[string, number, number]> = [
   ["rc", 1, 1],
   ["ti", 237, 336],
   ["tfi", 300, 352],
-  ["vsc", 425, 439],
+  ["vsc", 632, 653],
   ["hi", 226, 460],
   ["im", 491, 491],
-  ["gr", 626, 635],
+  ["gr", 628, 637],
   ["cg", 682, 704]
 ];
 
@@ -52,6 +52,15 @@ describe("reviewed collections reaching half of the catalog", () => {
   );
 
   const queries: Array<[string, string, string, string]> = [
+    ["vsc", "agent", "coding agent", "agente de programação"],
+    ["vsc", "git-stash-apply", "apply stash", "aplicar stash"],
+    ["vsc", "git-stash-pop", "pop stash", "recuperar stash"],
+    ["vsc", "copilot-error", "Copilot error", "erro do Copilot"],
+    ["vsc", "chat-sparkle", "AI chat", "conversa com IA"],
+    ["vsc", "mic-off", "mute microphone", "silenciar microfone"],
+    ["vsc", "twitter", "X", "X"],
+    ["gr", "genai", "generative AI", "IA generativa"],
+    ["gr", "genaifill", "generate content", "gerar conteúdo"],
     ["rc", "rocket-icon", "icon library", "biblioteca de ícones"],
     ["ti", "trash", "delete", "excluir"],
     ["ti", "arrow-left", "previous item", "item anterior"],
@@ -101,6 +110,9 @@ describe("reviewed collections reaching half of the catalog", () => {
   );
 
   test.each([
+    ["vsc", "git-stash-apply", "remove stash"],
+    ["vsc", "git-stash-pop", "keep stash entry"],
+    ["vsc", "copilot-error", "Copilot success"],
     ["rc", "rocket-icon", "rocket launch"],
     ["tfi", "support", "lifebuoy"],
     ["tfi", "cup", "coffee cup"],
