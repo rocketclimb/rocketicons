@@ -192,6 +192,27 @@ export const loadContextSource = (collectionId: string): IconContextSource | und
   return source;
 };
 
+export const mergeContextFamilies = (
+  generated: IconContextFamily[],
+  existing: IconContextFamily[],
+  currentIconIds: ReadonlySet<string>
+) => {
+  const replaced = new Set(generated.flatMap((family) => family.icons.map(({ id }) => id)));
+  const retained = existing
+    .map((family) => ({
+      ...family,
+      icons: family.icons.filter(({ id }) => currentIconIds.has(id) && !replaced.has(id))
+    }))
+    .filter((family) => family.icons.length);
+  const merged = new Map(generated.map((family) => [family.familyId, family]));
+  for (const family of retained) {
+    const replacement = merged.get(family.familyId);
+    if (replacement) replacement.icons.push(...family.icons);
+    else merged.set(family.familyId, family);
+  }
+  return [...merged.values()].sort(({ familyId: a }, { familyId: b }) => compare(a, b));
+};
+
 export const splitContextSource = (source: IconContextSource): IconContextSource[] => {
   const chunks: IconContextSource[] = [];
   let families: IconContextFamily[] = [];

@@ -10,6 +10,7 @@ import {
   iconSourceHash,
   jsonBytes,
   loadContextSource,
+  mergeContextFamilies,
   sha256,
   splitContextSource,
   validateContextSource
@@ -242,6 +243,8 @@ const responseFamilies = async (collectionId: string) => {
 };
 
 const candidate = async (collectionId: string): Promise<IconContextSource> => {
+  const icons = loadIcons(collectionId);
+  const currentIconIds = new Set(icons.map(({ id }) => id));
   const generated: IconContextSource = {
     schemaVersion: ICON_CONTEXT_SCHEMA_VERSION,
     collectionId,
@@ -251,29 +254,13 @@ const candidate = async (collectionId: string): Promise<IconContextSource> => {
     families: await responseFamilies(collectionId)
   };
   const existing = loadContextSource(collectionId);
-  const replaced = new Set(
-    generated.families.flatMap((family) => family.icons.map(({ id }) => id))
-  );
-  const retained = (existing?.families ?? [])
-    .map((family) => ({ ...family, icons: family.icons.filter(({ id }) => !replaced.has(id)) }))
-    .filter((family) => family.icons.length);
-  const merged = new Map(generated.families.map((family) => [family.familyId, family]));
-  for (const family of retained) {
-    const replacement = merged.get(family.familyId);
-    if (replacement) replacement.icons.push(...family.icons);
-    else merged.set(family.familyId, family);
-  }
   const value: IconContextSource = {
     ...generated,
-    families: [...merged.values()].sort(({ familyId: a }, { familyId: b }) => a.localeCompare(b))
+    families: mergeContextFamilies(generated.families, existing?.families ?? [], currentIconIds)
   };
   validateContextSource(value);
-  const coverage = buildContextArtifacts(
-    collectionId,
-    "local-validation",
-    loadIcons(collectionId),
-    value
-  ).index.coverage;
+  const coverage = buildContextArtifacts(collectionId, "local-validation", icons, value).index
+    .coverage;
   if (!coverage.complete)
     throw new Error(
       `Context coverage is incomplete: ${coverage.missing} missing, ${coverage.stale} stale, ${coverage.orphaned} orphaned`
