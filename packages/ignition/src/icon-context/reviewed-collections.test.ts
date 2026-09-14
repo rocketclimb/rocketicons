@@ -14,7 +14,8 @@ const collections: Array<[string, number, number]> = [
   ["im", 491, 491],
   ["gr", 628, 637],
   ["cg", 682, 704],
-  ["io", 672, 696]
+  ["io", 672, 696],
+  ["rx", 326, 332]
 ];
 
 const sources = new Map(collections.map(([id]) => [id, loadContextSource(id)!]));
@@ -107,7 +108,13 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["io", "logo-usd", "USD", "USD"],
     ["io", "logo-closed-captioning", "subtitles", "subtítulos"],
     ["io", "md-notifications-off", "do not disturb", "não perturbe"],
-    ["io", "ios-pulse", "vital signs", "sinais vitais"]
+    ["io", "ios-pulse", "vital signs", "sinais vitais"],
+    ["rx", "activity-log", "audit trail", "trilha de auditoria"],
+    ["rx", "avatar", "user profile", "perfil de usuário"],
+    ["rx", "box-model", "CSS box model", "box model do CSS"],
+    ["rx", "database", "backend", "backend"],
+    ["rx", "server", "hosting", "hospedagem"],
+    ["rx", "twitter-logo", "X", "X"]
   ];
 
   test.each(queries)(
@@ -136,7 +143,10 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["io", "ios-american-football", "soccer ball"],
     ["io", "md-football", "American football"],
     ["io", "md-pin", "pushpin"],
-    ["io", "ios-water", "map pin"]
+    ["io", "ios-water", "map pin"],
+    ["rx", "database", "server hardware"],
+    ["rx", "server", "database"],
+    ["rx", "stop", "warning sign"]
   ])("%s/%s keeps misleading intent %s out of positive metadata", (id, familyId, negative) => {
     const family = loadContextSource(id)!.families.find((entry) => entry.familyId === familyId)!;
     expect(family.negativeTerms.en).toContain(negative);
