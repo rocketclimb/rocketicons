@@ -13,7 +13,8 @@ const collections: Array<[string, number, number]> = [
   ["hi", 226, 460],
   ["im", 491, 491],
   ["gr", 628, 637],
-  ["cg", 682, 704]
+  ["cg", 682, 704],
+  ["io", 672, 696]
 ];
 
 const sources = new Map(collections.map(([id]) => [id, loadContextSource(id)!]));
@@ -96,7 +97,17 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["cg", "unfold", "Unfold", "Unfold"],
     ["cg", "format-strike", "strikethrough", "tachado"],
     ["cg", "arrow-left", "go back", "voltar"],
-    ["cg", "toggle-off", "disabled setting", "configuração desativada"]
+    ["cg", "toggle-off", "disabled setting", "configuração desativada"],
+    ["io", "ios-restaurant", "reservation", "reserva"],
+    ["io", "md-pin", "point of interest", "ponto de interesse"],
+    ["io", "ios-american-football", "NFL", "futebol americano"],
+    ["io", "md-football", "soccer", "futebol"],
+    ["io", "ios-appstore", "Apple App Store logo", "logotipo Apple App Store"],
+    ["io", "logo-github", "GitHub logo", "logotipo GitHub"],
+    ["io", "logo-usd", "USD", "USD"],
+    ["io", "logo-closed-captioning", "subtitles", "subtítulos"],
+    ["io", "md-notifications-off", "do not disturb", "não perturbe"],
+    ["io", "ios-pulse", "vital signs", "sinais vitais"]
   ];
 
   test.each(queries)(
@@ -121,7 +132,11 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["gr", "sans", "sans-serif font"],
     ["gr", "zoom", "magnifying glass"],
     ["cg", "ghost", "ghost character"],
-    ["cg", "unfold", "unfold code"]
+    ["cg", "unfold", "unfold code"],
+    ["io", "ios-american-football", "soccer ball"],
+    ["io", "md-football", "American football"],
+    ["io", "md-pin", "pushpin"],
+    ["io", "ios-water", "map pin"]
   ])("%s/%s keeps misleading intent %s out of positive metadata", (id, familyId, negative) => {
     const family = loadContextSource(id)!.families.find((entry) => entry.familyId === familyId)!;
     expect(family.negativeTerms.en).toContain(negative);
