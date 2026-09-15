@@ -5,6 +5,7 @@ import {
   iconSourceHash,
   jsonBytes,
   loadContextSource,
+  mergeContextFamilies,
   splitContextSource,
   validateContextSource
 } from "./core";
@@ -176,6 +177,26 @@ describe("icon context artifacts", () => {
     showers.aliases.en = ["precipitation"];
 
     expect(() => validateContextSource(contextSource("wi", [rain, showers]))).not.toThrow();
+  });
+
+  test("drops orphaned bindings while merging incremental metadata", () => {
+    const current = sourceIcon("current");
+    const changed = sourceIcon("changed");
+    const orphan = sourceIcon("orphan");
+    const existing = [family("current", [current]), family("changed", [changed, orphan])];
+    const replacement = family("changed", [changed]);
+
+    const merged = mergeContextFamilies(
+      [replacement],
+      existing,
+      new Set([current.id, changed.id])
+    );
+
+    expect(merged.map(({ familyId }) => familyId)).toEqual(["changed", "current"]);
+    expect(merged.flatMap(({ icons }) => icons.map(({ id }) => id))).toEqual([
+      "changed",
+      "current"
+    ]);
   });
 
   test("rejects terms used as both positive and negative guidance", () => {
