@@ -28,7 +28,7 @@ Rocketicons should be equally pleasant for humans, but every important workflow 
 
 This file is the source of truth for AI-first product progress.
 
-**Last audited against the implementation:** 2026-09-14
+**Last audited against the implementation:** 2026-09-22
 
 Checkbox meaning:
 
@@ -288,7 +288,7 @@ Preference should be earned through lower task cost and higher confidence:
 
 ## Immediate next actions
 
-1. Roll reviewed semantic metadata out to additional small collections and create the first icon-selection benchmark.
+1. Roll reviewed semantic metadata out to additional small collections and create the first icon-selection benchmark; Circum Icons is the latest verified collection (288 icons).
 2. Publish the remaining `/ai/v1/` JSON Schemas and a compact semantic search index.
 3. Define CLI vNext command envelopes, exit codes, and the `rocketicons.json` schema.
 4. Extract shared catalog/search/install logic for both CLI and MCP.
