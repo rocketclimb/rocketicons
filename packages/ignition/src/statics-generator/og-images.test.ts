@@ -71,7 +71,6 @@ const entries = [
       );
     }
   });
-
 });
 
 test("falls back to the static hero for anything ungenerated", () => {
