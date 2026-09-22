@@ -7,6 +7,7 @@ import { contactSheetGlyph, xml } from "./contact-sheet";
 import {
   ICON_CONTEXT_SOURCE_ROOT,
   buildContextArtifacts,
+  auditContextSource,
   iconSourceHash,
   jsonBytes,
   loadContextSource,
@@ -268,8 +269,17 @@ const candidate = async (collectionId: string): Promise<IconContextSource> => {
   return value;
 };
 
+const reviewSource = async (collectionId: string) => {
+  const runFile = join(CACHE_ROOT, collectionId, "run.json");
+  const value = existsSync(runFile)
+    ? await candidate(collectionId)
+    : loadContextSource(collectionId);
+  if (!value) throw new Error(`No prepared or applied context source exists for ${collectionId}`);
+  return value;
+};
+
 const validate = async (collectionId: string) => {
-  const value = await candidate(collectionId);
+  const value = await reviewSource(collectionId);
   const chunks = splitContextSource(value);
   console.log(
     JSON.stringify(
@@ -287,10 +297,40 @@ const validate = async (collectionId: string) => {
   return value;
 };
 
+const reportAudit = (result: ReturnType<typeof auditContextSource>) => {
+  const warningCounts = result.warnings.reduce<Record<string, number>>((counts, warning) => {
+    counts[warning.field] = (counts[warning.field] ?? 0) + 1;
+    return counts;
+  }, {});
+  console.log(
+    JSON.stringify(
+      {
+        collectionId: result.collectionId,
+        families: result.families,
+        blockers: result.blockers,
+        warningCount: result.warnings.length,
+        warningsByField: warningCounts,
+        warningExamples: result.warnings.slice(0, 12)
+      },
+      null,
+      2
+    )
+  );
+};
+
+const audit = async (collectionId: string) => {
+  const value = await reviewSource(collectionId);
+  const result = auditContextSource(value);
+  reportAudit(result);
+  if (result.blockers.length)
+    throw new Error(`Semantic audit found ${result.blockers.length} blocker(s).`);
+  return value;
+};
+
 const apply = async (collectionId: string) => {
   if (!process.argv.includes("--reviewed"))
     throw new Error("Applying context requires explicit --reviewed confirmation");
-  const value = await validate(collectionId);
+  const value = await audit(collectionId);
   const chunks = splitContextSource(value);
   const target = join(ICON_CONTEXT_SOURCE_ROOT, collectionId);
   const staging = `${target}.next`;
@@ -322,8 +362,13 @@ const main = async () => {
   if (command === "status") reportStatus(collectionId);
   else if (command === "prepare") await prepare(collectionId);
   else if (command === "validate") await validate(collectionId);
-  else if (command === "apply") await apply(collectionId);
-  else throw new Error("Use status, prepare, validate, or apply");
+  else if (command === "audit") await audit(collectionId);
+  else if (command === "verify") {
+    await validate(collectionId);
+    await audit(collectionId);
+    reportStatus(collectionId);
+  } else if (command === "apply") await apply(collectionId);
+  else throw new Error("Use status, prepare, validate, audit, verify, or apply");
 };
 main().catch((error) => {
   console.error(error instanceof Error ? error.message : error);
