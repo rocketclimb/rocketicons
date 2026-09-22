@@ -64,6 +64,13 @@ export type ContextCoverage = {
   complete: boolean;
 };
 
+export type ContextAudit = {
+  collectionId: string;
+  families: number;
+  blockers: Array<{ familyId: string; field: string; message: string }>;
+  warnings: Array<{ familyId: string; field: string; message: string }>;
+};
+
 export type ContextChunkDescriptor = {
   id: number;
   url: string;
