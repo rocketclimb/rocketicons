@@ -10,6 +10,7 @@ import {
   ICON_CONTEXT_SCHEMA_VERSION
 } from "./types";
 import type {
+  ContextAudit,
   ContextDataEnvelope,
   ContextIndexEnvelope,
   ContextSourceIcon,
@@ -139,6 +140,85 @@ export const validateContextSource = (source: IconContextSource, requireCurrentP
   ensureAliasesStayInRelatedCategories(source);
 };
 
+const placeholderEnglish =
+  /^An icon representing .+, for related interface controls and content\.$/;
+const placeholderPortuguese =
+  /^Um ícone que representa .+, para controles e conteúdo relacionados na interface\.$/;
+const untranslatedPortugueseTerms = new Set([
+  "add",
+  "adjust",
+  "alarm",
+  "exclamation",
+  "queue",
+  "unlock"
+]);
+
+/**
+ * Flags deterministic signs of placeholder metadata before it can be marked reviewed.
+ * This is deliberately conservative: an empty alias or negative-term array is valid
+ * when the glyph has no useful synonym or likely confusion.
+ */
+export const auditContextSource = (source: IconContextSource): ContextAudit => {
+  const blockers: ContextAudit["blockers"] = [];
+  const warnings: ContextAudit["warnings"] = [];
+  for (const family of source.families) {
+    if (placeholderEnglish.test(family.description.en))
+      blockers.push({
+        familyId: family.familyId,
+        field: "description.en",
+        message: "Uses the known placeholder English description."
+      });
+    if (placeholderPortuguese.test(family.description["pt-BR"]))
+      blockers.push({
+        familyId: family.familyId,
+        field: "description.pt-BR",
+        message: "Uses the known placeholder PT-BR description."
+      });
+    const portuguese = [
+      family.description["pt-BR"],
+      ...family.aliases["pt-BR"],
+      ...family.searchTerms["pt-BR"],
+      ...family.negativeTerms["pt-BR"]
+    ]
+      .join(" ")
+      .toLocaleLowerCase("pt-BR");
+    const untranslated = [...untranslatedPortugueseTerms].filter((term) =>
+      new RegExp(`\\b${term}\\b`, "u").test(portuguese)
+    );
+    if (untranslated.length)
+      blockers.push({
+        familyId: family.familyId,
+        field: "pt-BR",
+        message: `Contains untranslated common term(s): ${untranslated.join(", ")}.`
+      });
+    for (const locale of ["en", "pt-BR"] as const)
+      if (family.searchTerms[locale].length < 2)
+        blockers.push({
+          familyId: family.familyId,
+          field: `searchTerms.${locale}`,
+          message: "Needs at least two distinct search terms."
+        });
+    if (!family.aliases.en.length && !family.aliases["pt-BR"].length)
+      warnings.push({
+        familyId: family.familyId,
+        field: "aliases",
+        message: "No alternate name supplied; confirm that no useful synonym exists."
+      });
+    if (!family.negativeTerms.en.length && !family.negativeTerms["pt-BR"].length)
+      warnings.push({
+        familyId: family.familyId,
+        field: "negativeTerms",
+        message: "No confusion guidance supplied; confirm that the glyph is unambiguous."
+      });
+  }
+  return {
+    collectionId: source.collectionId,
+    families: source.families.length,
+    blockers,
+    warnings
+  };
+};
+
 export const loadContextSource = (collectionId: string): IconContextSource | undefined => {
   const legacyFile = resolve(ICON_CONTEXT_SOURCE_ROOT, `${collectionId}.json`);
   const indexFile = resolve(ICON_CONTEXT_SOURCE_ROOT, collectionId, "index.json");
@@ -190,6 +270,27 @@ export const loadContextSource = (collectionId: string): IconContextSource | und
   };
   validateContextSource(source, false);
   return source;
+};
+
+export const mergeContextFamilies = (
+  generated: IconContextFamily[],
+  existing: IconContextFamily[],
+  currentIconIds: ReadonlySet<string>
+) => {
+  const replaced = new Set(generated.flatMap((family) => family.icons.map(({ id }) => id)));
+  const retained = existing
+    .map((family) => ({
+      ...family,
+      icons: family.icons.filter(({ id }) => currentIconIds.has(id) && !replaced.has(id))
+    }))
+    .filter((family) => family.icons.length);
+  const merged = new Map(generated.map((family) => [family.familyId, family]));
+  for (const family of retained) {
+    const replacement = merged.get(family.familyId);
+    if (replacement) replacement.icons.push(...family.icons);
+    else merged.set(family.familyId, family);
+  }
+  return [...merged.values()].sort(({ familyId: a }, { familyId: b }) => compare(a, b));
 };
 
 export const splitContextSource = (source: IconContextSource): IconContextSource[] => {

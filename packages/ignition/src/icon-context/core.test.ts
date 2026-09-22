@@ -2,9 +2,11 @@ import { describe, expect, test } from "@jest/globals";
 
 import {
   buildContextArtifacts,
+  auditContextSource,
   iconSourceHash,
   jsonBytes,
   loadContextSource,
+  mergeContextFamilies,
   splitContextSource,
   validateContextSource
 } from "./core";
@@ -55,6 +57,34 @@ const contextSource = (
 });
 
 describe("icon context artifacts", () => {
+  test("flags placeholder copy, untranslated PT-BR, and thin search metadata", () => {
+    const icon = sourceIcon("queue");
+    const source = contextSource("wi", [family("queue", [icon])]);
+    source.families[0].description.en =
+      "An icon representing queue, for related interface controls and content.";
+    source.families[0].description["pt-BR"] =
+      "Um ícone que representa queue, para controles e conteúdo relacionados na interface.";
+    source.families[0].searchTerms.en = ["queue"];
+    source.families[0].searchTerms["pt-BR"] = ["queue"];
+
+    const audit = auditContextSource(source);
+    expect(audit.blockers.map(({ field }) => field)).toEqual(
+      expect.arrayContaining(["description.en", "description.pt-BR", "pt-BR", "searchTerms.en"])
+    );
+    expect(audit.warnings.map(({ field }) => field)).toEqual(
+      expect.arrayContaining(["negativeTerms"])
+    );
+  });
+
+  test("allows reviewed metadata while retaining advisory warnings", () => {
+    const source = contextSource("wi", [family("umbrella", [sourceIcon("umbrella")])]);
+    const audit = auditContextSource(source);
+    expect(audit.blockers).toEqual([]);
+    expect(audit.warnings).toEqual(
+      expect.arrayContaining([expect.objectContaining({ field: "negativeTerms" })])
+    );
+  });
+
   test("hashes the icon source and prompt contract deterministically", () => {
     const icon = sourceIcon("day-sunny", "Day Sunny");
 
@@ -176,6 +206,26 @@ describe("icon context artifacts", () => {
     showers.aliases.en = ["precipitation"];
 
     expect(() => validateContextSource(contextSource("wi", [rain, showers]))).not.toThrow();
+  });
+
+  test("drops orphaned bindings while merging incremental metadata", () => {
+    const current = sourceIcon("current");
+    const changed = sourceIcon("changed");
+    const orphan = sourceIcon("orphan");
+    const existing = [family("current", [current]), family("changed", [changed, orphan])];
+    const replacement = family("changed", [changed]);
+
+    const merged = mergeContextFamilies(
+      [replacement],
+      existing,
+      new Set([current.id, changed.id])
+    );
+
+    expect(merged.map(({ familyId }) => familyId)).toEqual(["changed", "current"]);
+    expect(merged.flatMap(({ icons }) => icons.map(({ id }) => id))).toEqual([
+      "changed",
+      "current"
+    ]);
   });
 
   test("rejects terms used as both positive and negative guidance", () => {

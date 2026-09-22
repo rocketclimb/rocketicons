@@ -2,14 +2,16 @@ import { existsSync, readFileSync } from "node:fs";
 import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import sharp from "sharp";
-import type { IconTree } from "rocketicons";
 
+import { contactSheetGlyph, xml } from "./contact-sheet";
 import {
   ICON_CONTEXT_SOURCE_ROOT,
   buildContextArtifacts,
+  auditContextSource,
   iconSourceHash,
   jsonBytes,
   loadContextSource,
+  mergeContextFamilies,
   sha256,
   splitContextSource,
   validateContextSource
@@ -89,27 +91,6 @@ const groupFamilies = (icons: ContextSourceIcon[]): BatchFamily[] => {
   return [...groups.values()].sort(({ familyId: a }, { familyId: b }) => a.localeCompare(b));
 };
 
-const xml = (value: string) =>
-  value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-const attrName = (name: string) =>
-  ({
-    className: "class",
-    strokeWidth: "stroke-width",
-    fillRule: "fill-rule",
-    clipRule: "clip-rule"
-  })[name] ?? name;
-const treeXml = (node: IconTree): string => {
-  const attrs = Object.entries(node.attr ?? {})
-    .filter(([, v]) => v != null)
-    .map(([k, v]) => `${attrName(k)}="${xml(String(v))}"`)
-    .join(" ");
-  return `<${node.tag}${attrs ? ` ${attrs}` : ""}>${(node.child ?? []).map(treeXml).join("")}</${node.tag}>`;
-};
-
 const contactSheet = async (
   filename: string,
   families: BatchFamily[],
@@ -119,11 +100,10 @@ const contactSheet = async (
   const cells = families
     .map((family, index) => {
       const icon = icons.get(family.icons[0].id)!;
-      const tree = icon.iconTree as IconTree;
       const x = (index % 5) * 240;
       const y = Math.floor(index / 5) * 150;
-      const body = (tree.child ?? []).map(treeXml).join("");
-      return `<g transform="translate(${x} ${y})"><rect width="240" height="150" fill="white" stroke="#d1d5db"/><svg x="80" y="10" width="80" height="80" viewBox="${xml(String(tree.attr?.viewBox ?? "0 0 24 24"))}" fill="#111827">${body}</svg><text x="120" y="112" text-anchor="middle" font-family="sans-serif" font-size="14">${xml(family.familyId.slice(0, 30))}</text><text x="120" y="132" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#6b7280">${xml(icon.id.slice(0, 34))}</text></g>`;
+      const glyph = contactSheetGlyph(icon);
+      return `<g transform="translate(${x} ${y})"><rect width="240" height="150" fill="white" stroke="#d1d5db"/>${glyph}<text x="120" y="112" text-anchor="middle" font-family="sans-serif" font-size="14">${xml(family.familyId.slice(0, 30))}</text><text x="120" y="132" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#6b7280">${xml(icon.id.slice(0, 34))}</text></g>`;
     })
     .join("");
   const height = Math.ceil(families.length / 5) * 150;
@@ -264,6 +244,8 @@ const responseFamilies = async (collectionId: string) => {
 };
 
 const candidate = async (collectionId: string): Promise<IconContextSource> => {
+  const icons = loadIcons(collectionId);
+  const currentIconIds = new Set(icons.map(({ id }) => id));
   const generated: IconContextSource = {
     schemaVersion: ICON_CONTEXT_SCHEMA_VERSION,
     collectionId,
@@ -273,29 +255,13 @@ const candidate = async (collectionId: string): Promise<IconContextSource> => {
     families: await responseFamilies(collectionId)
   };
   const existing = loadContextSource(collectionId);
-  const replaced = new Set(
-    generated.families.flatMap((family) => family.icons.map(({ id }) => id))
-  );
-  const retained = (existing?.families ?? [])
-    .map((family) => ({ ...family, icons: family.icons.filter(({ id }) => !replaced.has(id)) }))
-    .filter((family) => family.icons.length);
-  const merged = new Map(generated.families.map((family) => [family.familyId, family]));
-  for (const family of retained) {
-    const replacement = merged.get(family.familyId);
-    if (replacement) replacement.icons.push(...family.icons);
-    else merged.set(family.familyId, family);
-  }
   const value: IconContextSource = {
     ...generated,
-    families: [...merged.values()].sort(({ familyId: a }, { familyId: b }) => a.localeCompare(b))
+    families: mergeContextFamilies(generated.families, existing?.families ?? [], currentIconIds)
   };
   validateContextSource(value);
-  const coverage = buildContextArtifacts(
-    collectionId,
-    "local-validation",
-    loadIcons(collectionId),
-    value
-  ).index.coverage;
+  const coverage = buildContextArtifacts(collectionId, "local-validation", icons, value).index
+    .coverage;
   if (!coverage.complete)
     throw new Error(
       `Context coverage is incomplete: ${coverage.missing} missing, ${coverage.stale} stale, ${coverage.orphaned} orphaned`
@@ -303,8 +269,17 @@ const candidate = async (collectionId: string): Promise<IconContextSource> => {
   return value;
 };
 
+const reviewSource = async (collectionId: string) => {
+  const runFile = join(CACHE_ROOT, collectionId, "run.json");
+  const value = existsSync(runFile)
+    ? await candidate(collectionId)
+    : loadContextSource(collectionId);
+  if (!value) throw new Error(`No prepared or applied context source exists for ${collectionId}`);
+  return value;
+};
+
 const validate = async (collectionId: string) => {
-  const value = await candidate(collectionId);
+  const value = await reviewSource(collectionId);
   const chunks = splitContextSource(value);
   console.log(
     JSON.stringify(
@@ -322,10 +297,40 @@ const validate = async (collectionId: string) => {
   return value;
 };
 
+const reportAudit = (result: ReturnType<typeof auditContextSource>) => {
+  const warningCounts = result.warnings.reduce<Record<string, number>>((counts, warning) => {
+    counts[warning.field] = (counts[warning.field] ?? 0) + 1;
+    return counts;
+  }, {});
+  console.log(
+    JSON.stringify(
+      {
+        collectionId: result.collectionId,
+        families: result.families,
+        blockers: result.blockers,
+        warningCount: result.warnings.length,
+        warningsByField: warningCounts,
+        warningExamples: result.warnings.slice(0, 12)
+      },
+      null,
+      2
+    )
+  );
+};
+
+const audit = async (collectionId: string) => {
+  const value = await reviewSource(collectionId);
+  const result = auditContextSource(value);
+  reportAudit(result);
+  if (result.blockers.length)
+    throw new Error(`Semantic audit found ${result.blockers.length} blocker(s).`);
+  return value;
+};
+
 const apply = async (collectionId: string) => {
   if (!process.argv.includes("--reviewed"))
     throw new Error("Applying context requires explicit --reviewed confirmation");
-  const value = await validate(collectionId);
+  const value = await audit(collectionId);
   const chunks = splitContextSource(value);
   const target = join(ICON_CONTEXT_SOURCE_ROOT, collectionId);
   const staging = `${target}.next`;
@@ -357,8 +362,13 @@ const main = async () => {
   if (command === "status") reportStatus(collectionId);
   else if (command === "prepare") await prepare(collectionId);
   else if (command === "validate") await validate(collectionId);
-  else if (command === "apply") await apply(collectionId);
-  else throw new Error("Use status, prepare, validate, or apply");
+  else if (command === "audit") await audit(collectionId);
+  else if (command === "verify") {
+    await validate(collectionId);
+    await audit(collectionId);
+    reportStatus(collectionId);
+  } else if (command === "apply") await apply(collectionId);
+  else throw new Error("Use status, prepare, validate, audit, verify, or apply");
 };
 main().catch((error) => {
   console.error(error instanceof Error ? error.message : error);

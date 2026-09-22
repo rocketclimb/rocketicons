@@ -208,7 +208,7 @@ The current catalog, collection indexes, and 500-icon shards are the correct bas
 - [ ] Publish JSON Schema files for every public interface. **Partial:** schemas now cover capabilities and icon-context index/data envelopes; the catalog, collection index, and SVG shard interfaces still need published schemas.
 - [x] Publish `/ai/v1/capabilities.json` describing versions and available resources.
 - [ ] Publish a compact search index containing normalized names, aliases, tags, collection, component, and shard number.
-- [ ] Add synonyms and semantic tags without changing stable icon IDs. **Partial:** reviewed English and PT-BR semantics cover all 219 Weather Icons, 189 Simple Line Icons, 287 Feather Icons, 273 Go Icons, 192 Devicons, and 288 Circum Icons; the other 26 collections remain pending.
+- [ ] Add synonyms and semantic tags without changing stable icon IDs. **Partial:** reviewed English and PT-BR semantics cover all 219 Weather Icons, 189 Simple Line Icons, 287 Feather Icons, 352 Go Icons, 192 Devicons, 332 Radix Icons, 288 Circum Icons, 329 Flat Color Icons, 1 Rocketicons icon, 336 Typicons, 352 Themify Icons, 653 VS Code Codicons, 460 Heroicons, 491 IcoMoon Free icons, 637 Grommet Icons, 704 css.gg icons, and 696 Ionicons (6,518 total). BoxIcons has complete generated coverage for 1,634 bindings, validated structurally and in the dry-run index; its per-family semantic review remains outstanding. The other 14 collections remain pending.
 - [x] Include license and upstream provenance at collection level.
 - [ ] Publish checksums for catalog artifacts. **Partial:** icon-context chunks publish SHA-256 checksums; the catalog, collection indexes, and SVG shards remain pending.
 - [ ] Document cache behavior and immutable versioned snapshots.
@@ -223,17 +223,18 @@ Do not add a fake query API to static hosting. Search and resolution must either
 
 Agents will prefer the catalog that helps them choose the correct icon, not merely the catalog with the most icons.
 
-- [x] Add a local, manually triggered enrichment workflow with bounded batches, resumable runs, source/prompt hashes, visual contact sheets, bilingual validation, collection-wide semantic checks, review gates, and confirmed force regeneration.
+- [x] Add a local, manually triggered enrichment workflow with bounded batches, resumable runs, source/prompt hashes, visual contact sheets, bilingual validation, deterministic quality audits, review gates, confirmed force regeneration, and a consolidated local verification command.
 - [x] Complete and verify the Weather Icons pilot: 219 icons represented by 171 reviewed semantic families with complete current-source coverage.
-- [ ] Roll reviewed semantic metadata out to the remaining collections, prioritizing small and high-usage collections. **Partial:** Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, and Circum Icons are complete and verified; 26 collections remain.
-- [ ] Normalize names and common aliases, such as `delete`, `trash`, and `remove`. **Partial:** implemented and materialized per icon for Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, and Circum Icons.
-- [ ] Add intent tags such as navigation, commerce, communication, status, files, and accessibility. **Partial:** bilingual categories, search terms, and UI contexts are published and indexed for Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, and Circum Icons.
-- [ ] Record visual properties such as filled, outlined, brand, directional, multicolor, and stroke support. **Partial:** deterministic properties are published for enriched Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, and Circum Icons.
-- [ ] Add negative guidance for easily confused icons. **Partial:** supported by the schema and present for ambiguous Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, and Circum Icons; negative terms are intentionally excluded from Algolia's positive search attributes.
+- [ ] Roll reviewed semantic metadata out to the remaining collections, prioritizing small and high-usage collections. **Partial:** Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, IcoMoon Free, Grommet Icons, css.gg, and Ionicons have reviewed metadata for 6,518 icon bindings across 17 of 32 collections. BoxIcons adds complete generated coverage for 1,634 bindings (8,152 generated bindings across 18 collections), validated against its pinned source and the dry-run index; semantic review is still required before it is counted as reviewed. Go is verified against the lockfile-installed Octicons 19.34.0 catalog; Radix, Codicons, and Grommet are verified against their current pinned revisions.
+- [x] Refresh Go and Radix metadata against the current clean-build catalog.
+- [ ] Normalize names and common aliases, such as `delete`, `trash`, and `remove`. **Partial:** implemented and materialized per icon for Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, IcoMoon Free, Grommet Icons, css.gg, and Ionicons.
+- [ ] Add intent tags such as navigation, commerce, communication, status, files, and accessibility. **Partial:** bilingual categories, search terms, and UI contexts are available in the generated catalog and validated for indexing for Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, IcoMoon Free, Grommet Icons, css.gg, and Ionicons.
+- [ ] Record visual properties such as filled, outlined, brand, directional, multicolor, and stroke support. **Partial:** deterministic properties are generated for enriched Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, IcoMoon Free, Grommet Icons, css.gg, Ionicons, and BoxIcons.
+- [ ] Add negative guidance for easily confused icons. **Partial:** supported by the schema and present for ambiguous Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, IcoMoon Free, Grommet Icons, css.gg, and Ionicons; negative terms are intentionally excluded from Algolia's positive search attributes.
 - [ ] Support deterministic ranking and explain why a result matched.
 - [ ] Allow collection and license filtering.
 - [ ] Return a small diverse result set instead of hundreds of near-duplicates.
-- [ ] Create a reviewed benchmark of common icon-selection requests. **Partial:** collection-wide semantic invariants and a regression for unrelated alias leakage are covered; a representative scored query corpus remains pending.
+- [ ] Create a reviewed benchmark of common icon-selection requests. **Partial:** collection-wide semantic invariants, unrelated alias leakage, and 40 bilingual intent cases across the eight collections added in this rollout are covered; a representative scored ranking corpus remains pending.
 - [ ] Measure top-1, top-5, and successful-install accuracy.
 
 ### Milestone 7 — Agent integration assets
@@ -250,6 +251,7 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 
 - [ ] Define schema compatibility and deprecation policies.
 - [ ] Test duplicate IDs, missing source data, invalid SVG trees, licenses, aliases, and checksums. **Partial:** icon-context tests now cover duplicate and conflicting aliases, positive/negative term conflicts, stale and orphaned bindings, and strict source/public JSON size limits.
+- [ ] Preserve Grommet child fill colors during SVG conversion. **Follow-up:** generated glyphs such as `gr-figma`, `gr-slack`, and `gr-zoom` lose source color or cutout details; enrichment review used the pinned upstream SVGs for these cases. Contact sheets now preserve root attributes, variant strokes, and isolated SVG definition IDs, with rendering regressions covered.
 - [ ] Test CLI output on macOS, Linux, and Windows.
 - [ ] Test npm, pnpm, Yarn, and Bun projects.
 - [ ] Test React DOM, Next.js, Vite, Expo, and React Native fixtures.

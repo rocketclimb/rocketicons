@@ -9,13 +9,15 @@ Create reviewed English and PT-BR semantic metadata for one collection through t
 
 ## Workflow
 
+Before starting enrichment, verify that the generated icons come from the current repository inputs: use lockfile-installed dependencies, compare the collection's Git checkout revision with its `source.hash` in `packages/generator/src/definitions.ts`, and rebuild the generator after correcting any mismatch. Do not treat existing manifests, SVG JSON, or an old `.fetched` marker as proof that sources are current. Metadata authored against an older checkout can pass locally while becoming stale in a clean CI build.
+
 1. Work from `packages/ignition` and run `npm run icon-context -- status <collection>`.
 2. If nothing is missing or stale, report that the collection is current and stop.
 3. Run `npm run icon-context -- prepare <collection>`. If more than 500 families are reported, summarize the estimate and obtain user confirmation before retrying with `--confirm-large=<collection>`.
-4. Read [the metadata guidance](references/metadata.md). For each batch, inspect both `batch-N.json` and `batch-N.png`, then write the matching `responses/batch-N.json`. Preserve every input `familyId` exactly and return exactly one metadata record per family.
-5. Run `npm run icon-context -- validate <collection>`. Correct every validation failure; do not weaken limits or invent missing families.
-6. Review all warnings and audit every generated family in both languages. Check that each description, alias, search term, category, UI context, role, and negative term agrees with the family name and glyph. Then test a deterministic cross-section of common UI queries, ambiguous glyphs, directions, warnings, brands, and negative guidance. Do not apply a collection if the complete merged collection fails semantic validation.
-7. Show the user the validation summary and representative sample. Apply only after the user approves, using `npm run icon-context -- apply <collection> --reviewed`.
+4. Read [the metadata guidance](references/metadata.md). For each batch, inspect both `batch-N.json` and `batch-N.png`, then write the matching `responses/batch-N.json`. Preserve every input `familyId` exactly and return exactly one metadata record per family. Do the authoring work in the current task; do not substitute generic templates or stop after preparation.
+5. Run `npm run icon-context -- verify <collection>`. It combines structural validation, a deterministic quality audit, and current-coverage status. Correct every blocker and explicitly review audit warnings; do not weaken limits or invent missing families. `audit` also works against an already-applied collection when no prepared run exists.
+6. Test a deterministic cross-section of common UI queries, ambiguous glyphs, directions, warnings, brands, and negative guidance. Do not apply a collection if the complete merged collection fails semantic validation.
+7. If the user asked to generate, apply, or complete the collection metadata in the current request, that request authorizes `npm run icon-context -- apply <collection> --reviewed` after `verify` passes. Otherwise, show the validation summary and representative sample and ask before applying.
 8. Regenerate the static catalog, run the relevant tests, and run `npm run indexer -- --dry-run` from `packages/ignition` to validate the complete future Algolia record set without updating the live index. Inspect the diff and update `AI_ROADMAP.md` only for behavior proven complete.
 
 ## Incremental and force behavior
@@ -23,7 +25,7 @@ Create reviewed English and PT-BR semantic metadata for one collection through t
 - Preparation skips bindings whose source and prompt hashes are current. Never regenerate them merely for stylistic variation.
 - Resume an interrupted run from existing batch responses; do not discard completed work.
 - Before forced recreation, state how many reviewed records will be replaced and obtain explicit confirmation. Then use both `--force` and `--confirm-force=<collection>`.
-- Never call an external model API or place LLM generation in CI. The active agent performs the semantic work.
+- Never call an external model API or place LLM generation in CI. The active agent performs the semantic work. `validate` alone never establishes review quality; `verify` must pass before applying.
 - Treat a metadata-guidance change as a prompt-contract change: increment `ICON_CONTEXT_PROMPT_VERSION` and regenerate or explicitly review every stale family before applying it.
 - Never run the Algolia indexer without `--dry-run` as part of this skill. Production synchronization belongs to the full deployment after a push to `main`, or an explicitly authorized manual workflow on `main`.
 - Do not index `negativeTerms` as positive search terms.
