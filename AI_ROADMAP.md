@@ -28,7 +28,7 @@ Rocketicons should be equally pleasant for humans, but every important workflow 
 
 This file is the source of truth for AI-first product progress.
 
-**Last audited against the implementation:** 2026-09-10
+**Last audited against the implementation:** 2026-09-22
 
 Checkbox meaning:
 
@@ -208,7 +208,7 @@ The current catalog, collection indexes, and 500-icon shards are the correct bas
 - [ ] Publish JSON Schema files for every public interface. **Partial:** schemas now cover capabilities and icon-context index/data envelopes; the catalog, collection index, and SVG shard interfaces still need published schemas.
 - [x] Publish `/ai/v1/capabilities.json` describing versions and available resources.
 - [ ] Publish a compact search index containing normalized names, aliases, tags, collection, component, and shard number.
-- [ ] Add synonyms and semantic tags without changing stable icon IDs. **Partial:** reviewed English and PT-BR semantics cover all 219 Weather Icons, 189 Simple Line Icons, 287 Feather Icons, 273 Go Icons, and 192 Devicons; the other collections remain pending.
+- [ ] Add synonyms and semantic tags without changing stable icon IDs. **Partial:** reviewed English and PT-BR semantics cover all 219 Weather Icons, 189 Simple Line Icons, 287 Feather Icons, 273 Go Icons, 192 Devicons, and 288 Circum Icons; the other 26 collections remain pending.
 - [x] Include license and upstream provenance at collection level.
 - [ ] Publish checksums for catalog artifacts. **Partial:** icon-context chunks publish SHA-256 checksums; the catalog, collection indexes, and SVG shards remain pending.
 - [ ] Document cache behavior and immutable versioned snapshots.
@@ -225,11 +225,11 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 
 - [x] Add a local, manually triggered enrichment workflow with bounded batches, resumable runs, source/prompt hashes, visual contact sheets, bilingual validation, collection-wide semantic checks, review gates, and confirmed force regeneration.
 - [x] Complete and verify the Weather Icons pilot: 219 icons represented by 171 reviewed semantic families with complete current-source coverage.
-- [ ] Roll reviewed semantic metadata out to the remaining collections, prioritizing small and high-usage collections. **Partial:** Weather Icons, Simple Line Icons, Feather Icons, Go Icons, and Devicons are complete and verified; 27 collections remain.
-- [ ] Normalize names and common aliases, such as `delete`, `trash`, and `remove`. **Partial:** implemented and materialized per icon for Weather Icons, Simple Line Icons, Feather Icons, Go Icons, and Devicons.
-- [ ] Add intent tags such as navigation, commerce, communication, status, files, and accessibility. **Partial:** bilingual categories, search terms, and UI contexts are published and indexed for Weather Icons, Simple Line Icons, Feather Icons, Go Icons, and Devicons.
-- [ ] Record visual properties such as filled, outlined, brand, directional, multicolor, and stroke support. **Partial:** deterministic properties are published for enriched Weather Icons, Simple Line Icons, Feather Icons, Go Icons, and Devicons.
-- [ ] Add negative guidance for easily confused icons. **Partial:** supported by the schema and present for ambiguous Weather Icons, Simple Line Icons, Feather Icons, Go Icons, and Devicons; negative terms are intentionally excluded from Algolia's positive search attributes.
+- [ ] Roll reviewed semantic metadata out to the remaining collections, prioritizing small and high-usage collections. **Partial:** Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, and Circum Icons are complete and verified; 26 collections remain.
+- [ ] Normalize names and common aliases, such as `delete`, `trash`, and `remove`. **Partial:** implemented and materialized per icon for Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, and Circum Icons.
+- [ ] Add intent tags such as navigation, commerce, communication, status, files, and accessibility. **Partial:** bilingual categories, search terms, and UI contexts are published and indexed for Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, and Circum Icons.
+- [ ] Record visual properties such as filled, outlined, brand, directional, multicolor, and stroke support. **Partial:** deterministic properties are published for enriched Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, and Circum Icons.
+- [ ] Add negative guidance for easily confused icons. **Partial:** supported by the schema and present for ambiguous Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, and Circum Icons; negative terms are intentionally excluded from Algolia's positive search attributes.
 - [ ] Support deterministic ranking and explain why a result matched.
 - [ ] Allow collection and license filtering.
 - [ ] Return a small diverse result set instead of hundreds of near-duplicates.
@@ -286,7 +286,7 @@ Preference should be earned through lower task cost and higher confidence:
 
 ## Immediate next actions
 
-1. Roll reviewed semantic metadata out to additional small collections and create the first icon-selection benchmark.
+1. Roll reviewed semantic metadata out to additional small collections and create the first icon-selection benchmark; Circum Icons is the latest verified collection (288 icons).
 2. Publish the remaining `/ai/v1/` JSON Schemas and a compact semantic search index.
 3. Define CLI vNext command envelopes, exit codes, and the `rocketicons.json` schema.
 4. Extract shared catalog/search/install logic for both CLI and MCP.
