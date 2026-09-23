@@ -15,7 +15,8 @@ const collections: Array<[string, number, number]> = [
   ["gr", 628, 637],
   ["cg", 682, 704],
   ["io", 672, 696],
-  ["rx", 326, 332]
+  ["rx", 326, 332],
+  ["ai", 647, 848]
 ];
 
 const sources = new Map(collections.map(([id]) => [id, loadContextSource(id)!]));
@@ -114,7 +115,18 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["rx", "box-model", "CSS box model", "box model do CSS"],
     ["rx", "database", "backend", "backend"],
     ["rx", "server", "hosting", "hospedagem"],
-    ["rx", "twitter-logo", "X", "X"]
+    ["rx", "twitter-logo", "X", "X"],
+    ["ai", "account-book", "accounting", "contabilidade"],
+    ["ai", "arrow-left", "previous", "anterior"],
+    ["ai", "bell", "notification", "notificação"],
+    ["ai", "shopping-cart", "checkout", "checkout"],
+    ["ai", "file-pdf", "PDF", "PDF"],
+    ["ai", "code", "terminal", "terminal"],
+    ["ai", "search", "lookup", "buscar"],
+    ["ai", "cloud-sync", "sync", "sincronizar"],
+    ["ai", "twotone-file-excel", "spreadsheet", "planilha"],
+    ["ai", "user-add", "invite", "convidar"],
+    ["ai", "wechat", "WeChat", "WeChat"]
   ];
 
   test.each(queries)(
@@ -146,7 +158,12 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["io", "ios-water", "map pin"],
     ["rx", "database", "server hardware"],
     ["rx", "server", "database"],
-    ["rx", "stop", "warning sign"]
+    ["rx", "stop", "warning sign"],
+    ["ai", "arrow-left", "right arrow"],
+    ["ai", "arrow-right", "left arrow"],
+    ["ai", "check", "x mark"],
+    ["ai", "twotone-file-pdf", "Excel"],
+    ["ai", "user-delete", "add user"]
   ])("%s/%s keeps misleading intent %s out of positive metadata", (id, familyId, negative) => {
     const family = loadContextSource(id)!.families.find((entry) => entry.familyId === familyId)!;
     expect(family.negativeTerms.en).toContain(negative);
