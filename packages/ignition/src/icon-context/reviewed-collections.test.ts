@@ -86,11 +86,21 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["hi", "save", "persist changes", "guardar alterações"],
     ["hi", "volume-off", "mute", "silenciar"],
     ["hi", "exclamation", "warning", "aviso"],
+    ["hi2", "home", "home page", "página inicial"],
+    ["hi2", "magnifying-glass", "search", "busca"],
     ["hi2", "arrow-left", "previous item", "item anterior"],
     ["hi2", "trash", "delete", "excluir"],
+    ["hi2", "arrow-left", "back", "voltar"],
+    ["hi2", "bell", "notifications", "notificações"],
+    ["hi2", "check-circle", "success", "sucesso"],
     ["hi2", "shopping-cart", "checkout", "finalizar compra"],
     ["hi2", "shield-check", "verified protection", "proteção verificada"],
     ["hi2", "mini-arrow-left", "previous item", "item anterior"],
+    ["hi2", "document", "file", "arquivo"],
+    ["hi2", "code-bracket", "developer tools", "ferramentas de desenvolvimento"],
+    ["hi2", "map-pin", "location", "localização"],
+    ["hi2", "face-smile", "reaction", "reação"],
+    ["hi2", "server", "hosting", "hospedagem"],
     ["im", "tree", "organization chart", "organograma"],
     ["im", "power", "electricity", "eletricidade"],
     ["im", "google", "search service", "serviço de busca"],
@@ -164,10 +174,10 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["rx", "database", "server hardware"],
     ["rx", "server", "database"],
     ["rx", "stop", "warning sign"],
-    ["hi2", "arrow-left", "right arrow"],
-    ["hi2", "face-smile", "sad face"],
+    ["hi2", "arrow-left", "move right"],
+    ["hi2", "arrow-right", "move left"],
     ["hi2", "x-mark", "check mark"],
-    ["hi2", "document-currency-dollar", "generic document"]
+    ["hi2", "face-smile", "sad face"]
   ])("%s/%s keeps misleading intent %s out of positive metadata", (id, familyId, negative) => {
     const family = loadContextSource(id)!.families.find((entry) => entry.familyId === familyId)!;
     expect(family.negativeTerms.en).toContain(negative);
