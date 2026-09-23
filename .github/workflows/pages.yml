@@ -157,7 +157,7 @@ jobs:
       - name: Add preview URL to workflow summary
         if: steps.deploy-preview.outcome == 'success'
         env:
-          PREVIEW_URL: ${{ steps.deploy-preview.outputs.pages-deployment-alias-url }}
+          PREVIEW_URL: ${{ steps.deploy-preview.outputs.pages-deployment-alias-url || steps.deploy-preview.outputs.deployment-url }}
         run: |
           test -n "$PREVIEW_URL"
           echo "### Cloudflare Pages preview" >> "$GITHUB_STEP_SUMMARY"
@@ -172,7 +172,7 @@ jobs:
           PREVIEW_ENVIRONMENT: pr-${{ github.event.pull_request.number }}
           PREVIEW_PR_NUMBER: ${{ github.event.pull_request.number }}
           PREVIEW_REF: ${{ github.event.pull_request.head.sha }}
-          PREVIEW_URL: ${{ steps.deploy-preview.outputs.pages-deployment-alias-url }}
+          PREVIEW_URL: ${{ steps.deploy-preview.outputs.pages-deployment-alias-url || steps.deploy-preview.outputs.deployment-url }}
         run: node .github/scripts/github-pages-preview.mjs
 
   cleanup-preview:
