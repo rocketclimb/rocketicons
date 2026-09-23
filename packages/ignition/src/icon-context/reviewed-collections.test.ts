@@ -15,7 +15,8 @@ const collections: Array<[string, number, number]> = [
   ["gr", 628, 637],
   ["cg", 682, 704],
   ["io", 672, 696],
-  ["rx", 326, 332]
+  ["rx", 326, 332],
+  ["lu", 1835, 1836]
 ];
 
 const sources = new Map(collections.map(([id]) => [id, loadContextSource(id)!]));
@@ -29,9 +30,10 @@ describe("reviewed collections reaching half of the catalog", () => {
       validateContextSource(source);
       expect(source.families).toHaveLength(families);
       const manifest = require(resolve(`../icons/${id}/manifest.js`)).manifest;
-      const icons: ContextSourceIcon[] = Object.values(manifest.icons).map((value) => {
+      const iconsById = new Map<string, ContextSourceIcon>();
+      for (const value of Object.values(manifest.icons)) {
         const entry = value as { id: string; name: string; compName: string; variant: string };
-        return {
+        const icon = {
           id: entry.id,
           name: entry.name,
           component: entry.compName,
@@ -40,7 +42,11 @@ describe("reviewed collections reaching half of the catalog", () => {
             readFileSync(resolve(`../generator/svgs/${id}/${entry.id}.json`), "utf8")
           ).iconTree
         };
-      });
+        const existing = iconsById.get(icon.id);
+        if (existing) expect(existing.iconTree).toEqual(icon.iconTree);
+        else iconsById.set(icon.id, icon);
+      }
+      const icons: ContextSourceIcon[] = [...iconsById.values()];
       const result = buildContextArtifacts(id, "test", icons, source);
       expect(result.index.coverage).toEqual({
         total,
@@ -114,7 +120,27 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["rx", "box-model", "CSS box model", "box model do CSS"],
     ["rx", "database", "backend", "backend"],
     ["rx", "server", "hosting", "hospedagem"],
-    ["rx", "twitter-logo", "X", "X"]
+    ["rx", "twitter-logo", "X", "X"],
+    ["lu", "arrow-left", "arrow", "seta"],
+    ["lu", "cloud-download", "cloud", "nuvem"],
+    ["lu", "database", "database", "banco de dados"],
+    ["lu", "file", "file", "arquivo"],
+    ["lu", "folder", "folder", "pasta"],
+    ["lu", "home", "home", "casa"],
+    ["lu", "search", "search", "buscar"],
+    ["lu", "phone", "phone", "telefone"],
+    ["lu", "settings", "settings", "configurações"],
+    ["lu", "trash", "trash", "lixeira"],
+    ["lu", "arrow-left", "arrow", "seta"],
+    ["lu", "cloud-download", "cloud", "nuvem"],
+    ["lu", "database", "database", "banco de dados"],
+    ["lu", "file", "file", "arquivo"],
+    ["lu", "folder", "folder", "pasta"],
+    ["lu", "home", "home", "casa"],
+    ["lu", "search", "search", "buscar"],
+    ["lu", "phone", "phone", "telefone"],
+    ["lu", "settings", "settings", "configurações"],
+    ["lu", "trash", "trash", "lixeira"]
   ];
 
   test.each(queries)(

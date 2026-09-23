@@ -55,13 +55,26 @@ const loadIcons = (collectionId: string): ContextSourceIcon[] => {
   if (!existsSync(manifestFile) || !existsSync(svgRoot))
     throw new Error(`Unknown or unbuilt collection: ${collectionId}`);
   const manifest = require(manifestFile).manifest as { icons: Record<string, ManifestIcon> };
-  return Object.values(manifest.icons)
+  const byId = new Map<string, ContextSourceIcon>();
+  for (const icon of Object.values(manifest.icons).map((entry) => ({
+    id: entry.id,
+    name: entry.name,
+    component: entry.compName,
+    variant: entry.variant,
+    iconTree: JSON.parse(readFileSync(join(svgRoot, `${entry.id}.json`), "utf8")).iconTree
+  }))) {
+    const existing = byId.get(icon.id);
+    if (existing && JSON.stringify(existing.iconTree) !== JSON.stringify(icon.iconTree))
+      throw new Error(`Conflicting duplicate icon binding: ${icon.id}`);
+    if (!existing) byId.set(icon.id, icon);
+  }
+  return [...byId.values()]
     .map((icon) => ({
       id: icon.id,
       name: icon.name,
-      component: icon.compName,
+      component: icon.component,
       variant: icon.variant,
-      iconTree: JSON.parse(readFileSync(join(svgRoot, `${icon.id}.json`), "utf8")).iconTree
+      iconTree: icon.iconTree
     }))
     .sort(({ id: a }, { id: b }) => a.localeCompare(b));
 };
