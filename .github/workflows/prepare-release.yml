@@ -68,6 +68,16 @@ jobs:
           echo "RELEASE_BRANCH=$RELEASE_BRANCH" >> $GITHUB_OUTPUT
           echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
 
+      - name: Verify pull request automation credential
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACTIONS }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "GH_ACTIONS is required to open the release pull request" >&2
+            exit 1
+          fi
+          gh api user --jq .login >/dev/null
+
       - name: Configure GitHub Packages
         run: |
           npm config set @rocketclimb:registry https://npm.pkg.github.com
@@ -116,17 +126,35 @@ jobs:
         run: |
           PUBLISHED_VERSION="$(npm view rocketicons version)"
           CURRENT_VERSION="$(node -p "require('./packages/icons/package.json').version")"
+          ROOT_VERSION="$(node -p "require('./package.json').version")"
+          CUT_MODE="$(
+            node .github/scripts/release-guard.mjs cut-mode \
+              "$RELEASE_VERSION" \
+              "$ROOT_VERSION" \
+              "$CURRENT_VERSION" \
+              "$PUBLISHED_VERSION"
+          )"
 
-          if [ "$CURRENT_VERSION" != "$PUBLISHED_VERSION" ]; then
-            echo "Develop package version $CURRENT_VERSION must match published $PUBLISHED_VERSION before cutting a release" >&2
-            exit 1
+          if [ "$CUT_MODE" = "bump" ]; then
+            TAG_NAME="$(
+              npm run release |
+                grep -Eo 'v[0-9]+\.[0-9]+\.[0-9]+-release' |
+                tail -1
+            )"
+
+            EXPECTED_COMMIT_SUBJECT="ci(releaser): bump packages versions and update changelog for $RELEASE_BRANCH"
+            ACTUAL_COMMIT_SUBJECT="$(git log -1 --format=%s)"
+            if [ "$ACTUAL_COMMIT_SUBJECT" != "$EXPECTED_COMMIT_SUBJECT" ]; then
+              echo "Unexpected release commit: $ACTUAL_COMMIT_SUBJECT" >&2
+              exit 1
+            fi
+          else
+            TAG_NAME="v${ROOT_VERSION}-release"
+            echo "::notice::Packaging already prepared rocketicons@$CURRENT_VERSION"
           fi
 
-          TAG_NAME="$(
-            npm run release |
-              grep -Eo 'v[0-9]+\.[0-9]+\.[0-9]+-release' |
-              tail -1
-          )"
+          git config --unset push.default
+
           ROOT_VERSION="$(node -p "require('./package.json').version")"
           PACKAGE_VERSION="$(node -p "require('./packages/icons/package.json').version")"
 
@@ -135,15 +163,6 @@ jobs:
             "$ROOT_VERSION" \
             "$TAG_NAME"
 
-          EXPECTED_COMMIT_SUBJECT="ci(releaser): bump packages versions and update changelog for $RELEASE_BRANCH"
-          ACTUAL_COMMIT_SUBJECT="$(git log -1 --format=%s)"
-          if [ "$ACTUAL_COMMIT_SUBJECT" != "$EXPECTED_COMMIT_SUBJECT" ]; then
-            echo "Unexpected release commit: $ACTUAL_COMMIT_SUBJECT" >&2
-            exit 1
-          fi
-
-          git config --unset push.default
-
           PUBLISH_PACKAGE="$(
             node .github/scripts/release-guard.mjs package-state \
               "$PACKAGE_VERSION" \
@@ -151,7 +170,7 @@ jobs:
           )"
 
           if [ "$PUBLISH_PACKAGE" != "true" ]; then
-            echo "Cut Release must prepare a new package version" >&2
+            echo "Cut Release must package a new version" >&2
             exit 1
           fi
 
@@ -225,3 +244,26 @@ jobs:
         env:
           RELEASE_BRANCH: ${{ steps.release-request.outputs.RELEASE_BRANCH }}
         run: git push --set-upstream origin "$RELEASE_BRANCH" --no-verify
+
+      - name: Open release pull request
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACTIONS }}
+          RELEASE_BRANCH: ${{ steps.release-request.outputs.RELEASE_BRANCH }}
+          ROOT_VERSION: ${{ steps.prepare-release.outputs.ROOT_VERSION }}
+          PACKAGE_VERSION: ${{ steps.prepare-release.outputs.PACKAGE_VERSION }}
+        run: |
+          cat > "$RUNNER_TEMP/release-pr.md" <<EOF
+          ## Release
+
+          - Root version: $ROOT_VERSION
+          - npm package: rocketicons@$PACKAGE_VERSION
+          - Prepared by: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+
+          Merging this PR into main triggers Release Packages.
+          EOF
+
+          gh pr create \
+            --base main \
+            --head "$RELEASE_BRANCH" \
+            --title "chore(release): $ROOT_VERSION" \
+            --body-file "$RUNNER_TEMP/release-pr.md"
