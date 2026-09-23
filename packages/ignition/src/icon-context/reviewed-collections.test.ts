@@ -15,6 +15,7 @@ const collections: Array<[string, number, number]> = [
   ["gr", 628, 637],
   ["cg", 682, 704],
   ["io", 672, 696],
+  ["io5", 918, 1332],
   ["rx", 326, 332]
 ];
 
@@ -109,6 +110,16 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["io", "logo-closed-captioning", "subtitles", "subtítulos"],
     ["io", "md-notifications-off", "do not disturb", "não perturbe"],
     ["io", "ios-pulse", "vital signs", "sinais vitais"],
+    ["io5", "add", "add", "adicionar"],
+    ["io5", "arrow-back", "arrow", "seta"],
+    ["io5", "notifications", "notifications", "notificações"],
+    ["io5", "search", "search", "buscar"],
+    ["io5", "document", "document", "documento"],
+    ["io5", "logo-github", "brand logo", "logotipo"],
+    ["io5", "restaurant", "restaurant", "restaurante"],
+    ["io5", "terminal", "terminal", "terminal"],
+    ["io5", "wifi", "wifi", "wifi"],
+    ["io5", "people", "people", "pessoas"],
     ["rx", "activity-log", "audit trail", "trilha de auditoria"],
     ["rx", "avatar", "user profile", "perfil de usuário"],
     ["rx", "box-model", "CSS box model", "box model do CSS"],
