@@ -25,7 +25,8 @@ const collections: Array<[string, number, number]> = [
   ["bi", 1030, 1634],
   ["bs", 1389, 2754],
   ["fa6", 2051, 2058],
-  ["gi", 4037, 4040]
+  ["gi", 4037, 4040],
+  ["md", 2192, 4341]
 ];
 
 const sources = new Map(collections.map(([id]) => [id, loadContextSource(id)!]));
@@ -134,6 +135,16 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["io", "logo-closed-captioning", "subtitles", "subtítulos"],
     ["io", "md-notifications-off", "do not disturb", "não perturbe"],
     ["io", "ios-pulse", "vital signs", "sinais vitais"],
+    ["md", "arrow-back", "arrow", "seta"],
+    ["md", "cloud", "cloud", "nuvem"],
+    ["md", "folder", "folder", "pasta"],
+    ["md", "home", "home", "casa"],
+    ["md", "search", "search", "buscar"],
+    ["md", "phone", "phone", "telefone"],
+    ["md", "settings", "settings", "configurações"],
+    ["md", "delete", "delete", "excluir"],
+    ["md", "account-circle", "account", "conta"],
+    ["md", "insert-drive-file", "insert", "inserir"],
     ["bi", "arrow-to-left", "arrow", "seta"],
     ["bi", "cloud", "cloud", "nuvem"],
     ["bi", "code", "code", "código"],
