@@ -15,7 +15,8 @@ const collections: Array<[string, number, number]> = [
   ["gr", 628, 637],
   ["cg", 682, 704],
   ["io", 672, 696],
-  ["rx", 326, 332]
+  ["rx", 326, 332],
+  ["pi", 7545, 9072]
 ];
 
 const sources = new Map(collections.map(([id]) => [id, loadContextSource(id)!]));
@@ -114,7 +115,18 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["rx", "box-model", "CSS box model", "box model do CSS"],
     ["rx", "database", "backend", "backend"],
     ["rx", "server", "hosting", "hospedagem"],
-    ["rx", "twitter-logo", "X", "X"]
+    ["rx", "twitter-logo", "X", "X"],
+    ["pi", "arrow-left", "arrow", "seta"],
+    ["pi", "cloud", "cloud", "nuvem"],
+    ["pi", "folder", "folder", "pasta"],
+    ["pi", "house", "home", "casa"],
+    ["pi", "magnifying-glass", "search", "buscar"],
+    ["pi", "phone", "phone", "telefone"],
+    ["pi", "gear", "settings", "configurações"],
+    ["pi", "trash", "trash", "lixeira"],
+    ["pi", "user", "user", "usuário"],
+    ["pi", "calendar", "calendar", "calendário"],
+    ["pi", "bell", "notification", "notificação"]
   ];
 
   test.each(queries)(
