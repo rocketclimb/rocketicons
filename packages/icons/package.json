@@ -35,7 +35,7 @@
   },
   "optionalDependencies": {
     "nativewind": ">=4",
-    "react-native-svg": ">=15"
+    "react-native-svg": "^15.15.5"
   },
   "devDependencies": {
     "tailwindcss": ">=4"
@@ -267,6 +267,5 @@
       "default": "./package.json"
     }
   },
-  "dependencies": {},
   "bin": "./bin/index.js"
 }
