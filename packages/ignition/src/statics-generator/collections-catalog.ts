@@ -198,6 +198,11 @@ export const generateStaticCatalog = async () => {
       packageVersion: version,
       resources: {
         catalog: withSiteBasePath("/ai/v1/catalog.json"),
+        searchConfig:
+          process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID &&
+          process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY
+            ? withSiteBasePath("/ai/v1/search-config.json")
+            : undefined,
         iconContext: {
           availability: sortedCollections.every(
             ({ contextCoverage }) => contextCoverage?.complete
@@ -212,6 +217,16 @@ export const generateStaticCatalog = async () => {
       }
     })
   ]);
+  if (
+    process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID &&
+    process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY
+  ) {
+    await writeJson(join(OUTPUT_ROOT, "search-config.json"), {
+      applicationId: process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
+      searchOnlyApiKey: process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY,
+      indexName: "rocketicons"
+    });
+  }
   const totalIcons = sortedCollections.reduce((total, item) => total + item.totalIcons, 0);
   await write(
     MANIFEST_OUTPUT_FILE,

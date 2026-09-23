@@ -12,27 +12,28 @@ import BuildInfo from "@/components/documentation/build-info";
 
 # A clear flight plan for coding agents
 
-Agents work best when discovery is small, commands are exact, and every mutation has an observable result. Rocketicons provides a versioned static catalog and a CLI that writes selected components into the project.
+Agents work best when discovery is small, commands are exact, and every mutation has an observable result. Rocketicons provides a CLI and local MCP server backed by the same catalog and project operations.
+
+The MCP package and new CLI commands are available in the repository build; their npm release is pending.
 
 ### Find and add one icon
 
-1. Inspect `/ai/v1/catalog.json` or use the website to select a collection.
-2. Follow the collection's `indexUrl` and identify an exact icon ID.
+1. Search with `npx rocketicons search calendar --collection fi --json` or MCP `search_icons` with `collections: ["fi"]`.
+2. Inspect the exact `@collection/icon-id`, license, and SVG resource.
 3. Reuse an existing file under `src/ri/icons` when it already fits.
-4. Otherwise run one command: `npx rocketicons add @collection/icon`.
-5. Import the generated component and verify its file exists.
+4. Dry-run `add` or MCP `add_icons`, then add the selected icons.
+5. Import the generated component and run `doctor`.
 
 ### Add a small set
 
-The current CLI accepts one icon per command. Keep the change auditable:
+The CLI accepts several exact IDs. Keep the change auditable:
 
 ```bash
-npx rocketicons add @rc/rc-rocket-icon
-npx rocketicons add @lu/lu-search
-npx rocketicons add @lu/lu-circle-check
+npx rocketicons add @lu/lu-search @lu/lu-circle-check --dry-run --json
+npx rocketicons add @lu/lu-search @lu/lu-circle-check
 ```
 
-Do not assume batch arguments, JSON output, dry-run flags, configurable paths, or MCP tools yet. They are planned for later milestones.
+To use MCP, configure your client to start `npx -y rocketicons mcp` over stdio. The dedicated `npx -y @rocketicons/mcp` command also works. Call `init_project` explicitly before `add_icons`; broad search falls back to a bundled index when Algolia is unavailable.
 
 ### Style states explicitly
 
@@ -43,16 +44,16 @@ Do not assume batch arguments, JSON output, dry-run flags, configurable paths, o
 ### Verify the mutation
 
 ```bash
-git status --short src/ri tsconfig.json package.json package-lock.json
+npx rocketicons doctor --json
+git status --short src/ri rocketicons.json tsconfig.json package.json package-lock.json
 ```
 
 Report each changed file. Run the project's own type check and relevant web or native build before declaring success.
 
 ### Prompt you can reuse
 
-> Use Rocketicons for icons in this project. Reuse a suitable component under `src/ri/icons` when possible. Otherwise identify an exact `@collection/icon` ID, run one Rocketicons add command for it, import the generated component through `@/ri`, and report every file created or changed. Do not install or import a full icon collection.
+> Use Rocketicons for icons in this project. Reuse a suitable component under `src/ri/icons` when possible. Otherwise search for an exact `@collection/icon-id`, inspect its license and SVG, dry-run and add it, import the generated component through `@/ri`, and report every changed file. Do not install or import a full icon collection.
 
 For a compact machine-readable reference, point the agent to [`/llms.txt`](/llms.txt).
 
 <BuildInfo lang="en" />
-
