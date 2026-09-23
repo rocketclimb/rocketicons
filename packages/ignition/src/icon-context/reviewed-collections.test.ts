@@ -17,7 +17,7 @@ const collections: Array<[string, number, number]> = [
   ["cg", 682, 704],
   ["io", 672, 696],
   ["rx", 326, 332],
-  ["lu", 1835, 1836]
+  ["lu", 2047, 2048]
 ];
 
 const sources = new Map(collections.map(([id]) => [id, loadContextSource(id)!]));
@@ -137,16 +137,11 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["lu", "phone", "phone", "telefone"],
     ["lu", "settings", "settings", "configurações"],
     ["lu", "trash", "trash", "lixeira"],
-    ["lu", "arrow-left", "arrow", "seta"],
-    ["lu", "cloud-download", "cloud", "nuvem"],
-    ["lu", "database", "database", "banco de dados"],
-    ["lu", "file", "file", "arquivo"],
-    ["lu", "folder", "folder", "pasta"],
-    ["lu", "home", "home", "casa"],
-    ["lu", "search", "search", "buscar"],
-    ["lu", "phone", "phone", "telefone"],
-    ["lu", "settings", "settings", "configurações"],
-    ["lu", "trash", "trash", "lixeira"]
+    ["lu", "credit-card-reader", "card terminal", "maquininha de cartão"],
+    ["lu", "database-search", "search database", "pesquisar banco de dados"],
+    ["lu", "face-slightly-frowning", "mild disappointment", "leve decepção"],
+    ["lu", "shield-keyhole", "access protection", "proteção de acesso"],
+    ["lu", "waves-vertical", "heat waves", "ondas de calor"]
   ];
 
   test.each(queries)(
