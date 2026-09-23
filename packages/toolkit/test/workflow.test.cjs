@@ -18,6 +18,7 @@ const fixture = (language, target) => {
       dependencies: {
         "@rocketicons/utils": "1",
         "@rocketicons/tailwind": "1",
+        ...(target === "react" ? { tailwindcss: "^4.2.1", "@tailwindcss/vite": "^4.2.1" } : {}),
         ...(target === "react-native" ? { nativewind: "1", "react-native-svg": "1" } : {})
       }
     })
@@ -27,6 +28,15 @@ const fixture = (language, target) => {
       path.join(root, "tsconfig.json"),
       '{ // preserve me\n "compilerOptions": {"jsx":"react-jsx"}\n}'
     );
+  if (target === "react") {
+    fs.mkdirSync(path.join(root, "src"));
+    fs.writeFileSync(path.join(root, "src/index.css"), '@import "tailwindcss";\n');
+    fs.writeFileSync(path.join(root, "src/main.jsx"), 'import "./index.css";\n');
+    fs.writeFileSync(
+      path.join(root, "vite.config.js"),
+      'import tailwindcss from "@tailwindcss/vite";\nexport default { plugins: [tailwindcss()] };\n'
+    );
+  }
   return root;
 };
 
@@ -140,7 +150,9 @@ test("search keeps requested collection and variant when Algolia offers misleadi
   });
   assert.equal(response.source, "local");
   assert.ok(response.results.length > 0);
-  assert.ok(response.results.every((icon) => icon.collection === "lu" && icon.variant === "outlined"));
+  assert.ok(
+    response.results.every((icon) => icon.collection === "lu" && icon.variant === "outlined")
+  );
   assert.equal(response.results[0].id, "@lu/lu-navigation");
   assert.match(response.results[0].matchReason, /navigation.*resembles.*navigator/);
 });

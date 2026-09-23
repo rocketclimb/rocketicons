@@ -201,14 +201,24 @@ test("stdio tools and resources expose the icon workflow", async () => {
         JSON.stringify({
           name: "fixture",
           version: "1",
-          dependencies: { "@rocketicons/utils": "1", "@rocketicons/tailwind": "1" }
+          dependencies: {
+            "@rocketicons/utils": "1",
+            "@rocketicons/tailwind": "1",
+            tailwindcss: "^4.2.1",
+            "@tailwindcss/vite": "^4.2.1"
+          }
         })
       );
       writeFileSync(join(root, "tsconfig.json"), '{"compilerOptions":{"jsx":"react-jsx"}}');
       mkdirSync(join(root, "src"));
+      writeFileSync(join(root, "src/index.css"), '@import "tailwindcss";\n');
+      writeFileSync(
+        join(root, "vite.config.js"),
+        'import tailwindcss from "@tailwindcss/vite";\nexport default { plugins: [tailwindcss()] };\n'
+      );
       writeFileSync(
         join(root, "src/App.tsx"),
-        "export default function App() { return null; }\n"
+        'import "./index.css";\nexport default function App() { return null; }\n'
       );
       const uninitialized = await client.callTool({
         name: "add_icons",
@@ -222,6 +232,7 @@ test("stdio tools and resources expose the icon workflow", async () => {
         arguments: { project_path: root, dry_run: true }
       });
       assert.equal(preview.structuredContent.dryRun, true);
+      assert.ok(preview.structuredContent.changes.some(({ path }) => path === "src/index.css"));
       assert.equal(existsSync(join(root, "rocketicons.json")), false);
       await client.callTool({ name: "init_project", arguments: { project_path: root } });
       const addPreview = await client.callTool({
@@ -256,10 +267,20 @@ test("stdio tools and resources expose the icon workflow", async () => {
       );
       const health = await client.callTool({ name: "doctor", arguments: { project_path: root } });
       assert.equal(health.structuredContent.healthy, true);
+      assert.equal(health.structuredContent.styling.pluginRegistered, true);
+      assert.equal(health.structuredContent.styling.stylesheetLoaded, true);
       await client.callTool({
         name: "remove_icons",
         arguments: { project_path: root, icon_ids: ["@fi/fi-calendar"] }
       });
+      writeFileSync(join(root, "src/index.css"), '@import "tailwindcss";\n');
+      const stylingDiagnosis = await client.callTool({
+        name: "doctor",
+        arguments: { project_path: root }
+      });
+      assert.equal(stylingDiagnosis.structuredContent.healthy, false);
+      assert.equal(stylingDiagnosis.structuredContent.styling.pluginRegistered, false);
+      assert.match(stylingDiagnosis.content[0].text, /src\/index.css.*@plugin/);
       const inspection = await client.callTool({
         name: "inspect_project",
         arguments: { project_path: root }
@@ -287,14 +308,26 @@ test("recommend, plan, and apply work in a Vite project without a bundler alias"
       JSON.stringify({
         name: "vite-no-alias",
         version: "1",
-        dependencies: { "@rocketicons/utils": "1", "@rocketicons/tailwind": "1" }
+        dependencies: {
+          "@rocketicons/utils": "1",
+          "@rocketicons/tailwind": "1",
+          tailwindcss: "^4.2.1",
+          "@tailwindcss/vite": "^4.2.1"
+        }
       })
     );
     writeFileSync(join(root, "tsconfig.json"), '{"compilerOptions":{"jsx":"react-jsx"}}');
-    writeFileSync(join(root, "vite.config.js"), "export default {};\n");
+    writeFileSync(
+      join(root, "vite.config.js"),
+      'import tailwindcss from "@tailwindcss/vite";\nexport default { plugins: [tailwindcss()] };\n'
+    );
     const source = "src/App.tsx";
     mkdirSync(join(root, "src"));
-    writeFileSync(join(root, source), "export default function App() { return null; }\n");
+    writeFileSync(join(root, "src/index.css"), '@import "tailwindcss";\n');
+    writeFileSync(
+      join(root, source),
+      'import "./index.css";\nexport default function App() { return null; }\n'
+    );
     const recommendation = await client.callTool({
       name: "recommend_icons",
       arguments: { project_path: root, intent: "@fi/fi-calendar", from_file: source }
@@ -307,6 +340,7 @@ test("recommend, plan, and apply work in a Vite project without a bundler alias"
     const details = plan.structuredContent;
     assert.match(plan.content[0].text, /src\/ri\/icons\/fi-calendar.tsx/);
     assert.ok(details.fileChanges.some(({ path }) => path === "src/ri/icons/fi-calendar.tsx"));
+    assert.ok(details.fileChanges.some(({ path }) => path === "src/index.css"));
     assert.deepEqual(details.toInstall, []);
     assert.equal(existsSync(join(root, "rocketicons.json")), false);
     const preview = await client.callTool({

@@ -35,20 +35,16 @@ src/ri/
 
 Ela também adiciona o alias `@/ri/*` ao `tsconfig.json` e instala `@rocketicons/utils` e `@rocketicons/tailwind` pelo npm. Essas são pequenas dependências compartilhadas usadas pelos componentes gerados e pela integração com Tailwind.
 
-### 2. Conecte o plugin do Tailwind
+### 2. Confira a estilização com Tailwind
 
-A instalação deixa o plugin disponível, mas seu projeto ainda precisa registrá-lo. Adicione `@rocketicons/tailwind` ao array `plugins` em `tailwind.config.*`:
+Em um projeto web com Tailwind CSS 4, a inicialização encontra o arquivo CSS ativo com `@import "tailwindcss"` e adiciona automaticamente o plugin do Rocketicons:
 
-```ts
-import rocketicons from "@rocketicons/tailwind";
-
-export default {
-  // Mantenha o restante da sua configuração do Tailwind.
-  plugins: [rocketicons]
-};
+```css
+@import "tailwindcss";
+@plugin "@rocketicons/tailwind";
 ```
 
-Em arquivos de configuração CommonJS, use `const rocketicons = require("@rocketicons/tailwind")` e adicione o mesmo valor em `plugins`.
+Execute `npx rocketicons doctor --json` para conferir a versão do Tailwind, o carregamento do CSS, o registro do plugin e a integração com Vite ou PostCSS. Se houver mais de um arquivo CSS ativo com Tailwind, passe `--stylesheet-path src/caminho/estilos.css` ao comando `init`. O dry run mostra qual arquivo CSS será alterado antes da escrita.
 
 ### 3. Encontre um ícone
 

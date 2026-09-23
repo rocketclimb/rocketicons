@@ -188,7 +188,8 @@ Build the MCP server on the same toolkit layer used by the CLI. Do not create se
 - [x] `remove_icons(icon_ids, project_path, dry_run?)`
 - [x] `inspect_project(project_path)`
 - [x] `doctor(project_path)`
-- [ ] `init_project(project_path, target?, language?, package_manager?, dry_run?)`. **Partial:** file setup and dry runs pass TS/JS React/React Native fixtures; a clean real npm install waits on compatible runtime package publication.
+- [x] Register the Rocketicons plugin automatically in an existing Tailwind CSS 4 web stylesheet; include the CSS edit in dry runs and plans, and diagnose missing web styling integration. React Native styling configuration remains separate.
+- [ ] `init_project(project_path, target?, language?, package_manager?, stylesheet_path?, dry_run?)`. **Partial:** file setup and dry runs pass TS/JS React/React Native fixtures, including Tailwind 4 web stylesheet registration; a clean real npm install waits on compatible runtime package publication.
 
 #### Recommended MCP resources
 

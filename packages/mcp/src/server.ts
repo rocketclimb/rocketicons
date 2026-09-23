@@ -34,15 +34,19 @@ const result = async (work: () => unknown | Promise<unknown>) => {
     const summary =
       typeof data.summary === "string"
         ? data.summary
-        : Array.isArray(data.results)
-          ? `${data.results.length} icon result(s) from ${data.source}`
-          : Array.isArray(data.collections)
-            ? `${data.collections.length} collections`
-            : typeof data.id === "string"
-              ? `Icon ${data.id}`
-              : typeof data.collection_id === "string"
-                ? `Collection ${data.collection_id}`
-                : "Rocketicons result";
+        : typeof data.healthy === "boolean"
+          ? data.healthy
+            ? "Rocketicons project healthy"
+            : `Rocketicons project has ${(data.issues as string[]).length} issue(s):\n${(data.issues as string[]).map((issue) => `- ${issue}`).join("\n")}`
+          : Array.isArray(data.results)
+            ? `${data.results.length} icon result(s) from ${data.source}`
+            : Array.isArray(data.collections)
+              ? `${data.collections.length} collections`
+              : typeof data.id === "string"
+                ? `Icon ${data.id}`
+                : typeof data.collection_id === "string"
+                  ? `Collection ${data.collection_id}`
+                  : "Rocketicons result";
     const fileChanges = Array.isArray(data.appliedFileChanges)
       ? data.appliedFileChanges
       : Array.isArray(data.fileChanges)
@@ -100,6 +104,7 @@ const configSchema = {
     target: { enum: ["react", "react-native"] },
     language: { enum: ["ts", "js"] },
     outputPath: { const: "src/ri" },
+    stylesheetPath: { type: "string", pattern: "\\.css$" },
     icons: {
       type: "object",
       additionalProperties: {
@@ -350,15 +355,17 @@ export const createServer = () => {
         target: z.enum(["react", "react-native"]).optional(),
         language: z.enum(["ts", "js"]).optional(),
         package_manager: z.enum(["npm", "pnpm", "yarn", "bun"]).optional(),
+        stylesheet_path: z.string().min(1).optional(),
         dry_run: z.boolean().optional()
       }),
       outputSchema: outputs.init_project
     },
-    ({ project_path, package_manager, dry_run, ...options }) =>
+    ({ project_path, package_manager, stylesheet_path, dry_run, ...options }) =>
       result(() =>
         initProject(project_path, {
           ...options,
           packageManager: package_manager,
+          stylesheetPath: stylesheet_path,
           dryRun: dry_run
         })
       )
@@ -374,16 +381,18 @@ export const createServer = () => {
         from_file: z.string().min(1).describe("Project source file that will import the icons"),
         target: z.enum(["react", "react-native"]).optional(),
         language: z.enum(["ts", "js"]).optional(),
-        package_manager: z.enum(["npm", "pnpm", "yarn", "bun"]).optional()
+        package_manager: z.enum(["npm", "pnpm", "yarn", "bun"]).optional(),
+        stylesheet_path: z.string().min(1).optional()
       }),
       outputSchema: outputs.plan_icons
     },
-    ({ project_path, icon_ids, from_file, package_manager, ...options }) =>
+    ({ project_path, icon_ids, from_file, package_manager, stylesheet_path, ...options }) =>
       result(() =>
         planIcons(project_path, icon_ids, {
           ...options,
           fromFile: from_file,
-          packageManager: package_manager
+          packageManager: package_manager,
+          stylesheetPath: stylesheet_path
         })
       )
   );
@@ -400,16 +409,27 @@ export const createServer = () => {
         target: z.enum(["react", "react-native"]).optional(),
         language: z.enum(["ts", "js"]).optional(),
         package_manager: z.enum(["npm", "pnpm", "yarn", "bun"]).optional(),
+        stylesheet_path: z.string().min(1).optional(),
         dry_run: z.boolean().optional()
       }),
       outputSchema: outputs.apply_icons
     },
-    ({ project_path, icon_ids, plan_id, from_file, package_manager, dry_run, ...options }) =>
+    ({
+      project_path,
+      icon_ids,
+      plan_id,
+      from_file,
+      package_manager,
+      stylesheet_path,
+      dry_run,
+      ...options
+    }) =>
       result(() =>
         applyIconPlan(project_path, icon_ids, plan_id, {
           ...options,
           fromFile: from_file,
           packageManager: package_manager,
+          stylesheetPath: stylesheet_path,
           dryRun: dry_run
         })
       )

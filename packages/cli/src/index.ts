@@ -107,6 +107,9 @@ const main = async () => {
                 : undefined,
           packageManager: flags.get("package-manager")
             ? String(flags.get("package-manager"))
+            : undefined,
+          stylesheetPath: flags.get("stylesheet-path")
+            ? String(flags.get("stylesheet-path"))
             : undefined
         })
       );
@@ -125,7 +128,7 @@ const main = async () => {
       break;
     default:
       console.log(
-        "Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.\n\nCommands: mcp, search, list, info, usage, init, add, remove, doctor, config. Use --json, --dry-run, --cwd <absolute path>, --collection <id>, --variant <name>."
+        "Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.\n\nCommands: mcp, search, list, info, usage, init, add, remove, doctor, config. Use --json, --dry-run, --cwd <absolute path>, --collection <id>, --variant <name>, --stylesheet-path <css path>."
       );
   }
 };

@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { spawn } from "node:child_process";
-import { existsSync, lstatSync, readFileSync, realpathSync } from "node:fs";
+import { existsSync, lstatSync, readFileSync, readdirSync, realpathSync } from "node:fs";
 import { mkdir, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { applyEdits, modify, parse } from "jsonc-parser";
@@ -21,6 +21,7 @@ export type ProjectManifest = {
   target: Target;
   language: Language;
   outputPath: "src/ri";
+  stylesheetPath?: string;
   icons: Record<
     string,
     { component: string; path: string; sha256: string; collection: string; licenseUrl: string }
@@ -67,7 +68,7 @@ const safePath = (root: string, rel: string) => {
   let part = root;
   for (const segment of relative(root, path).split(/[\\/]/).filter(Boolean)) {
     part = join(part, segment);
-    if (existsSync(part) && lstatSync(part).isSymbolicLink())
+    if (lstatSync(part, { throwIfNoEntry: false })?.isSymbolicLink())
       throw new Error(`Symlink is not allowed in managed path: ${relative(root, part)}`);
   }
   return path;
@@ -75,6 +76,128 @@ const safePath = (root: string, rel: string) => {
 const existing = (root: string, rel: string) => {
   const path = safePath(root, rel);
   return existsSync(path) ? readFileSync(path, "utf8") : undefined;
+};
+const projectFiles = (root: string) => {
+  const files: string[] = [];
+  const ignored = new Set([
+    "node_modules",
+    ".git",
+    ".next",
+    "dist",
+    "build",
+    "coverage",
+    "public",
+    ".rocketicons-cache"
+  ]);
+  const visit = (rel: string, depth: number) => {
+    if (depth > 7 || files.length > 10000) return;
+    for (const entry of readdirSync(safePath(root, rel), { withFileTypes: true })) {
+      if (ignored.has(entry.name) || entry.name.startsWith(".")) continue;
+      const next = join(rel, entry.name);
+      if (entry.isSymbolicLink()) continue;
+      if (entry.isDirectory()) visit(next, depth + 1);
+      else if (entry.isFile()) files.push(next.replace(/\\/g, "/"));
+    }
+  };
+  visit(".", 0);
+  return files;
+};
+const tailwindMajor = (root: string) => {
+  const pkg = JSON.parse(readFileSync(safePath(root, "package.json"), "utf8"));
+  const version = { ...pkg.dependencies, ...pkg.devDependencies }.tailwindcss;
+  const declared =
+    typeof version === "string" ? Number(/^[~^]?\s*(\d+)/.exec(version)?.[1]) : NaN;
+  if (declared !== 4) return declared;
+  try {
+    const installed = JSON.parse(
+      readFileSync(join(root, "node_modules/tailwindcss/package.json"), "utf8")
+    );
+    return Number(String(installed.version).split(".")[0]);
+  } catch {
+    // Plans can run before dependencies have been installed.
+  }
+  return declared;
+};
+const activeCss = (css: string) =>
+  css.replace(/\/\*[\s\S]*?\*\//g, (comment) => " ".repeat(comment.length));
+const tailwindImportPattern =
+  /@import\s+(["'])tailwindcss(?:\/(?:theme|preflight|utilities)\.css)?\1[^;]*;/;
+const hasTailwindImport = (css: string) => tailwindImportPattern.test(activeCss(css));
+const hasRocketiconsPlugin = (css: string) =>
+  /@plugin\s+(["'])@rocketicons\/tailwind\1\s*;?/.test(activeCss(css));
+const stylesheetLoaded = (root: string, stylesheetPath: string, files: string[]) => {
+  const target = safePath(root, stylesheetPath);
+  for (const rel of files.filter((file) => /\.(?:[cm]?[jt]sx?|html)$/.test(file))) {
+    const source = existing(root, rel) ?? "";
+    for (const match of source.matchAll(
+      /\bimport\s+(?:[^"']*?\s+from\s+)?["']([^"']+\.css)["']/g
+    )) {
+      const spec = match[1];
+      const candidate = spec.startsWith("@/")
+        ? resolve(root, "src", spec.slice(2))
+        : spec.startsWith("/")
+          ? resolve(root, spec.slice(1))
+          : resolve(dirname(safePath(root, rel)), spec);
+      if (candidate === target) return true;
+    }
+    if (rel.endsWith(".html") && source.includes(stylesheetPath)) return true;
+  }
+  return false;
+};
+const tailwindIntegration = (root: string) => {
+  const pkg = JSON.parse(readFileSync(safePath(root, "package.json"), "utf8"));
+  const deps = { ...pkg.dependencies, ...pkg.devDependencies };
+  const configs = readdirSync(root).filter((name) =>
+    /^(?:vite|postcss)\.config\.[cm]?[jt]s$/.test(name)
+  );
+  for (const name of configs) {
+    const source = existing(root, name) ?? "";
+    if (name.startsWith("vite") && source.includes("@tailwindcss/vite"))
+      return deps["@tailwindcss/vite"] ? "vite" : "missing @tailwindcss/vite dependency";
+    if (name.startsWith("postcss") && source.includes("@tailwindcss/postcss"))
+      return deps["@tailwindcss/postcss"] ? "postcss" : "missing @tailwindcss/postcss dependency";
+  }
+  return null;
+};
+const selectStylesheet = (root: string, requestedPath?: string) => {
+  const files = projectFiles(root);
+  if (requestedPath) {
+    const absolute = safePath(root, requestedPath);
+    const rel = relative(root, absolute).replace(/\\/g, "/");
+    if (!rel.endsWith(".css") || !existsSync(absolute) || !lstatSync(absolute).isFile())
+      throw new Error(
+        `stylesheet_path must be an existing CSS file in the project: ${requestedPath}`
+      );
+    if (!hasTailwindImport(existing(root, rel) ?? ""))
+      throw new Error(`Tailwind stylesheet ${rel} must import tailwindcss`);
+    return { path: rel, files };
+  }
+  const candidates = files.filter(
+    (file) => file.endsWith(".css") && hasTailwindImport(existing(root, file) ?? "")
+  );
+  const loaded = candidates.filter((file) => stylesheetLoaded(root, file, files));
+  const choices = loaded.length ? loaded : candidates;
+  if (!choices.length)
+    throw new Error(
+      'No Tailwind stylesheet found; add @import "tailwindcss" to a CSS file loaded by the app'
+    );
+  if (choices.length > 1)
+    throw new Error(
+      `Multiple Tailwind stylesheets found (${choices.join(", ")}); pass stylesheet_path`
+    );
+  return { path: choices[0], files };
+};
+const tailwindStyleEdit = (root: string, target: Target, requestedPath?: string) => {
+  if (target !== "react" || tailwindMajor(root) !== 4) return undefined;
+  const selected = selectStylesheet(root, requestedPath);
+  const previous = existing(root, selected.path)!;
+  if (hasRocketiconsPlugin(previous)) return { path: selected.path, next: previous };
+  const importMatch = tailwindImportPattern.exec(activeCss(previous));
+  if (!importMatch)
+    throw new Error(`Tailwind stylesheet ${selected.path} must import tailwindcss`);
+  const offset = importMatch.index + importMatch[0].length;
+  const next = `${previous.slice(0, offset)}\n@plugin "@rocketicons/tailwind";${previous.slice(offset)}`;
+  return { path: selected.path, next };
 };
 const fileChange = (root: string, rel: string, next?: string): Change | undefined => {
   const old = existing(root, rel);
@@ -113,6 +236,7 @@ const readManifest = (root: string): ProjectManifest | undefined => {
       throw new Error(`Invalid manifest entry for ${id}`);
     safePath(root, record.path);
   }
+  if (manifest.stylesheetPath) safePath(root, manifest.stylesheetPath);
   return manifest;
 };
 const detectTarget = (root: string): Target => {
@@ -271,7 +395,60 @@ export const doctor = (projectPath: string) => {
     else if (name.startsWith("@rocketicons/") && !compatibleRuntime(deps[name]))
       issues.push(`Incompatible dependency: ${name} requires version 0.7.0 or newer`);
   }
-  return { ...project, healthy: issues.length === 0, issues };
+  const target = project.manifest?.target ?? project.detectedTarget;
+  let styling: {
+    tailwindMajor: number | null;
+    stylesheetPath: string | null;
+    pluginRegistered: boolean;
+    stylesheetLoaded: boolean;
+    buildIntegration: string | null;
+  } | null = null;
+  if (target === "react") {
+    const major = tailwindMajor(project.projectPath);
+    const integration = tailwindIntegration(project.projectPath);
+    styling = {
+      tailwindMajor: Number.isNaN(major) ? null : major,
+      stylesheetPath: null,
+      pluginRegistered: false,
+      stylesheetLoaded: false,
+      buildIntegration: integration
+    };
+    if (major !== 4)
+      issues.push(
+        `Tailwind CSS 4 is required for automatic web styling; found ${Number.isNaN(major) ? "no declared version" : `version ${major}`}. Install tailwindcss@^4 and configure its build integration.`
+      );
+    else {
+      try {
+        const selected = selectStylesheet(project.projectPath, project.manifest?.stylesheetPath);
+        styling.stylesheetPath = selected.path;
+        styling.pluginRegistered = hasRocketiconsPlugin(
+          existing(project.projectPath, selected.path) ?? ""
+        );
+        styling.stylesheetLoaded = stylesheetLoaded(
+          project.projectPath,
+          selected.path,
+          selected.files
+        );
+        if (!styling.pluginRegistered)
+          issues.push(
+            `Tailwind stylesheet ${selected.path} is missing @plugin "@rocketicons/tailwind"; run init_project.`
+          );
+        if (!styling.stylesheetLoaded)
+          issues.push(
+            `Tailwind stylesheet ${selected.path} is not loaded by an application source file; import it from your app entry.`
+          );
+      } catch (error) {
+        issues.push(error instanceof Error ? error.message : String(error));
+      }
+      if (integration === null)
+        issues.push(
+          "Tailwind 4 build integration is missing; configure @tailwindcss/vite in vite.config.* or @tailwindcss/postcss in postcss.config.*."
+        );
+      else if (integration.startsWith("missing "))
+        issues.push(`Tailwind 4 build integration: ${integration}; install it in package.json.`);
+    }
+  }
+  return { ...project, healthy: issues.length === 0, issues, styling };
 };
 
 export const initProject = async (
@@ -280,6 +457,7 @@ export const initProject = async (
     target?: Target;
     language?: Language;
     packageManager?: string;
+    stylesheetPath?: string;
     dryRun?: boolean;
   } = {}
 ): Promise<MutationResult> => {
@@ -306,6 +484,11 @@ export const initProject = async (
       throw new Error(`Existing core file was modified: ${rel}`);
   }
   const config = configText(root, language);
+  const stylesheet = tailwindStyleEdit(
+    root,
+    target,
+    options.stylesheetPath ?? prior?.stylesheetPath
+  );
   const manifest: ProjectManifest = prior ?? {
     schemaVersion: 1,
     catalogVersion,
@@ -314,9 +497,11 @@ export const initProject = async (
     outputPath: "src/ri",
     icons: {}
   };
+  if (stylesheet) manifest.stylesheetPath = stylesheet.path;
   const changes = [
     ...files.map(([rel, content]) => fileChange(root, rel, content)),
     fileChange(root, config.rel, config.next),
+    ...(stylesheet ? [fileChange(root, stylesheet.path, stylesheet.next)] : []),
     fileChange(root, "rocketicons.json", json(manifest))
   ].filter(Boolean) as Change[];
   const needed = dependenciesToInstall(root, target);
@@ -331,6 +516,8 @@ export const initProject = async (
       if (fileChange(root, rel, content)) await atomicWrite(root, rel, content);
     if (fileChange(root, config.rel, config.next))
       await atomicWrite(root, config.rel, config.next);
+    if (stylesheet && fileChange(root, stylesheet.path, stylesheet.next))
+      await atomicWrite(root, stylesheet.path, stylesheet.next);
     if (fileChange(root, "rocketicons.json", json(manifest)))
       await atomicWrite(root, "rocketicons.json", json(manifest));
   }
@@ -474,6 +661,7 @@ export type IconPlanOptions = {
   target?: Target;
   language?: Language;
   packageManager?: string;
+  stylesheetPath?: string;
 };
 
 const plannedFile = (root: string, path: string, content: string) => {
@@ -510,7 +698,18 @@ export const planIcons = async (
   const target = options.target ?? prior?.target ?? detectTarget(root);
   const language = options.language ?? prior?.language ?? detectLanguage(root);
   const packageManager = options.packageManager ?? detectPackageManager(root);
-  await initProject(root, { target, language, packageManager, dryRun: true });
+  const stylesheet = tailwindStyleEdit(
+    root,
+    target,
+    options.stylesheetPath ?? prior?.stylesheetPath
+  );
+  await initProject(root, {
+    target,
+    language,
+    packageManager,
+    stylesheetPath: stylesheet?.path,
+    dryRun: true
+  });
   if (prior && prior.catalogVersion !== catalogVersion)
     throw new Error("Project catalog version differs from installed catalog");
 
@@ -525,6 +724,7 @@ export const planIcons = async (
   const next: ProjectManifest = prior
     ? JSON.parse(JSON.stringify(prior))
     : { schemaVersion: 1, catalogVersion, target, language, outputPath: "src/ri", icons: {} };
+  if (stylesheet) next.stylesheetPath = stylesheet.path;
   const files = new Map<string, string>();
   for (const name of ["index", "index.native"])
     files.set(
@@ -533,6 +733,7 @@ export const planIcons = async (
     );
   const config = configText(root, language);
   files.set(config.rel, config.next);
+  if (stylesheet) files.set(stylesheet.path, stylesheet.next);
   for (const icon of icons) {
     const id = `@${icon.collection}/${icon.id}`;
     const path = iconFile(icon.id, icon.collection, language);
@@ -590,6 +791,7 @@ export const planIcons = async (
     language,
     packageManager,
     fromFile,
+    stylesheetPath: stylesheet?.path ?? null,
     packageJsonSha256: sha(readFileSync(safePath(root, "package.json"))),
     dependencies,
     toInstall: toInstall.map(requestedPackage),
@@ -618,7 +820,8 @@ export const applyIconPlan = async (
   await initProject(plan.projectPath, {
     target: plan.target,
     language: plan.language,
-    packageManager: plan.packageManager
+    packageManager: plan.packageManager,
+    stylesheetPath: plan.stylesheetPath ?? undefined
   });
   await addIcons(plan.projectPath, plan.iconIds);
   const health = doctor(plan.projectPath);

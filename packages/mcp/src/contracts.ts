@@ -29,6 +29,7 @@ const project = z.looseObject({
       target: z.enum(["react", "react-native"]),
       language: z.enum(["ts", "js"]),
       outputPath: z.literal("src/ri"),
+      stylesheetPath: z.string().optional(),
       icons: z.record(
         z.string(),
         z.looseObject({
@@ -60,6 +61,7 @@ const plan = z.looseObject({
   language: z.enum(["ts", "js"]),
   packageManager: z.string(),
   fromFile: z.string(),
+  stylesheetPath: z.string().nullable(),
   initialized: z.boolean(),
   packageJsonSha256: z.string(),
   dependencies: z.array(z.string()),
@@ -178,7 +180,19 @@ export const outputs = {
     resource: z.string()
   }),
   inspect_project: project,
-  doctor: project.extend({ healthy: z.boolean(), issues: z.array(z.string()) }),
+  doctor: project.extend({
+    healthy: z.boolean(),
+    issues: z.array(z.string()),
+    styling: z
+      .looseObject({
+        tailwindMajor: z.number().nullable(),
+        stylesheetPath: z.string().nullable(),
+        pluginRegistered: z.boolean(),
+        stylesheetLoaded: z.boolean(),
+        buildIntegration: z.string().nullable()
+      })
+      .nullable()
+  }),
   init_project: mutation,
   plan_icons: plan,
   apply_icons: plan.extend({
@@ -224,6 +238,17 @@ export const toolError = (error: unknown): ToolError => {
       code: "DUPLICATE_ICONS",
       message,
       nextStep: "Pass each exact icon ID only once to compare_icons."
+    };
+  if (
+    /Tailwind stylesheet|No Tailwind stylesheet|Multiple Tailwind stylesheets|stylesheet_path/.test(
+      message
+    )
+  )
+    return {
+      code: "STYLING_SETUP",
+      message,
+      nextStep:
+        "Run doctor to inspect web styling. If multiple Tailwind stylesheets exist, pass stylesheet_path to init_project or to both plan_icons and apply_icons."
     };
   if (/Plan is stale/.test(message))
     return {

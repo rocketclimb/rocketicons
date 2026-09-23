@@ -55,6 +55,7 @@ test("actionable error categories retain a machine code and a readable next step
     ["Unknown collection: missing", "INVALID_FILTER", /list_collections/],
     ["Invalid variant: ???", "INVALID_FILTER", /valid variant/],
     ["remove duplicate icon IDs", "DUPLICATE_ICONS", /compare_icons/],
+    ["Multiple Tailwind stylesheets found", "STYLING_SETUP", /stylesheet_path/],
     ["Plan is stale or does not match", "STALE_PLAN", /plan_icons/],
     [
       "Project is not initialized; run init_project first",

@@ -35,6 +35,8 @@ npx rocketicons add @lu/lu-search @lu/lu-circle-check
 
 To use MCP, configure your client to start `npx -y rocketicons mcp` over stdio. The dedicated `npx -y @rocketicons/mcp` command also works. Call `recommend_icons`, then `plan_icons` with the exact IDs and `from_file`; review the plan and pass its `planId` to `apply_icons`. This applies setup and icons, then verifies the project. Broad search falls back to a bundled index when Algolia is unavailable.
 
+For Tailwind CSS 4 web projects, the plan includes the stylesheet edit that registers `@rocketicons/tailwind`. Check the `doctor` result after apply: its `styling` data and issues identify a missing CSS import, plugin directive, or Vite/PostCSS integration. Pass `stylesheet_path` to both plan and apply if several Tailwind stylesheets are active.
+
 ### Use SVG in a plain HTML site
 
 For a site that does not use React, call MCP `search_icons` and `get_icon` to choose an exact ID and check its license. Call `get_icon_svg` with that ID to receive complete SVG markup. Paste the markup into HTML or save it as an `.svg` file. This path needs no `init_project` call or Rocketicons project configuration.

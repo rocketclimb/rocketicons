@@ -23,6 +23,7 @@ const fixture = (language = "ts", target = "react", dependencies = true) => {
       version: "1",
       dependencies: {
         ...(dependencies ? { "@rocketicons/utils": "1", "@rocketicons/tailwind": "1" } : {}),
+        ...(target === "react" ? { tailwindcss: "^4.2.1", "@tailwindcss/vite": "^4.2.1" } : {}),
         ...(target === "react-native"
           ? { "react-native": "1", nativewind: "1", "react-native-svg": "1" }
           : {})
@@ -30,8 +31,14 @@ const fixture = (language = "ts", target = "react", dependencies = true) => {
     })
   );
   if (language === "ts") fs.writeFileSync(path.join(root, "tsconfig.json"), "{}");
-  if (target === "react")
-    fs.writeFileSync(path.join(root, "vite.config.js"), "export default {};\n");
+  if (target === "react") {
+    fs.writeFileSync(
+      path.join(root, "vite.config.js"),
+      'import tailwindcss from "@tailwindcss/vite";\nexport default { plugins: [tailwindcss()] };\n'
+    );
+    fs.writeFileSync(path.join(root, "src/index.css"), '@import "tailwindcss";\n');
+    fs.writeFileSync(path.join(root, "src/main.jsx"), 'import "./index.css";\n');
+  }
   return { root, source };
 };
 
