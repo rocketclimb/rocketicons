@@ -24,7 +24,8 @@ const collections: Array<[string, number, number]> = [
   ["lia", 1331, 1544],
   ["bi", 1030, 1634],
   ["bs", 1389, 2754],
-  ["fa6", 2051, 2058]
+  ["fa6", 2051, 2058],
+  ["gi", 4037, 4040]
 ];
 
 const sources = new Map(collections.map(([id]) => [id, loadContextSource(id)!]));
@@ -180,6 +181,16 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["rx", "database", "backend", "backend"],
     ["rx", "server", "hosting", "hospedagem"],
     ["rx", "twitter-logo", "X", "X"],
+    ["gi", "arrow-cluster", "arrow", "seta"],
+    ["gi", "cloud-download", "cloud", "nuvem"],
+    ["gi", "database", "database", "banco de dados"],
+    ["gi", "house", "home", "casa"],
+    ["gi", "magnifying-glass", "search", "buscar"],
+    ["gi", "phone", "phone", "telefone"],
+    ["gi", "trash-can", "trash", "lixeira"],
+    ["gi", "compass", "compass", "bússola"],
+    ["gi", "open-folder", "folder", "pasta"],
+    ["gi", "share", "share", "compartilhar"],
     ["fa6", "arrow-left", "arrow", "seta"],
     ["fa6", "cloud", "cloud", "nuvem"],
     ["fa6", "code", "code", "código"],
