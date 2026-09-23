@@ -6,6 +6,7 @@ export interface IconDefinition {
   projectUrl: string;
   license: string;
   licenseUrl: string;
+  licenseNoticePath?: string;
   source?: IconSetSource;
 }
 
@@ -14,6 +15,9 @@ export interface IconDefinitionContent {
   formatter(camelName: string, filePath: string): string;
   multiColor?: boolean;
   processWithSVGO?: boolean;
+  preserveChildCurrentColor?: boolean;
+  preserveRootFillNone?: boolean;
+  variantOverride?: "outlined" | "filled" | "full";
 }
 
 export type IconSetSource = IconSetGitSource;

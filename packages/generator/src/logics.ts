@@ -21,14 +21,30 @@ export const getIconFiles = async (content: IconDefinitionContent) => {
 
 export const convertIconData = async (
   svg: string,
-  multiColor: boolean | undefined
+  multiColor: boolean | undefined,
+  preserveChildCurrentColor = false,
+  preserveRootFillNone = false
 ): Promise<{ iconData: IconTree; variant: Variants }> => {
   const colorProps: Record<string, boolean> = {
     fill: false,
     stroke: false
   };
 
-  const [iconData] = elementToTree(svg, multiColor, colorProps);
+  const [iconData] = elementToTree(svg, multiColor, colorProps, preserveChildCurrentColor);
+
+  if (preserveRootFillNone && iconData.attr.fill === "none") {
+    const preserve = (node: IconTree, inheritedFill: string) => {
+      const fill = node.attr.fill ?? inheritedFill;
+      if (
+        inheritedFill === "none" &&
+        !node.attr.fill &&
+        ["path", "circle", "ellipse", "rect", "polygon", "polyline"].includes(node.tag)
+      )
+        node.attr.fill = "none";
+      node.child.forEach((child) => preserve(child, fill));
+    };
+    iconData.child.forEach((child) => preserve(child, "none"));
+  }
 
   const getVariant = (): "full" | "outlined" | "filled" => {
     if (colorProps.fill && colorProps.stroke) {

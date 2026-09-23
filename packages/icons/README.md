@@ -40,6 +40,8 @@ export function LaunchButton() {
 
 The CLI currently writes TSX to `src/ri`, configures the `@/ri/*` alias, and adds one icon per command. Run `add` repeatedly when you need a small set.
 
+Iconoir v7.12.1 is available as `@oir/oir-home` and, where Iconoir supplies a solid style, `@oir/oir-solid-<name>`. The collection contains 1,383 regular and 288 solid icons under Iconoir's MIT license. For example, `npx rocketicons add @oir/oir-solid-arrow-down-circle` adds just that component.
+
 Commit `src/ri` with your application so collaborators, CI, deployments, and offline builds use the same icon source.
 
 ## Documentation and machine discovery

@@ -33,7 +33,7 @@
 
 ### Other
 
--  ([c4dcbeca](https://github.com/rocketclimb/rocketicons/commit/c4dcbeca70280efeab696c005928b5afd304ad40))
+- ([c4dcbeca](https://github.com/rocketclimb/rocketicons/commit/c4dcbeca70280efeab696c005928b5afd304ad40))
 
 ## [0.6.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
 
@@ -184,3 +184,13 @@
 
 - 32 icon collections
 - 45,945 icons
+
+## Unreleased
+
+### Features
+
+- Add Iconoir v7.12.1 with 1,383 regular and 288 solid components, CLI IDs, static catalog records, and reviewed English/PT-BR search context.
+
+### Bug Fixes
+
+- Resolve generated ESM icon imports in Node and fix CLI `add` loading of generated SVG data.

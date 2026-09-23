@@ -88,6 +88,14 @@ const collectionMetadata: Record<
     projectUrl: "https://circumicons.com",
     license: { type: "MPL-2.0", url: "https://mozilla.org/MPL/2.0/" }
   },
+  oir: {
+    name: "Iconoir",
+    projectUrl: "https://iconoir.com/",
+    license: {
+      type: "MIT",
+      url: "https://github.com/iconoir-icons/iconoir/blob/d7dfa4d0341df0670bfed9fc24221c9d7ef2112e/LICENSE"
+    }
+  },
   di: {
     name: "Devicons",
     projectUrl: "https://devicons.github.io/devicon",
