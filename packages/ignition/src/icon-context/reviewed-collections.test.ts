@@ -11,6 +11,7 @@ const collections: Array<[string, number, number]> = [
   ["tfi", 300, 352],
   ["vsc", 632, 653],
   ["hi", 226, 460],
+  ["hi2", 648, 972],
   ["im", 491, 491],
   ["gr", 628, 637],
   ["cg", 682, 704],
@@ -84,6 +85,17 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["hi", "save", "persist changes", "guardar alterações"],
     ["hi", "volume-off", "mute", "silenciar"],
     ["hi", "exclamation", "warning", "aviso"],
+    ["hi2", "home", "home page", "página inicial"],
+    ["hi2", "magnifying-glass", "search", "busca"],
+    ["hi2", "arrow-left", "back", "voltar"],
+    ["hi2", "bell", "notifications", "notificações"],
+    ["hi2", "check-circle", "success", "sucesso"],
+    ["hi2", "shopping-cart", "checkout", "finalizar compra"],
+    ["hi2", "document", "file", "arquivo"],
+    ["hi2", "code-bracket", "developer tools", "ferramentas de desenvolvimento"],
+    ["hi2", "map-pin", "location", "localização"],
+    ["hi2", "face-smile", "reaction", "reação"],
+    ["hi2", "server", "hosting", "hospedagem"],
     ["im", "tree", "organization chart", "organograma"],
     ["im", "power", "electricity", "eletricidade"],
     ["im", "google", "search service", "serviço de busca"],
@@ -146,7 +158,11 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["io", "ios-water", "map pin"],
     ["rx", "database", "server hardware"],
     ["rx", "server", "database"],
-    ["rx", "stop", "warning sign"]
+    ["rx", "stop", "warning sign"],
+    ["hi2", "arrow-left", "move right"],
+    ["hi2", "arrow-right", "move left"],
+    ["hi2", "x-mark", "check mark"],
+    ["hi2", "face-smile", "sad face"]
   ])("%s/%s keeps misleading intent %s out of positive metadata", (id, familyId, negative) => {
     const family = loadContextSource(id)!.families.find((entry) => entry.familyId === familyId)!;
     expect(family.negativeTerms.en).toContain(negative);
