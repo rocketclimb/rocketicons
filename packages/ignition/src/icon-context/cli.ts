@@ -55,7 +55,10 @@ const loadIcons = (collectionId: string): ContextSourceIcon[] => {
   if (!existsSync(manifestFile) || !existsSync(svgRoot))
     throw new Error(`Unknown or unbuilt collection: ${collectionId}`);
   const manifest = require(manifestFile).manifest as { icons: Record<string, ManifestIcon> };
-  return Object.values(manifest.icons)
+  const uniqueIcons = new Map<string, ManifestIcon>();
+  // Component aliases can share an icon id. Match the catalog's last alias for each id.
+  for (const icon of Object.values(manifest.icons)) uniqueIcons.set(icon.id, icon);
+  return [...uniqueIcons.values()]
     .map((icon) => ({
       id: icon.id,
       name: icon.name,

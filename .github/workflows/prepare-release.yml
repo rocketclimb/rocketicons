@@ -1,20 +1,15 @@
 name: Cut Release
-run-name: Cut release/${{ inputs.release_version }} from ${{ github.ref_name }}
+run-name: Cut release from ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
-    inputs:
-      release_version:
-        description: Stable root version for the release branch (for example, 0.9.4)
-        required: true
-        type: string
 
 permissions:
   contents: write
   packages: read
 
 concurrency:
-  group: cut-release-${{ inputs.release_version }}
+  group: cut-release-${{ github.ref_name }}
   cancel-in-progress: false
 
 env:
@@ -22,7 +17,7 @@ env:
 
 jobs:
   cut-release:
-    name: Cut release/${{ inputs.release_version }}
+    name: Prepare release from ${{ github.ref_name }}
     runs-on: ubuntu-latest
     env:
       AUTOMATION_USER_NAME: ${{ vars.AUTOMATION_USER_NAME }}
@@ -31,42 +26,39 @@ jobs:
 
     steps:
       - name: Checkout selected source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: ${{ github.ref_name }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
 
-      - name: Validate release request
-        id: release-request
+      - name: Validate release source
         env:
-          RELEASE_VERSION: ${{ inputs.release_version }}
           SOURCE_BRANCH: ${{ github.ref_name }}
+        run: node .github/scripts/release-guard.mjs validate-source "$SOURCE_BRANCH"
+
+      - name: Validate release base
         run: |
-          RELEASE_BRANCH="$(
-            node .github/scripts/release-guard.mjs release-branch \
-              "$SOURCE_BRANCH" \
-              "$RELEASE_VERSION"
-          )"
-          TAG_NAME="v${RELEASE_VERSION}-release"
-
-          if git ls-remote --exit-code --heads origin "refs/heads/$RELEASE_BRANCH" >/dev/null; then
-            echo "Release branch $RELEASE_BRANCH already exists" >&2
+          git fetch --no-tags origin main
+          if ! git merge-base --is-ancestor FETCH_HEAD HEAD; then
+            echo "develop must include main before cutting a release. Merge main into develop and retry." >&2
             exit 1
           fi
 
-          if git ls-remote --exit-code --tags origin "refs/tags/$TAG_NAME" >/dev/null; then
-            echo "Release tag $TAG_NAME already exists" >&2
+      - name: Verify pull request automation credential
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACTIONS }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "GH_ACTIONS is required to open the release pull request" >&2
             exit 1
           fi
-
-          echo "RELEASE_BRANCH=$RELEASE_BRANCH" >> $GITHUB_OUTPUT
-          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
+          gh api user --jq .login >/dev/null
 
       - name: Configure GitHub Packages
         run: |
@@ -74,7 +66,7 @@ jobs:
           npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache icons
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: icons-cache
         with:
           path: |
@@ -101,47 +93,72 @@ jobs:
           git config user.name "${{ env.AUTOMATION_USER_NAME }}"
           git config user.email "${{ env.AUTOMATION_USER_EMAIL }}"
 
-      - name: Create local release branch
-        env:
-          RELEASE_BRANCH: ${{ steps.release-request.outputs.RELEASE_BRANCH }}
+      - name: Create local release candidate
         run: |
-          git switch --create "$RELEASE_BRANCH"
+          git switch --create "release-candidate/$GITHUB_RUN_ID"
           git config push.default nothing
 
       - name: Bump versions and prepare package
         id: prepare-release
         env:
-          RELEASE_BRANCH: ${{ steps.release-request.outputs.RELEASE_BRANCH }}
-          RELEASE_VERSION: ${{ inputs.release_version }}
+          SOURCE_BRANCH: ${{ github.ref_name }}
         run: |
           PUBLISHED_VERSION="$(npm view rocketicons version)"
           CURRENT_VERSION="$(node -p "require('./packages/icons/package.json').version")"
+          ROOT_VERSION="$(node -p "require('./package.json').version")"
+          CUT_MODE="$(
+            node .github/scripts/release-guard.mjs cut-mode \
+              "$ROOT_VERSION" \
+              "$CURRENT_VERSION" \
+              "$PUBLISHED_VERSION"
+          )"
 
-          if [ "$CURRENT_VERSION" != "$PUBLISHED_VERSION" ]; then
-            echo "Develop package version $CURRENT_VERSION must match published $PUBLISHED_VERSION before cutting a release" >&2
-            exit 1
+          if [ "$CUT_MODE" = "bump" ]; then
+            TAG_NAME="$(
+              npm run release |
+                grep -Eo 'v[0-9]+\.[0-9]+\.[0-9]+-release' |
+                tail -1
+            )"
+
+            EXPECTED_COMMIT_SUBJECT="ci(releaser): bump packages versions and update changelog for release-candidate/$GITHUB_RUN_ID"
+            ACTUAL_COMMIT_SUBJECT="$(git log -1 --format=%s)"
+            if [ "$ACTUAL_COMMIT_SUBJECT" != "$EXPECTED_COMMIT_SUBJECT" ]; then
+              echo "Unexpected release commit: $ACTUAL_COMMIT_SUBJECT" >&2
+              exit 1
+            fi
+          else
+            TAG_NAME="v${ROOT_VERSION}-release"
+            echo "::notice::Packaging already prepared rocketicons@$CURRENT_VERSION"
           fi
 
-          TAG_NAME="$(
-            npm run release |
-              grep -Eo 'v[0-9]+\.[0-9]+\.[0-9]+-release' |
-              tail -1
-          )"
           ROOT_VERSION="$(node -p "require('./package.json').version")"
           PACKAGE_VERSION="$(node -p "require('./packages/icons/package.json').version")"
+          RELEASE_BRANCH="$(
+            node .github/scripts/release-guard.mjs release-branch \
+              "$SOURCE_BRANCH" \
+              "$ROOT_VERSION"
+          )"
 
           node .github/scripts/release-guard.mjs validate-cut-result \
-            "$RELEASE_VERSION" \
+            "$ROOT_VERSION" \
             "$ROOT_VERSION" \
             "$TAG_NAME"
 
-          EXPECTED_COMMIT_SUBJECT="ci(releaser): bump packages versions and update changelog for $RELEASE_BRANCH"
-          ACTUAL_COMMIT_SUBJECT="$(git log -1 --format=%s)"
-          if [ "$ACTUAL_COMMIT_SUBJECT" != "$EXPECTED_COMMIT_SUBJECT" ]; then
-            echo "Unexpected release commit: $ACTUAL_COMMIT_SUBJECT" >&2
+          if git ls-remote --exit-code --heads origin "refs/heads/$RELEASE_BRANCH" >/dev/null; then
+            echo "Release branch $RELEASE_BRANCH already exists" >&2
             exit 1
           fi
 
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG_NAME" >/dev/null; then
+            echo "Release tag $TAG_NAME already exists" >&2
+            exit 1
+          fi
+
+          git branch --move "$RELEASE_BRANCH"
+          if [ "$CUT_MODE" = "bump" ]; then
+            git commit --amend --no-verify \
+              -m "ci(releaser): bump packages versions and update changelog for $RELEASE_BRANCH"
+          fi
           git config --unset push.default
 
           PUBLISH_PACKAGE="$(
@@ -151,7 +168,7 @@ jobs:
           )"
 
           if [ "$PUBLISH_PACKAGE" != "true" ]; then
-            echo "Cut Release must prepare a new package version" >&2
+            echo "Cut Release must package a new version" >&2
             exit 1
           fi
 
@@ -162,6 +179,7 @@ jobs:
           fi
 
           echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "RELEASE_BRANCH=$RELEASE_BRANCH" >> $GITHUB_OUTPUT
           echo "ROOT_VERSION=$ROOT_VERSION" >> $GITHUB_OUTPUT
           echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
           echo "PUBLISHED_VERSION=$PUBLISHED_VERSION" >> $GITHUB_OUTPUT
@@ -177,9 +195,9 @@ jobs:
           CUT_FROM_SHA: ${{ github.sha }}
           PACKAGE_VERSION: ${{ steps.prepare-release.outputs.PACKAGE_VERSION }}
           PUBLISH_PACKAGE: ${{ steps.prepare-release.outputs.PUBLISH_PACKAGE }}
-          RELEASE_BRANCH: ${{ steps.release-request.outputs.RELEASE_BRANCH }}
+          RELEASE_BRANCH: ${{ steps.prepare-release.outputs.RELEASE_BRANCH }}
           RELEASE_HEAD_SHA: ${{ steps.prepare-release.outputs.RELEASE_HEAD_SHA }}
-          RELEASE_VERSION: ${{ inputs.release_version }}
+          RELEASE_VERSION: ${{ steps.prepare-release.outputs.ROOT_VERSION }}
           ROOT_VERSION: ${{ steps.prepare-release.outputs.ROOT_VERSION }}
           SOURCE_WORKFLOW_RUN_ID: ${{ github.run_id }}
           TAG_NAME: ${{ steps.prepare-release.outputs.TAG_NAME }}
@@ -204,7 +222,7 @@ jobs:
           '
 
       - name: Upload tag artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: tag-artifact
           path: .tagrc
@@ -212,7 +230,7 @@ jobs:
           if-no-files-found: error
 
       - name: Upload release artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: deployable-artifacts
           path: |
@@ -223,5 +241,28 @@ jobs:
 
       - name: Push release branch
         env:
-          RELEASE_BRANCH: ${{ steps.release-request.outputs.RELEASE_BRANCH }}
+          RELEASE_BRANCH: ${{ steps.prepare-release.outputs.RELEASE_BRANCH }}
         run: git push --set-upstream origin "$RELEASE_BRANCH" --no-verify
+
+      - name: Open release pull request
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACTIONS }}
+          RELEASE_BRANCH: ${{ steps.prepare-release.outputs.RELEASE_BRANCH }}
+          ROOT_VERSION: ${{ steps.prepare-release.outputs.ROOT_VERSION }}
+          PACKAGE_VERSION: ${{ steps.prepare-release.outputs.PACKAGE_VERSION }}
+        run: |
+          cat > "$RUNNER_TEMP/release-pr.md" <<EOF
+          ## Release
+
+          - Root version: $ROOT_VERSION
+          - npm package: rocketicons@$PACKAGE_VERSION
+          - Prepared by: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+
+          Merging this PR into main triggers Release Packages.
+          EOF
+
+          gh pr create \
+            --base main \
+            --head "$RELEASE_BRANCH" \
+            --title "chore(release): $ROOT_VERSION" \
+            --body-file "$RUNNER_TEMP/release-pr.md"

@@ -1,4 +1,4 @@
-import type { IconTree } from "rocketicons";
+import type { IconTree } from "@rocketicons/core";
 import type { ContextSourceIcon } from "./types";
 
 export const xml = (value: string) =>
