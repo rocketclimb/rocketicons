@@ -3,7 +3,7 @@ name: Cloudflare Pages
 on:
   pull_request:
     branches: [develop, main]
-    types: [opened, synchronize, reopened, closed]
+    types: [opened, synchronize, reopened, ready_for_review, closed]
   push:
     branches: [main]
   workflow_dispatch:
@@ -13,11 +13,17 @@ on:
         type: boolean
         required: false
         default: false
+      cleanup_preview_pr:
+        description: Retire a PR preview after an interrupted or failed close run
+        type: string
+        required: false
+        default: ""
 
 permissions:
   contents: read
   packages: read
   deployments: write
+  pull-requests: write
 
 concurrency:
   group: >-
@@ -30,10 +36,16 @@ concurrency:
 jobs:
   build:
     name: Test and export static site
-    if: github.event_name != 'pull_request' || github.event.action != 'closed'
+    if: >-
+      (github.event_name != 'pull_request' || github.event.action != 'closed') &&
+      (github.event_name != 'workflow_dispatch' || inputs.cleanup_preview_pr == '')
     runs-on: ubuntu-latest
     env:
       SITE_ORIGIN: ${{ vars.SITE_ORIGIN || 'https://rocketicons.com' }}
+      # Previews build with the production SITE_ORIGIN so canonical and hreflang keep pointing
+      # at production. Point open graph images at the preview alone, so a shared preview link
+      # renders its own cards instead of production paths that do not exist yet.
+      OG_IMAGE_ORIGIN: ${{ github.event_name == 'pull_request' && format('https://pr-{0}.rocketicons.pages.dev', github.event.pull_request.number) || '' }}
       RI_GENERATE_ALL_ICONS: "true"
       NEXT_PUBLIC_ALGOLIA_APPLICATION_ID: ${{ vars.ALGOLIA_APPLICATION_ID }}
       NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY: ${{ vars.ALGOLIA_SEARCH_ONLY_API_KEY }}
@@ -77,14 +89,17 @@ jobs:
           SKIP_IGNITION_BUILD: "true"
         run: npm run build-all
 
-      - name: Test workspace
-        run: npm run test-all
-
       - name: Generate content collections
         run: npm run generate-content-collections --workspace=packages/ignition
 
       - name: Generate complete static catalog
         run: npm run generate-statics:all-icons --workspace=packages/ignition
+
+      - name: Test workspace
+        run: npm run test-all
+
+      - name: Verify every generated icon and web catalog record
+        run: npm run test:catalog --workspace=packages/generator
 
       - name: Export Next.js site
         env:
@@ -98,6 +113,11 @@ jobs:
           test -f packages/ignition/out/en/index.html
           test -f packages/ignition/out/pt-br/index.html
           test -f packages/ignition/out/ai/v1/catalog.json
+          test -f packages/ignition/out/img/og/en/home.png
+          test -f packages/ignition/out/img/og/en/collections/wi.png
+          test -f packages/ignition/out/img/og/pt-br/collections/wi.png
+          test -f packages/ignition/out/_worker.js
+          test -f packages/ignition/out/_routes.json
           size_kib=$(du -sk packages/ignition/out | cut -f1)
           test "$size_kib" -le 921600
           echo "Export size: $size_kib KiB"
@@ -143,35 +163,79 @@ jobs:
           echo "### Cloudflare Pages preview" >> "$GITHUB_STEP_SUMMARY"
           echo "[$PREVIEW_URL]($PREVIEW_URL)" >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Publish preview URL to GitHub
+        if: steps.deploy-preview.outcome == 'success'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          PREVIEW_ACTION: publish
+          PREVIEW_ENVIRONMENT: pr-${{ github.event.pull_request.number }}
+          PREVIEW_PR_NUMBER: ${{ github.event.pull_request.number }}
+          PREVIEW_REF: ${{ github.event.pull_request.head.sha }}
+          PREVIEW_URL: ${{ steps.deploy-preview.outputs.pages-deployment-alias-url }}
+        run: node .github/scripts/github-pages-preview.mjs
+
   cleanup-preview:
-    name: Retire closed PR preview
+    name: Retire Cloudflare PR preview
     if: >-
-      github.event_name == 'pull_request' &&
-      github.event.action == 'closed' &&
-      github.event.pull_request.head.repo.full_name == github.repository &&
-      github.event.pull_request.user.login != 'dependabot[bot]'
+      (github.event_name == 'pull_request' &&
+        github.event.action == 'closed' &&
+        github.event.pull_request.head.repo.full_name == github.repository &&
+        github.event.pull_request.user.login != 'dependabot[bot]') ||
+      (github.event_name == 'workflow_dispatch' && inputs.cleanup_preview_pr != '')
     runs-on: ubuntu-latest
+    env:
+      PREVIEW_PR_NUMBER: ${{ github.event_name == 'pull_request' && github.event.pull_request.number || inputs.cleanup_preview_pr }}
     steps:
-      - name: Checkout default branch
+      - name: Checkout preview workflow branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.repository.default_branch }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || github.ref }}
 
-      # Pages does not allow deletion of a branch's latest deployment. Replace
-      # the preview with a tiny redirect so the real preview can be deleted.
+      # Wrangler Action installs Wrangler from the checkout root even when its
+      # command runs in a working directory, so its install needs package auth.
+      - name: Configure GitHub Packages
+        run: |
+          npm config set @rocketclimb:registry https://npm.pkg.github.com
+          npm config set //npm.pkg.github.com/:_authToken ${{ github.token }}
+
+      - name: Validate preview PR number
+        run: '[[ "$PREVIEW_PR_NUMBER" =~ ^[1-9][0-9]*$ ]]'
+
+      # Replace the stable branch alias with a tiny redirect so a closed PR no
+      # longer serves stale preview content while deployment history remains.
       - name: Retire Cloudflare Pages preview
         id: retire-preview
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy .github/preview-closed --project-name=rocketicons --branch=pr-${{ github.event.pull_request.number }}
+          workingDirectory: .github/preview-closed
+          command: pages deploy . --project-name=rocketicons --branch=pr-${{ env.PREVIEW_PR_NUMBER }}
 
-      - name: Delete superseded preview deployments
+  retire-github-preview:
+    name: Retire GitHub PR preview record
+    needs: cleanup-preview
+    if: always() && needs.cleanup-preview.result == 'success'
+    runs-on: ubuntu-latest
+    env:
+      PREVIEW_PR_NUMBER: ${{ github.event_name == 'pull_request' && github.event.pull_request.number || inputs.cleanup_preview_pr }}
+    steps:
+      - name: Checkout preview workflow branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || github.ref }}
+
+      - name: Validate preview PR number
+        run: '[[ "$PREVIEW_PR_NUMBER" =~ ^[1-9][0-9]*$ ]]'
+
+      - name: Retire GitHub preview deployment
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_PAGES_PROJECT: rocketicons
-          PREVIEW_BRANCH: pr-${{ github.event.pull_request.number }}
-          KEEP_DEPLOYMENT_ID: ${{ steps.retire-preview.outputs.pages-deployment-id }}
-        run: node .github/scripts/cleanup-pages-preview.mjs
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          PREVIEW_ACTION: retire
+          PREVIEW_ENVIRONMENT: pr-${{ env.PREVIEW_PR_NUMBER }}
+          PREVIEW_PR_NUMBER: ${{ env.PREVIEW_PR_NUMBER }}
+          PREVIEW_REF: ${{ github.event.pull_request.head.sha }}
+          PREVIEW_URL: https://pr-${{ env.PREVIEW_PR_NUMBER }}.rocketicons.pages.dev
+        run: node .github/scripts/github-pages-preview.mjs

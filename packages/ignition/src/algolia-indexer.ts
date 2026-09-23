@@ -19,6 +19,7 @@ import {
 } from "@/algolia/index-version";
 import { getCollectionIcons, getCollections } from "@/catalog/server";
 import { siteConfig } from "@/config/site";
+import { buildContextArtifacts } from "@/icon-context/core";
 
 const requiredEnvironmentVariable = (name: string) => {
   const value = process.env[name]?.trim();
@@ -36,10 +37,23 @@ export const synchronizeAlgolia = async () => {
       "unordered(title)",
       "unordered(groupName)",
       "unordered(group)",
-      "unordered(text)",
-      "unordered(categories)"
+      "unordered(searchTermsEn)",
+      "unordered(searchTermsPtBr)",
+      "unordered(uiContexts)",
+      "unordered(categories)",
+      "unordered(descriptionEn)",
+      "unordered(descriptionPtBr)",
+      "unordered(text)"
     ],
-    attributesForFaceting: ["filterOnly(recordType)", "filterOnly(locale)"],
+    attributesForFaceting: [
+      "filterOnly(recordType)",
+      "filterOnly(locale)",
+      "searchable(group)",
+      "searchable(categories)",
+      "searchable(uiContexts)",
+      "filterOnly(roles)",
+      "filterOnly(variant)"
+    ],
     hitsPerPage: 60
   };
   const indexVersion = buildAlgoliaIndexVersion(records, settings);
@@ -86,13 +100,32 @@ export const buildAlgoliaRecords = async () => {
   const icons: AlgoliaSourceIcon[] = (
     await Promise.all(
       catalogCollections.map(async ({ id: collectionId }) =>
-        (await getCollectionIcons(collectionId)).map((icon) => ({
-          collectionId,
-          iconId: icon.id,
-          name: icon.name,
-          component: icon.component,
-          categories: [icon.variant]
-        }))
+        getCollectionIcons(collectionId).then((collectionIcons) => {
+          const contexts = new Map(
+            buildContextArtifacts(collectionId, "algolia", collectionIcons).icons.map(
+              (context) => [context.id, context]
+            )
+          );
+          return collectionIcons.map((icon) => {
+            const context = contexts.get(icon.id);
+            return {
+              collectionId,
+              iconId: icon.id,
+              name: icon.name,
+              component: icon.component,
+              categories: context?.categories ?? [icon.variant],
+              descriptionEn: context?.description.en,
+              descriptionPtBr: context?.description["pt-BR"],
+              searchTermsEn: context ? [...context.aliases.en, ...context.searchTerms.en] : [],
+              searchTermsPtBr: context
+                ? [...context.aliases["pt-BR"], ...context.searchTerms["pt-BR"]]
+                : [],
+              uiContexts: context?.uiContexts,
+              roles: context?.roles,
+              variant: icon.variant
+            };
+          });
+        })
       )
     )
   ).flat();

@@ -11,6 +11,8 @@ release-notes.md
 release-output.log
 .DS_Store
 .vercel
-.env
+# local env files - never commit real values; secrets live in GitHub Actions
+.env*
+!.env.example
 .vscode
 docs/testing/reports/

@@ -1,5 +1,6 @@
 import type { IconTree, Variants } from "rocketicons";
 import type { CollectionID, License } from "rocketicons/data";
+import type { ContextCoverage } from "@/icon-context/types";
 
 export const STATIC_CATALOG_SCHEMA_VERSION = 1 as const;
 export const STATIC_CATALOG_CHUNK_SIZE = 500;
@@ -12,6 +13,8 @@ export type StaticCollectionSummary = {
   licenseUrl: string;
   totalIcons: number;
   indexUrl: string;
+  contextIndexUrl?: string;
+  contextCoverage?: ContextCoverage;
 };
 
 export type StaticCatalog = {

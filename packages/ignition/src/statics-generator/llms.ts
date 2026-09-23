@@ -11,6 +11,7 @@ ${CANONICAL_PRODUCT_MESSAGE}
 - Catalog/package version: ${catalog.packageVersion}
 - Documentation updated: ${DOCUMENTATION_UPDATED_AT}
 - Static catalog: ${sitePath("/ai/v1/catalog.json")}
+- Catalog capabilities: ${sitePath("/ai/v1/capabilities.json")}
 - English documentation: ${sitePath("/en/docs/getting-started/")}
 - Brazilian Portuguese documentation: ${sitePath("/pt-br/docs/primeiros-passos/")}
 `;
@@ -29,7 +30,7 @@ The current CLI generates TSX, uses the fixed \`src/ri\` output directory and \`
 
 ## Catalog and licensing
 
-Start with ${sitePath("/ai/v1/catalog.json")}. Each collection entry links to a compact index, and each icon index entry identifies its shard. Catalog URLs include the configured deployment base path. Collection records include their upstream project, license, and license URL. Review the selected collection's terms and preserve any required attribution.
+Start with ${sitePath("/ai/v1/catalog.json")}. Each collection entry links to a compact icon index and uses \`contextIndexUrl\` for its semantic context index. The context index reports coverage and explicitly selects \`none\`, \`single\`, or \`chunked\` storage; load only the referenced files. Available context includes English and Brazilian Portuguese descriptions, aliases, search terms, UI contexts, categories, roles, visual properties, and \`negativeTerms\` disambiguation guidance. Each icon index entry identifies its SVG shard. Catalog URLs include the configured deployment base path. Collection records include their upstream project, license, and license URL. Review the selected collection's terms and preserve any required attribution.
 
 ## More guidance
 
@@ -80,7 +81,7 @@ Choose the matching Rocketicons icon, initialize once, add it by exact ID, repla
 
 ## Static catalog
 
-Fetch ${sitePath("/ai/v1/catalog.json")} first. Follow a collection's \`indexUrl\` to list icon IDs, names, components, variants, and shard numbers. Load only the referenced shard when SVG tree data is needed. Do not guess dynamic API routes: Rocketicons publishes static files.
+Fetch ${sitePath("/ai/v1/capabilities.json")} to inspect available machine resources, then ${sitePath("/ai/v1/catalog.json")}. Follow a collection's \`contextIndexUrl\` to discover semantic metadata and its coverage. The context index explicitly reports \`none\`, \`single\`, or \`chunked\` storage and, for chunks, includes compact topic hints. Search English and Brazilian Portuguese aliases, search terms, descriptions, UI contexts, categories, and roles. Treat \`negativeTerms\` as disambiguation guidance, never as positive matches. Follow \`indexUrl\` to list icon IDs, names, components, variants, and SVG shard numbers; load only the referenced shard when SVG tree data is needed. Do not guess dynamic API routes: Rocketicons publishes static files.
 
 ## Licensing
 

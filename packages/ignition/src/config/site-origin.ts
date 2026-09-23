@@ -33,3 +33,24 @@ export const absoluteSiteUrl = (path = "/") => {
   const site = new URL(getSiteOrigin());
   return new URL(withSiteBasePath(path), site.origin);
 };
+
+/**
+ * Origin for open graph images only.
+ *
+ * Preview deployments build with the production SITE_ORIGIN on purpose, so canonical and
+ * hreflang keep pointing at production — that is what keeps preview domains out of the index.
+ * The side effect is that a preview would advertise image paths that only exist once the PR
+ * ships. OG_IMAGE_ORIGIN lets the deployment override the image origin alone, leaving every
+ * other URL untouched.
+ */
+export const getOgImageOrigin = (): string => {
+  const configured = process.env.OG_IMAGE_ORIGIN;
+  return configured ? normalizeSiteOrigin(configured) : getSiteOrigin();
+};
+
+export const absoluteOgImageUrl = (path = "/") => {
+  const origin = new URL(getOgImageOrigin());
+  const basePath = origin.pathname.replace(/\/+$/, "");
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return new URL(`${basePath}${normalizedPath}`, origin.origin);
+};

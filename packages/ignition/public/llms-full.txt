@@ -2,9 +2,10 @@
 
 Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.
 
-- Catalog/package version: 0.3.2
+- Catalog/package version: 0.3.3
 - Documentation updated: 2026-08-12
 - Static catalog: /ai/v1/catalog.json
+- Catalog capabilities: /ai/v1/capabilities.json
 - English documentation: /en/docs/getting-started/
 - Brazilian Portuguese documentation: /pt-br/docs/primeiros-passos/
 
@@ -46,7 +47,7 @@ Choose the matching Rocketicons icon, initialize once, add it by exact ID, repla
 
 ## Static catalog
 
-Fetch /ai/v1/catalog.json first. Follow a collection's `indexUrl` to list icon IDs, names, components, variants, and shard numbers. Load only the referenced shard when SVG tree data is needed. Do not guess dynamic API routes: Rocketicons publishes static files.
+Fetch /ai/v1/capabilities.json to inspect available machine resources, then /ai/v1/catalog.json. Follow a collection's `contextIndexUrl` to discover semantic metadata and its coverage. The context index explicitly reports `none`, `single`, or `chunked` storage and, for chunks, includes compact topic hints. Search English and Brazilian Portuguese aliases, search terms, descriptions, UI contexts, categories, and roles. Treat `negativeTerms` as disambiguation guidance, never as positive matches. Follow `indexUrl` to list icon IDs, names, components, variants, and SVG shard numbers; load only the referenced shard when SVG tree data is needed. Do not guess dynamic API routes: Rocketicons publishes static files.
 
 ## Licensing
 
