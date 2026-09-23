@@ -25,7 +25,7 @@ test("builds and parses stable release branch names", () => {
   assert.throws(() => releaseVersionFromBranch("feature/0.9.4"), /release\/<version>/);
 });
 
-test("requires the generated root version and tag to match the requested release", () => {
+test("requires the generated root version and tag to match the release branch", () => {
   assert.deepEqual(validateCutReleaseResult("0.9.4", "0.9.4", "v0.9.4-release"), {
     releaseBranch: "release/0.9.4",
     tagName: "v0.9.4-release"
@@ -54,22 +54,19 @@ test("rejects skipped, stale, and unstable package versions", () => {
 });
 
 test("reuses a valid unpublished package without bumping it again", () => {
-  assert.equal(cutReleaseMode("0.9.4", "0.9.4", "0.3.3", "0.3.2"), "prepared");
-  assert.throws(
-    () => cutReleaseMode("0.10.0", "0.9.4", "0.3.3", "0.3.2"),
-    /requires release version 0\.9\.4/
-  );
+  assert.equal(cutReleaseMode("0.9.4", "0.3.3", "0.3.2"), "prepared");
 });
 
 test("bumps when develop and npm are in sync", () => {
-  assert.equal(cutReleaseMode("0.10.0", "0.9.4", "0.3.2", "0.3.2"), "bump");
+  assert.equal(cutReleaseMode("0.9.4", "0.3.2", "0.3.2"), "bump");
 });
 
 test("refuses to cut from a skipped or stale package version", () => {
   assert.throws(
-    () => cutReleaseMode("0.9.4", "0.9.4", "0.3.4", "0.3.2"),
+    () => cutReleaseMode("0.9.4", "0.3.4", "0.3.2"),
     /one SemVer increment/
   );
+  assert.throws(() => cutReleaseMode("0.9.4-rc.1", "0.3.3", "0.3.2"), /stable SemVer/);
 });
 
 test("accepts the generated release commit parent as the manual cut revision", () => {
