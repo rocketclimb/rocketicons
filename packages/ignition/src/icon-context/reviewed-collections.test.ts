@@ -20,7 +20,8 @@ const collections: Array<[string, number, number]> = [
   ["io5", 918, 1332],
   ["rx", 326, 332],
   ["ai", 647, 848],
-  ["tb", 5124, 6184]
+  ["tb", 5124, 6184],
+  ["lia", 1331, 1544]
 ];
 
 const sources = new Map(collections.map(([id]) => [id, loadContextSource(id)!]));
@@ -129,6 +130,16 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["io", "logo-closed-captioning", "subtitles", "subtítulos"],
     ["io", "md-notifications-off", "do not disturb", "não perturbe"],
     ["io", "ios-pulse", "vital signs", "sinais vitais"],
+    ["lia", "arrow-left", "arrow", "seta"],
+    ["lia", "cloud", "cloud", "nuvem"],
+    ["lia", "code", "code", "código"],
+    ["lia", "file", "file", "arquivo"],
+    ["lia", "search", "search", "buscar"],
+    ["lia", "home", "home", "casa"],
+    ["lia", "heart", "heart", "coração"],
+    ["lia", "phone", "phone", "telefone"],
+    ["lia", "folder", "folder", "pasta"],
+    ["lia", "trash", "trash", "lixeira"],
     ["fa", "arrow-left", "arrow", "seta"],
     ["fa", "cloud", "cloud", "nuvem"],
     ["fa", "code", "code", "código"],
@@ -139,6 +150,7 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["fa", "phone", "phone", "telefone"],
     ["fa", "folder", "folder", "pasta"],
     ["fa", "trash", "trash", "lixeira"],
+    ["fa", "wifi", "wifi", "wifi"],
     ["io5", "add", "add", "adicionar"],
     ["io5", "arrow-back", "arrow", "seta"],
     ["io5", "notifications", "notifications", "notificações"],
