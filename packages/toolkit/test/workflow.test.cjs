@@ -40,7 +40,7 @@ test("collection-qualified exact IDs and remote fallback", async () => {
     "recordType:icon AND (group:fi) AND (variant:outlined)"
   );
   const online = await app.searchIcons(input, async (received) => {
-    assert.deepEqual(received, input);
+    assert.deepEqual(received, { ...input, limit: 25 });
     return [{ iconId: "fi-calendar", group: "fi" }];
   });
   assert.equal(online.source, "algolia");
@@ -60,6 +60,7 @@ test("collection-qualified exact IDs and remote fallback", async () => {
     throw new Error("must not contact Algolia");
   });
   assert.equal(exact.results[0].id, "@fi/fi-calendar");
+  assert.match(exact.results[0].matchReason, /FiCalendar/);
 });
 
 test("reviewed local search corpus reaches 90% top-5 relevance", () => {
@@ -86,6 +87,86 @@ test("reviewed local search corpus reaches 90% top-5 relevance", () => {
       .results.some((result) => result.id === `@fi/${id}`)
   ).length;
   assert.ok(relevant / cases.length >= 0.9, `${relevant}/${cases.length} relevant in top 5`);
+});
+
+test("offline search relates Navigator to navigation icons", async () => {
+  const response = await app.searchIcons(
+    { query: "Navigator", collections: ["lu"], limit: 5 },
+    async () => {
+      throw new Error("offline");
+    }
+  );
+  assert.equal(response.source, "local");
+  assert.equal(response.results.length, 5);
+  assert.equal(response.results[0].id, "@lu/lu-navigation");
+  assert.match(response.results[0].matchReason, /Icon name "navigation" resembles "Navigator"/);
+});
+
+test("Algolia candidates are reranked using catalog evidence with specific reasons", async () => {
+  const response = await app.searchIcons(
+    { query: "navigator", collections: ["lu"], limit: 2 },
+    async ({ limit }) => {
+      assert.equal(limit, 20);
+      return [
+        { iconId: "lu-a-arrow-down", group: "lu" },
+        { iconId: "lu-navigation-off", group: "lu" },
+        { iconId: "lu-navigation", group: "lu" }
+      ];
+    }
+  );
+  assert.equal(response.source, "algolia");
+  assert.deepEqual(
+    response.results.map((result) => result.id),
+    ["@lu/lu-navigation", "@lu/lu-navigation-off"]
+  );
+  assert.match(response.results[0].matchReason, /Icon name "navigation" resembles "navigator"/);
+
+  const sports = await app.searchIcons(
+    { query: "sports", collections: ["lu"], limit: 1 },
+    async () => [{ iconId: "lu-whistle", group: "lu" }]
+  );
+  assert.match(sports.results[0].matchReason, /Catalog search term: "sports"/);
+});
+
+test("search keeps requested collection and variant when Algolia offers misleading hits", async () => {
+  const query = { query: "navigator", collections: ["lu"], variants: ["outlined"], limit: 3 };
+  const response = await app.searchIcons(query, async ({ collections, variants }) => {
+    assert.deepEqual(collections, ["lu"]);
+    assert.deepEqual(variants, ["outlined"]);
+    return [
+      { iconId: "fi-navigation", group: "fi" },
+      { iconId: "lu-navigation", group: "lu" }
+    ];
+  });
+  assert.equal(response.source, "local");
+  assert.ok(response.results.length > 0);
+  assert.ok(response.results.every((icon) => icon.collection === "lu" && icon.variant === "outlined"));
+  assert.equal(response.results[0].id, "@lu/lu-navigation");
+  assert.match(response.results[0].matchReason, /navigation.*resembles.*navigator/);
+});
+
+test("selection puts an appearance match ahead of a misleading near match", async () => {
+  const response = await app.searchIcons(
+    { query: "appearance", collections: ["lu"], limit: 2 },
+    async () => [
+      { iconId: "lu-a-arrow-down", group: "lu" },
+      { iconId: "lu-sun-moon", group: "lu" }
+    ]
+  );
+  assert.equal(response.source, "algolia");
+  assert.equal(response.results[0].id, "@lu/lu-sun-moon");
+  assert.match(response.results[0].matchReason, /Catalog search term: "appearance"/);
+
+  const misleading = await app.searchIcons(
+    { query: "letter a with an upward arrow", collections: ["lu"], limit: 2 },
+    async () => [
+      { iconId: "lu-a-arrow-down", group: "lu" },
+      { iconId: "lu-a-arrow-up", group: "lu" }
+    ]
+  );
+  assert.equal(misleading.results[0].id, "@lu/lu-a-arrow-up");
+  assert.match(misleading.results[0].matchReason, /Catalog alias/);
+  assert.match(misleading.results[1].matchReason, /misleading match/);
 });
 
 for (const language of ["ts", "js"])

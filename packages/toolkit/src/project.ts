@@ -37,7 +37,7 @@ export type MutationResult = {
   summary: string;
 };
 
-const sha = (value: string) => createHash("sha256").update(value).digest("hex");
+const sha = (value: string | Buffer) => createHash("sha256").update(value).digest("hex");
 const json = (value: unknown) => `${JSON.stringify(value, null, 2)}\n`;
 const within = (root: string, path: string) => {
   const rel = relative(root, path);
@@ -135,6 +135,36 @@ const compatibleRuntime = (version: unknown) => {
   if (!parsed) return false;
   return Number(parsed[1]) > 0 || Number(parsed[2] ?? 0) >= 7;
 };
+const requiredDependencies = (target: Target) => [
+  "@rocketicons/utils",
+  "@rocketicons/tailwind",
+  ...(target === "react-native" ? ["nativewind", "react-native-svg"] : [])
+];
+const dependenciesToInstall = (root: string, target: Target) => {
+  const pkg = JSON.parse(readFileSync(safePath(root, "package.json"), "utf8"));
+  const deps = { ...pkg.dependencies, ...pkg.devDependencies };
+  return requiredDependencies(target).filter(
+    (name) => !deps[name] || (name.startsWith("@rocketicons/") && !compatibleRuntime(deps[name]))
+  );
+};
+const requestedPackage = (name: string) =>
+  name.startsWith("@rocketicons/") ? `${name}@^0.7.0` : name;
+const installArgs = (manager: string, needed: string[]) => {
+  const packages = needed.map(requestedPackage);
+  return manager === "npm"
+    ? ["install", "--save", "--ignore-scripts", ...packages]
+    : ["add", ...packages, "--ignore-scripts"];
+};
+const lockfilePath = (root: string, manager: string) =>
+  manager === "pnpm"
+    ? "pnpm-lock.yaml"
+    : manager === "yarn"
+      ? "yarn.lock"
+      : manager === "bun"
+        ? existsSync(join(root, "bun.lockb"))
+          ? "bun.lockb"
+          : "bun.lock"
+        : "package-lock.json";
 const configText = (root: string, language: Language) => {
   const rel = language === "ts" ? "tsconfig.json" : "jsconfig.json";
   const previous = existing(root, rel) ?? "{}\n";
@@ -174,17 +204,7 @@ const template = (name: string, language: Language) =>
     "utf8"
   );
 const runInstall = async (root: string, manager: string, needed: string[]) => {
-  const packages = needed.map((name) =>
-    name.startsWith("@rocketicons/") ? `${name}@^0.7.0` : name
-  );
-  const args =
-    manager === "yarn"
-      ? ["add", ...packages, "--ignore-scripts"]
-      : manager === "bun"
-        ? ["add", ...packages, "--ignore-scripts"]
-        : manager === "pnpm"
-          ? ["add", ...packages, "--ignore-scripts"]
-          : ["install", "--save", "--ignore-scripts", ...packages];
+  const args = installArgs(manager, needed);
   await new Promise<void>((done, reject) => {
     const child = spawn(manager, args, {
       cwd: root,
@@ -212,10 +232,17 @@ const runInstall = async (root: string, manager: string, needed: string[]) => {
 export const inspectProject = (projectPath: string) => {
   const root = projectRoot(projectPath);
   const manifest = readManifest(root);
+  const installedIconStatus: Record<string, "current" | "missing" | "modified"> = {};
+  for (const [id, record] of Object.entries(manifest?.icons ?? {})) {
+    const content = existing(root, record.path);
+    installedIconStatus[id] =
+      content === undefined ? "missing" : sha(content) === record.sha256 ? "current" : "modified";
+  }
   return {
     projectPath: root,
     initialized: Boolean(manifest),
     manifest,
+    installedIconStatus,
     detectedTarget: detectTarget(root),
     detectedLanguage: detectLanguage(root),
     packageManager: detectPackageManager(root)
@@ -230,19 +257,16 @@ export const doctor = (projectPath: string) => {
       issues.push(
         `Project catalog ${project.manifest.catalogVersion} differs from installed catalog ${catalogVersion}`
       );
-    for (const [id, record] of Object.entries(project.manifest.icons)) {
-      const content = existing(project.projectPath, record.path);
-      if (!content) issues.push(`Missing generated file for ${id}`);
-      else if (sha(content) !== record.sha256) issues.push(`Generated file modified: ${id}`);
+    for (const id of Object.keys(project.manifest.icons)) {
+      if (project.installedIconStatus[id] === "missing")
+        issues.push(`Missing generated file for ${id}`);
+      else if (project.installedIconStatus[id] === "modified")
+        issues.push(`Generated file modified: ${id}`);
     }
   }
   const pkg = JSON.parse(readFileSync(safePath(project.projectPath, "package.json"), "utf8"));
   const deps = { ...pkg.dependencies, ...pkg.devDependencies };
-  for (const name of [
-    "@rocketicons/utils",
-    "@rocketicons/tailwind",
-    ...(project.manifest?.target === "react-native" ? ["nativewind", "react-native-svg"] : [])
-  ]) {
+  for (const name of requiredDependencies(project.manifest?.target ?? project.detectedTarget)) {
     if (!deps[name]) issues.push(`Missing dependency: ${name}`);
     else if (name.startsWith("@rocketicons/") && !compatibleRuntime(deps[name]))
       issues.push(`Incompatible dependency: ${name} requires version 0.7.0 or newer`);
@@ -295,15 +319,7 @@ export const initProject = async (
     fileChange(root, config.rel, config.next),
     fileChange(root, "rocketicons.json", json(manifest))
   ].filter(Boolean) as Change[];
-  const pkg = JSON.parse(readFileSync(safePath(root, "package.json"), "utf8"));
-  const deps = { ...pkg.dependencies, ...pkg.devDependencies };
-  const needed = [
-    "@rocketicons/utils",
-    "@rocketicons/tailwind",
-    ...(target === "react-native" ? ["nativewind", "react-native-svg"] : [])
-  ].filter(
-    (name) => !deps[name] || (name.startsWith("@rocketicons/") && !compatibleRuntime(deps[name]))
-  );
+  const needed = dependenciesToInstall(root, target);
   if (needed.length)
     changes.push({
       path: `package.json + ${manager} lockfile (${needed.join(", ")})`,
@@ -416,14 +432,230 @@ export const removeIcons = async (
   };
 };
 
-export const iconUsage = (id: string, target: Target, language: Language = "ts") => {
+export const iconUsage = (
+  id: string,
+  target: Target,
+  language: Language = "ts",
+  origin?: { projectPath: string; fromFile: string }
+) => {
   const icon = requireIcon(id);
+  const generatedPath = iconFile(icon.id, icon.collection, language);
+  let importStatement: string | null = null;
+  let fromFile: string | null = null;
+  if (origin) {
+    const root = projectRoot(origin.projectPath);
+    const source = safePath(root, origin.fromFile);
+    if (!existsSync(source) || !lstatSync(source).isFile())
+      throw new Error("from_file must identify an existing source file in the project");
+    const destination = safePath(root, generatedPath);
+    const relativeModule = relative(dirname(source), destination)
+      .replace(/\\/g, "/")
+      .replace(/\.(tsx|jsx)$/, "");
+    const specifier = relativeModule.startsWith(".") ? relativeModule : `./${relativeModule}`;
+    importStatement = `import ${icon.component} from ${JSON.stringify(specifier)};`;
+    fromFile = relative(root, source).replace(/\\/g, "/");
+  }
   return {
     ...iconSummary(icon),
     target,
     language,
-    generatedPath: iconFile(icon.id, icon.collection, language),
-    importStatement: `import ${icon.component} from "@/ri/icons/${isCollidingId(icon.id) ? `${icon.collection}-${icon.id}` : icon.id}";`,
+    generatedPath,
+    fromFile,
+    importStatement,
+    importHint: origin
+      ? null
+      : "Pass project_path and from_file to get an import that resolves from your source file",
     example: `<${icon.component} className="icon-primary-xl" />`
+  };
+};
+
+export type IconPlanOptions = {
+  fromFile: string;
+  target?: Target;
+  language?: Language;
+  packageManager?: string;
+};
+
+const plannedFile = (root: string, path: string, content: string) => {
+  const before = existing(root, path);
+  if (before === content) return undefined;
+  return {
+    path,
+    action: before === undefined ? ("create" as const) : ("update" as const),
+    beforeSha256: before === undefined ? null : sha(before),
+    afterSha256: sha(content),
+    afterBytes: Buffer.byteLength(content)
+  };
+};
+const fileDigest = (root: string, path: string) => {
+  const absolute = safePath(root, path);
+  return existsSync(absolute) ? sha(readFileSync(absolute)) : null;
+};
+
+export const planIcons = async (
+  projectPath: string,
+  iconIds: string[],
+  options: IconPlanOptions
+) => {
+  if (!iconIds.length) throw new Error("At least one icon ID is required");
+  if (!options.fromFile) throw new Error("from_file is required for a resolvable import");
+  const root = projectRoot(projectPath);
+  const sourcePath = safePath(root, options.fromFile);
+  if (!existsSync(sourcePath) || !lstatSync(sourcePath).isFile())
+    throw new Error("from_file must identify an existing source file in the project");
+  const fromFile = relative(root, sourcePath).replace(/\\/g, "/");
+  if (!/\.[cm]?[jt]sx?$/.test(fromFile))
+    throw new Error("from_file must be a JavaScript or TypeScript source file");
+  const prior = readManifest(root);
+  const target = options.target ?? prior?.target ?? detectTarget(root);
+  const language = options.language ?? prior?.language ?? detectLanguage(root);
+  const packageManager = options.packageManager ?? detectPackageManager(root);
+  await initProject(root, { target, language, packageManager, dryRun: true });
+  if (prior && prior.catalogVersion !== catalogVersion)
+    throw new Error("Project catalog version differs from installed catalog");
+
+  const icons = [
+    ...new Map(
+      iconIds.map((raw) => {
+        const icon = requireIcon(raw);
+        return [`@${icon.collection}/${icon.id}`, icon] as const;
+      })
+    ).values()
+  ];
+  const next: ProjectManifest = prior
+    ? JSON.parse(JSON.stringify(prior))
+    : { schemaVersion: 1, catalogVersion, target, language, outputPath: "src/ri", icons: {} };
+  const files = new Map<string, string>();
+  for (const name of ["index", "index.native"])
+    files.set(
+      `src/ri/core/${name}.${language === "ts" ? "tsx" : "jsx"}`,
+      template(name, language)
+    );
+  const config = configText(root, language);
+  files.set(config.rel, config.next);
+  for (const icon of icons) {
+    const id = `@${icon.collection}/${icon.id}`;
+    const path = iconFile(icon.id, icon.collection, language);
+    const content = componentSource(id, language);
+    const current = existing(root, path);
+    const recorded = prior?.icons[id];
+    if (current !== undefined && (!recorded || sha(current) !== recorded.sha256))
+      throw new Error(`Refusing to overwrite unmanaged or edited file: ${path}`);
+    next.icons[id] = {
+      component: icon.component,
+      path,
+      sha256: sha(content),
+      collection: icon.collection,
+      licenseUrl: getCollection(icon.collection)!.licenseUrl
+    };
+    files.set(path, content);
+  }
+  files.set("rocketicons.json", json(next));
+  const fileChanges = [...files]
+    .map(([path, content]) => plannedFile(root, path, content))
+    .filter((change): change is NonNullable<typeof change> => Boolean(change));
+  const dependencies = requiredDependencies(target);
+  const toInstall = dependenciesToInstall(root, target);
+  const dependencyEffects = toInstall.length
+    ? {
+        command: [packageManager, ...installArgs(packageManager, toInstall)],
+        mayWritePaths: [
+          "package.json",
+          lockfilePath(root, packageManager),
+          "node_modules/",
+          ".rocketicons-cache/"
+        ],
+        beforeSha256: Object.fromEntries(
+          ["package.json", lockfilePath(root, packageManager)].map((path) => [
+            path,
+            fileDigest(root, path)
+          ])
+        )
+      }
+    : null;
+  const imports = icons.map((icon) => {
+    const id = `@${icon.collection}/${icon.id}`;
+    const { generatedPath, importStatement, example } = iconUsage(id, target, language, {
+      projectPath: root,
+      fromFile
+    });
+    return { id, component: icon.component, generatedPath, importStatement, example };
+  });
+  const planCore = {
+    projectPath: root,
+    catalogVersion,
+    iconIds: icons.map((icon) => `@${icon.collection}/${icon.id}`),
+    initialized: Boolean(prior),
+    target,
+    language,
+    packageManager,
+    fromFile,
+    packageJsonSha256: sha(readFileSync(safePath(root, "package.json"))),
+    dependencies,
+    toInstall: toInstall.map(requestedPackage),
+    dependencyEffects,
+    fileChanges,
+    imports
+  };
+  return {
+    ...planCore,
+    planId: sha(json(planCore)),
+    summary: `${fileChanges.length} managed file change(s) planned; ${toInstall.length} dependency install(s)`
+  };
+};
+
+export const applyIconPlan = async (
+  projectPath: string,
+  iconIds: string[],
+  planId: string,
+  options: IconPlanOptions & { dryRun?: boolean }
+) => {
+  const plan = await planIcons(projectPath, iconIds, options);
+  if (plan.planId !== planId)
+    throw new Error("Plan is stale or does not match these inputs; call plan_icons again");
+  if (options.dryRun) return { ...plan, dryRun: true, verification: null };
+
+  await initProject(plan.projectPath, {
+    target: plan.target,
+    language: plan.language,
+    packageManager: plan.packageManager
+  });
+  await addIcons(plan.projectPath, plan.iconIds);
+  const health = doctor(plan.projectPath);
+  const mismatchedFiles = plan.fileChanges
+    .filter(({ path, afterSha256 }) => {
+      const content = existing(plan.projectPath, path);
+      return content === undefined || sha(content) !== afterSha256;
+    })
+    .map(({ path }) => path);
+  const issues = [
+    ...health.issues,
+    ...mismatchedFiles.map((path) => `Applied file differs from plan: ${path}`)
+  ];
+  const dependencyFileChanges = plan.dependencyEffects
+    ? Object.entries(plan.dependencyEffects.beforeSha256)
+        .map(([path, beforeSha256]) => {
+          const afterSha256 = fileDigest(plan.projectPath, path);
+          return beforeSha256 === afterSha256
+            ? undefined
+            : {
+                path,
+                action: beforeSha256 === null ? ("create" as const) : ("update" as const),
+                beforeSha256,
+                afterSha256
+              };
+        })
+        .filter((change): change is NonNullable<typeof change> => Boolean(change))
+    : [];
+  return {
+    ...plan,
+    dryRun: false,
+    summary: issues.length
+      ? `Applied ${plan.iconIds.length} icon(s) with ${issues.length} verification issue(s)`
+      : `Applied and verified ${plan.iconIds.length} icon(s)`,
+    verification: { healthy: issues.length === 0, issues },
+    appliedFileChanges: [...plan.fileChanges, ...dependencyFileChanges],
+    dependencyFileChanges,
+    dependencyEffects: plan.dependencyEffects
   };
 };

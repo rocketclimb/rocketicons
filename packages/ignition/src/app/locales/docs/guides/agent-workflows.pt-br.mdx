@@ -18,11 +18,11 @@ O pacote MCP e os novos comandos da CLI estão disponíveis no build do reposit�
 
 ### Encontre e adicione um ícone
 
-1. Pesquise com `npx rocketicons search calendar --collection fi --json` ou com a ferramenta MCP `search_icons` e `collections: ["fi"]`.
+1. Pesquise com `npx rocketicons search calendar --collection fi --json` ou com a ferramenta MCP `recommend_icons`, informando o caminho do projeto, a intenção e o arquivo de origem.
 2. Confira o ID exato `@colecao/id-do-icone`, a licença e o recurso SVG.
 3. Reutilize um arquivo em `src/ri/icons` quando ele já resolver a necessidade.
-4. Faça um dry run de `add` ou `add_icons` no MCP e adicione os ícones escolhidos.
-5. Importe o componente gerado e execute `doctor`.
+4. Faça um dry run de `add` na CLI ou use `plan_icons` no MCP para revisar arquivos e dependências antes de `apply_icons`.
+5. Use o import relativo ao arquivo de origem e execute `doctor`.
 
 ### Adicione um pequeno conjunto
 
@@ -33,7 +33,11 @@ npx rocketicons add @lu/lu-search @lu/lu-circle-check --dry-run --json
 npx rocketicons add @lu/lu-search @lu/lu-circle-check
 ```
 
-Para usar o MCP, configure o cliente para iniciar `npx -y rocketicons mcp` via stdio. O comando dedicado `npx -y @rocketicons/mcp` também funciona. Execute `init_project` antes de `add_icons`; a busca usa um índice local quando o Algolia não estiver disponível.
+Para usar o MCP, configure o cliente para iniciar `npx -y rocketicons mcp` via stdio. O comando dedicado `npx -y @rocketicons/mcp` também funciona. Chame `recommend_icons` e depois `plan_icons` com os IDs exatos e `from_file`; revise o plano e passe seu `planId` para `apply_icons`. A aplicação configura o projeto, adiciona os ícones e verifica o resultado. A busca usa um índice local quando o Algolia não estiver disponível.
+
+### Use SVG em um site HTML simples
+
+Para um site sem React, chame `search_icons` e `get_icon` no MCP para escolher um ID exato e conferir a licença. Chame `get_icon_svg` com esse ID para receber o SVG completo. Insira o código no HTML ou salve-o como arquivo `.svg`. Esse caminho dispensa `init_project` e a configuração do Rocketicons no projeto.
 
 ### Declare os estados no estilo
 
@@ -52,7 +56,7 @@ Relate cada arquivo alterado. Execute a checagem de tipos e o build web ou nativ
 
 ### Prompt para reutilizar
 
-> Use Rocketicons para os ícones deste projeto. Reutilize um componente adequado em `src/ri/icons` quando possível. Caso contrário, pesquise um ID exato `@colecao/id-do-icone`, confira a licença e o SVG, faça um dry run, adicione o ícone, importe por `@/ri` e informe cada arquivo alterado. Não instale nem importe uma coleção completa de ícones.
+> Use Rocketicons para os ícones deste projeto. Reutilize um componente adequado em `src/ri/icons` quando possível. Caso contrário, encontre um ID exato `@colecao/id-do-icone`, confira a licença e o SVG, planeje as alterações, aplique o plano revisado, use um import relativo ao arquivo de origem e informe cada arquivo alterado. Não instale nem importe uma coleção completa de ícones.
 
 Para uma referência compacta e legível por máquinas, indique [`/llms.txt`](/llms.txt) ao agente.
 

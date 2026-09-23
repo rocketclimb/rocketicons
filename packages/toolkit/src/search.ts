@@ -58,17 +58,18 @@ const norm = (value: string) =>
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .trim();
-const terms = (icon: Icon) => [
-  icon.name,
-  icon.id,
-  icon.component,
-  ...(icon.aliases?.en ?? []),
-  ...(icon.aliases?.["pt-BR"] ?? []),
+const aliases = (icon: Icon) => [...(icon.aliases?.en ?? []), ...(icon.aliases?.["pt-BR"] ?? [])];
+const searchTerms = (icon: Icon) => [
   ...(icon.searchTerms?.en ?? []),
-  ...(icon.searchTerms?.["pt-BR"] ?? []),
-  ...(icon.categories ?? []),
-  ...(icon.uiContexts ?? [])
+  ...(icon.searchTerms?.["pt-BR"] ?? [])
 ];
+const relatedWord = (query: string, candidate: string) => {
+  if (query.length < 8 || candidate.length < 8) return false;
+  let shared = 0;
+  while (shared < Math.min(query.length, candidate.length) && query[shared] === candidate[shared])
+    shared++;
+  return shared >= Math.max(6, Math.ceil(Math.min(query.length, candidate.length) * 0.7));
+};
 const match = (icon: Icon, query: string) => {
   const normalized = norm(query);
   const words = normalized.split(/\s+/).filter(Boolean);
@@ -76,28 +77,74 @@ const match = (icon: Icon, query: string) => {
   const name = norm(icon.name);
   const id = norm(icon.id);
   const component = norm(icon.component);
-  const negatives = [
+  const negative = [
     ...(icon.negativeTerms?.en ?? []),
     ...(icon.negativeTerms?.["pt-BR"] ?? [])
-  ].map(norm);
-  const haystack = terms(icon).map(norm);
-  let score = id === normalized || component === normalized ? 100 : name === normalized ? 90 : 0;
-  let reason = score ? "exact name or ID" : "";
-  if (!score && haystack.includes(normalized)) {
-    score = 75;
-    reason = "semantic term";
-  }
-  if (!score && name.includes(normalized)) {
-    score = 60;
-    reason = "name contains query";
-  }
-  if (!score && words.every((word) => haystack.some((term) => term.includes(word)))) {
-    score = 35;
-    reason = "all query words matched";
-  }
-  if (negatives.includes(normalized)) score -= 50;
-  return { score, reason };
+  ].some((term) => norm(term) === normalized);
+  const alias = aliases(icon).find((term) => norm(term) === normalized);
+  const searchTerm = searchTerms(icon).find((term) => norm(term) === normalized);
+  const context = icon.uiContexts?.find((term) => norm(term) === normalized);
+  const category = icon.categories?.find((term) => norm(term) === normalized);
+  const metadata = [
+    icon.name,
+    icon.id,
+    icon.component,
+    ...aliases(icon),
+    ...searchTerms(icon),
+    ...(icon.uiContexts ?? []),
+    ...(icon.categories ?? [])
+  ];
+  const relatedName = words.every((word) =>
+    name.split(/\s+/).some((candidate) => relatedWord(word, candidate))
+  );
+  const relatedTerm = metadata.find((term) =>
+    words.every((word) =>
+      norm(term)
+        .split(/\s+/)
+        .some((candidate) => relatedWord(word, candidate))
+    )
+  );
+  const evidence =
+    id === normalized || component === normalized
+      ? { score: 100, reason: `Exact icon ID or component: ${icon.component}` }
+      : name === normalized
+        ? { score: 90, reason: `Icon name exactly matches "${icon.name}"` }
+        : name.includes(normalized)
+          ? { score: 70, reason: `Icon name "${icon.name}" contains "${query.trim()}"` }
+          : alias
+            ? { score: 65, reason: `Catalog alias: "${alias}"` }
+            : searchTerm
+              ? { score: 60, reason: `Catalog search term: "${searchTerm}"` }
+              : context
+                ? { score: 50, reason: `Used in the "${context}" UI context` }
+                : category
+                  ? { score: 45, reason: `Catalog category: "${category}"` }
+                  : words.every((word) => metadata.some((term) => norm(term).includes(word)))
+                    ? {
+                        score: 35,
+                        reason: `Catalog terms contain all words in "${query.trim()}"`
+                      }
+                    : relatedName
+                      ? {
+                          score: 30 - Math.min(10, Math.abs(name.length - normalized.length)),
+                          reason: `Icon name "${icon.name}" resembles "${query.trim()}"`
+                        }
+                      : relatedTerm
+                        ? { score: 20, reason: `Related catalog term: "${relatedTerm}"` }
+                        : { score: 0, reason: "" };
+  const reason =
+    icon.description?.en && evidence.reason
+      ? `${evidence.reason}. ${icon.description.en}`
+      : evidence.reason;
+  return negative
+    ? {
+        score: evidence.score - 50,
+        reason: `${reason || `Query "${query.trim()}"`}; catalog marks this as a misleading match`,
+        misleading: true
+      }
+    : { ...evidence, reason, misleading: false };
 };
+export const matchIconIntent = (icon: Icon, query: string) => match(icon, query);
 const validateFilters = ({ collections = [], variants = [] }: SearchInput) => {
   for (const id of collections)
     if (!getCollection(id)) throw new Error(`Unknown collection: ${id}`);
@@ -145,6 +192,10 @@ export const algoliaSearch: RemoteSearch = async (input) => {
   return response.hits;
 };
 
+const requestedLimit = (input: SearchInput) => Math.max(1, Math.min(60, input.limit ?? 10));
+const candidateLimit = (input: SearchInput) =>
+  Math.min(60, Math.max(20, requestedLimit(input) * 5));
+
 export const searchIcons = async (
   input: SearchInput,
   remote: RemoteSearch = algoliaSearch
@@ -155,21 +206,35 @@ export const searchIcons = async (
     return {
       source: "local",
       catalogVersion,
-      results: [{ ...iconSummary(exact), matchReason: "exact ID or component" }]
+      results: [
+        {
+          ...iconSummary(exact),
+          matchReason: `Exact icon ID or component: ${exact.component}${exact.description?.en ? `. ${exact.description.en}` : ""}`
+        }
+      ]
     };
   if (!input.query.trim()) return { source: "local", catalogVersion, results: [] };
   if (remote === algoliaSearch && Date.now() < remoteFailureUntil) return localSearch(input);
   try {
-    const hits = await remote(input);
-    const results = hits.map((hit) => {
+    const hits = await remote({ ...input, limit: candidateLimit(input) });
+    const ranked = hits.map((hit, position) => {
       const icon = getIcon(`@${hit.group}/${hit.iconId}`);
       if (!icon || icon.collection !== hit.group || !filtered(icon, input))
         throw new Error("Index result mismatch");
-      return {
-        ...iconSummary(icon),
-        matchReason: match(icon, input.query).reason || "Algolia semantic match"
-      };
+      const evidence = match(icon, input.query);
+      return { icon, position, ...evidence };
     });
+    const results = ranked
+      .sort((a, b) => b.score - a.score || a.position - b.position)
+      .slice(0, requestedLimit(input))
+      .map(
+        ({ icon, reason }): SearchResult => ({
+          ...iconSummary(icon),
+          matchReason:
+            reason ||
+            `Algolia ranked this icon for "${input.query.trim()}"; no catalog term confirmed`
+        })
+      );
     if (!results.length) {
       const fallback = localSearch(input);
       if (fallback.results.length) return fallback;

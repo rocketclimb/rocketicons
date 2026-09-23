@@ -1,5 +1,12 @@
-import type { IconTree } from "@rocketicons/core";
-import type { ContextSourceIcon } from "./types";
+import type { IconTree } from "./types";
+
+type SvgTree = { tag: string; attr: Record<string, unknown>; child?: SvgTree[] };
+
+type ContactSheetIcon = {
+  id: string;
+  variant: string;
+  iconTree: unknown;
+};
 
 export const xml = (value: string) =>
   value
@@ -21,9 +28,12 @@ const attrName = (name: string) =>
     stopColor: "stop-color",
     stopOpacity: "stop-opacity",
     fillRule: "fill-rule",
-    clipRule: "clip-rule"
+    clipRule: "clip-rule",
+    dataSlot: "data-slot",
+    enableBackground: "enable-background",
+    strokeMiterlimit: "stroke-miterlimit"
   })[name] ?? name;
-const treeXml = (node: IconTree): string => {
+const treeXml = (node: SvgTree): string => {
   const attrs = Object.entries(node.attr ?? {})
     .filter(([, v]) => v != null)
     .map(([k, v]) => `${attrName(k)}="${xml(String(v))}"`)
@@ -31,7 +41,16 @@ const treeXml = (node: IconTree): string => {
   return `<${node.tag}${attrs ? ` ${attrs}` : ""}>${(node.child ?? []).map(treeXml).join("")}</${node.tag}>`;
 };
 
-export const contactSheetGlyph = (icon: ContextSourceIcon): string => {
+/** Serialize a catalog icon for direct use in HTML or as a standalone SVG file. */
+export const renderIconSvg = (iconTree: SvgTree): string => {
+  if (iconTree.tag !== "svg") throw new Error("Icon tree root must be an svg element");
+  return treeXml({
+    ...iconTree,
+    attr: { xmlns: "http://www.w3.org/2000/svg", ...iconTree.attr }
+  });
+};
+
+export const contactSheetGlyph = (icon: ContactSheetIcon): string => {
   const tree = icon.iconTree as IconTree;
   return treeXml({
     ...tree,

@@ -175,8 +175,13 @@ Build the MCP server on the same toolkit layer used by the CLI. Do not create se
 #### Recommended MCP tools
 
 - [x] `search_icons(query, collections?, variants?, limit?)`
+- [x] `recommend_icons(project_path, intent, from_file?, limit?)` checks installed icons for reuse, searches existing project collections first, and returns Web and React Native usage. An optional source file makes imports relative and resolvable.
 - [x] `get_icon(icon_id)`
-- [x] `get_icon_usage(icon_id, target, language?)`
+- [x] `get_icon_svg(icon_id)` returns complete SVG markup from bundled icon data for HTML and other non-React projects without setup.
+- [x] `compare_icons(icon_ids)` returns an offline visual contact sheet for up to five exact icons, with cell metadata and SVG links.
+- [x] `get_icon_usage(icon_id, target?, language?, project_path?, from_file?)` returns a resolvable relative import when given a project and source file, without guessing an alias otherwise.
+- [x] `plan_icons(project_path, icon_ids, from_file, ...)` previews exact managed paths and hashes, dependencies, and package-manager effects without writes.
+- [x] `apply_icons(project_path, icon_ids, plan_id, from_file, ..., dry_run?)` rejects stale plans, applies setup and batch addition, and verifies the files and project health in TS/JS React and React Native fixtures.
 - [x] `list_collections()`
 - [x] `get_collection(collection_id)`
 - [x] `add_icons(icon_ids, project_path, dry_run?)`
@@ -200,6 +205,7 @@ Build the MCP server on the same toolkit layer used by the CLI. Do not create se
 - [x] Require an explicit project path for mutations.
 - [x] Restrict writes to the selected workspace.
 - [x] Return structured content plus a short human-readable summary.
+- [x] Advertise output schemas for every MCP tool and return structured errors with actionable next steps and a text fallback.
 - [x] Expose dry-run results before file mutations.
 - [ ] Consider a hosted read-only MCP server later; do not make local icon installation depend on a hosted service.
 - [ ] Publish setup examples for Codex, Claude Code, VS Code, Cursor, and other clients only after verifying their current configuration formats.
@@ -238,7 +244,7 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 - [ ] Add intent tags such as navigation, commerce, communication, status, files, and accessibility. **Partial:** bilingual categories, search terms, and UI contexts are available in the generated catalog and validated for indexing for Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, Heroicons 2, IcoMoon Free, Grommet Icons, css.gg, Ionicons, Ant Design Icons, and Lucide.
 - [ ] Record visual properties such as filled, outlined, brand, directional, multicolor, and stroke support. **Partial:** deterministic properties are generated for enriched Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, Heroicons 2, IcoMoon Free, Grommet Icons, css.gg, Ionicons, Ant Design Icons, BoxIcons, and Lucide.
 - [ ] Add negative guidance for easily confused icons. **Partial:** supported by the schema and present for ambiguous Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, Heroicons 2, IcoMoon Free, Grommet Icons, css.gg, Ionicons, and Lucide; negative terms are intentionally excluded from Algolia's positive search attributes.
-- [ ] Support deterministic ranking and explain why a result matched. **Partial:** local search has deterministic scoring, tie-breaking, and match reasons; live Algolia ranking has not been benchmarked.
+- [ ] Support deterministic ranking and explain why a result matched. **Partial:** local search has deterministic scoring and a related-word fallback; MCP search now fetches a larger Algolia candidate pool, ranks those hits against bundled catalog fields, and gives field-specific reasons with available icon descriptions. Live top-five relevance and ranking remain unbenchmarked.
 - [ ] Allow collection and license filtering.
 - [ ] Return a small diverse result set instead of hundreds of near-duplicates.
 - [ ] Create a reviewed benchmark of common icon-selection requests. **Partial:** collection-wide semantic invariants, unrelated alias leakage, 40 bilingual intent cases across earlier collections, and an initial 15-case scored Feather corpus are covered; a representative multi-collection scored corpus remains pending.

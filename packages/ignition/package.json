@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@rocketicons/core": "*",
+    "@rocketicons/utils": "*",
     "@mdx-js/loader": "^3.0.1",
     "@mdx-js/react": "^3.0.1",
     "@next/mdx": "^14.1.4",
