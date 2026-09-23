@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  cutReleaseMode,
   eligibleCutHeadShas,
   packageReleaseState,
   releaseBranchForVersion,
@@ -50,6 +51,25 @@ test("rejects skipped, stale, and unstable package versions", () => {
   assert.throws(() => packageReleaseState("0.3.4", "0.3.2"), /one SemVer increment/);
   assert.throws(() => packageReleaseState("0.3.1", "0.3.2"), /one SemVer increment/);
   assert.throws(() => packageReleaseState("0.3.3-rc.1", "0.3.2"), /stable SemVer/);
+});
+
+test("reuses a valid unpublished package without bumping it again", () => {
+  assert.equal(cutReleaseMode("0.9.4", "0.9.4", "0.3.3", "0.3.2"), "prepared");
+  assert.throws(
+    () => cutReleaseMode("0.10.0", "0.9.4", "0.3.3", "0.3.2"),
+    /requires release version 0\.9\.4/
+  );
+});
+
+test("bumps when develop and npm are in sync", () => {
+  assert.equal(cutReleaseMode("0.10.0", "0.9.4", "0.3.2", "0.3.2"), "bump");
+});
+
+test("refuses to cut from a skipped or stale package version", () => {
+  assert.throws(
+    () => cutReleaseMode("0.9.4", "0.9.4", "0.3.4", "0.3.2"),
+    /one SemVer increment/
+  );
 });
 
 test("accepts the generated release commit parent as the manual cut revision", () => {

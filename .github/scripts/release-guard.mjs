@@ -76,6 +76,30 @@ export const packageReleaseState = (currentVersion, publishedVersion) => {
   return { publishPackage: true };
 };
 
+export const cutReleaseMode = (
+  requestedVersion,
+  rootVersion,
+  currentPackageVersion,
+  publishedPackageVersion
+) => {
+  releaseBranchForVersion(requestedVersion);
+  parseStableVersion(rootVersion, "Current root version");
+
+  const { publishPackage } = packageReleaseState(
+    currentPackageVersion,
+    publishedPackageVersion
+  );
+  if (!publishPackage) return "bump";
+
+  if (rootVersion !== requestedVersion) {
+    throw new Error(
+      `Already prepared package ${currentPackageVersion} requires release version ${rootVersion}, received ${requestedVersion}`
+    );
+  }
+
+  return "prepared";
+};
+
 export const eligibleCutHeadShas = (commits, headSha, headBranch) => {
   const pullRequestCommits = commits.flat();
   const headCommit = pullRequestCommits.find((commit) => commit.sha === headSha);
@@ -211,6 +235,11 @@ const runCli = async ([command, ...args]) => {
   if (command === "package-state") {
     const state = packageReleaseState(args[0], args[1]);
     process.stdout.write(`${state.publishPackage}\n`);
+    return;
+  }
+
+  if (command === "cut-mode") {
+    process.stdout.write(`${cutReleaseMode(...args)}\n`);
     return;
   }
 
