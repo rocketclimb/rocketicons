@@ -17,7 +17,8 @@ const collections: Array<[string, number, number]> = [
   ["cg", 682, 704],
   ["io", 672, 696],
   ["rx", 326, 332],
-  ["ai", 647, 848]
+  ["ai", 647, 848],
+  ["tb", 5124, 6184]
 ];
 
 const sources = new Map(collections.map(([id]) => [id, loadContextSource(id)!]));
@@ -86,11 +87,21 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["hi", "save", "persist changes", "guardar alterações"],
     ["hi", "volume-off", "mute", "silenciar"],
     ["hi", "exclamation", "warning", "aviso"],
+    ["hi2", "home", "home page", "página inicial"],
+    ["hi2", "magnifying-glass", "search", "busca"],
     ["hi2", "arrow-left", "previous item", "item anterior"],
     ["hi2", "trash", "delete", "excluir"],
+    ["hi2", "arrow-left", "back", "voltar"],
+    ["hi2", "bell", "notifications", "notificações"],
+    ["hi2", "check-circle", "success", "sucesso"],
     ["hi2", "shopping-cart", "checkout", "finalizar compra"],
     ["hi2", "shield-check", "verified protection", "proteção verificada"],
     ["hi2", "mini-arrow-left", "previous item", "item anterior"],
+    ["hi2", "document", "file", "arquivo"],
+    ["hi2", "code-bracket", "developer tools", "ferramentas de desenvolvimento"],
+    ["hi2", "map-pin", "location", "localização"],
+    ["hi2", "face-smile", "reaction", "reação"],
+    ["hi2", "server", "hosting", "hospedagem"],
     ["im", "tree", "organization chart", "organograma"],
     ["im", "power", "electricity", "eletricidade"],
     ["im", "google", "search service", "serviço de busca"],
@@ -132,7 +143,17 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["ai", "cloud-sync", "sync", "sincronizar"],
     ["ai", "twotone-file-excel", "spreadsheet", "planilha"],
     ["ai", "user-add", "invite", "convidar"],
-    ["ai", "wechat", "WeChat", "WeChat"]
+    ["ai", "wechat", "WeChat", "WeChat"],
+    ["tb", "arrow-left", "arrow", "seta"],
+    ["tb", "cloud", "cloud", "nuvem"],
+    ["tb", "folder", "folder", "pasta"],
+    ["tb", "home", "home", "casa"],
+    ["tb", "search", "search", "buscar"],
+    ["tb", "phone", "phone", "telefone"],
+    ["tb", "settings", "settings", "configurações"],
+    ["tb", "trash", "trash", "lixeira"],
+    ["tb", "user", "user", "usuário"],
+    ["tb", "calendar", "calendar", "calendário"]
   ];
 
   test.each(queries)(
@@ -169,7 +190,11 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["ai", "arrow-right", "left arrow"],
     ["ai", "check", "x mark"],
     ["ai", "twotone-file-pdf", "Excel"],
-    ["ai", "user-delete", "add user"]
+    ["ai", "user-delete", "add user"],
+    ["hi2", "arrow-left", "move right"],
+    ["hi2", "arrow-right", "move left"],
+    ["hi2", "x-mark", "check mark"],
+    ["hi2", "face-smile", "sad face"]
   ])("%s/%s keeps misleading intent %s out of positive metadata", (id, familyId, negative) => {
     const family = loadContextSource(id)!.families.find((entry) => entry.familyId === familyId)!;
     expect(family.negativeTerms.en).toContain(negative);
