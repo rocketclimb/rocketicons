@@ -1,0 +1,56 @@
+name: Sync main into develop
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-main-into-develop
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Merge main into develop
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout develop
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+
+      - name: Synchronize branch ancestry
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          for attempt in 1 2 3; do
+            git fetch --no-tags origin main develop
+            git switch --detach origin/develop
+
+            if git merge-base --is-ancestor origin/main HEAD; then
+              echo 'develop already includes main'
+              exit 0
+            fi
+
+            if ! git merge --no-ff --no-edit origin/main; then
+              echo '::error::main conflicts with develop. Resolve the merge on develop before the next Cut Release.'
+              exit 1
+            fi
+
+            if git push origin HEAD:refs/heads/develop; then
+              echo 'Merged main into develop'
+              exit 0
+            fi
+
+            echo "develop changed during the push (attempt $attempt of 3); retrying"
+          done
+
+          echo '::error::Unable to update develop after three attempts'
+          exit 1
