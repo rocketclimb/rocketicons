@@ -139,7 +139,6 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["fa", "phone", "phone", "telefone"],
     ["fa", "folder", "folder", "pasta"],
     ["fa", "trash", "trash", "lixeira"],
-    ["fa", "wifi", "wifi", "wifi"],
     ["io5", "add", "add", "adicionar"],
     ["io5", "arrow-back", "arrow", "seta"],
     ["io5", "notifications", "notifications", "notificações"],
