@@ -37,17 +37,17 @@ export const releaseVersionFromBranch = (branch) => {
   return match[1];
 };
 
-export const validateCutReleaseResult = (requestedVersion, rootVersion, tagName) => {
-  const releaseBranch = releaseBranchForVersion(requestedVersion);
+export const validateCutReleaseResult = (releaseVersion, rootVersion, tagName) => {
+  const releaseBranch = releaseBranchForVersion(releaseVersion);
   parseStableVersion(rootVersion, "Generated root version");
 
-  if (rootVersion !== requestedVersion) {
+  if (rootVersion !== releaseVersion) {
     throw new Error(
-      `Generated root version mismatch: expected ${requestedVersion}, received ${rootVersion}`
+      `Generated root version mismatch: expected ${releaseVersion}, received ${rootVersion}`
     );
   }
 
-  const expectedTagName = `v${requestedVersion}-release`;
+  const expectedTagName = `v${releaseVersion}-release`;
   if (tagName !== expectedTagName) {
     throw new Error(`Generated tag mismatch: expected ${expectedTagName}, received ${tagName}`);
   }
@@ -76,13 +76,7 @@ export const packageReleaseState = (currentVersion, publishedVersion) => {
   return { publishPackage: true };
 };
 
-export const cutReleaseMode = (
-  requestedVersion,
-  rootVersion,
-  currentPackageVersion,
-  publishedPackageVersion
-) => {
-  releaseBranchForVersion(requestedVersion);
+export const cutReleaseMode = (rootVersion, currentPackageVersion, publishedPackageVersion) => {
   parseStableVersion(rootVersion, "Current root version");
 
   const { publishPackage } = packageReleaseState(
@@ -90,12 +84,6 @@ export const cutReleaseMode = (
     publishedPackageVersion
   );
   if (!publishPackage) return "bump";
-
-  if (rootVersion !== requestedVersion) {
-    throw new Error(
-      `Already prepared package ${currentPackageVersion} requires release version ${rootVersion}, received ${requestedVersion}`
-    );
-  }
 
   return "prepared";
 };
@@ -180,6 +168,12 @@ const readStandardInput = async () => {
 };
 
 const runCli = async ([command, ...args]) => {
+  if (command === "validate-source") {
+    validateCutReleaseSource(args[0]);
+    process.stdout.write("Cut release source validated\n");
+    return;
+  }
+
   if (command === "release-branch") {
     const [sourceBranch, version] = args;
     validateCutReleaseSource(sourceBranch);
