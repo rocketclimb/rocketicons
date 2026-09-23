@@ -11,6 +11,7 @@ const collections: Array<[string, number, number]> = [
   ["tfi", 300, 352],
   ["vsc", 632, 653],
   ["hi", 226, 460],
+  ["hi2", 648, 972],
   ["im", 491, 491],
   ["gr", 628, 637],
   ["cg", 682, 704],
@@ -90,6 +91,11 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["hi", "save", "persist changes", "guardar alterações"],
     ["hi", "volume-off", "mute", "silenciar"],
     ["hi", "exclamation", "warning", "aviso"],
+    ["hi2", "arrow-left", "previous item", "item anterior"],
+    ["hi2", "trash", "delete", "excluir"],
+    ["hi2", "shopping-cart", "checkout", "finalizar compra"],
+    ["hi2", "shield-check", "verified protection", "proteção verificada"],
+    ["hi2", "mini-arrow-left", "previous item", "item anterior"],
     ["im", "tree", "organization chart", "organograma"],
     ["im", "power", "electricity", "eletricidade"],
     ["im", "google", "search service", "serviço de busca"],
@@ -172,7 +178,11 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["io", "ios-water", "map pin"],
     ["rx", "database", "server hardware"],
     ["rx", "server", "database"],
-    ["rx", "stop", "warning sign"]
+    ["rx", "stop", "warning sign"],
+    ["hi2", "arrow-left", "right arrow"],
+    ["hi2", "face-smile", "sad face"],
+    ["hi2", "x-mark", "check mark"],
+    ["hi2", "document-currency-dollar", "generic document"]
   ])("%s/%s keeps misleading intent %s out of positive metadata", (id, familyId, negative) => {
     const family = loadContextSource(id)!.families.find((entry) => entry.familyId === familyId)!;
     expect(family.negativeTerms.en).toContain(negative);
