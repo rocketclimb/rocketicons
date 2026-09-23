@@ -42,6 +42,14 @@ jobs:
           SOURCE_BRANCH: ${{ github.ref_name }}
         run: node .github/scripts/release-guard.mjs validate-source "$SOURCE_BRANCH"
 
+      - name: Validate release base
+        run: |
+          git fetch --no-tags origin main
+          if ! git merge-base --is-ancestor FETCH_HEAD HEAD; then
+            echo "develop must include main before cutting a release. Merge main into develop and retry." >&2
+            exit 1
+          fi
+
       - name: Verify pull request automation credential
         env:
           GH_TOKEN: ${{ secrets.GH_ACTIONS }}
