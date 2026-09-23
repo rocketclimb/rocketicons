@@ -40,7 +40,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Resolve merged release pull request
         id: resolve-source
@@ -128,7 +128,7 @@ jobs:
 
       - name: Download tag artifact
         if: steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: tag-artifact
           github-token: ${{ env.GH_TOKEN }}
@@ -141,7 +141,7 @@ jobs:
 
       - name: Download release metadata
         if: steps.resolve-source.outputs.IS_RELEASE_SOURCE == 'true'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: deployable-artifacts
           path: prepared-release
@@ -232,7 +232,7 @@ jobs:
         run: npm install --global npm@11.19.0
 
       - name: Download deployable artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: deployable-artifacts
           github-token: ${{ env.GH_TOKEN }}
@@ -253,7 +253,7 @@ jobs:
 
       - name: Release ${{ needs.create-tag.outputs.pending-tag }} with package
         if: needs.create-tag.outputs.publish-package == 'true'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.create-tag.outputs.pending-tag }}
           body_path: ${{ github.workspace }}/release-notes.md
@@ -263,7 +263,7 @@ jobs:
 
       - name: Release ${{ needs.create-tag.outputs.pending-tag }} without package
         if: needs.create-tag.outputs.publish-package != 'true'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ needs.create-tag.outputs.pending-tag }}
           body_path: ${{ github.workspace }}/release-notes.md

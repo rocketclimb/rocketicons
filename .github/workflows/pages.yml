@@ -51,10 +51,10 @@ jobs:
       NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY: ${{ vars.ALGOLIA_SEARCH_ONLY_API_KEY }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: npm
@@ -72,7 +72,7 @@ jobs:
           npm config set //npm.pkg.github.com/:_authToken ${{ github.token }}
 
       - name: Cache generated icons
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             packages/generator/icons
@@ -188,7 +188,7 @@ jobs:
       PREVIEW_PR_NUMBER: ${{ github.event_name == 'pull_request' && github.event.pull_request.number || inputs.cleanup_preview_pr }}
     steps:
       - name: Checkout preview workflow branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || github.ref }}
 
@@ -222,7 +222,7 @@ jobs:
       PREVIEW_PR_NUMBER: ${{ github.event_name == 'pull_request' && github.event.pull_request.number || inputs.cleanup_preview_pr }}
     steps:
       - name: Checkout preview workflow branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || github.ref }}
 
