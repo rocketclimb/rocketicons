@@ -70,12 +70,14 @@ const loadIcons = (collectionId: string): ContextSourceIcon[] => {
 };
 
 const familyIdFor = (icon: ContextSourceIcon) =>
-  icon.name
-    .toLowerCase()
-    .replace(/\b(fill|filled|outline|outlined|solid|alt)\b/g, " ")
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9-]/g, "");
+  icon.id.startsWith("my-")
+    ? icon.id.replace(/^my-(?:solid-)?/, "")
+    : icon.name
+        .toLowerCase()
+        .replace(/\b(fill|filled|outline|outlined|solid|alt)\b/g, " ")
+        .trim()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "");
 
 const groupFamilies = (icons: ContextSourceIcon[]): BatchFamily[] => {
   const groups = new Map<string, BatchFamily>();

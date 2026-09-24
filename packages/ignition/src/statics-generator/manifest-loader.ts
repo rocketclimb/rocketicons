@@ -33,6 +33,14 @@ const collectionMetadata: Record<
     projectUrl: "https://material.io/icons",
     license: { type: "Apache 2.0", url: "https://www.apache.org/licenses/LICENSE-2.0" }
   },
+  my: {
+    name: "MynaUI Icons",
+    projectUrl: "https://mynaui.com/icons",
+    license: {
+      type: "MIT",
+      url: "https://github.com/praveenjuge/mynaui-icons/blob/579977f9afb1991c24a32da73417a9cbcc4d5b22/LICENSE"
+    }
+  },
   bi: {
     name: "Bootstrap Icons",
     projectUrl: "https://icons.getbootstrap.com",

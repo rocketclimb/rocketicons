@@ -153,6 +153,15 @@ export const writeLicense = async ({ DIST, rootDir }: TaskContext) => {
 
   await fs.copyFile(path.resolve(rootDir, "LICENSE_HEADER"), path.resolve(DIST, "LICENSE"));
   await fs.appendFile(path.resolve(DIST, "LICENSE"), iconLicenses, "utf8");
+  for (const icon of icons) {
+    if (!icon.licenseNoticePath) continue;
+    const notice = await fs.readFile(icon.licenseNoticePath, "utf8");
+    await fs.appendFile(
+      path.resolve(DIST, "LICENSE"),
+      `\n${icon.name} upstream notice\n\n${notice}\n`,
+      "utf8"
+    );
+  }
 };
 
 export const writeEntryPoints = async ({ DIST }: TaskContext) => {

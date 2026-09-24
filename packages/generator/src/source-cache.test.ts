@@ -35,3 +35,15 @@ test.each(["hash", "remoteDir", "url", "branch", "localName"] as const)(
 test("adding or removing a Git pack invalidates the cache", () => {
   expect(sourceCacheKey([])).not.toBe(sourceCacheKey([definition]));
 });
+
+test("changing one directory in a multi-directory sparse source invalidates the cache", () => {
+  const paired = {
+    ...definition,
+    source: { ...definition.source!, remoteDir: ["icons/", "icons-solid/"] }
+  };
+  const missingStyle = {
+    ...definition,
+    source: { ...definition.source!, remoteDir: ["icons/"] }
+  };
+  expect(sourceCacheKey([paired])).not.toBe(sourceCacheKey([missingStyle]));
+});

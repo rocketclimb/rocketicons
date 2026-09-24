@@ -6,6 +6,7 @@ export interface IconDefinition {
   projectUrl: string;
   license: string;
   licenseUrl: string;
+  licenseNoticePath?: string;
   source?: IconSetSource;
 }
 
@@ -44,7 +45,7 @@ export type Overrrides = {
 export interface IconSetGitSource {
   type: "git";
   localName: string;
-  remoteDir: string;
+  remoteDir: string | string[];
   url: string;
   branch: string;
   hash: string;

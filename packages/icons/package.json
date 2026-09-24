@@ -263,6 +263,12 @@
       "import": "./lia/index.mjs",
       "default": "./lia/index.mjs"
     },
+    "./my": {
+      "types": "./my/index.d.ts",
+      "require": "./my/index.js",
+      "import": "./my/index.mjs",
+      "default": "./my/index.mjs"
+    },
     "./package.json": {
       "default": "./package.json"
     }

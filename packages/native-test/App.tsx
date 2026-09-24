@@ -1,6 +1,7 @@
 import "./global.css";
 import React, { useState } from "react";
 import { View, Text, ScrollView, Pressable } from "react-native";
+import { MyHome, MySolidHome } from "rocketicons/my";
 
 /**
  * Rocketicons Native Test Page
@@ -66,6 +67,14 @@ export default function App() {
               <Text className="text-xs text-gray-500 mt-1">{size.replace("icon-", "")}</Text>
             </View>
           ))}
+        </View>
+      </Section>
+
+      {/* Collection smoke */}
+      <Section title="MynaUI Icons">
+        <View className="flex-row gap-4">
+          <MyHome className="icon-sky-500-3xl" />
+          <MySolidHome className="icon-sky-500-3xl" />
         </View>
       </Section>
 

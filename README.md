@@ -26,6 +26,7 @@ The current CLI requires an existing TypeScript project with `tsconfig.json` and
 ```bash
 npx rocketicons init
 npx rocketicons add @rc/rc-rocket-icon
+npx rocketicons add @my/MyHome
 ```
 
 Then import the generated component:
