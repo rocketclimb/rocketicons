@@ -26,13 +26,13 @@ jobs:
 
     steps:
       - name: Checkout selected source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: ${{ github.ref_name }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
@@ -66,7 +66,7 @@ jobs:
           npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache icons
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: icons-cache
         with:
           path: |
@@ -245,7 +245,7 @@ jobs:
           '
 
       - name: Upload tag artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: tag-artifact
           path: .tagrc
@@ -253,7 +253,7 @@ jobs:
           if-no-files-found: error
 
       - name: Upload release artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: deployable-artifacts
           path: |
