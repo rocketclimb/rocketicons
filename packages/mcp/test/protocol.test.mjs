@@ -10,11 +10,15 @@ import {
   readFileSync,
   appendFileSync,
   rmSync,
-  existsSync
+  existsSync,
+  cpSync,
+  copyFileSync,
+  symlinkSync
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import sharp from "sharp";
+import Ajv2020 from "ajv/dist/2020.js";
 
 test("stdio tools and resources expose the icon workflow", async () => {
   const client = new Client({ name: "rocketicons-test", version: "1.0.0" });
@@ -252,6 +256,18 @@ test("stdio tools and resources expose the icon workflow", async () => {
         name: "add_icons",
         arguments: { project_path: root, icon_ids: ["@fi/fi-calendar"] }
       });
+      const validateManifest = new Ajv2020({ strict: false, validateFormats: false }).compile(
+        JSON.parse(schema.contents[0].text)
+      );
+      const generatedManifest = JSON.parse(readFileSync(join(root, "rocketicons.json"), "utf8"));
+      assert.equal(generatedManifest.icons["@fi/fi-calendar"].hashAlgorithm, "tokens-v1");
+      assert.equal(validateManifest(generatedManifest), true, JSON.stringify(validateManifest.errors));
+      const legacyManifest = structuredClone(generatedManifest);
+      delete legacyManifest.icons["@fi/fi-calendar"].hashAlgorithm;
+      assert.equal(validateManifest(legacyManifest), true, JSON.stringify(validateManifest.errors));
+      const invalidManifest = structuredClone(generatedManifest);
+      invalidManifest.icons["@fi/fi-calendar"].hashAlgorithm = "unknown";
+      assert.equal(validateManifest(invalidManifest), false);
       const recommendation = await client.callTool({
         name: "recommend_icons",
         arguments: {
@@ -415,6 +431,15 @@ test("recommend, plan, and apply work in a Vite project without a bundler alias"
       }
     });
     assert.equal(applied.structuredContent.verification.healthy, true);
+    const schema = await client.readResource({ uri: "rocketicons://schemas/config/v1" });
+    const validateManifest = new Ajv2020({ strict: false, validateFormats: false }).compile(
+      JSON.parse(schema.contents[0].text)
+    );
+    assert.equal(
+      validateManifest(JSON.parse(readFileSync(join(root, "rocketicons.json"), "utf8"))),
+      true,
+      JSON.stringify(validateManifest.errors)
+    );
     assert.equal(
       applied.structuredContent.imports[0].importStatement,
       'import FiCalendar from "./ri/icons/fi-calendar";'
@@ -440,6 +465,80 @@ test("recommend, plan, and apply work in a Vite project without a bundler alias"
       usage.structuredContent.importStatement,
       applied.structuredContent.imports[0].importStatement
     );
+  } finally {
+    await client.close();
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("MCP starts from an isolated package layout without loading React", async () => {
+  const root = mkdtempSync(join(tmpdir(), "rocketicons-mcp-no-react-"));
+  const modules = join(root, "node_modules");
+  for (const [name, source, directories] of [
+    ["mcp", resolve("."), ["dist"]],
+    ["toolkit", resolve("../toolkit"), ["dist", "data", "templates"]],
+    ["utils", resolve("../utils"), ["dist"]]
+  ]) {
+    const destination = join(modules, "@rocketicons", name);
+    mkdirSync(destination, { recursive: true });
+    copyFileSync(join(source, "package.json"), join(destination, "package.json"));
+    for (const directory of directories)
+      cpSync(join(source, directory), join(destination, directory), { recursive: true });
+  }
+  for (const name of [
+    "@modelcontextprotocol/server",
+    "algoliasearch",
+    "jsonc-parser",
+    "sharp",
+    "zod"
+  ]) {
+    const destination = join(modules, name);
+    mkdirSync(resolve(destination, ".."), { recursive: true });
+    symlinkSync(
+      name === "zod" ? resolve("node_modules/zod") : resolve("../../node_modules", name),
+      destination,
+      "dir"
+    );
+  }
+  const guard = join(root, "reject-react.cjs");
+  writeFileSync(
+    guard,
+    'const Module = require("node:module");\nconst load = Module._load;\nModule._load = function(request, ...args) { if (request === "react") throw new Error("MCP loaded React at startup"); return load.call(this, request, ...args); };\n'
+  );
+  const client = new Client({ name: "rocketicons-no-react-test", version: "1.0.0" });
+  const transport = new StdioClientTransport({
+    command: process.execPath,
+    args: ["--require", guard, join(modules, "@rocketicons/mcp/dist/index.js")]
+  });
+  try {
+    await client.connect(transport);
+    assert.ok((await client.listTools()).tools.some(({ name }) => name === "get_icon_svg"));
+    const svg = await client.callTool({
+      name: "get_icon_svg",
+      arguments: { icon_id: "@fi/fi-calendar" }
+    });
+    assert.match(svg.structuredContent.svg, /<svg/);
+    const comparison = await client.callTool({
+      name: "compare_icons",
+      arguments: { icon_ids: ["@fi/fi-calendar"] }
+    });
+    assert.equal(comparison.structuredContent.icons.length, 1);
+    const workspace = join(root, "workspace");
+    const app = join(workspace, "packages/app");
+    mkdirSync(app, { recursive: true });
+    writeFileSync(
+      join(workspace, "package.json"),
+      JSON.stringify({ private: true, workspaces: ["packages/*"] })
+    );
+    writeFileSync(join(app, "package.json"), JSON.stringify({ name: "app", version: "1" }));
+    const blocked = await client.callTool({
+      name: "init_project",
+      arguments: { project_path: app, dry_run: true }
+    });
+    assert.equal(blocked.isError, true);
+    assert.equal(blocked.structuredContent.error.code, "WORKSPACE_BOUNDARY");
+    assert.match(blocked.structuredContent.error.nextStep, /workspace package manager/);
+    assert.equal(existsSync(join(workspace, "package-lock.json")), false);
   } finally {
     await client.close();
     rmSync(root, { recursive: true, force: true });

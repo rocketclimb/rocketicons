@@ -275,6 +275,13 @@ export const toolError = (error: unknown): ToolError => {
       message,
       nextStep: "Call plan_icons again with the current project state, then apply its new planId."
     };
+  if (/Dependency installation may write outside project_path in parent workspace/.test(message))
+    return {
+      code: "WORKSPACE_BOUNDARY",
+      message,
+      nextStep:
+        "Install the required dependencies with the parent workspace package manager, then retry with the same project_path."
+    };
   if (/Project is not initialized/.test(message))
     return {
       code: "PROJECT_NOT_INITIALIZED",

@@ -123,6 +123,55 @@ test("plan lists dependency installation effects without writing", async () => {
   }
 });
 
+for (const workspaceFile of ["package.json", "pnpm-workspace.yaml"])
+  test(`nested ${workspaceFile} workspace rejects dependency installation before writing`, async () => {
+    const parent = fs.mkdtempSync(path.join(os.tmpdir(), "rocketicons-workspace-"));
+    const root = path.join(parent, "packages/app");
+    const source = "src/App.tsx";
+    try {
+      fs.mkdirSync(path.join(root, "src"), { recursive: true });
+      fs.writeFileSync(path.join(root, source), "export default function App() { return null; }\n");
+      fs.writeFileSync(path.join(root, "package.json"), JSON.stringify({ name: "app", version: "1" }));
+      if (workspaceFile === "package.json")
+        fs.writeFileSync(
+          path.join(parent, workspaceFile),
+          JSON.stringify({ name: "workspace", private: true, workspaces: ["packages/*"] })
+        );
+      else fs.writeFileSync(path.join(parent, workspaceFile), "packages:\n  - packages/*\n");
+      const before = fs.readFileSync(path.join(root, "package.json"), "utf8");
+      await assert.rejects(app.initProject(root, { dryRun: true }), /parent workspace/);
+      await assert.rejects(app.initProject(root), /parent workspace/);
+      await assert.rejects(
+        app.planIcons(root, ["@fi/fi-calendar"], { fromFile: source }),
+        /parent workspace/
+      );
+      assert.equal(fs.readFileSync(path.join(root, "package.json"), "utf8"), before);
+      assert.equal(fs.existsSync(path.join(parent, "package-lock.json")), false);
+      assert.equal(fs.existsSync(path.join(parent, "node_modules")), false);
+      assert.equal(fs.existsSync(path.join(root, "rocketicons.json")), false);
+
+      fs.writeFileSync(
+        path.join(root, "package.json"),
+        JSON.stringify({
+          name: "app",
+          version: "1",
+          dependencies: { "@rocketicons/utils": "1", "@rocketicons/tailwind": "1" }
+        })
+      );
+      const plan = await app.planIcons(root, ["@fi/fi-calendar"], { fromFile: source });
+      assert.deepEqual(plan.toInstall, []);
+      const applied = await app.applyIconPlan(root, ["@fi/fi-calendar"], plan.planId, {
+        fromFile: source
+      });
+      assert.ok(applied.appliedFileChanges.some(({ path }) => path === "src/ri/icons/fi-calendar.jsx"));
+      assert.equal(fs.existsSync(path.join(root, "src/ri/icons/fi-calendar.jsx")), true);
+      assert.equal(fs.existsSync(path.join(parent, "package-lock.json")), false);
+      assert.equal(fs.existsSync(path.join(parent, "node_modules")), false);
+    } finally {
+      fs.rmSync(parent, { recursive: true, force: true });
+    }
+  });
+
 test("apply rejects a stale plan before writing and rejects source paths outside the project", async () => {
   const { root, source } = fixture();
   try {

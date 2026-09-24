@@ -206,7 +206,7 @@ Build the MCP server on the same toolkit layer used by the CLI. Do not create se
 - [ ] Start with a local stdio MCP server distributed with the CLI or as a small sibling package. **Partial:** `@rocketicons/mcp` is implemented and tested over stdio, and the CLI exposes `rocketicons mcp`; npm publication remains.
 - [x] Make read-only discovery usable without initializing a project.
 - [x] Require an explicit project path for mutations.
-- [x] Restrict writes to the selected workspace.
+- [x] Restrict writes to the selected workspace. Dependency installation is rejected when a parent package-manager workspace could receive writes outside `project_path`; preinstalled workspace dependencies remain supported.
 - [x] Return structured content plus a short human-readable summary.
 - [x] Advertise output schemas for every MCP tool and return structured errors with actionable next steps and a text fallback.
 - [x] Expose dry-run results before file mutations.

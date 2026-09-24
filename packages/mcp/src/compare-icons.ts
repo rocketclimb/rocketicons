@@ -1,6 +1,6 @@
 import sharp from "sharp";
 import toolkit from "@rocketicons/toolkit";
-import utils from "@rocketicons/utils";
+import utils from "@rocketicons/utils/dist/contact-sheet.js";
 
 const { iconSummary, localIconTree, requireIcon } = toolkit;
 const { contactSheetGlyph, xml } = utils;

@@ -282,6 +282,29 @@ const dependenciesToInstall = (root: string, target: Target) => {
     (name) => !deps[name] || (name.startsWith("@rocketicons/") && !compatibleRuntime(deps[name]))
   );
 };
+const ancestorWorkspace = (root: string) => {
+  for (
+    let ancestor = dirname(root);
+    ancestor !== dirname(ancestor);
+    ancestor = dirname(ancestor)
+  ) {
+    const packageFile = join(ancestor, "package.json");
+    if (existsSync(packageFile)) {
+      const pkg = JSON.parse(readFileSync(packageFile, "utf8"));
+      if (Array.isArray(pkg.workspaces) || Array.isArray(pkg.workspaces?.packages))
+        return ancestor;
+    }
+    if (existsSync(join(ancestor, "pnpm-workspace.yaml"))) return ancestor;
+  }
+  return null;
+};
+const assertInstallBoundary = (root: string) => {
+  const owner = ancestorWorkspace(root);
+  if (owner)
+    throw new Error(
+      `Dependency installation may write outside project_path in parent workspace ${owner}. Install the required Rocketicons dependencies with the workspace package manager, then retry with the same project_path.`
+    );
+};
 const requestedPackage = (name: string) =>
   name.startsWith("@rocketicons/") ? `${name}@^0.7.0` : name;
 const installArgs = (manager: string, needed: string[]) => {
@@ -364,6 +387,7 @@ const template = (name: string, language: Language) =>
     "utf8"
   );
 const runInstall = async (root: string, manager: string, needed: string[]) => {
+  assertInstallBoundary(root);
   const args = installArgs(manager, needed);
   await new Promise<void>((done, reject) => {
     const child = spawn(manager, args, {
@@ -540,6 +564,7 @@ export const initProject = async (
     fileChange(root, "rocketicons.json", json(manifest))
   ].filter(Boolean) as Change[];
   const needed = dependenciesToInstall(root, target);
+  if (needed.length) assertInstallBoundary(root);
   if (needed.length)
     changes.push({
       path: `package.json + ${manager} lockfile (${needed.join(", ")})`,

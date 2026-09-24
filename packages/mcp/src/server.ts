@@ -1,7 +1,7 @@
 import { McpServer, ResourceTemplate } from "@modelcontextprotocol/server";
 import * as z from "zod/v4";
 import toolkit from "@rocketicons/toolkit";
-import utils from "@rocketicons/utils";
+import utils from "@rocketicons/utils/dist/contact-sheet.js";
 import { compareIcons } from "./compare-icons.js";
 import { errorResult, outputs } from "./contracts.js";
 
@@ -131,6 +131,7 @@ const configSchema = {
           component: { type: "string" },
           path: { type: "string" },
           sha256: { type: "string", pattern: "^[a-f0-9]{64}$" },
+          hashAlgorithm: { const: "tokens-v1" },
           collection: { type: "string" },
           licenseUrl: { type: "string", format: "uri" }
         }
