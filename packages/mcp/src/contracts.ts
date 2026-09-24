@@ -36,13 +36,14 @@ const project = z.looseObject({
           component: z.string(),
           path: z.string(),
           sha256: z.string(),
+          hashAlgorithm: z.literal("tokens-v1").optional(),
           collection: z.string(),
           licenseUrl: z.string()
         })
       )
     })
     .optional(),
-  installedIconStatus: z.record(z.string(), z.enum(["current", "missing", "modified"])),
+  installedIconStatus: z.record(z.string(), z.enum(["current", "missing", "customized"])),
   detectedTarget: z.enum(["react", "react-native"]),
   detectedLanguage: z.enum(["ts", "js"]),
   packageManager: z.string()
@@ -51,7 +52,16 @@ const mutation = z.looseObject({
   projectPath: z.string(),
   dryRun: z.boolean(),
   changes: z.array(change),
-  summary: z.string()
+  summary: z.string(),
+  preservedIcons: z
+    .array(
+      z.looseObject({
+        id: z.string(),
+        path: z.string(),
+        status: z.enum(["current", "customized"])
+      })
+    )
+    .optional()
 });
 const plan = z.looseObject({
   projectPath: z.string(),
@@ -74,6 +84,14 @@ const plan = z.looseObject({
     })
     .nullable(),
   fileChanges: z.array(fileChange),
+  preservedIcons: z.array(
+    z.looseObject({
+      id: z.string(),
+      path: z.string(),
+      status: z.enum(["current", "customized"]),
+      beforeSha256: z.string()
+    })
+  ),
   imports: z.array(
     z.looseObject({
       id: z.string(),
@@ -112,7 +130,7 @@ export const outputs = {
     results: z.array(
       searchResult.extend({
         installed: z.boolean(),
-        installedStatus: z.enum(["current", "missing", "modified"]).nullable(),
+        installedStatus: z.enum(["current", "missing", "customized"]).nullable(),
         action: z.enum(["reuse", "repair", "add"]),
         recommendationReason: z.string(),
         usage: z.looseObject({
@@ -183,6 +201,7 @@ export const outputs = {
   doctor: project.extend({
     healthy: z.boolean(),
     issues: z.array(z.string()),
+    customizedIcons: z.array(z.string()),
     styling: z
       .looseObject({
         tailwindMajor: z.number().nullable(),

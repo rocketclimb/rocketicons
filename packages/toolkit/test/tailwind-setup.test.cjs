@@ -137,6 +137,33 @@ test("doctor accepts PostCSS integration and reports unsupported Tailwind versio
   }
 });
 
+test("Tailwind 4 bounded semver ranges receive automatic plugin setup", async () => {
+  for (const version of [">=4.0.0 <5", ">=4.1.0 <5.0.0"]) {
+    const root = fixture();
+    try {
+      const packagePath = path.join(root, "package.json");
+      const pkg = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+      pkg.dependencies.tailwindcss = version;
+      fs.writeFileSync(packagePath, JSON.stringify(pkg));
+      const preview = await app.initProject(root, { dryRun: true });
+      assert.ok(
+        preview.changes.some(({ path }) => path === "src/index.css"),
+        version
+      );
+      await app.initProject(root);
+      assert.match(
+        fs.readFileSync(path.join(root, "src/index.css"), "utf8"),
+        /@plugin "@rocketicons\/tailwind"/
+      );
+      const diagnosis = app.doctor(root);
+      assert.equal(diagnosis.healthy, true, `${version}: ${diagnosis.issues.join(", ")}`);
+      assert.equal(diagnosis.styling.tailwindMajor, 4);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  }
+});
+
 test("plan includes the stylesheet edit and rejects changes made after planning", async () => {
   const root = fixture();
   try {

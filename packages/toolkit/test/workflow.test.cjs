@@ -246,9 +246,12 @@ for (const language of ["ts", "js"])
         assert.deepEqual((await app.addIcons(root, ids, true)).changes, []);
         const file = path.join(root, app.iconUsage(ids[0], target, language).generatedPath);
         fs.appendFileSync(file, "// user edit\n");
-        assert.equal(app.doctor(root).healthy, false);
-        await assert.rejects(app.removeIcons(root, [ids[0]]), /edited file/);
-        await assert.rejects(app.addIcons(root, [ids[0]]), /edited file/);
+        assert.equal(app.doctor(root).healthy, true);
+        assert.deepEqual(app.doctor(root).customizedIcons, [ids[0]]);
+        await assert.rejects(app.removeIcons(root, [ids[0]]), /customized file/);
+        assert.deepEqual((await app.addIcons(root, [ids[0]], true)).changes, []);
+        await app.addIcons(root, [ids[0]]);
+        assert.match(fs.readFileSync(file, "utf8"), /user edit/);
         await app.removeIcons(root, [ids[1], ids[2]]);
         assert.equal(Object.keys(app.inspectProject(root).manifest.icons).length, 1);
       } finally {

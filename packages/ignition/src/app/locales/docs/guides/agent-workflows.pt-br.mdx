@@ -37,6 +37,8 @@ Para usar o MCP, configure o cliente para iniciar `npx -y rocketicons mcp` via s
 
 Em projetos web com Tailwind CSS 4, o plano inclui a alteração no CSS que registra `@rocketicons/tailwind`. Confira o resultado de `doctor` após aplicar: os dados em `styling` e os problemas informam se falta importar o CSS, registrar o plugin ou integrar Vite/PostCSS. Passe `stylesheet_path` para o plano e para a aplicação quando houver vários arquivos CSS ativos com Tailwind.
 
+Depois de adicionar um ícone, você pode editar o componente gerado em `src/ri/icons/`. O `doctor` informa alterações de conteúdo como customizações, e o `recommend_icons` pode sugerir reutilizar esse componente. O `plan_icons` mostra o arquivo em `preservedIcons`; `apply_icons` e `add_icons` não o sobrescrevem. Alterações apenas de formatação não o marcam como customizado. O `remove_icons` protege arquivos customizados contra exclusão.
+
 ### Use SVG em um site HTML simples
 
 Para um site sem React, chame `search_icons` e `get_icon` no MCP para escolher um ID exato e conferir a licença. Chame `get_icon_svg` com esse ID para receber o SVG completo. Insira o código no HTML ou salve-o como arquivo `.svg`. Esse caminho dispensa `init_project` e a configuração do Rocketicons no projeto.

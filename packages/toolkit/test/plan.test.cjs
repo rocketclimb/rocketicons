@@ -3,6 +3,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
+const { createHash } = require("node:crypto");
 const ts = require("typescript");
 const app = require("../dist");
 
@@ -160,10 +161,107 @@ test("plan refuses to overwrite an unmanaged icon file without changing it", asy
     fs.writeFileSync(file, "// user owned icon\n");
     await assert.rejects(
       app.planIcons(root, ["@fi/fi-calendar"], { fromFile: source }),
-      /Refusing to overwrite unmanaged or edited file/
+      /Refusing to overwrite unmanaged file/
     );
     assert.equal(fs.readFileSync(file, "utf8"), "// user owned icon\n");
     assert.equal(fs.existsSync(path.join(root, "rocketicons.json")), false);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("plan and apply preserve a customized icon while adding another", async () => {
+  const { root, source } = fixture();
+  try {
+    await app.initProject(root);
+    await app.addIcons(root, ["@fi/fi-calendar"]);
+    const file = path.join(root, "src/ri/icons/fi-calendar.tsx");
+    fs.appendFileSync(file, "// owned customization\n");
+    const before = fs.readFileSync(file, "utf8");
+    const ids = ["@fi/fi-calendar", "@fi/fi-camera"];
+    const plan = await app.planIcons(root, ids, { fromFile: source });
+    assert.deepEqual(
+      plan.preservedIcons.map(({ id, status }) => [id, status]),
+      [["@fi/fi-calendar", "customized"]]
+    );
+    assert.ok(plan.fileChanges.some(({ path }) => path.endsWith("fi-camera.tsx")));
+    assert.ok(!plan.fileChanges.some(({ path }) => path.endsWith("fi-calendar.tsx")));
+    const applied = await app.applyIconPlan(root, ids, plan.planId, { fromFile: source });
+    assert.equal(applied.verification.healthy, true);
+    assert.equal(fs.readFileSync(file, "utf8"), before);
+    assert.deepEqual(app.doctor(root).customizedIcons, ["@fi/fi-calendar"]);
+    assert.equal(app.doctor(root).healthy, true);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("a preserved icon changed after planning makes the plan stale", async () => {
+  const { root, source } = fixture();
+  try {
+    await app.initProject(root);
+    await app.addIcons(root, ["@fi/fi-calendar"]);
+    const file = path.join(root, "src/ri/icons/fi-calendar.tsx");
+    const plan = await app.planIcons(root, ["@fi/fi-calendar"], { fromFile: source });
+    fs.appendFileSync(file, "// later edit\n");
+    await assert.rejects(
+      app.applyIconPlan(root, ["@fi/fi-calendar"], plan.planId, { fromFile: source }),
+      /Plan is stale/
+    );
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("formatting a preserved icon after planning keeps the plan valid", async () => {
+  const { root, source } = fixture();
+  try {
+    await app.initProject(root);
+    await app.addIcons(root, ["@fi/fi-calendar"]);
+    const file = path.join(root, "src/ri/icons/fi-calendar.tsx");
+    const plan = await app.planIcons(root, ["@fi/fi-calendar"], { fromFile: source });
+    const formatted = fs
+      .readFileSync(file, "utf8")
+      .replace('import { IconGenerator } from "../core";', "import{IconGenerator}from'../core';");
+    fs.writeFileSync(file, formatted);
+    const applied = await app.applyIconPlan(root, ["@fi/fi-calendar"], plan.planId, {
+      fromFile: source
+    });
+    assert.equal(applied.verification.healthy, true);
+    assert.equal(fs.readFileSync(file, "utf8"), formatted);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("format-only changes are current for new and legacy manifests", async () => {
+  const { root, source } = fixture();
+  try {
+    await app.initProject(root);
+    await app.addIcons(root, ["@fi/fi-calendar"]);
+    const file = path.join(root, "src/ri/icons/fi-calendar.tsx");
+    const original = fs.readFileSync(file, "utf8");
+    const formatted = original.replace(
+      'import { IconGenerator } from "../core";',
+      "import{IconGenerator}from'../core';"
+    );
+    assert.notEqual(formatted, original);
+    fs.writeFileSync(file, formatted);
+    assert.equal(app.inspectProject(root).installedIconStatus["@fi/fi-calendar"], "current");
+    assert.deepEqual((await app.addIcons(root, ["@fi/fi-calendar"])).changes, []);
+    assert.equal(fs.readFileSync(file, "utf8"), formatted);
+
+    const manifestPath = path.join(root, "rocketicons.json");
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    manifest.icons["@fi/fi-calendar"].sha256 = createHash("sha256")
+      .update(original)
+      .digest("hex");
+    delete manifest.icons["@fi/fi-calendar"].hashAlgorithm;
+    fs.writeFileSync(manifestPath, JSON.stringify(manifest));
+    assert.equal(app.inspectProject(root).installedIconStatus["@fi/fi-calendar"], "current");
+    const plan = await app.planIcons(root, ["@fi/fi-calendar"], { fromFile: source });
+    assert.equal(plan.preservedIcons[0].status, "current");
+    assert.ok(!plan.fileChanges.some(({ path }) => path.endsWith("fi-calendar.tsx")));
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }

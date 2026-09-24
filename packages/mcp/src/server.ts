@@ -31,22 +31,33 @@ const result = async (work: () => unknown | Promise<unknown>) => {
   try {
     const value = await work();
     const data = value as Record<string, unknown>;
+    const customizedNotice =
+      Array.isArray(data.customizedIcons) && data.customizedIcons.length
+        ? `\nCustomized icons preserved: ${data.customizedIcons.join(", ")}`
+        : "";
     const summary =
       typeof data.summary === "string"
         ? data.summary
         : typeof data.healthy === "boolean"
           ? data.healthy
-            ? "Rocketicons project healthy"
-            : `Rocketicons project has ${(data.issues as string[]).length} issue(s):\n${(data.issues as string[]).map((issue) => `- ${issue}`).join("\n")}`
-          : Array.isArray(data.results)
-            ? `${data.results.length} icon result(s) from ${data.source}`
-            : Array.isArray(data.collections)
-              ? `${data.collections.length} collections`
-              : typeof data.id === "string"
-                ? `Icon ${data.id}`
-                : typeof data.collection_id === "string"
-                  ? `Collection ${data.collection_id}`
-                  : "Rocketicons result";
+            ? `Rocketicons project healthy${customizedNotice}`
+            : `Rocketicons project has ${(data.issues as string[]).length} issue(s):\n${(data.issues as string[]).map((issue) => `- ${issue}`).join("\n")}${customizedNotice}`
+          : data.installedIconStatus && typeof data.installedIconStatus === "object"
+            ? `Rocketicons project ${data.initialized ? "initialized" : "not initialized"}; customized icons: ${
+                Object.entries(data.installedIconStatus)
+                  .filter(([, status]) => status === "customized")
+                  .map(([id]) => id)
+                  .join(", ") || "none"
+              }`
+            : Array.isArray(data.results)
+              ? `${data.results.length} icon result(s) from ${data.source}`
+              : Array.isArray(data.collections)
+                ? `${data.collections.length} collections`
+                : typeof data.id === "string"
+                  ? `Icon ${data.id}`
+                  : typeof data.collection_id === "string"
+                    ? `Collection ${data.collection_id}`
+                    : "Rocketicons result";
     const fileChanges = Array.isArray(data.appliedFileChanges)
       ? data.appliedFileChanges
       : Array.isArray(data.fileChanges)
@@ -61,7 +72,12 @@ const result = async (work: () => unknown | Promise<unknown>) => {
                 `Package-manager effects: ${(data.dependencyEffects as { mayWritePaths: string[] }).mayWritePaths.join(", ")}`
               ]
             : []),
-          ...(data.planId ? [`Plan ID: ${data.planId}`] : [])
+          ...(data.planId ? [`Plan ID: ${data.planId}`] : []),
+          ...(Array.isArray(data.preservedIcons) && data.preservedIcons.length
+            ? [
+                `Existing icons preserved: ${data.preservedIcons.map((icon: { id: string; status: string }) => `${icon.id} (${icon.status})`).join(", ")}`
+              ]
+            : [])
         ].join("\n")
       : "";
     return {
@@ -339,7 +355,7 @@ export const createServer = () => {
     "doctor",
     {
       description:
-        "Diagnose missing dependencies and modified or missing generated icons without changing files.",
+        "Diagnose project setup and missing icons; report customized components without changing files.",
       inputSchema: z.object({ project_path: projectPath }),
       outputSchema: outputs.doctor
     },

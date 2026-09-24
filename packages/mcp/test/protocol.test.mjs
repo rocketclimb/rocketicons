@@ -3,7 +3,15 @@ import assert from "node:assert/strict";
 import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
 import { resolve } from "node:path";
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync, existsSync } from "node:fs";
+import {
+  mkdtempSync,
+  mkdirSync,
+  writeFileSync,
+  readFileSync,
+  appendFileSync,
+  rmSync,
+  existsSync
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import sharp from "sharp";
@@ -46,9 +54,9 @@ test("stdio tools and resources expose the icon workflow", async () => {
       list_collections: ["catalogVersion", "collections"],
       get_collection: ["id", "licenseUrl", "resource"],
       inspect_project: ["projectPath", "initialized", "installedIconStatus"],
-      doctor: ["projectPath", "healthy", "issues"],
+      doctor: ["projectPath", "healthy", "issues", "customizedIcons"],
       init_project: ["projectPath", "dryRun", "changes"],
-      plan_icons: ["planId", "fileChanges", "dependencyEffects", "imports"],
+      plan_icons: ["planId", "fileChanges", "dependencyEffects", "preservedIcons", "imports"],
       apply_icons: ["planId", "fileChanges", "dryRun"],
       add_icons: ["projectPath", "dryRun", "changes"],
       remove_icons: ["projectPath", "dryRun", "changes"]
@@ -269,6 +277,48 @@ test("stdio tools and resources expose the icon workflow", async () => {
       assert.equal(health.structuredContent.healthy, true);
       assert.equal(health.structuredContent.styling.pluginRegistered, true);
       assert.equal(health.structuredContent.styling.stylesheetLoaded, true);
+      const componentPath = join(root, "src/ri/icons/fi-calendar.tsx");
+      const generatedComponent = readFileSync(componentPath, "utf8");
+      appendFileSync(componentPath, "// owned edit\n");
+      const customized = await client.callTool({
+        name: "doctor",
+        arguments: { project_path: root }
+      });
+      assert.equal(customized.structuredContent.healthy, true);
+      assert.deepEqual(customized.structuredContent.customizedIcons, ["@fi/fi-calendar"]);
+      assert.match(customized.content[0].text, /Customized icons preserved: @fi\/fi-calendar/);
+      const customizedInspection = await client.callTool({
+        name: "inspect_project",
+        arguments: { project_path: root }
+      });
+      assert.equal(
+        customizedInspection.structuredContent.installedIconStatus["@fi/fi-calendar"],
+        "customized"
+      );
+      assert.match(customizedInspection.content[0].text, /customized icons: @fi\/fi-calendar/);
+      const reuse = await client.callTool({
+        name: "recommend_icons",
+        arguments: { project_path: root, intent: "@fi/fi-calendar", from_file: "src/App.tsx" }
+      });
+      assert.equal(reuse.structuredContent.results[0].action, "reuse");
+      assert.equal(reuse.structuredContent.results[0].installedStatus, "customized");
+      const preserved = await client.callTool({
+        name: "plan_icons",
+        arguments: { project_path: root, icon_ids: ["@fi/fi-calendar"], from_file: "src/App.tsx" }
+      });
+      assert.equal(preserved.structuredContent.preservedIcons[0].status, "customized");
+      assert.match(preserved.content[0].text, /Existing icons preserved/);
+      assert.ok(
+        !preserved.structuredContent.fileChanges.some(
+          ({ path }) => path === "src/ri/icons/fi-calendar.tsx"
+        )
+      );
+      const protectedRemoval = await client.callTool({
+        name: "remove_icons",
+        arguments: { project_path: root, icon_ids: ["@fi/fi-calendar"] }
+      });
+      assert.equal(protectedRemoval.isError, true);
+      writeFileSync(componentPath, generatedComponent);
       await client.callTool({
         name: "remove_icons",
         arguments: { project_path: root, icon_ids: ["@fi/fi-calendar"] }

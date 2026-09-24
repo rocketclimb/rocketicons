@@ -103,7 +103,7 @@ test("searches beyond installed collections only when that collection has no mat
   }
 });
 
-test("does not recommend reusing an edited managed icon", async () => {
+test("recommends reusing a customized managed icon", async () => {
   const root = fixture();
   try {
     await app.initProject(root);
@@ -116,12 +116,12 @@ test("does not recommend reusing an edited managed icon", async () => {
           throw new Error("offline");
         })
     );
-    assert.equal(response.installedIconCount, 0);
+    assert.equal(response.installedIconCount, 1);
     assert.equal(response.managedIconCount, 1);
-    assert.equal(response.results[0].action, "repair");
-    assert.equal(response.results[0].installed, false);
-    assert.equal(response.results[0].installedStatus, "modified");
-    assert.match(response.results[0].recommendationReason, /run doctor/);
+    assert.equal(response.results[0].action, "reuse");
+    assert.equal(response.results[0].installed, true);
+    assert.equal(response.results[0].installedStatus, "customized");
+    assert.match(response.results[0].recommendationReason, /Customized component/);
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }

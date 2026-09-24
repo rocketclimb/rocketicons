@@ -157,6 +157,7 @@ The CLI is the most important agent interface because it performs the useful pro
 - [x] Record catalog/package version, output path, platform, and installed icon IDs.
 - [x] Add a generated-file comment containing icon ID, collection, version, and license reference.
 - [x] Detect local modifications before overwriting generated icons.
+- [x] Hash a code-aware normalized copy of generated icon components so formatting-only edits remain current; report other edits as reusable, protected customizations in CLI and MCP workflows. Legacy byte hashes remain readable.
 - [ ] Provide a machine-readable diff when updating icons.
 - [ ] Allow fully offline repeatable installation from a cached catalog. **Partial:** catalog and SVG assets are bundled and icon addition is offline; first-time runtime dependency installation still needs published compatible packages or an existing cache.
 
@@ -188,6 +189,7 @@ Build the MCP server on the same toolkit layer used by the CLI. Do not create se
 - [x] `remove_icons(icon_ids, project_path, dry_run?)`
 - [x] `inspect_project(project_path)`
 - [x] `doctor(project_path)`
+- [x] Treat edited installed components as project-owned customizations: `inspect_project` and `doctor` report them, recommendations reuse them, and add/plan preserve them while removal stays protected.
 - [x] Register the Rocketicons plugin automatically in an existing Tailwind CSS 4 web stylesheet; include the CSS edit in dry runs and plans, and diagnose missing web styling integration. React Native styling configuration remains separate.
 - [ ] `init_project(project_path, target?, language?, package_manager?, stylesheet_path?, dry_run?)`. **Partial:** file setup and dry runs pass TS/JS React/React Native fixtures, including Tailwind 4 web stylesheet registration; a clean real npm install waits on compatible runtime package publication.
 

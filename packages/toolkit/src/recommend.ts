@@ -39,7 +39,7 @@ export const recommendIcons = async (
   const installed = project.manifest?.icons ?? {};
   const managedIds = Object.keys(installed);
   const installedIds = new Set(
-    managedIds.filter((id) => project.installedIconStatus[id] === "current")
+    managedIds.filter((id) => project.installedIconStatus[id] !== "missing")
   );
   const language = project.manifest?.language ?? project.detectedLanguage;
   const target = project.manifest?.target ?? project.detectedTarget;
@@ -85,10 +85,10 @@ export const recommendIcons = async (
     const status = project.installedIconStatus[candidate.id];
     return {
       ...candidate,
-      installed: status === "current",
+      installed: status === "current" || status === "customized",
       installedStatus: status ?? null,
       action:
-        status === "current"
+        status === "current" || status === "customized"
           ? ("reuse" as const)
           : record
             ? ("repair" as const)
@@ -96,9 +96,11 @@ export const recommendIcons = async (
       recommendationReason:
         status === "current"
           ? `Already installed at ${record.path}. ${candidate.matchReason}`
-          : record
-            ? `Managed icon file is ${status}; run doctor before using or adding it. ${candidate.matchReason}`
-            : `${candidate.matchReason}${collections.length && !usedGlobalFallback ? ` Matches a collection already used in this project.` : ""}`,
+          : status === "customized"
+            ? `Customized component at ${record.path}; reuse it without regenerating. ${candidate.matchReason}`
+            : record
+              ? `Managed icon file is missing; run doctor before using it. ${candidate.matchReason}`
+              : `${candidate.matchReason}${collections.length && !usedGlobalFallback ? ` Matches a collection already used in this project.` : ""}`,
       usage: usage(candidate.id, language, project.projectPath, fromFile)
     };
   });
