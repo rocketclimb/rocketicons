@@ -172,6 +172,33 @@ jobs:
             exit 1
           fi
 
+          # The root package version may have changed in this step. Rebuild the
+          # bundled catalog at that exact version before creating release archives.
+          npm run generate-catalog --workspace=packages/ignition
+          node -e '
+            const toolkit = require("./packages/toolkit/package.json");
+            const mcp = require("./packages/mcp/package.json");
+            const icons = require("./packages/icons/package.json");
+            if (mcp.dependencies[toolkit.name] !== toolkit.version || icons.dependencies[toolkit.name] !== toolkit.version || icons.dependencies[mcp.name] !== mcp.version) {
+              throw new Error("MCP and rocketicons dependency versions must match the packages being released");
+            }
+          '
+          for workspace in toolkit mcp; do
+            package_name="$(node -p "require('./packages/$workspace/package.json').name")"
+            package_version="$(node -p "require('./packages/$workspace/package.json').version")"
+            if npm view "$package_name@$package_version" version >/dev/null 2>&1; then
+              echo "$package_name@$package_version is already published; bump its version before cutting this release" >&2
+              exit 1
+            fi
+          done
+          npm run build --workspace=packages/toolkit
+          npm run test --workspace=packages/toolkit
+          npm run test --workspace=packages/mcp
+
+          npm pack --silent -w packages/utils
+          npm pack --silent -w packages/tailwind
+          npm pack --silent -w packages/toolkit
+          npm pack --silent -w packages/mcp
           npm pack --silent -w packages/icons
 
           if [ ! -f release-notes.md ]; then
@@ -185,10 +212,6 @@ jobs:
           echo "PUBLISHED_VERSION=$PUBLISHED_VERSION" >> $GITHUB_OUTPUT
           echo "PUBLISH_PACKAGE=$PUBLISH_PACKAGE" >> $GITHUB_OUTPUT
           echo "RELEASE_HEAD_SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-      - name: Get generated package name
-        id: generated-pkg-name
-        run: echo "PKG_FILE=$(ls -1 -t *.tgz | head -1)" >> $GITHUB_OUTPUT
 
       - name: Generate release metadata
         env:
@@ -236,7 +259,7 @@ jobs:
           path: |
             release-notes.md
             release-metadata.json
-            ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
+            *.tgz
           if-no-files-found: error
 
       - name: Push release branch

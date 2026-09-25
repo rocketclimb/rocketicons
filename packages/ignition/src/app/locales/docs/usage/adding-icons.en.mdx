@@ -9,20 +9,21 @@ order: 1
 
 # Add exactly what you need
 
+Batch add and dry-run commands are in the repository CLI build and await the next npm release.
+
 Already ran `npx rocketicons init`? Great. Pick an exact icon ID in the [icon explorer](../../icons), then add that one component:
 
 ```bash
 npx rocketicons add @rc/rc-rocket-icon
 ```
 
-The current command accepts one icon at a time. For a small set, keep the steps explicit and repeat it:
+For a small set, preview and add several exact IDs in one command:
 
 ```bash
-npx rocketicons add @rc/rc-rocket-icon
-npx rocketicons add @lu/lu-search
-npx rocketicons add @lu/lu-circle-check
+npx rocketicons add @rc/rc-rocket-icon @lu/lu-search @lu/lu-circle-check --dry-run
+npx rocketicons add @rc/rc-rocket-icon @lu/lu-search @lu/lu-circle-check
 ```
 
-Each command creates one TSX file under `src/ri/icons`. That is the useful bit: your application owns the selected component instead of importing a package full of icons.
+The command creates TSX or JSX files under `src/ri/icons` and records them in `rocketicons.json`. Your application owns the selected components instead of importing a package full of icons.
 
 ### Import the generated component
