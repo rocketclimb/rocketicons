@@ -90,6 +90,7 @@ describe("icon context artifacts", () => {
 
     expect(iconSourceHash(icon)).toBe(iconSourceHash({ ...icon }));
     expect(iconSourceHash({ ...icon, name: "Sunny Day" })).not.toBe(iconSourceHash(icon));
+    expect(iconSourceHash({ ...icon, familyId: "day-sun" })).not.toBe(iconSourceHash(icon));
   });
 
   test("publishes current metadata and reports missing, stale, and orphaned bindings", () => {

@@ -28,7 +28,6 @@ npx rocketicons init
 npx rocketicons search rocket --collection rc
 npx rocketicons add @rc/rc-rocket-icon --dry-run
 npx rocketicons add @rc/rc-rocket-icon
-npx rocketicons add @my/MyHome
 ```
 
 Then import the generated component:

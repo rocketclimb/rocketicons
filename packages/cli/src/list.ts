@@ -11,7 +11,7 @@ const list = (packageName: string = "") => {
     for (const icon of pkg.icons) {
       console.log(`  ${icon}`);
     }
-    console.log(`\nUse 'rocketicons add ${packageName}/<icon>' to add an icon`);
+    console.log(`\nUse 'rocketicons add @${packageName}/<icon>' to add an icon`);
   }
 };
 

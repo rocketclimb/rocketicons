@@ -25,7 +25,13 @@ import type { ContextSourceIcon, IconContextFamily, IconContextSource } from "./
 
 const CACHE_ROOT = resolve("./.cache/icon-context");
 const BATCH_SIZE = 50;
-type ManifestIcon = { id: string; name: string; compName: string; variant: string };
+type ManifestIcon = {
+  id: string;
+  name: string;
+  compName: string;
+  variant: string;
+  familyId?: string;
+};
 type BatchFamily = {
   familyId: string;
   icons: Array<{
@@ -64,20 +70,20 @@ const loadIcons = (collectionId: string): ContextSourceIcon[] => {
       name: icon.name,
       component: icon.compName,
       variant: icon.variant,
+      familyId: icon.familyId,
       iconTree: JSON.parse(readFileSync(join(svgRoot, `${icon.id}.json`), "utf8")).iconTree
     }))
     .sort(({ id: a }, { id: b }) => a.localeCompare(b));
 };
 
 const familyIdFor = (icon: ContextSourceIcon) =>
-  icon.id.startsWith("my-")
-    ? icon.id.replace(/^my-(?:solid-)?/, "")
-    : icon.name
-        .toLowerCase()
-        .replace(/\b(fill|filled|outline|outlined|solid|alt)\b/g, " ")
-        .trim()
-        .replace(/\s+/g, "-")
-        .replace(/[^a-z0-9-]/g, "");
+  icon.familyId ??
+  icon.name
+    .toLowerCase()
+    .replace(/\b(fill|filled|outline|outlined|solid|alt)\b/g, " ")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "");
 
 const groupFamilies = (icons: ContextSourceIcon[]): BatchFamily[] => {
   const groups = new Map<string, BatchFamily>();

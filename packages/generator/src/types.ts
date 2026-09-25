@@ -13,6 +13,7 @@ export interface IconDefinition {
 export interface IconDefinitionContent {
   files: string | (() => Promise<string[]>);
   formatter(camelName: string, filePath: string): string;
+  familyId?: (filePath: string) => string;
   multiColor?: boolean;
   processWithSVGO?: boolean;
 }
@@ -31,6 +32,7 @@ export type PackageExports =
       string,
       {
         types: string;
+        "react-native"?: string;
         require: string;
         import: string;
         default: string;

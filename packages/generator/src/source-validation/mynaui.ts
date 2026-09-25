@@ -2,8 +2,8 @@ import { readFile } from "node:fs/promises";
 import { basename, join } from "node:path";
 import camelcase from "camelcase";
 import { optimize } from "svgo";
-import { glob } from "./glob";
-import kebabCase from "./kebab-case";
+import { glob } from "../glob";
+import kebabCase from "../kebab-case";
 
 type Style = "regular" | "solid";
 type SourceFiles = Record<Style, string[]>;

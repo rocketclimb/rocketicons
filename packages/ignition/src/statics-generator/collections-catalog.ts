@@ -33,6 +33,7 @@ type GeneratedManifestIcon = {
   name: string;
   compName: string;
   variant: Variants;
+  familyId?: string;
 };
 
 export type GeneratedManifest = Omit<StaticCollectionSummary, "totalIcons" | "indexUrl"> & {
@@ -85,6 +86,7 @@ export const buildCollectionArtifacts = (
         name: metadata.name,
         component: metadata.compName,
         variant: metadata.variant || variant,
+        ...(metadata.familyId && { familyId: metadata.familyId }),
         iconTree
       } satisfies StaticIconRecord;
     })

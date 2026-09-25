@@ -2,7 +2,8 @@ import { afterEach, beforeEach, expect, test } from "@jest/globals";
 import { mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { getIconFiles } from "./logics";
+import { buildPackageExports, getIconFiles } from "./logics";
+import { icons } from "./definitions";
 
 const formatter = (name: string) => name;
 let directory: string;
@@ -33,4 +34,18 @@ test("returns SVG files in deterministic order", async () => {
     join(directory, "a.svg"),
     join(directory, "b.svg")
   ]);
+});
+
+test("native imports choose platform-aware collection modules", () => {
+  const exports = buildPackageExports(icons) as Record<
+    string,
+    { "react-native": string; require: string; import: string }
+  >;
+  for (const { id } of icons) {
+    expect(exports[`./${id}`]).toMatchObject({
+      "react-native": `./${id}/index.js`,
+      require: `./${id}/index.js`,
+      import: `./${id}/index.mjs`
+    });
+  }
 });

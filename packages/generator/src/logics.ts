@@ -96,6 +96,7 @@ export const buildPackageExports = (
   icons.forEach((icon) => {
     exports[`./${icon.id}`] = {
       types: `./${icon.id}/index.d.ts`,
+      "react-native": `./${icon.id}/index.js`,
       require: `./${icon.id}/index.js`,
       import: `./${icon.id}/index.mjs`,
       default: `./${icon.id}/index.mjs`

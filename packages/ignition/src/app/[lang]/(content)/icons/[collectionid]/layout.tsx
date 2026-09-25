@@ -13,7 +13,6 @@ import IconInfoProvider from "@/components/icons/icons-collection/icon-info/prov
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { customMetadata } from "@/components/metadata-custom";
-import { absoluteSiteUrl } from "@/config/site-origin";
 
 type LayoutProps = {
   children: ReactNode;
@@ -51,27 +50,8 @@ const Layout = async ({ children, params }: LayoutProps) => {
   const collectionid = rawCollectionId as CollectionID;
   const info = await getCollection(collectionid);
   const icons = await getCollectionIcons(collectionid);
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: `${info.name} icons`,
-    url: absoluteSiteUrl(`/${lang}/icons/${collectionid}/`).toString(),
-    inLanguage: lang === "pt-br" ? "pt-BR" : "en",
-    license: info.licenseUrl,
-    mainEntity: {
-      "@type": "ItemList",
-      name: info.name,
-      numberOfItems: info.totalIcons
-    }
-  };
   return (
     <div className="collection-page">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c")
-        }}
-      />
       {info && <CollectionTitleBox lang={lang} info={info} />}
       <IconInfoProvider lang={lang} collectionId={collectionid} />
       {children}
