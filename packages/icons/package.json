@@ -273,6 +273,9 @@
       "default": "./package.json"
     }
   },
-  "dependencies": {},
+  "dependencies": {
+    "@rocketicons/toolkit": "0.1.0",
+    "@rocketicons/mcp": "0.1.0"
+  },
   "bin": "./bin/index.js"
 }

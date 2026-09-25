@@ -1,0 +1,33 @@
+{
+  "name": "@rocketicons/mcp",
+  "version": "0.1.0",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "rocketicons-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "npm run build",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "npm run build && npm run build --prefix ../cli && node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.0.0",
+    "@rocketicons/toolkit": "0.1.0",
+    "@rocketicons/utils": ">=0.7.0",
+    "sharp": "^0.34.5",
+    "zod": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "^2.0.0",
+    "ajv": "^8.16.0"
+  }
+}

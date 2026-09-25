@@ -238,13 +238,41 @@ jobs:
           github-token: ${{ env.GH_TOKEN }}
           run-id: ${{ needs.create-tag.outputs.cut-run-id }}
 
-      - name: Publish package
+      - name: Publish packages in dependency order
         if: needs.create-tag.outputs.publish-package == 'true'
         run: |
-          tar zxf *.tgz
-          node -e 'const pkg = require("./package/package.json"); const expected = require("./release-metadata.json"); if (pkg.name !== expected.name || pkg.version !== expected.version) { console.error(`Refusing to publish ${pkg.name}@${pkg.version}; expected ${expected.name}@${expected.version}`); process.exit(1) }'
-          (cd package && npm publish --access public)
-          rm -fR package
+          for prefix in rocketicons-utils rocketicons-tailwind rocketicons-toolkit rocketicons-mcp rocketicons; do
+            case "$prefix" in
+              rocketicons-utils) expected_name="@rocketicons/utils" ;;
+              rocketicons-tailwind) expected_name="@rocketicons/tailwind" ;;
+              rocketicons-toolkit) expected_name="@rocketicons/toolkit" ;;
+              rocketicons-mcp) expected_name="@rocketicons/mcp" ;;
+              rocketicons) expected_name="rocketicons" ;;
+            esac
+            archive="$(ls -1 "${prefix}"-*.tgz | head -1)"
+            tar zxf "$archive"
+            node -e 'const pkg = require("./package/package.json"); if (pkg.name !== process.argv[1]) throw new Error(`Unexpected package ${pkg.name}`)' "$expected_name"
+            if [ "$prefix" = "rocketicons-toolkit" ]; then
+              node -e 'const catalog = require("./package/data/search.json"); const expected = require("./release-metadata.json"); if (catalog.packageVersion !== expected.version) throw new Error("Bundled catalog version differs from the rocketicons release")'
+            fi
+            if [ "$prefix" = "rocketicons" ]; then
+              node -e 'const pkg = require("./package/package.json"); const expected = require("./release-metadata.json"); if (pkg.name !== expected.name || pkg.version !== expected.version) throw new Error(`Refusing to publish ${pkg.name}@${pkg.version}; expected ${expected.name}@${expected.version}`)'
+            fi
+            package_version="$(node -p 'require("./package/package.json").version')"
+            if npm view "$expected_name@$package_version" version >/dev/null 2>&1; then
+              case "$prefix" in
+                rocketicons-utils|rocketicons-tailwind)
+                  echo "$expected_name@$package_version already published; skipping" ;;
+                *)
+                  echo "$expected_name@$package_version already published; refusing to release a stale catalog" >&2
+                  exit 1 ;;
+              esac
+            else
+              npm publish "$archive" --access public
+            fi
+            rm -fR package
+            if [ "$prefix" != "rocketicons" ]; then rm -f "$archive"; fi
+          done
 
       - name: Get package name
         id: get-package-name

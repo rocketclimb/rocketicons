@@ -15,6 +15,7 @@
     "predev:all-icons": "npm run generate-content-collections && npm run generate-statics:all-icons",
     "dev:all-icons": "RI_GENERATE_ALL_ICONS=true next dev",
     "generate-statics": "npx ts-node -r tsconfig-paths/register ./src/statics-generator/manifest-loader.ts && npx ts-node -r tsconfig-paths/register ./src/statics-generator",
+    "generate-catalog": "npx ts-node -r tsconfig-paths/register ./src/statics-generator/catalog-cli.ts",
     "generate-content-collections": "rocketclimb-cc",
     "generate-statics:all-icons": "RI_GENERATE_ALL_ICONS=true npm run generate-statics",
     "indexer": "npx ts-node -r tsconfig-paths/register ./src/algolia-indexer",
@@ -31,6 +32,7 @@
   },
   "dependencies": {
     "@rocketicons/core": "*",
+    "@rocketicons/utils": "*",
     "@mdx-js/loader": "^3.0.1",
     "@mdx-js/react": "^3.0.1",
     "@next/mdx": "^14.1.4",
