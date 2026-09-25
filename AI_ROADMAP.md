@@ -94,7 +94,7 @@ Use a consistent short explanation across the website, npm, GitHub, `llms.txt`, 
 
 > Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.
 
-**Progress:** the website, GitHub/npm READMEs, and LLM discovery files use this message. CLI help and MCP remain pending with their respective milestones.
+**Progress:** the website, GitHub/npm READMEs, LLM discovery files, CLI help, and MCP package documentation use this message.
 
 #### Publish LLM discovery files
 
@@ -123,40 +123,43 @@ The CLI is the most important agent interface because it performs the useful pro
 #### Command design
 
 - [x] `rocketicons init`
-- [ ] `rocketicons search <terms>`
+- [x] `rocketicons search <terms>`
 - [x] `rocketicons list [collection]`
-- [ ] `rocketicons info <icon>`
-- [ ] `rocketicons add <icon...>` for one or many icons
-- [ ] `rocketicons remove <icon...>`
+- [x] `rocketicons info <icon>`
+- [x] `rocketicons add <icon...>` for one or many icons
+- [x] `rocketicons remove <icon...>`
 - [ ] `rocketicons update [icon...]`
-- [ ] `rocketicons doctor`
-- [ ] `rocketicons config`
+- [x] `rocketicons doctor`
+- [x] `rocketicons config`
+- [x] `rocketicons mcp` starts the local stdio server from the CLI package.
 
 #### Agent-friendly behavior
 
-- [ ] Add `--json` to every read command and mutation result.
-- [ ] Add `--yes` for non-interactive execution.
-- [ ] Add `--dry-run` with an exact file-change preview.
-- [ ] Add `--cwd <path>` and never mutate outside the resolved project root.
-- [ ] Add `--package-manager npm|pnpm|yarn|bun`, with safe automatic detection.
-- [ ] Add `--catalog-version` or an equivalent reproducibility control.
+- [x] Add `--json` to every read command and mutation result.
+- [x] Add `--yes` for non-interactive execution.
+- [ ] Add `--dry-run` with an exact file-change preview. **Partial:** generated-file changes are exact; package-manager lockfile effects are identified but their exact diff is only known after install.
+- [x] Add `--cwd <path>` and never mutate outside the resolved project root.
+- [ ] Add `--package-manager npm|pnpm|yarn|bun`, with safe automatic detection. **Partial:** detection and command routing are implemented; live installation fixtures for pnpm, yarn, and bun remain.
+- [ ] Publish compatible `@rocketicons/utils` and `@rocketicons/tailwind` runtime versions before promoting init. **Partial:** setup now requests version 0.7.0 or newer; the current npm `@rocketicons/tailwind@0.2.6` depends on `@rocketclimb/tw-utils` from GitHub Packages and failed a clean npm initialization without credentials.
+- [x] Add `--catalog-version` or an equivalent reproducibility control. `rocketicons.json` pins the catalog version and rejects mismatched add operations.
 - [ ] Use documented, stable exit codes.
-- [ ] Write diagnostics to stderr and structured results to stdout.
-- [ ] Make `init`, `add`, `remove`, and `update` idempotent.
-- [ ] Support exact icon IDs, component names, and unambiguous search results.
+- [x] Write diagnostics to stderr and structured results to stdout.
+- [ ] Make `init`, `add`, `remove`, and `update` idempotent. **Partial:** init, add, and remove are verified; update is not implemented.
+- [x] Support exact icon IDs, component names, and unambiguous search results. Collection-qualified IDs disambiguate duplicate IDs across collections.
 - [ ] Return useful alternatives when an icon name is not found.
-- [ ] Never require an interactive prompt when all required arguments are supplied.
-- [ ] Avoid shell interpolation for paths and package commands.
-- [ ] Use atomic writes and preserve unrelated user changes.
+- [x] Never require an interactive prompt when all required arguments are supplied.
+- [x] Avoid shell interpolation for paths and package commands.
+- [x] Use atomic writes and preserve unrelated user changes.
 
 #### Project manifest and provenance
 
-- [ ] Add a small project manifest such as `rocketicons.json`.
-- [ ] Record catalog/package version, output path, platform, and installed icon IDs.
-- [ ] Add a generated-file comment containing icon ID, collection, version, and license reference.
-- [ ] Detect local modifications before overwriting generated icons.
+- [x] Add a small project manifest such as `rocketicons.json`.
+- [x] Record catalog/package version, output path, platform, and installed icon IDs.
+- [x] Add a generated-file comment containing icon ID, collection, version, and license reference.
+- [x] Detect local modifications before overwriting generated icons.
+- [x] Hash a code-aware normalized copy of generated icon components so formatting-only edits remain current; report other edits as reusable, protected customizations in CLI and MCP workflows. Legacy byte hashes remain readable.
 - [ ] Provide a machine-readable diff when updating icons.
-- [ ] Allow fully offline repeatable installation from a cached catalog.
+- [ ] Allow fully offline repeatable installation from a cached catalog. **Partial:** catalog and SVG assets are bundled and icon addition is offline; first-time runtime dependency installation still needs published compatible packages or an existing cache.
 
 #### Performance claims to measure
 
@@ -168,38 +171,51 @@ The CLI is the most important agent interface because it performs the useful pro
 
 ### Milestone 4 — MCP server
 
-Build the MCP server on the same application layer used by the CLI. Do not create separate search, resolution, or generation logic.
+Build the MCP server on the same toolkit layer used by the CLI. Do not create separate search, resolution, or generation logic.
 
 #### Recommended MCP tools
 
-- [ ] `search_icons(query, collections?, variants?, limit?)`
-- [ ] `get_icon(icon_id)`
-- [ ] `get_icon_usage(icon_id, target, language?)`
-- [ ] `list_collections()`
-- [ ] `get_collection(collection_id)`
-- [ ] `add_icons(icon_ids, project_path, dry_run?)`
-- [ ] `remove_icons(icon_ids, project_path, dry_run?)`
-- [ ] `inspect_project(project_path)`
-- [ ] `doctor(project_path)`
+- [x] `search_icons(query, collections?, variants?, limit?)`
+- [x] `recommend_icons(project_path, intent, from_file?, limit?)` checks installed icons for reuse, searches existing project collections first, and returns Web and React Native usage. An optional source file makes imports relative and resolvable.
+- [x] `get_icon(icon_id)`
+- [x] `get_icon_svg(icon_id)` returns complete SVG markup from bundled icon data for HTML and other non-React projects without setup.
+- [x] `compare_icons(icon_ids)` returns an offline visual contact sheet for up to five exact icons, with cell metadata and SVG links.
+- [x] `get_icon_usage(icon_id, target?, language?, project_path?, from_file?)` returns a resolvable relative import when given a project and source file, without guessing an alias otherwise.
+- [x] `plan_icons(project_path, icon_ids, from_file, ...)` previews exact managed paths and hashes, dependencies, and package-manager effects without writes.
+- [x] `apply_icons(project_path, icon_ids, plan_id, from_file, ..., dry_run?)` rejects stale plans, applies setup and batch addition, and verifies the files and project health in TS/JS React and React Native fixtures.
+- [x] `list_collections()`
+- [x] `get_collection(collection_id)`
+- [x] `add_icons(icon_ids, project_path, dry_run?)`
+- [x] `remove_icons(icon_ids, project_path, dry_run?)`
+- [x] `inspect_project(project_path)`
+- [x] `doctor(project_path)`
+- [x] Treat edited installed components as project-owned customizations: `inspect_project` and `doctor` report them, recommendations reuse them, and add/plan preserve them while removal stays protected.
+- [x] Register the Rocketicons plugin automatically in an existing Tailwind CSS 4 web stylesheet; include the CSS edit in dry runs and plans, and diagnose missing web styling integration. React Native styling configuration remains separate.
+- [ ] `init_project(project_path, target?, language?, package_manager?, stylesheet_path?, dry_run?)`. **Partial:** file setup and dry runs pass TS/JS React/React Native fixtures, including Tailwind 4 web stylesheet registration; a clean real npm install waits on compatible runtime package publication.
 
 #### Recommended MCP resources
 
-- [ ] Catalog metadata and schema.
-- [ ] Collection indexes.
-- [ ] Documentation topics.
-- [ ] License and attribution information.
-- [ ] CLI configuration schema.
+- [x] Catalog metadata and schema.
+- [x] Collection indexes.
+- [x] Documentation topics.
+- [x] License and attribution information.
+- [x] CLI configuration schema.
 
 #### Delivery model
 
-- [ ] Start with a local stdio MCP server distributed with the CLI or as a small sibling package.
-- [ ] Make read-only discovery usable without initializing a project.
-- [ ] Require an explicit project path for mutations.
-- [ ] Restrict writes to the selected workspace.
-- [ ] Return structured content plus a short human-readable summary.
-- [ ] Expose dry-run results before file mutations.
+- [ ] Start with a local stdio MCP server distributed with the CLI or as a small sibling package. **Partial:** `@rocketicons/mcp` is implemented and tested over stdio, and the CLI exposes `rocketicons mcp`; npm publication remains.
+- [x] Make read-only discovery usable without initializing a project.
+- [x] Require an explicit project path for mutations.
+- [x] Restrict writes to the selected workspace. Dependency installation is rejected when a parent package-manager workspace could receive writes outside `project_path`; preinstalled workspace dependencies remain supported.
+- [x] Return structured content plus a short human-readable summary.
+- [x] Advertise output schemas for every MCP tool and return structured errors with actionable next steps and a text fallback.
+- [x] Expose dry-run results before file mutations.
 - [ ] Consider a hosted read-only MCP server later; do not make local icon installation depend on a hosted service.
 - [ ] Publish setup examples for Codex, Claude Code, VS Code, Cursor, and other clients only after verifying their current configuration formats.
+- [x] Validate Algolia icon IDs and requested filters against the bundled catalog before returning results. This keeps older installed MCP versions from offering icons they cannot add when the shared Algolia index moves to a newer release; unknown hits trigger local fallback. Per-record catalog versioning was removed because the index contains only the current release.
+- [ ] Deploy `/ai/v1/search-config.json` with a public search-only key. **Partial:** the package bundles the existing browser-visible search-only credentials, and live MCP searches for `food` return Algolia results with collection and variant filters. The public config endpoint still returns 404.
+- [ ] Extend the release pipeline to publish `@rocketicons/utils`, `@rocketicons/tailwind`, `@rocketicons/toolkit`, and `@rocketicons/mcp` in dependency order before the `rocketicons` package. **Partial:** the cut and publish workflows are updated, but a live release and npm trusted publishing configuration for the scoped packages remain unverified; this local host has no npm publish credentials.
+- [ ] Expand the scored search benchmark beyond the initial 15 Feather cases and measure live Algolia relevance. **Partial:** the local top-5 benchmark passes 14 of 15 English and PT-BR requests.
 
 ### Milestone 5 — Expand `/ai/v1/`
 
@@ -207,8 +223,8 @@ The current catalog, collection indexes, and 500-icon shards are the correct bas
 
 - [ ] Publish JSON Schema files for every public interface. **Partial:** schemas now cover capabilities and icon-context index/data envelopes; the catalog, collection index, and SVG shard interfaces still need published schemas.
 - [x] Publish `/ai/v1/capabilities.json` describing versions and available resources.
-- [ ] Publish a compact search index containing normalized names, aliases, tags, collection, component, and shard number.
-- [ ] Add synonyms and semantic tags without changing stable icon IDs. **Partial:** reviewed English and PT-BR semantics cover all 219 Weather Icons, 189 Simple Line Icons, 287 Feather Icons, 352 Go Icons, 192 Devicons, 332 Radix Icons, 288 Circum Icons, 329 Flat Color Icons, 1 Rocketicons icon, 336 Typicons, 352 Themify Icons, 653 VS Code Codicons, 460 Heroicons, 972 Heroicons 2, 491 IcoMoon Free icons, 637 Grommet Icons, 704 css.gg icons, 696 Ionicons, 848 Ant Design Icons, 6,184 Tabler icons, 1,332 Ionicons 5 icons, 1,611 Font Awesome 5 icons, 1,544 Line Awesome icons, 1,634 BoxIcons icons, 2,754 Bootstrap Icons, 2,058 Font Awesome 6 icons, 4,040 Game Icons, 4,341 Material Design icons, 9,072 Phosphor icons, 3,188 Remix icons, 3,458 Simple Icons, and 1,671 Iconoir icons (51,225 total across 32 of 33 collections). Lucide has generated metadata pending human review.
+- [ ] Publish a compact search index containing normalized names, aliases, tags, collection, component, and shard number. **Partial:** a 48,590-icon compact index is generated and bundled with the local application/MCP packages; the public `/ai/v1/` artifact remains pending.
+- [ ] Add synonyms and semantic tags without changing stable icon IDs. **Partial:** reviewed English and PT-BR semantics cover all 219 Weather Icons, 189 Simple Line Icons, 287 Feather Icons, 352 Go Icons, 192 Devicons, 332 Radix Icons, 288 Circum Icons, 329 Flat Color Icons, 1 Rocketicons icon, 336 Typicons, 352 Themify Icons, 653 VS Code Codicons, 460 Heroicons, 972 Heroicons 2, 491 IcoMoon Free icons, 637 Grommet Icons, 704 css.gg icons, 696 Ionicons, 848 Ant Design Icons, 6,184 Tabler icons, 1,332 Ionicons 5 icons, 1,611 Font Awesome 5 icons, 1,544 Line Awesome icons, 1,634 BoxIcons icons, 2,754 Bootstrap Icons, 2,058 Font Awesome 6 icons, 4,040 Game Icons, 4,341 Material Design icons, 9,072 Phosphor icons, 3,188 Remix icons, 3,458 Simple Icons, 2,048 Lucide icons, and 1,671 Iconoir icons (53,273 total across all 33 collections). Lucide's 2,047 bilingual semantic families are verified against lockfile-installed lucide-static 1.41.0; Iconoir's 1,364 families are verified against pinned v7.12.1.
 - [x] Include license and upstream provenance at collection level.
 - [ ] Publish checksums for catalog artifacts. **Partial:** icon-context chunks publish SHA-256 checksums; the catalog, collection indexes, and SVG shards remain pending.
 - [ ] Document cache behavior and immutable versioned snapshots.
@@ -225,17 +241,17 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 
 - [x] Add a local, manually triggered enrichment workflow with bounded batches, resumable runs, source/prompt hashes, visual contact sheets, bilingual validation, deterministic quality audits, review gates, confirmed force regeneration, and a consolidated local verification command.
 - [x] Complete and verify the Weather Icons pilot: 219 icons represented by 171 reviewed semantic families with complete current-source coverage.
-- [ ] Roll reviewed semantic metadata out to the remaining collections, prioritizing small and high-usage collections. **Partial:** Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, Heroicons 2, IcoMoon Free, Grommet Icons, css.gg, Ionicons, Ant Design Icons, BoxIcons, Font Awesome 5, Tabler, Ionicons 5, Line Awesome, Bootstrap Icons, Font Awesome 6, Game Icons, Material Design, Phosphor, Remix, Simple Icons, and Iconoir have reviewed metadata for 51,225 icon bindings across 32 of 33 collections. Lucide adds complete generated coverage for 2,048 bindings (53,273 generated bindings across all 33 collections), validated against current sources and the dry-run index; human semantic review is still required before it is counted as reviewed. Lucide has 2,047 bilingual semantic families verified against lockfile-installed `lucide-static` 1.41.0, with no missing or stale bindings. Iconoir has 1,364 reviewed bilingual families for 1,671 bindings at pinned v7.12.1 (`d7dfa4d0341df0670bfed9fc24221c9d7ef2112e`), with no missing or stale bindings. Font Awesome 5 is now verified against pinned Git revision `afecf2af5d897b763e5e8e28d46aad2f710ccad6`; Ant Design is verified against pinned Git revision `7f2516ac91226d2b41f93b35cb5197c8d94f7189`; Heroicons 2 is verified against pinned revision `616b7a4dbbf3d011760af8066262cd5c6b3868f3`; Go is verified against the lockfile-installed Octicons 19.34.0 catalog; Radix, Codicons, and Grommet are verified against their current pinned revisions.
+- [ ] Roll reviewed semantic metadata out to the remaining collections, prioritizing small and high-usage collections. **Partial:** Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, Heroicons 2, IcoMoon Free, Grommet Icons, css.gg, Ionicons, Ant Design Icons, BoxIcons, Font Awesome 5, Tabler, Ionicons 5, Line Awesome, Bootstrap Icons, Font Awesome 6, Game Icons, Material Design, Phosphor, Remix, Simple Icons, Lucide, and Iconoir have reviewed metadata for 53,273 icon bindings across all 33 collections. Lucide has 2,047 bilingual semantic families verified against lockfile-installed `lucide-static` 1.41.0, with no missing or stale bindings. Iconoir has 1,364 reviewed bilingual families for 1,671 bindings at pinned v7.12.1 (`d7dfa4d0341df0670bfed9fc24221c9d7ef2112e`), with no missing or stale bindings. Font Awesome 5 is now verified against pinned Git revision `afecf2af5d897b763e5e8e28d46aad2f710ccad6`; Ant Design is verified against pinned Git revision `7f2516ac91226d2b41f93b35cb5197c8d94f7189`; Heroicons 2 is verified against pinned revision `616b7a4dbbf3d011760af8066262cd5c6b3868f3`; Go is verified against the lockfile-installed Octicons 19.34.0 catalog; Radix, Codicons, and Grommet are verified against their current pinned revisions.
 - [x] Refresh Go and Radix metadata against the current clean-build catalog.
 - [ ] Normalize names and common aliases, such as `delete`, `trash`, and `remove`. **Partial:** implemented and materialized per icon for Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, Heroicons 2, IcoMoon Free, Grommet Icons, css.gg, Ionicons, Ionicons 5, Font Awesome 5, Line Awesome, BoxIcons, Bootstrap Icons, Font Awesome 6, Game Icons, Material Design, Phosphor, Remix, Simple Icons, Lucide, Tabler, and Iconoir.
 - [ ] Add intent tags such as navigation, commerce, communication, status, files, and accessibility. **Partial:** bilingual categories, search terms, and UI contexts are available in the generated catalog and validated for indexing for Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, Heroicons 2, IcoMoon Free, Grommet Icons, css.gg, Ionicons, Ant Design Icons, Ionicons 5, Font Awesome 5, Line Awesome, BoxIcons, Bootstrap Icons, Font Awesome 6, Game Icons, Material Design, Phosphor, Remix, Simple Icons, Lucide, Tabler, and Iconoir.
 - [ ] Record visual properties such as filled, outlined, brand, directional, multicolor, and stroke support. **Partial:** deterministic properties are generated for enriched Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, Heroicons 2, IcoMoon Free, Grommet Icons, css.gg, Ionicons, Ant Design Icons, BoxIcons, Ionicons 5, Font Awesome 5, Line Awesome, Bootstrap Icons, Font Awesome 6, Game Icons, Material Design, Phosphor, Remix, Simple Icons, Lucide, Tabler, and Iconoir.
 - [ ] Add negative guidance for easily confused icons. **Partial:** supported by the schema and present for ambiguous Weather Icons, Simple Line Icons, Feather Icons, Go Icons, Devicons, Radix Icons, Circum Icons, Flat Color Icons, Rocketicons, Typicons, Themify Icons, VS Code Codicons, Heroicons, Heroicons 2, IcoMoon Free, Grommet Icons, css.gg, Ionicons, Lucide, and Iconoir; Ionicons 5, Font Awesome 5, Line Awesome, BoxIcons, Bootstrap Icons, Font Awesome 6, Game Icons, Material Design, Phosphor, Remix, Simple Icons, and Tabler currently have no collection-specific negative guidance; negative terms are intentionally excluded from Algolia's positive search attributes.
 - [ ] Expand Iconoir aliases and confusion guidance after the ranking benchmark identifies misses; the reviewed baseline leaves many unambiguous glyphs without alternate names or negative terms.
-- [ ] Support deterministic ranking and explain why a result matched.
+- [ ] Support deterministic ranking and explain why a result matched. **Partial:** local search has deterministic scoring and a related-word fallback; MCP search now fetches a larger Algolia candidate pool, ranks those hits against bundled catalog fields, and gives field-specific reasons with available icon descriptions. Live top-five relevance and ranking remain unbenchmarked.
 - [ ] Allow collection and license filtering.
 - [ ] Return a small diverse result set instead of hundreds of near-duplicates.
-- [ ] Create a reviewed benchmark of common icon-selection requests. **Partial:** collection-wide semantic invariants, unrelated alias leakage, and 160 bilingual intent cases across the twenty collections added in this rollout are covered; a representative scored ranking corpus remains pending.
+- [ ] Create a reviewed benchmark of common icon-selection requests. **Partial:** collection-wide semantic invariants, unrelated alias leakage, 160 bilingual intent cases across the twenty collections added in this rollout, and an initial 15-case scored Feather corpus are covered; a representative multi-collection scored ranking corpus remains pending.
 - [ ] Measure top-1, top-5, and successful-install accuracy.
 
 ### Milestone 7 — Agent integration assets
@@ -289,12 +305,12 @@ Preference should be earned through lower task cost and higher confidence:
 
 ## Immediate next actions
 
-1. Finish Lucide semantic review and create the first icon-selection benchmark. **Latest verified addition:** Iconoir v7.12.1 (1,671 bindings represented by 1,364 reviewed semantic families).
+1. Expand the icon-selection benchmark across collections and measure live search relevance. **Latest verified addition:** Iconoir v7.12.1 (1,671 bindings represented by 1,364 reviewed semantic families).
 2. Publish the remaining `/ai/v1/` JSON Schemas and a compact semantic search index.
-3. Define CLI vNext command envelopes, exit codes, and the `rocketicons.json` schema.
-4. Extract shared catalog/search/install logic for both CLI and MCP.
-5. Implement CLI search, batch add, `--json`, and `--dry-run` before building MCP mutations.
-6. Build the local MCP server on those shared functions.
+3. Publish a complete `rocketicons.json` schema and stable CLI exit codes; make dependency-install dry runs precise enough to review lockfile changes.
+4. Verify pnpm, yarn, and bun initialization in real project fixtures and keep the shared toolkit layer aligned with the CLI and MCP.
+5. Deploy the public search-only Algolia configuration, reindex with catalog versions, and verify collection-filtered online search.
+6. Publish compatible runtime packages, then `@rocketicons/toolkit` and `@rocketicons/mcp`; verify a clean npm initialization and client setup examples against current configuration formats.
 
 ## Definition of done
 

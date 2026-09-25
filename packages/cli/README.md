@@ -4,21 +4,23 @@ The Rocketicons CLI writes selected icon components into an application's source
 
 ## Current commands
 
-Initialize an existing TypeScript project:
+Initialize an existing React or React Native project:
 
 ```bash
 npx rocketicons init
 ```
 
-This command expects `tsconfig.json`, configures `@/ri/*`, creates `src/ri/core` and `src/ri/icons`, and installs `@rocketicons/utils` and `@rocketicons/tailwind` through npm.
+This command detects TS or JS, configures `@/ri/*`, creates `src/ri/core` and `src/ri/icons`, and installs shared dependencies with the detected package manager. Use `--target react-native` or `--language js` to override detection.
 
-Add one exact icon ID:
+Search, preview, and add exact icon IDs:
 
 ```bash
-npx rocketicons add @rc/rc-rocket-icon
+npx rocketicons search calendar --collection fi --json
+npx rocketicons add @fi/fi-calendar @fi/fi-clock --dry-run --json
+npx rocketicons add @fi/fi-calendar @fi/fi-clock
 ```
 
-The generated component is written to `src/ri/icons/rc-rocket-icon.tsx`.
+The generated components are written under `src/ri/icons`. `rocketicons.json` records their catalog version, paths, and hashes. Edited generated files are never overwritten or removed silently.
 
 List collections or icons:
 
@@ -27,16 +29,17 @@ npx rocketicons list
 npx rocketicons list @rc
 ```
 
+Other commands include `info`, `usage`, `remove`, `doctor`, and `config`. Use `--cwd <absolute path>` to select a project. Collection-qualified IDs (`@collection/icon-id`) resolve collisions between collections.
+
+Start the MCP server with `npx -y rocketicons mcp` after publication. From this checkout, build the CLI and MCP workspaces and use `npx --no-install rocketicons mcp`.
+
 ## Current limits
 
 The current release:
 
-- Generates TypeScript/TSX only.
 - Uses the fixed `src/ri` directory and `@/ri/*` alias.
-- Adds one icon per command.
-- Uses npm during initialization.
-- Does not yet provide JSON output, dry runs, configurable working directories, batch arguments, or MCP tools.
+- Dry-run setup previews package and lockfile effects, but the package manager determines the exact lockfile diff when dependencies are installed.
 
-Review and commit generated files. Adding an existing icon again overwrites its target file, so preserve local customizations first.
+Review and commit generated files and `rocketicons.json`.
 
 See the [Rocketicons documentation](https://rocketicons.com/en/docs/getting-started/) and [machine-readable guide](https://rocketicons.com/llms.txt).

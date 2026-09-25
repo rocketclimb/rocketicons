@@ -12,27 +12,36 @@ import BuildInfo from "@/components/documentation/build-info";
 
 # A clear flight plan for coding agents
 
-Agents work best when discovery is small, commands are exact, and every mutation has an observable result. Rocketicons provides a versioned static catalog and a CLI that writes selected components into the project.
+Agents work best when discovery is small, commands are exact, and every mutation has an observable result. Rocketicons provides a CLI and local MCP server backed by the same catalog and project operations.
+
+The MCP package and new CLI commands are available in the repository build; their npm release is pending.
 
 ### Find and add one icon
 
-1. Inspect `/ai/v1/catalog.json` or use the website to select a collection.
-2. Follow the collection's `indexUrl` and identify an exact icon ID.
+1. Search with `npx rocketicons search calendar --collection fi --json` or MCP `recommend_icons` with the project path, intent, and source file.
+2. Inspect the exact `@collection/icon-id`, license, and SVG resource.
 3. Reuse an existing file under `src/ri/icons` when it already fits.
-4. Otherwise run one command: `npx rocketicons add @collection/icon`.
-5. Import the generated component and verify its file exists.
+4. Dry-run CLI `add`, or use MCP `plan_icons` to review files and dependencies before `apply_icons`.
+5. Use the returned import relative to the source file and run `doctor`.
 
 ### Add a small set
 
-The current CLI accepts one icon per command. Keep the change auditable:
+The CLI accepts several exact IDs. Keep the change auditable:
 
 ```bash
-npx rocketicons add @rc/rc-rocket-icon
-npx rocketicons add @lu/lu-search
-npx rocketicons add @lu/lu-circle-check
+npx rocketicons add @lu/lu-search @lu/lu-circle-check --dry-run --json
+npx rocketicons add @lu/lu-search @lu/lu-circle-check
 ```
 
-Do not assume batch arguments, JSON output, dry-run flags, configurable paths, or MCP tools yet. They are planned for later milestones.
+To use MCP, configure your client to start `npx -y rocketicons mcp` over stdio. The dedicated `npx -y @rocketicons/mcp` command also works. Call `recommend_icons`, then `plan_icons` with the exact IDs and `from_file`; review the plan and pass its `planId` to `apply_icons`. This applies setup and icons, then verifies the project. Broad search falls back to a bundled index when Algolia is unavailable.
+
+For Tailwind CSS 4 web projects, the plan includes the stylesheet edit that registers `@rocketicons/tailwind`. Check the `doctor` result after apply: its `styling` data and issues identify a missing CSS import, plugin directive, or Vite/PostCSS integration. Pass `stylesheet_path` to both plan and apply if several Tailwind stylesheets are active.
+
+After an icon is added, you can edit its generated component in `src/ri/icons/`. `doctor` reports non-formatting edits as customized, and `recommend_icons` can suggest reusing that component. `plan_icons` lists it under `preservedIcons`; `apply_icons` and `add_icons` leave it untouched. Formatting changes alone do not mark it customized. `remove_icons` protects customized files from deletion.
+
+### Use SVG in a plain HTML site
+
+For a site that does not use React, call MCP `search_icons` and `get_icon` to choose an exact ID and check its license. Call `get_icon_svg` with that ID to receive complete SVG markup. Paste the markup into HTML or save it as an `.svg` file. This path needs no `init_project` call or Rocketicons project configuration.
 
 ### Style states explicitly
 
@@ -43,16 +52,16 @@ Do not assume batch arguments, JSON output, dry-run flags, configurable paths, o
 ### Verify the mutation
 
 ```bash
-git status --short src/ri tsconfig.json package.json package-lock.json
+npx rocketicons doctor --json
+git status --short src/ri rocketicons.json tsconfig.json package.json package-lock.json
 ```
 
 Report each changed file. Run the project's own type check and relevant web or native build before declaring success.
 
 ### Prompt you can reuse
 
-> Use Rocketicons for icons in this project. Reuse a suitable component under `src/ri/icons` when possible. Otherwise identify an exact `@collection/icon` ID, run one Rocketicons add command for it, import the generated component through `@/ri`, and report every file created or changed. Do not install or import a full icon collection.
+> Use Rocketicons for icons in this project. Reuse a suitable component under `src/ri/icons` when possible. Otherwise find an exact `@collection/icon-id`, inspect its license and SVG, plan the changes, apply the reviewed plan, use an import relative to the source file, and report every changed file. Do not install or import a full icon collection.
 
 For a compact machine-readable reference, point the agent to [`/llms.txt`](/llms.txt).
 
 <BuildInfo lang="en" />
-

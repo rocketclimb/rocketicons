@@ -194,6 +194,7 @@ export const capabilitiesSchema = {
       required: ["catalog", "iconContext"],
       properties: {
         catalog: { type: "string", minLength: 1 },
+        searchConfig: { type: "string", minLength: 1 },
         iconContext: {
           type: "object",
           additionalProperties: false,

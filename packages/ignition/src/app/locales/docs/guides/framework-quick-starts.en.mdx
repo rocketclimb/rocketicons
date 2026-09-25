@@ -10,7 +10,7 @@ group: guides
 
 # Pick your launchpad
 
-Every setup starts the same way: use an existing TypeScript project, initialize Rocketicons at its root, then add one exact icon ID.
+Every setup starts the same way: use an existing React or React Native project, initialize Rocketicons at its root, then add an exact icon ID. TypeScript and JavaScript projects are supported.
 
 ```bash
 npx rocketicons init
@@ -41,7 +41,7 @@ Run the commands beside `vite.config.*`. Keep the generated `@/ri/*` TypeScript 
 
 ### Expo
 
-Start with an Expo TypeScript project. Configure `react-native-svg`, NativeWind, and the Rocketicons Tailwind integration, then initialize and import the same local component. Metro must resolve your `@` alias.
+Start with an Expo TypeScript or JavaScript project. Configure `react-native-svg`, NativeWind, and the Rocketicons Tailwind integration, then initialize and import the same local component. Metro must resolve your `@` alias.
 
 ### React Native
 
@@ -56,4 +56,3 @@ export function LaunchMark() {
 ```
 
 > The CLI currently generates TypeScript/TSX only. It does not configure framework bundlers, Metro, NativeWind, or React Native SVG for you.
-

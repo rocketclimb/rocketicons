@@ -26,9 +26,11 @@
     "packages/tailwind",
     "packages/generator",
     "packages/icons",
-    "packages/cli",
     "packages/native-test",
-    "packages/ignition"
+    "packages/ignition",
+    "packages/toolkit",
+    "packages/cli",
+    "packages/mcp"
   ],
   "scripts": {
     "dev": "npm run dev -w ignition",

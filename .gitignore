@@ -16,3 +16,5 @@ release-output.log
 !.env.example
 .vscode
 docs/testing/reports/
+packages/toolkit/data/
+packages/toolkit/templates/

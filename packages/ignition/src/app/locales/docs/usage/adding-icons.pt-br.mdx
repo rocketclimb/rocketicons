@@ -9,20 +9,21 @@ order: 1
 
 # Adicione exatamente o que precisa
 
+Os comandos de adição em lote e dry run estão no build da CLI no repositório e aguardam a próxima publicação no npm.
+
 Já executou `npx rocketicons init`? Ótimo. Escolha o ID exato no [explorador de ícones](../../icons) e adicione apenas esse componente:
 
 ```bash
 npx rocketicons add @rc/rc-rocket-icon
 ```
 
-O comando atual aceita um ícone por vez. Para instalar um pequeno conjunto, deixe cada passo explícito e repita:
+Para instalar um pequeno conjunto, confira a prévia e adicione vários IDs exatos em um comando:
 
 ```bash
-npx rocketicons add @rc/rc-rocket-icon
-npx rocketicons add @lu/lu-search
-npx rocketicons add @lu/lu-circle-check
+npx rocketicons add @rc/rc-rocket-icon @lu/lu-search @lu/lu-circle-check --dry-run
+npx rocketicons add @rc/rc-rocket-icon @lu/lu-search @lu/lu-circle-check
 ```
 
-Cada comando cria um arquivo TSX em `src/ri/icons`. Esse é o ponto importante: sua aplicação passa a ser dona do componente selecionado, em vez de importar um pacote cheio de ícones.
+O comando cria arquivos TSX ou JSX em `src/ri/icons` e registra os ícones em `rocketicons.json`. Sua aplicação passa a ser dona dos componentes selecionados, em vez de importar um pacote cheio de ícones.
 
 ### Importe o componente gerado

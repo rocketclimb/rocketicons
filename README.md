@@ -15,16 +15,18 @@ Most icon libraries install a package containing a complete collection. Rocketic
 - React and React Native: share the same component API across web and native projects.
 - Tailwind-compatible: style color, size, dark mode, and states with familiar classes.
 - Reviewable and repeatable: generated files can be inspected and committed with your feature.
-- Agent-friendly discovery: browse the versioned static catalog starting at `/ai/v1/catalog.json`.
+- Agent-friendly discovery: use the MCP server or the versioned static catalog at `/ai/v1/catalog.json`.
 
 Initialization still installs the shared `@rocketicons/utils` and `@rocketicons/tailwind` dependencies. Rocketicons is precise about that tradeoff: selected icon source stays local, while common rendering and styling behavior remains shared.
 
 ## Quick start
 
-The current CLI requires an existing TypeScript project with `tsconfig.json` and uses npm during initialization.
+Start in an existing React or React Native project. The CLI detects TypeScript or JavaScript and the project's package manager.
 
 ```bash
 npx rocketicons init
+npx rocketicons search rocket --collection rc
+npx rocketicons add @rc/rc-rocket-icon --dry-run
 npx rocketicons add @rc/rc-rocket-icon
 ```
 
@@ -38,7 +40,7 @@ export function LaunchButton() {
 }
 ```
 
-The CLI currently writes TSX to `src/ri`, configures the `@/ri/*` alias, and adds one icon per command. Run `add` repeatedly when you need a small set.
+The CLI writes TSX or JSX to `src/ri`, configures the `@/ri/*` alias, and accepts several exact icon IDs in one `add` call. Use `--json`, `--dry-run`, and `--cwd <absolute path>` for agent workflows.
 
 Iconoir v7.12.1 is available as `@oir/oir-home` and, where Iconoir supplies a solid style, `@oir/oir-solid-<name>`. The collection contains 1,383 regular and 288 solid icons under Iconoir's MIT license. For example, `npx rocketicons add @oir/oir-solid-arrow-down-circle` adds just that component.
 
@@ -51,11 +53,15 @@ Commit `src/ri` with your application so collaborators, CI, deployments, and off
 - Machine-readable project guide: [rocketicons.com/llms.txt](https://rocketicons.com/llms.txt)
 - Static catalog: [rocketicons.com/ai/v1/catalog.json](https://rocketicons.com/ai/v1/catalog.json)
 
-MCP support and agent-oriented CLI flags are planned roadmap work; they are not part of the current CLI.
+## MCP server
+
+The MCP package is implemented in this repository and awaits npm publication. After publication, configure a stdio MCP client to run `npx -y rocketicons mcp` (or the dedicated `npx -y @rocketicons/mcp`). From this checkout, build the CLI and MCP packages and use `npx --no-install rocketicons mcp`. Search uses Algolia for broad terms and a bundled index if Algolia is unavailable. Pass `collections: ["fi"]` to `search_icons` to keep results within one family. Exact IDs such as `@fi/fi-calendar` resolve locally. Inspect the SVG resource, dry-run `init_project` and `add_icons`, then use `get_icon_usage` for the local import. See [MCP setup](packages/mcp/README.md).
 
 ## Monorepo packages
 
 - `@rocketicons/cli` — initializes projects and writes selected icon components.
+- `@rocketicons/toolkit` — shared catalog, search, and project operations for CLI and MCP.
+- `@rocketicons/mcp` — local stdio server for icon discovery and installation.
 - `rocketicons` — generated catalog data and legacy package exports.
 - `@rocketicons/utils` — shared component utilities.
 - `@rocketicons/tailwind` — Tailwind integration.
