@@ -32,6 +32,7 @@ export type PackageExports =
       string,
       {
         types: string;
+        browser?: string;
         "react-native"?: string;
         require: string;
         import: string;

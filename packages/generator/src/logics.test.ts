@@ -36,16 +36,30 @@ test("returns SVG files in deterministic order", async () => {
   ]);
 });
 
-test("native imports choose platform-aware collection modules", () => {
+test("core exports choose a platform renderer while collection entries retain both module formats", () => {
   const exports = buildPackageExports(icons) as Record<
     string,
-    { "react-native": string; require: string; import: string }
+    { browser?: string; "react-native"?: string; require: string; import: string }
   >;
+  expect(exports["./core"]).toMatchObject({
+    browser: "./core/index.mjs",
+    "react-native": "./core/index.native.mjs",
+    require: "./core/index.js",
+    import: "./core/index.mjs"
+  });
+  expect(Object.keys(exports["./core"])).toEqual([
+    "types",
+    "browser",
+    "react-native",
+    "require",
+    "import",
+    "default"
+  ]);
   for (const { id } of icons) {
     expect(exports[`./${id}`]).toMatchObject({
-      "react-native": `./${id}/index.js`,
       require: `./${id}/index.js`,
       import: `./${id}/index.mjs`
     });
+    expect(exports[`./${id}`]["react-native"]).toBeUndefined();
   }
 });

@@ -69,6 +69,9 @@ export const buildPackageExports = (
     },
     "./core": {
       types: "./core/index.d.ts",
+      // Metro web may assert both conditions, so browser must come first.
+      browser: "./core/index.mjs",
+      "react-native": "./core/index.native.mjs",
       require: "./core/index.js",
       import: "./core/index.mjs",
       default: "./core/index.mjs"
@@ -96,7 +99,6 @@ export const buildPackageExports = (
   icons.forEach((icon) => {
     exports[`./${icon.id}`] = {
       types: `./${icon.id}/index.d.ts`,
-      "react-native": `./${icon.id}/index.js`,
       require: `./${icon.id}/index.js`,
       import: `./${icon.id}/index.mjs`,
       default: `./${icon.id}/index.mjs`

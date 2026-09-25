@@ -60,7 +60,7 @@ export const dirInit = async ({ DIST, LIB, PLUGIN, DATA, SVGS }: TaskContext) =>
       "index.js"
     );
     await write(
-      "// THIS FILE IS AUTO GENERATED\nimport { IconGenerator } from '../core/index.mjs';\n",
+      "// THIS FILE IS AUTO GENERATED\nimport { IconGenerator } from 'rocketicons/core';\n",
       DIST,
       icon.id,
       "index.mjs"
@@ -75,7 +75,6 @@ export const dirInit = async ({ DIST, LIB, PLUGIN, DATA, SVGS }: TaskContext) =>
       JSON.stringify(
         {
           sideEffects: false,
-          "react-native": "./index.js",
           module: "./index.mjs"
         },
         null,

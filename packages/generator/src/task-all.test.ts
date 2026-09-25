@@ -26,10 +26,14 @@ test("regeneration removes old SVG JSON while preserving package metadata", asyn
     expect(existsSync(join(SVGS, "lu", "lu-removed.json"))).toBe(false);
     expect(existsSync(join(DIST, "package.json"))).toBe(true);
     expect(existsSync(join(SVGS, ".lock"))).toBe(true);
-    expect(JSON.parse(readFileSync(join(DIST, "my", "package.json"), "utf8"))).toMatchObject({
-      "react-native": "./index.js",
+    const collectionPackage = JSON.parse(readFileSync(join(DIST, "my", "package.json"), "utf8"));
+    expect(collectionPackage).toMatchObject({
       module: "./index.mjs"
     });
+    expect(collectionPackage["react-native"]).toBeUndefined();
+    expect(readFileSync(join(DIST, "my", "index.mjs"), "utf8")).toContain(
+      "import { IconGenerator } from 'rocketicons/core';"
+    );
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
