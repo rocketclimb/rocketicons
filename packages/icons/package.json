@@ -83,6 +83,12 @@
       "import": "./ci/index.mjs",
       "default": "./ci/index.mjs"
     },
+    "./oir": {
+      "types": "./oir/index.d.ts",
+      "require": "./oir/index.js",
+      "import": "./oir/index.mjs",
+      "default": "./oir/index.mjs"
+    },
     "./fa": {
       "types": "./fa/index.d.ts",
       "require": "./fa/index.js",

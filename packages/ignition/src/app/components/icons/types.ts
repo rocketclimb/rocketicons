@@ -23,6 +23,7 @@ export type CollectionID =
   | "lia"
   | "lu"
   | "md"
+  | "oir"
   | "pi"
   | "ri"
   | "rx"

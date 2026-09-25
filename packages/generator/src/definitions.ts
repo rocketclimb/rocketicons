@@ -2,6 +2,7 @@ import path from "path";
 import camelcase from "camelcase";
 import { type IconDefinition } from "./types";
 import { glob } from "./glob";
+import { listIconoirSources } from "./iconoir";
 
 export const icons: IconDefinition[] = [
   {
@@ -36,6 +37,41 @@ export const icons: IconDefinition[] = [
       url: "https://github.com/Klarr-Agency/Circum-Icons.git",
       branch: "main",
       hash: "cec1364b5199f55e946a9a8360385a958b98cc60"
+    }
+  },
+  {
+    id: "oir",
+    name: "Iconoir",
+    contents: [
+      {
+        files: async () =>
+          (await listIconoirSources(path.resolve(__dirname, "../icons/iconoir/icons"))).regular,
+        formatter: (name) => `Oir${name}`,
+        preserveChildCurrentColor: true,
+        preserveRootFillNone: true,
+        variantOverride: "outlined"
+      },
+      {
+        files: async () =>
+          (await listIconoirSources(path.resolve(__dirname, "../icons/iconoir/icons"))).solid,
+        formatter: (name) => `OirSolid${name}`,
+        preserveChildCurrentColor: true,
+        preserveRootFillNone: true,
+        variantOverride: "filled"
+      }
+    ],
+    projectUrl: "https://iconoir.com/",
+    license: "MIT",
+    licenseUrl:
+      "https://github.com/iconoir-icons/iconoir/blob/d7dfa4d0341df0670bfed9fc24221c9d7ef2112e/LICENSE",
+    licenseNoticePath: path.resolve(__dirname, "../icons/iconoir/LICENSE"),
+    source: {
+      type: "git",
+      localName: "iconoir",
+      remoteDir: "icons/",
+      url: "https://github.com/iconoir-icons/iconoir.git",
+      branch: "main",
+      hash: "d7dfa4d0341df0670bfed9fc24221c9d7ef2112e"
     }
   },
   {

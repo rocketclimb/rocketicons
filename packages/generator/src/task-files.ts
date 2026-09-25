@@ -47,7 +47,12 @@ export const writeIconModuleFiles = async (icon: IconDefinition, { DIST }: TaskC
         ? await svgoOptimize(svgStrRaw, svgoConfig).data
         : svgStrRaw;
 
-      const { iconData } = await convertIconData(svgStr, content.multiColor);
+      const { iconData } = await convertIconData(
+        svgStr,
+        content.multiColor,
+        content.preserveChildCurrentColor,
+        content.preserveRootFillNone
+      );
 
       const rawName = path.basename(file, path.extname(file));
       const pascalName = camelcase(rawName, { pascalCase: true });

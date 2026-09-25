@@ -1,6 +1,7 @@
 import "./global.css";
 import React, { useState } from "react";
 import { View, Text, ScrollView, Pressable } from "react-native";
+import { OirHome, OirSolidArrowDownCircle } from "rocketicons/oir";
 
 /**
  * Rocketicons Native Test Page
@@ -99,6 +100,14 @@ export default function App() {
       </Section>
 
       {/* Status */}
+      <Section title="Iconoir React Native sample">
+        <View className="flex-row items-center gap-4">
+          <OirHome className="icon-3xl text-sky-600" />
+          <OirSolidArrowDownCircle className="icon-3xl text-violet-600" />
+          <Text className="text-sm text-gray-600 dark:text-gray-400">Regular and solid</Text>
+        </View>
+      </Section>
+
       <Section title="✅ Test Status">
         <Text className="text-green-600 dark:text-green-400 font-medium">
           If you can see this page with proper styling, NativeWind v4 + TW v4 is working!
