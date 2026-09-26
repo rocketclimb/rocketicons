@@ -47,7 +47,7 @@
     "next": "^15.5.24",
     "react": "^19",
     "react-dom": "^19",
-    "react-instantsearch": "^7.7.2",
+    "react-instantsearch": "^7.50.0",
     "rehype-slug-custom-id": "^1.1.0",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^5.2.0",
