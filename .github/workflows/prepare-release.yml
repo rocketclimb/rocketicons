@@ -3,6 +3,11 @@ run-name: Cut release from ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
+    inputs:
+      refresh_pr:
+        description: "Existing open release PR to refresh from develop (optional)"
+        type: string
+        required: false
 
 permissions:
   contents: write
@@ -33,6 +38,9 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.ref_name }}
+          # A refresh must emit a synchronize event so the existing PR is tested
+          # again; pushes authenticated with GITHUB_TOKEN do not trigger CI.
+          token: ${{ inputs.refresh_pr != '' && secrets.GH_ACTIONS || github.token }}
 
       - name: Setup Node
         uses: actions/setup-node@v6
@@ -110,6 +118,8 @@ jobs:
         id: prepare-release
         env:
           SOURCE_BRANCH: ${{ github.ref_name }}
+          REFRESH_PR: ${{ inputs.refresh_pr }}
+          GH_TOKEN: ${{ secrets.GH_ACTIONS }}
         run: |
           PUBLISHED_VERSION="$(npm view rocketicons version)"
           CURRENT_VERSION="$(node -p "require('./packages/icons/package.json').version")"
@@ -155,8 +165,18 @@ jobs:
             "$ROOT_VERSION" \
             "$TAG_NAME"
 
-          if git ls-remote --exit-code --heads origin "refs/heads/$RELEASE_BRANCH" >/dev/null; then
-            echo "Release branch $RELEASE_BRANCH already exists" >&2
+          REFRESH_HEAD=""
+          if [ -n "$REFRESH_PR" ]; then
+            gh pr view "$REFRESH_PR" --json state,baseRefName,headRefName,headRefOid > "$RUNNER_TEMP/refresh-pr.json"
+            REFRESH_HEAD="$(node .github/scripts/release-refresh.mjs "$RUNNER_TEMP/refresh-pr.json" "$RELEASE_BRANCH")"
+            git fetch --no-tags origin "$RELEASE_BRANCH"
+            test "$(git rev-parse FETCH_HEAD)" = "$REFRESH_HEAD"
+            test "$(git log -1 --format=%s FETCH_HEAD)" = "ci(releaser): bump packages versions and update changelog for $RELEASE_BRANCH"
+            # Only replace an untouched generated cut whose source is already in
+            # develop. Refuse to discard independent edits to the release branch.
+            git merge-base --is-ancestor FETCH_HEAD^ HEAD
+          elif git ls-remote --exit-code --heads origin "refs/heads/$RELEASE_BRANCH" >/dev/null; then
+            echo "Release branch $RELEASE_BRANCH already exists; use refresh_pr for its open PR" >&2
             exit 1
           fi
 
@@ -223,6 +243,7 @@ jobs:
           echo "PUBLISHED_VERSION=$PUBLISHED_VERSION" >> $GITHUB_OUTPUT
           echo "PUBLISH_PACKAGE=$PUBLISH_PACKAGE" >> $GITHUB_OUTPUT
           echo "RELEASE_HEAD_SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          echo "REFRESH_HEAD=$REFRESH_HEAD" >> $GITHUB_OUTPUT
 
       - name: Generate release metadata
         env:
@@ -276,14 +297,21 @@ jobs:
       - name: Push release branch
         env:
           RELEASE_BRANCH: ${{ steps.prepare-release.outputs.RELEASE_BRANCH }}
-        run: git push --set-upstream origin "$RELEASE_BRANCH" --no-verify
+          REFRESH_HEAD: ${{ steps.prepare-release.outputs.REFRESH_HEAD }}
+        run: |
+          if [ -n "$REFRESH_HEAD" ]; then
+            git push origin "$RELEASE_BRANCH" --force-with-lease="refs/heads/$RELEASE_BRANCH:$REFRESH_HEAD" --no-verify
+          else
+            git push --set-upstream origin "$RELEASE_BRANCH" --no-verify
+          fi
 
-      - name: Open release pull request
+      - name: Create or update release pull request
         env:
           GH_TOKEN: ${{ secrets.GH_ACTIONS }}
           RELEASE_BRANCH: ${{ steps.prepare-release.outputs.RELEASE_BRANCH }}
           ROOT_VERSION: ${{ steps.prepare-release.outputs.ROOT_VERSION }}
           PACKAGE_VERSION: ${{ steps.prepare-release.outputs.PACKAGE_VERSION }}
+          REFRESH_PR: ${{ inputs.refresh_pr }}
         run: |
           cat > "$RUNNER_TEMP/release-pr.md" <<EOF
           ## Release
@@ -295,8 +323,12 @@ jobs:
           Merging this PR into main triggers Release Packages.
           EOF
 
-          gh pr create \
-            --base main \
-            --head "$RELEASE_BRANCH" \
-            --title "chore(release): $ROOT_VERSION" \
-            --body-file "$RUNNER_TEMP/release-pr.md"
+          if [ -n "$REFRESH_PR" ]; then
+            gh pr edit "$REFRESH_PR" --body-file "$RUNNER_TEMP/release-pr.md"
+          else
+            gh pr create \
+              --base main \
+              --head "$RELEASE_BRANCH" \
+              --title "chore(release): $ROOT_VERSION" \
+              --body-file "$RUNNER_TEMP/release-pr.md"
+          fi
