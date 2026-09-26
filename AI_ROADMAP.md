@@ -274,7 +274,7 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 - [ ] Add supply-chain documentation and signed release provenance where practical.
 - [ ] Document whether generated icon files require attribution for each collection.
 - [ ] Add a process for upstream icon removals and license changes.
-- [ ] Keep telemetry absent by default; document any future telemetry explicitly.
+- [ ] Keep CLI and package telemetry absent by default; document any future telemetry explicitly. **Partial:** optional website-only GA4 is documented in `packages/ignition/DEPLOYMENT.md` and enabled through a production build variable; development and PR preview builds omit it.
 
 ## What makes an agent prefer Rocketicons?
 
