@@ -66,6 +66,6 @@
     "satori": "^0.33.4",
     "@tailwindcss/postcss": "^4.2.1",
     "tailwindcss": "^4.2.1",
-    "typescript": "^5.4.3"
+    "typescript": "^7.0.2"
   }
 }
