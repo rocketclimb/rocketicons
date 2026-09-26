@@ -10,6 +10,7 @@ on:
         required: false
 
 permissions:
+  actions: write
   contents: write
   packages: read
 
@@ -38,9 +39,6 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.ref_name }}
-          # A refresh must emit a synchronize event so the existing PR is tested
-          # again; pushes authenticated with GITHUB_TOKEN do not trigger CI.
-          token: ${{ inputs.refresh_pr != '' && secrets.GH_ACTIONS || github.token }}
 
       - name: Setup Node
         uses: actions/setup-node@v6
@@ -304,6 +302,16 @@ jobs:
           else
             git push --set-upstream origin "$RELEASE_BRANCH" --no-verify
           fi
+
+      # The PR credential need not have repository write access. Checkout uses
+      # GITHUB_TOKEN for the push; explicitly dispatch CI for refreshed heads.
+      # workflow_dispatch is allowed to trigger a run with GITHUB_TOKEN.
+      - name: Validate refreshed release branch
+        if: inputs.refresh_pr != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_BRANCH: ${{ steps.prepare-release.outputs.RELEASE_BRANCH }}
+        run: gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref "$RELEASE_BRANCH"
 
       - name: Create or update release pull request
         env:
