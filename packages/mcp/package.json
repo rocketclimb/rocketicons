@@ -20,7 +20,7 @@
     "@modelcontextprotocol/server": "^2.0.0",
     "@rocketicons/toolkit": "0.1.0",
     "@rocketicons/utils": ">=0.7.0",
-    "sharp": "^0.34.5",
+    "sharp": "^0.35.4",
     "zod": "^4.0.0"
   },
   "engines": {
