@@ -2,9 +2,10 @@ import path from "path";
 import camelcase from "camelcase";
 import { type IconDefinition } from "./types";
 import { glob } from "./glob";
-import { listMynauiSources } from "./source-validation/mynaui";
+import { createMynauiSourceLoader } from "./source-validation/mynaui";
 
 const mynauiFamilyId = (file: string) => path.basename(file, ".svg");
+const mynauiSources = createMynauiSourceLoader(path.resolve(__dirname, "../icons/mynaui-icons"));
 
 export const icons: IconDefinition[] = [
   {
@@ -744,14 +745,12 @@ export const icons: IconDefinition[] = [
     name: "MynaUI Icons",
     contents: [
       {
-        files: async () =>
-          (await listMynauiSources(path.resolve(__dirname, "../icons/mynaui-icons"))).regular,
+        files: async () => (await mynauiSources()).regular,
         formatter: (name) => `My${name}`,
         familyId: mynauiFamilyId
       },
       {
-        files: async () =>
-          (await listMynauiSources(path.resolve(__dirname, "../icons/mynaui-icons"))).solid,
+        files: async () => (await mynauiSources()).solid,
         formatter: (name) => `MySolid${name}`,
         familyId: mynauiFamilyId
       }

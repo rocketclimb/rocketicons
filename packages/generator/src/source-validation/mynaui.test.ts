@@ -2,7 +2,7 @@ import { expect, test } from "@jest/globals";
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { listMynauiSources, validateMynauiSources } from "./mynaui";
+import { createMynauiSourceLoader, listMynauiSources, validateMynauiSources } from "./mynaui";
 import { convertIconData } from "../logics";
 
 const regular =
@@ -22,6 +22,29 @@ test("MynaUI lists paired icons deterministically", async () => {
     const first = await listMynauiSources(root);
     expect(first.regular.map((file) => file.split("/").pop())).toEqual(["home.svg", "zebra.svg"]);
     expect(await listMynauiSources(root)).toEqual(first);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("MynaUI validates once when both styles load", async () => {
+  const root = mkdtempSync(join(tmpdir(), "mynaui-once-test-"));
+  mkdirSync(join(root, "icons"));
+  mkdirSync(join(root, "icons-solid"));
+  writeFileSync(join(root, "icons", "home.svg"), regular);
+  writeFileSync(join(root, "icons-solid", "home.svg"), solid);
+  writeFileSync(join(root, "tags.json"), JSON.stringify({ home: ["house"] }));
+  try {
+    const load = createMynauiSourceLoader(root);
+    const regularLoad = load();
+    const solidLoad = load();
+    expect(solidLoad).toBe(regularLoad);
+    const [regularFiles, solidFiles] = await Promise.all([
+      regularLoad.then((files) => files.regular),
+      solidLoad.then((files) => files.solid)
+    ]);
+    expect(regularFiles).toEqual([join(root, "icons", "home.svg")]);
+    expect(solidFiles).toEqual([join(root, "icons-solid", "home.svg")]);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

@@ -79,3 +79,8 @@ export const listMynauiSources = async (root: string): Promise<SourceFiles> => {
   await validateMynauiSources(files, JSON.parse(rawTags) as Record<string, string[]>);
   return files;
 };
+
+export const createMynauiSourceLoader = (root: string) => {
+  let sources: Promise<SourceFiles> | undefined;
+  return () => (sources ??= listMynauiSources(root));
+};
