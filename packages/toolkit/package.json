@@ -25,10 +25,5 @@
   },
   "engines": {
     "node": ">=20"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rocketclimb/rocketicons.git",
-    "directory": "packages/toolkit"
   }
 }

@@ -13,7 +13,6 @@ export const packageNames = [
   "rocketicons"
 ];
 const registry = "https://registry.npmjs.org";
-const repositoryUrl = "git+https://github.com/rocketclimb/rocketicons.git";
 
 export function readArchives(directory, metadata) {
   const files = readdirSync(directory).filter((name) => name.endsWith(".tgz"));
@@ -56,9 +55,13 @@ export function readArchives(directory, metadata) {
 }
 
 export function registryVersion(spec, run = spawnSync) {
-  const result = run("npm", ["view", spec, "--json", `--registry=${registry}`], {
-    encoding: "utf8"
-  });
+  const result = run(
+    "npm",
+    ["view", spec, "--json", "--prefer-online", `--registry=${registry}`],
+    {
+      encoding: "utf8"
+    }
+  );
   if (result.error) throw result.error;
   if (result.status === 0) return JSON.parse(result.stdout);
   let error;
@@ -87,46 +90,46 @@ export function publicationState(prepared, published) {
   return "skip";
 }
 
-export function publicationAuth(manifest, env) {
-  if (manifest.repository?.url === repositoryUrl) return { env, args: [] };
-  if (manifest.repository) throw new Error(`Unexpected repository metadata in ${manifest.name}`);
-  // Old, already-reviewed cuts omitted repository metadata. Keep those exact
-  // archives recoverable using an explicitly configured publishing token.
-  // Future cuts include the metadata and continue using trusted publishing.
-  if (!env.NODE_AUTH_TOKEN) return { env, args: [] };
-  const tokenEnv = { ...env };
-  delete tokenEnv.ACTIONS_ID_TOKEN_REQUEST_URL;
-  delete tokenEnv.ACTIONS_ID_TOKEN_REQUEST_TOKEN;
-  return { env: tokenEnv, args: ["--provenance=false"] };
-}
-
-export function publishPrepared(
+export async function publishPrepared(
   archives,
-  { lookup = registryVersion, publish, env = process.env } = {}
+  {
+    lookup = registryVersion,
+    publish,
+    wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+  } = {}
 ) {
-  // Check the entire batch before the first registry write. This also makes a
-  // partial retry verify all existing versions, including utils and tailwind.
-  const plan = archives.map((entry) => {
+  // Check every existing version before the first write, including packages
+  // published manually while recovering a release.
+  const plan = [];
+  for (const entry of archives) {
     const state = publicationState(
       entry,
-      lookup(`${entry.manifest.name}@${entry.manifest.version}`)
+      await lookup(`${entry.manifest.name}@${entry.manifest.version}`)
     );
-    return {
-      ...entry,
-      state,
-      auth: state === "publish" ? publicationAuth(entry.manifest, env) : null
-    };
-  });
+    plan.push({ ...entry, state });
+  }
   for (const entry of plan) {
-    console.log(`${entry.state}: ${entry.manifest.name}@${entry.manifest.version}`);
+    const spec = `${entry.manifest.name}@${entry.manifest.version}`;
+    console.log(`${entry.state}: ${spec}`);
     if (entry.state === "skip") continue;
-    publish(entry.archive, entry.auth);
-    if (
-      publicationState(entry, lookup(`${entry.manifest.name}@${entry.manifest.version}`)) !==
-      "skip"
-    ) {
-      throw new Error(`Publication of ${entry.manifest.name} was not confirmed by npm`);
+    let publishError;
+    try {
+      await publish(entry.archive);
+    } catch (error) {
+      publishError = error;
     }
+    // A maintainer can publish after our preflight, or registry reads can lag
+    // a successful write. Re-read before failing, but accept only exact bytes.
+    let confirmed = false;
+    for (let attempt = 0; attempt < 3; attempt++) {
+      if (publicationState(entry, await lookup(spec)) === "skip") {
+        confirmed = true;
+        break;
+      }
+      if (attempt < 2) await wait(2000);
+    }
+    if (!confirmed)
+      throw publishError ?? new Error(`Publication of ${spec} was not confirmed by npm`);
   }
   return plan;
 }
@@ -138,8 +141,8 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
       readFileSync(path.join(directory, "release-metadata.json"), "utf8")
     );
     const archives = readArchives(directory, metadata);
-    publishPrepared(archives, {
-      publish: (archive, auth) =>
+    await publishPrepared(archives, {
+      publish: (archive) =>
         execFileSync(
           "npm",
           [
@@ -148,10 +151,9 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
             "--access",
             "public",
             "--ignore-scripts",
-            `--registry=${registry}`,
-            ...auth.args
+            `--registry=${registry}`
           ],
-          { stdio: "inherit", env: auth.env }
+          { stdio: "inherit" }
         )
     });
   } catch (error) {

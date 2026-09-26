@@ -174,8 +174,6 @@ jobs:
           run-id: ${{ needs.create-tag.outputs.cut-run-id }}
 
       - name: Publish or verify packages in dependency order
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: node .github/scripts/release-publish.mjs prepared-release
 
       - name: Release ${{ needs.create-tag.outputs.pending-tag }}

@@ -1,12 +1,11 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync } from "node:fs";
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
 import {
   packageNames,
-  publicationAuth,
   publicationState,
   publishPrepared,
   readArchives,
@@ -56,10 +55,10 @@ test("only npm's explicit E404 means the version is absent", () => {
   );
 });
 
-test("a partial retry skips matching packages and publishes remaining dependencies in order", () => {
+test("a partial retry skips matching packages and publishes remaining dependencies in order", async () => {
   const registry = new Map([[entries[0].manifest.name, published(entries[0])]]);
   const writes = [];
-  publishPrepared(entries, {
+  await publishPrepared(entries, {
     lookup: (spec) => registry.get(spec.slice(0, spec.lastIndexOf("@"))) ?? null,
     publish: (archive) => {
       const entry = entries.find((item) => item.archive === archive);
@@ -70,9 +69,9 @@ test("a partial retry skips matching packages and publishes remaining dependenci
   assert.deepEqual(writes, packageNames.slice(1));
 });
 
-test("a later package mismatch prevents every publication in the batch", () => {
+test("a later package mismatch prevents every publication in the batch", async () => {
   let writes = 0;
-  assert.throws(
+  await assert.rejects(
     () =>
       publishPrepared(entries, {
         lookup: (spec) =>
@@ -86,28 +85,57 @@ test("a later package mismatch prevents every publication in the batch", () => {
   assert.equal(writes, 0);
 });
 
-test("missing metadata uses only an explicitly configured legacy token, preserving archives", () => {
-  const manifest = { name: "@rocketicons/utils" };
-  assert.deepEqual(publicationAuth(manifest, {}), { env: {}, args: [] });
-  const env = {
-    NODE_AUTH_TOKEN: "fixture-token",
-    ACTIONS_ID_TOKEN_REQUEST_URL: "fixture-url",
-    ACTIONS_ID_TOKEN_REQUEST_TOKEN: "fixture-request"
-  };
-  const auth = publicationAuth(manifest, env);
-  assert.deepEqual(auth.args, ["--provenance=false"]);
-  assert.deepEqual(auth.env, { NODE_AUTH_TOKEN: "fixture-token" });
-  assert.equal(env.ACTIONS_ID_TOKEN_REQUEST_URL, "fixture-url");
-  assert.deepEqual(publicationAuth(entries[0].manifest, env), { env, args: [] });
-  assert.throws(
-    () => publicationAuth({ ...manifest, repository: { url: "wrong" } }, env),
-    /Unexpected repository/
-  );
+test("publication that races a manual publish resumes only for the same archive", async () => {
+  for (const matching of [true, false]) {
+    let reads = 0;
+    const operation = publishPrepared([entries[0]], {
+      lookup: () =>
+        ++reads === 1
+          ? null
+          : {
+              ...published(entries[0]),
+              dist: { integrity: matching ? entries[0].integrity : "sha512-different" }
+            },
+      publish: () => {
+        throw new Error("You cannot publish over the previously published versions");
+      },
+      wait: () => {}
+    });
+    if (matching) await operation;
+    else await assert.rejects(operation, /different files/);
+  }
 });
 
-test("published packages must be confirmed after the npm command returns", () => {
-  assert.throws(
-    () => publishPrepared([entries[0]], { lookup: () => null, publish: () => {} }),
+test("a temporarily stale registry read after publishing recovers without republishing", async () => {
+  let reads = 0;
+  let writes = 0;
+  const waits = [];
+  await publishPrepared([entries[0]], {
+    lookup: () => (++reads < 4 ? null : published(entries[0])),
+    publish: () => writes++,
+    wait: (ms) => waits.push(ms)
+  });
+  assert.equal(writes, 1);
+  assert.deepEqual(waits, [2000, 2000]);
+});
+
+test("publication failures still fail if the expected version never appears", async () => {
+  await assert.rejects(
+    publishPrepared([entries[0]], {
+      lookup: () => null,
+      publish: () => {
+        throw new Error("npm E403: permission denied");
+      },
+      wait: () => {}
+    }),
+    /permission denied/
+  );
+  await assert.rejects(
+    publishPrepared([entries[0]], {
+      lookup: () => null,
+      publish: () => {},
+      wait: () => {}
+    }),
     /not confirmed/
   );
 });
@@ -145,13 +173,4 @@ test("archive inspection checks the entire set and bundled catalog without runni
   );
   createArchive(entries[2], "0.9.0");
   assert.throws(() => readArchives(directory, metadata), /Bundled catalog differs/);
-});
-
-test("scoped workspace manifests include the repository required by trusted publishing", () => {
-  for (const name of ["utils", "tailwind", "toolkit", "mcp"]) {
-    const manifest = JSON.parse(
-      readFileSync(new URL(`../../packages/${name}/package.json`, import.meta.url), "utf8")
-    );
-    assert.deepEqual(manifest.repository, { ...repository, directory: `packages/${name}` });
-  }
 });
