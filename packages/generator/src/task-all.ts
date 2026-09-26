@@ -60,7 +60,7 @@ export const dirInit = async ({ DIST, LIB, PLUGIN, DATA, SVGS }: TaskContext) =>
       "index.js"
     );
     await write(
-      "// THIS FILE IS AUTO GENERATED\nimport { IconGenerator } from '../core';\n",
+      "// THIS FILE IS AUTO GENERATED\nimport { IconGenerator } from 'rocketicons/core';\n",
       DIST,
       icon.id,
       "index.mjs"
@@ -129,6 +129,10 @@ export const writeIconModuleAndSvgs = async (
       const comRes = iconRowTemplate(icon, name, iconData, variant, "common");
       const dtsRes = iconRowTemplate(icon, name, iconData, variant, "dts");
       const manifestName = nameToManifest(icon, name);
+      const familyId = content.familyId?.(file);
+      if (familyId !== undefined && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(familyId)) {
+        throw new Error(`Invalid family ID for ${name}: ${familyId}`);
+      }
 
       await Promise.all([
         append(modRes, DIST, icon.id, "index.mjs"),
@@ -146,7 +150,8 @@ export const writeIconModuleAndSvgs = async (
         id: `${icon?.compPrefix ?? icon.id}-${manifestName}`,
         name: manifestName.replace(/-/g, " "),
         compName: name,
-        variant
+        variant,
+        ...(familyId && { familyId })
       };
 
       iconInfoManifest[icon.id].data[name] = iconData;

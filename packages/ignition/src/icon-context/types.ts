@@ -110,5 +110,6 @@ export type ContextSourceIcon = {
   name: string;
   component: string;
   variant: string;
+  familyId?: string;
   iconTree: unknown;
 };

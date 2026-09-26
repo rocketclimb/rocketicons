@@ -28,6 +28,7 @@ export type StaticIconIndexRecord = {
   name: string;
   component: string;
   variant: Variants;
+  familyId?: string;
   chunk: number;
 };
 

@@ -6,12 +6,14 @@ export interface IconDefinition {
   projectUrl: string;
   license: string;
   licenseUrl: string;
+  licenseNoticePath?: string;
   source?: IconSetSource;
 }
 
 export interface IconDefinitionContent {
   files: string | (() => Promise<string[]>);
   formatter(camelName: string, filePath: string): string;
+  familyId?: (filePath: string) => string;
   multiColor?: boolean;
   processWithSVGO?: boolean;
 }
@@ -30,6 +32,8 @@ export type PackageExports =
       string,
       {
         types: string;
+        browser?: string;
+        "react-native"?: string;
         require: string;
         import: string;
         default: string;
@@ -44,7 +48,7 @@ export type Overrrides = {
 export interface IconSetGitSource {
   type: "git";
   localName: string;
-  remoteDir: string;
+  remoteDir: string | string[];
   url: string;
   branch: string;
   hash: string;
