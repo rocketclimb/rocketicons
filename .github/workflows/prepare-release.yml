@@ -23,6 +23,9 @@ jobs:
       AUTOMATION_USER_NAME: ${{ vars.AUTOMATION_USER_NAME }}
       AUTOMATION_USER_EMAIL: ${{ vars.AUTOMATION_USER_EMAIL }}
       SKIP_IGNITION_BUILD: true
+      # Release tests and package builds must consume every collection, even on
+      # a clean runner where the site generator otherwise uses its dev sample.
+      RI_GENERATE_ALL_ICONS: "true"
 
     steps:
       - name: Checkout selected source
@@ -85,8 +88,13 @@ jobs:
       - name: Build all
         run: npm run build-all
 
+      - name: Verify complete release catalog
+        run: npm run test:catalog --workspace=packages/generator
+
       - name: Run tests
-        run: npm run test-all
+        run: |
+          npm run test:release
+          npm run test-all
 
       - name: Setup git user
         run: |
