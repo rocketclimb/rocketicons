@@ -94,7 +94,7 @@ export default function RootLayout({
         className={`${inter.variable} ${quicksand.variable} ${monospace.variable} font-inter bg-background dark:bg-background-dark`}
       >
         {children}
-        {serverEnv.GOOGLE_ANALYTICS_ID && (
+        {process.env.NODE_ENV === "production" && serverEnv.GOOGLE_ANALYTICS_ID && (
           <GoogleAnalytics gaId={serverEnv.GOOGLE_ANALYTICS_ID} />
         )}
       </body>
