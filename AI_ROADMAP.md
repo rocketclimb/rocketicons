@@ -140,7 +140,7 @@ The CLI is the most important agent interface because it performs the useful pro
 - [ ] Add `--dry-run` with an exact file-change preview. **Partial:** generated-file changes are exact; package-manager lockfile effects are identified but their exact diff is only known after install.
 - [x] Add `--cwd <path>` and never mutate outside the resolved project root.
 - [ ] Add `--package-manager npm|pnpm|yarn|bun`, with safe automatic detection. **Partial:** detection and command routing are implemented; live installation fixtures for pnpm, yarn, and bun remain.
-- [ ] Publish compatible `@rocketicons/utils` and `@rocketicons/tailwind` runtime versions before promoting init. **Partial:** setup now requests version 0.7.0 or newer; the current npm `@rocketicons/tailwind@0.2.6` depends on `@rocketclimb/tw-utils` from GitHub Packages and failed a clean npm initialization without credentials.
+- [ ] Publish compatible `@rocketicons/utils` and `@rocketicons/tailwind` runtime versions before promoting init. **Partial:** setup now derives its runtime requirements from the workspace versions bundled with the toolkit after release versioning. The npm `@rocketicons/tailwind@0.2.6` package depends on `@rocketclimb/tw-utils` from GitHub Packages and failed a clean npm initialization without credentials. LLM guides state the required CLI/MCP versions and a source-checkout fallback without claiming whether those versions are published; live npm installation verification remains pending.
 - [x] Add `--catalog-version` or an equivalent reproducibility control. `rocketicons.json` pins the catalog version and rejects mismatched add operations.
 - [ ] Use documented, stable exit codes.
 - [x] Write diagnostics to stderr and structured results to stdout.

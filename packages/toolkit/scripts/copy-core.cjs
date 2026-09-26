@@ -4,6 +4,8 @@ const ts = require("typescript");
 const source = path.resolve(__dirname, "../../core/src");
 const output = path.resolve(__dirname, "../templates");
 fs.mkdirSync(output, { recursive: true });
+// Init installs the runtimes used by these generated core templates. Capture
+// their versions after release bumps: a fixed ^0.7.0 excludes a 0.8.0 release.
 const runtimeDependencies = Object.fromEntries(
   ["utils", "tailwind"].map((workspace) => {
     const pkg = require(`../../${workspace}/package.json`);
