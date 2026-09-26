@@ -38,6 +38,9 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.ref_name }}
+          # A refresh must emit a synchronize event so the existing PR is tested
+          # again; pushes authenticated with GITHUB_TOKEN do not trigger CI.
+          token: ${{ inputs.refresh_pr != '' && secrets.GH_ACTIONS || github.token }}
 
       - name: Setup Node
         uses: actions/setup-node@v6
