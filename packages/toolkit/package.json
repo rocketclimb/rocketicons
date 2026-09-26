@@ -1,0 +1,29 @@
+{
+  "name": "@rocketicons/toolkit",
+  "version": "0.2.0",
+  "license": "MIT",
+  "private": false,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "data",
+    "templates"
+  ],
+  "scripts": {
+    "build:index": "node scripts/build-index.cjs",
+    "prebuild": "npm run build:index",
+    "build": "node scripts/copy-core.cjs && tsc -p tsconfig.json",
+    "prepack": "npm run build",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "npm run build && node --test test/*.test.cjs"
+  },
+  "dependencies": {
+    "algoliasearch": "^4.23.3",
+    "jsonc-parser": "^3.3.1",
+    "typescript": "^5.4.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

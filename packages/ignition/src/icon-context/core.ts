@@ -34,6 +34,7 @@ export const iconSourceHash = (icon: ContextSourceIcon) =>
       name: icon.name,
       component: icon.component,
       variant: icon.variant,
+      familyId: icon.familyId,
       iconTree: icon.iconTree,
       schemaVersion: ICON_CONTEXT_SCHEMA_VERSION,
       promptVersion: ICON_CONTEXT_PROMPT_VERSION

@@ -1,4 +1,5 @@
 export * from "./tree-2-string";
+export * from "./contact-sheet";
 export * from "./types";
 export * from "./element-to-tree";
 export * from "./from-svg";

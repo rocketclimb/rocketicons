@@ -1,3 +1,21 @@
+## [0.4.0](https://github.com/rocketclimb/rocketicons/compare/v0.9.4-release...v0.10.0) (2026-09-26)
+
+### Features
+
+- add Rocketicons MCP for icon discovery and project setup (#254) ([7e3c7d00](https://github.com/rocketclimb/rocketicons/commit/7e3c7d00adb095e6702cab2b0dff5e0d912057d8))
+- **icons** add Circum Icons semantic metadata (#226) ([065befe5](https://github.com/rocketclimb/rocketicons/commit/065befe59505a688bb310ebe9003a46bb31b0c8b))
+- **icons** fi go di icon context (#197) ([9e41843f](https://github.com/rocketclimb/rocketicons/commit/9e41843faa0bca0f2d57a559789b977949ee03bd))
+
+### Other
+
+-  ([fdb020fb](https://github.com/rocketclimb/rocketicons/commit/fdb020fbfedb5fb51b827deb33de54ebca822d07))
+
+## Unreleased
+
+### Features
+
+- Add 2,620 MynaUI regular and solid icons from the pinned MIT source and static catalog support. Bilingual semantic review is pending.
+
 ## [0.3.3](https://github.com/rocketclimb/rocketicons/compare/v0.9.3-release...v0.9.4) (2026-08-24)
 
 ## [0.3.2](https://github.com/rocketclimb/rocketicons/compare/v0.9.2-release...v0.9.3) (2026-08-24)
@@ -33,7 +51,7 @@
 
 ### Other
 
--  ([c4dcbeca](https://github.com/rocketclimb/rocketicons/commit/c4dcbeca70280efeab696c005928b5afd304ad40))
+- ([c4dcbeca](https://github.com/rocketclimb/rocketicons/commit/c4dcbeca70280efeab696c005928b5afd304ad40))
 
 ## [0.6.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-13)
 

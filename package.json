@@ -1,6 +1,6 @@
 {
   "name": "rocketclimb-icons",
-  "version": "0.9.4",
+  "version": "0.10.0",
   "description": "React / React Native powered by tailwind",
   "keywords": [
     "icons",
@@ -26,17 +26,20 @@
     "packages/tailwind",
     "packages/generator",
     "packages/icons",
-    "packages/cli",
     "packages/native-test",
-    "packages/ignition"
+    "packages/ignition",
+    "packages/toolkit",
+    "packages/cli",
+    "packages/mcp"
   ],
   "scripts": {
     "dev": "npm run dev -w ignition",
     "dev:all-icons": "npm run dev:all-icons -w ignition",
-    "build-all": "test -z $SKIP_BUILD_ALL && npm run build --workspaces --if-present || echo '[ROCKETCLIMB-ICONS] skip build-all'",
+    "build-all": "if [ -z \"$SKIP_BUILD_ALL\" ]; then npm run build --workspaces --if-present; else echo '[ROCKETCLIMB-ICONS] skip build-all'; fi",
     "clean-all": "npm run clean --workspaces --if-present",
     "prepare": "husky && npm run clean-all && npm run build-all",
     "test-all": "npm run test --workspaces --if-present",
+    "test:release": "node --test .github/scripts/release*.test.mjs",
     "format-all": "npm run format --workspaces --if-present",
     "lint-all": "npm run lint --workspaces --if-present",
     "release": "npx rocketclimb-sh releaser"

@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-description: Add your first Rocketicons component to a TypeScript project
+description: Add your first Rocketicons component to a React or React Native project
 slug: getting-started
 order: 0
 ---
@@ -35,20 +35,16 @@ src/ri/
 
 It also adds the `@/ri/*` alias to `tsconfig.json` and installs `@rocketicons/utils` and `@rocketicons/tailwind` through npm. Those are small shared dependencies used by the generated components and Tailwind integration.
 
-### 2. Connect the Tailwind plugin
+### 2. Verify Tailwind styling
 
-Installation makes the plugin available, but your project still needs to register it. Add `@rocketicons/tailwind` to the `plugins` array in `tailwind.config.*`:
+In a Tailwind CSS 4 web app, initialization finds the active stylesheet containing `@import "tailwindcss"` and adds the Rocketicons plugin automatically:
 
-```ts
-import rocketicons from "@rocketicons/tailwind";
-
-export default {
-  // Keep your existing Tailwind configuration.
-  plugins: [rocketicons]
-};
+```css
+@import "tailwindcss";
+@plugin "@rocketicons/tailwind";
 ```
 
-For CommonJS configuration files, use `const rocketicons = require("@rocketicons/tailwind")` and add the same value to `plugins`.
+Run `npx rocketicons doctor --json` to check the Tailwind version, stylesheet loading, plugin registration, and Vite or PostCSS integration. If the app has more than one active Tailwind stylesheet, pass `--stylesheet-path src/path/to/styles.css` to `init`. The dry run lists the CSS file that will change before writing it.
 
 ### 3. Find an icon
 
@@ -72,6 +68,6 @@ export function LaunchButton() {
 
 That is the whole flight plan: find, add, import. Continue with [Adding Icons](./adding-icons) for repeated additions and verification, or open the [framework quick starts](./framework-quick-starts) for setup notes.
 
-> Today the CLI generates TSX in the fixed `src/ri` directory, adds one icon per command, and uses npm during initialization. JavaScript output and configurable paths belong to a later CLI milestone.
+> The repository CLI build generates TSX or JSX in the fixed `src/ri` directory, accepts multiple exact icons per command, and detects the project's package manager. Use `--dry-run` and `--json` to preview changes. These new commands await the next npm release.
 
 <BuildInfo lang="en" />

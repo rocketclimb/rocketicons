@@ -3,8 +3,14 @@ run-name: Cut release from ${{ github.ref_name }}
 
 on:
   workflow_dispatch:
+    inputs:
+      refresh_pr:
+        description: "Existing open release PR to refresh from develop (optional)"
+        type: string
+        required: false
 
 permissions:
+  actions: write
   contents: write
   packages: read
 
@@ -23,16 +29,19 @@ jobs:
       AUTOMATION_USER_NAME: ${{ vars.AUTOMATION_USER_NAME }}
       AUTOMATION_USER_EMAIL: ${{ vars.AUTOMATION_USER_EMAIL }}
       SKIP_IGNITION_BUILD: true
+      # Release tests and package builds must consume every collection, even on
+      # a clean runner where the site generator otherwise uses its dev sample.
+      RI_GENERATE_ALL_ICONS: "true"
 
     steps:
       - name: Checkout selected source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: ${{ github.ref_name }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
@@ -66,7 +75,7 @@ jobs:
           npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache icons
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: icons-cache
         with:
           path: |
@@ -85,8 +94,13 @@ jobs:
       - name: Build all
         run: npm run build-all
 
+      - name: Verify complete release catalog
+        run: npm run test:catalog --workspace=packages/generator
+
       - name: Run tests
-        run: npm run test-all
+        run: |
+          npm run test:release
+          npm run test-all
 
       - name: Setup git user
         run: |
@@ -102,6 +116,8 @@ jobs:
         id: prepare-release
         env:
           SOURCE_BRANCH: ${{ github.ref_name }}
+          REFRESH_PR: ${{ inputs.refresh_pr }}
+          GH_TOKEN: ${{ secrets.GH_ACTIONS }}
         run: |
           PUBLISHED_VERSION="$(npm view rocketicons version)"
           CURRENT_VERSION="$(node -p "require('./packages/icons/package.json').version")"
@@ -114,6 +130,7 @@ jobs:
           )"
 
           if [ "$CUT_MODE" = "bump" ]; then
+            node .github/scripts/release-workspaces.mjs prepare
             TAG_NAME="$(
               npm run release |
                 grep -Eo 'v[0-9]+\.[0-9]+\.[0-9]+-release' |
@@ -126,6 +143,8 @@ jobs:
               echo "Unexpected release commit: $ACTUAL_COMMIT_SUBJECT" >&2
               exit 1
             fi
+            node .github/scripts/release-workspaces.mjs align
+            git add -- package-lock.json packages/*/package.json
           else
             TAG_NAME="v${ROOT_VERSION}-release"
             echo "::notice::Packaging already prepared rocketicons@$CURRENT_VERSION"
@@ -144,8 +163,18 @@ jobs:
             "$ROOT_VERSION" \
             "$TAG_NAME"
 
-          if git ls-remote --exit-code --heads origin "refs/heads/$RELEASE_BRANCH" >/dev/null; then
-            echo "Release branch $RELEASE_BRANCH already exists" >&2
+          REFRESH_HEAD=""
+          if [ -n "$REFRESH_PR" ]; then
+            gh pr view "$REFRESH_PR" --json state,baseRefName,headRefName,headRefOid > "$RUNNER_TEMP/refresh-pr.json"
+            REFRESH_HEAD="$(node .github/scripts/release-refresh.mjs "$RUNNER_TEMP/refresh-pr.json" "$RELEASE_BRANCH")"
+            git fetch --no-tags origin "$RELEASE_BRANCH"
+            test "$(git rev-parse FETCH_HEAD)" = "$REFRESH_HEAD"
+            test "$(git log -1 --format=%s FETCH_HEAD)" = "ci(releaser): bump packages versions and update changelog for $RELEASE_BRANCH"
+            # Only replace an untouched generated cut whose source is already in
+            # develop. Refuse to discard independent edits to the release branch.
+            git merge-base --is-ancestor FETCH_HEAD^ HEAD
+          elif git ls-remote --exit-code --heads origin "refs/heads/$RELEASE_BRANCH" >/dev/null; then
+            echo "Release branch $RELEASE_BRANCH already exists; use refresh_pr for its open PR" >&2
             exit 1
           fi
 
@@ -172,6 +201,33 @@ jobs:
             exit 1
           fi
 
+          # The root package version may have changed in this step. Rebuild the
+          # bundled catalog at that exact version before creating release archives.
+          npm run generate-catalog --workspace=packages/ignition
+          node -e '
+            const toolkit = require("./packages/toolkit/package.json");
+            const mcp = require("./packages/mcp/package.json");
+            const icons = require("./packages/icons/package.json");
+            if (mcp.dependencies[toolkit.name] !== toolkit.version || icons.dependencies[toolkit.name] !== toolkit.version || icons.dependencies[mcp.name] !== mcp.version) {
+              throw new Error("MCP and rocketicons dependency versions must match the packages being released");
+            }
+          '
+          for workspace in toolkit mcp; do
+            package_name="$(node -p "require('./packages/$workspace/package.json').name")"
+            package_version="$(node -p "require('./packages/$workspace/package.json').version")"
+            if npm view "$package_name@$package_version" version >/dev/null 2>&1; then
+              echo "$package_name@$package_version is already published; bump its version before cutting this release" >&2
+              exit 1
+            fi
+          done
+          npm run build --workspace=packages/toolkit
+          npm run test --workspace=packages/toolkit
+          npm run test --workspace=packages/mcp
+
+          npm pack --silent -w packages/utils
+          npm pack --silent -w packages/tailwind
+          npm pack --silent -w packages/toolkit
+          npm pack --silent -w packages/mcp
           npm pack --silent -w packages/icons
 
           if [ ! -f release-notes.md ]; then
@@ -185,10 +241,7 @@ jobs:
           echo "PUBLISHED_VERSION=$PUBLISHED_VERSION" >> $GITHUB_OUTPUT
           echo "PUBLISH_PACKAGE=$PUBLISH_PACKAGE" >> $GITHUB_OUTPUT
           echo "RELEASE_HEAD_SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
-      - name: Get generated package name
-        id: generated-pkg-name
-        run: echo "PKG_FILE=$(ls -1 -t *.tgz | head -1)" >> $GITHUB_OUTPUT
+          echo "REFRESH_HEAD=$REFRESH_HEAD" >> $GITHUB_OUTPUT
 
       - name: Generate release metadata
         env:
@@ -222,7 +275,7 @@ jobs:
           '
 
       - name: Upload tag artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: tag-artifact
           path: .tagrc
@@ -230,26 +283,43 @@ jobs:
           if-no-files-found: error
 
       - name: Upload release artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: deployable-artifacts
           path: |
             release-notes.md
             release-metadata.json
-            ${{ steps.generated-pkg-name.outputs.PKG_FILE }}
+            *.tgz
           if-no-files-found: error
 
       - name: Push release branch
         env:
           RELEASE_BRANCH: ${{ steps.prepare-release.outputs.RELEASE_BRANCH }}
-        run: git push --set-upstream origin "$RELEASE_BRANCH" --no-verify
+          REFRESH_HEAD: ${{ steps.prepare-release.outputs.REFRESH_HEAD }}
+        run: |
+          if [ -n "$REFRESH_HEAD" ]; then
+            git push origin "$RELEASE_BRANCH" --force-with-lease="refs/heads/$RELEASE_BRANCH:$REFRESH_HEAD" --no-verify
+          else
+            git push --set-upstream origin "$RELEASE_BRANCH" --no-verify
+          fi
 
-      - name: Open release pull request
+      # The PR credential need not have repository write access. Checkout uses
+      # GITHUB_TOKEN for the push; explicitly dispatch CI for refreshed heads.
+      # workflow_dispatch is allowed to trigger a run with GITHUB_TOKEN.
+      - name: Validate refreshed release branch
+        if: inputs.refresh_pr != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_BRANCH: ${{ steps.prepare-release.outputs.RELEASE_BRANCH }}
+        run: gh workflow run pages.yml --repo "$GITHUB_REPOSITORY" --ref "$RELEASE_BRANCH"
+
+      - name: Create or update release pull request
         env:
           GH_TOKEN: ${{ secrets.GH_ACTIONS }}
           RELEASE_BRANCH: ${{ steps.prepare-release.outputs.RELEASE_BRANCH }}
           ROOT_VERSION: ${{ steps.prepare-release.outputs.ROOT_VERSION }}
           PACKAGE_VERSION: ${{ steps.prepare-release.outputs.PACKAGE_VERSION }}
+          REFRESH_PR: ${{ inputs.refresh_pr }}
         run: |
           cat > "$RUNNER_TEMP/release-pr.md" <<EOF
           ## Release
@@ -261,8 +331,12 @@ jobs:
           Merging this PR into main triggers Release Packages.
           EOF
 
-          gh pr create \
-            --base main \
-            --head "$RELEASE_BRANCH" \
-            --title "chore(release): $ROOT_VERSION" \
-            --body-file "$RUNNER_TEMP/release-pr.md"
+          if [ -n "$REFRESH_PR" ]; then
+            gh pr edit "$REFRESH_PR" --body-file "$RUNNER_TEMP/release-pr.md"
+          else
+            gh pr create \
+              --base main \
+              --head "$RELEASE_BRANCH" \
+              --title "chore(release): $ROOT_VERSION" \
+              --body-file "$RUNNER_TEMP/release-pr.md"
+          fi

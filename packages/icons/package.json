@@ -1,6 +1,6 @@
 {
   "name": "rocketicons",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "rocketicons is a React component system, for web and mobile, that provides a variety of collections with high-quality open-source icons for your projects. With the power of Tailwind.",
   "license": "MIT",
   "keywords": [
@@ -49,6 +49,8 @@
     },
     "./core": {
       "types": "./core/index.d.ts",
+      "browser": "./core/index.mjs",
+      "react-native": "./core/index.native.mjs",
       "require": "./core/index.js",
       "import": "./core/index.mjs",
       "default": "./core/index.mjs"
@@ -263,10 +265,19 @@
       "import": "./lia/index.mjs",
       "default": "./lia/index.mjs"
     },
+    "./my": {
+      "types": "./my/index.d.ts",
+      "require": "./my/index.js",
+      "import": "./my/index.mjs",
+      "default": "./my/index.mjs"
+    },
     "./package.json": {
       "default": "./package.json"
     }
   },
-  "dependencies": {},
+  "dependencies": {
+    "@rocketicons/toolkit": "0.2.0",
+    "@rocketicons/mcp": "0.2.0"
+  },
   "bin": "./bin/index.js"
 }

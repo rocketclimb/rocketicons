@@ -1,3 +1,63 @@
+## [0.10.0](https://github.com/rocketclimb/rocketicons/compare/v0.9.4-release...v0.10.0) (2026-09-26)
+
+### Features
+
+- add Rocketicons MCP for icon discovery and project setup (#254) ([7e3c7d00](https://github.com/rocketclimb/rocketicons/commit/7e3c7d00adb095e6702cab2b0dff5e0d912057d8))
+- **icon-context** add Simple Icons semantic metadata (#250) ([32053fac](https://github.com/rocketclimb/rocketicons/commit/32053fac183b903c2a3ddeb9f6af2a55dbaa28a9))
+- **icon-context** add Remix semantic metadata (#249) ([0aec0f6e](https://github.com/rocketclimb/rocketicons/commit/0aec0f6eb8a387463c3f40a8f3d900b0c46990ed))
+- **icon-context** add Phosphor semantic metadata (#248) ([477a871c](https://github.com/rocketclimb/rocketicons/commit/477a871c39270146afd09f70ebd0a2a17e1c2634))
+- **icon-context** add Material Design semantic metadata (#247) ([7ccad524](https://github.com/rocketclimb/rocketicons/commit/7ccad52463d1885a9ac21da77faa0805f0672f5c))
+- **icon-context** add Game Icons semantic metadata (#245) ([3ab42fe0](https://github.com/rocketclimb/rocketicons/commit/3ab42fe0814c278af68d4c62648fe99bc8693134))
+- **icon-context** add Font Awesome 6 semantic metadata (#244) ([53c46a91](https://github.com/rocketclimb/rocketicons/commit/53c46a915bd7bfb6cbb9801c09d4d52b2889b048))
+- **icon-context** add Bootstrap Icons semantic metadata (#243) ([7c3648fd](https://github.com/rocketclimb/rocketicons/commit/7c3648fd43b331602f66dcfaee49d4fd735cc13e))
+- **icon-context** review BoxIcons semantic metadata (#242) ([42c089c7](https://github.com/rocketclimb/rocketicons/commit/42c089c7a68eab972496cbb61d63b7e408f262b7))
+- **icon-context** add Line Awesome semantic metadata (#241) ([50c11b5c](https://github.com/rocketclimb/rocketicons/commit/50c11b5cf1bb19c81e4181361eeddb43d7c53174))
+- **icon-context** add Font Awesome semantic metadata (#240) ([138b3742](https://github.com/rocketclimb/rocketicons/commit/138b3742bb642a20537deebb1d87b767c616ca58))
+- **icon-context** add Ionicons 5 semantic metadata (#239) ([13e99ffd](https://github.com/rocketclimb/rocketicons/commit/13e99ffd1ce9bfc0d42b03d21e8b198401c85ba2))
+- **icon-context** add Ant Design semantic metadata (#238) ([1db9ebc5](https://github.com/rocketclimb/rocketicons/commit/1db9ebc59ede522d56edb572ede39f4ae2b28fe4))
+- **icon-context** add Heroicons 2 semantic metadata (#237) ([45ff84d0](https://github.com/rocketclimb/rocketicons/commit/45ff84d0170f4d4ccae450404522db516e46ef22))
+- **icon-context** add Tabler semantic metadata (#251) ([59463c68](https://github.com/rocketclimb/rocketicons/commit/59463c68d6981ef48bb4de300915c3e31f664438))
+- add Font Awesome 5 icon context (#228) ([88ac6dc3](https://github.com/rocketclimb/rocketicons/commit/88ac6dc33d71d9dd6dff936bcab83615e1cfd62e))
+- **icon-context** add Heroicons 2 semantic metadata (#227) ([07a62a8e](https://github.com/rocketclimb/rocketicons/commit/07a62a8e33c41f8c90c27368d0e06653afe4cf08))
+- add Ant Design icon context (#225) ([566916c0](https://github.com/rocketclimb/rocketicons/commit/566916c044eab72fb5106e22c22ddf62d5465a3e))
+- **icons** add Circum Icons semantic metadata (#226) ([065befe5](https://github.com/rocketclimb/rocketicons/commit/065befe59505a688bb310ebe9003a46bb31b0c8b))
+- **icon-context** add BoxIcons metadata and quality verification (#224) ([9789553f](https://github.com/rocketclimb/rocketicons/commit/9789553f51976cf54fb64d18d194506d2a8e489c))
+- **ignition** refresh Go and add Ionicons semantic metadata (#208) ([9a6e2b6d](https://github.com/rocketclimb/rocketicons/commit/9a6e2b6d91e08ab2e28e0450a7a0ce2d82b91e51))
+- **ignition** add semantic metadata for RX, CI, and FC collections (#206) ([b9a89f2d](https://github.com/rocketclimb/rocketicons/commit/b9a89f2d66992600c0cd4251c9c6ce474d86acd2))
+- **icons** fi go di icon context (#197) ([9e41843f](https://github.com/rocketclimb/rocketicons/commit/9e41843faa0bca0f2d57a559789b977949ee03bd))
+- **ignition** restore dynamic open graph images at build time (#192) ([0f170f2b](https://github.com/rocketclimb/rocketicons/commit/0f170f2ba6e2d9514523b52301360ea8df54e0ad))
+- **icon-context** add Simple Line Icons metadata (#191) ([9c834fe2](https://github.com/rocketclimb/rocketicons/commit/9c834fe27b29e15737f0b3a067582f6530508b27))
+
+### Bug Fixes
+
+- **release** repair fresh installation and project aliases (#263) ([0cdbc255](https://github.com/rocketclimb/rocketicons/commit/0cdbc255f23b59fe8eb402b9e7768e50422bf08b))
+- **ignition** handle generated OG manifest in tests (#196) ([c983ea2e](https://github.com/rocketclimb/rocketicons/commit/c983ea2e40274894f316147c6a43ef17186f5a18))
+- **ignition** correct search placeholder typo (#176) ([850d3c36](https://github.com/rocketclimb/rocketicons/commit/850d3c3614313787420b408ae459b6cf64e1748e))
+- **ignition** keep footer copyright year current ([5ce6cf1a](https://github.com/rocketclimb/rocketicons/commit/5ce6cf1a1cbbc3886f3991cda75670a43aad064b))
+
+### Documentation
+
+- update for Tailwind CSS v4 + rocketicons@0.3.0 (#157) ([d079b8c1](https://github.com/rocketclimb/rocketicons/commit/d079b8c12c216b3b7f5bcb350ddb14dc0cc54cfb))
+
+### Test
+
+- **ignition** cover footer copyright years ([df850788](https://github.com/rocketclimb/rocketicons/commit/df850788205f27150e582b62ccf408c8ff4164ce))
+
+### Miscellaneous
+
+- drop the unused Vercel and Amplify configuration (#195) ([3ac7548a](https://github.com/rocketclimb/rocketicons/commit/3ac7548a09a9e5cb067f0fbc1cd93d928776c244))
+- **config** tighten env ignore rules and document every env var (#193) ([10ce8090](https://github.com/rocketclimb/rocketicons/commit/10ce8090bb6e535ff99c1ec8153847b38f7b1138))
+- **deps** consolidate compatible updates and group dependabot (#198) ([3f3c4207](https://github.com/rocketclimb/rocketicons/commit/3f3c4207ae378193a8fe7f024d0834f20ffacc58))
+
+### Other
+
+-  ([fdb020fb](https://github.com/rocketclimb/rocketicons/commit/fdb020fbfedb5fb51b827deb33de54ebca822d07))
+-  ([c479c18d](https://github.com/rocketclimb/rocketicons/commit/c479c18d847777dd6566cc5caaa2069d05d933f8))
+-  ([7002a404](https://github.com/rocketclimb/rocketicons/commit/7002a404a2e1beaddbe36c51aa15810d81d1db5b))
+-  ([f3137d0d](https://github.com/rocketclimb/rocketicons/commit/f3137d0da91b958492bc9d089954319ac2bae733))
+-  ([e23001e8](https://github.com/rocketclimb/rocketicons/commit/e23001e894539b513b02a22923c43387a77bc43c))
+-  ([d067e080](https://github.com/rocketclimb/rocketicons/commit/d067e080a343be6949812d75f676d18e193a0f0f))
+
 ## [0.9.4](https://github.com/rocketclimb/rocketicons/compare/v0.9.3-release...v0.9.4) (2026-08-24)
 
 ## [0.9.3](https://github.com/rocketclimb/rocketicons/compare/v0.9.2-release...v0.9.3) (2026-08-24)

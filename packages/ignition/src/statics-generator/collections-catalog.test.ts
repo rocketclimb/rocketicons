@@ -61,6 +61,15 @@ describe("static catalog generation", () => {
     expect(result.collection.indexUrl).toBe("/rocketicons/ai/v1/collections/ai/index.json");
   });
 
+  test("retains source family IDs in the index and icon shards", () => {
+    const manifest = makeManifest(["my-refresh-alt"]);
+    manifest.icons["my-refresh-alt"].familyId = "refresh-alt";
+    const result = buildCollectionArtifacts("1.2.3", manifest, source(["my-refresh-alt"]));
+
+    expect(result.index.icons[0].familyId).toBe("refresh-alt");
+    expect(result.shards[0].icons[0].familyId).toBe("refresh-alt");
+  });
+
   test("rejects duplicate source IDs", () => {
     expect(() =>
       buildCollectionArtifacts("1.2.3", makeManifest(["one"]), source(["one", "one"]))

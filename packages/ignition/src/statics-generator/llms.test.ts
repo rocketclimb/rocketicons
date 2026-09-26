@@ -30,14 +30,19 @@ describe("LLM discovery files", () => {
     expect(content).toMatch(/license|licensing/i);
     expect(content).not.toMatch(/https?:\/\/rocketicons\.io/);
     expect(content).not.toContain("rocketicons add @lu/rocket @lu/search");
-    expect(content).not.toMatch(/MCP (server|tools?) (is|are) available/i);
+    expect(content).toContain("@rocketicons/mcp");
+    expect(content).toContain("rocketicons@0.4.0");
+    expect(content).toContain("@rocketicons/mcp@0.2.0");
+    expect(content).toContain("only when a compatible version is published");
+    expect(content).toContain("npx --no-install rocketicons mcp");
+    expect(content).not.toMatch(/await.*(?:publication|npm release)|Until then/);
   });
 
-  test("concise file documents current limitations", () => {
+  test("concise file documents the current workflow", () => {
     const content = renderLlms(staticCatalog);
 
-    expect(content).toContain("adds one icon per command");
-    expect(content).toContain("MCP support is planned and is not currently available");
+    expect(content).toContain("batch adds");
+    expect(content).toContain("MCP");
   });
 
   test("includes the configured deployment base path", () => {
@@ -51,8 +56,7 @@ describe("LLM discovery files", () => {
   test("full guide uses exact catalog icon IDs", () => {
     const content = renderLlmsFull(staticCatalog);
 
-    expect(content).toContain("npx rocketicons add @lu/lu-rocket");
-    expect(content).toContain("npx rocketicons add @lu/lu-search");
+    expect(content).toContain("npx rocketicons add @lu/lu-rocket @lu/lu-search");
     expect(content).not.toContain("npx @rocketicons/cli");
     expect(content).not.toContain("npx rocketicons add @lu/rocket");
     expect(content).not.toContain("npx rocketicons add @lu/search");

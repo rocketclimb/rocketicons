@@ -9,16 +9,20 @@ Search thousands of open-source icons, then add only the icons your project uses
 - English documentation: /en/docs/getting-started/
 - Brazilian Portuguese documentation: /pt-br/docs/primeiros-passos/
 
+## CLI and MCP version requirements
+
+The CLI workflow in this guide requires `rocketicons@0.4.0` or newer; the standalone MCP server requires `@rocketicons/mcp@0.2.0` or newer. Use the npm commands only when a compatible version is published. For a version not yet on npm, build the repository workspaces and run `npx --no-install rocketicons mcp` from the repository root. The catalog version above does not indicate npm availability.
+
 ## Recommended workflow
 
-1. Start in an existing TypeScript project with a tsconfig.json file.
-2. Run `npx rocketicons init` from the project root.
-3. Search the website or static catalog for an exact icon ID.
-4. Run `npx rocketicons add @collection/icon` once for each icon.
-5. Import the generated component from `@/ri/icons/<icon-id>`.
-6. Verify and commit the generated files under `src/ri`.
+1. Start in an existing React or React Native project.
+2. Run `npx rocketicons init` from the project root, or use MCP `init_project`.
+3. Search with `npx rocketicons search <terms>` or MCP `search_icons`; filter to one collection when visual consistency matters.
+4. Dry-run and add exact `@collection/icon-id` IDs with the CLI or MCP `add_icons`.
+5. Import generated components from `@/ri/icons/<icon-id>` and run `doctor`.
+6. Verify and commit `src/ri` and `rocketicons.json`.
 
-The current CLI generates TSX, uses the fixed `src/ri` output directory and `@/ri/*` alias, installs shared utilities through npm during init, and adds one icon per command. MCP support is planned and is not currently available.
+The CLI and MCP generate TSX or JSX, use the fixed `src/ri` output directory and `@/ri/*` alias, and support batch adds, JSON output, and dry runs. Broad search prefers Algolia and falls back to a bundled local index.
 
 ## Catalog and licensing
 
