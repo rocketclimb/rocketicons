@@ -1,3 +1,15 @@
+## [0.4.0](https://github.com/rocketclimb/rocketicons/compare/v0.9.4-release...v0.10.0) (2026-09-26)
+
+### Features
+
+- add Rocketicons MCP for icon discovery and project setup (#254) ([7e3c7d00](https://github.com/rocketclimb/rocketicons/commit/7e3c7d00adb095e6702cab2b0dff5e0d912057d8))
+- **icons** add Circum Icons semantic metadata (#226) ([065befe5](https://github.com/rocketclimb/rocketicons/commit/065befe59505a688bb310ebe9003a46bb31b0c8b))
+- **icons** fi go di icon context (#197) ([9e41843f](https://github.com/rocketclimb/rocketicons/commit/9e41843faa0bca0f2d57a559789b977949ee03bd))
+
+### Other
+
+-  ([fdb020fb](https://github.com/rocketclimb/rocketicons/commit/fdb020fbfedb5fb51b827deb33de54ebca822d07))
+
 ## Unreleased
 
 ### Features

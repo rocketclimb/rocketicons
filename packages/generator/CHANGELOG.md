@@ -1,3 +1,14 @@
+## [0.7.1](https://github.com/rocketclimb/rocketicons/compare/v0.9.4-release...v0.10.0) (2026-09-26)
+
+### Miscellaneous
+
+- **deps** consolidate compatible updates and group dependabot (#198) ([3f3c4207](https://github.com/rocketclimb/rocketicons/commit/3f3c4207ae378193a8fe7f024d0834f20ffacc58))
+
+### Other
+
+-  ([fdb020fb](https://github.com/rocketclimb/rocketicons/commit/fdb020fbfedb5fb51b827deb33de54ebca822d07))
+-  ([d067e080](https://github.com/rocketclimb/rocketicons/commit/d067e080a343be6949812d75f676d18e193a0f0f))
+
 ## [0.7.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-14)
 
 ### Features
