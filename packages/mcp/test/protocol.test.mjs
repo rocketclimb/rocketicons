@@ -489,6 +489,7 @@ test("MCP starts from an isolated package layout without loading React", async (
     "@modelcontextprotocol/server",
     "algoliasearch",
     "jsonc-parser",
+    "typescript",
     "sharp",
     "zod"
   ]) {

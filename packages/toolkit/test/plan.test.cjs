@@ -101,8 +101,8 @@ test("plan lists dependency installation effects without writing", async () => {
   try {
     const plan = await app.planIcons(root, ["@fi/fi-calendar"], { fromFile: source });
     assert.deepEqual(plan.toInstall, [
-      "@rocketicons/utils@^0.7.0",
-      "@rocketicons/tailwind@^0.7.0"
+      `@rocketicons/utils@^${require("../../utils/package.json").version}`,
+      `@rocketicons/tailwind@^${require("../../tailwind/package.json").version}`
     ]);
     assert.deepEqual(plan.dependencyEffects.command, [
       "npm",
@@ -130,8 +130,14 @@ for (const workspaceFile of ["package.json", "pnpm-workspace.yaml"])
     const source = "src/App.tsx";
     try {
       fs.mkdirSync(path.join(root, "src"), { recursive: true });
-      fs.writeFileSync(path.join(root, source), "export default function App() { return null; }\n");
-      fs.writeFileSync(path.join(root, "package.json"), JSON.stringify({ name: "app", version: "1" }));
+      fs.writeFileSync(
+        path.join(root, source),
+        "export default function App() { return null; }\n"
+      );
+      fs.writeFileSync(
+        path.join(root, "package.json"),
+        JSON.stringify({ name: "app", version: "1" })
+      );
       if (workspaceFile === "package.json")
         fs.writeFileSync(
           path.join(parent, workspaceFile),
@@ -163,7 +169,9 @@ for (const workspaceFile of ["package.json", "pnpm-workspace.yaml"])
       const applied = await app.applyIconPlan(root, ["@fi/fi-calendar"], plan.planId, {
         fromFile: source
       });
-      assert.ok(applied.appliedFileChanges.some(({ path }) => path === "src/ri/icons/fi-calendar.jsx"));
+      assert.ok(
+        applied.appliedFileChanges.some(({ path }) => path === "src/ri/icons/fi-calendar.jsx")
+      );
       assert.equal(fs.existsSync(path.join(root, "src/ri/icons/fi-calendar.jsx")), true);
       assert.equal(fs.existsSync(path.join(parent, "package-lock.json")), false);
       assert.equal(fs.existsSync(path.join(parent, "node_modules")), false);
@@ -313,5 +321,55 @@ test("format-only changes are current for new and legacy manifests", async () =>
     assert.ok(!plan.fileChanges.some(({ path }) => path.endsWith("fi-calendar.tsx")));
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+for (const language of ["ts", "js"]) {
+  for (const inherited of [false, true]) {
+    test(`${language} aliases respect ${inherited ? "inherited" : "explicit"} baseUrl`, async () => {
+      const { root } = fixture(language, "react");
+      try {
+        const configName = language === "ts" ? "tsconfig.json" : "jsconfig.json";
+        const compilerOptions = {
+          baseUrl: "./src",
+          paths: { "@app/*": ["./*"] },
+          allowJs: true,
+          jsx: "react-jsx"
+        };
+        if (inherited)
+          fs.writeFileSync(path.join(root, "base.json"), JSON.stringify({ compilerOptions }));
+        fs.writeFileSync(
+          path.join(root, configName),
+          JSON.stringify(inherited ? { extends: "./base.json" } : { compilerOptions })
+        );
+        await app.initProject(root);
+        await app.addIcons(root, ["@fi/fi-calendar"]);
+        const configPath = path.join(root, configName);
+        const config = ts.readConfigFile(configPath, ts.sys.readFile);
+        const parsed = ts.parseJsonConfigFileContent(config.config, ts.sys, root);
+        const resolved = ts.resolveModuleName(
+          "@/ri/icons/fi-calendar",
+          path.join(root, "src/main.tsx"),
+          parsed.options,
+          ts.sys
+        ).resolvedModule;
+        assert.equal(
+          resolved.resolvedFileName,
+          path.join(root, `src/ri/icons/fi-calendar.${language === "ts" ? "tsx" : "jsx"}`)
+        );
+        assert.deepEqual(parsed.options.paths["@app/*"], ["./*"]);
+        assert.equal((await app.initProject(root)).changes.length, 0);
+      } finally {
+        fs.rmSync(root, { recursive: true, force: true });
+      }
+    });
+  }
+}
+
+test("packaged runtime requirements match the workspace artifacts being released", () => {
+  const dependencies = require("../data/runtime-dependencies.json");
+  for (const workspace of ["utils", "tailwind"]) {
+    const pkg = require(`../../${workspace}/package.json`);
+    assert.equal(dependencies[pkg.name], `^${pkg.version}`);
   }
 });

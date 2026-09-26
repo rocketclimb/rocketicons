@@ -26,7 +26,7 @@ export const renderLlms = (catalog: StaticCatalog) => `${commonHeader(catalog)}
 5. Import generated components from \`@/ri/icons/<icon-id>\` and run \`doctor\`.
 6. Verify and commit \`src/ri\` and \`rocketicons.json\`.
 
-The repository CLI and MCP build generate TSX or JSX, use the fixed \`src/ri\` output directory and \`@/ri/*\` alias, and support batch adds, JSON output, and dry runs. The \`@rocketicons/mcp\` npm package is awaiting publication; local development can run its built stdio entry point. Broad search prefers Algolia and falls back to a bundled local index.
+The repository CLI and MCP build generate TSX or JSX, use the fixed \`src/ri\` output directory and \`@/ri/*\` alias, and support batch adds, JSON output, and dry runs. The \`rocketicons\` and \`@rocketicons/mcp\` npm updates await publication; local development can run \`npx --no-install rocketicons mcp\` after building the workspaces. Broad search prefers Algolia and falls back to a bundled local index.
 
 ## Catalog and licensing
 
@@ -70,7 +70,7 @@ After initialization, run \`npx rocketicons doctor --json\`. Review and commit g
 
 ## MCP server
 
-After npm publication, start the local stdio server with \`npx -y @rocketicons/mcp\`. Until then, build the repository package and run its \`packages/mcp/dist/index.js\` entry point. Use \`search_icons\` with a collection filter, inspect \`get_icon\` and its SVG resource, call \`init_project\` explicitly, then dry-run and call \`add_icons\`. Use \`get_icon_usage\` for the import and \`doctor\` for verification. Broad search uses Algolia and falls back to a bundled local index.
+After npm publication, start the local stdio server with \`npx -y rocketicons mcp\` or \`npx -y @rocketicons/mcp\`. Until then, build the repository CLI and MCP packages and run \`npx --no-install rocketicons mcp\` from the repository root. Use \`search_icons\` with a collection filter, inspect \`get_icon\` and its SVG resource, call \`init_project\` explicitly, then dry-run and call \`add_icons\`. Use \`get_icon_usage\` for the import and \`doctor\` for verification. Broad search uses Algolia and falls back to a bundled local index.
 
 ## Framework guidance
 
