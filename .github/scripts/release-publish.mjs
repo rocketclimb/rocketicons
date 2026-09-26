@@ -118,18 +118,31 @@ export async function publishPrepared(
     } catch (error) {
       publishError = error;
     }
-    // A maintainer can publish after our preflight, or registry reads can lag
-    // a successful write. Re-read before failing, but accept only exact bytes.
+    // npm can accept an upload but take minutes to finish processing it.
+    // Allow ten minutes of waiting after success; failed uploads retain the
+    // short check for a racing manual publication. Accept only exact bytes.
+    const attempts = publishError ? 3 : 21;
+    const interval = publishError ? 2000 : 30_000;
     let confirmed = false;
-    for (let attempt = 0; attempt < 3; attempt++) {
+    for (let attempt = 0; attempt < attempts; attempt++) {
       if (publicationState(entry, await lookup(spec)) === "skip") {
         confirmed = true;
         break;
       }
-      if (attempt < 2) await wait(2000);
+      if (attempt < attempts - 1) {
+        if (!publishError)
+          console.log(`Waiting for npm to process ${spec}; checking again in 30 seconds`);
+        await wait(interval);
+      }
     }
     if (!confirmed)
-      throw publishError ?? new Error(`Publication of ${spec} was not confirmed by npm`);
+      throw (
+        publishError ??
+        new Error(
+          `Publication of ${spec} was not confirmed by npm after ten minutes of waiting. ` +
+            "npm accepted the upload; wait for processing to finish, then rerun the release."
+        )
+      );
   }
   return plan;
 }
