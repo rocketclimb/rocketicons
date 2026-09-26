@@ -23,5 +23,10 @@
   "dependencies": {
     "camelcase": "^6.2.0",
     "cheerio": "^1.0.0-rc.12"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rocketclimb/rocketicons.git",
+    "directory": "packages/utils"
   }
 }

@@ -37,5 +37,10 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.1",
     "tailwindcss": "^4.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rocketclimb/rocketicons.git",
+    "directory": "packages/tailwind"
   }
 }
