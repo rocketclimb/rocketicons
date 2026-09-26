@@ -96,7 +96,9 @@ jobs:
         run: npm run generate-statics:all-icons --workspace=packages/ignition
 
       - name: Test workspace
-        run: npm run test-all
+        run: |
+          npm run test:release
+          npm run test-all
 
       - name: Verify every generated icon and web catalog record
         run: npm run test:catalog --workspace=packages/generator
