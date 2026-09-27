@@ -46,6 +46,8 @@ jobs:
       # at production. Point open graph images at the preview alone, so a shared preview link
       # renders its own cards instead of production paths that do not exist yet.
       OG_IMAGE_ORIGIN: ${{ github.event_name == 'pull_request' && format('https://pr-{0}.rocketicons.pages.dev', github.event.pull_request.number) || '' }}
+      # GA is embedded at build time. Only builds deployed to production receive the ID.
+      NEXT_GOOGLE_ANALYTICS_ID: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && vars.NEXT_GOOGLE_ANALYTICS_ID || '' }}
       RI_GENERATE_ALL_ICONS: "true"
       NEXT_PUBLIC_ALGOLIA_APPLICATION_ID: ${{ vars.ALGOLIA_APPLICATION_ID }}
       NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY: ${{ vars.ALGOLIA_SEARCH_ONLY_API_KEY }}
@@ -64,6 +66,7 @@ jobs:
           test -n "$SITE_ORIGIN"
           test -n "$NEXT_PUBLIC_ALGOLIA_APPLICATION_ID"
           test -n "$NEXT_PUBLIC_ALGOLIA_SEARCH_ONLY_API_KEY"
+          node -e 'const id = process.env.NEXT_GOOGLE_ANALYTICS_ID; if (id && !/^G-[A-Z0-9]+$/.test(id)) throw new Error("NEXT_GOOGLE_ANALYTICS_ID must be a GA4 measurement ID")'
           node -e 'const value = new URL(process.env.SITE_ORIGIN); if (!/^https?:$/.test(value.protocol) || value.search || value.hash || value.username || value.password) process.exit(1)'
 
       - name: Configure GitHub Packages
