@@ -14,7 +14,77 @@ import BuildInfo from "@/components/documentation/build-info";
 
 Agentes trabalham melhor quando a descoberta é enxuta, os comandos são exatos e toda alteração tem um resultado observável. Rocketicons oferece uma CLI e um servidor MCP local apoiados no mesmo catálogo e nas mesmas operações de projeto.
 
-O pacote MCP e os novos comandos da CLI estão disponíveis no build do repositório; a publicação no npm ainda está pendente.
+O pacote MCP está disponível no npm como `@rocketicons/mcp`.
+
+### Configure um cliente MCP
+
+O Rocketicons roda localmente via stdio com `npx -y @rocketicons/mcp`. Use Node.js 20 ou mais recente, com `node` e `npx` disponíveis para o cliente. O cliente inicia o servidor; não é necessário manter outro terminal aberto nem instalar o pacote globalmente. A primeira execução precisa de internet para baixar o pacote. A busca usa o Algolia quando disponível e recorre ao catálogo incluído no pacote quando estiver offline.
+
+Em qualquer cliente com suporte a MCP local via stdio, defina o comando como `npx` e os argumentos como `["-y", "@rocketicons/mcp"]`. Clientes que aceitam apenas servidores HTTP remotos não podem usar esse comando diretamente. A busca padrão não exige chave de API. As ferramentas de projeto recebem um `project_path` absoluto na chamada, portanto ele não faz parte da configuração do servidor.
+
+Adicione estas entradas aos arquivos existentes sem remover outros servidores. Depois de salvar, reinicie ou reconecte o servidor MCP no cliente. Se o cliente não encontrar `npx`, use o caminho absoluto retornado por `command -v npx` e confira se o Node.js está disponível no ambiente do cliente.
+
+#### Codex
+
+Adicione a `.codex/config.toml` em um projeto confiável ou a `~/.codex/config.toml` para usar globalmente:
+
+```toml
+[mcp_servers.rocketicons]
+command = "npx"
+args = ["-y", "@rocketicons/mcp"]
+startup_timeout_sec = 60
+```
+
+O limite de 60 segundos dá mais tempo para o primeiro download. Reinicie o Codex e use `/mcp` para conferir a conexão. Consulte a [documentação MCP do Codex](https://developers.openai.com/codex/mcp).
+
+#### Cursor
+
+Adicione a `.cursor/mcp.json` no projeto ou a `~/.cursor/mcp.json` para usar globalmente:
+
+```json
+{
+  "mcpServers": {
+    "rocketicons": {
+      "command": "npx",
+      "args": ["-y", "@rocketicons/mcp"]
+    }
+  }
+}
+```
+
+Confira se o Rocketicons está habilitado e conectado nas configurações MCP do Cursor. Consulte a [documentação MCP do Cursor](https://cursor.com/docs/mcp).
+
+#### Claude Code
+
+Adicione diretamente a `.mcp.json` na raiz do projeto:
+
+```json
+{
+  "mcpServers": {
+    "rocketicons": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@rocketicons/mcp"]
+    }
+  }
+}
+```
+
+Como alternativa, execute no diretório do projeto:
+
+```bash
+claude mcp add --scope project --transport stdio rocketicons -- npx -y @rocketicons/mcp
+```
+
+Use `--scope user` para disponibilizar em todos os seus projetos. Reinicie o Claude Code, aprove o servidor do projeto quando solicitado e use `/mcp` para conferir a conexão. Estas instruções são para o Claude Code. Consulte a [documentação MCP do Claude Code](https://code.claude.com/docs/en/mcp).
+
+#### Confira a conexão
+
+Peça ao agente:
+
+> Use o MCP do Rocketicons para encontrar cinco ícones de comida da mesma coleção e compará-los visualmente. Não altere arquivos do projeto.
+
+A busca e a inspeção de SVG não exigem inicializar o projeto. Para instalar componentes depois, peça ao agente que inspecione o projeto e use `plan_icons` antes de `apply_icons`.
 
 ### Encontre e adicione um ícone
 
