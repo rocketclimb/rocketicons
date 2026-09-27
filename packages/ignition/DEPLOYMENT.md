@@ -13,6 +13,7 @@ Configure these GitHub Actions variables:
 | `SITE_ORIGIN`                 | Complete production origin used in canonical URLs, sitemaps, catalog references, and LLM discovery files. Defaults to `https://rocketicons.com`. |
 | `ALGOLIA_APPLICATION_ID`      | Public Algolia application ID embedded in the static browser bundle.                                                                             |
 | `ALGOLIA_SEARCH_ONLY_API_KEY` | Restricted search-only key embedded in the static browser bundle.                                                                                |
+| `NEXT_GOOGLE_ANALYTICS_ID`    | Optional public GA4 measurement ID. Production value: `G-LXXRD9S2EQ`. Empty disables website analytics.                                          |
 
 Configure these GitHub Actions secrets:
 
@@ -25,6 +26,18 @@ Configure these GitHub Actions secrets:
 The workflow uses the automatic `GITHUB_TOKEN` to read GitHub Packages, publish deployment records, and update pull requests. Do not create a personal access token for the workflow.
 
 The Cloudflare Pages project must be named `rocketicons`, and the production custom domain and DNS must point `rocketicons.com` to that project.
+
+## Google Analytics 4
+
+The root React layout uses the existing `GoogleAnalytics` component from `@next/third-parties/google`. To enable website analytics, set the GitHub Actions repository variable `NEXT_GOOGLE_ANALYTICS_ID` to `G-LXXRD9S2EQ`. This measurement ID is public configuration, not a secret.
+
+The workflow supplies the ID only for production builds from `main`, including manual production runs. Pull-request previews and runs from other branches receive an empty value. The layout also disables analytics during `next dev`. Without an ID, the component is omitted. CLI commands, icon packages, and generated icon components do not gain analytics.
+
+The ID must be available **during the Next.js build** because this is a static export. Cloudflare Pages runtime environment variables cannot change the uploaded HTML or browser bundle. After changing or removing the GitHub variable, rebuild and deploy `main` for the change to take effect.
+
+GA4 loads after hydration. For client-side navigation, keep **Enhanced measurement → Page views → Page changes based on browser history events** enabled in the GA4 web stream. The integration relies on this automatic pageview tracking; it does not send additional manual pageview events. See the [Next.js pageview guidance](https://nextjs.org/docs/app/guides/third-party-libraries#tracking-pageviews).
+
+After the production deployment, verify the initial page and a client-side navigation in GA4 Realtime or DebugView. PR previews intentionally cannot validate live GA collection.
 
 ## Production deployment
 
