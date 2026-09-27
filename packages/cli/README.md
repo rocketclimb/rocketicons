@@ -33,6 +33,25 @@ Other commands include `info`, `usage`, `remove`, `doctor`, and `config`. Use `-
 
 Start the MCP server with `npx -y rocketicons mcp` after publication. From this checkout, build the CLI and MCP workspaces and use `npx --no-install rocketicons mcp`.
 
+## Upgrade an existing project
+
+Catalog upgrades require `@rocketicons/mcp@0.3.0` / `@rocketicons/toolkit@0.3.0` or newer (use a published release containing these versions, or build this checkout). When `CATALOG_MISMATCH` occurs:
+
+1. Call `plan_project_upgrade` with `project_path` and review `fromCatalogVersion`, `toCatalogVersion`, `nextManifest`, `fileChanges`, `preservedIcons`, and diagnostics.
+2. Call `apply_project_upgrade` with the same `project_path` and returned `planId` as `plan_id`. Set `dry_run: true` to preview without writing.
+3. Retry `plan_icons` / `apply_icons` and run `doctor`.
+
+The upgrade writes only `rocketicons.json`. Existing components, paths, hashes, and license records are preserved; each icon keeps its original catalog version. Missing files and unrelated setup issues remain visible. Removed catalog icons remain usable from their saved files, but missing ones must be restored from source control or their original catalog package. New additions and repairs use the installed catalog. Upgrades reject stale plans and downgrades. Repeating an upgrade to the current catalog makes no changes.
+
+CLI equivalent (from the project root):
+
+```sh
+npx rocketicons upgrade --dry-run --json
+npx rocketicons upgrade --plan-id <planId> --json
+```
+
+This migrates catalog metadata; it does not regenerate existing icons or upgrade runtime/core files. Commit the updated manifest with your project. Do not delete the setup or manually replace its catalog version.
+
 ## Current limits
 
 The current release:

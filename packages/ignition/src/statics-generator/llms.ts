@@ -18,6 +18,10 @@ ${CANONICAL_PRODUCT_MESSAGE}
 ## CLI and MCP version requirements
 
 The CLI workflow in this guide requires \`rocketicons@0.4.0\` or newer; the standalone MCP server requires \`@rocketicons/mcp@0.2.0\` or newer. Use the npm commands only when a compatible version is published. For a version not yet on npm, build the repository workspaces and run \`npx --no-install rocketicons mcp\` from the repository root. The catalog version above does not indicate npm availability.
+
+## Existing project catalog upgrades
+
+Catalog migration requires \`@rocketicons/mcp@0.3.0\` / \`@rocketicons/toolkit@0.3.0\` or newer, in a compatible published CLI release or a built source checkout. On \`CATALOG_MISMATCH\`, call \`plan_project_upgrade(project_path)\`, review the manifest changes and preserved icons, then call \`apply_project_upgrade(project_path, plan_id, dry_run?)\`. CLI: \`rocketicons upgrade --dry-run --json\`, then \`rocketicons upgrade --plan-id <planId> --json\`. Retry adding icons afterward. The upgrade writes only \`rocketicons.json\`, records original per-icon catalog versions, and preserves existing files. Stale plans and downgrades are rejected; missing files and unrelated setup issues remain visible. Do not reset the project or manually replace its catalog version. This does not regenerate icons or migrate runtime/core files.
 `;
 
 export const renderLlms = (catalog: StaticCatalog) => `${commonHeader(catalog)}

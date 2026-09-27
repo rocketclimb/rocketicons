@@ -128,6 +128,7 @@ The CLI is the most important agent interface because it performs the useful pro
 - [x] `rocketicons info <icon>`
 - [x] `rocketicons add <icon...>` for one or many icons
 - [x] `rocketicons remove <icon...>`
+- [x] `rocketicons upgrade --dry-run --json` and `rocketicons upgrade --plan-id <id> --json` migrate catalog metadata while preserving installed components; verified through packed CLI and MCP artifacts.
 - [ ] `rocketicons update [icon...]`
 - [x] `rocketicons doctor`
 - [x] `rocketicons config`
@@ -141,7 +142,7 @@ The CLI is the most important agent interface because it performs the useful pro
 - [x] Add `--cwd <path>` and never mutate outside the resolved project root.
 - [ ] Add `--package-manager npm|pnpm|yarn|bun`, with safe automatic detection. **Partial:** detection and command routing are implemented; live installation fixtures for pnpm, yarn, and bun remain.
 - [ ] Publish compatible `@rocketicons/utils` and `@rocketicons/tailwind` runtime versions before promoting init. **Partial:** setup now derives its runtime requirements from the workspace versions bundled with the toolkit after release versioning. The npm `@rocketicons/tailwind@0.2.6` package depends on `@rocketclimb/tw-utils` from GitHub Packages and failed a clean npm initialization without credentials. LLM guides state the required CLI/MCP versions and a source-checkout fallback without claiming whether those versions are published; live npm installation verification remains pending.
-- [x] Add `--catalog-version` or an equivalent reproducibility control. `rocketicons.json` pins the catalog version and rejects mismatched add operations.
+- [x] Add `--catalog-version` or an equivalent reproducibility control. `rocketicons.json` pins the catalog used for new additions. Explicit preview/apply upgrades advance that pin while retaining per-icon provenance and existing files; mismatched add operations still require an upgrade first.
 - [ ] Use documented, stable exit codes.
 - [x] Write diagnostics to stderr and structured results to stdout.
 - [ ] Make `init`, `add`, `remove`, and `update` idempotent. **Partial:** init, add, and remove are verified; update is not implemented.
@@ -154,7 +155,7 @@ The CLI is the most important agent interface because it performs the useful pro
 #### Project manifest and provenance
 
 - [x] Add a small project manifest such as `rocketicons.json`.
-- [x] Record catalog/package version, output path, platform, and installed icon IDs.
+- [x] Record catalog/package version, output path, platform, and installed icon IDs. Optional per-icon catalog versions retain original provenance across project catalog upgrades; older schema-1 manifests remain readable.
 - [x] Add a generated-file comment containing icon ID, collection, version, and license reference.
 - [x] Detect local modifications before overwriting generated icons.
 - [x] Hash a code-aware normalized copy of generated icon components so formatting-only edits remain current; report other edits as reusable, protected customizations in CLI and MCP workflows. Legacy byte hashes remain readable.
@@ -181,6 +182,7 @@ Build the MCP server on the same toolkit layer used by the CLI. Do not create se
 - [x] `get_icon_svg(icon_id)` returns complete SVG markup from bundled icon data for HTML and other non-React projects without setup.
 - [x] `compare_icons(icon_ids)` returns an offline visual contact sheet for up to five exact icons, with cell metadata and SVG links.
 - [x] `get_icon_usage(icon_id, target?, language?, project_path?, from_file?)` returns a resolvable relative import when given a project and source file, without guessing an alias otherwise.
+- [x] `plan_project_upgrade(project_path)` and `apply_project_upgrade(project_path, plan_id, dry_run?)` preview and apply manifest-only upgrades, reject stale plans and downgrades, and preserve missing, customized, or retired catalog entries. Verified for TS/JS React and React Native, including `0.3.3` migration and packed-package CLI/MCP smoke tests.
 - [x] `plan_icons(project_path, icon_ids, from_file, ...)` previews exact managed paths and hashes, dependencies, and package-manager effects without writes.
 - [x] `apply_icons(project_path, icon_ids, plan_id, from_file, ..., dry_run?)` rejects stale plans, applies setup and batch addition, and verifies the files and project health in TS/JS React and React Native fixtures.
 - [x] `list_collections()`
