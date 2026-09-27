@@ -23,7 +23,10 @@ const main = async () => {
     fs.readFileSync(ctrlFile, "utf8") === cacheKey &&
     icons.every(
       ({ source }) =>
-        !source || fs.existsSync(path.join(distBaseDir, source.localName, source.remoteDir))
+        !source ||
+        (Array.isArray(source.remoteDir) ? source.remoteDir : [source.remoteDir]).every((dir) =>
+          fs.existsSync(path.join(distBaseDir, source.localName, dir))
+        )
     );
 
   if (fetched && !force) {
@@ -64,7 +67,8 @@ const main = async () => {
 };
 
 const gitCloneIcon = async (source: IconSetGitSource, ctx: Context) => {
-  console.log(`start clone icon: ${source.url}/${source.remoteDir}@${source.branch}`);
+  const remoteDirs = Array.isArray(source.remoteDir) ? source.remoteDir : [source.remoteDir];
+  console.log(`start clone icon: ${source.url}/${remoteDirs.join(",")}@${source.branch}`);
   await execFile(
     "git",
     ["clone", "--filter=tree:0", "--no-checkout", source.url, source.localName],
@@ -73,7 +77,7 @@ const gitCloneIcon = async (source: IconSetGitSource, ctx: Context) => {
     }
   );
 
-  await execFile("git", ["sparse-checkout", "set", "--cone", "--skip-checks", source.remoteDir], {
+  await execFile("git", ["sparse-checkout", "set", "--cone", "--skip-checks", ...remoteDirs], {
     cwd: ctx.iconDir(source.localName)
   });
 

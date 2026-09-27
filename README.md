@@ -55,7 +55,7 @@ Commit `src/ri` with your application so collaborators, CI, deployments, and off
 
 ## MCP server
 
-The MCP package is implemented in this repository and awaits npm publication. After publication, configure a stdio MCP client to run `npx -y rocketicons mcp` (or the dedicated `npx -y @rocketicons/mcp`). From this checkout, build the CLI and MCP packages and use `npx --no-install rocketicons mcp`. Search uses Algolia for broad terms and a bundled index if Algolia is unavailable. Pass `collections: ["fi"]` to `search_icons` to keep results within one family. Exact IDs such as `@fi/fi-calendar` resolve locally. Inspect the SVG resource, dry-run `init_project` and `add_icons`, then use `get_icon_usage` for the local import. See [MCP setup](packages/mcp/README.md).
+The MCP package is available on npm. Configure a stdio MCP client to run `npx -y rocketicons mcp` (or the dedicated `npx -y @rocketicons/mcp`). From this checkout, build the CLI and MCP packages and use `npx --no-install rocketicons mcp`. Search uses Algolia for broad terms and a bundled index if Algolia is unavailable. Pass `collections: ["fi"]` to `search_icons` to keep results within one family. Exact IDs such as `@fi/fi-calendar` resolve locally. Inspect the SVG resource, dry-run `init_project` and `add_icons`, then use `get_icon_usage` for the local import. See [MCP setup](packages/mcp/README.md).
 
 ## Monorepo packages
 

@@ -3,6 +3,10 @@ import camelcase from "camelcase";
 import { type IconDefinition } from "./types";
 import { glob } from "./glob";
 import { listIconoirSources } from "./iconoir";
+import { createMynauiSourceLoader } from "./source-validation/mynaui";
+
+const mynauiFamilyId = (file: string) => path.basename(file, ".svg");
+const mynauiSources = createMynauiSourceLoader(path.resolve(__dirname, "../icons/mynaui-icons"));
 
 export const icons: IconDefinition[] = [
   {
@@ -770,6 +774,35 @@ export const icons: IconDefinition[] = [
       url: "https://github.com/icons8/line-awesome.git",
       branch: "master",
       hash: "2bb7870e4d3f3a2d966eea2c94912096621e0662"
+    }
+  },
+  {
+    id: "my",
+    name: "MynaUI Icons",
+    contents: [
+      {
+        files: async () => (await mynauiSources()).regular,
+        formatter: (name) => `My${name}`,
+        familyId: mynauiFamilyId
+      },
+      {
+        files: async () => (await mynauiSources()).solid,
+        formatter: (name) => `MySolid${name}`,
+        familyId: mynauiFamilyId
+      }
+    ],
+    projectUrl: "https://mynaui.com/icons",
+    license: "MIT",
+    licenseUrl:
+      "https://github.com/praveenjuge/mynaui-icons/blob/579977f9afb1991c24a32da73417a9cbcc4d5b22/LICENSE",
+    licenseNoticePath: path.resolve(__dirname, "../icons/mynaui-icons/LICENSE"),
+    source: {
+      type: "git",
+      localName: "mynaui-icons",
+      remoteDir: ["icons/", "icons-solid/"],
+      url: "https://github.com/praveenjuge/mynaui-icons.git",
+      branch: "main",
+      hash: "579977f9afb1991c24a32da73417a9cbcc4d5b22"
     }
   }
 ];

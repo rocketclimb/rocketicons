@@ -31,6 +31,11 @@ describe("LLM discovery files", () => {
     expect(content).not.toMatch(/https?:\/\/rocketicons\.io/);
     expect(content).not.toContain("rocketicons add @lu/rocket @lu/search");
     expect(content).toContain("@rocketicons/mcp");
+    expect(content).toContain("rocketicons@0.4.0");
+    expect(content).toContain("@rocketicons/mcp@0.2.0");
+    expect(content).toContain("only when a compatible version is published");
+    expect(content).toContain("npx --no-install rocketicons mcp");
+    expect(content).not.toMatch(/await.*(?:publication|npm release)|Until then/);
   });
 
   test("concise file documents the current workflow", () => {

@@ -4,6 +4,7 @@ import { existsSync, lstatSync, readFileSync, readdirSync, realpathSync } from "
 import { mkdir, rename, rm, writeFile } from "node:fs/promises";
 import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { applyEdits, modify, parse } from "jsonc-parser";
+import ts from "typescript";
 import { normalizedComponentHash } from "./component-hash";
 import {
   catalogVersion,
@@ -263,12 +264,20 @@ const detectPackageManager = (root: string) => {
   if (existsSync(join(root, "bun.lock")) || existsSync(join(root, "bun.lockb"))) return "bun";
   return "npm";
 };
-const compatibleRuntime = (version: unknown) => {
+const runtimeDependencies: Record<string, string> = JSON.parse(
+  readFileSync(join(__dirname, "..", "data", "runtime-dependencies.json"), "utf8")
+);
+const compatibleRuntime = (name: string, version: unknown) => {
   if (typeof version !== "string") return false;
   if (/^(workspace:|file:|link:)/.test(version)) return true;
-  const parsed = /^(?:\^|~|>=)?(\d+)(?:\.(\d+))?/.exec(version);
+  const parsed = /^(?:\^|~|>=)?(\d+)(?:\.(\d+))?(?:\.(\d+))?/.exec(version);
   if (!parsed) return false;
-  return Number(parsed[1]) > 0 || Number(parsed[2] ?? 0) >= 7;
+  const minimum = runtimeDependencies[name].slice(1).split(".").map(Number);
+  for (let i = 0; i < 3; i++) {
+    const value = Number(parsed[i + 1] ?? 0);
+    if (value !== minimum[i]) return value > minimum[i];
+  }
+  return true;
 };
 const requiredDependencies = (target: Target) => [
   "@rocketicons/utils",
@@ -279,7 +288,8 @@ const dependenciesToInstall = (root: string, target: Target) => {
   const pkg = JSON.parse(readFileSync(safePath(root, "package.json"), "utf8"));
   const deps = { ...pkg.dependencies, ...pkg.devDependencies };
   return requiredDependencies(target).filter(
-    (name) => !deps[name] || (name.startsWith("@rocketicons/") && !compatibleRuntime(deps[name]))
+    (name) =>
+      !deps[name] || (name.startsWith("@rocketicons/") && !compatibleRuntime(name, deps[name]))
   );
 };
 const ancestorWorkspace = (root: string) => {
@@ -306,7 +316,7 @@ const assertInstallBoundary = (root: string) => {
     );
 };
 const requestedPackage = (name: string) =>
-  name.startsWith("@rocketicons/") ? `${name}@^0.7.0` : name;
+  runtimeDependencies[name] ? `${name}@${runtimeDependencies[name]}` : name;
 const installArgs = (manager: string, needed: string[]) => {
   const packages = needed.map(requestedPackage);
   return manager === "npm"
@@ -327,23 +337,32 @@ const configText = (root: string, language: Language) => {
   const rel = language === "ts" ? "tsconfig.json" : "jsconfig.json";
   const previous = existing(root, rel) ?? "{}\n";
   const parsed = parse(previous) as Record<string, unknown> | undefined;
-  const compiler =
-    parsed &&
-    typeof parsed === "object" &&
-    parsed.compilerOptions &&
-    typeof parsed.compilerOptions === "object"
-      ? (parsed.compilerOptions as Record<string, unknown>)
-      : {};
-  const paths = (compiler.paths ?? {}) as Record<string, unknown>;
-  if (paths["@/ri/*"] && JSON.stringify(paths["@/ri/*"]) !== JSON.stringify(["./src/ri/*"]))
+  const resolvedConfig = ts.parseJsonConfigFileContent(
+    parsed ?? {},
+    ts.sys,
+    root,
+    undefined,
+    join(root, rel)
+  );
+  const configErrors = resolvedConfig.errors.filter((error) => error.code !== 18003);
+  if (configErrors.length)
+    throw new Error(ts.flattenDiagnosticMessageText(configErrors[0].messageText, "\n"));
+  const baseUrl = resolvedConfig.options.baseUrl ?? root;
+  const alias = (relative(baseUrl, join(root, "src/ri")) || ".").replace(/\\/g, "/") + "/*";
+  const paths = resolvedConfig.options.paths ?? {};
+  if (
+    paths["@/ri/*"] &&
+    (paths["@/ri/*"].length !== 1 ||
+      resolve(baseUrl, paths["@/ri/*"][0]) !== resolve(baseUrl, alias))
+  )
     throw new Error("Existing @/ri/* alias conflicts with Rocketicons setup");
   let next = previous;
   const options = { formattingOptions: { insertSpaces: true, tabSize: 2 } };
-  if (!compiler.baseUrl)
+  if (!resolvedConfig.options.baseUrl)
     next = applyEdits(next, modify(next, ["compilerOptions", "baseUrl"], ".", options));
   next = applyEdits(
     next,
-    modify(next, ["compilerOptions", "paths", "@/ri/*"], ["./src/ri/*"], options)
+    modify(next, ["compilerOptions", "paths"], { ...paths, "@/ri/*": [alias] }, options)
   );
   return { rel, next };
 };
@@ -451,8 +470,10 @@ export const doctor = (projectPath: string) => {
   const deps = { ...pkg.dependencies, ...pkg.devDependencies };
   for (const name of requiredDependencies(project.manifest?.target ?? project.detectedTarget)) {
     if (!deps[name]) issues.push(`Missing dependency: ${name}`);
-    else if (name.startsWith("@rocketicons/") && !compatibleRuntime(deps[name]))
-      issues.push(`Incompatible dependency: ${name} requires version 0.7.0 or newer`);
+    else if (name.startsWith("@rocketicons/") && !compatibleRuntime(name, deps[name]))
+      issues.push(
+        `Incompatible dependency: ${name} requires ${runtimeDependencies[name]} or newer`
+      );
   }
   const target = project.manifest?.target ?? project.detectedTarget;
   let styling: {
