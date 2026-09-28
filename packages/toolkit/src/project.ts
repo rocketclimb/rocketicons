@@ -9,6 +9,7 @@ import { normalizedComponentHash } from "./component-hash";
 import {
   catalogVersion,
   getCollection,
+  getIcon,
   iconSummary,
   isCollidingId,
   localIconTree,
@@ -31,6 +32,7 @@ export type ProjectManifest = {
       path: string;
       sha256: string;
       hashAlgorithm?: "tokens-v1";
+      catalogVersion?: string;
       collection: string;
       licenseUrl: string;
     }
@@ -227,6 +229,37 @@ const atomicWrite = async (root: string, rel: string, content: string) => {
     await rm(temp, { force: true });
   }
 };
+const versionParts = (value: string) => {
+  if (typeof value !== "string") throw new Error("Invalid catalog version");
+  const match =
+    /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/.exec(
+      value
+    );
+  if (!match || match[4]?.split(".").some((part) => /^0\d+$/.test(part)))
+    throw new Error(`Invalid catalog version: ${value}`);
+  return { numbers: match.slice(1, 4).map(BigInt), pre: match[4]?.split(".") };
+};
+const compareVersions = (left: string, right: string) => {
+  const a = versionParts(left),
+    b = versionParts(right);
+  for (let i = 0; i < 3; i++) {
+    if (a.numbers[i] !== b.numbers[i]) return a.numbers[i] > b.numbers[i] ? 1 : -1;
+  }
+  if (!a.pre || !b.pre) return a.pre ? -1 : b.pre ? 1 : 0;
+  for (let i = 0; i < Math.max(a.pre.length, b.pre.length); i++) {
+    const x = a.pre[i],
+      y = b.pre[i];
+    if (x === y) continue;
+    if (x === undefined || y === undefined) return x === undefined ? -1 : 1;
+    const xn = /^\d+$/.test(x),
+      yn = /^\d+$/.test(y);
+    if (xn && yn) return BigInt(x) > BigInt(y) ? 1 : -1;
+    if (xn !== yn) return xn ? -1 : 1;
+    return x > y ? 1 : -1;
+  }
+  return 0;
+};
+
 const readManifest = (root: string): ProjectManifest | undefined => {
   const content = existing(root, "rocketicons.json");
   if (!content) return undefined;
@@ -238,14 +271,32 @@ const readManifest = (root: string): ProjectManifest | undefined => {
     !["ts", "js"].includes(manifest.language)
   )
     throw new Error("Invalid Rocketicons target or language in manifest");
+  versionParts(manifest.catalogVersion);
+  if (typeof manifest.icons !== "object" || Array.isArray(manifest.icons))
+    throw new Error("Invalid manifest icons");
+  const destinations = new Set<string>();
   for (const [id, record] of Object.entries(manifest.icons)) {
-    const icon = requireIcon(id);
+    const match = /^@([a-z0-9]+)\/([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(id);
+    const extension = manifest.language === "ts" ? "tsx" : "jsx";
     if (
-      record.collection !== icon.collection ||
-      record.path !== iconFile(icon.id, icon.collection, manifest.language) ||
-      (record.hashAlgorithm !== undefined && record.hashAlgorithm !== "tokens-v1")
+      !match ||
+      !record ||
+      record.collection !== match[1] ||
+      ![
+        `src/ri/icons/${match[2]}.${extension}`,
+        `src/ri/icons/${match[1]}-${match[2]}.${extension}`
+      ].includes(record.path) ||
+      typeof record.component !== "string" ||
+      !/^[A-Za-z_$][\w$]*$/.test(record.component) ||
+      !/^[a-f0-9]{64}$/.test(record.sha256) ||
+      typeof record.licenseUrl !== "string" ||
+      !/^https?:\/\//.test(record.licenseUrl) ||
+      (record.hashAlgorithm !== undefined && record.hashAlgorithm !== "tokens-v1") ||
+      destinations.has(record.path)
     )
       throw new Error(`Invalid manifest entry for ${id}`);
+    if (record.catalogVersion !== undefined) versionParts(record.catalogVersion);
+    destinations.add(record.path);
     safePath(root, record.path);
   }
   if (manifest.stylesheetPath) safePath(root, manifest.stylesheetPath);
@@ -390,7 +441,8 @@ const iconStatus = (manifest: ProjectManifest, id: string, content?: string): Ic
   if (sha(content) === record.sha256) return "current";
   // Legacy manifests contain a byte hash. Compare formatting only when the bundled
   // catalog reproduces the exact component whose hash was recorded.
-  if (manifest.catalogVersion !== catalogVersion) return "customized";
+  if ((record.catalogVersion ?? manifest.catalogVersion) !== catalogVersion || !getIcon(id))
+    return "customized";
   const generated = componentSource(id, manifest.language);
   if (sha(generated) !== record.sha256) return "customized";
   return normalizedComponentHash(content) === generatedHash(generated) ? "current" : "customized";
@@ -612,6 +664,46 @@ export const initProject = async (
   };
 };
 
+const projectIcon = (raw: string, manifest?: ProjectManifest, root?: string) => {
+  const key = raw.startsWith("@") ? raw : `@${raw}`;
+  const direct = manifest?.icons[key];
+  const catalogIcon = direct ? getIcon(key) : requireIcon(raw);
+  const qualified = direct ? key : `@${catalogIcon!.collection}/${catalogIcon!.id}`;
+  const record = direct ?? manifest?.icons[qualified];
+  // A missing component is regenerated from the current catalog; an existing one
+  // retains its original component name as well as its path.
+  if (record && !(root && existing(root, record.path) === undefined && catalogIcon))
+    return {
+      id: qualified.slice(qualified.indexOf("/") + 1),
+      collection: record.collection,
+      component: record.component
+    };
+  return catalogIcon!;
+};
+const projectIconPath = (
+  manifest: ProjectManifest | undefined,
+  id: string,
+  collection: string,
+  language: Language
+) => {
+  const key = `@${collection}/${id}`;
+  const path = manifest?.icons[key]?.path ?? iconFile(id, collection, language);
+  if (
+    Object.entries(manifest?.icons ?? {}).some(
+      ([other, entry]) => other !== key && entry.path === path
+    )
+  )
+    throw new Error(`Icon destination conflicts with another managed icon: ${path}`);
+  return path;
+};
+const repairSource = (id: string, language: Language) => {
+  if (!getIcon(id))
+    throw new Error(
+      `Cannot repair unavailable icon ${id}; restore its file from source control or use its original catalog package.`
+    );
+  return componentSource(id, language);
+};
+
 export const addIcons = async (
   projectPath: string,
   iconIds: string[],
@@ -622,14 +714,15 @@ export const addIcons = async (
   const manifest = readManifest(root);
   if (!manifest) throw new Error("Project is not initialized; run init_project first");
   if (manifest.catalogVersion !== catalogVersion)
-    throw new Error("Project catalog version differs from installed catalog");
+    throw new Error(
+      "Project catalog version differs from installed catalog; preview with plan_project_upgrade or rocketicons upgrade --dry-run, then apply the upgrade"
+    );
   const next: ProjectManifest = JSON.parse(JSON.stringify(manifest));
   const writes: Array<{ rel: string; content: string }> = [];
   const preservedIcons: NonNullable<MutationResult["preservedIcons"]> = [];
   for (const id of [...new Set(iconIds)]) {
-    const icon = requireIcon(id);
-    const rel = iconFile(icon.id, icon.collection, manifest.language);
-    const content = componentSource(`@${icon.collection}/${icon.id}`, manifest.language);
+    const icon = projectIcon(id, manifest, root);
+    const rel = projectIconPath(next, icon.id, icon.collection, manifest.language);
     const current = existing(root, rel);
     const qualified = `@${icon.collection}/${icon.id}`;
     const recorded = manifest.icons[qualified];
@@ -643,11 +736,13 @@ export const addIcons = async (
       });
       continue;
     }
+    const content = repairSource(qualified, manifest.language);
     next.icons[qualified] = {
       component: icon.component,
       path: rel,
       sha256: generatedHash(content),
       hashAlgorithm: "tokens-v1",
+      catalogVersion,
       collection: icon.collection,
       licenseUrl: getCollection(icon.collection)!.licenseUrl
     };
@@ -683,7 +778,7 @@ export const removeIcons = async (
   const next: ProjectManifest = JSON.parse(JSON.stringify(manifest));
   const removals: string[] = [];
   for (const raw of [...new Set(iconIds)]) {
-    const icon = requireIcon(raw);
+    const icon = projectIcon(raw, manifest);
     const id = `@${icon.collection}/${icon.id}`;
     const recorded = manifest.icons[id];
     if (!recorded) continue;
@@ -717,8 +812,31 @@ export const iconUsage = (
   language: Language = "ts",
   origin?: { projectPath: string; fromFile: string }
 ) => {
-  const icon = requireIcon(id);
-  const generatedPath = iconFile(icon.id, icon.collection, language);
+  const root = origin ? projectRoot(origin.projectPath) : undefined;
+  const manifest = root ? readManifest(root) : undefined;
+  const icon = projectIcon(id, manifest, root);
+  const key = `@${icon.collection}/${icon.id}`;
+  const record = manifest?.icons[key];
+  const catalogIcon = getIcon(key);
+  const metadata = catalogIcon
+    ? iconSummary(catalogIcon)
+    : {
+        id: key,
+        name: icon.component,
+        component: icon.component,
+        collection: icon.collection,
+        collectionName: getCollection(icon.collection)?.name ?? icon.collection,
+        variant: null,
+        license: null,
+        licenseUrl: record!.licenseUrl,
+        svgResource: null
+      };
+  const generatedPath = projectIconPath(
+    manifest,
+    icon.id,
+    icon.collection,
+    manifest?.language ?? language
+  );
   let importStatement: string | null = null;
   let fromFile: string | null = null;
   if (origin) {
@@ -735,7 +853,10 @@ export const iconUsage = (
     fromFile = relative(root, source).replace(/\\/g, "/");
   }
   return {
-    ...iconSummary(icon),
+    ...metadata,
+    component: icon.component,
+    licenseUrl: record?.licenseUrl ?? metadata.licenseUrl,
+    catalogAvailable: Boolean(catalogIcon),
     target,
     language,
     generatedPath,
@@ -772,6 +893,85 @@ const fileDigest = (root: string, path: string) => {
   return existsSync(absolute) ? sha(readFileSync(absolute)) : null;
 };
 
+/** Preview a catalog migration. Existing components and their provenance stay intact. */
+export const planProjectUpgrade = (projectPath: string) => {
+  const root = projectRoot(projectPath);
+  const prior = readManifest(root);
+  if (!prior) throw new Error("Project is not initialized; run init_project first");
+  if (compareVersions(prior.catalogVersion, catalogVersion) > 0)
+    throw new Error(
+      `Catalog downgrade is not supported: ${prior.catalogVersion} to ${catalogVersion}`
+    );
+  const next: ProjectManifest = JSON.parse(JSON.stringify(prior));
+  const migrating = prior.catalogVersion !== catalogVersion;
+  if (migrating) {
+    for (const record of Object.values(next.icons))
+      record.catalogVersion ??= prior.catalogVersion;
+    next.catalogVersion = catalogVersion;
+  }
+  const preservedIcons = Object.entries(prior.icons)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([id, record]) => {
+      const content = existing(root, record.path);
+      return {
+        id,
+        path: record.path,
+        catalogVersion: record.catalogVersion ?? prior.catalogVersion,
+        status: iconStatus(prior, id, content),
+        beforeSha256: fileDigest(root, record.path),
+        catalogAvailable: Boolean(getIcon(id))
+      };
+    });
+  const manifestChange = migrating
+    ? plannedFile(root, "rocketicons.json", json(next))
+    : undefined;
+  const core = {
+    projectPath: root,
+    fromCatalogVersion: prior.catalogVersion,
+    toCatalogVersion: catalogVersion,
+    manifestBeforeSha256: fileDigest(root, "rocketicons.json"),
+    nextManifest: next,
+    fileChanges: manifestChange ? [manifestChange] : [],
+    preservedIcons,
+    issues: doctor(root).issues,
+    warnings: preservedIcons
+      .filter((icon) => !icon.catalogAvailable)
+      .map(
+        (icon) =>
+          `Icon ${icon.id} is unavailable in the destination catalog; its recorded file is preserved.`
+      )
+  };
+  return {
+    ...core,
+    planId: sha(json(core)),
+    summary: migrating
+      ? `Upgrade catalog ${prior.catalogVersion} to ${catalogVersion}; preserve ${preservedIcons.length} icon file(s)`
+      : `Project already uses catalog ${catalogVersion}; no changes`
+  };
+};
+
+export const applyProjectUpgrade = async (
+  projectPath: string,
+  planId: string,
+  dryRun = false
+) => {
+  const plan = planProjectUpgrade(projectPath);
+  if (plan.planId !== planId)
+    throw new Error(
+      "Upgrade plan is stale or does not match; call plan_project_upgrade again or rocketicons upgrade --dry-run"
+    );
+  if (dryRun) return { ...plan, dryRun: true, verification: null };
+  if (plan.fileChanges.length)
+    await atomicWrite(plan.projectPath, "rocketicons.json", json(plan.nextManifest));
+  const health = doctor(plan.projectPath);
+  const issues = [...health.issues];
+  for (const icon of plan.preservedIcons) {
+    if (fileDigest(plan.projectPath, icon.path) !== icon.beforeSha256)
+      issues.push(`Preserved icon changed during upgrade: ${icon.path}`);
+  }
+  return { ...plan, dryRun: false, verification: { healthy: issues.length === 0, issues } };
+};
+
 export const planIcons = async (
   projectPath: string,
   iconIds: string[],
@@ -803,12 +1003,14 @@ export const planIcons = async (
     dryRun: true
   });
   if (prior && prior.catalogVersion !== catalogVersion)
-    throw new Error("Project catalog version differs from installed catalog");
+    throw new Error(
+      "Project catalog version differs from installed catalog; preview with plan_project_upgrade or rocketicons upgrade --dry-run, then apply the upgrade"
+    );
 
   const icons = [
     ...new Map(
       iconIds.map((raw) => {
-        const icon = requireIcon(raw);
+        const icon = projectIcon(raw, prior, root);
         return [`@${icon.collection}/${icon.id}`, icon] as const;
       })
     ).values()
@@ -834,8 +1036,7 @@ export const planIcons = async (
   }> = [];
   for (const icon of icons) {
     const id = `@${icon.collection}/${icon.id}`;
-    const path = iconFile(icon.id, icon.collection, language);
-    const content = componentSource(id, language);
+    const path = projectIconPath(next, icon.id, icon.collection, language);
     const current = existing(root, path);
     const recorded = prior?.icons[id];
     if (current !== undefined && !recorded)
@@ -849,11 +1050,13 @@ export const planIcons = async (
       });
       continue;
     }
+    const content = repairSource(id, language);
     next.icons[id] = {
       component: icon.component,
       path,
       sha256: generatedHash(content),
       hashAlgorithm: "tokens-v1",
+      catalogVersion,
       collection: icon.collection,
       licenseUrl: getCollection(icon.collection)!.licenseUrl
     };

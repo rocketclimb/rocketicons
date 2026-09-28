@@ -31,6 +31,9 @@ describe("LLM discovery files", () => {
     expect(content).not.toMatch(/https?:\/\/rocketicons\.io/);
     expect(content).not.toContain("rocketicons add @lu/rocket @lu/search");
     expect(content).toContain("@rocketicons/mcp");
+    expect(content).toContain("plan_project_upgrade");
+    expect(content).toContain("apply_project_upgrade");
+    expect(content).toContain("upgrade --plan-id <planId>");
     expect(content).toContain("rocketicons@0.4.0");
     expect(content).toContain("@rocketicons/mcp@0.2.0");
     expect(content).toContain("only when a compatible version is published");

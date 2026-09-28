@@ -4,6 +4,27 @@ Local MCP server for finding, inspecting, installing, and verifying Rocketicons.
 
 Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.
 
+## Upgrade an existing project
+
+Catalog upgrades require `@rocketicons/mcp@0.3.0` / `@rocketicons/toolkit@0.3.0` or newer (use a published release containing these versions, or build this checkout). When `CATALOG_MISMATCH` occurs:
+
+1. Call `plan_project_upgrade` with `project_path` and review `fromCatalogVersion`, `toCatalogVersion`, `nextManifest`, `fileChanges`, `preservedIcons`, and diagnostics.
+2. Call `apply_project_upgrade` with the same `project_path` and returned `planId` as `plan_id`. Set `dry_run: true` to preview without writing.
+3. Retry `plan_icons` / `apply_icons` and run `doctor`.
+
+The upgrade writes only `rocketicons.json`. Existing components, paths, hashes, and license records are preserved; each icon keeps its original catalog version. Missing files and unrelated setup issues remain visible. Removed catalog icons remain usable from their saved files, but missing ones must be restored from source control or their original catalog package. New additions and repairs use the installed catalog. Upgrades reject stale plans and downgrades. Repeating an upgrade to the current catalog makes no changes.
+
+CLI equivalent (from the project root):
+
+```sh
+npx rocketicons upgrade --dry-run --json
+npx rocketicons upgrade --plan-id <planId> --json
+```
+
+For an installed icon removed from the current catalog, `get_icon_usage` still returns its recorded path and import when given `project_path` and `from_file`. It reports `catalogAvailable: false`; catalog-only `variant`, `license`, and `svgResource` fields are `null`, while the original `licenseUrl` is retained.
+
+This migrates catalog metadata; it does not regenerate existing icons or upgrade runtime/core files. Commit the updated manifest with your project. Do not delete the setup or manually replace its catalog version.
+
 ## Configure an MCP client
 
 Rocketicons runs locally over stdio with `npx -y @rocketicons/mcp`. Use Node.js 20 or newer, with `node` and `npx` available to the client. The client starts the server for you; no separate terminal process or global package installation is needed. The first launch needs internet access to download the package. Search uses Algolia when available and falls back to the bundled catalog offline.
