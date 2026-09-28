@@ -58,7 +58,7 @@
     "@types/adm-zip": "^0.5.5",
     "@types/mdx": "^2.0.13",
     "@types/node": "^20",
-    "@next/bundle-analyzer": "^15",
+    "@next/bundle-analyzer": "^16",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint-config-next": "^15",
