@@ -14,6 +14,13 @@ Create branches as `<type>/<short-kebab-case-description>`, using one of these p
 
 Choose the prefix that describes the primary purpose of the change. Do not use `codex/` or add an agent-specific prefix. For example, use `feature/icon-context-half-collections` for a semantic metadata rollout.
 
+## Collection source validation
+
+- Put collection-specific source validators and source loaders in `packages/generator/src/source-validation/<collection>.ts`, following Iconoir and MynaUI.
+- Keep their tests beside them as `<collection>.test.ts` and import the loaders from `packages/generator/src/definitions.ts`.
+- Keep shared generation utilities in `packages/generator/src/`; place collection-specific SVG, filename, variant, and upstream tag checks in the collection's source-validation module.
+- When moving a validator, update all imports and run the generator tests and typecheck.
+
 ## AI roadmap maintenance
 
 `AI_ROADMAP.md` is the source of truth for AI-first product progress.

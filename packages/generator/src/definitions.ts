@@ -2,7 +2,7 @@ import path from "path";
 import camelcase from "camelcase";
 import { type IconDefinition } from "./types";
 import { glob } from "./glob";
-import { listIconoirSources } from "./iconoir";
+import { listIconoirSources } from "./source-validation/iconoir";
 import { createMynauiSourceLoader } from "./source-validation/mynaui";
 
 const mynauiFamilyId = (file: string) => path.basename(file, ".svg");

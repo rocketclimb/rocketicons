@@ -3,7 +3,7 @@ import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { listIconoirSources, validateIconoirSources } from "./iconoir";
-import { convertIconData } from "./logics";
+import { convertIconData } from "../logics";
 
 const regular =
   '<svg viewBox="0 0 24 24" fill="none"><path d="M1 1L2 2" stroke="currentColor"/></svg>';
