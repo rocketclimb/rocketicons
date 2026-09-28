@@ -212,7 +212,8 @@ Build the MCP server on the same toolkit layer used by the CLI. Do not create se
 - [x] Return structured content plus a short human-readable summary.
 - [x] Advertise output schemas for every MCP tool and return structured errors with actionable next steps and a text fallback.
 - [x] Expose dry-run results before file mutations.
-- [ ] Consider a hosted read-only MCP server later; do not make local icon installation depend on a hosted service.
+- [ ] Consider a hosted read-only MCP server later; do not make local icon installation depend on a hosted service. **Follow-up:** [#277](https://github.com/rocketclimb/rocketicons/issues/277) evaluates a Cloudflare Worker endpoint for remote clients; it does not block local telemetry.
+- [ ] Add explicit opt-in local MCP usage instrumentation with bounded delivery and unchanged tool behavior when disabled or unavailable. See [#274](https://github.com/rocketclimb/rocketicons/issues/274) and the [v1 contract](packages/mcp/contracts/telemetry/v1/README.md).
 - [ ] Publish setup examples for Codex, Claude Code, VS Code, Cursor, and other clients only after verifying their current configuration formats. **Partial:** the MCP README and English/Portuguese website guides include general stdio setup and copyable Codex, Cursor, and Claude Code configurations checked against official documentation. VS Code and other client examples remain.
 - [x] Validate Algolia icon IDs and requested filters against the bundled catalog before returning results. This keeps older installed MCP versions from offering icons they cannot add when the shared Algolia index moves to a newer release; unknown hits trigger local fallback. Per-record catalog versioning was removed because the index contains only the current release.
 - [ ] Deploy `/ai/v1/search-config.json` with a public search-only key. **Partial:** the package bundles the existing browser-visible search-only credentials, and live MCP searches for `food` return Algolia results with collection and variant filters. The public config endpoint still returns 404.
@@ -277,6 +278,15 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 - [ ] Document whether generated icon files require attribution for each collection.
 - [ ] Add a process for upstream icon removals and license changes.
 - [ ] Keep CLI and package telemetry absent by default; document any future telemetry explicitly. **Partial:** optional website-only GA4 is documented in `packages/ignition/DEPLOYMENT.md` and enabled through a production build variable; development and PR preview builds omit it.
+
+#### Optional MCP usage measurement
+
+The [plan #272](https://github.com/rocketclimb/rocketicons/issues/272) preserves local/offline operations. The v1 event contract has no persistent user, installation, or session identity. It measures completed tool calls and confirmed new additions; website visitor linking and unique-installation metrics remain deferred.
+
+- [x] Define and verify a strict event/batch schema, explicit opt-in and disable/reset policy, retention limits, and English/PT-BR notices. [#273](https://github.com/rocketclimb/rocketicons/issues/273) has 119 passing contract checks; runtime instrumentation, provider configuration, and live reporting remain pending in #274–#276. See [the v1 contract](packages/mcp/contracts/telemetry/v1/README.md).
+- [ ] Wire the contract into local MCP execution, proving zero telemetry requests/buffering/identity creation before opt-in and preserving tool outcomes. See [#274](https://github.com/rocketclimb/rocketicons/issues/274).
+- [ ] Implement the separate Cloudflare Worker collector, verify abuse controls and actual security-log/retention settings, and publish deployment details before collection ships. See [#275](https://github.com/rocketclimb/rocketicons/issues/275).
+- [ ] Verify isolated GA4 count-only reporting without persistent identity; keep forwarding disabled if its required protocol identifier cannot meet policy 1. Document partial server-only reporting and aggregated-report retention separately. See [#276](https://github.com/rocketclimb/rocketicons/issues/276).
 
 ## What makes an agent prefer Rocketicons?
 
