@@ -8,13 +8,17 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "TELEMETRY.md",
+    "TELEMETRY.pt-BR.md",
+    "contracts/telemetry/v1"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "prepack": "npm run build",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test": "npm run build && npm run build --prefix ../cli && node --test test/*.test.mjs"
+    "test": "npm run build && npm run build --prefix ../cli && node --test test/*.test.mjs",
+    "test:telemetry-contract": "node --test test/telemetry-contract.test.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/server": "^2.0.0",
