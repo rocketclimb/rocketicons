@@ -5,7 +5,8 @@ import { IconTree } from "./types";
 export const elementToTree = (
   svg: string,
   multiColor: boolean | undefined,
-  colorProps?: Record<string, boolean>
+  colorProps?: Record<string, boolean>,
+  preserveChildCurrentColor = false
 ) => {
   const $doc = cheerioLoad(svg, { xmlMode: true });
   const $svg = $doc("svg");
@@ -36,7 +37,8 @@ export const elementToTree = (
             case "fill":
             case "stroke":
               if (attribs[name] === "none" || attribs[name] === "currentColor" || multiColor) {
-                if (!isChild || attribs[name] !== "currentColor") obj[newName] = attribs[name];
+                if (!isChild || attribs[name] !== "currentColor" || preserveChildCurrentColor)
+                  obj[newName] = attribs[name];
               }
               colorProps[name] = attribs[name] !== "none" ? true : colorProps[name];
               break;
