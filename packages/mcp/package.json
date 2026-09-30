@@ -21,17 +21,17 @@
     "test:telemetry-contract": "node --test test/telemetry-contract.test.mjs"
   },
   "dependencies": {
-    "@modelcontextprotocol/server": "^2.0.0",
+    "@modelcontextprotocol/server": "^2.1.0",
     "@rocketicons/toolkit": "0.3.0",
     "@rocketicons/utils": ">=0.7.0",
-    "sharp": "^0.34.5",
+    "sharp": "^0.35.5",
     "zod": "^4.0.0"
   },
   "engines": {
     "node": ">=20"
   },
   "devDependencies": {
-    "@modelcontextprotocol/client": "^2.0.0",
-    "ajv": "^8.16.0"
+    "@modelcontextprotocol/client": "^2.1.0",
+    "ajv": "^8.20.0"
   }
 }
