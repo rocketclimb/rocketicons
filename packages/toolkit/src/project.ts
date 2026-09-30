@@ -6,6 +6,7 @@ import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { applyEdits, modify, parse } from "jsonc-parser";
 import ts from "typescript";
 import { normalizedComponentHash } from "./component-hash";
+import { hasIconAdditionCapture, recordIconAdditions } from "./mutation-facts";
 import {
   catalogVersion,
   getCollection,
@@ -720,6 +721,7 @@ export const addIcons = async (
   const next: ProjectManifest = JSON.parse(JSON.stringify(manifest));
   const writes: Array<{ rel: string; content: string }> = [];
   const preservedIcons: NonNullable<MutationResult["preservedIcons"]> = [];
+  const newIcons = hasIconAdditionCapture() ? new Set<string>() : undefined;
   for (const id of [...new Set(iconIds)]) {
     const icon = projectIcon(id, manifest, root);
     const rel = projectIconPath(next, icon.id, icon.collection, manifest.language);
@@ -747,6 +749,8 @@ export const addIcons = async (
       licenseUrl: getCollection(icon.collection)!.licenseUrl
     };
     if (current !== content) writes.push({ rel, content });
+    // A missing file with an existing manifest entry is a repair, not an addition.
+    if (!recorded && current === undefined) newIcons?.add(qualified);
   }
   const changes = [
     ...writes.map(({ rel, content }) => fileChange(root, rel, content)!),
@@ -756,6 +760,7 @@ export const addIcons = async (
     for (const { rel, content } of writes) await atomicWrite(root, rel, content);
     if (fileChange(root, "rocketicons.json", json(next)))
       await atomicWrite(root, "rocketicons.json", json(next));
+    if (newIcons) recordIconAdditions(newIcons.size);
   }
   return {
     projectPath: root,

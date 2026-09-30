@@ -1,6 +1,6 @@
 # Optional MCP telemetry contract v1
 
-Status: contract only, for [#273](https://github.com/rocketclimb/rocketicons/issues/273). No MCP callback imports this contract or sends events yet. Runtime instrumentation, collection, and GA4 reporting remain [#274](https://github.com/rocketclimb/rocketicons/issues/274), [#275](https://github.com/rocketclimb/rocketicons/issues/275), and [#276](https://github.com/rocketclimb/rocketicons/issues/276).
+Status: the [#273](https://github.com/rocketclimb/rocketicons/issues/273) contract is wired into local MCP callbacks by [#274](https://github.com/rocketclimb/rocketicons/issues/274). The production collector endpoint is intentionally unset, so this build performs no telemetry requests or buffering even with consent. Collector deployment/disclosures and GA4 reporting remain [#275](https://github.com/rocketclimb/rocketicons/issues/275) and [#276](https://github.com/rocketclimb/rocketicons/issues/276).
 
 The user notices are [English](../../../TELEMETRY.md) and [Português brasileiro](../../../TELEMETRY.pt-BR.md). Changes to this policy require updating both notices, fixtures, and the roadmap.
 
@@ -9,7 +9,7 @@ The user notices are [English](../../../TELEMETRY.md) and [Português brasileiro
 - `event.schema.json` defines one `mcp_tool_completed` event.
 - `batch.schema.json` defines a batch of 1–16 events. Ingestion must also enforce a 16 KiB UTF-8 body limit before parsing; JSON Schema cannot enforce encoded body size.
 - `example.json` is a synthetic, source-reviewed example of five locally returned search results. It contains no captured developer data.
-- `consent.mjs` is a pure reference resolver. It reads only the object passed by its caller, performs no I/O, and does not enable the MCP.
+- `consent.mjs` is a pure reference resolver. It reads only the object passed by its caller and performs no I/O; the runtime calls it before accepting or delivering an event.
 
 Schema identifiers are URNs, not website routes. Both schemas use JSON Schema 2020-12. Validate the entire object and reject unknown fields; do not silently strip them. The envelope has no credentials, identity, timestamps, or custom attributes. Collectors must treat every field, including the claimed policy version, as untrusted.
 
@@ -47,7 +47,7 @@ A completed invocation is one allowlisted outer MCP tool callback that starts af
 
 ## Consent and precedence
 
-The future MCP process environment is the sole grant source. A project manifest, remote request, agent prompt, or MCP tool cannot grant it. There is no persistent consent file or installation identity in v1.
+The MCP process environment is the sole grant source. A project manifest, remote request, agent prompt, or MCP tool cannot grant it. There is no persistent consent file or installation identity in v1.
 
 Evaluate these rules in order, on startup and before enqueue/send:
 
@@ -67,7 +67,7 @@ These are release requirements for #274–#276, not claims about deployed servic
 
 - Collect only while enabled; default/off paths perform no telemetry network request, identity creation, consent-file write, or buffering.
 - Use an in-memory buffer of at most 16 events, maximum age 10 seconds, and one best-effort HTTPS attempt per event/batch. No disk queue, retry, delayed replay, or cross-process state. Collector ingestion time supplies reporting time. Drop failures/expired events; no exactly-once claim or stable deduplication ID.
-- Reset/withdrawal means setting `ROCKETICONS_TELEMETRY=off` (or removing both Rocketicons variables), then disconnecting/restarting the MCP process in its client. The client environment is typically fixed at launch. The future sender clears unsent memory on disable/shutdown. Already sent events cannot be recalled by this action.
+- Reset/withdrawal means setting `ROCKETICONS_TELEMETRY=off` (or removing both Rocketicons variables), then disconnecting/restarting the MCP process in its client. The client environment is typically fixed at launch. The sender clears unsent memory on disable/shutdown. Already sent events cannot be recalled by this action.
 - Cloudflare processes the request for Rocketicons. The edge necessarily receives the connection IP; the application must not retain/forward it, raw bodies, user agents, or identifying headers. Essential platform security logging is separate from product metrics. #275 must disclose actual enabled platform logs and retention before release; no product analytics sink may ingest those logs.
 - No first-party raw event persistence. Rocketicons-owned daily aggregate tables/exports, if used, expire within 13 months. Allow only bounded dimensions from this schema; no fingerprints or raw payload archives.
 - Optional Google forwarding is covered by the policy-1 notice but stays disabled until #276 verifies an isolated MCP reporting destination, disables advertising/signals and raw exports, configures two-month user/event retention with activity-based reset off, and publishes actual settings. Google's standard aggregated reports are not governed by that two-month setting and may remain longer; never advertise a two-month limit for all Google data.
@@ -75,7 +75,15 @@ These are release requirements for #274–#276, not claims about deployed servic
 - No per-installation deletion token exists. Do not promise to identify/remove an individual's contribution from unlinked aggregates; contact repository maintainers for policy concerns. Any provider deletion operation is evaluated separately. Never introduce a tracking identifier solely to support deletion.
 - Network/process loss, blocked sends, opted-out clients, and spoofed claims limit the sample. Request limits are not proof that events came from genuine clients.
 
-Runtime/network guarantees must be proven in #274; deployment/log/retention guarantees in #275; Google processing and identifier/reporting behavior in #276. This contract enables none of them.
+Runtime/network behavior is tested with injected dependencies and stdio clients in #274. Deployment/log/retention guarantees remain in #275; Google processing and identifier/reporting behavior remains in #276. Tests do not enable production collection.
+
+## Runtime implementation and rollout
+
+The MCP wraps all registered tool callbacks after SDK argument validation. It constructs the allowlisted event directly and validates it again before queueing. Read-only resources, protocol requests, ordinary CLI commands, toolkit calls, and generated icon components do not emit events. A scoped internal mutation counter uses the existing write/manifest results to distinguish new additions from repairs without changing tool responses or adding filesystem scans.
+
+The sender schedules a batch after 100 ms, subject to the 16-event/16 KiB/ten-second limits above. It allows one in-flight HTTPS request, uses a one-second timeout, and drops events on every failed attempt, including DNS errors, HTTP 429/500, and timeout. Timers and sockets do not keep the process alive; shutdown clears pending memory without waiting for delivery. A failed sender cannot change a tool result. No consent file is read or written: v1 settings come only from the launching process environment.
+
+`src/telemetry.ts` deliberately leaves the production endpoint unset. There is no environment variable or MCP tool to override it. Internal dependency injection exercises consent, delivery, clocks, and failures in tests. #275 must supply the fixed reviewed collector endpoint, publish actual platform logs/retention, and verify staging before any enabled release. #276 must verify Google reporting separately; local instrumentation does not establish GA4 correctness.
 
 ## Verification and compatibility
 

@@ -79,7 +79,7 @@ for (const [field, value] of Object.entries(privateValues)) {
 
 test("every registered tool is classified without importing or executing the MCP", () => {
   const source = readFileSync(new URL("../src/server.ts", import.meta.url), "utf8");
-  const registered = [...source.matchAll(/server\.registerTool\(\s*"([^"]+)"/g)].map(
+  const registered = [...source.matchAll(/(?:server\.)?registerTool\(\s*"([^"]+)"/g)].map(
     (match) => match[1]
   );
   assert.deepEqual([...schema.properties.tool.enum].sort(), registered.sort());

@@ -1,0 +1,75 @@
+{
+  "task": "MCP analytics #274: optional local instrumentation",
+  "date": "2026-09-30",
+  "base": "193dee2bf6c79c876c37db80b777484675362363",
+  "node": "22.22.2",
+  "status": "passed",
+  "verification": [
+    {
+      "command": "npm run test --workspace=packages/toolkit",
+      "unique_checks": 56,
+      "final_passed": 56,
+      "initial_passed": 51,
+      "initial_failed": 5,
+      "resolution": "Linked unchanged core/Tailwind build prerequisites in the isolated checkout; reran the five affected existing tests successfully."
+    },
+    {
+      "command": "node --test --test-name-pattern=\"the initialized stylesheet compiles|setup, add, diagnose, remove\" packages/toolkit/test/tailwind-setup.test.cjs packages/toolkit/test/workflow.test.cjs",
+      "passed": 5
+    },
+    {
+      "command": "npm run test --workspace=packages/mcp",
+      "unique_checks": 194,
+      "final_passed": 194,
+      "initial_passed": 190,
+      "initial_failed": 4,
+      "resolution": "Added the shipped contracts directory to the isolated-package fixture, allowed normal Promise thenable inspection in the disabled-path test, supplied unchanged utils build output, and reran the real localhost socket test with permission to listen."
+    },
+    {
+      "cwd": "packages/mcp",
+      "command": "node --test --test-name-pattern=\"MCP starts from|disabled instrumentation|packed MCP and CLI\" test/protocol.test.mjs test/telemetry-instrumentation.test.mjs test/upgrade-package.test.mjs",
+      "passed": 3
+    },
+    {
+      "command": "node --test --test-name-pattern=\"native timers and a stalled HTTPS socket\" packages/mcp/test/telemetry-runtime.test.mjs",
+      "passed": 1,
+      "scope": "Synthetic localhost TCP listener only; no external collector."
+    },
+    {
+      "command": "eslint on the eight changed TypeScript implementation files",
+      "status": "passed"
+    },
+    {
+      "command": "npm pack --workspace=packages/mcp --ignore-scripts --offline --json",
+      "status": "passed",
+      "packed_files": 17,
+      "required_runtime_contract_notice_files": 8,
+      "credentials_pattern_scan": "passed",
+      "dependency_changes": "none"
+    },
+    {
+      "command": "relative Markdown link audit",
+      "status": "passed",
+      "links": 20
+    }
+  ],
+  "coverage": [
+    "all 17 outer MCP callbacks",
+    "v1 fixture/runtime schema parity",
+    "consent and disable precedence",
+    "success/error/cancellation/verification failure",
+    "confirmed additions versus repairs, aliases, previews and repeated calls",
+    "output parity with telemetry on/off",
+    "bounded queue, expiry, timeout, DNS failure and HTTP 429/500",
+    "no retry, identity, disk queue or private fields",
+    "both stdio launch paths under six consent environments with inherited network interception",
+    "packed MCP/CLI startup and upgrade behavior",
+    "native unreferenced timer/socket exit"
+  ],
+  "limits": [
+    "Production collector endpoint intentionally unset; no production collection even with opt-in.",
+    "No Cloudflare deployment, Google Analytics configuration or production requests performed.",
+    "Collector deployment, actual log/retention disclosure and reporting validation remain #275 and #276."
+  ],
+  "environment": "Isolated worktree using existing installed dependencies and locally generated catalog assets; no dependency versions changed."
+}
