@@ -36,8 +36,11 @@ describe("LLM discovery files", () => {
     expect(content).toContain("upgrade --plan-id <planId>");
     expect(content).toContain("rocketicons@0.4.0");
     expect(content).toContain("@rocketicons/mcp@0.2.0");
-    expect(content).toContain("only when a compatible version is published");
+    expect(content).toContain("Check that the required version is published");
     expect(content).toContain("npx --no-install rocketicons mcp");
+    expect(content).toContain("recommend_icons");
+    expect(content).toContain("plan_icons");
+    expect(content).toContain("apply_icons");
     expect(content).not.toMatch(/await.*(?:publication|npm release)|Until then/);
   });
 
@@ -52,9 +55,30 @@ describe("LLM discovery files", () => {
     process.env.SITE_ORIGIN = "https://rocketclimb.github.io/rocketicons";
     const content = renderLlms(staticCatalog);
 
-    expect(content).toContain("/rocketicons/ai/v1/catalog.json");
-    expect(content).toContain("/rocketicons/llms-full.txt");
+    expect(content).toContain(
+      "[Static catalog](https://rocketclimb.github.io/rocketicons/ai/v1/catalog.json)"
+    );
+    expect(content).toContain(
+      "[Expanded machine-readable guide](https://rocketclimb.github.io/rocketicons/llms-full.txt)"
+    );
   });
+
+  test.each([renderLlms, renderLlmsFull])(
+    "publishes parseable absolute resource links",
+    (render) => {
+      const content = render(staticCatalog);
+      expect(content).toMatch(/^# Rocketicons\n/);
+      const links = [...content.matchAll(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g)];
+      expect(links.length).toBeGreaterThanOrEqual(8);
+      for (const [, label, href] of links) {
+        expect(label.trim()).not.toBe("");
+        expect(new URL(href).origin).toBe("https://rocket.example");
+      }
+      expect(content).toContain(
+        "[Agent workflow](https://rocket.example/en/docs/agent-workflows/)"
+      );
+    }
+  );
 
   test("full guide uses exact catalog icon IDs", () => {
     const content = renderLlmsFull(staticCatalog);
