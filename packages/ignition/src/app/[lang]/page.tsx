@@ -53,37 +53,29 @@ const Home = async ({ params }: PropsWithLangParams) => {
         <div className="mb-6 px-4 w-full z-10">
           <HomeCodePreview />
         </div>
-        <section
-          aria-labelledby="agent-discovery-heading"
-          className="relative mx-auto mb-12 max-w-3xl rounded-xl border border-surface-border-light bg-background/90 px-6 py-6 text-primary-light shadow-sm dark:border-surface-border/20 dark:bg-background-dark/90 dark:text-primary-lighter"
-        >
-          <h2
-            id="agent-discovery-heading"
-            className="text-lg font-semibold text-primary dark:text-primary-dark"
-          >
-            {agentDiscovery.heading}
-          </h2>
-          <p className="mt-2 text-sm leading-6">{agentDiscovery.description}</p>
+      </main>
+      <Footer className="mt-5 md:mt-0 w-full max-w-7xl">
+        <div className="px-4 pb-5 text-xs leading-5 text-primary-light dark:text-primary-lighter">
+          <p>
+            <span className="font-semibold">{agentDiscovery.heading}.</span>{" "}
+            {agentDiscovery.description}
+          </p>
           <nav
             aria-label={agentDiscovery.heading}
-            className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium"
+            className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1"
           >
-            <Link className="text-secondary hover:underline" href={docHref("agent-workflows")}>
+            <Link className="hover:underline" href={docHref("agent-workflows")}>
               {agentDiscovery.workflow}
             </Link>
-            <a
-              className="text-secondary hover:underline"
-              href={withSiteBasePath("/ai/v1/catalog.json")}
-            >
+            <a className="hover:underline" href={withSiteBasePath("/ai/v1/catalog.json")}>
               {agentDiscovery.catalog}
             </a>
-            <a className="text-secondary hover:underline" href={withSiteBasePath("/llms.txt")}>
+            <a className="hover:underline" href={withSiteBasePath("/llms.txt")}>
               {agentDiscovery.llms}
             </a>
           </nav>
-        </section>
-      </main>
-      <Footer className="mt-5 md:mt-0 w-full max-w-7xl" />
+        </div>
+      </Footer>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(software) }}

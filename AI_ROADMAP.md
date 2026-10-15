@@ -111,7 +111,7 @@ Use the established plural filename as the canonical entry point:
 #### Make the website navigable by agents
 
 - [x] Give the logo link and icon-only navigation controls accessible names in English and Portuguese, and remove invalid ARIA from the logo SVG group.
-- [x] Show a server-rendered agent entry point on both localized homepages, linking to the workflow guide, machine-readable catalog, and `llms.txt`.
+- [x] Show a small, server-rendered agent entry point in both localized homepage footers, linking to the workflow guide, machine-readable catalog, and `llms.txt`.
 - [ ] Verify the deployed mobile Agentic Browsing audit after the production release. **Partial:** source and static-output checks are complete; the live report must be rerun after deployment.
 
 #### Add agent-oriented examples
