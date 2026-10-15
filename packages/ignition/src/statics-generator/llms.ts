@@ -1,23 +1,25 @@
 import type { StaticCatalog } from "@/catalog/types";
 import { CANONICAL_PRODUCT_MESSAGE, DOCUMENTATION_UPDATED_AT } from "@/config/product-content";
-import { withSiteBasePath } from "@/config/site-origin";
+import { absoluteSiteUrl } from "@/config/site-origin";
 
-const sitePath = (path: string) => withSiteBasePath(path);
+const siteLink = (label: string, path: string) =>
+  `[${label}](${absoluteSiteUrl(path).toString()})`;
 
 const commonHeader = (catalog: StaticCatalog) => `# Rocketicons
 
-${CANONICAL_PRODUCT_MESSAGE}
+> ${CANONICAL_PRODUCT_MESSAGE}
 
 - Catalog/package version: ${catalog.packageVersion}
 - Documentation updated: ${DOCUMENTATION_UPDATED_AT}
-- Static catalog: ${sitePath("/ai/v1/catalog.json")}
-- Catalog capabilities: ${sitePath("/ai/v1/capabilities.json")}
-- English documentation: ${sitePath("/en/docs/getting-started/")}
-- Brazilian Portuguese documentation: ${sitePath("/pt-br/docs/primeiros-passos/")}
+- ${siteLink("Static catalog", "/ai/v1/catalog.json")}: Collection indexes, icon shards, and license records.
+- ${siteLink("Catalog capabilities", "/ai/v1/capabilities.json")}: Available machine resources.
+- ${siteLink("English getting started", "/en/docs/getting-started/")}: CLI setup and usage.
+- ${siteLink("Primeiros passos em português", "/pt-br/docs/primeiros-passos/")}: Guia de instalação e uso.
+- ${siteLink("Agent workflow", "/en/docs/agent-workflows/")}: MCP setup and reviewed icon selection.
 
 ## CLI and MCP version requirements
 
-The CLI workflow in this guide requires \`rocketicons@0.4.0\` or newer; the standalone MCP server requires \`@rocketicons/mcp@0.2.0\` or newer. Use the npm commands only when a compatible version is published. For a version not yet on npm, build the repository workspaces and run \`npx --no-install rocketicons mcp\` from the repository root. The catalog version above does not indicate npm availability.
+The CLI workflow in this guide requires \`rocketicons@0.4.0\` or newer; the standalone MCP server requires \`@rocketicons/mcp@0.2.0\` or newer. Check that the required version is published before running an npm command. For a version not yet on npm, build the repository workspaces and run \`npx --no-install rocketicons mcp\` from the repository root. The catalog version above does not indicate npm availability.
 
 ## Existing project catalog upgrades
 
@@ -28,26 +30,25 @@ export const renderLlms = (catalog: StaticCatalog) => `${commonHeader(catalog)}
 ## Recommended workflow
 
 1. Start in an existing React or React Native project.
-2. Run \`npx rocketicons init\` from the project root, or use MCP \`init_project\`.
-3. Search with \`npx rocketicons search <terms>\` or MCP \`search_icons\`; filter to one collection when visual consistency matters.
-4. Dry-run and add exact \`@collection/icon-id\` IDs with the CLI or MCP \`add_icons\`.
-5. Import generated components from \`@/ri/icons/<icon-id>\` and run \`doctor\`.
-6. Verify and commit \`src/ri\` and \`rocketicons.json\`.
+2. Use \`npx rocketicons search <terms> --json\` or MCP \`recommend_icons\` with a project path, intent, and source file. Compare exact IDs, variants, and licenses.
+3. Preview exact \`@collection/icon-id\` choices with CLI \`add --dry-run --json\` or MCP \`plan_icons\`.
+4. Apply the reviewed choice with CLI \`add\` or MCP \`apply_icons\` using its returned plan ID.
+5. Use the returned import path, run \`doctor --json\`, and commit generated files and \`rocketicons.json\`.
 
 The CLI and MCP generate TSX or JSX, use the fixed \`src/ri\` output directory and \`@/ri/*\` alias, and support batch adds, JSON output, and dry runs. Broad search prefers Algolia and falls back to a bundled local index.
 
 ## Catalog and licensing
 
-Start with ${sitePath("/ai/v1/catalog.json")}. Each collection entry links to a compact icon index and uses \`contextIndexUrl\` for its semantic context index. The context index reports coverage and explicitly selects \`none\`, \`single\`, or \`chunked\` storage; load only the referenced files. Available context includes English and Brazilian Portuguese descriptions, aliases, search terms, UI contexts, categories, roles, visual properties, and \`negativeTerms\` disambiguation guidance. Each icon index entry identifies its SVG shard. Catalog URLs include the configured deployment base path. Collection records include their upstream project, license, and license URL. Review the selected collection's terms and preserve any required attribution.
+Start with ${siteLink("the static catalog", "/ai/v1/catalog.json")}. Each collection entry links to a compact icon index and uses \`contextIndexUrl\` for its semantic context index. The context index reports coverage and explicitly selects \`none\`, \`single\`, or \`chunked\` storage; load only the referenced files. Available context includes English and Brazilian Portuguese descriptions, aliases, search terms, UI contexts, categories, roles, visual properties, and \`negativeTerms\` disambiguation guidance. Each icon index entry identifies its SVG shard. Collection records include their upstream project, license, and license URL. Review the selected collection's terms and preserve any required attribution.
 
 ## More guidance
 
-- Framework quick starts: ${sitePath("/en/docs/framework-quick-starts/")}
-- Generated files: ${sitePath("/en/docs/generated-files/")}
-- Migration: ${sitePath("/en/docs/migrating-to-rocketicons/")}
-- Agent workflow: ${sitePath("/en/docs/agent-workflows/")}
-- Comparison: ${sitePath("/en/docs/comparison/")}
-- Expanded machine-readable guide: ${sitePath("/llms-full.txt")}
+- ${siteLink("Framework quick starts", "/en/docs/framework-quick-starts/")}: React, Next.js, Vite, Expo, and React Native.
+- ${siteLink("Generated files", "/en/docs/generated-files/")}: Project output and imports.
+- ${siteLink("Migration", "/en/docs/migrating-to-rocketicons/")}: Move from other icon libraries.
+- ${siteLink("Agent workflow", "/en/docs/agent-workflows/")}: MCP setup and reviewed icon selection.
+- ${siteLink("Comparison", "/en/docs/comparison/")}: Product tradeoffs.
+- ${siteLink("Expanded machine-readable guide", "/llms-full.txt")}: More implementation detail.
 `;
 
 export const renderLlmsFull = (catalog: StaticCatalog) => `${commonHeader(catalog)}
@@ -57,7 +58,7 @@ Rocketicons copies only selected icon components into the application's source t
 
 ## Current CLI contract
 
-\`npx rocketicons init\` detects TypeScript or JavaScript and React or React Native. It creates web and native core files, configures the \`@/ri/*\` alias, and installs shared utilities with the detected package manager. Use \`--dry-run\`, \`--json\`, and \`--cwd <absolute path>\` for agent workflows.
+\`npx rocketicons init\` detects TypeScript or JavaScript and React or React Native. It creates web and native core files, configures the \`@/ri/*\` alias, and installs shared utilities with the detected package manager. Use \`--dry-run\`, \`--json\`, and \`--cwd <absolute path>\` for agent workflows. The MCP \`plan_icons\` and \`apply_icons\` tools can plan and apply setup with the selected icons.
 
 \`npx rocketicons add @collection/icon-id...\` writes only selected TSX or JSX components to \`src/ri/icons\` and records them in \`rocketicons.json\`:
 
@@ -78,7 +79,7 @@ After initialization, run \`npx rocketicons doctor --json\`. Review and commit g
 
 ## MCP server
 
-With a published version meeting the requirements above, start the local stdio server with \`npx -y rocketicons@^0.4.0 mcp\` or \`npx -y @rocketicons/mcp@^0.2.0\`. Use \`search_icons\` with a collection filter, inspect \`get_icon\` and its SVG resource, call \`init_project\` explicitly, then dry-run and call \`add_icons\`. Use \`get_icon_usage\` for the import and \`doctor\` for verification. Broad search uses Algolia and falls back to a bundled local index.
+With a compatible published version, start the local stdio server with \`npx -y rocketicons@^0.4.0 mcp\` or \`npx -y @rocketicons/mcp@^0.2.0\`. For a React or React Native project, call \`recommend_icons\` with its path, intent, and source file; use \`compare_icons\` to inspect candidates. Call \`plan_icons\` with exact IDs, review the files and dependency effects, then call \`apply_icons\` with its returned plan ID. Use the returned import path and \`doctor\` result for verification. For plain HTML, use \`search_icons\` and \`get_icon_svg\` without project setup. Broad search uses Algolia and falls back to a bundled local index.
 
 ## Framework guidance
 
@@ -93,11 +94,11 @@ Choose the matching Rocketicons icon, initialize once, add it by exact ID, repla
 
 ## Static catalog
 
-Fetch ${sitePath("/ai/v1/capabilities.json")} to inspect available machine resources, then ${sitePath("/ai/v1/catalog.json")}. Follow a collection's \`contextIndexUrl\` to discover semantic metadata and its coverage. The context index explicitly reports \`none\`, \`single\`, or \`chunked\` storage and, for chunks, includes compact topic hints. Search English and Brazilian Portuguese aliases, search terms, descriptions, UI contexts, categories, and roles. Treat \`negativeTerms\` as disambiguation guidance, never as positive matches. Follow \`indexUrl\` to list icon IDs, names, components, variants, and SVG shard numbers; load only the referenced shard when SVG tree data is needed. Do not guess dynamic API routes: Rocketicons publishes static files.
+Fetch ${siteLink("catalog capabilities", "/ai/v1/capabilities.json")} to inspect available machine resources, then ${siteLink("the static catalog", "/ai/v1/catalog.json")}. Follow a collection's \`contextIndexUrl\` to discover semantic metadata and its coverage. The context index explicitly reports \`none\`, \`single\`, or \`chunked\` storage and, for chunks, includes compact topic hints. Search English and Brazilian Portuguese aliases, search terms, descriptions, UI contexts, categories, and roles. Treat \`negativeTerms\` as disambiguation guidance, never as positive matches. Follow \`indexUrl\` to list icon IDs, names, components, variants, and SVG shard numbers; load only the referenced shard when SVG tree data is needed. Do not guess dynamic API routes: Rocketicons publishes static files.
 
 ## Licensing
 
-Rocketicons itself is MIT licensed, while included collections retain their upstream licenses. Collection entries in ${sitePath("/ai/v1/catalog.json")} provide project and license URLs. Check attribution requirements for every collection used.
+Rocketicons itself is MIT licensed, while included collections retain their upstream licenses. Collection entries in ${siteLink("the static catalog", "/ai/v1/catalog.json")} provide project and license URLs. Check attribution requirements for every collection used.
 
 ## Agent prompt
 

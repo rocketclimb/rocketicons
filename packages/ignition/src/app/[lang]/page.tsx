@@ -10,6 +10,7 @@ import Footer from "@/components/footer";
 import { customMetadata } from "@/components/metadata-custom";
 import { withStructuredData } from "@/config";
 import { localePageParams } from "@/statics-generator/route-static-params";
+import { withSiteBasePath } from "@/config/site-origin";
 
 export function generateStaticParams() {
   return localePageParams();
@@ -27,9 +28,10 @@ export const generateMetadata = async ({ params }: PropsWithLangParams): Promise
 const Home = async ({ params }: PropsWithLangParams) => {
   const { lang: rawLang } = await params;
   const lang = rawLang as Languages;
-  const { config } = withLocale(lang);
+  const { config, docHref } = withLocale(lang);
   const { "getting-started-slug": gettingStartedSlug, "getting-started": gettingStarted } =
     config("nav");
+  const agentDiscovery = config("agent-discovery");
 
   const { organization, software } = withStructuredData(lang);
 
@@ -51,6 +53,35 @@ const Home = async ({ params }: PropsWithLangParams) => {
         <div className="mb-6 px-4 w-full z-10">
           <HomeCodePreview />
         </div>
+        <section
+          aria-labelledby="agent-discovery-heading"
+          className="relative mx-auto mb-12 max-w-3xl rounded-xl border border-surface-border-light bg-background/90 px-6 py-6 text-primary-light shadow-sm dark:border-surface-border/20 dark:bg-background-dark/90 dark:text-primary-lighter"
+        >
+          <h2
+            id="agent-discovery-heading"
+            className="text-lg font-semibold text-primary dark:text-primary-dark"
+          >
+            {agentDiscovery.heading}
+          </h2>
+          <p className="mt-2 text-sm leading-6">{agentDiscovery.description}</p>
+          <nav
+            aria-label={agentDiscovery.heading}
+            className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium"
+          >
+            <Link className="text-secondary hover:underline" href={docHref("agent-workflows")}>
+              {agentDiscovery.workflow}
+            </Link>
+            <a
+              className="text-secondary hover:underline"
+              href={withSiteBasePath("/ai/v1/catalog.json")}
+            >
+              {agentDiscovery.catalog}
+            </a>
+            <a className="text-secondary hover:underline" href={withSiteBasePath("/llms.txt")}>
+              {agentDiscovery.llms}
+            </a>
+          </nav>
+        </section>
       </main>
       <Footer className="mt-5 md:mt-0 w-full max-w-7xl" />
       <script

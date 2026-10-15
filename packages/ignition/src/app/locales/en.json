@@ -16,6 +16,22 @@
     "system": "System",
     "switchTheme": "Switch theme"
   },
+  "accessibility": {
+    "home": "Rocketicons home",
+    "search": "Search icons",
+    "closeSearch": "Close icon search",
+    "menu": "Open navigation menu",
+    "closeMenu": "Close navigation menu",
+    "openSidebar": "Open documentation navigation",
+    "theme": "Switch theme"
+  },
+  "agent-discovery": {
+    "heading": "For coding agents",
+    "description": "Search a compact, licensed catalog, preview changes, add only selected icon components to the project, and verify the result.",
+    "workflow": "Agent workflow",
+    "catalog": "Machine-readable catalog",
+    "llms": "Agent guide (llms.txt)"
+  },
   "nav": {
     "docs": "Docs",
     "getting-started": "Getting Started",
