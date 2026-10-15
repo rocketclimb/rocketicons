@@ -55,14 +55,14 @@ const Home = async ({ params }: PropsWithLangParams) => {
         </div>
       </main>
       <Footer className="mt-5 md:mt-0 w-full max-w-7xl">
-        <div className="px-4 pb-5 text-xs leading-5 text-primary-light dark:text-primary-lighter">
+        <div className="px-4 pb-5 text-center text-xs leading-5 text-primary-light dark:text-primary-lighter">
           <p>
             <span className="font-semibold">{agentDiscovery.heading}.</span>{" "}
             {agentDiscovery.description}
           </p>
           <nav
             aria-label={agentDiscovery.heading}
-            className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1"
+            className="mt-1.5 flex flex-wrap justify-center gap-x-4 gap-y-1"
           >
             <Link className="hover:underline" href={docHref("agent-workflows")}>
               {agentDiscovery.workflow}
