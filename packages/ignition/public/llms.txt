@@ -22,9 +22,10 @@ Catalog migration requires `@rocketicons/mcp@0.3.0` / `@rocketicons/toolkit@0.3.
 
 1. Start in an existing React or React Native project.
 2. Use `npx rocketicons search <terms> --json` or MCP `recommend_icons` with a project path, intent, and source file. Compare exact IDs, variants, and licenses.
-3. Preview exact `@collection/icon-id` choices with CLI `add --dry-run --json` or MCP `plan_icons`.
-4. Apply the reviewed choice with CLI `add` or MCP `apply_icons` using its returned plan ID.
-5. Use the returned import path, run `doctor --json`, and commit generated files and `rocketicons.json`.
+3. For CLI, preview setup with `npx rocketicons init --dry-run --json`, then run `npx rocketicons init --json` once to create `rocketicons.json`. MCP `plan_icons` and `apply_icons` handle setup within their plan.
+4. Preview exact `@collection/icon-id` choices with CLI `npx rocketicons add @collection/icon-id --dry-run --json` or MCP `plan_icons`.
+5. Apply the reviewed choice with CLI `npx rocketicons add @collection/icon-id --json` or MCP `apply_icons` using its returned plan ID.
+6. Use the returned import path, run `doctor --json`, and commit generated files and `rocketicons.json`.
 
 The CLI and MCP generate TSX or JSX, use the fixed `src/ri` output directory and `@/ri/*` alias, and support batch adds, JSON output, and dry runs. Broad search prefers Algolia and falls back to a bundled local index.
 

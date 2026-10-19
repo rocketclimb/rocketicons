@@ -24,11 +24,13 @@ Rocketicons copies only selected icon components into the application's source t
 
 ## Current CLI contract
 
-`npx rocketicons init` detects TypeScript or JavaScript and React or React Native. It creates web and native core files, configures the `@/ri/*` alias, and installs shared utilities with the detected package manager. Use `--dry-run`, `--json`, and `--cwd <absolute path>` for agent workflows. The MCP `plan_icons` and `apply_icons` tools can plan and apply setup with the selected icons.
+Before CLI `add`, run `npx rocketicons init` from the project root. It detects TypeScript or JavaScript and React or React Native, creates `rocketicons.json` and core files, configures the `@/ri/*` alias, and installs shared utilities with the detected package manager. Use `--dry-run`, `--json`, and `--cwd <absolute path>` for agent workflows. The MCP `plan_icons` and `apply_icons` tools can plan and apply setup with the selected icons without a separate init call.
 
 `npx rocketicons add @collection/icon-id...` writes only selected TSX or JSX components to `src/ri/icons` and records them in `rocketicons.json`:
 
 ```bash
+npx rocketicons init --dry-run --json
+npx rocketicons init --json
 npx rocketicons add @lu/lu-rocket @lu/lu-search --dry-run
 npx rocketicons add @lu/lu-rocket @lu/lu-search
 ```

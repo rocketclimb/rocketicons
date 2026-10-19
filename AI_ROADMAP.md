@@ -106,7 +106,7 @@ Use the established plural filename as the canonical entry point:
 - [x] Reference `/llms.txt` from the HTML metadata and human documentation where appropriate.
 - [x] Generate both language-neutral machine files from source content during the static build.
 - [x] Keep these files concise enough to avoid wasting agent context.
-- [x] Publish parseable Markdown resource links in both LLM guides, with absolute URLs that preserve a deployment base path, and keep the recommended agent workflow aligned with current CLI and MCP tools.
+- [x] Publish parseable Markdown resource links in both LLM guides, with absolute URLs that preserve a deployment base path, and keep the recommended agent workflow aligned with current CLI and MCP tools. The CLI guide requires `init` before `add`; the MCP plan/apply path includes setup.
 
 #### Make the website navigable by agents
 

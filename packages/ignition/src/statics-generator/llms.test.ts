@@ -49,6 +49,10 @@ describe("LLM discovery files", () => {
 
     expect(content).toContain("batch adds");
     expect(content).toContain("MCP");
+    expect(content.indexOf("npx rocketicons init --json")).toBeLessThan(
+      content.indexOf("npx rocketicons add @collection/icon-id --dry-run --json")
+    );
+    expect(content).toContain("MCP `plan_icons` and `apply_icons` handle setup");
   });
 
   test("includes the configured deployment base path", () => {
@@ -83,6 +87,9 @@ describe("LLM discovery files", () => {
   test("full guide uses exact catalog icon IDs", () => {
     const content = renderLlmsFull(staticCatalog);
 
+    expect(content.indexOf("npx rocketicons init --json")).toBeLessThan(
+      content.indexOf("npx rocketicons add @lu/lu-rocket @lu/lu-search --dry-run")
+    );
     expect(content).toContain("npx rocketicons add @lu/lu-rocket @lu/lu-search");
     expect(content).not.toContain("npx @rocketicons/cli");
     expect(content).not.toContain("npx rocketicons add @lu/rocket");

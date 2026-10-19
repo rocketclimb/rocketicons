@@ -31,9 +31,10 @@ export const renderLlms = (catalog: StaticCatalog) => `${commonHeader(catalog)}
 
 1. Start in an existing React or React Native project.
 2. Use \`npx rocketicons search <terms> --json\` or MCP \`recommend_icons\` with a project path, intent, and source file. Compare exact IDs, variants, and licenses.
-3. Preview exact \`@collection/icon-id\` choices with CLI \`add --dry-run --json\` or MCP \`plan_icons\`.
-4. Apply the reviewed choice with CLI \`add\` or MCP \`apply_icons\` using its returned plan ID.
-5. Use the returned import path, run \`doctor --json\`, and commit generated files and \`rocketicons.json\`.
+3. For CLI, preview setup with \`npx rocketicons init --dry-run --json\`, then run \`npx rocketicons init --json\` once to create \`rocketicons.json\`. MCP \`plan_icons\` and \`apply_icons\` handle setup within their plan.
+4. Preview exact \`@collection/icon-id\` choices with CLI \`npx rocketicons add @collection/icon-id --dry-run --json\` or MCP \`plan_icons\`.
+5. Apply the reviewed choice with CLI \`npx rocketicons add @collection/icon-id --json\` or MCP \`apply_icons\` using its returned plan ID.
+6. Use the returned import path, run \`doctor --json\`, and commit generated files and \`rocketicons.json\`.
 
 The CLI and MCP generate TSX or JSX, use the fixed \`src/ri\` output directory and \`@/ri/*\` alias, and support batch adds, JSON output, and dry runs. Broad search prefers Algolia and falls back to a bundled local index.
 
@@ -58,11 +59,13 @@ Rocketicons copies only selected icon components into the application's source t
 
 ## Current CLI contract
 
-\`npx rocketicons init\` detects TypeScript or JavaScript and React or React Native. It creates web and native core files, configures the \`@/ri/*\` alias, and installs shared utilities with the detected package manager. Use \`--dry-run\`, \`--json\`, and \`--cwd <absolute path>\` for agent workflows. The MCP \`plan_icons\` and \`apply_icons\` tools can plan and apply setup with the selected icons.
+Before CLI \`add\`, run \`npx rocketicons init\` from the project root. It detects TypeScript or JavaScript and React or React Native, creates \`rocketicons.json\` and core files, configures the \`@/ri/*\` alias, and installs shared utilities with the detected package manager. Use \`--dry-run\`, \`--json\`, and \`--cwd <absolute path>\` for agent workflows. The MCP \`plan_icons\` and \`apply_icons\` tools can plan and apply setup with the selected icons without a separate init call.
 
 \`npx rocketicons add @collection/icon-id...\` writes only selected TSX or JSX components to \`src/ri/icons\` and records them in \`rocketicons.json\`:
 
 \`\`\`bash
+npx rocketicons init --dry-run --json
+npx rocketicons init --json
 npx rocketicons add @lu/lu-rocket @lu/lu-search --dry-run
 npx rocketicons add @lu/lu-rocket @lu/lu-search
 \`\`\`
