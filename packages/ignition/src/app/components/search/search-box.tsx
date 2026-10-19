@@ -24,6 +24,7 @@ const SearchBox = ({ label, query, onQueryChange }: SearchBoxProps) => {
     <form className="flex items-center h-14 w-full" onSubmit={(event) => event.preventDefault()}>
       <label htmlFor="search-input" id="search-label">
         <LuSearch className="icon-slate-500 dark:icon-slate-400 stroke-2" />
+        <span className="sr-only">{label}</span>
       </label>
       <input
         type="search"

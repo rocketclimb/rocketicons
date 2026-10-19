@@ -10,6 +10,7 @@ import Footer from "@/components/footer";
 import { customMetadata } from "@/components/metadata-custom";
 import { withStructuredData } from "@/config";
 import { localePageParams } from "@/statics-generator/route-static-params";
+import { withSiteBasePath } from "@/config/site-origin";
 
 export function generateStaticParams() {
   return localePageParams();
@@ -27,9 +28,10 @@ export const generateMetadata = async ({ params }: PropsWithLangParams): Promise
 const Home = async ({ params }: PropsWithLangParams) => {
   const { lang: rawLang } = await params;
   const lang = rawLang as Languages;
-  const { config } = withLocale(lang);
+  const { config, docHref } = withLocale(lang);
   const { "getting-started-slug": gettingStartedSlug, "getting-started": gettingStarted } =
     config("nav");
+  const agentDiscovery = config("agent-discovery");
 
   const { organization, software } = withStructuredData(lang);
 
@@ -52,7 +54,28 @@ const Home = async ({ params }: PropsWithLangParams) => {
           <HomeCodePreview />
         </div>
       </main>
-      <Footer className="mt-5 md:mt-0 w-full max-w-7xl" />
+      <Footer className="mt-5 md:mt-0 w-full max-w-7xl">
+        <div className="px-4 pb-5 text-center text-xs leading-5 text-primary-light dark:text-primary-lighter">
+          <p>
+            <span className="font-semibold">{agentDiscovery.heading}.</span>{" "}
+            {agentDiscovery.description}
+          </p>
+          <nav
+            aria-label={agentDiscovery.heading}
+            className="mt-1.5 flex flex-wrap justify-center gap-x-4 gap-y-1"
+          >
+            <Link className="hover:underline" href={docHref("agent-workflows")}>
+              {agentDiscovery.workflow}
+            </Link>
+            <a className="hover:underline" href={withSiteBasePath("/ai/v1/catalog.json")}>
+              {agentDiscovery.catalog}
+            </a>
+            <a className="hover:underline" href={withSiteBasePath("/llms.txt")}>
+              {agentDiscovery.llms}
+            </a>
+          </nav>
+        </div>
+      </Footer>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(software) }}

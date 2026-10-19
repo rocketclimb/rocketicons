@@ -106,6 +106,13 @@ Use the established plural filename as the canonical entry point:
 - [x] Reference `/llms.txt` from the HTML metadata and human documentation where appropriate.
 - [x] Generate both language-neutral machine files from source content during the static build.
 - [x] Keep these files concise enough to avoid wasting agent context.
+- [x] Publish parseable Markdown resource links in both LLM guides, with absolute URLs that preserve a deployment base path, and keep the recommended agent workflow aligned with current CLI and MCP tools. The CLI guide requires `init` before `add`; the MCP plan/apply path includes setup.
+
+#### Make the website navigable by agents
+
+- [x] Give the logo link and icon-only navigation controls accessible names in English and Portuguese, and remove invalid ARIA from the logo SVG group.
+- [x] Show a small, server-rendered agent entry point in both localized homepage footers, linking to the workflow guide, machine-readable catalog, and `llms.txt`.
+- [ ] Verify the deployed mobile Agentic Browsing audit after the production release. **Partial:** source and static-output checks are complete; the live report must be rerun after deployment.
 
 #### Add agent-oriented examples
 
