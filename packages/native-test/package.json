@@ -10,16 +10,16 @@
     "lint": "eslint App.tsx --ext .tsx"
   },
   "dependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
     "expo": "~52.0.0",
+    "nativewind": "4.2.7",
     "react": "18.3.1",
     "react-native": "0.76.7",
+    "react-native-css-interop": "0.2.7",
     "react-native-reanimated": "~3.16.1",
-    "react-native-svg": "^15.11.2",
-    "react-native-css-interop": "0.2.2",
-    "nativewind": "4.2.2",
-    "tailwindcss": "^4.2.1",
-    "@tailwindcss/postcss": "^4.2.1",
-    "rocketicons": "file:../icons"
+    "react-native-svg": "^15.15.5",
+    "rocketicons": "file:../icons",
+    "tailwindcss": "^4.2.1"
   },
   "devDependencies": {
     "@types/react": "~18.3.0",
