@@ -22,6 +22,9 @@
   },
   "dependencies": {
     "camelcase": "^6.2.0",
-    "cheerio": "^1.0.0-rc.12"
+    "htmlparser2": "^10.1.0"
+  },
+  "devDependencies": {
+    "domhandler": "^5.0.3"
   }
 }
