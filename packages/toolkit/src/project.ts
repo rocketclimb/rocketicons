@@ -457,6 +457,15 @@ const template = (name: string, language: Language) =>
     join(__dirname, "..", "templates", `${name}.${language === "ts" ? "tsx" : "jsx"}`),
     "utf8"
   );
+// SHA-256 of the core templates written by toolkit 0.2.0 (index and index.native, TSX and JSX).
+// Setup replaces an unmodified earlier template; any other difference is still a user edit.
+// When core/src changes, add the hashes of the published templates it replaces.
+const previousCoreTemplates = new Set([
+  "72fd8cec031c809183b5464c4e703ff9b00ec7d55fe4f8b7511b93663f1d0faf",
+  "765968125c10e8731033b26c28bf041daff767e64a733abc5e8d0c55b7a55118",
+  "cd89f67da077cc37137ccf3398eb90b2a5a712570f9a65fe47e28af6540608ee",
+  "46b424e169e69decf32b3faa6ee02491c621130288a1b0332763448210ee7bd0"
+]);
 const runInstall = async (root: string, manager: string, needed: string[]) => {
   assertInstallBoundary(root);
   const args = installArgs(manager, needed);
@@ -612,7 +621,7 @@ export const initProject = async (
   ] as const;
   for (const [rel, content] of files) {
     const old = existing(root, rel);
-    if (old !== undefined && old !== content)
+    if (old !== undefined && old !== content && !previousCoreTemplates.has(sha(old)))
       throw new Error(`Existing core file was modified: ${rel}`);
   }
   const config = configText(root, language);
