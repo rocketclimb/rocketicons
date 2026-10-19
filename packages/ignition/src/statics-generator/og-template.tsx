@@ -155,6 +155,9 @@ export const ogTemplate = ({
         flexDirection: "column",
         height: "100%",
         width: "100%",
+        // Yoga sized every box as border-box. Satori 0.37 replaced it with a browser-like engine
+        // that defaults to content-box, which pushed the card 160px past the canvas on both axes.
+        boxSizing: "border-box",
         padding: OUTER_PADDING,
         color,
         backgroundImage: `url("data:image/jpeg;base64,${darkMode ? darkHero() : lightHero()}")`,
@@ -183,6 +186,10 @@ export const ogTemplate = ({
               style={{
                 fontSize: subheadingFontSize(subheading),
                 lineHeight: 1.1,
+                // Pins the `<p>` preset's 1em margins to the inherited 16px they resolved to in
+                // satori 0.33. By 0.37 they resolve against this 36–72px font size, as in browsers.
+                marginTop: 16,
+                marginBottom: 16,
                 marginLeft: INTERNAL_LEFT_MARGIN,
                 textWrap: "balance"
               }}

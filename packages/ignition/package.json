@@ -64,7 +64,7 @@
     "@types/react-dom": "^19",
     "eslint-config-next": "^15",
     "postcss": "^8",
-    "satori": "^0.33.4",
+    "satori": "^0.47.1",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.4.3"
   }
