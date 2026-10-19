@@ -56,13 +56,21 @@ test("actionable error categories retain a machine code and a readable next step
     ["Invalid variant: ???", "INVALID_FILTER", /valid variant/],
     ["remove duplicate icon IDs", "DUPLICATE_ICONS", /compare_icons/],
     ["Multiple Tailwind stylesheets found", "STYLING_SETUP", /stylesheet_path/],
+    ["Upgrade plan is stale or does not match", "STALE_PLAN", /plan_project_upgrade/],
+    ["Cannot repair unavailable icon @old/icon", "ICON_REPAIR_UNAVAILABLE", /source control/],
+    ["Catalog downgrade is not supported", "CATALOG_UPGRADE_INVALID", /at least as new/],
+    ["Invalid catalog version: garbage", "CATALOG_UPGRADE_INVALID", /valid catalog/],
     ["Plan is stale or does not match", "STALE_PLAN", /plan_icons/],
     [
       "Project is not initialized; run init_project first",
       "PROJECT_NOT_INITIALIZED",
       /init_project/
     ],
-    ["Project catalog version differs from installed catalog", "CATALOG_MISMATCH", /compatible/],
+    [
+      "Project catalog version differs from installed catalog",
+      "CATALOG_MISMATCH",
+      /plan_project_upgrade/
+    ],
     ["project_path must be absolute", "PROJECT_INVALID", /absolute project_path/],
     ["Refusing to overwrite unmanaged or edited file: icon.tsx", "FILE_CONFLICT", /doctor/],
     ["from_file must identify an existing source file", "SOURCE_FILE_INVALID", /existing/],

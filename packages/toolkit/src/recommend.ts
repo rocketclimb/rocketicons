@@ -1,4 +1,4 @@
-import { getCollection, iconSummary, requireIcon } from "./catalog";
+import { getCollection, getIcon, iconSummary, requireIcon } from "./catalog";
 import { iconUsage, inspectProject } from "./project";
 import { matchIconIntent, searchIcons, SearchResponse, SearchResult } from "./search";
 
@@ -45,15 +45,17 @@ export const recommendIcons = async (
   const target = project.manifest?.target ?? project.detectedTarget;
   const counts = new Map<string, number>();
   for (const id of installedIds) {
+    if (!getIcon(id)) continue;
     const collection = installed[id].collection;
     counts.set(collection, (counts.get(collection) ?? 0) + 1);
   }
   const installedCollections = [...counts]
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-    .map(([id, count]) => ({ id, name: getCollection(id)!.name, count }));
+    .map(([id, count]) => ({ id, name: getCollection(id)?.name ?? id, count }));
   const collections = installedCollections.map(({ id }) => id);
 
   const reuseCandidates: SearchResult[] = [...installedIds]
+    .filter((id) => Boolean(getIcon(id)))
     .map((id) => {
       const icon = requireIcon(id);
       const evidence = matchIconIntent(icon, intent);

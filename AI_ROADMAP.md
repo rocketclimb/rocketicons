@@ -106,6 +106,13 @@ Use the established plural filename as the canonical entry point:
 - [x] Reference `/llms.txt` from the HTML metadata and human documentation where appropriate.
 - [x] Generate both language-neutral machine files from source content during the static build.
 - [x] Keep these files concise enough to avoid wasting agent context.
+- [x] Publish parseable Markdown resource links in both LLM guides, with absolute URLs that preserve a deployment base path, and keep the recommended agent workflow aligned with current CLI and MCP tools. The CLI guide requires `init` before `add`; the MCP plan/apply path includes setup.
+
+#### Make the website navigable by agents
+
+- [x] Give the logo link and icon-only navigation controls accessible names in English and Portuguese, and remove invalid ARIA from the logo SVG group.
+- [x] Show a small, server-rendered agent entry point in both localized homepage footers, linking to the workflow guide, machine-readable catalog, and `llms.txt`.
+- [ ] Verify the deployed mobile Agentic Browsing audit after the production release. **Partial:** source and static-output checks are complete; the live report must be rerun after deployment.
 
 #### Add agent-oriented examples
 
@@ -128,6 +135,7 @@ The CLI is the most important agent interface because it performs the useful pro
 - [x] `rocketicons info <icon>`
 - [x] `rocketicons add <icon...>` for one or many icons
 - [x] `rocketicons remove <icon...>`
+- [x] `rocketicons upgrade --dry-run --json` and `rocketicons upgrade --plan-id <id> --json` migrate catalog metadata while preserving installed components; verified through packed CLI and MCP artifacts.
 - [ ] `rocketicons update [icon...]`
 - [x] `rocketicons doctor`
 - [x] `rocketicons config`
@@ -141,7 +149,7 @@ The CLI is the most important agent interface because it performs the useful pro
 - [x] Add `--cwd <path>` and never mutate outside the resolved project root.
 - [ ] Add `--package-manager npm|pnpm|yarn|bun`, with safe automatic detection. **Partial:** detection and command routing are implemented; live installation fixtures for pnpm, yarn, and bun remain.
 - [ ] Publish compatible `@rocketicons/utils` and `@rocketicons/tailwind` runtime versions before promoting init. **Partial:** setup now derives its runtime requirements from the workspace versions bundled with the toolkit after release versioning. The npm `@rocketicons/tailwind@0.2.6` package depends on `@rocketclimb/tw-utils` from GitHub Packages and failed a clean npm initialization without credentials. LLM guides state the required CLI/MCP versions and a source-checkout fallback without claiming whether those versions are published; live npm installation verification remains pending.
-- [x] Add `--catalog-version` or an equivalent reproducibility control. `rocketicons.json` pins the catalog version and rejects mismatched add operations.
+- [x] Add `--catalog-version` or an equivalent reproducibility control. `rocketicons.json` pins the catalog used for new additions. Explicit preview/apply upgrades advance that pin while retaining per-icon provenance and existing files; mismatched add operations still require an upgrade first.
 - [ ] Use documented, stable exit codes.
 - [x] Write diagnostics to stderr and structured results to stdout.
 - [ ] Make `init`, `add`, `remove`, and `update` idempotent. **Partial:** init, add, and remove are verified; update is not implemented.
@@ -154,7 +162,7 @@ The CLI is the most important agent interface because it performs the useful pro
 #### Project manifest and provenance
 
 - [x] Add a small project manifest such as `rocketicons.json`.
-- [x] Record catalog/package version, output path, platform, and installed icon IDs.
+- [x] Record catalog/package version, output path, platform, and installed icon IDs. Optional per-icon catalog versions retain original provenance across project catalog upgrades; older schema-1 manifests remain readable.
 - [x] Add a generated-file comment containing icon ID, collection, version, and license reference.
 - [x] Detect local modifications before overwriting generated icons.
 - [x] Hash a code-aware normalized copy of generated icon components so formatting-only edits remain current; report other edits as reusable, protected customizations in CLI and MCP workflows. Legacy byte hashes remain readable.
@@ -181,6 +189,7 @@ Build the MCP server on the same toolkit layer used by the CLI. Do not create se
 - [x] `get_icon_svg(icon_id)` returns complete SVG markup from bundled icon data for HTML and other non-React projects without setup.
 - [x] `compare_icons(icon_ids)` returns an offline visual contact sheet for up to five exact icons, with cell metadata and SVG links.
 - [x] `get_icon_usage(icon_id, target?, language?, project_path?, from_file?)` returns a resolvable relative import when given a project and source file, without guessing an alias otherwise.
+- [x] `plan_project_upgrade(project_path)` and `apply_project_upgrade(project_path, plan_id, dry_run?)` preview and apply manifest-only upgrades, reject stale plans and downgrades, and preserve missing, customized, or retired catalog entries. Verified for TS/JS React and React Native, including `0.3.3` migration and packed-package CLI/MCP smoke tests.
 - [x] `plan_icons(project_path, icon_ids, from_file, ...)` previews exact managed paths and hashes, dependencies, and package-manager effects without writes.
 - [x] `apply_icons(project_path, icon_ids, plan_id, from_file, ..., dry_run?)` rejects stale plans, applies setup and batch addition, and verifies the files and project health in TS/JS React and React Native fixtures.
 - [x] `list_collections()`
@@ -210,7 +219,8 @@ Build the MCP server on the same toolkit layer used by the CLI. Do not create se
 - [x] Return structured content plus a short human-readable summary.
 - [x] Advertise output schemas for every MCP tool and return structured errors with actionable next steps and a text fallback.
 - [x] Expose dry-run results before file mutations.
-- [ ] Consider a hosted read-only MCP server later; do not make local icon installation depend on a hosted service.
+- [ ] Consider a hosted read-only MCP server later; do not make local icon installation depend on a hosted service. **Follow-up:** [#277](https://github.com/rocketclimb/rocketicons/issues/277) evaluates a Cloudflare Worker endpoint for remote clients; it does not block local telemetry.
+- [ ] Add explicit opt-in local MCP usage instrumentation with bounded delivery and unchanged tool behavior when disabled or unavailable. See [#274](https://github.com/rocketclimb/rocketicons/issues/274) and the [v1 contract](packages/mcp/contracts/telemetry/v1/README.md).
 - [ ] Publish setup examples for Codex, Claude Code, VS Code, Cursor, and other clients only after verifying their current configuration formats. **Partial:** the MCP README and English/Portuguese website guides include general stdio setup and copyable Codex, Cursor, and Claude Code configurations checked against official documentation. VS Code and other client examples remain.
 - [x] Validate Algolia icon IDs and requested filters against the bundled catalog before returning results. This keeps older installed MCP versions from offering icons they cannot add when the shared Algolia index moves to a newer release; unknown hits trigger local fallback. Per-record catalog versioning was removed because the index contains only the current release.
 - [ ] Deploy `/ai/v1/search-config.json` with a public search-only key. **Partial:** the package bundles the existing browser-visible search-only credentials, and live MCP searches for `food` return Algolia results with collection and variant filters. The public config endpoint still returns 404.
@@ -276,6 +286,15 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 - [ ] Document whether generated icon files require attribution for each collection.
 - [ ] Add a process for upstream icon removals and license changes.
 - [ ] Keep CLI and package telemetry absent by default; document any future telemetry explicitly. **Partial:** optional website-only GA4 is documented in `packages/ignition/DEPLOYMENT.md` and enabled through a production build variable; development and PR preview builds omit it.
+
+#### Optional MCP usage measurement
+
+The [plan #272](https://github.com/rocketclimb/rocketicons/issues/272) preserves local/offline operations. The v1 event contract has no persistent user, installation, or session identity. It measures completed tool calls and confirmed new additions; website visitor linking and unique-installation metrics remain deferred.
+
+- [x] Define and verify a strict event/batch schema, explicit opt-in and disable/reset policy, retention limits, and English/PT-BR notices. [#273](https://github.com/rocketclimb/rocketicons/issues/273) has 119 passing contract checks; runtime instrumentation, provider configuration, and live reporting remain pending in #274–#276. See [the v1 contract](packages/mcp/contracts/telemetry/v1/README.md).
+- [ ] Wire the contract into local MCP execution, proving zero telemetry requests/buffering/identity creation before opt-in and preserving tool outcomes. See [#274](https://github.com/rocketclimb/rocketicons/issues/274).
+- [ ] Implement the separate Cloudflare Worker collector, verify abuse controls and actual security-log/retention settings, and publish deployment details before collection ships. See [#275](https://github.com/rocketclimb/rocketicons/issues/275).
+- [ ] Verify isolated GA4 count-only reporting without persistent identity; keep forwarding disabled if its required protocol identifier cannot meet policy 1. Document partial server-only reporting and aggregated-report retention separately. See [#276](https://github.com/rocketclimb/rocketicons/issues/276).
 
 ## What makes an agent prefer Rocketicons?
 

@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 import {
   addIcons,
+  planProjectUpgrade,
+  applyProjectUpgrade,
   allIcons,
   doctor,
   getCollection,
@@ -114,6 +116,19 @@ const main = async () => {
         })
       );
       break;
+    case "upgrade": {
+      const planId = flags.get("plan-id");
+      if (!flags.get("dry-run") && (typeof planId !== "string" || !planId))
+        throw new Error(
+          "Preview with rocketicons upgrade --dry-run --json, then apply with --plan-id <planId>"
+        );
+      print(
+        typeof planId === "string" && planId
+          ? await applyProjectUpgrade(cwd, planId, Boolean(flags.get("dry-run")))
+          : planProjectUpgrade(cwd)
+      );
+      break;
+    }
     case "add":
       print(await addIcons(cwd, positional, Boolean(flags.get("dry-run"))));
       break;
@@ -128,7 +143,7 @@ const main = async () => {
       break;
     default:
       console.log(
-        "Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.\n\nCommands: mcp, search, list, info, usage, init, add, remove, doctor, config. Use --json, --dry-run, --cwd <absolute path>, --collection <id>, --variant <name>, --stylesheet-path <css path>."
+        "Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.\n\nCommands: mcp, search, list, info, usage, init, upgrade, add, remove, doctor, config. Use --json, --dry-run, --plan-id <id>, --cwd <absolute path>, --collection <id>, --variant <name>, --stylesheet-path <css path>."
       );
   }
 };

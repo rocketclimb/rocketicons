@@ -42,6 +42,8 @@ test("stdio tools and resources expose the icon workflow", async () => {
       "inspect_project",
       "doctor",
       "init_project",
+      "plan_project_upgrade",
+      "apply_project_upgrade",
       "plan_icons",
       "apply_icons",
       "add_icons",
@@ -59,6 +61,8 @@ test("stdio tools and resources expose the icon workflow", async () => {
       get_collection: ["id", "licenseUrl", "resource"],
       inspect_project: ["projectPath", "initialized", "installedIconStatus"],
       doctor: ["projectPath", "healthy", "issues", "customizedIcons"],
+      plan_project_upgrade: ["planId", "fileChanges", "preservedIcons", "nextManifest"],
+      apply_project_upgrade: ["planId", "dryRun", "verification"],
       init_project: ["projectPath", "dryRun", "changes"],
       plan_icons: ["planId", "fileChanges", "dependencyEffects", "preservedIcons", "imports"],
       apply_icons: ["planId", "fileChanges", "dryRun"],
@@ -261,10 +265,18 @@ test("stdio tools and resources expose the icon workflow", async () => {
       );
       const generatedManifest = JSON.parse(readFileSync(join(root, "rocketicons.json"), "utf8"));
       assert.equal(generatedManifest.icons["@fi/fi-calendar"].hashAlgorithm, "tokens-v1");
-      assert.equal(validateManifest(generatedManifest), true, JSON.stringify(validateManifest.errors));
+      assert.equal(
+        validateManifest(generatedManifest),
+        true,
+        JSON.stringify(validateManifest.errors)
+      );
       const legacyManifest = structuredClone(generatedManifest);
       delete legacyManifest.icons["@fi/fi-calendar"].hashAlgorithm;
-      assert.equal(validateManifest(legacyManifest), true, JSON.stringify(validateManifest.errors));
+      assert.equal(
+        validateManifest(legacyManifest),
+        true,
+        JSON.stringify(validateManifest.errors)
+      );
       const invalidManifest = structuredClone(generatedManifest);
       invalidManifest.icons["@fi/fi-calendar"].hashAlgorithm = "unknown";
       assert.equal(validateManifest(invalidManifest), false);

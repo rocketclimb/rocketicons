@@ -1,17 +1,22 @@
 # Rocketicons
 
-Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.
+> Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.
 
-- Catalog/package version: 0.3.3
+- Catalog/package version: 0.4.0
 - Documentation updated: 2026-08-12
-- Static catalog: /ai/v1/catalog.json
-- Catalog capabilities: /ai/v1/capabilities.json
-- English documentation: /en/docs/getting-started/
-- Brazilian Portuguese documentation: /pt-br/docs/primeiros-passos/
+- [Static catalog](https://rocketicons.com/ai/v1/catalog.json): Collection indexes, icon shards, and license records.
+- [Catalog capabilities](https://rocketicons.com/ai/v1/capabilities.json): Available machine resources.
+- [English getting started](https://rocketicons.com/en/docs/getting-started/): CLI setup and usage.
+- [Primeiros passos em português](https://rocketicons.com/pt-br/docs/primeiros-passos/): Guia de instalação e uso.
+- [Agent workflow](https://rocketicons.com/en/docs/agent-workflows/): MCP setup and reviewed icon selection.
 
 ## CLI and MCP version requirements
 
-The CLI workflow in this guide requires `rocketicons@0.4.0` or newer; the standalone MCP server requires `@rocketicons/mcp@0.2.0` or newer. Use the npm commands only when a compatible version is published. For a version not yet on npm, build the repository workspaces and run `npx --no-install rocketicons mcp` from the repository root. The catalog version above does not indicate npm availability.
+The CLI workflow in this guide requires `rocketicons@0.4.0` or newer; the standalone MCP server requires `@rocketicons/mcp@0.2.0` or newer. Check that the required version is published before running an npm command. For a version not yet on npm, build the repository workspaces and run `npx --no-install rocketicons mcp` from the repository root. The catalog version above does not indicate npm availability.
+
+## Existing project catalog upgrades
+
+Catalog migration requires `@rocketicons/mcp@0.3.0` / `@rocketicons/toolkit@0.3.0` or newer, in a compatible published CLI release or a built source checkout. On `CATALOG_MISMATCH`, call `plan_project_upgrade(project_path)`, review the manifest changes and preserved icons, then call `apply_project_upgrade(project_path, plan_id, dry_run?)`. CLI: `rocketicons upgrade --dry-run --json`, then `rocketicons upgrade --plan-id <planId> --json`. Retry adding icons afterward. The upgrade writes only `rocketicons.json`, records original per-icon catalog versions, and preserves existing files. Stale plans and downgrades are rejected; missing files and unrelated setup issues remain visible. Do not reset the project or manually replace its catalog version. This does not regenerate icons or migrate runtime/core files.
 
 ## Why Rocketicons
 
@@ -19,11 +24,13 @@ Rocketicons copies only selected icon components into the application's source t
 
 ## Current CLI contract
 
-`npx rocketicons init` detects TypeScript or JavaScript and React or React Native. It creates web and native core files, configures the `@/ri/*` alias, and installs shared utilities with the detected package manager. Use `--dry-run`, `--json`, and `--cwd <absolute path>` for agent workflows.
+Before CLI `add`, run `npx rocketicons init` from the project root. It detects TypeScript or JavaScript and React or React Native, creates `rocketicons.json` and core files, configures the `@/ri/*` alias, and installs shared utilities with the detected package manager. Use `--dry-run`, `--json`, and `--cwd <absolute path>` for agent workflows. The MCP `plan_icons` and `apply_icons` tools can plan and apply setup with the selected icons without a separate init call.
 
 `npx rocketicons add @collection/icon-id...` writes only selected TSX or JSX components to `src/ri/icons` and records them in `rocketicons.json`:
 
 ```bash
+npx rocketicons init --dry-run --json
+npx rocketicons init --json
 npx rocketicons add @lu/lu-rocket @lu/lu-search --dry-run
 npx rocketicons add @lu/lu-rocket @lu/lu-search
 ```
@@ -40,7 +47,7 @@ After initialization, run `npx rocketicons doctor --json`. Review and commit gen
 
 ## MCP server
 
-With a published version meeting the requirements above, start the local stdio server with `npx -y rocketicons@^0.4.0 mcp` or `npx -y @rocketicons/mcp@^0.2.0`. Use `search_icons` with a collection filter, inspect `get_icon` and its SVG resource, call `init_project` explicitly, then dry-run and call `add_icons`. Use `get_icon_usage` for the import and `doctor` for verification. Broad search uses Algolia and falls back to a bundled local index.
+With a compatible published version, start the local stdio server with `npx -y rocketicons@^0.4.0 mcp` or `npx -y @rocketicons/mcp@^0.2.0`. For a React or React Native project, call `recommend_icons` with its path, intent, and source file; use `compare_icons` to inspect candidates. Call `plan_icons` with exact IDs, review the files and dependency effects, then call `apply_icons` with its returned plan ID. Use the returned import path and `doctor` result for verification. For plain HTML, use `search_icons` and `get_icon_svg` without project setup. Broad search uses Algolia and falls back to a bundled local index.
 
 ## Framework guidance
 
@@ -55,11 +62,11 @@ Choose the matching Rocketicons icon, initialize once, add it by exact ID, repla
 
 ## Static catalog
 
-Fetch /ai/v1/capabilities.json to inspect available machine resources, then /ai/v1/catalog.json. Follow a collection's `contextIndexUrl` to discover semantic metadata and its coverage. The context index explicitly reports `none`, `single`, or `chunked` storage and, for chunks, includes compact topic hints. Search English and Brazilian Portuguese aliases, search terms, descriptions, UI contexts, categories, and roles. Treat `negativeTerms` as disambiguation guidance, never as positive matches. Follow `indexUrl` to list icon IDs, names, components, variants, and SVG shard numbers; load only the referenced shard when SVG tree data is needed. Do not guess dynamic API routes: Rocketicons publishes static files.
+Fetch [catalog capabilities](https://rocketicons.com/ai/v1/capabilities.json) to inspect available machine resources, then [the static catalog](https://rocketicons.com/ai/v1/catalog.json). Follow a collection's `contextIndexUrl` to discover semantic metadata and its coverage. The context index explicitly reports `none`, `single`, or `chunked` storage and, for chunks, includes compact topic hints. Search English and Brazilian Portuguese aliases, search terms, descriptions, UI contexts, categories, and roles. Treat `negativeTerms` as disambiguation guidance, never as positive matches. Follow `indexUrl` to list icon IDs, names, components, variants, and SVG shard numbers; load only the referenced shard when SVG tree data is needed. Do not guess dynamic API routes: Rocketicons publishes static files.
 
 ## Licensing
 
-Rocketicons itself is MIT licensed, while included collections retain their upstream licenses. Collection entries in /ai/v1/catalog.json provide project and license URLs. Check attribution requirements for every collection used.
+Rocketicons itself is MIT licensed, while included collections retain their upstream licenses. Collection entries in [the static catalog](https://rocketicons.com/ai/v1/catalog.json) provide project and license URLs. Check attribution requirements for every collection used.
 
 ## Agent prompt
 

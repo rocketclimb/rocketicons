@@ -1,0 +1,295 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:rocketicons:telemetry:event:v1",
+  "title": "Rocketicons optional MCP tool completion event, version 1",
+  "description": "An identity-free event from one completed local MCP tool callback. Consent and delivery controls are defined in README.md. URI identifiers do not imply a deployed endpoint.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_version",
+    "event",
+    "package_version",
+    "catalog_version",
+    "surface",
+    "tool",
+    "outcome",
+    "duration_ms",
+    "dry_run",
+    "error_code",
+    "result_count",
+    "icons_added_count",
+    "search_source"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "policy_version": {
+      "const": 1
+    },
+    "event": {
+      "const": "mcp_tool_completed"
+    },
+    "package_version": {
+      "$ref": "#/$defs/releaseVersion"
+    },
+    "catalog_version": {
+      "$ref": "#/$defs/releaseVersion"
+    },
+    "surface": {
+      "const": "mcp_local"
+    },
+    "tool": {
+      "type": "string",
+      "enum": [
+        "search_icons",
+        "recommend_icons",
+        "get_icon",
+        "get_icon_svg",
+        "compare_icons",
+        "get_icon_usage",
+        "list_collections",
+        "get_collection",
+        "inspect_project",
+        "doctor",
+        "plan_project_upgrade",
+        "apply_project_upgrade",
+        "init_project",
+        "plan_icons",
+        "apply_icons",
+        "add_icons",
+        "remove_icons"
+      ]
+    },
+    "outcome": {
+      "type": "string",
+      "enum": ["success", "error", "cancelled"]
+    },
+    "duration_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 600000,
+      "multipleOf": 10,
+      "description": "Monotonic execution time rounded down to 10 ms and capped at 600000 ms; never human engagement time."
+    },
+    "dry_run": {
+      "type": "boolean"
+    },
+    "error_code": {
+      "type": ["string", "null"],
+      "enum": [
+        null,
+        "ICON_AMBIGUOUS",
+        "ICON_NOT_FOUND",
+        "INVALID_FILTER",
+        "DUPLICATE_ICONS",
+        "STYLING_SETUP",
+        "STALE_PLAN",
+        "CATALOG_UPGRADE_INVALID",
+        "ICON_REPAIR_UNAVAILABLE",
+        "WORKSPACE_BOUNDARY",
+        "PROJECT_NOT_INITIALIZED",
+        "CATALOG_MISMATCH",
+        "PROJECT_INVALID",
+        "FILE_CONFLICT",
+        "SOURCE_FILE_INVALID",
+        "MISSING_CONTEXT",
+        "TOOL_FAILED",
+        "VERIFICATION_FAILED"
+      ]
+    },
+    "result_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000,
+      "description": "Returned search_icons results only. Zero for every other tool and unsuccessful calls."
+    },
+    "icons_added_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 10000,
+      "description": "Confirmed newly registered and created icons from successful non-dry-run add_icons/apply_icons only. Repairs and preserved icons are excluded."
+    },
+    "search_source": {
+      "type": "string",
+      "enum": ["algolia", "local", "not_applicable"]
+    }
+  },
+  "$defs": {
+    "releaseVersion": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 20,
+      "pattern": "^(0|[1-9][0-9]{0,5})\\.(0|[1-9][0-9]{0,5})\\.(0|[1-9][0-9]{0,5})(?![\\s\\S])",
+      "description": "Numeric published release version. Development/custom version strings are not transmitted."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "error"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "error_code": {
+            "type": "string",
+            "enum": [
+              "ICON_AMBIGUOUS",
+              "ICON_NOT_FOUND",
+              "INVALID_FILTER",
+              "DUPLICATE_ICONS",
+              "STYLING_SETUP",
+              "STALE_PLAN",
+              "CATALOG_UPGRADE_INVALID",
+              "ICON_REPAIR_UNAVAILABLE",
+              "WORKSPACE_BOUNDARY",
+              "PROJECT_NOT_INITIALIZED",
+              "CATALOG_MISMATCH",
+              "PROJECT_INVALID",
+              "FILE_CONFLICT",
+              "SOURCE_FILE_INVALID",
+              "MISSING_CONTEXT",
+              "TOOL_FAILED",
+              "VERIFICATION_FAILED"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "error_code": {
+            "const": null
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "enum": ["error", "cancelled"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "result_count": {
+            "const": 0
+          },
+          "icons_added_count": {
+            "const": 0
+          },
+          "search_source": {
+            "const": "not_applicable"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "tool": {
+            "const": "search_icons"
+          },
+          "outcome": {
+            "const": "success"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "search_source": {
+            "enum": ["algolia", "local"]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "result_count": {
+            "const": 0
+          },
+          "search_source": {
+            "const": "not_applicable"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          {
+            "properties": {
+              "dry_run": {
+                "const": true
+              }
+            }
+          },
+          {
+            "properties": {
+              "tool": {
+                "not": {
+                  "enum": ["add_icons", "apply_icons"]
+                }
+              }
+            }
+          }
+        ]
+      },
+      "then": {
+        "properties": {
+          "icons_added_count": {
+            "const": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "tool": {
+            "enum": ["plan_icons", "plan_project_upgrade"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "dry_run": {
+            "const": true
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "tool": {
+            "enum": [
+              "search_icons",
+              "recommend_icons",
+              "get_icon",
+              "get_icon_svg",
+              "compare_icons",
+              "get_icon_usage",
+              "list_collections",
+              "get_collection",
+              "inspect_project",
+              "doctor"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "dry_run": {
+            "const": false
+          }
+        }
+      }
+    }
+  ]
+}

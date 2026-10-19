@@ -9,6 +9,8 @@ const { renderIconSvg } = utils;
 
 const {
   addIcons,
+  planProjectUpgrade,
+  applyProjectUpgrade,
   applyIconPlan,
   catalogVersion,
   doctor,
@@ -102,7 +104,7 @@ const projectPath = z
 const iconIds = z.array(z.string().min(1)).min(1).describe("Exact icon IDs from search_icons");
 const docs: Record<string, string> = {
   workflow:
-    "For a React or React Native project, call recommend_icons with its path, icon intent, and source file. Compare up to five exact IDs visually with compare_icons, then call plan_icons with the exact icon IDs and source file. Review managed files and dependency effects. Call apply_icons with the returned plan ID; it verifies the result and returns imports relative to that source file. For plain HTML or other frameworks, use search_icons and get_icon_svg to get SVG markup without project setup.",
+    "On CATALOG_MISMATCH, call plan_project_upgrade and review the plan, then apply_project_upgrade before adding icons. For a React or React Native project, call recommend_icons with its path, icon intent, and source file. Compare up to five exact IDs visually with compare_icons, then call plan_icons with the exact icon IDs and source file. Review managed files and dependency effects. Call apply_icons with the returned plan ID; it verifies the result and returns imports relative to that source file. For plain HTML or other frameworks, use search_icons and get_icon_svg to get SVG markup without project setup.",
   styling:
     "Generated components accept className. Use Rocketicons and Tailwind-compatible icon classes such as icon-primary-xl. For React Native, configure NativeWind and react-native-svg.",
   licensing:
@@ -132,6 +134,7 @@ const configSchema = {
           path: { type: "string" },
           sha256: { type: "string", pattern: "^[a-f0-9]{64}$" },
           hashAlgorithm: { const: "tokens-v1" },
+          catalogVersion: { type: "string" },
           collection: { type: "string" },
           licenseUrl: { type: "string", format: "uri" }
         }
@@ -361,6 +364,31 @@ export const createServer = () => {
       outputSchema: outputs.doctor
     },
     ({ project_path }) => result(() => doctor(project_path))
+  );
+  server.registerTool(
+    "plan_project_upgrade",
+    {
+      description:
+        "Preview migration to the bundled catalog. Preserves existing icon files and records their original versions; changes only the manifest.",
+      inputSchema: z.object({ project_path: projectPath }),
+      outputSchema: outputs.plan_project_upgrade
+    },
+    ({ project_path }) => result(() => planProjectUpgrade(project_path))
+  );
+  server.registerTool(
+    "apply_project_upgrade",
+    {
+      description:
+        "Apply a reviewed catalog upgrade plan, rejecting stale plans. Writes only rocketicons.json and preserves installed components. Supports dry_run.",
+      inputSchema: z.object({
+        project_path: projectPath,
+        plan_id: z.string().regex(/^[a-f0-9]{64}$/),
+        dry_run: z.boolean().optional()
+      }),
+      outputSchema: outputs.apply_project_upgrade
+    },
+    ({ project_path, plan_id, dry_run }) =>
+      result(() => applyProjectUpgrade(project_path, plan_id, dry_run))
   );
   server.registerTool(
     "init_project",
