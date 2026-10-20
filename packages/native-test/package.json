@@ -18,7 +18,7 @@
     "react-native": "0.76.7",
     "react-native-css-interop": "0.2.7",
     "react-native-reanimated": "~3.16.1",
-    "react-native-svg": "^15.15.5",
+    "react-native-svg": "~15.15.5",
     "rocketicons": "file:../icons",
     "tailwindcss": "3.4.19"
   },
