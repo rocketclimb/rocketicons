@@ -1,8 +1,8 @@
 # Icon pack refresh — 2026-10-19
 
-Two npm-installed sources change: `lucide-static` moves from 1.41.0 to 1.55.0, and `@primer/octicons` moves from 19.34.0 to 19.40.0. Dependabot's grouped update proposed these bumps. They were separated from the routine dependency consolidation because they change the published catalog. The other 31 collections, including MynaUI, are unchanged. npm's `latest` for `lucide-static` is already 1.59.0. This refresh pins 1.55.0, the version that was reviewed. A later refresh can move to the newer release.
+Two npm-installed sources change: `lucide-static` moves from 1.41.0 to 1.55.0, and `@primer/octicons` moves from 19.34.0 to 19.40.0. Dependabot's grouped update proposed these bumps. They were separated from the routine dependency consolidation because they change the published catalog. The other 32 collections, including Iconoir and MynaUI, are unchanged. npm's `latest` for `lucide-static` is already 1.59.0. This refresh pins 1.55.0, the version that was reviewed. A later refresh can move to the newer release.
 
-The generated package grows from **54,226 to 54,313 exports** (+87 / −0). The web catalog has **54,309 distinct IDs**, because four existing Lucide AZ/Az alias pairs share IDs. No existing export is removed, renamed, or pointed at a different ID. Unlike the [2026-09-04 refresh](icon-pack-update-2026-09-04.md), this is an additive catalog change. However, some existing Lucide exports now render different artwork. See [Compatibility and release notes](#compatibility-and-release-notes).
+On top of `develop` with Iconoir, the generated package grows from **55,897 to 55,984 exports** (+87 / −0). The web catalog grows from 55,893 to **55,980 distinct IDs**; the difference from the export count is four existing Lucide AZ/Az alias pairs that share IDs. No existing export is removed, renamed, or pointed at a different ID. Unlike the [2026-09-04 refresh](icon-pack-update-2026-09-04.md), this is an additive catalog change. However, some existing Lucide exports now render different artwork. See [Compatibility and release notes](#compatibility-and-release-notes).
 
 ## Pack inventory
 
@@ -11,7 +11,7 @@ The generated package grows from **54,226 to 54,313 exports** (+87 / −0). The 
 | go   | [`@primer/octicons`](https://www.npmjs.com/package/@primer/octicons) 19.34.0 → 19.40.0 |    352 |   364 |    12 |       0 |
 | lu   | [`lucide-static`](https://www.npmjs.com/package/lucide-static) 1.41.0 → 1.55.0         |  2,052 | 2,127 |    75 |       0 |
 
-Lucide has 2,123 distinct IDs after the refresh, up from 2,048. The remaining 31 collections keep their pinned Git revisions or installed versions and their export counts.
+Lucide has 2,123 distinct IDs after the refresh, up from 2,048. The remaining 32 collections keep their pinned Git revisions or installed versions and their export counts.
 
 ## Compatibility and release notes
 
@@ -156,7 +156,7 @@ Upstream duplicates have consistent descriptions and aliases, and each one names
 - `lens` from the concave and convex lenses
 - Go `cursor` from the Cursor editor logo
 
-The reviewed catalog now covers 51,689 bindings across 32 of 33 collections. MynaUI remains pending.
+The reviewed catalog now covers 53,360 bindings across 33 of 34 collections. MynaUI remains pending.
 
 ## Reproduce validation
 
