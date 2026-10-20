@@ -202,3 +202,13 @@
 
 - 32 icon collections
 - 45,945 icons
+
+## Unreleased
+
+### Features
+
+- Add Iconoir v7.12.1 with 1,383 regular and 288 solid components, CLI IDs, static catalog records, and reviewed English/PT-BR search context.
+
+### Bug Fixes
+
+- Resolve generated ESM icon imports in Node and fix CLI `add` loading of generated SVG data.
