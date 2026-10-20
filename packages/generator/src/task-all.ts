@@ -119,7 +119,13 @@ export const writeIconModuleAndSvgs = async (
       const svgStr = content.processWithSVGO
         ? svgoOptimize(svgStrRaw, svgoConfig).data
         : svgStrRaw;
-      const { iconData, variant } = await convertIconData(svgStr, content.multiColor);
+      const { iconData, variant: inferredVariant } = await convertIconData(
+        svgStr,
+        content.multiColor,
+        content.preserveChildCurrentColor,
+        content.preserveRootFillNone
+      );
+      const variant = content.variantOverride ?? inferredVariant;
 
       const name = getName(file, content);
       if (exists.has(name)) continue;
