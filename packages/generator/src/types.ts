@@ -16,6 +16,9 @@ export interface IconDefinitionContent {
   familyId?: (filePath: string) => string;
   multiColor?: boolean;
   processWithSVGO?: boolean;
+  preserveChildCurrentColor?: boolean;
+  preserveRootFillNone?: boolean;
+  variantOverride?: "outlined" | "filled" | "full";
 }
 
 export type IconSetSource = IconSetGitSource;

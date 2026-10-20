@@ -18,7 +18,7 @@ O pacote MCP está disponível no npm como `@rocketicons/mcp`.
 
 ### Configure um cliente MCP
 
-O Rocketicons roda localmente via stdio com `npx -y @rocketicons/mcp`. Use Node.js 20 ou mais recente, com `node` e `npx` disponíveis para o cliente. O cliente inicia o servidor; não é necessário manter outro terminal aberto nem instalar o pacote globalmente. A primeira execução precisa de internet para baixar o pacote. A busca usa o Algolia quando disponível e recorre ao catálogo incluído no pacote quando estiver offline.
+O Rocketicons roda localmente via stdio com `npx -y @rocketicons/mcp`. Use Node.js 20.9.0 ou mais recente, com `node` e `npx` disponíveis para o cliente. O cliente inicia o servidor; não é necessário manter outro terminal aberto nem instalar o pacote globalmente. A primeira execução precisa de internet para baixar o pacote. A busca usa o Algolia quando disponível e recorre ao catálogo incluído no pacote quando estiver offline.
 
 Em qualquer cliente com suporte a MCP local via stdio, defina o comando como `npx` e os argumentos como `["-y", "@rocketicons/mcp"]`. Clientes que aceitam apenas servidores HTTP remotos não podem usar esse comando diretamente. A busca padrão não exige chave de API. As ferramentas de projeto recebem um `project_path` absoluto na chamada, portanto ele não faz parte da configuração do servidor.
 

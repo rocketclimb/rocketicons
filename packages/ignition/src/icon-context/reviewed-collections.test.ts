@@ -29,7 +29,8 @@ const collections: Array<[string, number, number]> = [
   ["md", 2192, 4341],
   ["pi", 7545, 9072],
   ["ri", 3185, 3188],
-  ["si", 3458, 3458]
+  ["si", 3458, 3458],
+  ["oir", 1364, 1671]
 ];
 
 const sources = new Map(collections.map(([id]) => [id, loadContextSource(id)!]));
@@ -276,7 +277,12 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["tb", "settings", "settings", "configurações"],
     ["tb", "trash", "trash", "lixeira"],
     ["tb", "user", "user", "usuário"],
-    ["tb", "calendar", "calendar", "calendário"]
+    ["tb", "calendar", "calendar", "calendário"],
+    ["oir", "airplane-helix", "propeller", "hélice de avião"],
+    ["oir", "phone-income", "incoming call", "chamada recebida"],
+    ["oir", "cloud-desync", "cloud sync error", "erro de sincronização da nuvem"],
+    ["oir", "cookie", "biscuit", "bolacha"],
+    ["oir", "xmark", "close icon", "ícone de fechar"]
   ];
 
   test.each(queries)(
@@ -317,7 +323,11 @@ describe("reviewed collections reaching half of the catalog", () => {
     ["hi2", "arrow-left", "move right"],
     ["hi2", "arrow-right", "move left"],
     ["hi2", "x-mark", "check mark"],
-    ["hi2", "face-smile", "sad face"]
+    ["hi2", "face-smile", "sad face"],
+    ["oir", "apple", "Apple company logo"],
+    ["oir", "cookie", "browser cookie"],
+    ["oir", "filter", "color filter"],
+    ["oir", "xmark", "X social network logo"]
   ])("%s/%s keeps misleading intent %s out of positive metadata", (id, familyId, negative) => {
     const family = loadContextSource(id)!.families.find((entry) => entry.familyId === familyId)!;
     expect(family.negativeTerms.en).toContain(negative);
