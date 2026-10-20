@@ -31,7 +31,7 @@
     "@types/react-dom": "^18.2.22",
     "feather-icons": "^4.29.2",
     "find-package": "^1.0.0",
-    "glob-promise": "^6.0.5",
+    "glob-promise": "^6.0.7",
     "ionicons": "^4.6.3",
     "ionicons-5": "npm:ionicons@^5.5.4",
     "lucide-static": "^1.41.0",
