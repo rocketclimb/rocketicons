@@ -212,6 +212,233 @@ const tailwindStyleEdit = (root: string, target: Target, requestedPath?: string)
   const next = `${previous.slice(0, offset)}\n@plugin "@rocketicons/tailwind";${previous.slice(offset)}`;
   return { path: selected.path, next };
 };
+// NativeWind 4 compiles with Tailwind CSS 3, so React Native styling lives in tailwind.config.*.
+// NativeWind 5 moves to Tailwind CSS 4 and is not configured automatically yet.
+const usesNativeWind4 = (root: string) => {
+  const pkg = JSON.parse(readFileSync(safePath(root, "package.json"), "utf8"));
+  const version = { ...pkg.dependencies, ...pkg.devDependencies }.nativewind;
+  return !(Number(/^[~^]?\s*(\d+)/.exec(typeof version === "string" ? version : "")?.[1]) >= 5);
+};
+const tailwindConfigPath = (root: string) =>
+  ["js", "cjs", "mjs", "ts", "cts", "mts"]
+    .map((extension) => `tailwind.config.${extension}`)
+    .find((rel) => existing(root, rel) !== undefined);
+const scriptFile = (rel: string, source: string) =>
+  ts.createSourceFile(
+    rel,
+    source,
+    ts.ScriptTarget.Latest,
+    true,
+    /\.[cm]?ts$/.test(rel) ? ts.ScriptKind.TS : ts.ScriptKind.JS
+  );
+const propertyName = (property: ts.ObjectLiteralElementLike) =>
+  property.name && (ts.isIdentifier(property.name) || ts.isStringLiteral(property.name))
+    ? property.name.text
+    : undefined;
+const objectProperty = (object: ts.ObjectLiteralExpression, name: string) =>
+  object.properties.find(
+    (property): property is ts.PropertyAssignment =>
+      ts.isPropertyAssignment(property) && propertyName(property) === name
+  );
+/** Finds the object a Tailwind config exports directly or through a top-level variable. */
+const tailwindConfigObject = (file: ts.SourceFile) => {
+  const unwrap = (node?: ts.Expression) => {
+    while (
+      node &&
+      (ts.isParenthesizedExpression(node) ||
+        ts.isAsExpression(node) ||
+        ts.isSatisfiesExpression(node) ||
+        ts.isTypeAssertionExpression(node))
+    )
+      node = node.expression;
+    return node;
+  };
+  const variables = new Map<string, ts.Expression>();
+  let exported: ts.Expression | undefined;
+  for (const statement of file.statements) {
+    if (ts.isVariableStatement(statement))
+      for (const declaration of statement.declarationList.declarations)
+        if (ts.isIdentifier(declaration.name) && declaration.initializer)
+          variables.set(declaration.name.text, declaration.initializer);
+    if (ts.isExportAssignment(statement)) exported = statement.expression;
+    if (
+      ts.isExpressionStatement(statement) &&
+      ts.isBinaryExpression(statement.expression) &&
+      statement.expression.operatorToken.kind === ts.SyntaxKind.EqualsToken &&
+      statement.expression.left.getText() === "module.exports"
+    )
+      exported = statement.expression.right;
+  }
+  let value = unwrap(exported);
+  if (value && ts.isIdentifier(value)) value = unwrap(variables.get(value.text));
+  return value && ts.isObjectLiteralExpression(value) ? value : undefined;
+};
+const nativeTailwindConfig = (rel: string, source: string) => {
+  const file = scriptFile(rel, source);
+  const config = tailwindConfigObject(file);
+  const plugins = config && objectProperty(config, "plugins");
+  const presets = config && objectProperty(config, "presets");
+  return {
+    file,
+    config,
+    plugins,
+    presetRegistered: /["']nativewind\/preset["']/.test(presets?.initializer.getText() ?? ""),
+    pluginRegistered: Boolean(
+      plugins &&
+        ts.isArrayLiteralExpression(plugins.initializer) &&
+        plugins.initializer.elements.some((element) =>
+          /\bnativeIconPlugin\b/.test(element.getText())
+        )
+    )
+  };
+};
+const nativeTailwindEdit = (root: string, target: Target) => {
+  if (target !== "react-native" || tailwindMajor(root) !== 3 || !usesNativeWind4(root))
+    return undefined;
+  const rel = tailwindConfigPath(root);
+  if (!rel)
+    throw new Error(
+      'No Tailwind config found; NativeWind needs tailwind.config.js with presets: [require("nativewind/preset")]'
+    );
+  const previous = existing(root, rel)!;
+  const state = nativeTailwindConfig(rel, previous);
+  if (state.pluginRegistered) return { path: rel, next: previous };
+  const plugins = state.plugins?.initializer;
+  if (!state.config || (plugins && !ts.isArrayLiteralExpression(plugins)))
+    throw new Error(
+      `Cannot register Rocketicons in Tailwind config ${rel} automatically; add require("@rocketicons/tailwind").nativeIconPlugin to its plugins array`
+    );
+  const esm =
+    /\.m[jt]s$/.test(rel) ||
+    state.file.statements.some(
+      (statement) => ts.isImportDeclaration(statement) || ts.isExportAssignment(statement)
+    );
+  const plugin = esm ? "nativeIconPlugin" : 'require("@rocketicons/tailwind").nativeIconPlugin';
+  const edits: Array<{ at: number; text: string }> = [];
+  const append = (open: number, items: ts.NodeArray<ts.Node>, text: string) => {
+    const [first] = items;
+    const last = items[items.length - 1];
+    if (!last) return edits.push({ at: open + 1, text });
+    if (!previous.slice(open, first.getStart()).includes("\n"))
+      return edits.push({ at: last.end, text: `, ${text}` });
+    const lineStart = previous.lastIndexOf("\n", last.getStart()) + 1;
+    const indent = /^[ \t]*/.exec(previous.slice(lineStart))![0];
+    return edits.push({ at: last.end, text: `,\n${indent}${text}` });
+  };
+  if (plugins && ts.isArrayLiteralExpression(plugins))
+    append(plugins.getStart(), plugins.elements, plugin);
+  else append(state.config.getStart(), state.config.properties, `plugins: [${plugin}]`);
+  const imports = state.file.statements.filter(ts.isImportDeclaration);
+  if (esm && !imports.some((statement) => /\bnativeIconPlugin\b/.test(statement.getText()))) {
+    const statement = 'import { nativeIconPlugin } from "@rocketicons/tailwind";';
+    const last = imports[imports.length - 1];
+    edits.push(
+      last ? { at: last.end, text: `\n${statement}` } : { at: 0, text: `${statement}\n` }
+    );
+  }
+  const next = edits
+    .sort((a, b) => b.at - a.at)
+    .reduce(
+      (text, edit) => `${text.slice(0, edit.at)}${edit.text}${text.slice(edit.at)}`,
+      previous
+    );
+  return { path: rel, next };
+};
+/** Records where each babel config lists nativewind/babel: under presets, plugins, or elsewhere. */
+const nativewindBabelPlacements = (root: string) => {
+  const placements: Array<{ path: string; property: string }> = [];
+  for (const rel of readdirSync(root).filter((name) =>
+    /^(?:babel\.config\.(?:[cm]?[jt]s|json)|\.babelrc(?:\.(?:[cm]?js|json))?)$/.test(name)
+  )) {
+    const source = existing(root, rel) ?? "";
+    const file = /(?:\.json|^\.babelrc)$/.test(rel)
+      ? ts.parseJsonText(rel, source)
+      : scriptFile(rel, source);
+    const visit = (node: ts.Node, property: string) => {
+      if (ts.isStringLiteral(node) && node.text === "nativewind/babel")
+        placements.push({ path: rel, property });
+      const next = ts.isPropertyAssignment(node) ? propertyName(node) ?? property : property;
+      ts.forEachChild(node, (child) => visit(child, next));
+    };
+    visit(file, "");
+  }
+  return placements;
+};
+const tailwindDirectivePattern = /@tailwind\s+(?:base|components|utilities)\s*;/;
+const nativewindStyling = (root: string, issues: string[]) => {
+  const major = tailwindMajor(root);
+  const styling = {
+    tailwindMajor: Number.isNaN(major) ? null : major,
+    stylesheetPath: null as string | null,
+    pluginRegistered: false,
+    stylesheetLoaded: false,
+    buildIntegration: null as string | null,
+    tailwindConfigPath: null as string | null,
+    nativewindPreset: false,
+    babelPreset: false
+  };
+  if (!usesNativeWind4(root)) return styling;
+  if (major !== 3) {
+    issues.push(
+      `NativeWind 4 requires Tailwind CSS 3 for React Native styling; found ${Number.isNaN(major) ? "no declared version" : `version ${major}`}. Install tailwindcss@^3.4 and configure NativeWind.`
+    );
+    return styling;
+  }
+  const configRel = tailwindConfigPath(root);
+  if (!configRel)
+    issues.push(
+      'No Tailwind config found; create tailwind.config.js with presets: [require("nativewind/preset")].'
+    );
+  else {
+    const config = nativeTailwindConfig(configRel, existing(root, configRel) ?? "");
+    styling.tailwindConfigPath = configRel;
+    styling.nativewindPreset = config.presetRegistered;
+    styling.pluginRegistered = config.pluginRegistered;
+    if (!config.presetRegistered)
+      issues.push(
+        `Tailwind config ${configRel} is missing presets: [require("nativewind/preset")].`
+      );
+    if (!config.pluginRegistered)
+      issues.push(
+        `Tailwind config ${configRel} does not register nativeIconPlugin from @rocketicons/tailwind; run init_project.`
+      );
+  }
+  const files = projectFiles(root);
+  const stylesheets = files.filter(
+    (file) =>
+      file.endsWith(".css") &&
+      tailwindDirectivePattern.test(activeCss(existing(root, file) ?? ""))
+  );
+  const loaded = stylesheets.filter((file) => stylesheetLoaded(root, file, files));
+  styling.stylesheetPath = loaded[0] ?? stylesheets[0] ?? null;
+  styling.stylesheetLoaded = loaded.length > 0;
+  if (!styling.stylesheetPath)
+    issues.push(
+      "No NativeWind stylesheet found; add @tailwind base; @tailwind components; @tailwind utilities; to a CSS file such as global.css and import it from your app entry."
+    );
+  else if (!styling.stylesheetLoaded)
+    issues.push(
+      `NativeWind stylesheet ${styling.stylesheetPath} is not imported by an application source file; import it from your app entry.`
+    );
+  const metro = readdirSync(root).filter((name) => /^metro\.config\.[cm]?[jt]s$/.test(name));
+  if (metro.some((name) => (existing(root, name) ?? "").includes("withNativeWind")))
+    styling.buildIntegration = "metro";
+  else
+    issues.push(
+      'NativeWind Metro integration is missing; wrap the config in metro.config.js with withNativeWind(config, { input: "./global.css" }).'
+    );
+  const babel = nativewindBabelPlacements(root);
+  styling.babelPreset = babel.some(({ property }) => property === "presets");
+  for (const { path } of babel.filter(({ property }) => property === "plugins"))
+    issues.push(
+      `nativewind/babel is a Babel preset; move it from plugins to presets in ${path}.`
+    );
+  if (!babel.length)
+    issues.push(
+      'Babel config is missing the nativewind/babel preset; add "nativewind/babel" to presets in babel.config.js.'
+    );
+  return styling;
+};
 const fileChange = (root: string, rel: string, next?: string): Change | undefined => {
   const old = existing(root, rel);
   if (next === undefined) return old === undefined ? undefined : { path: rel, action: "delete" };
@@ -534,7 +761,11 @@ export const doctor = (projectPath: string) => {
     pluginRegistered: boolean;
     stylesheetLoaded: boolean;
     buildIntegration: string | null;
+    tailwindConfigPath?: string | null;
+    nativewindPreset?: boolean;
+    babelPreset?: boolean;
   } | null = null;
+  if (target === "react-native") styling = nativewindStyling(project.projectPath, issues);
   if (target === "react") {
     const major = tailwindMajor(project.projectPath);
     const integration = tailwindIntegration(project.projectPath);
@@ -621,6 +852,7 @@ export const initProject = async (
     target,
     options.stylesheetPath ?? prior?.stylesheetPath
   );
+  const tailwindConfig = nativeTailwindEdit(root, target);
   const manifest: ProjectManifest = prior ?? {
     schemaVersion: 1,
     catalogVersion,
@@ -634,6 +866,7 @@ export const initProject = async (
     ...files.map(([rel, content]) => fileChange(root, rel, content)),
     fileChange(root, config.rel, config.next),
     ...(stylesheet ? [fileChange(root, stylesheet.path, stylesheet.next)] : []),
+    ...(tailwindConfig ? [fileChange(root, tailwindConfig.path, tailwindConfig.next)] : []),
     fileChange(root, "rocketicons.json", json(manifest))
   ].filter(Boolean) as Change[];
   const needed = dependenciesToInstall(root, target);
@@ -651,6 +884,8 @@ export const initProject = async (
       await atomicWrite(root, config.rel, config.next);
     if (stylesheet && fileChange(root, stylesheet.path, stylesheet.next))
       await atomicWrite(root, stylesheet.path, stylesheet.next);
+    if (tailwindConfig && fileChange(root, tailwindConfig.path, tailwindConfig.next))
+      await atomicWrite(root, tailwindConfig.path, tailwindConfig.next);
     if (fileChange(root, "rocketicons.json", json(manifest)))
       await atomicWrite(root, "rocketicons.json", json(manifest));
   }
@@ -1028,6 +1263,8 @@ export const planIcons = async (
   const config = configText(root, language);
   files.set(config.rel, config.next);
   if (stylesheet) files.set(stylesheet.path, stylesheet.next);
+  const tailwindConfig = nativeTailwindEdit(root, target);
+  if (tailwindConfig) files.set(tailwindConfig.path, tailwindConfig.next);
   const preservedIcons: Array<{
     id: string;
     path: string;
