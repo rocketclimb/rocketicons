@@ -29,7 +29,7 @@ This migrates catalog metadata; it does not regenerate existing icons or upgrade
 
 ## Configure an MCP client
 
-Rocketicons runs locally over stdio with `npx -y @rocketicons/mcp`. Use Node.js 20 or newer, with `node` and `npx` available to the client. The client starts the server for you; no separate terminal process or global package installation is needed. The first launch needs internet access to download the package. Search uses Algolia when available and falls back to the bundled catalog offline.
+Rocketicons runs locally over stdio with `npx -y @rocketicons/mcp`. Use Node.js 20.9.0 or newer, with `node` and `npx` available to the client. The client starts the server for you; no separate terminal process or global package installation is needed. The first launch needs internet access to download the package. Search uses Algolia when available and falls back to the bundled catalog offline.
 
 For any client that supports local stdio MCP, set the command to `npx` and the arguments to `["-y", "@rocketicons/mcp"]`. Clients that only accept remote HTTP servers cannot use this command directly. No API key is required for the default search configuration. Project tools receive an explicit absolute `project_path` when called, so it is not part of the server configuration.
 

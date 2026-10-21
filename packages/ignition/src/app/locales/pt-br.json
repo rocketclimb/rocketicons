@@ -16,6 +16,22 @@
     "system": "Sistema",
     "switchTheme": "Selecione"
   },
+  "accessibility": {
+    "home": "Início do Rocketicons",
+    "search": "Buscar ícones",
+    "closeSearch": "Fechar busca de ícones",
+    "menu": "Abrir menu de navegação",
+    "closeMenu": "Fechar menu de navegação",
+    "openSidebar": "Abrir navegação da documentação",
+    "theme": "Alterar tema"
+  },
+  "agent-discovery": {
+    "heading": "Para agentes de programação",
+    "description": "Pesquise um catálogo compacto com licenças, visualize as mudanças, adicione apenas os componentes de ícones escolhidos ao projeto e verifique o resultado.",
+    "workflow": "Fluxo para agentes",
+    "catalog": "Catálogo legível por máquinas",
+    "llms": "Guia para agentes (llms.txt)"
+  },
   "nav": {
     "docs": "Docs",
     "getting-started": "Primeiros Passos",
