@@ -57,14 +57,14 @@
     "@next/bundle-analyzer": "^15",
     "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/postcss": "^4.3.3",
-    "@types/adm-zip": "^0.5.5",
+    "@types/adm-zip": "^0.6.0",
     "@types/mdx": "^2.0.14",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint-config-next": "^15",
-    "postcss": "^8",
-    "satori": "^0.33.4",
+    "postcss": "^8.5.23",
+    "satori": "^0.62.0",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.4.3"
   }
