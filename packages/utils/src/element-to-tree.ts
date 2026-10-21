@@ -1,5 +1,6 @@
 import camelcase from "camelcase";
-import { Cheerio, load as cheerioLoad, Element as CheerioElement } from "cheerio";
+import type { Element } from "domhandler";
+import { DomUtils, parseDocument } from "htmlparser2";
 import { IconTree } from "./types";
 
 export const elementToTree = (
@@ -8,8 +9,9 @@ export const elementToTree = (
   colorProps?: Record<string, boolean>,
   preserveChildCurrentColor = false
 ) => {
-  const $doc = cheerioLoad(svg, { xmlMode: true });
-  const $svg = $doc("svg");
+  // xmlMode keeps tag and attribute names case-sensitive (viewBox, linearGradient)
+  const doc = parseDocument(svg, { xmlMode: true });
+  const svgElements = DomUtils.getElementsByTagName("svg", doc, true);
 
   colorProps = colorProps || {};
 
@@ -61,22 +63,16 @@ export const elementToTree = (
       );
 
   // convert to [ { tag: 'path', attr: { d: 'M436 160c6.6 ...', ... }, child: { ... } } ]
-  const convertElementToTree = (
-    element: Cheerio<CheerioElement>,
-    isChild: boolean = false
-  ): IconTree[] =>
-    element
-      // ignore style, title tag
-      .filter((_, e) => !!(e.tagName && !["style", "title"].includes(e.tagName)))
+  const convertElementToTree = (elements: Element[], isChild: boolean = false): IconTree[] =>
+    elements
+      // ignore style, title tag (text, comment and CDATA nodes have no tagName)
+      .filter((e) => !!(e.tagName && !["style", "title"].includes(e.tagName)))
       // convert to AST recursively
-      .map((_, e) => ({
+      .map((e) => ({
         tag: e.tagName,
         attr: attrConverter(e.attribs, e.tagName, isChild),
-        child: e?.children.length
-          ? convertElementToTree($doc(e.children) as Cheerio<CheerioElement>, true)
-          : []
-      }))
-      .get();
+        child: e?.children.length ? convertElementToTree(e.children as Element[], true) : []
+      }));
 
-  return convertElementToTree($svg);
+  return convertElementToTree(svgElements);
 };
