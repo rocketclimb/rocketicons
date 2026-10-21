@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@esm2cjs/p-queue": "7.3.0",
-    "@primer/octicons": "^19.34.0",
+    "@primer/octicons": "^19.40.0",
     "@rocketicons/core": "*",
     "@rocketicons/tailwind": "*",
     "@types/react": "^18.2.72",
@@ -34,7 +34,7 @@
     "glob-promise": "^6.0.7",
     "ionicons": "^4.6.3",
     "ionicons-5": "npm:ionicons@^5.5.4",
-    "lucide-static": "^1.41.0",
+    "lucide-static": "^1.55.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-native-svg": "15.15.5",
