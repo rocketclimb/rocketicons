@@ -1,10 +1,10 @@
 # Optional MCP usage measurement — policy 1
 
-**Current status: this is a contract for a future release. The current MCP does not send these events, and the settings below do not activate a sender yet.** See [#273](https://github.com/rocketclimb/rocketicons/issues/273). The technical contract and example are in [contracts/telemetry/v1](contracts/telemetry/v1/README.md). [Português brasileiro](TELEMETRY.pt-BR.md).
+**Current status: local instrumentation, consent controls, and bounded delivery are implemented in [#274](https://github.com/rocketclimb/rocketicons/issues/274). This build has no collector endpoint, so it sends no usage events and keeps no event buffer, even with opt-in. Collection remains gated on [#275](https://github.com/rocketclimb/rocketicons/issues/275).** The technical contract and example are in [contracts/telemetry/v1](contracts/telemetry/v1/README.md). [Português brasileiro](TELEMETRY.pt-BR.md).
 
 ## Purpose and choice
 
-The planned feature measures completed MCP tool calls, failures, search fallback, and confirmed new icon additions to improve the free, open-source Rocketicons system. Participation is optional and off by default. Icon discovery and project operations must keep working with telemetry disabled, blocked, or unavailable.
+When collection is released, the feature measures completed MCP tool calls, failures, search fallback, and confirmed new icon additions to improve the free, open-source Rocketicons system. Participation is optional and off by default. Icon discovery and project operations must keep working with telemetry disabled, blocked, or unavailable.
 
 It does not measure every Rocketicons user or use of icons inside applications. It creates no persistent user, installation, or session identity. Unique installation counts and website visitor linking are deferred.
 
@@ -16,9 +16,9 @@ No query, prompt, project path, filename, repository URL, code/SVG, dependency l
 
 Plans and dry runs add zero icons; repeated additions and repairs add zero new icons. Failed or unconfirmed mutations add zero. Protocol/lifecycle/resource requests and SDK argument-validation failures are excluded. Counts describe participating tool calls, not people; offline/blocked sends may be lost.
 
-## Controls reserved for the upcoming implementation
+## Opt-in and withdrawal controls
 
-Set these in the MCP client's process environment only after reading this notice:
+For a future build with a verified collector, set these in the MCP client's process environment only after reading this notice. They do not enable collection in the current build:
 
 ```json
 {
@@ -29,7 +29,7 @@ Set these in the MCP client's process environment only after reading this notice
 
 Both exact values are required. Missing/invalid values disable collection. `ROCKETICONS_TELEMETRY=off` disables it. Active `DO_NOT_TRACK` overrides opt-in. CI and test processes suppress production telemetry even when opted in. No agent tool or project file can grant consent.
 
-To withdraw/reset, set `off` or remove both Rocketicons variables, then disconnect/restart the MCP in your client. The upcoming implementation must clear unsent memory; it has no disk queue or identifier to reset. This does not delete previously sent data. A changed policy needs a new acknowledgement. Shared-client operators must provide this notice and have authority to enable collection.
+To withdraw/reset, set `off` or remove both Rocketicons variables, then disconnect/restart the MCP in your client. The sender clears unsent memory on disable/shutdown; it has no disk queue or identifier to reset. This does not delete previously sent data. A changed policy needs a new acknowledgement. Shared-client operators must provide this notice and have authority to enable collection.
 
 ## Recipients and retention requirements
 
@@ -47,4 +47,4 @@ Existing website GA4 and optional Algolia search requests are separate features.
 
 ## Release gate
 
-[#274](https://github.com/rocketclimb/rocketicons/issues/274) implements the controls/sender, [#275](https://github.com/rocketclimb/rocketicons/issues/275) implements the collector, and [#276](https://github.com/rocketclimb/rocketicons/issues/276) verifies reporting. These requirements must be met and the notice updated with actual deployment details before an enabled release.
+[#274](https://github.com/rocketclimb/rocketicons/issues/274) supplies the local controls/sender; [#275](https://github.com/rocketclimb/rocketicons/issues/275) implements the collector, and [#276](https://github.com/rocketclimb/rocketicons/issues/276) verifies reporting. These requirements must be met and the notice updated with actual deployment details before an enabled release.

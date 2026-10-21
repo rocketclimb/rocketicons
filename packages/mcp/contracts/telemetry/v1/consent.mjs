@@ -1,6 +1,6 @@
 export const TELEMETRY_POLICY_VERSION = 1;
 
-// A pure reference resolver for the v1 contract. The MCP does not call it yet.
+// Shared pure resolver for the v1 contract and MCP runtime.
 // Pass the MCP process environment explicitly; project files cannot grant consent.
 export const resolveTelemetryConsent = (env = {}) => {
   const signal = (value) =>

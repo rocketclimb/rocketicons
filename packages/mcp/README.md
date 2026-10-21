@@ -2,7 +2,7 @@
 
 Local MCP server for finding, inspecting, installing, and verifying Rocketicons.
 
-MCP usage telemetry is not implemented. The default-off contract for a future release is documented in [English](TELEMETRY.md) and [Português brasileiro](TELEMETRY.pt-BR.md), with a [versioned schema and sample](contracts/telemetry/v1/README.md).
+MCP usage instrumentation and a bounded sender are implemented, but this build has no collector endpoint: it sends no usage telemetry, even when opted in. Deployment remains gated on [#275](https://github.com/rocketclimb/rocketicons/issues/275). Consent, payloads, and release requirements are documented in [English](TELEMETRY.md) and [Português brasileiro](TELEMETRY.pt-BR.md), with a [versioned schema and sample](contracts/telemetry/v1/README.md).
 
 Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.
 
