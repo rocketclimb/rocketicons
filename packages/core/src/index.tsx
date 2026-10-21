@@ -1,6 +1,8 @@
-import {
-  tree2Element,
-  handleClassName,
+// Runtime helpers come from their own files: the "@rocketicons/utils" index also exports
+// build-time SVG parsing, which would add an XML parser to every app that renders an icon.
+import { tree2Element } from "@rocketicons/utils/dist/tree-2-element.js";
+import { handleClassName } from "@rocketicons/utils/dist/handle-class-name.js";
+import type {
   IconTree,
   Variants,
   IconType,
@@ -34,7 +36,7 @@ export const IconFromData = ({
   return <Icon {...props} />;
 };
 
-export {
+export type {
   IconTree,
   Variants,
   IconBaseProps as IconProps,
