@@ -106,6 +106,9 @@ jobs:
       - name: Verify every generated icon and web catalog record
         run: npm run test:catalog --workspace=packages/generator
 
+      - name: Bundle the React Native smoke test
+        run: npm run smoke --workspace=packages/native-test
+
       - name: Export Next.js site
         env:
           SKIP_GENERATE_CONTENT_COLLECTIONS: "true"

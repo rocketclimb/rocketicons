@@ -120,7 +120,7 @@ const docs: Record<string, string> = {
   workflow:
     "On CATALOG_MISMATCH, call plan_project_upgrade and review the plan, then apply_project_upgrade before adding icons. For a React or React Native project, call recommend_icons with its path, icon intent, and source file. Compare up to five exact IDs visually with compare_icons, then call plan_icons with the exact icon IDs and source file. Review managed files and dependency effects. Call apply_icons with the returned plan ID; it verifies the result and returns imports relative to that source file. For plain HTML or other frameworks, use search_icons and get_icon_svg to get SVG markup without project setup.",
   styling:
-    "Generated components accept className. Use Rocketicons and Tailwind-compatible icon classes such as icon-primary-xl. For React Native, configure NativeWind and react-native-svg.",
+    "Generated components accept className. Use Rocketicons and Tailwind-compatible icon classes such as icon-primary-xl. For React Native, use NativeWind 4 with Tailwind CSS 3 and react-native-svg: tailwind.config.js needs presets: [require('nativewind/preset')] and plugins: [require('@rocketicons/tailwind').nativeIconPlugin] (init_project adds the plugin), babel.config.js lists 'nativewind/babel' under presets, and metro.config.js wraps its config with withNativeWind. Run doctor to check the setup.",
   licensing:
     "Each search result includes its collection license and upstream license URL. Review the collection terms and preserve attribution where required."
 };

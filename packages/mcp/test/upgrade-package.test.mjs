@@ -80,12 +80,32 @@ test(
           dependencies: {
             "@rocketicons/utils": "1",
             "@rocketicons/tailwind": "1",
-            nativewind: "1",
-            "react-native-svg": "1"
+            nativewind: "^4.2.7",
+            "react-native-svg": "1",
+            tailwindcss: "^3.4.17"
           }
         })
       );
-      writeFileSync(join(project, "App.jsx"), "export default function App() { return null; }");
+      writeFileSync(
+        join(project, "App.jsx"),
+        'import "./global.css";\nexport default function App() { return null; }'
+      );
+      writeFileSync(
+        join(project, "global.css"),
+        "@tailwind base;\n@tailwind components;\n@tailwind utilities;\n"
+      );
+      writeFileSync(
+        join(project, "tailwind.config.js"),
+        'module.exports = {\n  content: ["./App.jsx"],\n  presets: [require("nativewind/preset")]\n};\n'
+      );
+      writeFileSync(
+        join(project, "metro.config.js"),
+        'const { withNativeWind } = require("nativewind/metro");\nmodule.exports = withNativeWind({}, { input: "./global.css" });\n'
+      );
+      writeFileSync(
+        join(project, "babel.config.js"),
+        'module.exports = { presets: ["babel-preset-expo", "nativewind/babel"] };\n'
+      );
       client = new Client({ name: "upgrade-package-test", version: "1.0.0" });
       await client.connect(
         new StdioClientTransport({
@@ -115,6 +135,7 @@ test(
       assert.ok(
         !(await call("init_project", { target: "react-native", language: "js" })).isError
       );
+      assert.match(readFileSync(join(project, "tailwind.config.js"), "utf8"), /nativeIconPlugin/);
       assert.ok(!(await call("add_icons", { icon_ids: ["@fi/fi-calendar"] })).isError);
       const manifestPath = join(project, "rocketicons.json");
       const manifest = JSON.parse(readFileSync(manifestPath));
