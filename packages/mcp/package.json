@@ -21,7 +21,7 @@
     "test:telemetry-contract": "node --test test/telemetry-contract.test.mjs"
   },
   "dependencies": {
-    "@modelcontextprotocol/server": "^2.3.1",
+    "@modelcontextprotocol/server": "^2.4.0",
     "@rocketicons/toolkit": "0.3.0",
     "@rocketicons/utils": ">=0.7.0",
     "sharp": "^0.35.5",
@@ -31,7 +31,7 @@
     "node": ">=20.9.0"
   },
   "devDependencies": {
-    "@modelcontextprotocol/client": "^2.3.1",
+    "@modelcontextprotocol/client": "^2.4.0",
     "ajv": "^8.20.0"
   }
 }
