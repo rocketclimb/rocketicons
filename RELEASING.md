@@ -10,3 +10,17 @@ The release now also packs and publishes `@rocketicons/utils`, `@rocketicons/tai
 The workflow uses the existing `GH_ACTIONS` organization secret to open the pull request. GitHub's repository setting currently prevents its default `GITHUB_TOKEN` from creating pull requests.
 
 Do not merge the release PR until **Cut Release** succeeds for its source revision. **Release Packages** verifies the merged revision against that run's artifacts before publishing.
+
+
+## Release gates and recovery evidence
+
+- Merge stacked PRs in dependency order. If GitHub reports a conflict after a base change, fetch the current refs and inspect a normal local merge. Push the integrated head without rewriting history; preserve real conflicts for review.
+- Check the generated release PR's **Test and export static site** result before merging. It covers the complete static site and the Expo iOS bundle. As inspected on 2026-11-07, main's required-status list is empty; do not assume branch protection enforces this check.
+- Cut Release should also run the native smoke test before packaging, so a native regression cannot produce a prepared release candidate.
+- Treat catalog refreshes, Satori rendering changes and NativeWind/React Native dependencies as individually reviewed updates. A `0.x` minor version can require a platform migration. Group exclusions do not ignore security alerts or disable individual update PRs.
+- Confirm npm trusted publishing for each package against owner `rocketclimb`, repository `rocketicons`, workflow `release.yml`. A green recovery that only logs `skip:` proves archive identity, not permission to publish a new version.
+- Keep the successful cut's artifacts unchanged. After a partial publication, dispatch Release Packages on `main` with `release_pr` set to the merged release PR. Do not rebuild or bump to bypass a failed publish.
+- Review the generated public release notes. For the November 2026 minor catalog refresh, include the `LuFlipHorizontal2` / `LuFlipVertical2` orientation swap and the migration advice from the package changelog.
+- Verify public npm initialization and MCP startup after publishing, then update `AI_ROADMAP.md` with the result.
+
+See [the November release findings](docs/releases/process-findings-2026-11-07.md) for evidence and remaining proposals.

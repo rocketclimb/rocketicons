@@ -97,6 +97,9 @@ jobs:
       - name: Verify complete release catalog
         run: npm run test:catalog --workspace=packages/generator
 
+      - name: Verify React Native release bundle
+        run: npm run smoke --workspace=packages/native-test
+
       - name: Run tests
         run: |
           npm run test:release

@@ -56,7 +56,8 @@ test("release cuts generate and verify the complete catalog before tests and pac
   assert.match(jobEnvironment, /RI_GENERATE_ALL_ICONS: ["']true["']/);
   const build = workflow.indexOf("run: npm run build-all");
   const verify = workflow.indexOf("run: npm run test:catalog --workspace=packages/generator");
+  const nativeSmoke = workflow.indexOf("run: npm run smoke --workspace=packages/native-test");
   const tests = workflow.indexOf("npm run test-all");
   const packageStep = workflow.indexOf("- name: Bump versions and prepare package");
-  assert.ok(build >= 0 && verify > build && tests > verify && packageStep > tests);
+  assert.ok(build >= 0 && verify > build && nativeSmoke > verify && tests > nativeSmoke && packageStep > tests);
 });

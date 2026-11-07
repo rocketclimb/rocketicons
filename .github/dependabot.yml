@@ -11,6 +11,18 @@ updates:
         applies-to: "version-updates"
         patterns:
           - "*"
+        # These updates need catalog, visual, or NativeWind compatibility review.
+        # Excluding them from a group still permits individual update PRs.
+        exclude-patterns:
+          - "lucide-static"
+          - "@primer/octicons"
+          - "satori"
+          - "cheerio"
+          - "react-native"
+          - "react-native-svg"
+          - "nativewind"
+          - "react-native-css-interop"
+          - "tailwindcss"
         update-types:
           - "minor"
           - "patch"
@@ -18,6 +30,18 @@ updates:
         applies-to: "security-updates"
         patterns:
           - "*"
+        # These updates need catalog, visual, or NativeWind compatibility review.
+        # Excluding them from a group still permits individual update PRs.
+        exclude-patterns:
+          - "lucide-static"
+          - "@primer/octicons"
+          - "satori"
+          - "cheerio"
+          - "react-native"
+          - "react-native-svg"
+          - "nativewind"
+          - "react-native-css-interop"
+          - "tailwindcss"
         update-types:
           - "minor"
           - "patch"
