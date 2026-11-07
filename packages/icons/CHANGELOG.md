@@ -14,6 +14,7 @@
 
 ### Features
 
+- Refresh Lucide to 1.55.0 and Octicons to 19.40.0 as a minor catalog update, adding 87 exports without removals. **Artwork change:** `LuFlipHorizontal2` and `LuFlipVertical2` now show the opposite flip orientations. Swap these two exports to preserve the previous direction, or use `LuFlipHorizontal` / `LuFlipVertical`. Existing copied source files retain their artwork until regenerated.
 - Add 2,620 MynaUI regular and solid icons from the pinned MIT source and static catalog support. Bilingual semantic review is pending.
 
 ## [0.3.3](https://github.com/rocketclimb/rocketicons/compare/v0.9.3-release...v0.9.4) (2026-08-24)
