@@ -166,6 +166,7 @@ The CLI is the most important agent interface because it performs the useful pro
 - [x] Add a generated-file comment containing icon ID, collection, version, and license reference.
 - [x] Detect local modifications before overwriting generated icons.
 - [x] Hash a code-aware normalized copy of generated icon components so formatting-only edits remain current; report other edits as reusable, protected customizations in CLI and MCP workflows. Legacy byte hashes remain readable.
+- [x] Replace unmodified core templates written by earlier toolkit releases during setup and icon plans; edited core files are still rejected as user changes.
 - [ ] Provide a machine-readable diff when updating icons.
 - [ ] Allow fully offline repeatable installation from a cached catalog. **Partial:** catalog and SVG assets are bundled and icon addition is offline; first-time runtime dependency installation still needs published compatible packages or an existing cache.
 
@@ -174,7 +175,7 @@ The CLI is the most important agent interface because it performs the useful pro
 - [ ] Time to search and add one icon.
 - [ ] Files and bytes added for one, ten, and one hundred icons.
 - [ ] Shared runtime dependency size.
-- [ ] Resulting web and React Native bundle impact.
+- [ ] Resulting web and React Native bundle impact. **Partial:** core no longer imports the utils SVG parser. Unminified, with React and React Native externals, a Metro iOS bundle of `rocketicons/core` dropped from 105 modules (3.1 MB) to 14 modules (88 KB). An esbuild browser bundle dropped from 87 inputs (689 KB) to 3 inputs (3.7 KB). Minified application fixtures and full icon-package comparisons remain unmeasured.
 - [ ] Comparison with importing from full icon packages, using reproducible fixtures.
 
 ### Milestone 4 — MCP server
@@ -279,6 +280,7 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 - [ ] Define schema compatibility and deprecation policies.
 - [ ] Test duplicate IDs, missing source data, invalid SVG trees, licenses, aliases, and checksums. **Partial:** icon-context tests now cover duplicate and conflicting aliases, positive/negative term conflicts, stale and orphaned bindings, and strict source/public JSON size limits.
 - [ ] Preserve Grommet child fill colors during SVG conversion. **Follow-up:** generated glyphs such as `gr-figma`, `gr-slack`, and `gr-zoom` lose source color or cutout details; enrichment review used the pinned upstream SVGs for these cases. Contact sheets now preserve root attributes, variant strokes, and isolated SVG definition IDs, with rendering regressions covered.
+- [ ] Declare `@rocketicons/utils` as a direct dependency of `rocketicons`. **Follow-up:** `rocketicons/core` requires utils at runtime but only receives it through the `>=0.7.0` range of `@rocketicons/mcp`. The package also exports `./core/utils`, which the build does not generate.
 - [ ] Test CLI output on macOS, Linux, and Windows.
 - [ ] Test npm, pnpm, Yarn, and Bun projects.
 - [ ] Test React DOM, Next.js, Vite, Expo, and React Native fixtures.
