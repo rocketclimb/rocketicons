@@ -52,3 +52,28 @@ The generated notes for 0.11.0 use an outdated comparison (`v0.9.4-release...v0.
 A production catalog request using Python urllib's default User-Agent returned HTTP 403 with Cloudflare error 1010. The in-app browser succeeded, and the same HTTP client succeeded with the descriptive `RocketiconsReleaseQA/0.11.0` application User-Agent. This is the [documented Cloudflare Pages behavior](https://developers.cloudflare.com/pages/platform/known-issues/#browser-integrity-check-on-pages). Client examples should identify their application; this finding does not justify disabling site security or a hosting migration.
 
 Production Pages/Algolia deployment currently runs independently of npm publishing. Consider a separate change that gates release-related deployment on successful package publication, so a registry permission failure cannot expose a newer catalog before its npm packages exist. Preserve ordinary website-only deployment behavior when designing that dependency.
+
+
+## Historical package and publication trail
+
+The scoped packages are active dependencies, not removed packages:
+
+| Evidence | Finding |
+| --- | --- |
+| [f30adec7](https://github.com/rocketclimb/rocketicons/commit/f30adec7) — 2024-03-29, Jeferson Amorim | Renamed the Tailwind workspace from `@rocket-climb/bolt-tailwind` to `@rocketicons/tailwind`. |
+| [63cfe9e4](https://github.com/rocketclimb/rocketicons/commit/63cfe9e4), incorporated by [#158](https://github.com/rocketclimb/rocketicons/pull/158) | Jeferson introduced `@rocketicons/utils`; the original feature commit is dated 2025-09-03 and the integration PR merged in August 2026. |
+| [#254](https://github.com/rocketclimb/rocketicons/pull/254) — 2026-09-24, Jeferson J Amorim | Added toolkit/MCP and changed release publication from only `rocketicons` to all five packages in dependency order. |
+| Public npm history — 2026-09-26 | Publisher `amorimjj` published utils/tailwind 0.8.0 and toolkit/MCP 0.2.0. Those remain the current public versions; none has a deprecation marker. |
+| [#265 recovery guide](https://github.com/rocketclimb/rocketicons/blob/main/docs/releases/recovery-2026-09-26.md) | Records the same E404 failure, manual scoped-package publication, and recovery by verifying/skipping the existing archives. The green recovery did not prove unattended publication of a new scoped version. |
+
+Current source still imports utils runtime helpers, installs utils/Tailwind during initialization, and depends on toolkit/MCP from the main package. No package manifest deletion appears in the integrated history. Removing these packages from the release would require an architectural change, not a release repair.
+
+### Exact package-side checklist for Jeferson
+
+1. Open Settings for `@rocketicons/utils`, `@rocketicons/tailwind`, `@rocketicons/toolkit` and `@rocketicons/mcp` using an account with access to their publisher records.
+2. Verify a valid GitHub Actions trusted publisher for organization `rocketclimb`, repository `rocketicons`, workflow filename `release.yml`, with direct `npm publish` allowed and no environment mismatch. The unscoped `rocketicons` connection already matches and is Valid.
+3. If ongoing access for `programad` is desired, grant the intended package/team write access explicitly. Confirm the existing scope's administration rather than inferring access from the separate `rocketclimb` owner role.
+4. Resume the current release with `gh workflow run release.yml --repo rocketclimb/rocketicons --ref main -f release_pr=305`. It reuses cut 42395102753, existing versions and archive bytes.
+5. If manual publication is necessary, publish the exact four scoped archives from that cut in dependency order. Recovery accepts only matching archive integrity. Do not rebuild or choose replacement versions.
+
+Target versions: utils/Tailwind 0.9.0, toolkit/MCP 0.3.0, then rocketicons 0.5.0. Public install, CLI/MCP checks and finalized GitHub notes remain required after publication. This checklist is a handoff document; no maintainer message or permission change has been performed.
