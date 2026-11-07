@@ -1,3 +1,22 @@
+## [0.8.0](https://github.com/rocketclimb/rocketicons/compare/v0.9.4-release...v0.10.0) (2026-11-07)
+
+### Features
+
+- **generator** refresh Lucide 1.55.0 and Octicons 19.40.0 catalogs ([2dc6fd0c](https://github.com/rocketclimb/rocketicons/commit/2dc6fd0cfbafe58da9fc89705cdf60c790a58ef3))
+
+### Miscellaneous
+
+- **deps** consolidate safe dependency updates (#282) ([036e806e](https://github.com/rocketclimb/rocketicons/commit/036e806e6e1aee0ff8d04f03dabf31934b1f7a38))
+- **deps** consolidate safe dependency updates ([89d41f46](https://github.com/rocketclimb/rocketicons/commit/89d41f46d8111736f24a101cab9ea460e93a7ad9))
+- **release** 0.10.0 (#262) ([86943b14](https://github.com/rocketclimb/rocketicons/commit/86943b1493ac82016e18ef535c8e03d4451a0cdb))
+- **deps** consolidate compatible updates and group dependabot (#198) ([3f3c4207](https://github.com/rocketclimb/rocketicons/commit/3f3c4207ae378193a8fe7f024d0834f20ffacc58))
+
+### Other
+
+-  ([1957310f](https://github.com/rocketclimb/rocketicons/commit/1957310fb1e28744e7033f619ccbdf6cf902d62c))
+-  ([fdb020fb](https://github.com/rocketclimb/rocketicons/commit/fdb020fbfedb5fb51b827deb33de54ebca822d07))
+-  ([d067e080](https://github.com/rocketclimb/rocketicons/commit/d067e080a343be6949812d75f676d18e193a0f0f))
+
 ## [0.7.1](https://github.com/rocketclimb/rocketicons/compare/v0.9.4-release...v0.10.0) (2026-09-26)
 
 ### Miscellaneous

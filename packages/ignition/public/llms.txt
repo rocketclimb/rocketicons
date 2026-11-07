@@ -4,11 +4,11 @@
 
 - Catalog/package version: 0.4.0
 - Documentation updated: 2026-08-12
-- [Static catalog](https://rocketicons.com/ai/v1/catalog.json): Collection indexes, icon shards, and license records.
-- [Catalog capabilities](https://rocketicons.com/ai/v1/capabilities.json): Available machine resources.
-- [English getting started](https://rocketicons.com/en/docs/getting-started/): CLI setup and usage.
-- [Primeiros passos em português](https://rocketicons.com/pt-br/docs/primeiros-passos/): Guia de instalação e uso.
-- [Agent workflow](https://rocketicons.com/en/docs/agent-workflows/): MCP setup and reviewed icon selection.
+- [Static catalog](http://localhost:3000/ai/v1/catalog.json): Collection indexes, icon shards, and license records.
+- [Catalog capabilities](http://localhost:3000/ai/v1/capabilities.json): Available machine resources.
+- [English getting started](http://localhost:3000/en/docs/getting-started/): CLI setup and usage.
+- [Primeiros passos em português](http://localhost:3000/pt-br/docs/primeiros-passos/): Guia de instalação e uso.
+- [Agent workflow](http://localhost:3000/en/docs/agent-workflows/): MCP setup and reviewed icon selection.
 
 ## CLI and MCP version requirements
 
@@ -31,13 +31,13 @@ The CLI and MCP generate TSX or JSX, use the fixed `src/ri` output directory and
 
 ## Catalog and licensing
 
-Start with [the static catalog](https://rocketicons.com/ai/v1/catalog.json). Each collection entry links to a compact icon index and uses `contextIndexUrl` for its semantic context index. The context index reports coverage and explicitly selects `none`, `single`, or `chunked` storage; load only the referenced files. Available context includes English and Brazilian Portuguese descriptions, aliases, search terms, UI contexts, categories, roles, visual properties, and `negativeTerms` disambiguation guidance. Each icon index entry identifies its SVG shard. Collection records include their upstream project, license, and license URL. Review the selected collection's terms and preserve any required attribution.
+Start with [the static catalog](http://localhost:3000/ai/v1/catalog.json). Each collection entry links to a compact icon index and uses `contextIndexUrl` for its semantic context index. The context index reports coverage and explicitly selects `none`, `single`, or `chunked` storage; load only the referenced files. Available context includes English and Brazilian Portuguese descriptions, aliases, search terms, UI contexts, categories, roles, visual properties, and `negativeTerms` disambiguation guidance. Each icon index entry identifies its SVG shard. Collection records include their upstream project, license, and license URL. Review the selected collection's terms and preserve any required attribution.
 
 ## More guidance
 
-- [Framework quick starts](https://rocketicons.com/en/docs/framework-quick-starts/): React, Next.js, Vite, Expo, and React Native.
-- [Generated files](https://rocketicons.com/en/docs/generated-files/): Project output and imports.
-- [Migration](https://rocketicons.com/en/docs/migrating-to-rocketicons/): Move from other icon libraries.
-- [Agent workflow](https://rocketicons.com/en/docs/agent-workflows/): MCP setup and reviewed icon selection.
-- [Comparison](https://rocketicons.com/en/docs/comparison/): Product tradeoffs.
-- [Expanded machine-readable guide](https://rocketicons.com/llms-full.txt): More implementation detail.
+- [Framework quick starts](http://localhost:3000/en/docs/framework-quick-starts/): React, Next.js, Vite, Expo, and React Native.
+- [Generated files](http://localhost:3000/en/docs/generated-files/): Project output and imports.
+- [Migration](http://localhost:3000/en/docs/migrating-to-rocketicons/): Move from other icon libraries.
+- [Agent workflow](http://localhost:3000/en/docs/agent-workflows/): MCP setup and reviewed icon selection.
+- [Comparison](http://localhost:3000/en/docs/comparison/): Product tradeoffs.
+- [Expanded machine-readable guide](http://localhost:3000/llms-full.txt): More implementation detail.
