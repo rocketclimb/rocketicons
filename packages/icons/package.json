@@ -35,7 +35,7 @@
   },
   "optionalDependencies": {
     "nativewind": ">=4",
-    "react-native-svg": ">=15"
+    "react-native-svg": "^15.16.0"
   },
   "devDependencies": {
     "tailwindcss": ">=4"
@@ -282,8 +282,8 @@
     }
   },
   "dependencies": {
-    "@rocketicons/toolkit": "0.3.0",
-    "@rocketicons/mcp": "0.3.0"
+    "@rocketicons/mcp": "0.3.0",
+    "@rocketicons/toolkit": "0.3.0"
   },
   "bin": "./bin/index.js"
 }
