@@ -236,7 +236,10 @@ export const outputs = {
         stylesheetPath: z.string().nullable(),
         pluginRegistered: z.boolean(),
         stylesheetLoaded: z.boolean(),
-        buildIntegration: z.string().nullable()
+        buildIntegration: z.string().nullable(),
+        tailwindConfigPath: z.string().nullable().optional(),
+        nativewindPreset: z.boolean().optional(),
+        babelPreset: z.boolean().optional()
       })
       .nullable()
   }),
@@ -292,7 +295,7 @@ export const toolError = (error: unknown): ToolError => {
       nextStep: "Pass each exact icon ID only once to compare_icons."
     };
   if (
-    /Tailwind stylesheet|No Tailwind stylesheet|Multiple Tailwind stylesheets|stylesheet_path/.test(
+    /Tailwind stylesheet|No Tailwind stylesheet|Multiple Tailwind stylesheets|stylesheet_path|Tailwind config/.test(
       message
     )
   )
@@ -300,7 +303,7 @@ export const toolError = (error: unknown): ToolError => {
       code: "STYLING_SETUP",
       message,
       nextStep:
-        "Run doctor to inspect web styling. If multiple Tailwind stylesheets exist, pass stylesheet_path to init_project or to both plan_icons and apply_icons."
+        "Run doctor to inspect styling. For web, if multiple Tailwind stylesheets exist, pass stylesheet_path to init_project or to both plan_icons and apply_icons. For React Native, create tailwind.config.js with nativewind/preset, or register nativeIconPlugin manually as the message describes."
     };
   if (/Upgrade plan is stale/.test(message))
     return {

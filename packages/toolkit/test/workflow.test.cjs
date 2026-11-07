@@ -4,6 +4,7 @@ const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const app = require("../dist");
+const { nativewindDependencies, writeNativeWindSetup } = require("./nativewind-fixture.cjs");
 const ts = require("typescript");
 const React = require("react");
 const { renderToStaticMarkup } = require("react-dom/server");
@@ -21,7 +22,7 @@ const fixture = (language, target) => {
         "@rocketicons/utils": "1",
         "@rocketicons/tailwind": "1",
         ...(target === "react" ? { tailwindcss: "^4.2.1", "@tailwindcss/vite": "^4.2.1" } : {}),
-        ...(target === "react-native" ? { nativewind: "1", "react-native-svg": "1" } : {})
+        ...(target === "react-native" ? nativewindDependencies : {})
       }
     })
   );
@@ -39,6 +40,7 @@ const fixture = (language, target) => {
       'import tailwindcss from "@tailwindcss/vite";\nexport default { plugins: [tailwindcss()] };\n'
     );
   }
+  if (target === "react-native") writeNativeWindSetup(root);
   return root;
 };
 

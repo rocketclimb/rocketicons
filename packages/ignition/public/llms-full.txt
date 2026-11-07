@@ -53,7 +53,7 @@ With a compatible published version, start the local stdio server with `npx -y r
 
 - React and Vite: initialize from the application root, then ensure the TypeScript alias is also understood by the bundler if the framework does not read tsconfig paths automatically.
 - Next.js: initialize from the Next.js project root and import generated components through `@/ri`.
-- Expo and React Native: configure React Native SVG, NativeWind, and the Rocketicons Tailwind integration before rendering generated components.
+- Expo and React Native: NativeWind 4 uses Tailwind CSS 3, so register `nativeIconPlugin` from `@rocketicons/tailwind` in `tailwind.config.*` (`init` adds it to an existing config) and set up React Native SVG, the NativeWind preset, Babel preset, and Metro `withNativeWind`; `doctor` checks each piece.
 - JavaScript projects receive JSX output; TypeScript projects receive TSX output.
 
 ## Migrating from another icon package

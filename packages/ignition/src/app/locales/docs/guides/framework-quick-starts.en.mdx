@@ -41,11 +41,55 @@ Run the commands beside `vite.config.*`. Keep the generated `@/ri/*` TypeScript 
 
 ### Expo
 
-Start with an Expo TypeScript or JavaScript project. Configure `react-native-svg`, NativeWind, and the Rocketicons Tailwind integration, then initialize and import the same local component. Metro must resolve your `@` alias.
+Start with an Expo TypeScript or JavaScript project and set up NativeWind as described in the React Native section below before initializing. Metro must resolve your `@` alias.
 
 ### React Native
 
-Rocketicons uses its generated native core with `react-native-svg`. Configure React Native SVG, NativeWind, Tailwind content paths, and alias resolution before rendering:
+Rocketicons uses its generated native core with `react-native-svg` and styles icons through NativeWind 4. NativeWind 4 compiles with **Tailwind CSS 3**, so React Native registers the Rocketicons plugin in `tailwind.config.js`, not with the web `@plugin` line.
+
+Install NativeWind 4, `react-native-svg`, and `tailwindcss@^3.4`. Then configure these files:
+
+```js
+// tailwind.config.js
+module.exports = {
+  content: ["./App.{js,jsx,ts,tsx}", "./app/**/*.{js,jsx,ts,tsx}", "./src/**/*.{js,jsx,ts,tsx}"],
+  presets: [require("nativewind/preset")],
+  plugins: [require("@rocketicons/tailwind").nativeIconPlugin]
+};
+```
+
+```css
+/* global.css, imported once from your app entry, such as App.tsx or app/_layout.tsx */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+```js
+// babel.config.js in Expo: nativewind/babel is a preset, not a plugin
+module.exports = function (api) {
+  api.cache(true);
+  return {
+    presets: [["babel-preset-expo", { jsxImportSource: "nativewind" }], "nativewind/babel"]
+  };
+};
+```
+
+```js
+// metro.config.js in Expo
+const { getDefaultConfig } = require("expo/metro-config");
+const { withNativeWind } = require("nativewind/metro");
+
+module.exports = withNativeWind(getDefaultConfig(__dirname), { input: "./global.css" });
+```
+
+In a React Native CLI app without Expo, add `"nativewind/babel"` to your existing Babel `presets` and wrap the config from `@react-native/metro-config` with `withNativeWind`, as shown in [NativeWind's framework-less guide](https://www.nativewind.dev/docs/getting-started/installation/frameworkless).
+
+`npx rocketicons init` adds the `nativeIconPlugin` entry to an existing `tailwind.config.*` file in CommonJS, ESM, or TypeScript, and `--dry-run` shows that edit first. Run `npx rocketicons doctor --json` to check the Tailwind CSS version, the NativeWind preset and Rocketicons plugin, the imported stylesheet, `withNativeWind` in Metro, and the Babel preset.
+
+If Babel reports `Cannot find module 'react-native-worklets/plugin'` in an app on Reanimated 3, upgrade to `nativewind@4.2.7` or newer.
+
+Render the generated component with icon classes:
 
 ```tsx
 import RcRocketIcon from "@/ri/icons/rc-rocket-icon";
@@ -55,4 +99,4 @@ export function LaunchMark() {
 }
 ```
 
-> The CLI currently generates TypeScript/TSX only. It does not configure framework bundlers, Metro, NativeWind, or React Native SVG for you.
+> The CLI installs `nativewind` and `react-native-svg` when they are missing and registers the plugin. It does not install Tailwind CSS, create the NativeWind, Babel, or Metro files, or configure alias resolution. NativeWind 5, which uses Tailwind CSS 4, is not configured automatically yet.

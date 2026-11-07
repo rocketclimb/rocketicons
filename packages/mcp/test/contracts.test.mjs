@@ -56,6 +56,16 @@ test("actionable error categories retain a machine code and a readable next step
     ["Invalid variant: ???", "INVALID_FILTER", /valid variant/],
     ["remove duplicate icon IDs", "DUPLICATE_ICONS", /compare_icons/],
     ["Multiple Tailwind stylesheets found", "STYLING_SETUP", /stylesheet_path/],
+    [
+      "No Tailwind config found; NativeWind needs tailwind.config.js",
+      "STYLING_SETUP",
+      /nativewind/
+    ],
+    [
+      "Cannot register Rocketicons in Tailwind config tailwind.config.js automatically",
+      "STYLING_SETUP",
+      /nativeIconPlugin/
+    ],
     ["Upgrade plan is stale or does not match", "STALE_PLAN", /plan_project_upgrade/],
     ["Cannot repair unavailable icon @old/icon", "ICON_REPAIR_UNAVAILABLE", /source control/],
     ["Catalog downgrade is not supported", "CATALOG_UPGRADE_INVALID", /at least as new/],
