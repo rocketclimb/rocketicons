@@ -8,6 +8,10 @@ The first merge attempt through the GitHub connector returned `403 Resource not 
 
 After the base changed, GitHub reported #288 and #284 as conflicting. A normal local merge of the current develop revision completed without textual conflicts for both branches. Those integration commits were pushed without force, preserving the NativeWind configuration, React Native SVG 15.15.x pin, runtime-template migration and telemetry changes. GitHub's earlier conflict response alone was not enough to justify a rebase or discarded changes.
 
+## Blocking integration failure and fix
+
+[Cut Release 42393521458](https://github.com/rocketclimb/rocketicons/actions/runs/42393521458) stopped before packaging because two MCP telemetry fixtures lacked the NativeWind setup newly required by #288. [#298](https://github.com/rocketclimb/rocketicons/pull/298) fixes the fixtures without relaxing production checks or telemetry assertions. [Its validation](https://github.com/rocketclimb/rocketicons/actions/runs/42393909350) passed all 753 automated tests, the full catalog check, the Expo iOS bundle and the static site export before it merged. The release cut is retried from that corrected integrated source.
+
 ## Proposed improvements in this PR
 
 1. Run the Expo iOS smoke test in Cut Release after the complete catalog build. Pages CI already has the smoke test, while the cut workflow currently packages without it. This PR adds the missing gate and checks its ordering in the release workflow regression test.
