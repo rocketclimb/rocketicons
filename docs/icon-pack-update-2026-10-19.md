@@ -1,6 +1,6 @@
 # Icon pack refresh — 2026-10-19
 
-Two npm-installed sources change: `lucide-static` moves from 1.41.0 to 1.55.0, and `@primer/octicons` moves from 19.34.0 to 19.40.0. Dependabot's grouped update proposed these bumps. They were separated from the routine dependency consolidation because they change the published catalog. The other 32 collections, including Iconoir and MynaUI, are unchanged. npm's `latest` for `lucide-static` is already 1.59.0. This refresh pins 1.55.0, the version that was reviewed. A later refresh can move to the newer release.
+Two npm-installed sources change: `lucide-static` moves from 1.41.0 to 1.55.0, and `@primer/octicons` moves from 19.34.0 to 19.40.0. Dependabot's grouped update proposed these bumps. They were separated from the routine dependency consolidation because they change the published catalog. The other 32 collections, including Iconoir and MynaUI, are unchanged. Newer upstream releases exist. This refresh uses the reviewed 1.55.0 lockfile version. A later refresh can move to the newer release.
 
 On top of `develop` with Iconoir, the generated package grows from **55,897 to 55,984 exports** (+87 / −0). The web catalog grows from 55,893 to **55,980 distinct IDs**; the difference from the export count is four existing Lucide AZ/Az alias pairs that share IDs. No existing export is removed, renamed, or pointed at a different ID. Unlike the [2026-09-04 refresh](icon-pack-update-2026-09-04.md), this is an additive catalog change. However, some existing Lucide exports now render different artwork. See [Compatibility and release notes](#compatibility-and-release-notes).
 
@@ -15,7 +15,7 @@ Lucide has 2,123 distinct IDs after the refresh, up from 2,048. The remaining 32
 
 ## Compatibility and release notes
 
-No imports break: every export name from the previous catalog still exists with the same ID. Release this as a minor (feature) catalog update rather than a patch-only dependency bump, and call out the artwork changes below. Generated files in a consumer's own source tree keep the old artwork until they are regenerated.
+No imports break: every export name from the previous catalog still exists with the same ID. The maintainer approved this as a minor (feature) catalog update on 2026-11-07, with the flipped icons documented in the package changelog and public release notes. Generated files in a consumer's own source tree keep the old artwork until they are regenerated.
 
 ### Changed artwork for existing Lucide exports
 

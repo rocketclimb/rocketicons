@@ -2,7 +2,7 @@
 
 Local MCP server for finding, inspecting, installing, and verifying Rocketicons.
 
-MCP usage telemetry is not implemented. The default-off contract for a future release is documented in [English](TELEMETRY.md) and [Português brasileiro](TELEMETRY.pt-BR.md), with a [versioned schema and sample](contracts/telemetry/v1/README.md).
+MCP usage instrumentation and a bounded sender are implemented, but this build has no collector endpoint: it sends no usage telemetry, even when opted in. Deployment remains gated on [#275](https://github.com/rocketclimb/rocketicons/issues/275). Consent, payloads, and release requirements are documented in [English](TELEMETRY.md) and [Português brasileiro](TELEMETRY.pt-BR.md), with a [versioned schema and sample](contracts/telemetry/v1/README.md).
 
 Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.
 
@@ -29,7 +29,7 @@ This migrates catalog metadata; it does not regenerate existing icons or upgrade
 
 ## Configure an MCP client
 
-Rocketicons runs locally over stdio with `npx -y @rocketicons/mcp`. Use Node.js 20 or newer, with `node` and `npx` available to the client. The client starts the server for you; no separate terminal process or global package installation is needed. The first launch needs internet access to download the package. Search uses Algolia when available and falls back to the bundled catalog offline.
+Rocketicons runs locally over stdio with `npx -y @rocketicons/mcp`. Use Node.js 20.9.0 or newer, with `node` and `npx` available to the client. The client starts the server for you; no separate terminal process or global package installation is needed. The first launch needs internet access to download the package. Search uses Algolia when available and falls back to the bundled catalog offline.
 
 For any client that supports local stdio MCP, set the command to `npx` and the arguments to `["-y", "@rocketicons/mcp"]`. Clients that only accept remote HTTP servers cannot use this command directly. No API key is required for the default search configuration. Project tools receive an explicit absolute `project_path` when called, so it is not part of the server configuration.
 
@@ -111,7 +111,7 @@ To add icons, call `plan_icons` with exact IDs, `project_path`, and `from_file` 
 
 Generated icon components belong to the project and can be edited. `inspect_project` marks a non-formatting edit as `customized`; `doctor` lists customized IDs without treating them as setup failures. `recommend_icons` can reuse them, while `plan_icons` reports them in `preservedIcons` and includes their current file hashes in the plan ID. Add and apply leave those files untouched. `remove_icons` refuses to delete a customized component. Formatting-only changes are ignored by a code-aware hash calculated in memory; neither Rocketicons nor the hash check reformats the project file.
 
-In Tailwind CSS 4 web projects, setup registers `@rocketicons/tailwind` in the active stylesheet with `@plugin`, and plans include that CSS edit. `doctor` reports the Tailwind version, stylesheet path, whether it is imported by application code, plugin registration, and Vite or PostCSS build integration. If multiple Tailwind stylesheets are active, pass the same `stylesheet_path` to `plan_icons` and `apply_icons` (or to `init_project`). React Native styling setup remains separate.
+In Tailwind CSS 4 web projects, setup registers `@rocketicons/tailwind` in the active stylesheet with `@plugin`, and plans include that CSS edit. `doctor` reports the Tailwind version, stylesheet path, whether it is imported by application code, plugin registration, and Vite or PostCSS build integration. If multiple Tailwind stylesheets are active, pass the same `stylesheet_path` to `plan_icons` and `apply_icons` (or to `init_project`). In React Native projects with NativeWind 4, which uses Tailwind CSS 3, setup adds `nativeIconPlugin` from `@rocketicons/tailwind` to the existing `tailwind.config.*` file, and plans include that edit. `doctor` reports the Tailwind version, the config's NativeWind preset and plugin registration, whether the `@tailwind` stylesheet is imported, Metro `withNativeWind` integration, and the `nativewind/babel` preset.
 
 Setup requires compatible published `@rocketicons/utils` and `@rocketicons/tailwind` versions (0.7.0 or newer) when the project does not already have them. Plans list the exact managed file paths and dependency packages. A package manager determines the final contents of `package.json` and its lockfile during installation; the plan lists those files and its cache and `node_modules` effects before apply.
 When `project_path` is inside a parent npm, Yarn, Bun, or pnpm workspace, install missing dependencies with that workspace's package manager first. Rocketicons rejects an automatic install there because the package manager may change files outside `project_path`; setup and icon addition work after the dependencies are declared in the project package.

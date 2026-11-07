@@ -6,6 +6,7 @@ const path = require("node:path");
 const { createHash } = require("node:crypto");
 const ts = require("typescript");
 const app = require("../dist");
+const { nativewindDependencies, writeNativeWindSetup } = require("./nativewind-fixture.cjs");
 
 const fixture = (language = "ts", target = "react", dependencies = true) => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "rocketicons-plan-"));
@@ -25,9 +26,7 @@ const fixture = (language = "ts", target = "react", dependencies = true) => {
       dependencies: {
         ...(dependencies ? { "@rocketicons/utils": "1", "@rocketicons/tailwind": "1" } : {}),
         ...(target === "react" ? { tailwindcss: "^4.2.1", "@tailwindcss/vite": "^4.2.1" } : {}),
-        ...(target === "react-native"
-          ? { "react-native": "1", nativewind: "1", "react-native-svg": "1" }
-          : {})
+        ...(target === "react-native" ? nativewindDependencies : {})
       }
     })
   );
@@ -40,6 +39,7 @@ const fixture = (language = "ts", target = "react", dependencies = true) => {
     fs.writeFileSync(path.join(root, "src/index.css"), '@import "tailwindcss";\n');
     fs.writeFileSync(path.join(root, "src/main.jsx"), 'import "./index.css";\n');
   }
+  if (target === "react-native") writeNativeWindSetup(root, { entry: source });
   return { root, source };
 };
 

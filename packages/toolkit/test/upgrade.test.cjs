@@ -5,6 +5,7 @@ const os = require("node:os");
 const path = require("node:path");
 const { createHash } = require("node:crypto");
 const app = require("../dist");
+const { nativewindDependencies, writeNativeWindSetup } = require("./nativewind-fixture.cjs");
 const { normalizedComponentHash } = require("../dist/component-hash");
 const sha = (value) => createHash("sha256").update(value).digest("hex");
 const save = (root, manifest) =>
@@ -28,7 +29,7 @@ async function fixture(t, language = "ts", target = "react") {
         "@rocketicons/utils": "1",
         "@rocketicons/tailwind": "1",
         ...(target === "react" ? { tailwindcss: "^4.2.1", "@tailwindcss/vite": "^4.2.1" } : {}),
-        ...(target === "react-native" ? { nativewind: "1", "react-native-svg": "1" } : {})
+        ...(target === "react-native" ? nativewindDependencies : {})
       }
     })
   );
@@ -43,6 +44,7 @@ async function fixture(t, language = "ts", target = "react") {
       'import tailwindcss from "@tailwindcss/vite"; export default { plugins: [tailwindcss()] };'
     );
   }
+  if (target === "react-native") writeNativeWindSetup(root, { entry: "App.jsx" });
   await app.initProject(root, { language, target });
   await app.addIcons(root, ["@fi/fi-calendar", "@fi/fi-camera"]);
   const manifest = read(root);

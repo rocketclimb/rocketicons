@@ -46,6 +46,8 @@ Em um projeto web com Tailwind CSS 4, a inicialização encontra o arquivo CSS a
 
 Execute `npx rocketicons doctor --json` para conferir a versão do Tailwind, o carregamento do CSS, o registro do plugin e a integração com Vite ou PostCSS. Se houver mais de um arquivo CSS ativo com Tailwind, passe `--stylesheet-path src/caminho/estilos.css` ao comando `init`. O dry run mostra qual arquivo CSS será alterado antes da escrita.
 
+Em um app React Native, o NativeWind 4 usa Tailwind CSS 3, então a inicialização adiciona o `nativeIconPlugin` de `@rocketicons/tailwind` ao seu `tailwind.config.*` existente. Veja o [guia rápido de React Native](../framework-quick-starts/#react-native) para a configuração completa do NativeWind conferida pelo `doctor`.
+
 ### 3. Encontre um ícone
 
 Use o [explorador de ícones](../../icons) para escolher uma coleção e o ID exato. Por exemplo, o foguete do próprio Rocketicons é `@rc/rc-rocket-icon`.
