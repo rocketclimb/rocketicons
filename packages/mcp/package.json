@@ -2,6 +2,11 @@
   "name": "@rocketicons/mcp",
   "version": "0.3.0",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rocketclimb/rocketicons.git",
+    "directory": "packages/mcp"
+  },
   "type": "module",
   "bin": {
     "rocketicons-mcp": "dist/index.js"

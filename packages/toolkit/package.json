@@ -2,6 +2,11 @@
   "name": "@rocketicons/toolkit",
   "version": "0.3.0",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rocketclimb/rocketicons.git",
+    "directory": "packages/toolkit"
+  },
   "private": false,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -24,3 +24,8 @@ Do not merge the release PR until **Cut Release** succeeds for its source revisi
 - Verify public npm initialization and MCP startup after publishing, then update `AI_ROADMAP.md` with the result.
 
 See [the November release findings](docs/releases/process-findings-2026-11-07.md) for evidence and remaining proposals.
+
+
+For npm recovery, inspect each package's trusted publisher record before retrying. The current workflow needs owner `rocketclimb`, repository `rocketicons`, filename `release.yml`, no environment restriction, and permission to run `npm publish`. Check whether a pending configuration has expired. Repository metadata must point to the same GitHub repository. See [npm's current instructions](https://docs.npmjs.com/trusted-publishers/); saving a configuration does not prove a new-version publish will work.
+
+For scripted checks of the public Pages catalog, use a descriptive application User-Agent, such as `RocketiconsReleaseQA/0.11.0`. The default Python urllib signature can receive Cloudflare 1010 even while the browser and an identified application client work. Keep site security settings unchanged.
