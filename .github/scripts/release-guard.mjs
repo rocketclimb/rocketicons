@@ -23,6 +23,11 @@ export const validateCutReleaseSource = (sourceBranch) => {
   return sourceBranch;
 };
 
+export const releaseTagForVersion = (version) => {
+  parseStableVersion(version, "Release version");
+  return `v${version}-release`;
+};
+
 export const releaseBranchForVersion = (version) => {
   parseStableVersion(version, "Release version");
   return `release/${version}`;
@@ -47,7 +52,7 @@ export const validateCutReleaseResult = (releaseVersion, rootVersion, tagName) =
     );
   }
 
-  const expectedTagName = `v${releaseVersion}-release`;
+  const expectedTagName = releaseTagForVersion(releaseVersion);
   if (tagName !== expectedTagName) {
     throw new Error(`Generated tag mismatch: expected ${expectedTagName}, received ${tagName}`);
   }
@@ -171,6 +176,11 @@ const runCli = async ([command, ...args]) => {
   if (command === "validate-source") {
     validateCutReleaseSource(args[0]);
     process.stdout.write("Cut release source validated\n");
+    return;
+  }
+
+  if (command === "release-tag") {
+    process.stdout.write(`${releaseTagForVersion(args[0])}\n`);
     return;
   }
 
