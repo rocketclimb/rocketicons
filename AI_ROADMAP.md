@@ -141,7 +141,7 @@ The CLI is the most important agent interface because it performs the useful pro
 - [x] `rocketicons config`
 - [x] `rocketicons mcp` starts the local stdio server from the CLI package.
 
-**Release preparation (2026-11-07):** publish the reviewed Lucide 1.55.0 / Octicons 19.40.0 refresh as a minor update. Call out the reversed `LuFlipHorizontal2` / `LuFlipVertical2` artwork in the package changelog and public release notes. The first integrated cut exposed two stale MCP telemetry fixtures after NativeWind setup validation; those fixtures now use the shared complete NativeWind configuration while retaining the health and confirmed-addition assertions. Release verification remains pending.
+**Release preparation (2026-11-07):** publish the reviewed Lucide 1.55.0 / Octicons 19.40.0 refresh as a minor update. Call out the reversed `LuFlipHorizontal2` / `LuFlipVertical2` artwork in the package changelog and public release notes. The first integrated cut exposed two stale MCP telemetry fixtures after NativeWind setup validation; those fixtures now use the shared complete NativeWind configuration while retaining the health and confirmed-addition assertions. Release verification remains pending. A second cut passed the suites but exposed stale tag extraction from releaser output; tag generation now uses the generated root manifest, with stable-version and artifact identity checks retained.
 
 #### Agent-friendly behavior
 

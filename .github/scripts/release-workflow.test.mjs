@@ -1,5 +1,12 @@
 import assert from "node:assert/strict";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  copyFileSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync
+} from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
@@ -59,4 +66,35 @@ test("release cuts generate and verify the complete catalog before tests and pac
   const tests = workflow.indexOf("npm run test-all");
   const packageStep = workflow.indexOf("- name: Bump versions and prepare package");
   assert.ok(build >= 0 && verify > build && tests > verify && packageStep > tests);
+});
+
+test("a historical tag in releaser output cannot override the generated manifest", () => {
+  const workflow = readFileSync(new URL(".github/workflows/prepare-release.yml", root), "utf8");
+  const start = workflow.indexOf("            npm run release\n");
+  const end = workflow.indexOf("            EXPECTED_COMMIT_SUBJECT=", start);
+  assert.ok(start >= 0 && end > start);
+  const directory = mkdtempSync(path.join(tmpdir(), "rocketicons-release-tag-"));
+  try {
+    mkdirSync(path.join(directory, ".github/scripts"), { recursive: true });
+    copyFileSync(
+      new URL(".github/scripts/release-guard.mjs", root),
+      path.join(directory, ".github/scripts/release-guard.mjs")
+    );
+    writeFileSync(path.join(directory, "package.json"), JSON.stringify({ version: "0.11.0" }));
+    writeFileSync(
+      path.join(directory, "npm"),
+      "#!/bin/sh\necho 'historical v0.10.0-release'\n",
+      { mode: 0o755 }
+    );
+    const result = spawnSync("sh", ["-c", workflow.slice(start, end) + '\nprintf "%s\\n" "$TAG_NAME"'], {
+      cwd: directory,
+      env: { ...process.env, PATH: `${directory}:${process.env.PATH}` },
+      encoding: "utf8"
+    });
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /historical v0\.10\.0-release/);
+    assert.match(result.stdout, /v0\.11\.0-release\n$/);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
 });
