@@ -200,7 +200,7 @@ Build the MCP server on the same toolkit layer used by the CLI. Do not create se
 - [x] `inspect_project(project_path)`
 - [x] `doctor(project_path)`
 - [x] Treat edited installed components as project-owned customizations: `inspect_project` and `doctor` report them, recommendations reuse them, and add/plan preserve them while removal stays protected.
-- [x] Register the Rocketicons plugin automatically in an existing Tailwind CSS 4 web stylesheet; include the CSS edit in dry runs and plans, and diagnose missing web styling integration. React Native styling configuration remains separate.
+- [x] Register the Rocketicons plugin automatically in an existing Tailwind CSS 4 web stylesheet; include the CSS edit in dry runs and plans, and diagnose missing web styling integration. React Native styling configuration remains separate. **Follow-up:** the working NativeWind 4 setup (Tailwind CSS 3 `tailwind.config.js` with `nativewind/preset` and `rocketicons/tailwind`'s `nativeIconPlugin`) is only shown in `packages/native-test`; document it on the site and teach `init`/`doctor` to register and diagnose it.
 - [ ] `init_project(project_path, target?, language?, package_manager?, stylesheet_path?, dry_run?)`. **Partial:** file setup and dry runs pass TS/JS React/React Native fixtures, including Tailwind 4 web stylesheet registration; a clean real npm install waits on compatible runtime package publication.
 
 #### Recommended MCP resources
@@ -283,7 +283,7 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 - [ ] Declare `@rocketicons/utils` as a direct dependency of `rocketicons`. **Follow-up:** `rocketicons/core` requires utils at runtime but only receives it through the `>=0.7.0` range of `@rocketicons/mcp`. The package also exports `./core/utils`, which the build does not generate.
 - [ ] Test CLI output on macOS, Linux, and Windows.
 - [ ] Test npm, pnpm, Yarn, and Bun projects.
-- [ ] Test React DOM, Next.js, Vite, Expo, and React Native fixtures.
+- [ ] Test React DOM, Next.js, Vite, Expo, and React Native fixtures. **Partial:** CI exports the `packages/native-test` Expo 52 / React Native 0.76 iOS bundle (`npm run smoke -w packages/native-test`) and checks that it resolves `rocketicons/my`, the native core, and `@rocketicons/utils`, and that the NativeWind `nativeIconPlugin` emits icon rules. React DOM, Next.js, and Vite fixtures, on-device rendering, and Expo 54 / Reanimated 4 remain.
 - [ ] Add supply-chain documentation and signed release provenance where practical.
 - [ ] Document whether generated icon files require attribution for each collection.
 - [ ] Add a process for upstream icon removals and license changes.

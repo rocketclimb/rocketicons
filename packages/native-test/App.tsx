@@ -10,7 +10,7 @@ import { MyHome, MySolidHome } from "rocketicons/my";
  * This app showcases rocketicons in a React Native environment with NativeWind.
  * It tests all major use cases: sizes, variants, colors, and multiple collections.
  *
- * To run: cd packages/native-test && npm install && npx expo start --ios
+ * To run: npm install (from the repo root), then cd packages/native-test && npx expo start --ios
  */
 
 // -- Size showcase --
@@ -119,10 +119,11 @@ export default function App() {
 
       <Section title="✅ Test Status">
         <Text className="text-green-600 dark:text-green-400 font-medium">
-          If you can see this page with proper styling, NativeWind v4 + TW v4 is working!
+          If you can see this page with proper styling, NativeWind v4 + Tailwind CSS v3 is
+          working!
         </Text>
         <Text className="text-gray-500 text-sm mt-2">
-          • NativeWind: 4.2.2{"\n"}• Tailwind CSS: 4.x{"\n"}• Platform: iOS (macOS dev)
+          • NativeWind: 4.2.7{"\n"}• Tailwind CSS: 3.x{"\n"}• Platform: iOS (macOS dev)
         </Text>
       </Section>
 
