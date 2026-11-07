@@ -29,3 +29,6 @@ See [the November release findings](docs/releases/process-findings-2026-11-07.md
 For npm recovery, inspect each package's trusted publisher record before retrying. The current workflow needs owner `rocketclimb`, repository `rocketicons`, filename `release.yml`, no environment restriction, and permission to run `npm publish`. Check whether a pending configuration has expired. Repository metadata must point to the same GitHub repository. See [npm's current instructions](https://docs.npmjs.com/trusted-publishers/); saving a configuration does not prove a new-version publish will work.
 
 For scripted checks of the public Pages catalog, use a descriptive application User-Agent, such as `RocketiconsReleaseQA/0.11.0`. The default Python urllib signature can receive Cloudflare 1010 even while the browser and an identified application client work. Keep site security settings unchanged.
+
+
+Before cutting a release, verify that the operator can inspect all five package settings pages, not only the unscoped `rocketicons` package. During the November release, `programad` could manage `rocketicons` while the four `@rocketicons/*` packages listed only `amorimjj`; their publisher settings were inaccessible in that session. Resolve scoped-package maintainer access before release day. Do not change package ownership or add credentials as a workaround.
