@@ -42,6 +42,8 @@ export function LaunchButton() {
 
 The CLI writes TSX or JSX to `src/ri`, configures the `@/ri/*` alias, and accepts several exact icon IDs in one `add` call. Use `--json`, `--dry-run`, and `--cwd <absolute path>` for agent workflows.
 
+Iconoir v7.12.1 is available as `@oir/oir-home` and, where Iconoir supplies a solid style, `@oir/oir-solid-<name>`. The collection contains 1,383 regular and 288 solid icons under Iconoir's MIT license. For example, `npx rocketicons add @oir/oir-solid-arrow-down-circle` adds just that component.
+
 Commit `src/ri` with your application so collaborators, CI, deployments, and offline builds use the same icon source.
 
 ## Documentation and machine discovery
@@ -53,7 +55,9 @@ Commit `src/ri` with your application so collaborators, CI, deployments, and off
 
 ## MCP server
 
-The MCP package is implemented in this repository and awaits npm publication. After publication, configure a stdio MCP client to run `npx -y rocketicons mcp` (or the dedicated `npx -y @rocketicons/mcp`). From this checkout, build the CLI and MCP packages and use `npx --no-install rocketicons mcp`. Search uses Algolia for broad terms and a bundled index if Algolia is unavailable. Pass `collections: ["fi"]` to `search_icons` to keep results within one family. Exact IDs such as `@fi/fi-calendar` resolve locally. Inspect the SVG resource, dry-run `init_project` and `add_icons`, then use `get_icon_usage` for the local import. See [MCP setup](packages/mcp/README.md).
+The MCP package is available on npm. Configure a stdio MCP client to run `npx -y rocketicons mcp` (or the dedicated `npx -y @rocketicons/mcp`). From this checkout, build the CLI and MCP packages and use `npx --no-install rocketicons mcp`. Search uses Algolia for broad terms and a bundled index if Algolia is unavailable. Pass `collections: ["fi"]` to `search_icons` to keep results within one family. Exact IDs such as `@fi/fi-calendar` resolve locally. Inspect the SVG resource, dry-run `init_project` and `add_icons`, then use `get_icon_usage` for the local import. See [MCP setup](packages/mcp/README.md).
+
+The MCP includes opt-in instrumentation, but collection remains disabled until the collector is deployed and verified. Read the [usage measurement notice](packages/mcp/TELEMETRY.md) ([Português brasileiro](packages/mcp/TELEMETRY.pt-BR.md)) and [contract](packages/mcp/contracts/telemetry/v1/README.md).
 
 ## Monorepo packages
 

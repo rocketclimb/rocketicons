@@ -1,14 +1,30 @@
-import { McpServer, ResourceTemplate } from "@modelcontextprotocol/server";
+import {
+  McpServer,
+  ResourceTemplate,
+  type CallToolResult,
+  type ServerContext,
+  type ToolCallback
+} from "@modelcontextprotocol/server";
+import { createRequire } from "node:module";
 import * as z from "zod/v4";
 import toolkit from "@rocketicons/toolkit";
 import utils from "@rocketicons/utils/dist/contact-sheet.js";
 import { compareIcons } from "./compare-icons.js";
 import { errorResult, outputs } from "./contracts.js";
+import { instrumentTool } from "./instrumentation.js";
+import { createTelemetry, type TelemetrySink } from "./telemetry.js";
+import type { TelemetryTool } from "./telemetry-event.js";
+
+const { version: packageVersion } = createRequire(import.meta.url)("../package.json") as {
+  version: string;
+};
 
 const { renderIconSvg } = utils;
 
 const {
   addIcons,
+  planProjectUpgrade,
+  applyProjectUpgrade,
   applyIconPlan,
   catalogVersion,
   doctor,
@@ -102,9 +118,9 @@ const projectPath = z
 const iconIds = z.array(z.string().min(1)).min(1).describe("Exact icon IDs from search_icons");
 const docs: Record<string, string> = {
   workflow:
-    "For a React or React Native project, call recommend_icons with its path, icon intent, and source file. Compare up to five exact IDs visually with compare_icons, then call plan_icons with the exact icon IDs and source file. Review managed files and dependency effects. Call apply_icons with the returned plan ID; it verifies the result and returns imports relative to that source file. For plain HTML or other frameworks, use search_icons and get_icon_svg to get SVG markup without project setup.",
+    "On CATALOG_MISMATCH, call plan_project_upgrade and review the plan, then apply_project_upgrade before adding icons. For a React or React Native project, call recommend_icons with its path, icon intent, and source file. Compare up to five exact IDs visually with compare_icons, then call plan_icons with the exact icon IDs and source file. Review managed files and dependency effects. Call apply_icons with the returned plan ID; it verifies the result and returns imports relative to that source file. For plain HTML or other frameworks, use search_icons and get_icon_svg to get SVG markup without project setup.",
   styling:
-    "Generated components accept className. Use Rocketicons and Tailwind-compatible icon classes such as icon-primary-xl. For React Native, configure NativeWind and react-native-svg.",
+    "Generated components accept className. Use Rocketicons and Tailwind-compatible icon classes such as icon-primary-xl. For React Native, use NativeWind 4 with Tailwind CSS 3 and react-native-svg: tailwind.config.js needs presets: [require('nativewind/preset')] and plugins: [require('@rocketicons/tailwind').nativeIconPlugin] (init_project adds the plugin), babel.config.js lists 'nativewind/babel' under presets, and metro.config.js wraps its config with withNativeWind. Run doctor to check the setup.",
   licensing:
     "Each search result includes its collection license and upstream license URL. Review the collection terms and preserve attribution where required."
 };
@@ -132,6 +148,7 @@ const configSchema = {
           path: { type: "string" },
           sha256: { type: "string", pattern: "^[a-f0-9]{64}$" },
           hashAlgorithm: { const: "tokens-v1" },
+          catalogVersion: { type: "string" },
           collection: { type: "string" },
           licenseUrl: { type: "string", format: "uri" }
         }
@@ -154,16 +171,59 @@ const catalogSchema = {
   }
 };
 
-export const createServer = () => {
+export const createServer = ({
+  telemetry = createTelemetry()
+}: { telemetry?: TelemetrySink } = {}) => {
   const server = new McpServer(
-    { name: "rocketicons", version: "0.1.0" },
+    { name: "rocketicons", version: packageVersion },
     {
       instructions:
         "For React or React Native, use recommend_icons to find candidates and compare_icons to inspect shapes. Use plan_icons with the source file that will import the icon, then apply_icons with the returned plan ID. The plan lists managed files and dependency effects; apply verifies the result. For plain HTML or other frameworks, search_icons then get_icon_svg returns SVG markup without setup. Exact icon IDs come from search results."
     }
   );
 
-  server.registerTool(
+  let telemetryClosed = false;
+  const closeTelemetry = () => {
+    if (telemetryClosed) return;
+    telemetryClosed = true;
+    try {
+      telemetry.close();
+    } catch {
+      /* Optional measurement cannot prevent shutdown. */
+    }
+  };
+  const onclose = server.server.onclose;
+  server.server.onclose = () => {
+    closeTelemetry();
+    onclose?.();
+  };
+  const close = server.close.bind(server);
+  server.close = async () => {
+    closeTelemetry();
+    await close();
+  };
+  const registerTool = <Input extends z.ZodObject>(
+    name: TelemetryTool,
+    config: { description: string; inputSchema: Input; outputSchema: z.ZodType },
+    callback: (
+      _input: z.output<Input>,
+      _context: ServerContext
+    ) => CallToolResult | Promise<CallToolResult>
+  ) =>
+    server.registerTool(
+      name,
+      config,
+      // Every registration has an object input schema; the SDK's conditional callback
+      // type cannot resolve that branch through this generic helper.
+      instrumentTool(
+        telemetry,
+        name,
+        { packageVersion, catalogVersion },
+        callback
+      ) as ToolCallback<Input>
+    );
+
+  registerTool(
     "search_icons",
     {
       description:
@@ -178,7 +238,7 @@ export const createServer = () => {
     },
     (input) => result(() => searchIcons(input))
   );
-  server.registerTool(
+  registerTool(
     "recommend_icons",
     {
       description:
@@ -200,7 +260,7 @@ export const createServer = () => {
         recommendIcons({ projectPath: project_path, intent, fromFile: from_file, limit })
       )
   );
-  server.registerTool(
+  registerTool(
     "get_icon",
     {
       description: "Get concise metadata, license, and an SVG resource link for one exact icon.",
@@ -226,7 +286,7 @@ export const createServer = () => {
         };
       })
   );
-  server.registerTool(
+  registerTool(
     "get_icon_svg",
     {
       description:
@@ -252,7 +312,7 @@ export const createServer = () => {
       }
     }
   );
-  server.registerTool(
+  registerTool(
     "compare_icons",
     {
       description:
@@ -290,7 +350,7 @@ export const createServer = () => {
       }
     }
   );
-  server.registerTool(
+  registerTool(
     "get_icon_usage",
     {
       description:
@@ -320,7 +380,7 @@ export const createServer = () => {
         );
       })
   );
-  server.registerTool(
+  registerTool(
     "list_collections",
     {
       description: "List icon collections with counts, licenses, and upstream links.",
@@ -329,7 +389,7 @@ export const createServer = () => {
     },
     () => result(() => ({ catalogVersion, collections: listCollections() }))
   );
-  server.registerTool(
+  registerTool(
     "get_collection",
     {
       description: "Get one collection and its icon count, license, and index resource.",
@@ -343,7 +403,7 @@ export const createServer = () => {
         return { ...collection, resource: `rocketicons://collections/${collection_id}` };
       })
   );
-  server.registerTool(
+  registerTool(
     "inspect_project",
     {
       description: "Read Rocketicons setup and installed icons from a project.",
@@ -352,7 +412,7 @@ export const createServer = () => {
     },
     ({ project_path }) => result(() => inspectProject(project_path))
   );
-  server.registerTool(
+  registerTool(
     "doctor",
     {
       description:
@@ -362,7 +422,32 @@ export const createServer = () => {
     },
     ({ project_path }) => result(() => doctor(project_path))
   );
-  server.registerTool(
+  registerTool(
+    "plan_project_upgrade",
+    {
+      description:
+        "Preview migration to the bundled catalog. Preserves existing icon files and records their original versions; changes only the manifest.",
+      inputSchema: z.object({ project_path: projectPath }),
+      outputSchema: outputs.plan_project_upgrade
+    },
+    ({ project_path }) => result(() => planProjectUpgrade(project_path))
+  );
+  registerTool(
+    "apply_project_upgrade",
+    {
+      description:
+        "Apply a reviewed catalog upgrade plan, rejecting stale plans. Writes only rocketicons.json and preserves installed components. Supports dry_run.",
+      inputSchema: z.object({
+        project_path: projectPath,
+        plan_id: z.string().regex(/^[a-f0-9]{64}$/),
+        dry_run: z.boolean().optional()
+      }),
+      outputSchema: outputs.apply_project_upgrade
+    },
+    ({ project_path, plan_id, dry_run }) =>
+      result(() => applyProjectUpgrade(project_path, plan_id, dry_run))
+  );
+  registerTool(
     "init_project",
     {
       description:
@@ -387,7 +472,7 @@ export const createServer = () => {
         })
       )
   );
-  server.registerTool(
+  registerTool(
     "plan_icons",
     {
       description:
@@ -413,7 +498,7 @@ export const createServer = () => {
         })
       )
   );
-  server.registerTool(
+  registerTool(
     "apply_icons",
     {
       description:
@@ -451,7 +536,7 @@ export const createServer = () => {
         })
       )
   );
-  server.registerTool(
+  registerTool(
     "add_icons",
     {
       description: "Add exact icon IDs to an initialized project; dry_run previews changes.",
@@ -465,7 +550,7 @@ export const createServer = () => {
     ({ icon_ids, project_path, dry_run }) =>
       result(() => addIcons(project_path, icon_ids, dry_run))
   );
-  server.registerTool(
+  registerTool(
     "remove_icons",
     {
       description: "Remove only Rocketicons-managed icon files; dry_run previews changes.",

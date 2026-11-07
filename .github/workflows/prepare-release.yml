@@ -131,11 +131,9 @@ jobs:
 
           if [ "$CUT_MODE" = "bump" ]; then
             node .github/scripts/release-workspaces.mjs prepare
-            TAG_NAME="$(
-              npm run release |
-                grep -Eo 'v[0-9]+\.[0-9]+\.[0-9]+-release' |
-                tail -1
-            )"
+            npm run release
+            ROOT_VERSION="$(node -p "require('./package.json').version")"
+            TAG_NAME="$(node .github/scripts/release-guard.mjs release-tag "$ROOT_VERSION")"
 
             EXPECTED_COMMIT_SUBJECT="ci(releaser): bump packages versions and update changelog for release-candidate/$GITHUB_RUN_ID"
             ACTUAL_COMMIT_SUBJECT="$(git log -1 --format=%s)"

@@ -1,6 +1,6 @@
 {
   "name": "@rocketicons/tailwind",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -31,11 +31,11 @@
     "node": ">=20"
   },
   "peerDependencies": {
-    "tailwindcss": ">=4"
+    "tailwindcss": ">=3.4.0"
   },
   "dependencies": {},
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.2.1",
+    "@tailwindcss/postcss": "^4.3.3",
     "tailwindcss": "^4.2.1"
   }
 }

@@ -6,6 +6,7 @@ import {
   eligibleCutHeadShas,
   packageReleaseState,
   releaseBranchForVersion,
+  releaseTagForVersion,
   releaseVersionFromBranch,
   selectCutReleaseRun,
   validateCutReleaseResult,
@@ -16,6 +17,12 @@ import {
 test("only cuts releases from develop", () => {
   assert.equal(validateCutReleaseSource("develop"), "develop");
   assert.throws(() => validateCutReleaseSource("main"), /must be cut from develop/);
+});
+
+test("generates the release tag from the stable manifest version", () => {
+  assert.equal(releaseTagForVersion("0.11.0"), "v0.11.0-release");
+  for (const invalid of ["", "0.11.0-rc.1", "v0.11.0", "0.011.0"])
+    assert.throws(() => releaseTagForVersion(invalid), /stable SemVer/);
 });
 
 test("builds and parses stable release branch names", () => {

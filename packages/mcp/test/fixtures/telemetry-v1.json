@@ -1,0 +1,1200 @@
+{
+  "valid": [
+    {
+      "name": "local_search",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "algolia_search",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "algolia"
+      }
+    },
+    {
+      "name": "new_icons_confirmed",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "apply_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 3,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "idempotent_addition",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "add_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "missing_icon_repair",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "add_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "preview_application",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "apply_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": true,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "icon_plan",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "plan_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": true,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "upgrade_plan",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "plan_project_upgrade",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": true,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "verified_upgrade",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "apply_project_upgrade",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "handled_error",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "error",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": "ICON_NOT_FOUND",
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "verification_failure",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "apply_icons",
+        "outcome": "error",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": "VERIFICATION_FAILED",
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "settled_cancellation",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "apply_icons",
+        "outcome": "cancelled",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "unhealthy_doctor_diagnostic",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "doctor",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "administrative_collection_listing",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "list_collections",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "duration_cap",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 600000,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    }
+  ],
+  "invalid": [
+    {
+      "name": "unknown_event",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "page_view",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "unknown_schema",
+      "event": {
+        "schema_version": 2,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "unknown_policy",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 2,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "remote_surface_not_v1",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_remote",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "unknown_tool",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "install_project",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "protocol_ping",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "ping",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "resource_uri",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "rocketicons://docs/workflow",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "missing_package_release",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "freeform_release",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0-user@example.com",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "prerelease_not_numeric",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0-dev",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "oversized_release",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "1234567.0.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "leading_zero_release",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "01.0.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "release_trailing_newline",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0\n",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "negative_duration",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": -10,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "fractional_duration",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 10.1,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "unrounded_duration",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 11,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "oversized_duration",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 600010,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "negative_results",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": -1,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "fractional_results",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 1.2,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "oversized_results",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 10001,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "unknown_source",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "unknown"
+      }
+    },
+    {
+      "name": "successful_search_without_source",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "error_without_code",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "error",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "success_with_error",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": "TOOL_FAILED",
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "unknown_error_code",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "error",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": "PATH_/home/private",
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "failed_search_with_results",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "error",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": "TOOL_FAILED",
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "read_tool_dry_run",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": true,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "read_tool_addition",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 1,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "boolean_count",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": true,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "string_count",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "search_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": "5",
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    },
+    {
+      "name": "plan_claims_addition",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "plan_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": true,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 1,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "plan_is_not_preview",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "plan_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "preview_claims_addition",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "add_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": true,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 1,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "error_claims_addition",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "apply_icons",
+        "outcome": "error",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": "TOOL_FAILED",
+        "result_count": 0,
+        "icons_added_count": 1,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "cancelled_claims_addition",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "apply_icons",
+        "outcome": "cancelled",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 1,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "cancelled_with_error_code",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "apply_icons",
+        "outcome": "cancelled",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": "TOOL_FAILED",
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "recommendation_claims_search_results",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "recommend_icons",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 5,
+        "icons_added_count": 0,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "initialization_claims_addition",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "init_project",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 1,
+        "search_source": "not_applicable"
+      }
+    },
+    {
+      "name": "non_search_claims_source",
+      "event": {
+        "schema_version": 1,
+        "policy_version": 1,
+        "event": "mcp_tool_completed",
+        "package_version": "0.3.0",
+        "catalog_version": "0.10.0",
+        "surface": "mcp_local",
+        "tool": "get_icon",
+        "outcome": "success",
+        "duration_ms": 120,
+        "dry_run": false,
+        "error_code": null,
+        "result_count": 0,
+        "icons_added_count": 0,
+        "search_source": "local"
+      }
+    }
+  ],
+  "consent": [
+    {
+      "name": "default",
+      "env": {},
+      "enabled": false,
+      "reason": "not_enabled"
+    },
+    {
+      "name": "explicit_opt_in",
+      "env": {
+        "ROCKETICONS_TELEMETRY": "on",
+        "ROCKETICONS_TELEMETRY_POLICY": "1"
+      },
+      "enabled": true,
+      "reason": "explicit_opt_in"
+    },
+    {
+      "name": "missing_policy",
+      "env": {
+        "ROCKETICONS_TELEMETRY": "on"
+      },
+      "enabled": false,
+      "reason": "policy_not_accepted"
+    },
+    {
+      "name": "unknown_policy",
+      "env": {
+        "ROCKETICONS_TELEMETRY": "on",
+        "ROCKETICONS_TELEMETRY_POLICY": "2"
+      },
+      "enabled": false,
+      "reason": "policy_not_accepted"
+    },
+    {
+      "name": "policy_only",
+      "env": {
+        "ROCKETICONS_TELEMETRY_POLICY": "1"
+      },
+      "enabled": false,
+      "reason": "not_enabled"
+    },
+    {
+      "name": "explicit_off",
+      "env": {
+        "ROCKETICONS_TELEMETRY": "off",
+        "ROCKETICONS_TELEMETRY_POLICY": "1"
+      },
+      "enabled": false,
+      "reason": "not_enabled"
+    },
+    {
+      "name": "invalid_on",
+      "env": {
+        "ROCKETICONS_TELEMETRY": "yes",
+        "ROCKETICONS_TELEMETRY_POLICY": "1"
+      },
+      "enabled": false,
+      "reason": "not_enabled"
+    },
+    {
+      "name": "whitespace_on",
+      "env": {
+        "ROCKETICONS_TELEMETRY": " on ",
+        "ROCKETICONS_TELEMETRY_POLICY": "1"
+      },
+      "enabled": false,
+      "reason": "not_enabled"
+    },
+    {
+      "name": "do_not_track_wins",
+      "env": {
+        "ROCKETICONS_TELEMETRY": "on",
+        "ROCKETICONS_TELEMETRY_POLICY": "1",
+        "DO_NOT_TRACK": "1"
+      },
+      "enabled": false,
+      "reason": "do_not_track"
+    },
+    {
+      "name": "ambiguous_do_not_track",
+      "env": {
+        "ROCKETICONS_TELEMETRY": "on",
+        "ROCKETICONS_TELEMETRY_POLICY": "1",
+        "DO_NOT_TRACK": "yes"
+      },
+      "enabled": false,
+      "reason": "do_not_track"
+    },
+    {
+      "name": "do_not_track_false",
+      "env": {
+        "ROCKETICONS_TELEMETRY": "on",
+        "ROCKETICONS_TELEMETRY_POLICY": "1",
+        "DO_NOT_TRACK": "FALSE"
+      },
+      "enabled": true,
+      "reason": "explicit_opt_in"
+    },
+    {
+      "name": "ci_wins",
+      "env": {
+        "ROCKETICONS_TELEMETRY": "on",
+        "ROCKETICONS_TELEMETRY_POLICY": "1",
+        "CI": "true"
+      },
+      "enabled": false,
+      "reason": "automated_environment"
+    },
+    {
+      "name": "ambiguous_ci",
+      "env": {
+        "ROCKETICONS_TELEMETRY": "on",
+        "ROCKETICONS_TELEMETRY_POLICY": "1",
+        "CI": "yes"
+      },
+      "enabled": false,
+      "reason": "automated_environment"
+    },
+    {
+      "name": "ci_false",
+      "env": {
+        "ROCKETICONS_TELEMETRY": "on",
+        "ROCKETICONS_TELEMETRY_POLICY": "1",
+        "CI": " false "
+      },
+      "enabled": true,
+      "reason": "explicit_opt_in"
+    },
+    {
+      "name": "test_process",
+      "env": {
+        "ROCKETICONS_TELEMETRY": "on",
+        "ROCKETICONS_TELEMETRY_POLICY": "1",
+        "NODE_ENV": " TEST "
+      },
+      "enabled": false,
+      "reason": "automated_environment"
+    },
+    {
+      "name": "node_test_context",
+      "env": {
+        "ROCKETICONS_TELEMETRY": "on",
+        "ROCKETICONS_TELEMETRY_POLICY": "1",
+        "NODE_TEST_CONTEXT": "child-v8"
+      },
+      "enabled": false,
+      "reason": "automated_environment"
+    },
+    {
+      "name": "node_test_context_present_empty",
+      "env": {
+        "ROCKETICONS_TELEMETRY": "on",
+        "ROCKETICONS_TELEMETRY_POLICY": "1",
+        "NODE_TEST_CONTEXT": ""
+      },
+      "enabled": false,
+      "reason": "automated_environment"
+    },
+    {
+      "name": "disabled_policy_ignored",
+      "env": {
+        "ROCKETICONS_TELEMETRY": "off",
+        "ROCKETICONS_TELEMETRY_POLICY": "2"
+      },
+      "enabled": false,
+      "reason": "not_enabled"
+    }
+  ]
+}

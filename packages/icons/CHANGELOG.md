@@ -1,3 +1,28 @@
+## [0.5.0](https://github.com/rocketclimb/rocketicons/compare/v0.9.4-release...v0.10.0) (2026-11-07)
+
+### Features
+
+- add Rocketicons MCP for icon discovery and project setup (#254) ([7e3c7d00](https://github.com/rocketclimb/rocketicons/commit/7e3c7d00adb095e6702cab2b0dff5e0d912057d8))
+- **icons** add Circum Icons semantic metadata (#226) ([065befe5](https://github.com/rocketclimb/rocketicons/commit/065befe59505a688bb310ebe9003a46bb31b0c8b))
+- **icons** fi go di icon context (#197) ([9e41843f](https://github.com/rocketclimb/rocketicons/commit/9e41843faa0bca0f2d57a559789b977949ee03bd))
+
+### Bug Fixes
+
+- support explicit Rocketicons catalog upgrades (#271) ([49968385](https://github.com/rocketclimb/rocketicons/commit/499683858de0d2c2be2464b4f11822475a3d4936))
+
+### Documentation
+
+- improve agent configuration instructions (#270) ([545a0f2c](https://github.com/rocketclimb/rocketicons/commit/545a0f2c4a0645e564700cdb84df353925467c08))
+
+### Miscellaneous
+
+- **release** 0.10.0 (#262) ([86943b14](https://github.com/rocketclimb/rocketicons/commit/86943b1493ac82016e18ef535c8e03d4451a0cdb))
+
+### Other
+
+-  ([1957310f](https://github.com/rocketclimb/rocketicons/commit/1957310fb1e28744e7033f619ccbdf6cf902d62c))
+-  ([fdb020fb](https://github.com/rocketclimb/rocketicons/commit/fdb020fbfedb5fb51b827deb33de54ebca822d07))
+
 ## [0.4.0](https://github.com/rocketclimb/rocketicons/compare/v0.9.4-release...v0.10.0) (2026-09-26)
 
 ### Features
@@ -14,6 +39,7 @@
 
 ### Features
 
+- Refresh Lucide to 1.55.0 and Octicons to 19.40.0 as a minor catalog update, adding 87 exports without removals. **Artwork change:** `LuFlipHorizontal2` and `LuFlipVertical2` now show the opposite flip orientations. Swap these two exports to preserve the previous direction, or use `LuFlipHorizontal` / `LuFlipVertical`. Existing copied source files retain their artwork until regenerated.
 - Add 2,620 MynaUI regular and solid icons from the pinned MIT source and static catalog support. Bilingual semantic review is pending.
 
 ## [0.3.3](https://github.com/rocketclimb/rocketicons/compare/v0.9.3-release...v0.9.4) (2026-08-24)
@@ -202,3 +228,13 @@
 
 - 32 icon collections
 - 45,945 icons
+
+## Unreleased
+
+### Features
+
+- Add Iconoir v7.12.1 with 1,383 regular and 288 solid components, CLI IDs, static catalog records, and reviewed English/PT-BR search context.
+
+### Bug Fixes
+
+- Resolve generated ESM icon imports in Node and fix CLI `add` loading of generated SVG data.

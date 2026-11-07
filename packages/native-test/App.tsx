@@ -1,6 +1,7 @@
 import "./global.css";
 import React, { useState } from "react";
 import { View, Text, ScrollView, Pressable } from "react-native";
+import { OirHome, OirSolidArrowDownCircle } from "rocketicons/oir";
 import { MyHome, MySolidHome } from "rocketicons/my";
 
 /**
@@ -9,7 +10,7 @@ import { MyHome, MySolidHome } from "rocketicons/my";
  * This app showcases rocketicons in a React Native environment with NativeWind.
  * It tests all major use cases: sizes, variants, colors, and multiple collections.
  *
- * To run: cd packages/native-test && npm install && npx expo start --ios
+ * To run: npm install (from the repo root), then cd packages/native-test && npx expo start --ios
  */
 
 // -- Size showcase --
@@ -108,12 +109,21 @@ export default function App() {
       </Section>
 
       {/* Status */}
+      <Section title="Iconoir React Native sample">
+        <View className="flex-row items-center gap-4">
+          <OirHome className="icon-3xl text-sky-600" />
+          <OirSolidArrowDownCircle className="icon-3xl text-violet-600" />
+          <Text className="text-sm text-gray-600 dark:text-gray-400">Regular and solid</Text>
+        </View>
+      </Section>
+
       <Section title="✅ Test Status">
         <Text className="text-green-600 dark:text-green-400 font-medium">
-          If you can see this page with proper styling, NativeWind v4 + TW v4 is working!
+          If you can see this page with proper styling, NativeWind v4 + Tailwind CSS v3 is
+          working!
         </Text>
         <Text className="text-gray-500 text-sm mt-2">
-          • NativeWind: 4.2.2{"\n"}• Tailwind CSS: 4.x{"\n"}• Platform: iOS (macOS dev)
+          • NativeWind: 4.2.7{"\n"}• Tailwind CSS: 3.x{"\n"}• Platform: iOS (macOS dev)
         </Text>
       </Section>
 

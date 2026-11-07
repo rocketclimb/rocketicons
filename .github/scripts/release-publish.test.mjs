@@ -106,38 +106,74 @@ test("publication that races a manual publish resumes only for the same archive"
   }
 });
 
-test("a temporarily stale registry read after publishing recovers without republishing", async () => {
-  let reads = 0;
+test("an accepted upload can take eight minutes to appear without being republished", async () => {
+  let elapsed = 0;
   let writes = 0;
-  const waits = [];
   await publishPrepared([entries[0]], {
-    lookup: () => (++reads < 4 ? null : published(entries[0])),
+    lookup: () => (elapsed < 8 * 60_000 ? null : published(entries[0])),
     publish: () => writes++,
-    wait: (ms) => waits.push(ms)
+    wait: (ms) => (elapsed += ms)
   });
   assert.equal(writes, 1);
-  assert.deepEqual(waits, [2000, 2000]);
+  assert.equal(elapsed, 8 * 60_000);
 });
 
-test("publication failures still fail if the expected version never appears", async () => {
+test("a rejected upload preserves the original error after the short race check", async () => {
+  const error = new Error("npm E403: permission denied");
+  const waits = [];
+  let writes = 0;
   await assert.rejects(
     publishPrepared([entries[0]], {
       lookup: () => null,
       publish: () => {
-        throw new Error("npm E403: permission denied");
+        writes++;
+        throw error;
       },
-      wait: () => {}
+      wait: (ms) => waits.push(ms)
     }),
-    /permission denied/
+    (actual) => actual === error
   );
+  assert.equal(writes, 1);
+  assert.deepEqual(waits, [2000, 2000]);
+});
+
+test("an accepted upload still fails after bounded waiting if it never appears", async () => {
+  const waits = [];
+  let writes = 0;
   await assert.rejects(
     publishPrepared([entries[0]], {
       lookup: () => null,
-      publish: () => {},
-      wait: () => {}
+      publish: () => writes++,
+      wait: (ms) => waits.push(ms)
     }),
     /not confirmed/
   );
+  assert.equal(writes, 1);
+  assert.equal(
+    waits.reduce((total, ms) => total + ms, 0),
+    10 * 60_000
+  );
+});
+
+test("confirmation rejects different bytes and registry errors without waiting", async () => {
+  for (const mismatch of [true, false]) {
+    let writes = 0;
+    const waits = [];
+    await assert.rejects(
+      publishPrepared([entries[0]], {
+        lookup: () => {
+          if (!writes) return null;
+          if (!mismatch) throw new Error("Registry unavailable");
+          return { ...published(entries[0]), dist: { integrity: "sha512-other" } };
+        },
+        publish: () => writes++,
+        wait: (ms) => waits.push(ms)
+      }),
+      mismatch ? /different files/ : /Registry unavailable/
+    );
+    assert.equal(writes, 1);
+    assert.deepEqual(waits, []);
+  }
 });
 
 test("archive inspection checks the entire set and bundled catalog without running package scripts", (t) => {

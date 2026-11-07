@@ -12,6 +12,7 @@ import Button from "@/components/button";
 import { PropsWithLang } from "@/types";
 
 import { NavItem } from "./types";
+import { withLocale } from "@/locales/with-locale";
 
 type NavAsMenuProps = {
   navItems: NavItem[];
@@ -20,13 +21,14 @@ type NavAsMenuProps = {
 const MainNavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
   const { open, close, Modal } = useDisclosure();
   const { open: openSearch } = useDisclosure("search-disclosure");
+  const labels = withLocale(lang).config("accessibility");
 
   return (
     <div className="flex col-span-2 landingpage:col-span-5 md:grow justify-self-end md:justify-end lg:hidden">
-      <Button className="flex" onClick={() => openSearch()}>
+      <Button className="flex" aria-label={labels.search} onClick={() => openSearch()}>
         <LuSearch className="icon-primary-light hover:icon-primary-medium dark:hover:icon-primary-lighter" />
       </Button>
-      <Button className="flex" onClick={() => open()}>
+      <Button className="flex" aria-label={labels.menu} onClick={() => open()}>
         <HiOutlineDotsVertical className="icon-primary-light ml-2 xs:ml-4 sm:ml-6 hover:icon-primary-medium dark:hover:icon-primary-lighter" />
       </Button>
       <Modal>
@@ -34,6 +36,7 @@ const MainNavAsMenu = ({ navItems, lang }: NavAsMenuProps) => {
           <nav>
             <Button
               onClick={() => close()}
+              aria-label={labels.closeMenu}
               className="absolute top-5 right-5 w-8 h-8 flex items-center justify-center"
             >
               <IoMdClose className="icon-primary-light hover:icon-primary-medium dark:icon-primary-lighter dark:hover:icon-primary-bright" />

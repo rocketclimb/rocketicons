@@ -1,6 +1,6 @@
 {
   "name": "@rocketicons/mcp",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "MIT",
   "type": "module",
   "bin": {
@@ -8,26 +8,30 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "TELEMETRY.md",
+    "TELEMETRY.pt-BR.md",
+    "contracts/telemetry/v1"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "prepack": "npm run build",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test": "npm run build && npm run build --prefix ../cli && node --test test/*.test.mjs"
+    "test": "npm run build && npm run build --prefix ../cli && node --test test/*.test.mjs",
+    "test:telemetry-contract": "node --test test/telemetry-contract.test.mjs"
   },
   "dependencies": {
-    "@modelcontextprotocol/server": "^2.0.0",
-    "@rocketicons/toolkit": "0.2.0",
+    "@modelcontextprotocol/server": "^2.3.1",
+    "@rocketicons/toolkit": "0.3.0",
     "@rocketicons/utils": ">=0.7.0",
-    "sharp": "^0.34.5",
-    "zod": "^4.0.0"
+    "sharp": "^0.35.5",
+    "zod": "^4.6.6"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=20.9.0"
   },
   "devDependencies": {
-    "@modelcontextprotocol/client": "^2.0.0",
-    "ajv": "^8.16.0"
+    "@modelcontextprotocol/client": "^2.3.1",
+    "ajv": "^8.20.0"
   }
 }

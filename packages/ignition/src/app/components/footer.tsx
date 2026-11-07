@@ -5,11 +5,11 @@ import Link from "next/link";
 import GitHubIcon from "@/app/components/github-icon";
 import { formatCopyrightYears } from "@/app/components/footer-years";
 
-const Footer = ({ className }: { className?: string }) => {
+const Footer = ({ children, className }: { children?: React.ReactNode; className?: string }) => {
   const copyrightYears = formatCopyrightYears(new Date().getFullYear());
 
   return (
-    <footer className={`w-full mt-8 h-16 ${className}`}>
+    <footer className={`w-full mt-8 min-h-16 ${className}`}>
       <div className="px-4 pt-4 pb-5 border-t border-surface-border flex flex-row items-center text-primary-light dark:border-surface-border/5">
         <div className="grow">
           <p className="text-sm xs:text-base">
@@ -27,6 +27,7 @@ const Footer = ({ className }: { className?: string }) => {
         </Link>
         <GitHubIcon className="ml-6" />
       </div>
+      {children}
     </footer>
   );
 };

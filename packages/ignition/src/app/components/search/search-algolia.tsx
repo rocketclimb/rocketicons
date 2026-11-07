@@ -17,6 +17,7 @@ type SearchButtonProps = {
 
 const SearchAlgolia = ({ lang, close }: SearchButtonProps) => {
   const { placeholder } = withLocale(lang).config("search");
+  const { closeSearch } = withLocale(lang).config("accessibility");
   const [query, setQuery] = useState("");
 
   const searchClient = useMemo(
@@ -39,7 +40,7 @@ const SearchAlgolia = ({ lang, close }: SearchButtonProps) => {
             <div className="w-full mb-2">
               <header className="flex items-center w-full px-4 border-b border-surface-border/90 dark:border-surface-border/5">
                 <SearchBox label={placeholder} query={query} onQueryChange={setQuery} />
-                <button type="reset" aria-label="Cancel" onClick={close}>
+                <button type="button" aria-label={closeSearch} onClick={close}>
                   <abbr className="text-primary dark:text-primary-dark border dark:border-0 border-surface-border dark:bg-surface-light p-1.5 rounded-md text-[8px] font-sans font-semibold">
                     ESC
                   </abbr>

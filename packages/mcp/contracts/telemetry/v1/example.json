@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "policy_version": 1,
+  "event": "mcp_tool_completed",
+  "package_version": "0.3.0",
+  "catalog_version": "0.10.0",
+  "surface": "mcp_local",
+  "tool": "search_icons",
+  "outcome": "success",
+  "duration_ms": 120,
+  "dry_run": false,
+  "error_code": null,
+  "result_count": 5,
+  "icons_added_count": 0,
+  "search_source": "local"
+}

@@ -6,9 +6,11 @@ import { dirname, isAbsolute, join, relative, resolve } from "node:path";
 import { applyEdits, modify, parse } from "jsonc-parser";
 import ts from "typescript";
 import { normalizedComponentHash } from "./component-hash";
+import { hasIconAdditionCapture, recordIconAdditions } from "./mutation-facts";
 import {
   catalogVersion,
   getCollection,
+  getIcon,
   iconSummary,
   isCollidingId,
   localIconTree,
@@ -31,6 +33,7 @@ export type ProjectManifest = {
       path: string;
       sha256: string;
       hashAlgorithm?: "tokens-v1";
+      catalogVersion?: string;
       collection: string;
       licenseUrl: string;
     }
@@ -210,6 +213,233 @@ const tailwindStyleEdit = (root: string, target: Target, requestedPath?: string)
   const next = `${previous.slice(0, offset)}\n@plugin "@rocketicons/tailwind";${previous.slice(offset)}`;
   return { path: selected.path, next };
 };
+// NativeWind 4 compiles with Tailwind CSS 3, so React Native styling lives in tailwind.config.*.
+// NativeWind 5 moves to Tailwind CSS 4 and is not configured automatically yet.
+const usesNativeWind4 = (root: string) => {
+  const pkg = JSON.parse(readFileSync(safePath(root, "package.json"), "utf8"));
+  const version = { ...pkg.dependencies, ...pkg.devDependencies }.nativewind;
+  return !(Number(/^[~^]?\s*(\d+)/.exec(typeof version === "string" ? version : "")?.[1]) >= 5);
+};
+const tailwindConfigPath = (root: string) =>
+  ["js", "cjs", "mjs", "ts", "cts", "mts"]
+    .map((extension) => `tailwind.config.${extension}`)
+    .find((rel) => existing(root, rel) !== undefined);
+const scriptFile = (rel: string, source: string) =>
+  ts.createSourceFile(
+    rel,
+    source,
+    ts.ScriptTarget.Latest,
+    true,
+    /\.[cm]?ts$/.test(rel) ? ts.ScriptKind.TS : ts.ScriptKind.JS
+  );
+const propertyName = (property: ts.ObjectLiteralElementLike) =>
+  property.name && (ts.isIdentifier(property.name) || ts.isStringLiteral(property.name))
+    ? property.name.text
+    : undefined;
+const objectProperty = (object: ts.ObjectLiteralExpression, name: string) =>
+  object.properties.find(
+    (property): property is ts.PropertyAssignment =>
+      ts.isPropertyAssignment(property) && propertyName(property) === name
+  );
+/** Finds the object a Tailwind config exports directly or through a top-level variable. */
+const tailwindConfigObject = (file: ts.SourceFile) => {
+  const unwrap = (node?: ts.Expression) => {
+    while (
+      node &&
+      (ts.isParenthesizedExpression(node) ||
+        ts.isAsExpression(node) ||
+        ts.isSatisfiesExpression(node) ||
+        ts.isTypeAssertionExpression(node))
+    )
+      node = node.expression;
+    return node;
+  };
+  const variables = new Map<string, ts.Expression>();
+  let exported: ts.Expression | undefined;
+  for (const statement of file.statements) {
+    if (ts.isVariableStatement(statement))
+      for (const declaration of statement.declarationList.declarations)
+        if (ts.isIdentifier(declaration.name) && declaration.initializer)
+          variables.set(declaration.name.text, declaration.initializer);
+    if (ts.isExportAssignment(statement)) exported = statement.expression;
+    if (
+      ts.isExpressionStatement(statement) &&
+      ts.isBinaryExpression(statement.expression) &&
+      statement.expression.operatorToken.kind === ts.SyntaxKind.EqualsToken &&
+      statement.expression.left.getText() === "module.exports"
+    )
+      exported = statement.expression.right;
+  }
+  let value = unwrap(exported);
+  if (value && ts.isIdentifier(value)) value = unwrap(variables.get(value.text));
+  return value && ts.isObjectLiteralExpression(value) ? value : undefined;
+};
+const nativeTailwindConfig = (rel: string, source: string) => {
+  const file = scriptFile(rel, source);
+  const config = tailwindConfigObject(file);
+  const plugins = config && objectProperty(config, "plugins");
+  const presets = config && objectProperty(config, "presets");
+  return {
+    file,
+    config,
+    plugins,
+    presetRegistered: /["']nativewind\/preset["']/.test(presets?.initializer.getText() ?? ""),
+    pluginRegistered: Boolean(
+      plugins &&
+        ts.isArrayLiteralExpression(plugins.initializer) &&
+        plugins.initializer.elements.some((element) =>
+          /\bnativeIconPlugin\b/.test(element.getText())
+        )
+    )
+  };
+};
+const nativeTailwindEdit = (root: string, target: Target) => {
+  if (target !== "react-native" || tailwindMajor(root) !== 3 || !usesNativeWind4(root))
+    return undefined;
+  const rel = tailwindConfigPath(root);
+  if (!rel)
+    throw new Error(
+      'No Tailwind config found; NativeWind needs tailwind.config.js with presets: [require("nativewind/preset")]'
+    );
+  const previous = existing(root, rel)!;
+  const state = nativeTailwindConfig(rel, previous);
+  if (state.pluginRegistered) return { path: rel, next: previous };
+  const plugins = state.plugins?.initializer;
+  if (!state.config || (plugins && !ts.isArrayLiteralExpression(plugins)))
+    throw new Error(
+      `Cannot register Rocketicons in Tailwind config ${rel} automatically; add require("@rocketicons/tailwind").nativeIconPlugin to its plugins array`
+    );
+  const esm =
+    /\.m[jt]s$/.test(rel) ||
+    state.file.statements.some(
+      (statement) => ts.isImportDeclaration(statement) || ts.isExportAssignment(statement)
+    );
+  const plugin = esm ? "nativeIconPlugin" : 'require("@rocketicons/tailwind").nativeIconPlugin';
+  const edits: Array<{ at: number; text: string }> = [];
+  const append = (open: number, items: ts.NodeArray<ts.Node>, text: string) => {
+    const [first] = items;
+    const last = items[items.length - 1];
+    if (!last) return edits.push({ at: open + 1, text });
+    if (!previous.slice(open, first.getStart()).includes("\n"))
+      return edits.push({ at: last.end, text: `, ${text}` });
+    const lineStart = previous.lastIndexOf("\n", last.getStart()) + 1;
+    const indent = /^[ \t]*/.exec(previous.slice(lineStart))![0];
+    return edits.push({ at: last.end, text: `,\n${indent}${text}` });
+  };
+  if (plugins && ts.isArrayLiteralExpression(plugins))
+    append(plugins.getStart(), plugins.elements, plugin);
+  else append(state.config.getStart(), state.config.properties, `plugins: [${plugin}]`);
+  const imports = state.file.statements.filter(ts.isImportDeclaration);
+  if (esm && !imports.some((statement) => /\bnativeIconPlugin\b/.test(statement.getText()))) {
+    const statement = 'import { nativeIconPlugin } from "@rocketicons/tailwind";';
+    const last = imports[imports.length - 1];
+    edits.push(
+      last ? { at: last.end, text: `\n${statement}` } : { at: 0, text: `${statement}\n` }
+    );
+  }
+  const next = edits
+    .sort((a, b) => b.at - a.at)
+    .reduce(
+      (text, edit) => `${text.slice(0, edit.at)}${edit.text}${text.slice(edit.at)}`,
+      previous
+    );
+  return { path: rel, next };
+};
+/** Records where each babel config lists nativewind/babel: under presets, plugins, or elsewhere. */
+const nativewindBabelPlacements = (root: string) => {
+  const placements: Array<{ path: string; property: string }> = [];
+  for (const rel of readdirSync(root).filter((name) =>
+    /^(?:babel\.config\.(?:[cm]?[jt]s|json)|\.babelrc(?:\.(?:[cm]?js|json))?)$/.test(name)
+  )) {
+    const source = existing(root, rel) ?? "";
+    const file = /(?:\.json|^\.babelrc)$/.test(rel)
+      ? ts.parseJsonText(rel, source)
+      : scriptFile(rel, source);
+    const visit = (node: ts.Node, property: string) => {
+      if (ts.isStringLiteral(node) && node.text === "nativewind/babel")
+        placements.push({ path: rel, property });
+      const next = ts.isPropertyAssignment(node) ? propertyName(node) ?? property : property;
+      ts.forEachChild(node, (child) => visit(child, next));
+    };
+    visit(file, "");
+  }
+  return placements;
+};
+const tailwindDirectivePattern = /@tailwind\s+(?:base|components|utilities)\s*;/;
+const nativewindStyling = (root: string, issues: string[]) => {
+  const major = tailwindMajor(root);
+  const styling = {
+    tailwindMajor: Number.isNaN(major) ? null : major,
+    stylesheetPath: null as string | null,
+    pluginRegistered: false,
+    stylesheetLoaded: false,
+    buildIntegration: null as string | null,
+    tailwindConfigPath: null as string | null,
+    nativewindPreset: false,
+    babelPreset: false
+  };
+  if (!usesNativeWind4(root)) return styling;
+  if (major !== 3) {
+    issues.push(
+      `NativeWind 4 requires Tailwind CSS 3 for React Native styling; found ${Number.isNaN(major) ? "no declared version" : `version ${major}`}. Install tailwindcss@^3.4 and configure NativeWind.`
+    );
+    return styling;
+  }
+  const configRel = tailwindConfigPath(root);
+  if (!configRel)
+    issues.push(
+      'No Tailwind config found; create tailwind.config.js with presets: [require("nativewind/preset")].'
+    );
+  else {
+    const config = nativeTailwindConfig(configRel, existing(root, configRel) ?? "");
+    styling.tailwindConfigPath = configRel;
+    styling.nativewindPreset = config.presetRegistered;
+    styling.pluginRegistered = config.pluginRegistered;
+    if (!config.presetRegistered)
+      issues.push(
+        `Tailwind config ${configRel} is missing presets: [require("nativewind/preset")].`
+      );
+    if (!config.pluginRegistered)
+      issues.push(
+        `Tailwind config ${configRel} does not register nativeIconPlugin from @rocketicons/tailwind; run init_project.`
+      );
+  }
+  const files = projectFiles(root);
+  const stylesheets = files.filter(
+    (file) =>
+      file.endsWith(".css") &&
+      tailwindDirectivePattern.test(activeCss(existing(root, file) ?? ""))
+  );
+  const loaded = stylesheets.filter((file) => stylesheetLoaded(root, file, files));
+  styling.stylesheetPath = loaded[0] ?? stylesheets[0] ?? null;
+  styling.stylesheetLoaded = loaded.length > 0;
+  if (!styling.stylesheetPath)
+    issues.push(
+      "No NativeWind stylesheet found; add @tailwind base; @tailwind components; @tailwind utilities; to a CSS file such as global.css and import it from your app entry."
+    );
+  else if (!styling.stylesheetLoaded)
+    issues.push(
+      `NativeWind stylesheet ${styling.stylesheetPath} is not imported by an application source file; import it from your app entry.`
+    );
+  const metro = readdirSync(root).filter((name) => /^metro\.config\.[cm]?[jt]s$/.test(name));
+  if (metro.some((name) => (existing(root, name) ?? "").includes("withNativeWind")))
+    styling.buildIntegration = "metro";
+  else
+    issues.push(
+      'NativeWind Metro integration is missing; wrap the config in metro.config.js with withNativeWind(config, { input: "./global.css" }).'
+    );
+  const babel = nativewindBabelPlacements(root);
+  styling.babelPreset = babel.some(({ property }) => property === "presets");
+  for (const { path } of babel.filter(({ property }) => property === "plugins"))
+    issues.push(
+      `nativewind/babel is a Babel preset; move it from plugins to presets in ${path}.`
+    );
+  if (!babel.length)
+    issues.push(
+      'Babel config is missing the nativewind/babel preset; add "nativewind/babel" to presets in babel.config.js.'
+    );
+  return styling;
+};
 const fileChange = (root: string, rel: string, next?: string): Change | undefined => {
   const old = existing(root, rel);
   if (next === undefined) return old === undefined ? undefined : { path: rel, action: "delete" };
@@ -227,6 +457,37 @@ const atomicWrite = async (root: string, rel: string, content: string) => {
     await rm(temp, { force: true });
   }
 };
+const versionParts = (value: string) => {
+  if (typeof value !== "string") throw new Error("Invalid catalog version");
+  const match =
+    /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/.exec(
+      value
+    );
+  if (!match || match[4]?.split(".").some((part) => /^0\d+$/.test(part)))
+    throw new Error(`Invalid catalog version: ${value}`);
+  return { numbers: match.slice(1, 4).map(BigInt), pre: match[4]?.split(".") };
+};
+const compareVersions = (left: string, right: string) => {
+  const a = versionParts(left),
+    b = versionParts(right);
+  for (let i = 0; i < 3; i++) {
+    if (a.numbers[i] !== b.numbers[i]) return a.numbers[i] > b.numbers[i] ? 1 : -1;
+  }
+  if (!a.pre || !b.pre) return a.pre ? -1 : b.pre ? 1 : 0;
+  for (let i = 0; i < Math.max(a.pre.length, b.pre.length); i++) {
+    const x = a.pre[i],
+      y = b.pre[i];
+    if (x === y) continue;
+    if (x === undefined || y === undefined) return x === undefined ? -1 : 1;
+    const xn = /^\d+$/.test(x),
+      yn = /^\d+$/.test(y);
+    if (xn && yn) return BigInt(x) > BigInt(y) ? 1 : -1;
+    if (xn !== yn) return xn ? -1 : 1;
+    return x > y ? 1 : -1;
+  }
+  return 0;
+};
+
 const readManifest = (root: string): ProjectManifest | undefined => {
   const content = existing(root, "rocketicons.json");
   if (!content) return undefined;
@@ -238,14 +499,32 @@ const readManifest = (root: string): ProjectManifest | undefined => {
     !["ts", "js"].includes(manifest.language)
   )
     throw new Error("Invalid Rocketicons target or language in manifest");
+  versionParts(manifest.catalogVersion);
+  if (typeof manifest.icons !== "object" || Array.isArray(manifest.icons))
+    throw new Error("Invalid manifest icons");
+  const destinations = new Set<string>();
   for (const [id, record] of Object.entries(manifest.icons)) {
-    const icon = requireIcon(id);
+    const match = /^@([a-z0-9]+)\/([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(id);
+    const extension = manifest.language === "ts" ? "tsx" : "jsx";
     if (
-      record.collection !== icon.collection ||
-      record.path !== iconFile(icon.id, icon.collection, manifest.language) ||
-      (record.hashAlgorithm !== undefined && record.hashAlgorithm !== "tokens-v1")
+      !match ||
+      !record ||
+      record.collection !== match[1] ||
+      ![
+        `src/ri/icons/${match[2]}.${extension}`,
+        `src/ri/icons/${match[1]}-${match[2]}.${extension}`
+      ].includes(record.path) ||
+      typeof record.component !== "string" ||
+      !/^[A-Za-z_$][\w$]*$/.test(record.component) ||
+      !/^[a-f0-9]{64}$/.test(record.sha256) ||
+      typeof record.licenseUrl !== "string" ||
+      !/^https?:\/\//.test(record.licenseUrl) ||
+      (record.hashAlgorithm !== undefined && record.hashAlgorithm !== "tokens-v1") ||
+      destinations.has(record.path)
     )
       throw new Error(`Invalid manifest entry for ${id}`);
+    if (record.catalogVersion !== undefined) versionParts(record.catalogVersion);
+    destinations.add(record.path);
     safePath(root, record.path);
   }
   if (manifest.stylesheetPath) safePath(root, manifest.stylesheetPath);
@@ -390,7 +669,8 @@ const iconStatus = (manifest: ProjectManifest, id: string, content?: string): Ic
   if (sha(content) === record.sha256) return "current";
   // Legacy manifests contain a byte hash. Compare formatting only when the bundled
   // catalog reproduces the exact component whose hash was recorded.
-  if (manifest.catalogVersion !== catalogVersion) return "customized";
+  if ((record.catalogVersion ?? manifest.catalogVersion) !== catalogVersion || !getIcon(id))
+    return "customized";
   const generated = componentSource(id, manifest.language);
   if (sha(generated) !== record.sha256) return "customized";
   return normalizedComponentHash(content) === generatedHash(generated) ? "current" : "customized";
@@ -405,6 +685,15 @@ const template = (name: string, language: Language) =>
     join(__dirname, "..", "templates", `${name}.${language === "ts" ? "tsx" : "jsx"}`),
     "utf8"
   );
+// SHA-256 of the core templates written by toolkit 0.2.0 (index and index.native, TSX and JSX).
+// Setup replaces an unmodified earlier template; any other difference is still a user edit.
+// When core/src changes, add the hashes of the published templates it replaces.
+const previousCoreTemplates = new Set([
+  "72fd8cec031c809183b5464c4e703ff9b00ec7d55fe4f8b7511b93663f1d0faf",
+  "765968125c10e8731033b26c28bf041daff767e64a733abc5e8d0c55b7a55118",
+  "cd89f67da077cc37137ccf3398eb90b2a5a712570f9a65fe47e28af6540608ee",
+  "46b424e169e69decf32b3faa6ee02491c621130288a1b0332763448210ee7bd0"
+]);
 const runInstall = async (root: string, manager: string, needed: string[]) => {
   assertInstallBoundary(root);
   const args = installArgs(manager, needed);
@@ -482,7 +771,11 @@ export const doctor = (projectPath: string) => {
     pluginRegistered: boolean;
     stylesheetLoaded: boolean;
     buildIntegration: string | null;
+    tailwindConfigPath?: string | null;
+    nativewindPreset?: boolean;
+    babelPreset?: boolean;
   } | null = null;
+  if (target === "react-native") styling = nativewindStyling(project.projectPath, issues);
   if (target === "react") {
     const major = tailwindMajor(project.projectPath);
     const integration = tailwindIntegration(project.projectPath);
@@ -560,7 +853,7 @@ export const initProject = async (
   ] as const;
   for (const [rel, content] of files) {
     const old = existing(root, rel);
-    if (old !== undefined && old !== content)
+    if (old !== undefined && old !== content && !previousCoreTemplates.has(sha(old)))
       throw new Error(`Existing core file was modified: ${rel}`);
   }
   const config = configText(root, language);
@@ -569,6 +862,7 @@ export const initProject = async (
     target,
     options.stylesheetPath ?? prior?.stylesheetPath
   );
+  const tailwindConfig = nativeTailwindEdit(root, target);
   const manifest: ProjectManifest = prior ?? {
     schemaVersion: 1,
     catalogVersion,
@@ -582,6 +876,7 @@ export const initProject = async (
     ...files.map(([rel, content]) => fileChange(root, rel, content)),
     fileChange(root, config.rel, config.next),
     ...(stylesheet ? [fileChange(root, stylesheet.path, stylesheet.next)] : []),
+    ...(tailwindConfig ? [fileChange(root, tailwindConfig.path, tailwindConfig.next)] : []),
     fileChange(root, "rocketicons.json", json(manifest))
   ].filter(Boolean) as Change[];
   const needed = dependenciesToInstall(root, target);
@@ -599,6 +894,8 @@ export const initProject = async (
       await atomicWrite(root, config.rel, config.next);
     if (stylesheet && fileChange(root, stylesheet.path, stylesheet.next))
       await atomicWrite(root, stylesheet.path, stylesheet.next);
+    if (tailwindConfig && fileChange(root, tailwindConfig.path, tailwindConfig.next))
+      await atomicWrite(root, tailwindConfig.path, tailwindConfig.next);
     if (fileChange(root, "rocketicons.json", json(manifest)))
       await atomicWrite(root, "rocketicons.json", json(manifest));
   }
@@ -612,6 +909,46 @@ export const initProject = async (
   };
 };
 
+const projectIcon = (raw: string, manifest?: ProjectManifest, root?: string) => {
+  const key = raw.startsWith("@") ? raw : `@${raw}`;
+  const direct = manifest?.icons[key];
+  const catalogIcon = direct ? getIcon(key) : requireIcon(raw);
+  const qualified = direct ? key : `@${catalogIcon!.collection}/${catalogIcon!.id}`;
+  const record = direct ?? manifest?.icons[qualified];
+  // A missing component is regenerated from the current catalog; an existing one
+  // retains its original component name as well as its path.
+  if (record && !(root && existing(root, record.path) === undefined && catalogIcon))
+    return {
+      id: qualified.slice(qualified.indexOf("/") + 1),
+      collection: record.collection,
+      component: record.component
+    };
+  return catalogIcon!;
+};
+const projectIconPath = (
+  manifest: ProjectManifest | undefined,
+  id: string,
+  collection: string,
+  language: Language
+) => {
+  const key = `@${collection}/${id}`;
+  const path = manifest?.icons[key]?.path ?? iconFile(id, collection, language);
+  if (
+    Object.entries(manifest?.icons ?? {}).some(
+      ([other, entry]) => other !== key && entry.path === path
+    )
+  )
+    throw new Error(`Icon destination conflicts with another managed icon: ${path}`);
+  return path;
+};
+const repairSource = (id: string, language: Language) => {
+  if (!getIcon(id))
+    throw new Error(
+      `Cannot repair unavailable icon ${id}; restore its file from source control or use its original catalog package.`
+    );
+  return componentSource(id, language);
+};
+
 export const addIcons = async (
   projectPath: string,
   iconIds: string[],
@@ -622,14 +959,16 @@ export const addIcons = async (
   const manifest = readManifest(root);
   if (!manifest) throw new Error("Project is not initialized; run init_project first");
   if (manifest.catalogVersion !== catalogVersion)
-    throw new Error("Project catalog version differs from installed catalog");
+    throw new Error(
+      "Project catalog version differs from installed catalog; preview with plan_project_upgrade or rocketicons upgrade --dry-run, then apply the upgrade"
+    );
   const next: ProjectManifest = JSON.parse(JSON.stringify(manifest));
   const writes: Array<{ rel: string; content: string }> = [];
   const preservedIcons: NonNullable<MutationResult["preservedIcons"]> = [];
+  const newIcons = hasIconAdditionCapture() ? new Set<string>() : undefined;
   for (const id of [...new Set(iconIds)]) {
-    const icon = requireIcon(id);
-    const rel = iconFile(icon.id, icon.collection, manifest.language);
-    const content = componentSource(`@${icon.collection}/${icon.id}`, manifest.language);
+    const icon = projectIcon(id, manifest, root);
+    const rel = projectIconPath(next, icon.id, icon.collection, manifest.language);
     const current = existing(root, rel);
     const qualified = `@${icon.collection}/${icon.id}`;
     const recorded = manifest.icons[qualified];
@@ -643,15 +982,19 @@ export const addIcons = async (
       });
       continue;
     }
+    const content = repairSource(qualified, manifest.language);
     next.icons[qualified] = {
       component: icon.component,
       path: rel,
       sha256: generatedHash(content),
       hashAlgorithm: "tokens-v1",
+      catalogVersion,
       collection: icon.collection,
       licenseUrl: getCollection(icon.collection)!.licenseUrl
     };
     if (current !== content) writes.push({ rel, content });
+    // A missing file with an existing manifest entry is a repair, not an addition.
+    if (!recorded && current === undefined) newIcons?.add(qualified);
   }
   const changes = [
     ...writes.map(({ rel, content }) => fileChange(root, rel, content)!),
@@ -661,6 +1004,7 @@ export const addIcons = async (
     for (const { rel, content } of writes) await atomicWrite(root, rel, content);
     if (fileChange(root, "rocketicons.json", json(next)))
       await atomicWrite(root, "rocketicons.json", json(next));
+    if (newIcons) recordIconAdditions(newIcons.size);
   }
   return {
     projectPath: root,
@@ -683,7 +1027,7 @@ export const removeIcons = async (
   const next: ProjectManifest = JSON.parse(JSON.stringify(manifest));
   const removals: string[] = [];
   for (const raw of [...new Set(iconIds)]) {
-    const icon = requireIcon(raw);
+    const icon = projectIcon(raw, manifest);
     const id = `@${icon.collection}/${icon.id}`;
     const recorded = manifest.icons[id];
     if (!recorded) continue;
@@ -717,8 +1061,31 @@ export const iconUsage = (
   language: Language = "ts",
   origin?: { projectPath: string; fromFile: string }
 ) => {
-  const icon = requireIcon(id);
-  const generatedPath = iconFile(icon.id, icon.collection, language);
+  const root = origin ? projectRoot(origin.projectPath) : undefined;
+  const manifest = root ? readManifest(root) : undefined;
+  const icon = projectIcon(id, manifest, root);
+  const key = `@${icon.collection}/${icon.id}`;
+  const record = manifest?.icons[key];
+  const catalogIcon = getIcon(key);
+  const metadata = catalogIcon
+    ? iconSummary(catalogIcon)
+    : {
+        id: key,
+        name: icon.component,
+        component: icon.component,
+        collection: icon.collection,
+        collectionName: getCollection(icon.collection)?.name ?? icon.collection,
+        variant: null,
+        license: null,
+        licenseUrl: record!.licenseUrl,
+        svgResource: null
+      };
+  const generatedPath = projectIconPath(
+    manifest,
+    icon.id,
+    icon.collection,
+    manifest?.language ?? language
+  );
   let importStatement: string | null = null;
   let fromFile: string | null = null;
   if (origin) {
@@ -735,7 +1102,10 @@ export const iconUsage = (
     fromFile = relative(root, source).replace(/\\/g, "/");
   }
   return {
-    ...iconSummary(icon),
+    ...metadata,
+    component: icon.component,
+    licenseUrl: record?.licenseUrl ?? metadata.licenseUrl,
+    catalogAvailable: Boolean(catalogIcon),
     target,
     language,
     generatedPath,
@@ -772,6 +1142,85 @@ const fileDigest = (root: string, path: string) => {
   return existsSync(absolute) ? sha(readFileSync(absolute)) : null;
 };
 
+/** Preview a catalog migration. Existing components and their provenance stay intact. */
+export const planProjectUpgrade = (projectPath: string) => {
+  const root = projectRoot(projectPath);
+  const prior = readManifest(root);
+  if (!prior) throw new Error("Project is not initialized; run init_project first");
+  if (compareVersions(prior.catalogVersion, catalogVersion) > 0)
+    throw new Error(
+      `Catalog downgrade is not supported: ${prior.catalogVersion} to ${catalogVersion}`
+    );
+  const next: ProjectManifest = JSON.parse(JSON.stringify(prior));
+  const migrating = prior.catalogVersion !== catalogVersion;
+  if (migrating) {
+    for (const record of Object.values(next.icons))
+      record.catalogVersion ??= prior.catalogVersion;
+    next.catalogVersion = catalogVersion;
+  }
+  const preservedIcons = Object.entries(prior.icons)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([id, record]) => {
+      const content = existing(root, record.path);
+      return {
+        id,
+        path: record.path,
+        catalogVersion: record.catalogVersion ?? prior.catalogVersion,
+        status: iconStatus(prior, id, content),
+        beforeSha256: fileDigest(root, record.path),
+        catalogAvailable: Boolean(getIcon(id))
+      };
+    });
+  const manifestChange = migrating
+    ? plannedFile(root, "rocketicons.json", json(next))
+    : undefined;
+  const core = {
+    projectPath: root,
+    fromCatalogVersion: prior.catalogVersion,
+    toCatalogVersion: catalogVersion,
+    manifestBeforeSha256: fileDigest(root, "rocketicons.json"),
+    nextManifest: next,
+    fileChanges: manifestChange ? [manifestChange] : [],
+    preservedIcons,
+    issues: doctor(root).issues,
+    warnings: preservedIcons
+      .filter((icon) => !icon.catalogAvailable)
+      .map(
+        (icon) =>
+          `Icon ${icon.id} is unavailable in the destination catalog; its recorded file is preserved.`
+      )
+  };
+  return {
+    ...core,
+    planId: sha(json(core)),
+    summary: migrating
+      ? `Upgrade catalog ${prior.catalogVersion} to ${catalogVersion}; preserve ${preservedIcons.length} icon file(s)`
+      : `Project already uses catalog ${catalogVersion}; no changes`
+  };
+};
+
+export const applyProjectUpgrade = async (
+  projectPath: string,
+  planId: string,
+  dryRun = false
+) => {
+  const plan = planProjectUpgrade(projectPath);
+  if (plan.planId !== planId)
+    throw new Error(
+      "Upgrade plan is stale or does not match; call plan_project_upgrade again or rocketicons upgrade --dry-run"
+    );
+  if (dryRun) return { ...plan, dryRun: true, verification: null };
+  if (plan.fileChanges.length)
+    await atomicWrite(plan.projectPath, "rocketicons.json", json(plan.nextManifest));
+  const health = doctor(plan.projectPath);
+  const issues = [...health.issues];
+  for (const icon of plan.preservedIcons) {
+    if (fileDigest(plan.projectPath, icon.path) !== icon.beforeSha256)
+      issues.push(`Preserved icon changed during upgrade: ${icon.path}`);
+  }
+  return { ...plan, dryRun: false, verification: { healthy: issues.length === 0, issues } };
+};
+
 export const planIcons = async (
   projectPath: string,
   iconIds: string[],
@@ -803,12 +1252,14 @@ export const planIcons = async (
     dryRun: true
   });
   if (prior && prior.catalogVersion !== catalogVersion)
-    throw new Error("Project catalog version differs from installed catalog");
+    throw new Error(
+      "Project catalog version differs from installed catalog; preview with plan_project_upgrade or rocketicons upgrade --dry-run, then apply the upgrade"
+    );
 
   const icons = [
     ...new Map(
       iconIds.map((raw) => {
-        const icon = requireIcon(raw);
+        const icon = projectIcon(raw, prior, root);
         return [`@${icon.collection}/${icon.id}`, icon] as const;
       })
     ).values()
@@ -826,6 +1277,8 @@ export const planIcons = async (
   const config = configText(root, language);
   files.set(config.rel, config.next);
   if (stylesheet) files.set(stylesheet.path, stylesheet.next);
+  const tailwindConfig = nativeTailwindEdit(root, target);
+  if (tailwindConfig) files.set(tailwindConfig.path, tailwindConfig.next);
   const preservedIcons: Array<{
     id: string;
     path: string;
@@ -834,8 +1287,7 @@ export const planIcons = async (
   }> = [];
   for (const icon of icons) {
     const id = `@${icon.collection}/${icon.id}`;
-    const path = iconFile(icon.id, icon.collection, language);
-    const content = componentSource(id, language);
+    const path = projectIconPath(next, icon.id, icon.collection, language);
     const current = existing(root, path);
     const recorded = prior?.icons[id];
     if (current !== undefined && !recorded)
@@ -849,11 +1301,13 @@ export const planIcons = async (
       });
       continue;
     }
+    const content = repairSource(id, language);
     next.icons[id] = {
       component: icon.component,
       path,
       sha256: generatedHash(content),
       hashAlgorithm: "tokens-v1",
+      catalogVersion,
       collection: icon.collection,
       licenseUrl: getCollection(icon.collection)!.licenseUrl
     };

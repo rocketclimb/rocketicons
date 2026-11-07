@@ -1,16 +1,12 @@
 import { SvgCss } from "react-native-svg/css";
 import { cssInterop } from "nativewind";
-import {
-  attrToString,
-  styleToString,
-  tree2String,
-  nativeHandleClassName,
-  mergeStyles,
-  IconTree,
-  Variants,
-  IconType,
-  IconBaseProps
-} from "@rocketicons/utils";
+// Runtime helpers come from their own files: the "@rocketicons/utils" index also exports
+// build-time SVG parsing, which would add an XML parser to every app that renders an icon.
+import { attrToString, tree2String } from "@rocketicons/utils/dist/tree-2-string.js";
+import { styleToString } from "@rocketicons/utils/dist/style-to-string.js";
+import { nativeHandleClassName } from "@rocketicons/utils/dist/handle-class-name.native.js";
+import { mergeStyles } from "@rocketicons/utils/dist/merge-styles.js";
+import type { IconTree, Variants, IconType, IconBaseProps } from "@rocketicons/utils";
 
 type NativeIconProps = {
   style?: Record<string, string>[];
@@ -52,4 +48,4 @@ const NativeGenIcon = (data: IconTree, variant: Variants, name: string): IconTyp
 export const IconGenerator = (svg: IconTree, variant: Variants, name: string): IconType =>
   NativeGenIcon(svg, variant, name);
 
-export { IconTree, Variants };
+export type { IconTree, Variants };

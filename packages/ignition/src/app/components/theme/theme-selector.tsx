@@ -69,9 +69,15 @@ type ThemeSelectorProps = {
   toggle: () => void;
 } & ThemeComponentProps;
 
-const ThemeSelectorAsIcon = ({ toggle, selectors, showing, ...props }: ThemeSelectorProps) => (
+const ThemeSelectorAsIcon = ({
+  toggle,
+  selectors,
+  showing,
+  label,
+  ...props
+}: ThemeSelectorProps & { label: string }) => (
   <div className="relative hidden lg:block">
-    <Button className="flex" onClick={() => toggle()}>
+    <Button className="flex" aria-label={label} aria-expanded={showing} onClick={() => toggle()}>
       <SelectedTheme selectors={selectors} />
     </Button>
     <SelectorMenu className="right-0" showing={showing} selectors={selectors} {...props} />
@@ -98,6 +104,8 @@ const ThemeSelectorAsMenu = ({
       <Button
         className="flex items-center py-2 px-2.5 border border-surface-border rounded-lg dark:highlight-background/5 dark:bg-surface-light dark:border-surface-light dark:text-primary-dark"
         onClick={() => toggle()}
+        aria-label={switchTheme}
+        aria-expanded={showing}
       >
         <SelectedTheme selectors={selectors} />
         <MdKeyboardArrowDown className="ml-2 icon-primary-lighter" />
@@ -121,6 +129,7 @@ type Selector = {
 const ThemeSelector = ({ lang }: PropsWithLang) => {
   const { config } = withLocale(lang);
   const themes = config("themes");
+  const { theme: themeLabel } = config("accessibility");
 
   const { setPref } = useThemeHandler();
   const [showing, setShowing] = useState<boolean>(false);
@@ -145,12 +154,13 @@ const ThemeSelector = ({ lang }: PropsWithLang) => {
         showing={showing}
         updateTheme={updateTheme}
         selectors={selectors}
+        label={themeLabel}
       />
       <ThemeSelectorAsMenu
         showing={showing}
         close={() => setShowing(false)}
         updateTheme={updateTheme}
-        switchTheme={themes.switchTheme}
+        switchTheme={themeLabel}
         toggle={toggle}
         selectors={selectors}
       />

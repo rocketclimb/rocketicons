@@ -4,9 +4,12 @@ const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const app = require("../dist");
+const { nativewindDependencies, writeNativeWindSetup } = require("./nativewind-fixture.cjs");
 const ts = require("typescript");
 const React = require("react");
 const { renderToStaticMarkup } = require("react-dom/server");
+
+const previousCore = require("./fixtures/core-templates-0.2.0.json");
 
 const fixture = (language, target) => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "rocketicons-test-"));
@@ -19,7 +22,7 @@ const fixture = (language, target) => {
         "@rocketicons/utils": "1",
         "@rocketicons/tailwind": "1",
         ...(target === "react" ? { tailwindcss: "^4.2.1", "@tailwindcss/vite": "^4.2.1" } : {}),
-        ...(target === "react-native" ? { nativewind: "1", "react-native-svg": "1" } : {})
+        ...(target === "react-native" ? nativewindDependencies : {})
       }
     })
   );
@@ -37,6 +40,7 @@ const fixture = (language, target) => {
       'import tailwindcss from "@tailwindcss/vite";\nexport default { plugins: [tailwindcss()] };\n'
     );
   }
+  if (target === "react-native") writeNativeWindSetup(root);
   return root;
 };
 
@@ -274,3 +278,45 @@ test("managed path symlinks cannot escape the project", async () => {
     fs.rmSync(outside, { recursive: true, force: true });
   }
 });
+
+for (const language of ["ts", "js"])
+  test(`${language}: unmodified 0.2.0 core templates are replaced; edited ones are kept`, async () => {
+    const root = fixture(language, "react");
+    const extension = language === "ts" ? "tsx" : "jsx";
+    const names = ["index", "index.native"];
+    const core = (name) => path.join(root, `src/ri/core/${name}.${extension}`);
+    try {
+      await app.initProject(root, { language, target: "react" });
+      const current = Object.fromEntries(
+        names.map((name) => [name, fs.readFileSync(core(name), "utf8")])
+      );
+      // Rendered icons must not load the utils index, which also exports build-time SVG parsing.
+      if (language === "js")
+        for (const name of names)
+          assert.doesNotMatch(current[name], /from "@rocketicons\/utils"/);
+
+      for (const name of names)
+        fs.writeFileSync(core(name), previousCore[`${name}.${extension}`]);
+      const preview = await app.initProject(root, { language, target: "react", dryRun: true });
+      assert.deepEqual(
+        preview.changes.filter(({ path: rel }) => rel.startsWith("src/ri/core/")),
+        names.map((name) => ({ path: `src/ri/core/${name}.${extension}`, action: "update" }))
+      );
+      const plan = await app.planIcons(root, ["@fi/fi-calendar"], { fromFile: "src/main.jsx" });
+      const applied = await app.applyIconPlan(root, ["@fi/fi-calendar"], plan.planId, {
+        fromFile: "src/main.jsx"
+      });
+      assert.equal(applied.verification.healthy, true);
+      for (const name of names) assert.equal(fs.readFileSync(core(name), "utf8"), current[name]);
+
+      const edited = `${previousCore[`index.${extension}`]}// user edit\n`;
+      fs.writeFileSync(core("index"), edited);
+      await assert.rejects(
+        app.initProject(root, { language, target: "react" }),
+        /Existing core file was modified/
+      );
+      assert.equal(fs.readFileSync(core("index"), "utf8"), edited);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  });

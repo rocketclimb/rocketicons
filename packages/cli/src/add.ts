@@ -23,13 +23,8 @@ const add = async (iconName: string) => {
     const moduleName = `../${name}/manifest`;
     const svgModuleName = `../${name}/svg-data`;
 
-    const {
-      default: { manifest }
-    } = await import(moduleName);
-
-    const {
-      default: { svgData }
-    } = await import(svgModuleName);
+    const { manifest } = await import(moduleName);
+    const { data: svgData } = await import(svgModuleName);
 
     const { id, compName, variant } = manifest.icons[icon];
     const data = svgData[icon];

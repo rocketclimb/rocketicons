@@ -6,8 +6,10 @@ import { PropsWithLang } from "@/types";
 import { SidebarLeft } from "./sidebar-left";
 
 import { PublicJSONIcon } from "@/app/components/icons/public-json-icon";
+import { withLocale } from "@/locales/with-locale";
 export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
   const { isOpen, open, Modal } = useDisclosure();
+  const { openSidebar } = withLocale(lang).config("accessibility");
 
   return (
     <div className="landingpage:hidden">
@@ -16,7 +18,12 @@ export const CollapsedSidebar = ({ lang }: PropsWithLang) => {
         className="group w-full py-3 transition-colors duration-500 lg:hidden"
       >
         <div className="flex flex-col justify-between">
-          <Button className="flex items-center" type="button" onClick={() => open()}>
+          <Button
+            className="flex items-center"
+            type="button"
+            aria-label={openSidebar}
+            onClick={() => open()}
+          >
             <PublicJSONIcon
               collection="io5"
               iconId="io-menu-outline"

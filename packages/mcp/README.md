@@ -2,9 +2,102 @@
 
 Local MCP server for finding, inspecting, installing, and verifying Rocketicons.
 
+MCP usage instrumentation and a bounded sender are implemented, but this build has no collector endpoint: it sends no usage telemetry, even when opted in. Deployment remains gated on [#275](https://github.com/rocketclimb/rocketicons/issues/275). Consent, payloads, and release requirements are documented in [English](TELEMETRY.md) and [Português brasileiro](TELEMETRY.pt-BR.md), with a [versioned schema and sample](contracts/telemetry/v1/README.md).
+
 Search thousands of open-source icons, then add only the icons your project uses. Rocketicons writes selected components into your source tree for React and React Native, with Tailwind-compatible styling. No full icon collection is imported into the application, and unused icons do not rely on tree-shaking to disappear.
 
-Requires Node.js 20 or newer. After npm publication, configure an MCP client with command `npx` and arguments `-y`, `rocketicons`, `mcp`. The dedicated `npx -y @rocketicons/mcp` command also works. From this repository before publication, build `@rocketicons/toolkit`, `@rocketicons/mcp`, and `@rocketicons/cli`, then use `npx --no-install rocketicons mcp` from the repository root. Both commands run over stdio.
+## Upgrade an existing project
+
+Catalog upgrades require `@rocketicons/mcp@0.3.0` / `@rocketicons/toolkit@0.3.0` or newer (use a published release containing these versions, or build this checkout). When `CATALOG_MISMATCH` occurs:
+
+1. Call `plan_project_upgrade` with `project_path` and review `fromCatalogVersion`, `toCatalogVersion`, `nextManifest`, `fileChanges`, `preservedIcons`, and diagnostics.
+2. Call `apply_project_upgrade` with the same `project_path` and returned `planId` as `plan_id`. Set `dry_run: true` to preview without writing.
+3. Retry `plan_icons` / `apply_icons` and run `doctor`.
+
+The upgrade writes only `rocketicons.json`. Existing components, paths, hashes, and license records are preserved; each icon keeps its original catalog version. Missing files and unrelated setup issues remain visible. Removed catalog icons remain usable from their saved files, but missing ones must be restored from source control or their original catalog package. New additions and repairs use the installed catalog. Upgrades reject stale plans and downgrades. Repeating an upgrade to the current catalog makes no changes.
+
+CLI equivalent (from the project root):
+
+```sh
+npx rocketicons upgrade --dry-run --json
+npx rocketicons upgrade --plan-id <planId> --json
+```
+
+For an installed icon removed from the current catalog, `get_icon_usage` still returns its recorded path and import when given `project_path` and `from_file`. It reports `catalogAvailable: false`; catalog-only `variant`, `license`, and `svgResource` fields are `null`, while the original `licenseUrl` is retained.
+
+This migrates catalog metadata; it does not regenerate existing icons or upgrade runtime/core files. Commit the updated manifest with your project. Do not delete the setup or manually replace its catalog version.
+
+## Configure an MCP client
+
+Rocketicons runs locally over stdio with `npx -y @rocketicons/mcp`. Use Node.js 20.9.0 or newer, with `node` and `npx` available to the client. The client starts the server for you; no separate terminal process or global package installation is needed. The first launch needs internet access to download the package. Search uses Algolia when available and falls back to the bundled catalog offline.
+
+For any client that supports local stdio MCP, set the command to `npx` and the arguments to `["-y", "@rocketicons/mcp"]`. Clients that only accept remote HTTP servers cannot use this command directly. No API key is required for the default search configuration. Project tools receive an explicit absolute `project_path` when called, so it is not part of the server configuration.
+
+Merge these entries into existing configuration files without removing other servers. After saving, restart or reconnect the MCP server in your client. If startup reports that `npx` cannot be found, use its absolute path from `command -v npx` and ensure Node.js is available in the client's environment.
+
+### Codex
+
+Add this to `.codex/config.toml` in a trusted project, or `~/.codex/config.toml` to use it globally:
+
+```toml
+[mcp_servers.rocketicons]
+command = "npx"
+args = ["-y", "@rocketicons/mcp"]
+startup_timeout_sec = 60
+```
+
+The 60-second startup timeout gives the first download more time. Restart Codex and use `/mcp` to check the connection. See the [Codex MCP documentation](https://developers.openai.com/codex/mcp).
+
+### Cursor
+
+Add this to `.cursor/mcp.json` in your project, or `~/.cursor/mcp.json` globally:
+
+```json
+{
+  "mcpServers": {
+    "rocketicons": {
+      "command": "npx",
+      "args": ["-y", "@rocketicons/mcp"]
+    }
+  }
+}
+```
+
+Check that Rocketicons is enabled and connected in Cursor's MCP settings. See the [Cursor MCP documentation](https://cursor.com/docs/mcp).
+
+### Claude Code
+
+Add this directly to `.mcp.json` at the project root:
+
+```json
+{
+  "mcpServers": {
+    "rocketicons": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@rocketicons/mcp"]
+    }
+  }
+}
+```
+
+Alternatively, run this from the project directory:
+
+```bash
+claude mcp add --scope project --transport stdio rocketicons -- npx -y @rocketicons/mcp
+```
+
+Use `--scope user` instead for all your projects. Restart Claude Code, approve the project server when prompted, and use `/mcp` to check the connection. These instructions are for Claude Code. See the [Claude Code MCP documentation](https://code.claude.com/docs/en/mcp).
+
+### Check the connection
+
+Ask your agent:
+
+> Use Rocketicons MCP to find five food icons from the same collection and compare them visually. Do not change project files.
+
+Search and SVG inspection do not require project initialization. To install components later, ask the agent to inspect the project and use `plan_icons` before `apply_icons`.
+
+For repository development, build the toolkit, MCP, and CLI packages, then run `npx --no-install rocketicons mcp` from the repository root. The published CLI also exposes `npx -y rocketicons mcp`.
 
 Search uses the public Algolia index when available and a bundled local semantic index when offline. The package bundles the same public search-only credentials used by rocketicons.com, so local MCP search can query Algolia without project setup. It first checks `/ai/v1/search-config.json` for updated public credentials. Set `ROCKETICONS_ALGOLIA_APP_ID` and `ROCKETICONS_ALGOLIA_SEARCH_KEY` to override them; never use an indexing key. Every Algolia result is resolved against the bundled catalog and checked against the requested filters. If the index offers an icon this package cannot add, search falls back locally.
 
@@ -18,7 +111,7 @@ To add icons, call `plan_icons` with exact IDs, `project_path`, and `from_file` 
 
 Generated icon components belong to the project and can be edited. `inspect_project` marks a non-formatting edit as `customized`; `doctor` lists customized IDs without treating them as setup failures. `recommend_icons` can reuse them, while `plan_icons` reports them in `preservedIcons` and includes their current file hashes in the plan ID. Add and apply leave those files untouched. `remove_icons` refuses to delete a customized component. Formatting-only changes are ignored by a code-aware hash calculated in memory; neither Rocketicons nor the hash check reformats the project file.
 
-In Tailwind CSS 4 web projects, setup registers `@rocketicons/tailwind` in the active stylesheet with `@plugin`, and plans include that CSS edit. `doctor` reports the Tailwind version, stylesheet path, whether it is imported by application code, plugin registration, and Vite or PostCSS build integration. If multiple Tailwind stylesheets are active, pass the same `stylesheet_path` to `plan_icons` and `apply_icons` (or to `init_project`). React Native styling setup remains separate.
+In Tailwind CSS 4 web projects, setup registers `@rocketicons/tailwind` in the active stylesheet with `@plugin`, and plans include that CSS edit. `doctor` reports the Tailwind version, stylesheet path, whether it is imported by application code, plugin registration, and Vite or PostCSS build integration. If multiple Tailwind stylesheets are active, pass the same `stylesheet_path` to `plan_icons` and `apply_icons` (or to `init_project`). In React Native projects with NativeWind 4, which uses Tailwind CSS 3, setup adds `nativeIconPlugin` from `@rocketicons/tailwind` to the existing `tailwind.config.*` file, and plans include that edit. `doctor` reports the Tailwind version, the config's NativeWind preset and plugin registration, whether the `@tailwind` stylesheet is imported, Metro `withNativeWind` integration, and the `nativewind/babel` preset.
 
 Setup requires compatible published `@rocketicons/utils` and `@rocketicons/tailwind` versions (0.7.0 or newer) when the project does not already have them. Plans list the exact managed file paths and dependency packages. A package manager determines the final contents of `package.json` and its lockfile during installation; the plan lists those files and its cache and `node_modules` effects before apply.
 When `project_path` is inside a parent npm, Yarn, Bun, or pnpm workspace, install missing dependencies with that workspace's package manager first. Rocketicons rejects an automatic install there because the package manager may change files outside `project_path`; setup and icon addition work after the dependencies are declared in the project package.

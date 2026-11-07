@@ -24,6 +24,7 @@ export type CollectionID =
   | "lu"
   | "md"
   | "my"
+  | "oir"
   | "pi"
   | "ri"
   | "rx"

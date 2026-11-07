@@ -1,3 +1,19 @@
+## [0.9.0](https://github.com/rocketclimb/rocketicons/compare/v0.9.4-release...v0.10.0) (2026-11-07)
+
+### Features
+
+- add Rocketicons MCP for icon discovery and project setup (#254) ([7e3c7d00](https://github.com/rocketclimb/rocketicons/commit/7e3c7d00adb095e6702cab2b0dff5e0d912057d8))
+
+### Bug Fixes
+
+- **tailwind** accept Tailwind CSS 3 for NativeWind projects ([f0957cd2](https://github.com/rocketclimb/rocketicons/commit/f0957cd219359cc5726c9f36c38473f313371fcb))
+
+### Miscellaneous
+
+- **deps** consolidate safe dependency updates (#282) ([036e806e](https://github.com/rocketclimb/rocketicons/commit/036e806e6e1aee0ff8d04f03dabf31934b1f7a38))
+- **deps** consolidate safe dependency updates ([89d41f46](https://github.com/rocketclimb/rocketicons/commit/89d41f46d8111736f24a101cab9ea460e93a7ad9))
+- **release** 0.10.0 (#262) ([86943b14](https://github.com/rocketclimb/rocketicons/commit/86943b1493ac82016e18ef535c8e03d4451a0cdb))
+
 ## [0.8.0](https://github.com/rocketclimb/rocketicons/compare/v0.9.4-release...v0.10.0) (2026-09-26)
 
 ### Features

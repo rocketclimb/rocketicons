@@ -37,6 +37,7 @@ const project = z.looseObject({
           path: z.string(),
           sha256: z.string(),
           hashAlgorithm: z.literal("tokens-v1").optional(),
+          catalogVersion: z.string().optional(),
           collection: z.string(),
           licenseUrl: z.string()
         })
@@ -105,6 +106,29 @@ const plan = z.looseObject({
   summary: z.string()
 });
 
+const upgradePlan = z.looseObject({
+  projectPath: z.string(),
+  fromCatalogVersion: z.string(),
+  toCatalogVersion: z.string(),
+  manifestBeforeSha256: z.string(),
+  nextManifest: project.shape.manifest.unwrap(),
+  fileChanges: z.array(fileChange),
+  preservedIcons: z.array(
+    z.looseObject({
+      id: z.string(),
+      path: z.string(),
+      catalogVersion: z.string(),
+      status: z.enum(["current", "customized", "missing"]),
+      beforeSha256: z.string().nullable(),
+      catalogAvailable: z.boolean()
+    })
+  ),
+  issues: z.array(z.string()),
+  warnings: z.array(z.string()),
+  planId: z.string(),
+  summary: z.string()
+});
+
 export const outputs = {
   search_icons: z.looseObject({
     source: z.enum(["algolia", "local"]),
@@ -165,6 +189,10 @@ export const outputs = {
     icons: z.array(icon.extend({ row: z.number().int(), column: z.number().int() }))
   }),
   get_icon_usage: icon.extend({
+    variant: z.string().nullable(),
+    license: z.string().nullable(),
+    svgResource: z.string().nullable(),
+    catalogAvailable: z.boolean(),
     target: z.enum(["react", "react-native"]),
     language: z.enum(["ts", "js"]),
     generatedPath: z.string(),
@@ -208,9 +236,17 @@ export const outputs = {
         stylesheetPath: z.string().nullable(),
         pluginRegistered: z.boolean(),
         stylesheetLoaded: z.boolean(),
-        buildIntegration: z.string().nullable()
+        buildIntegration: z.string().nullable(),
+        tailwindConfigPath: z.string().nullable().optional(),
+        nativewindPreset: z.boolean().optional(),
+        babelPreset: z.boolean().optional()
       })
       .nullable()
+  }),
+  plan_project_upgrade: upgradePlan,
+  apply_project_upgrade: upgradePlan.extend({
+    dryRun: z.boolean(),
+    verification: z.looseObject({ healthy: z.boolean(), issues: z.array(z.string()) }).nullable()
   }),
   init_project: mutation,
   plan_icons: plan,
@@ -259,7 +295,7 @@ export const toolError = (error: unknown): ToolError => {
       nextStep: "Pass each exact icon ID only once to compare_icons."
     };
   if (
-    /Tailwind stylesheet|No Tailwind stylesheet|Multiple Tailwind stylesheets|stylesheet_path/.test(
+    /Tailwind stylesheet|No Tailwind stylesheet|Multiple Tailwind stylesheets|stylesheet_path|Tailwind config/.test(
       message
     )
   )
@@ -267,7 +303,27 @@ export const toolError = (error: unknown): ToolError => {
       code: "STYLING_SETUP",
       message,
       nextStep:
-        "Run doctor to inspect web styling. If multiple Tailwind stylesheets exist, pass stylesheet_path to init_project or to both plan_icons and apply_icons."
+        "Run doctor to inspect styling. For web, if multiple Tailwind stylesheets exist, pass stylesheet_path to init_project or to both plan_icons and apply_icons. For React Native, create tailwind.config.js with nativewind/preset, or register nativeIconPlugin manually as the message describes."
+    };
+  if (/Upgrade plan is stale/.test(message))
+    return {
+      code: "STALE_PLAN",
+      message,
+      nextStep: "Call plan_project_upgrade again, then apply_project_upgrade with its new planId."
+    };
+  if (/Catalog downgrade|Invalid catalog version/.test(message))
+    return {
+      code: "CATALOG_UPGRADE_INVALID",
+      message,
+      nextStep:
+        "Use a package with a valid catalog version at least as new as the project catalog."
+    };
+  if (/Cannot repair unavailable icon/.test(message))
+    return {
+      code: "ICON_REPAIR_UNAVAILABLE",
+      message,
+      nextStep:
+        "Restore the missing icon from source control or use its original catalog package."
     };
   if (/Plan is stale/.test(message))
     return {
@@ -292,7 +348,8 @@ export const toolError = (error: unknown): ToolError => {
     return {
       code: "CATALOG_MISMATCH",
       message,
-      nextStep: "Use a Rocketicons MCP package compatible with the project's catalog version."
+      nextStep:
+        "Call plan_project_upgrade, review its manifest changes, then call apply_project_upgrade with the returned planId before retrying."
     };
   if (
     /not initialized|No package.json|project_path must|ENOENT|symlink|Path escapes project/.test(

@@ -4,10 +4,12 @@ import MainNav from "./main-nav";
 import { PropsWithLang } from "@/types/props-with-lang";
 import { pkgVersion } from "@/data-helpers/icons/manifest";
 import { CollapsedSidebar } from "@/components/sidebar/collapsed-sidebar";
+import { withLocale } from "@/locales/with-locale";
 
 const LogoLink = ({ lang }: PropsWithLang) => {
+  const { home } = withLocale(lang).config("accessibility");
   return (
-    <Link className="col-span-5" href={`/${lang}`}>
+    <Link className="col-span-5" href={`/${lang}`} aria-label={home}>
       <Logo className="w-full max-w-[160px]" />
     </Link>
   );
