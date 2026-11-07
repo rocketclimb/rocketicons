@@ -43,7 +43,7 @@
     "algoliasearch": "^4.23.3",
     "change-case": "^5.4.4",
     "critters": "^0.0.25",
-    "glob": "^13.0.6",
+    "glob": "^14.0.4",
     "next": "^15.5.27",
     "react": "^19",
     "react-dom": "^19",
