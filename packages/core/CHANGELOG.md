@@ -1,3 +1,13 @@
+## [0.7.2](https://github.com/rocketclimb/rocketicons/compare/v0.9.4-release...v0.10.0) (2026-11-07)
+
+### Refactoring
+
+- **core** import runtime helpers without the utils SVG parser ([18be48d2](https://github.com/rocketclimb/rocketicons/commit/18be48d2fe7b457b52fe0bb8ed2a8b79a8f730ac))
+
+### Miscellaneous
+
+- **release** 0.10.0 (#262) ([86943b14](https://github.com/rocketclimb/rocketicons/commit/86943b1493ac82016e18ef535c8e03d4451a0cdb))
+
 ## [0.7.1](https://github.com/rocketclimb/rocketicons/compare/v0.9.4-release...v0.10.0) (2026-09-26)
 
 ## [0.7.0](https://github.com/rocketclimb/rocketicons/compare/v0.4.2...v0.5.0) (2026-08-14)

@@ -1,3 +1,114 @@
+## [0.11.0](https://github.com/rocketclimb/rocketicons/compare/v0.9.4-release...v0.10.0) (2026-11-07)
+
+### Features
+
+- **mcp** add opt-in local telemetry instrumentation (#279) [[mcp](./packages/mcp/CHANGELOG.md), [toolkit](./packages/toolkit/CHANGELOG.md)] ([82f4df56](https://github.com/rocketclimb/rocketicons/commit/82f4df56538990e695dd8dcd2df0689b4d74781d))
+- **toolkit** register and diagnose NativeWind styling for React Native [[mcp](./packages/mcp/CHANGELOG.md), [toolkit](./packages/toolkit/CHANGELOG.md)] ([bc20ecd8](https://github.com/rocketclimb/rocketicons/commit/bc20ecd89a159721fdccf47cbdcb691459446903))
+- **generator** refresh Lucide 1.55.0 and Octicons 19.40.0 catalogs [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([2dc6fd0c](https://github.com/rocketclimb/rocketicons/commit/2dc6fd0cfbafe58da9fc89705cdf60c790a58ef3))
+- **ignition** enable production GA4 via build configuration (#269) [[ignition](./packages/ignition/CHANGELOG.md)] ([0b61fee3](https://github.com/rocketclimb/rocketicons/commit/0b61fee3ec7e1e2297570b7c39a822c7dd774a0f))
+- **ignition** enable production GA4 via build configuration (#268) [[ignition](./packages/ignition/CHANGELOG.md)] ([158c8d1c](https://github.com/rocketclimb/rocketicons/commit/158c8d1c4da82a14d3f4b2e44dbaed32c2806f85))
+- add Rocketicons MCP for icon discovery and project setup (#254) [[cli](./packages/cli/CHANGELOG.md), [icons](./packages/icons/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md), [mcp](./packages/mcp/CHANGELOG.md), [tailwind](./packages/tailwind/CHANGELOG.md), [toolkit](./packages/toolkit/CHANGELOG.md), [utils](./packages/utils/CHANGELOG.md)] ([7e3c7d00](https://github.com/rocketclimb/rocketicons/commit/7e3c7d00adb095e6702cab2b0dff5e0d912057d8))
+- **icon-context** add Simple Icons semantic metadata (#250) [[ignition](./packages/ignition/CHANGELOG.md)] ([32053fac](https://github.com/rocketclimb/rocketicons/commit/32053fac183b903c2a3ddeb9f6af2a55dbaa28a9))
+- **icon-context** add Remix semantic metadata (#249) [[ignition](./packages/ignition/CHANGELOG.md)] ([0aec0f6e](https://github.com/rocketclimb/rocketicons/commit/0aec0f6eb8a387463c3f40a8f3d900b0c46990ed))
+- **icon-context** add Phosphor semantic metadata (#248) [[ignition](./packages/ignition/CHANGELOG.md)] ([477a871c](https://github.com/rocketclimb/rocketicons/commit/477a871c39270146afd09f70ebd0a2a17e1c2634))
+- **icon-context** add Material Design semantic metadata (#247) [[ignition](./packages/ignition/CHANGELOG.md)] ([7ccad524](https://github.com/rocketclimb/rocketicons/commit/7ccad52463d1885a9ac21da77faa0805f0672f5c))
+- **icon-context** add Game Icons semantic metadata (#245) [[ignition](./packages/ignition/CHANGELOG.md)] ([3ab42fe0](https://github.com/rocketclimb/rocketicons/commit/3ab42fe0814c278af68d4c62648fe99bc8693134))
+- **icon-context** add Font Awesome 6 semantic metadata (#244) [[ignition](./packages/ignition/CHANGELOG.md)] ([53c46a91](https://github.com/rocketclimb/rocketicons/commit/53c46a915bd7bfb6cbb9801c09d4d52b2889b048))
+- **icon-context** add Bootstrap Icons semantic metadata (#243) [[ignition](./packages/ignition/CHANGELOG.md)] ([7c3648fd](https://github.com/rocketclimb/rocketicons/commit/7c3648fd43b331602f66dcfaee49d4fd735cc13e))
+- **icon-context** review BoxIcons semantic metadata (#242) [[ignition](./packages/ignition/CHANGELOG.md)] ([42c089c7](https://github.com/rocketclimb/rocketicons/commit/42c089c7a68eab972496cbb61d63b7e408f262b7))
+- **icon-context** add Line Awesome semantic metadata (#241) [[ignition](./packages/ignition/CHANGELOG.md)] ([50c11b5c](https://github.com/rocketclimb/rocketicons/commit/50c11b5cf1bb19c81e4181361eeddb43d7c53174))
+- **icon-context** add Font Awesome semantic metadata (#240) [[ignition](./packages/ignition/CHANGELOG.md)] ([138b3742](https://github.com/rocketclimb/rocketicons/commit/138b3742bb642a20537deebb1d87b767c616ca58))
+- **icon-context** add Ionicons 5 semantic metadata (#239) [[ignition](./packages/ignition/CHANGELOG.md)] ([13e99ffd](https://github.com/rocketclimb/rocketicons/commit/13e99ffd1ce9bfc0d42b03d21e8b198401c85ba2))
+- **icon-context** add Ant Design semantic metadata (#238) [[ignition](./packages/ignition/CHANGELOG.md)] ([1db9ebc5](https://github.com/rocketclimb/rocketicons/commit/1db9ebc59ede522d56edb572ede39f4ae2b28fe4))
+- **icon-context** add Heroicons 2 semantic metadata (#237) [[ignition](./packages/ignition/CHANGELOG.md)] ([45ff84d0](https://github.com/rocketclimb/rocketicons/commit/45ff84d0170f4d4ccae450404522db516e46ef22))
+- **icon-context** add Tabler semantic metadata (#251) [[ignition](./packages/ignition/CHANGELOG.md)] ([59463c68](https://github.com/rocketclimb/rocketicons/commit/59463c68d6981ef48bb4de300915c3e31f664438))
+- add Font Awesome 5 icon context (#228) [[ignition](./packages/ignition/CHANGELOG.md)] ([88ac6dc3](https://github.com/rocketclimb/rocketicons/commit/88ac6dc33d71d9dd6dff936bcab83615e1cfd62e))
+- **icon-context** add Heroicons 2 semantic metadata (#227) [[ignition](./packages/ignition/CHANGELOG.md)] ([07a62a8e](https://github.com/rocketclimb/rocketicons/commit/07a62a8e33c41f8c90c27368d0e06653afe4cf08))
+- add Ant Design icon context (#225) [[ignition](./packages/ignition/CHANGELOG.md)] ([566916c0](https://github.com/rocketclimb/rocketicons/commit/566916c044eab72fb5106e22c22ddf62d5465a3e))
+- **icons** add Circum Icons semantic metadata (#226) [[ignition](./packages/ignition/CHANGELOG.md)] ([065befe5](https://github.com/rocketclimb/rocketicons/commit/065befe59505a688bb310ebe9003a46bb31b0c8b))
+- **icon-context** add BoxIcons metadata and quality verification (#224) [[ignition](./packages/ignition/CHANGELOG.md)] ([9789553f](https://github.com/rocketclimb/rocketicons/commit/9789553f51976cf54fb64d18d194506d2a8e489c))
+- **ignition** refresh Go and add Ionicons semantic metadata (#208) [[ignition](./packages/ignition/CHANGELOG.md)] ([9a6e2b6d](https://github.com/rocketclimb/rocketicons/commit/9a6e2b6d91e08ab2e28e0450a7a0ce2d82b91e51))
+- **ignition** add semantic metadata for RX, CI, and FC collections (#206) [[ignition](./packages/ignition/CHANGELOG.md)] ([b9a89f2d](https://github.com/rocketclimb/rocketicons/commit/b9a89f2d66992600c0cd4251c9c6ce474d86acd2))
+- **icons** fi go di icon context (#197) [[ignition](./packages/ignition/CHANGELOG.md)] ([9e41843f](https://github.com/rocketclimb/rocketicons/commit/9e41843faa0bca0f2d57a559789b977949ee03bd))
+- **ignition** restore dynamic open graph images at build time (#192) [[ignition](./packages/ignition/CHANGELOG.md)] ([0f170f2b](https://github.com/rocketclimb/rocketicons/commit/0f170f2ba6e2d9514523b52301360ea8df54e0ad))
+- **icon-context** add Simple Line Icons metadata (#191) [[ignition](./packages/ignition/CHANGELOG.md)] ([9c834fe2](https://github.com/rocketclimb/rocketicons/commit/9c834fe27b29e15737f0b3a067582f6530508b27))
+- **ci** keep preview history in pull requests ([c3aaae41](https://github.com/rocketclimb/rocketicons/commit/c3aaae4167e8589a250755aa882b6a996e62fb49))
+
+### Bug Fixes
+
+- **ci** derive release tags from generated manifest versions ([9bb132ec](https://github.com/rocketclimb/rocketicons/commit/9bb132ec594447ad3bdea0ff4e8809ac2a904b61))
+- **native-test** keep react-native-svg on 15.15.x for React Native 0.76 ([12bf3b63](https://github.com/rocketclimb/rocketicons/commit/12bf3b638ace5c5ebc192eabf3d72169ce94f028))
+- **native-test** keep react-native-svg on 15.15.x for React Native 0.76 ([56ede3e1](https://github.com/rocketclimb/rocketicons/commit/56ede3e10c4fe932683a4d23ab8c715f6d29d530))
+- **tailwind** accept Tailwind CSS 3 for NativeWind projects ([f0957cd2](https://github.com/rocketclimb/rocketicons/commit/f0957cd219359cc5726c9f36c38473f313371fcb))
+- **native-test** make the Expo iOS export bundle again [[native-test](./packages/native-test/CHANGELOG.md)] ([8c971e2f](https://github.com/rocketclimb/rocketicons/commit/8c971e2f1ead17d912d6ebc8e91a4b4ae6bace7e))
+- improve agent navigation and discovery (#281) [[ignition](./packages/ignition/CHANGELOG.md)] ([fe1c0586](https://github.com/rocketclimb/rocketicons/commit/fe1c05862d328bdb393254b77c95c0dcca6629f1))
+- support explicit Rocketicons catalog upgrades (#271) [[cli](./packages/cli/CHANGELOG.md), [icons](./packages/icons/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md), [mcp](./packages/mcp/CHANGELOG.md), [toolkit](./packages/toolkit/CHANGELOG.md)] ([49968385](https://github.com/rocketclimb/rocketicons/commit/499683858de0d2c2be2464b4f11822475a3d4936))
+- **release** wait for npm package processing (#267) ([98edb774](https://github.com/rocketclimb/rocketicons/commit/98edb774f24deca47806d55ae02bcfd9d38726a2))
+- recover package releases and sync squash merges (#265) ([95c8925f](https://github.com/rocketclimb/rocketicons/commit/95c8925ff99013c4ce48ac3d7e65a25bab8a27ee))
+- **release** use repository token for release refresh (#264) ([43b8667d](https://github.com/rocketclimb/rocketicons/commit/43b8667d07bfb3a0fb10b50964f62fce4391743c))
+- **release** repair fresh installation and project aliases (#263) [[ignition](./packages/ignition/CHANGELOG.md), [mcp](./packages/mcp/CHANGELOG.md), [toolkit](./packages/toolkit/CHANGELOG.md)] ([0cdbc255](https://github.com/rocketclimb/rocketicons/commit/0cdbc255f23b59fe8eb402b9e7768e50422bf08b))
+- **release** initialize and align workspace versions (#261) ([739ba639](https://github.com/rocketclimb/rocketicons/commit/739ba639f5c661fb7863c26fe7bdfb797572374f))
+- **release** generate complete catalog before validation (#259) ([bab983eb](https://github.com/rocketclimb/rocketicons/commit/bab983eb10ad10daf615171f2145221164a37326))
+- **ci** upgrade actions to Node 24 runtimes (#236) ([72648e6e](https://github.com/rocketclimb/rocketicons/commit/72648e6ea09647d1f5c9b2bd1142a1c68e2791f8))
+- **ci** sync main into develop after release merges (#235) ([70b89678](https://github.com/rocketclimb/rocketicons/commit/70b89678c99180a9c0023d7f1ef462f7985e8063))
+- **ci** reconcile main before cutting release (#233) ([4462cbc9](https://github.com/rocketclimb/rocketicons/commit/4462cbc915ac96c41be2cef6bca891d9c24f5a9d))
+- **ci** calculate release version on manual cut (#231) ([1fabd4e1](https://github.com/rocketclimb/rocketicons/commit/1fabd4e1c3fd93afad8fe0f63db86b512784a135))
+- **ci** reuse prepared package when cutting a release (#230) ([719d853f](https://github.com/rocketclimb/rocketicons/commit/719d853fe5de7766c5282ee8b00bbb9cc443126b))
+- **ignition** handle generated OG manifest in tests (#196) ([c983ea2e](https://github.com/rocketclimb/rocketicons/commit/c983ea2e40274894f316147c6a43ef17186f5a18))
+- **ci** trigger previews when pull requests become ready (#185) ([486d7602](https://github.com/rocketclimb/rocketicons/commit/486d7602f4cfbd71df6ea2de26660ed89c808a63))
+- **ignition** correct search placeholder typo (#176) ([850d3c36](https://github.com/rocketclimb/rocketicons/commit/850d3c3614313787420b408ae459b6cf64e1748e))
+- **ci** checkout preview base branch for retirement ([b9069480](https://github.com/rocketclimb/rocketicons/commit/b906948064f2e550dea17ea8ad9976a85bc87e8d))
+- **ci** isolate preview retirement jobs ([4dd6c939](https://github.com/rocketclimb/rocketicons/commit/4dd6c939b462434fbe195f4390507b29aa720289))
+- **ci** use valid Pages list options ([334f8431](https://github.com/rocketclimb/rocketicons/commit/334f843121409f0a8e0ba9a41d2484b79a894f15))
+- **ci** use supported Pages cleanup pagination ([66a5e274](https://github.com/rocketclimb/rocketicons/commit/66a5e274a18df20df44122b50a98f44c12a10b69))
+- **ci** authenticate preview retirement install ([63e0f567](https://github.com/rocketclimb/rocketicons/commit/63e0f567cb64242900eefbe97467e7a13083568f))
+- **ci** isolate preview retirement dependencies ([21fed1b2](https://github.com/rocketclimb/rocketicons/commit/21fed1b25c59a7ab7dd9da3855e0b1c437ecade0))
+- **ci** make preview cleanup reliable ([6f205ccb](https://github.com/rocketclimb/rocketicons/commit/6f205ccb304defb26e81e3da48fe35c1743b8622))
+- **ci** publish preview URLs to pull requests ([7f651811](https://github.com/rocketclimb/rocketicons/commit/7f6518112a81022a81800d22d7d3d4b29e36a9b8))
+- **ignition** keep footer copyright year current [[ignition](./packages/ignition/CHANGELOG.md)] ([5ce6cf1a](https://github.com/rocketclimb/rocketicons/commit/5ce6cf1a1cbbc3886f3991cda75670a43aad064b))
+- **ci** skip G Pages from other branchs than main ([26c51767](https://github.com/rocketclimb/rocketicons/commit/26c51767b3cf830251be0cfbf3b56525b4013739))
+
+### Documentation
+
+- document the NativeWind setup for React Native [[ignition](./packages/ignition/CHANGELOG.md), [mcp](./packages/mcp/CHANGELOG.md)] ([d0d86b34](https://github.com/rocketclimb/rocketicons/commit/d0d86b3473c7b88772ee56076e04a6e5f50e7b3b))
+- **roadmap** record the React Native bundle smoke test ([5364cc0b](https://github.com/rocketclimb/rocketicons/commit/5364cc0b653bf1b36a10a51a3bb861f085e14d87))
+- **mcp** define opt-in telemetry contract (#278) [[mcp](./packages/mcp/CHANGELOG.md)] ([193dee2b](https://github.com/rocketclimb/rocketicons/commit/193dee2bf6c79c876c37db80b777484675362363))
+- improve agent configuration instructions (#270) [[icons](./packages/icons/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md), [mcp](./packages/mcp/CHANGELOG.md)] ([545a0f2c](https://github.com/rocketclimb/rocketicons/commit/545a0f2c4a0645e564700cdb84df353925467c08))
+- update for Tailwind CSS v4 + rocketicons@0.3.0 (#157) [[ignition](./packages/ignition/CHANGELOG.md)] ([d079b8c1](https://github.com/rocketclimb/rocketicons/commit/d079b8c12c216b3b7f5bcb350ddb14dc0cc54cfb))
+
+### Refactoring
+
+- **core** import runtime helpers without the utils SVG parser [[core](./packages/core/CHANGELOG.md), [toolkit](./packages/toolkit/CHANGELOG.md)] ([18be48d2](https://github.com/rocketclimb/rocketicons/commit/18be48d2fe7b457b52fe0bb8ed2a8b79a8f730ac))
+- **ci** simplify preview retirement ([edd91d06](https://github.com/rocketclimb/rocketicons/commit/edd91d0614ee1699e59aff24fe384e543c4f23af))
+
+### Test
+
+- **mcp** use complete NativeWind fixtures in telemetry protocol tests ([6f9ab176](https://github.com/rocketclimb/rocketicons/commit/6f9ab17658d9a98c794f0ff225d5d7f90b74d7a6))
+- **ignition** cover footer copyright years ([df850788](https://github.com/rocketclimb/rocketicons/commit/df850788205f27150e582b62ccf408c8ff4164ce))
+
+### Miscellaneous
+
+- **deps** bump the compatible-security-updates group across 1 directory with 2 updates ([754a4531](https://github.com/rocketclimb/rocketicons/commit/754a4531823f84c058d0c1be1173cbb673058eeb))
+- **deps** bump next from 15.5.24 to 15.5.27 ([341409a5](https://github.com/rocketclimb/rocketicons/commit/341409a57f8353ad3471f448f5dcb142cf78a67e))
+- **deps** bump undici from 6.28.0 to 6.29.1 ([e81f0129](https://github.com/rocketclimb/rocketicons/commit/e81f0129732d37bdfe295c9f5d6743835a2a4c35))
+- **deps** consolidate safe dependency updates (#282) [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md), [mcp](./packages/mcp/CHANGELOG.md), [native-test](./packages/native-test/CHANGELOG.md), [tailwind](./packages/tailwind/CHANGELOG.md)] ([036e806e](https://github.com/rocketclimb/rocketicons/commit/036e806e6e1aee0ff8d04f03dabf31934b1f7a38))
+- **deps** replace cheerio with htmlparser2 in utils [[utils](./packages/utils/CHANGELOG.md)] ([c5a76f95](https://github.com/rocketclimb/rocketicons/commit/c5a76f95c88a99b95e393dc8bd04a098792a9336))
+- **deps** consolidate safe dependency updates [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md), [mcp](./packages/mcp/CHANGELOG.md), [native-test](./packages/native-test/CHANGELOG.md), [tailwind](./packages/tailwind/CHANGELOG.md)] ([89d41f46](https://github.com/rocketclimb/rocketicons/commit/89d41f46d8111736f24a101cab9ea460e93a7ad9))
+- **release** 0.10.0 (#262) [[cli](./packages/cli/CHANGELOG.md), [core](./packages/core/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [icons](./packages/icons/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md), [mcp](./packages/mcp/CHANGELOG.md), [native-test](./packages/native-test/CHANGELOG.md), [tailwind](./packages/tailwind/CHANGELOG.md), [toolkit](./packages/toolkit/CHANGELOG.md), [utils](./packages/utils/CHANGELOG.md)] ([86943b14](https://github.com/rocketclimb/rocketicons/commit/86943b1493ac82016e18ef535c8e03d4451a0cdb))
+- drop the unused Vercel and Amplify configuration (#195) [[ignition](./packages/ignition/CHANGELOG.md)] ([3ac7548a](https://github.com/rocketclimb/rocketicons/commit/3ac7548a09a9e5cb067f0fbc1cd93d928776c244))
+- **config** tighten env ignore rules and document every env var (#193) [[ignition](./packages/ignition/CHANGELOG.md)] ([10ce8090](https://github.com/rocketclimb/rocketicons/commit/10ce8090bb6e535ff99c1ec8153847b38f7b1138))
+- **deps** consolidate compatible updates and group dependabot (#198) [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([3f3c4207](https://github.com/rocketclimb/rocketicons/commit/3f3c4207ae378193a8fe7f024d0834f20ffacc58))
+
+### Other
+
+-  [[cli](./packages/cli/CHANGELOG.md), [generator](./packages/generator/CHANGELOG.md), [icons](./packages/icons/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md), [native-test](./packages/native-test/CHANGELOG.md), [utils](./packages/utils/CHANGELOG.md)] ([1957310f](https://github.com/rocketclimb/rocketicons/commit/1957310fb1e28744e7033f619ccbdf6cf902d62c))
+-  [[generator](./packages/generator/CHANGELOG.md), [icons](./packages/icons/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md), [native-test](./packages/native-test/CHANGELOG.md), [utils](./packages/utils/CHANGELOG.md)] ([fdb020fb](https://github.com/rocketclimb/rocketicons/commit/fdb020fbfedb5fb51b827deb33de54ebca822d07))
+-  [[ignition](./packages/ignition/CHANGELOG.md)] ([c479c18d](https://github.com/rocketclimb/rocketicons/commit/c479c18d847777dd6566cc5caaa2069d05d933f8))
+-  [[ignition](./packages/ignition/CHANGELOG.md)] ([7002a404](https://github.com/rocketclimb/rocketicons/commit/7002a404a2e1beaddbe36c51aa15810d81d1db5b))
+-  [[ignition](./packages/ignition/CHANGELOG.md)] ([f3137d0d](https://github.com/rocketclimb/rocketicons/commit/f3137d0da91b958492bc9d089954319ac2bae733))
+-  [[ignition](./packages/ignition/CHANGELOG.md)] ([e23001e8](https://github.com/rocketclimb/rocketicons/commit/e23001e894539b513b02a22923c43387a77bc43c))
+-  [[generator](./packages/generator/CHANGELOG.md), [ignition](./packages/ignition/CHANGELOG.md)] ([d067e080](https://github.com/rocketclimb/rocketicons/commit/d067e080a343be6949812d75f676d18e193a0f0f))
+
 ## [0.10.0](https://github.com/rocketclimb/rocketicons/compare/v0.9.4-release...v0.10.0) (2026-09-26)
 
 ### Features

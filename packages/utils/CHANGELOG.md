@@ -1,3 +1,19 @@
+## [0.9.0](https://github.com/rocketclimb/rocketicons/compare/v0.9.4-release...v0.10.0) (2026-11-07)
+
+### Features
+
+- add Rocketicons MCP for icon discovery and project setup (#254) ([7e3c7d00](https://github.com/rocketclimb/rocketicons/commit/7e3c7d00adb095e6702cab2b0dff5e0d912057d8))
+
+### Miscellaneous
+
+- **deps** replace cheerio with htmlparser2 in utils ([c5a76f95](https://github.com/rocketclimb/rocketicons/commit/c5a76f95c88a99b95e393dc8bd04a098792a9336))
+- **release** 0.10.0 (#262) ([86943b14](https://github.com/rocketclimb/rocketicons/commit/86943b1493ac82016e18ef535c8e03d4451a0cdb))
+
+### Other
+
+-  ([1957310f](https://github.com/rocketclimb/rocketicons/commit/1957310fb1e28744e7033f619ccbdf6cf902d62c))
+-  ([fdb020fb](https://github.com/rocketclimb/rocketicons/commit/fdb020fbfedb5fb51b827deb33de54ebca822d07))
+
 ## [0.8.0](https://github.com/rocketclimb/rocketicons/compare/v0.9.4-release...v0.10.0) (2026-09-26)
 
 ### Features

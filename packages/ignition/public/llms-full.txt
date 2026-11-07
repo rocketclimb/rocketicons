@@ -4,11 +4,11 @@
 
 - Catalog/package version: 0.4.0
 - Documentation updated: 2026-08-12
-- [Static catalog](https://rocketicons.com/ai/v1/catalog.json): Collection indexes, icon shards, and license records.
-- [Catalog capabilities](https://rocketicons.com/ai/v1/capabilities.json): Available machine resources.
-- [English getting started](https://rocketicons.com/en/docs/getting-started/): CLI setup and usage.
-- [Primeiros passos em português](https://rocketicons.com/pt-br/docs/primeiros-passos/): Guia de instalação e uso.
-- [Agent workflow](https://rocketicons.com/en/docs/agent-workflows/): MCP setup and reviewed icon selection.
+- [Static catalog](http://localhost:3000/ai/v1/catalog.json): Collection indexes, icon shards, and license records.
+- [Catalog capabilities](http://localhost:3000/ai/v1/capabilities.json): Available machine resources.
+- [English getting started](http://localhost:3000/en/docs/getting-started/): CLI setup and usage.
+- [Primeiros passos em português](http://localhost:3000/pt-br/docs/primeiros-passos/): Guia de instalação e uso.
+- [Agent workflow](http://localhost:3000/en/docs/agent-workflows/): MCP setup and reviewed icon selection.
 
 ## CLI and MCP version requirements
 
@@ -62,11 +62,11 @@ Choose the matching Rocketicons icon, initialize once, add it by exact ID, repla
 
 ## Static catalog
 
-Fetch [catalog capabilities](https://rocketicons.com/ai/v1/capabilities.json) to inspect available machine resources, then [the static catalog](https://rocketicons.com/ai/v1/catalog.json). Follow a collection's `contextIndexUrl` to discover semantic metadata and its coverage. The context index explicitly reports `none`, `single`, or `chunked` storage and, for chunks, includes compact topic hints. Search English and Brazilian Portuguese aliases, search terms, descriptions, UI contexts, categories, and roles. Treat `negativeTerms` as disambiguation guidance, never as positive matches. Follow `indexUrl` to list icon IDs, names, components, variants, and SVG shard numbers; load only the referenced shard when SVG tree data is needed. Do not guess dynamic API routes: Rocketicons publishes static files.
+Fetch [catalog capabilities](http://localhost:3000/ai/v1/capabilities.json) to inspect available machine resources, then [the static catalog](http://localhost:3000/ai/v1/catalog.json). Follow a collection's `contextIndexUrl` to discover semantic metadata and its coverage. The context index explicitly reports `none`, `single`, or `chunked` storage and, for chunks, includes compact topic hints. Search English and Brazilian Portuguese aliases, search terms, descriptions, UI contexts, categories, and roles. Treat `negativeTerms` as disambiguation guidance, never as positive matches. Follow `indexUrl` to list icon IDs, names, components, variants, and SVG shard numbers; load only the referenced shard when SVG tree data is needed. Do not guess dynamic API routes: Rocketicons publishes static files.
 
 ## Licensing
 
-Rocketicons itself is MIT licensed, while included collections retain their upstream licenses. Collection entries in [the static catalog](https://rocketicons.com/ai/v1/catalog.json) provide project and license URLs. Check attribution requirements for every collection used.
+Rocketicons itself is MIT licensed, while included collections retain their upstream licenses. Collection entries in [the static catalog](http://localhost:3000/ai/v1/catalog.json) provide project and license URLs. Check attribution requirements for every collection used.
 
 ## Agent prompt
 
