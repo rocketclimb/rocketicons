@@ -16,6 +16,9 @@ import { Client } from "@modelcontextprotocol/client";
 import { InMemoryTransport } from "@modelcontextprotocol/server";
 import Ajv2020 from "ajv/dist/2020.js";
 import { createServer } from "../dist/server.js";
+import nativewindFixture from "../../toolkit/test/nativewind-fixture.cjs";
+
+const { nativewindDependencies, writeNativeWindSetup } = nativewindFixture;
 
 const readJson = (url) => JSON.parse(readFileSync(url, "utf8"));
 const eventSchema = readJson(
@@ -38,8 +41,7 @@ const fixtureProject = (t) => {
       dependencies: {
         "@rocketicons/utils": "1",
         "@rocketicons/tailwind": "1",
-        nativewind: "1",
-        "react-native-svg": "1"
+        ...nativewindDependencies
       }
     })
   );
@@ -47,6 +49,7 @@ const fixtureProject = (t) => {
     join(root, source),
     `// ${canary}\nexport default function App() { return null; }\n`
   );
+  writeNativeWindSetup(root, { entry: source });
   return root;
 };
 
