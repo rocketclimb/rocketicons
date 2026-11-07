@@ -487,7 +487,7 @@ test("MCP starts from an isolated package layout without loading React", async (
   const root = mkdtempSync(join(tmpdir(), "rocketicons-mcp-no-react-"));
   const modules = join(root, "node_modules");
   for (const [name, source, directories] of [
-    ["mcp", resolve("."), ["dist"]],
+    ["mcp", resolve("."), ["dist", "contracts"]],
     ["toolkit", resolve("../toolkit"), ["dist", "data", "templates"]],
     ["utils", resolve("../utils"), ["dist"]]
   ]) {

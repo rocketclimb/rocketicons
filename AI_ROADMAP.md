@@ -166,6 +166,7 @@ The CLI is the most important agent interface because it performs the useful pro
 - [x] Add a generated-file comment containing icon ID, collection, version, and license reference.
 - [x] Detect local modifications before overwriting generated icons.
 - [x] Hash a code-aware normalized copy of generated icon components so formatting-only edits remain current; report other edits as reusable, protected customizations in CLI and MCP workflows. Legacy byte hashes remain readable.
+- [x] Replace unmodified core templates written by earlier toolkit releases during setup and icon plans; edited core files are still rejected as user changes.
 - [ ] Provide a machine-readable diff when updating icons.
 - [ ] Allow fully offline repeatable installation from a cached catalog. **Partial:** catalog and SVG assets are bundled and icon addition is offline; first-time runtime dependency installation still needs published compatible packages or an existing cache.
 
@@ -174,7 +175,7 @@ The CLI is the most important agent interface because it performs the useful pro
 - [ ] Time to search and add one icon.
 - [ ] Files and bytes added for one, ten, and one hundred icons.
 - [ ] Shared runtime dependency size.
-- [ ] Resulting web and React Native bundle impact.
+- [ ] Resulting web and React Native bundle impact. **Partial:** core no longer imports the utils SVG parser. Unminified, with React and React Native externals, a Metro iOS bundle of `rocketicons/core` dropped from 105 modules (3.1 MB) to 14 modules (88 KB). An esbuild browser bundle dropped from 87 inputs (689 KB) to 3 inputs (3.7 KB). Minified application fixtures and full icon-package comparisons remain unmeasured.
 - [ ] Comparison with importing from full icon packages, using reproducible fixtures.
 
 ### Milestone 4 — MCP server
@@ -220,7 +221,7 @@ Build the MCP server on the same toolkit layer used by the CLI. Do not create se
 - [x] Advertise output schemas for every MCP tool and return structured errors with actionable next steps and a text fallback.
 - [x] Expose dry-run results before file mutations.
 - [ ] Consider a hosted read-only MCP server later; do not make local icon installation depend on a hosted service. **Follow-up:** [#277](https://github.com/rocketclimb/rocketicons/issues/277) evaluates a Cloudflare Worker endpoint for remote clients; it does not block local telemetry.
-- [ ] Add explicit opt-in local MCP usage instrumentation with bounded delivery and unchanged tool behavior when disabled or unavailable. See [#274](https://github.com/rocketclimb/rocketicons/issues/274) and the [v1 contract](packages/mcp/contracts/telemetry/v1/README.md).
+- [x] Add explicit opt-in local MCP usage instrumentation with bounded delivery and unchanged tool behavior when disabled or unavailable. [#274](https://github.com/rocketclimb/rocketicons/issues/274) wraps all 17 tools, counts confirmed additions without repairs, and verifies consent, failure isolation, both stdio entrypoints, and package behavior. The production collector endpoint remains unset, so this build performs no telemetry requests or buffering even with opt-in. Deployment and reporting remain #275–#276; see the [v1 contract](packages/mcp/contracts/telemetry/v1/README.md).
 - [ ] Publish setup examples for Codex, Claude Code, VS Code, Cursor, and other clients only after verifying their current configuration formats. **Partial:** the MCP README and English/Portuguese website guides include general stdio setup and copyable Codex, Cursor, and Claude Code configurations checked against official documentation. VS Code and other client examples remain. The MCP package and all setup guides require Node.js 20.9.0 or newer, matching sharp.
 - [x] Validate Algolia icon IDs and requested filters against the bundled catalog before returning results. This keeps older installed MCP versions from offering icons they cannot add when the shared Algolia index moves to a newer release; unknown hits trigger local fallback. Per-record catalog versioning was removed because the index contains only the current release.
 - [ ] Deploy `/ai/v1/search-config.json` with a public search-only key. **Partial:** the package bundles the existing browser-visible search-only credentials, and live MCP searches for `food` return Algolia results with collection and variant filters. The public config endpoint still returns 404.
@@ -279,6 +280,7 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 - [ ] Define schema compatibility and deprecation policies.
 - [ ] Test duplicate IDs, missing source data, invalid SVG trees, licenses, aliases, and checksums. **Partial:** icon-context tests now cover duplicate and conflicting aliases, positive/negative term conflicts, stale and orphaned bindings, and strict source/public JSON size limits.
 - [ ] Preserve Grommet child fill colors during SVG conversion. **Follow-up:** generated glyphs such as `gr-figma`, `gr-slack`, and `gr-zoom` lose source color or cutout details; enrichment review used the pinned upstream SVGs for these cases. Contact sheets now preserve root attributes, variant strokes, and isolated SVG definition IDs, with rendering regressions covered.
+- [ ] Declare `@rocketicons/utils` as a direct dependency of `rocketicons`. **Follow-up:** `rocketicons/core` requires utils at runtime but only receives it through the `>=0.7.0` range of `@rocketicons/mcp`. The package also exports `./core/utils`, which the build does not generate.
 - [ ] Test CLI output on macOS, Linux, and Windows.
 - [ ] Test npm, pnpm, Yarn, and Bun projects.
 - [ ] Test React DOM, Next.js, Vite, Expo, and React Native fixtures. **Partial:** CI exports the `packages/native-test` Expo 52 / React Native 0.76 iOS bundle (`npm run smoke -w packages/native-test`) and checks that it resolves `rocketicons/my`, the native core, and `@rocketicons/utils`, and that the NativeWind `nativeIconPlugin` emits icon rules. React DOM, Next.js, and Vite fixtures, on-device rendering, and Expo 54 / Reanimated 4 remain.
@@ -291,8 +293,8 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 
 The [plan #272](https://github.com/rocketclimb/rocketicons/issues/272) preserves local/offline operations. The v1 event contract has no persistent user, installation, or session identity. It measures completed tool calls and confirmed new additions; website visitor linking and unique-installation metrics remain deferred.
 
-- [x] Define and verify a strict event/batch schema, explicit opt-in and disable/reset policy, retention limits, and English/PT-BR notices. [#273](https://github.com/rocketclimb/rocketicons/issues/273) has 119 passing contract checks; runtime instrumentation, provider configuration, and live reporting remain pending in #274–#276. See [the v1 contract](packages/mcp/contracts/telemetry/v1/README.md).
-- [ ] Wire the contract into local MCP execution, proving zero telemetry requests/buffering/identity creation before opt-in and preserving tool outcomes. See [#274](https://github.com/rocketclimb/rocketicons/issues/274).
+- [x] Define and verify a strict event/batch schema, explicit opt-in and disable/reset policy, retention limits, and English/PT-BR notices. [#273](https://github.com/rocketclimb/rocketicons/issues/273) has 119 passing contract checks; runtime instrumentation is verified below, while provider configuration and live reporting remain pending in #275–#276. See [the v1 contract](packages/mcp/contracts/telemetry/v1/README.md).
+- [x] Wire the contract into local MCP execution, proving zero telemetry requests/buffering/identity creation before opt-in and preserving tool outcomes. [#274](https://github.com/rocketclimb/rocketicons/issues/274) adds runtime schema checks, bounded in-memory HTTPS delivery, and accurate mutation observation. All 194 MCP and 56 toolkit checks were verified, with affected cases rerun after local dependency/fixture fixes; [validation evidence](docs/testing/evidence/mcp-telemetry-instrumentation-2026-09-30/validation.json). Production collection stays disabled pending the collector and release disclosures.
 - [ ] Implement the separate Cloudflare Worker collector, verify abuse controls and actual security-log/retention settings, and publish deployment details before collection ships. See [#275](https://github.com/rocketclimb/rocketicons/issues/275).
 - [ ] Verify isolated GA4 count-only reporting without persistent identity; keep forwarding disabled if its required protocol identifier cannot meet policy 1. Document partial server-only reporting and aggregated-report retention separately. See [#276](https://github.com/rocketclimb/rocketicons/issues/276).
 

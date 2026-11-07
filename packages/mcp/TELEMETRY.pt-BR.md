@@ -1,10 +1,10 @@
 # Medição opcional de uso do MCP — política 1
 
-**Situação atual: este é um contrato para uma versão futura. O MCP atual não envia esses eventos, e as configurações abaixo ainda não ativam um envio.** Veja [#273](https://github.com/rocketclimb/rocketicons/issues/273). O contrato técnico e o exemplo estão em [contracts/telemetry/v1](contracts/telemetry/v1/README.md). [English](TELEMETRY.md).
+**Situação atual: a instrumentação local, os controles de consentimento e o envio limitado estão implementados em [#274](https://github.com/rocketclimb/rocketicons/issues/274). Esta versão não possui endpoint de coleta, portanto não envia eventos de uso nem mantém uma fila de eventos, mesmo com adesão. A coleta depende de [#275](https://github.com/rocketclimb/rocketicons/issues/275).** O contrato técnico e o exemplo estão em [contracts/telemetry/v1](contracts/telemetry/v1/README.md). [English](TELEMETRY.md).
 
 ## Finalidade e escolha
 
-O recurso planejado mede chamadas concluídas de ferramentas MCP, falhas, fallback da busca e novas adições de ícones confirmadas para melhorar o sistema gratuito e de código aberto Rocketicons. A participação é opcional e desativada por padrão. A descoberta de ícones e as operações do projeto devem funcionar com a telemetria desativada, bloqueada ou indisponível.
+Quando a coleta for lançada, o recurso medirá chamadas concluídas de ferramentas MCP, falhas, fallback da busca e novas adições de ícones confirmadas para melhorar o sistema gratuito e de código aberto Rocketicons. A participação é opcional e desativada por padrão. A descoberta de ícones e as operações do projeto devem funcionar com a telemetria desativada, bloqueada ou indisponível.
 
 Isso não mede todos os usuários do Rocketicons nem o uso de ícones nos aplicativos. Não cria uma identidade persistente de usuário, instalação ou sessão. Contagens de instalações únicas e associação com visitantes do site ficam adiadas.
 
@@ -16,9 +16,9 @@ Não são enviados consulta, prompt, caminho de projeto, nome de arquivo, URL de
 
 Planos e dry runs adicionam zero ícones; adições repetidas e reparos adicionam zero novos ícones. Mutações com falha ou sem confirmação adicionam zero. Requisições de protocolo/ciclo de vida/recursos e falhas de validação de argumentos do SDK são excluídas. As contagens representam chamadas participantes, não pessoas; envios offline ou bloqueados podem ser perdidos.
 
-## Controles reservados para a próxima implementação
+## Controles de adesão e retirada
 
-Defina estas variáveis somente no ambiente do processo MCP do cliente, depois de ler este aviso:
+Para uma versão futura com um coletor verificado, defina estas variáveis somente no ambiente do processo MCP do cliente, depois de ler este aviso. Elas não ativam a coleta nesta versão:
 
 ```json
 {
@@ -29,7 +29,7 @@ Defina estas variáveis somente no ambiente do processo MCP do cliente, depois d
 
 Os dois valores exatos são necessários. Valores ausentes/inválidos desativam a coleta. `ROCKETICONS_TELEMETRY=off` a desativa. `DO_NOT_TRACK` ativo prevalece sobre a adesão. Processos de CI e testes suprimem a telemetria de produção mesmo com adesão. Nenhuma ferramenta do agente ou arquivo de projeto pode conceder consentimento.
 
-Para retirar a adesão/redefinir, configure `off` ou remova as duas variáveis Rocketicons e desconecte/reinicie o MCP no cliente. A próxima implementação deve apagar a memória ainda não enviada; não existe fila em disco nem identificador para redefinir. Isso não exclui dados já enviados. Uma política alterada exige nova confirmação. Operadores de clientes compartilhados devem fornecer este aviso e ter autorização para ativar a coleta.
+Para retirar a adesão/redefinir, configure `off` ou remova as duas variáveis Rocketicons e desconecte/reinicie o MCP no cliente. O envio apaga a memória ainda não enviada ao desativar/encerrar; não existe fila em disco nem identificador para redefinir. Isso não exclui dados já enviados. Uma política alterada exige nova confirmação. Operadores de clientes compartilhados devem fornecer este aviso e ter autorização para ativar a coleta.
 
 ## Destinatários e requisitos de retenção
 
@@ -47,4 +47,4 @@ O GA4 do site e as requisições opcionais de busca ao Algolia são recursos sep
 
 ## Condição para lançamento
 
-[#274](https://github.com/rocketclimb/rocketicons/issues/274) implementa os controles/envio, [#275](https://github.com/rocketclimb/rocketicons/issues/275) implementa o coletor e [#276](https://github.com/rocketclimb/rocketicons/issues/276) verifica os relatórios. Esses requisitos precisam ser cumpridos e o aviso atualizado com os detalhes reais de implantação antes de uma versão com coleta ativada.
+[#274](https://github.com/rocketclimb/rocketicons/issues/274) fornece os controles/envio locais; [#275](https://github.com/rocketclimb/rocketicons/issues/275) implementa o coletor e [#276](https://github.com/rocketclimb/rocketicons/issues/276) verifica os relatórios. Esses requisitos precisam ser cumpridos e o aviso atualizado com os detalhes reais de implantação antes de uma versão com coleta ativada.
