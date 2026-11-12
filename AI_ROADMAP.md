@@ -210,7 +210,8 @@ Build the MCP server on the same toolkit layer used by the CLI. Do not create se
 - [x] Return structured content plus a short human-readable summary.
 - [x] Advertise output schemas for every MCP tool and return structured errors with actionable next steps and a text fallback.
 - [x] Expose dry-run results before file mutations.
-- [ ] Consider a hosted read-only MCP server later; do not make local icon installation depend on a hosted service.
+- [ ] Consider a hosted read-only MCP server later; do not make local icon installation depend on a hosted service. **Follow-up:** [#277](https://github.com/rocketclimb/rocketicons/issues/277) evaluates an optional Cloudflare Worker endpoint for remote clients; hosting is not required for local usage measurement.
+- [ ] Add explicit opt-in local MCP usage instrumentation with bounded delivery and unchanged tool behavior when telemetry is disabled or unavailable. **Follow-up:** [#274](https://github.com/rocketclimb/rocketicons/issues/274), under the [MCP analytics plan #272](https://github.com/rocketclimb/rocketicons/issues/272).
 - [ ] Publish setup examples for Codex, Claude Code, VS Code, Cursor, and other clients only after verifying their current configuration formats.
 - [x] Validate Algolia icon IDs and requested filters against the bundled catalog before returning results. This keeps older installed MCP versions from offering icons they cannot add when the shared Algolia index moves to a newer release; unknown hits trigger local fallback. Per-record catalog versioning was removed because the index contains only the current release.
 - [ ] Deploy `/ai/v1/search-config.json` with a public search-only key. **Partial:** the package bundles the existing browser-visible search-only credentials, and live MCP searches for `food` return Algolia results with collection and variant filters. The public config endpoint still returns 404.
@@ -275,6 +276,14 @@ Agents will prefer the catalog that helps them choose the correct icon, not mere
 - [ ] Document whether generated icon files require attribution for each collection.
 - [ ] Add a process for upstream icon removals and license changes.
 - [ ] Keep CLI and package telemetry absent by default; document any future telemetry explicitly. **Partial:** optional website-only GA4 is documented in `packages/ignition/DEPLOYMENT.md` and enabled through a production build variable; development and PR preview builds omit it.
+
+#### Optional MCP usage measurement
+
+Research and implementation tickets are tracked in [#272](https://github.com/rocketclimb/rocketicons/issues/272). These items are planned; no telemetry is enabled by this roadmap update. Local MCP can send optional HTTPS events to a separate collector without moving tool execution online. GA4 event reporting does not automatically link local installations to website visitors.
+
+- [ ] Define a versioned event allowlist, explicit opt-in/disable/reset controls, retention, and measurement limits. Exclude private project content and tracking in generated icon components. See [#273](https://github.com/rocketclimb/rocketicons/issues/273).
+- [ ] Build a small Cloudflare Worker telemetry collector with schema validation, abuse controls, bounded delivery, and server-side analytics secrets; preserve the static website and local workflow. See [#275](https://github.com/rocketclimb/rocketicons/issues/275).
+- [ ] Validate GA4 Measurement Protocol custom events and aggregate reporting, separate website/MCP/test traffic, and document partial server-only reporting and opt-in coverage. Same-person website-to-MCP attribution remains deferred. See [#276](https://github.com/rocketclimb/rocketicons/issues/276).
 
 ## What makes an agent prefer Rocketicons?
 

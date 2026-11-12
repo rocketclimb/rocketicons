@@ -1,0 +1,23 @@
+{
+  "name": "rocketicons-promo-pipeline",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "icons": "node geticons.cjs",
+    "build": "python3 build.py",
+    "frames": "WORKERS=4 node render.mjs",
+    "audio": "python3 audio.py",
+    "encode": "ffmpeg -y -framerate 60 -i frames/f%04d.png -i soundtrack.wav -c:v libx264 -preset slow -crf 16 -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 256k -shortest -t 10 rocketicons-promo-10s.mp4",
+    "all": "npm run build && npm run frames && npm run audio && npm run encode"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0",
+    "@fontsource-variable/inter": "^5.2.0",
+    "@fontsource-variable/quicksand": "^5.2.0",
+    "@fontsource-variable/jetbrains-mono": "^5.2.0",
+    "playwright": "^1.56.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-icons": "^5.6.0"
+  }
+}
